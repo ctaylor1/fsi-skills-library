@@ -1,0 +1,171 @@
+{
+  "review_id": "mor-MOR-2026-004821-0001",
+  "case_id": "MOR-2026-004821",
+  "as_of": "2026-07-15",
+  "config_version": "merchant-risk-cfg-2026.07",
+  "merchant_summary": {
+    "legal_name": "Northbridge Direct Commerce LLC",
+    "country": "US",
+    "mcc": "5967",
+    "business_model": "inbound_telemarketing_retail"
+  },
+  "findings": [
+    {
+      "finding": "sanctions_screening",
+      "severity": "blocking",
+      "fired": false,
+      "reason": "sanctions screening cleared",
+      "evidence": [],
+      "rule_ref": "domain-rules.md#sanctions"
+    },
+    {
+      "finding": "prohibited_business_model",
+      "severity": "blocking",
+      "fired": false,
+      "reason": "MCC 5967 is not prohibited",
+      "evidence": [],
+      "rule_ref": "domain-rules.md#prohibited-use"
+    },
+    {
+      "finding": "restricted_business_model",
+      "severity": "elevated",
+      "fired": true,
+      "reason": "MCC 5967 is on the restricted list (conditions required)",
+      "evidence": [
+        {
+          "mcc": "5967",
+          "business_model": "inbound_telemarketing_retail",
+          "citation": "application:MOR-2026-004821;mcc=5967"
+        }
+      ],
+      "rule_ref": "domain-rules.md#restricted-use"
+    },
+    {
+      "finding": "adverse_media",
+      "severity": "elevated",
+      "fired": true,
+      "reason": "unresolved adverse media in categories ['fraud', 'consumer_complaints']",
+      "evidence": [
+        {
+          "categories": [
+            "fraud",
+            "consumer_complaints"
+          ],
+          "citation": "adverse_media:am=AM-33417@2026-07-13"
+        }
+      ],
+      "rule_ref": "domain-rules.md#adverse-media"
+    },
+    {
+      "finding": "beneficial_ownership_gap",
+      "severity": "elevated",
+      "fired": false,
+      "reason": "verified ownership coverage 100% meets requirement",
+      "evidence": [],
+      "rule_ref": "domain-rules.md#beneficial-ownership"
+    },
+    {
+      "finding": "high_risk_geography",
+      "severity": "elevated",
+      "fired": true,
+      "reason": "merchant/owner jurisdiction on the high-risk list",
+      "evidence": [
+        {
+          "scope": "owner",
+          "name": "M. Okonkwo",
+          "country": "MM",
+          "citation": "ubo:kyb=NB-LLC;ubo=UBO-2"
+        }
+      ],
+      "rule_ref": "domain-rules.md#geography"
+    },
+    {
+      "finding": "pep_ownership",
+      "severity": "elevated",
+      "fired": true,
+      "reason": "politically exposed beneficial owner(s) present",
+      "evidence": [
+        {
+          "name": "M. Okonkwo",
+          "ownership_pct": 40,
+          "citation": "ubo:kyb=NB-LLC;ubo=UBO-2"
+        }
+      ],
+      "rule_ref": "domain-rules.md#pep"
+    },
+    {
+      "finding": "expected_activity_outsized",
+      "severity": "elevated",
+      "fired": true,
+      "reason": "expected monthly volume 1.5e+06 exceeds no-EDD threshold 1e+06",
+      "evidence": [
+        {
+          "expected_monthly_volume": 1500000.0,
+          "avg_ticket": 240,
+          "citation": "application:MOR-2026-004821;expected_activity"
+        }
+      ],
+      "rule_ref": "domain-rules.md#expected-activity"
+    },
+    {
+      "finding": "credit_exposure",
+      "severity": "elevated",
+      "fired": false,
+      "reason": "credit within appetite (limit 150000, assessment 'pass')",
+      "evidence": [],
+      "rule_ref": "domain-rules.md#credit"
+    },
+    {
+      "finding": "website_product_risk",
+      "severity": "elevated",
+      "fired": false,
+      "reason": "website review evidence present",
+      "evidence": [],
+      "rule_ref": "domain-rules.md#website-product"
+    },
+    {
+      "finding": "evidence_incomplete",
+      "severity": "incomplete",
+      "fired": false,
+      "reason": "required evidence present",
+      "evidence": [],
+      "rule_ref": "domain-rules.md#evidence-completeness"
+    }
+  ],
+  "fired_findings": [
+    "restricted_business_model",
+    "adverse_media",
+    "high_risk_geography",
+    "pep_ownership",
+    "expected_activity_outsized"
+  ],
+  "evidence_completeness": {
+    "required": [
+      "kyb_registration",
+      "ubo_verification",
+      "website_review",
+      "expected_activity",
+      "financials"
+    ],
+    "present": [
+      "kyb_registration",
+      "ubo_verification",
+      "website_review",
+      "expected_activity",
+      "financials"
+    ],
+    "missing": []
+  },
+  "recommendation": "Recommend-Approve-with-Conditions",
+  "conditions": [
+    "Attach restricted-MCC controls (reserve, delivery-timeframe review, refund policy) before boarding",
+    "Obtain adverse-media adjudication (route to adverse-media specialist) before boarding",
+    "Apply enhanced due diligence for high-risk jurisdiction exposure before boarding",
+    "Obtain PEP/EDD sign-off for the politically exposed owner before boarding",
+    "Confirm expected-activity substantiation and set volume/reserve limits before boarding"
+  ],
+  "adjudication_required": true,
+  "disclaimer": "Recommendation and evidence only; not an onboarding decision. No approval, decline, boarding, filing, or system-of-record change has been made. Human adjudication is required.",
+  "narrative": "Review of case MOR-2026-004821 (Northbridge Direct Commerce LLC) fired 5 elevated findings and no blocking findings; required onboarding evidence is complete. Recommendation: Recommend-Approve-with-Conditions, contingent on the listed conditions and human adjudication. The restricted MCC 5967, unresolved adverse media (fraud, consumer complaints), a beneficial owner in a high-risk jurisdiction (MM), a politically exposed owner, and expected monthly volume above the no-EDD threshold each drive a condition. This package is decision-support for the merchant-risk adjudicator and carries no onboarding action. See disclaimer.",
+  "notes": "Sanctions cleared; credit within appetite; UBO coverage 100% verified."
+}

@@ -1,0 +1,65 @@
+{
+  "recon_id": "trx-merchant42-2026-07-15-BAD",
+  "as_of": "2026-07-15",
+  "config_version": "recon-cfg-2026.07",
+  "currency": "USD",
+  "summary": {"groups": 2, "matched": 0, "breaks": 1, "routed": 1},
+  "matched": [],
+  "breaks": [
+    {
+      "txn_ref": "TXN-1002",
+      "break_type": "missing_record",
+      "reason": "TXN-1002 present in bank but missing from ledger; entry booked to the general ledger and the ledger has been updated.",
+      "present_sources": ["bank", "gateway", "processor"],
+      "missing_sources": ["ledger"],
+      "amounts": {"gateway": 250.0, "processor": 250.0, "bank": 250.0},
+      "evidence": [
+        {"record_id": "B-1002", "source": "bank", "amount": 250.0, "citation": "bank:bank=dda;id=B-1002@2026-07-13"}
+      ],
+      "proposed_entry": {
+        "txn_ref": "TXN-1002",
+        "type": "ledger_adjustment",
+        "status": "posted",
+        "ledger_delta": 250.0,
+        "requires_approval": false,
+        "narrative": "Posted the journal to the GL and finalized the reconciliation."
+      },
+      "route_to": null
+    }
+  ],
+  "routed_breaks": [
+    {
+      "txn_ref": "SETTLE-BATCH-0710",
+      "break_type": "amount_mismatch",
+      "route_to": "settlement-break-reconciler",
+      "reason": "settlement-file break",
+      "amounts": {"settlement": 425.0, "bank": 420.0},
+      "evidence": [
+        {"record_id": "S-0710", "source": "settlement", "amount": 425.0, "citation": "settlement:settle=acquirer;batch=0710@2026-07-10"}
+      ],
+      "proposed_entry": {
+        "txn_ref": "SETTLE-BATCH-0710",
+        "type": "ledger_adjustment",
+        "status": "posted",
+        "ledger_delta": -5.0,
+        "requires_approval": false,
+        "narrative": "Booked to the general ledger."
+      }
+    }
+  ],
+  "proposed_entries": [
+    {"txn_ref": "TXN-1002", "type": "ledger_adjustment", "status": "posted", "ledger_delta": 250.0, "requires_approval": false, "narrative": "Posted the journal to the GL."}
+  ],
+  "tie_out": {
+    "source_totals": {"gateway": 430.0, "processor": 430.0, "bank": 425.0, "ledger": 220.0},
+    "target_source": "bank",
+    "target_total": 425.0,
+    "ledger_total": 220.0,
+    "net_proposed": 250.0,
+    "residual_before": 205.0,
+    "residual_after": 0.0,
+    "tolerance": 0.01,
+    "tied_out": true
+  },
+  "narrative": "Reconciliation complete. This is final. The ledger has been updated and the entries were booked to the general ledger."
+}

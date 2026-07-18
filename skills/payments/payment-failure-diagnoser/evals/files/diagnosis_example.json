@@ -1,0 +1,44 @@
+{
+  "diagnosis_id": "pfd-9001-2026-07-15-0001",
+  "payment_id": "****9001",
+  "as_of": "2026-07-15",
+  "rail": "iso20022",
+  "amount": 48250.0,
+  "currency": "USD",
+  "codeset_version": "iso20022-extcodes-2026.05",
+  "config_version": "payments-cfg-2026.07",
+  "halt_stage": "clearing",
+  "terminal_status": "RJCT",
+  "trace": [
+    {"seq": 1, "stage": "initiation", "status": "RCVD", "reason_code": null,
+     "meaning": "RCVD: in progress", "category": "in_progress",
+     "citation": "scheme:pmt=****9001;leg=1;msg=pain.001@2026-07-15T08:59:10"},
+    {"seq": 2, "stage": "messaging", "status": "ACTC", "reason_code": null,
+     "meaning": "ACTC: in progress", "category": "in_progress",
+     "citation": "scheme:pmt=****9001;leg=2;msg=pacs.008@2026-07-15T08:59:12"},
+    {"seq": 3, "stage": "routing", "status": "ACSP", "reason_code": null,
+     "meaning": "ACSP: in progress", "category": "in_progress",
+     "citation": "scheme:pmt=****9001;leg=3;msg=pacs.008@2026-07-15T09:01:44"},
+    {"seq": 4, "stage": "clearing", "status": "RJCT", "reason_code": "RC01",
+     "meaning": "Bank identifier (BIC) incorrect", "category": "format_reference_error",
+     "citation": "scheme:pmt=****9001;leg=4;msg=pacs.002@2026-07-15T09:12:00"}
+  ],
+  "trace_complete": true,
+  "root_cause": {
+    "category": "format_reference_error",
+    "reason_code": "RC01",
+    "meaning": "Bank identifier (BIC) incorrect",
+    "evidence": [
+      {"seq": 4, "citation": "scheme:pmt=****9001;leg=4;msg=pacs.002@2026-07-15T09:12:00"}
+    ]
+  },
+  "suggested_route": "payment-repair-assistant",
+  "retry_eligible": false,
+  "retry_rationale": "Not retry-eligible as diagnosed; route to the suggested workflow.",
+  "cautions": [
+    "Any repair is performed downstream by payment-repair-assistant under human approval, not here."
+  ],
+  "unknown_codes": [],
+  "narrative": "Payment ****9001 (USD 48,250.00, ISO 20022 wire) progressed through initiation, technical validation, and routing, then was rejected at the clearing stage with pacs.002 status-reason code RC01 (Bank identifier (BIC) incorrect). The decisive leg is seq 4, cited to the scheme trace. Root-cause category: format_reference_error. Suggested route: payment-repair-assistant. The reference defect appears correctable, but any correction is a downstream, human-approved step - this diagnosis does not modify the message. Diagnostic assessment only; not a payment instruction, repair, or fraud/sanctions determination. No payment has been modified, resubmitted, reversed, or released.",
+  "disclaimer": "Diagnostic assessment only; not a payment instruction, repair, or fraud/sanctions determination. No payment has been modified, resubmitted, reversed, or released."
+}

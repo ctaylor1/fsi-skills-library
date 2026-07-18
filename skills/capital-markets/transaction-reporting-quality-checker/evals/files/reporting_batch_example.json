@@ -1,0 +1,31 @@
+{
+  "report_regime": "MiFIR-RTS22",
+  "as_of": "2026-07-17",
+  "config_version": "txn-report-cfg-2026.07",
+  "config": {
+    "timeliness_deadline_hours": 24,
+    "required_fields": ["reporting_firm_lei", "buyer_id", "seller_id", "instrument_isin", "trading_venue_mic", "price", "quantity", "trade_datetime", "transaction_ref"],
+    "identifier_fields": {"reporting_firm_lei": "lei", "buyer_id": "lei", "seller_id": "lei", "instrument_isin": "isin", "trading_venue_mic": "mic"},
+    "identifier_formats": {"lei": "^[A-Z0-9]{18}[0-9]{2}$", "isin": "^[A-Z]{2}[A-Z0-9]{9}[0-9]$", "mic": "^[A-Z0-9]{4}$"},
+    "economic_fields": ["instrument_isin", "price", "quantity"],
+    "price_tolerance_abs": 0.005,
+    "supplementary_fields": ["trading_venue_mic"],
+    "unresolved_statuses": ["rejected", "pending", "failed"]
+  },
+  "source_executions": [
+    {"exec_id": "E-1", "transaction_ref": "TXN-1", "instrument_isin": "GB00B03MLX29", "trading_venue_mic": "XLON", "price": 101.25, "quantity": 1000, "execution_ts": "2026-07-14T09:00:00", "reportable": true, "source_ref": "oms=OMS1;exec=E-1"},
+    {"exec_id": "E-2", "transaction_ref": "TXN-2", "instrument_isin": "US0378331005", "trading_venue_mic": "XNAS", "price": 195.50, "quantity": 500, "execution_ts": "2026-07-14T10:00:00", "reportable": true, "source_ref": "oms=OMS1;exec=E-2"},
+    {"exec_id": "E-3", "transaction_ref": "TXN-3", "instrument_isin": "DE0005140008", "trading_venue_mic": "XETR", "price": 12.34, "quantity": 2000, "execution_ts": "2026-07-13T15:00:00", "reportable": true, "source_ref": "oms=OMS1;exec=E-3"},
+    {"exec_id": "E-4", "transaction_ref": "TXN-4", "instrument_isin": "FR0000131104", "trading_venue_mic": "XPAR", "price": 55.00, "quantity": 300, "execution_ts": "2026-07-14T11:00:00", "reportable": true, "source_ref": "oms=OMS1;exec=E-4"},
+    {"exec_id": "E-7", "transaction_ref": "TXN-7", "instrument_isin": "IT0003132476", "trading_venue_mic": "MTAA", "price": 9.99, "quantity": 750, "execution_ts": "2026-07-14T09:30:00", "reportable": true, "source_ref": "oms=OMS1;exec=E-7"},
+    {"exec_id": "E-8", "transaction_ref": "TXN-8", "instrument_isin": "ES0113900J37", "trading_venue_mic": "XMAD", "price": 4.20, "quantity": 5000, "execution_ts": "2026-07-14T09:45:00", "reportable": true, "source_ref": "oms=OMS1;exec=E-8"}
+  ],
+  "submitted_reports": [
+    {"report_id": "R-1", "transaction_ref": "TXN-1", "status": "accepted", "report_submitted_ts": "2026-07-14T12:00:00", "reporting_firm_lei": "5493001KJTIIGC8Y1R12", "buyer_id": "213800QILIUD4ROSUO03", "seller_id": "529900T8BM49AURSDO55", "instrument_isin": "GB00B03MLX29", "trading_venue_mic": "XLON", "price": 101.25, "quantity": 1000, "trade_datetime": "2026-07-14T09:00:00", "source_ref": "arm=ARM1;rpt=R-1"},
+    {"report_id": "R-2", "transaction_ref": "TXN-2", "status": "accepted", "report_submitted_ts": "2026-07-16T10:30:00", "reporting_firm_lei": "5493001KJTIIGC8Y1R12", "buyer_id": "213800QILIUD4ROSUO03", "seller_id": "529900T8BM49AURSDO55", "instrument_isin": "US0378331005", "trading_venue_mic": "XNAS", "price": 195.50, "quantity": 500, "trade_datetime": "2026-07-14T10:00:00", "source_ref": "arm=ARM1;rpt=R-2"},
+    {"report_id": "R-4", "transaction_ref": "TXN-4", "status": "accepted", "report_submitted_ts": "2026-07-14T15:00:00", "reporting_firm_lei": "5493001KJTIIGC8Y1R12", "buyer_id": "213800QILIUD4ROSUO03", "seller_id": "529900T8BM49AURSDO55", "instrument_isin": "FR0000131104", "trading_venue_mic": "XPAR", "price": 55.75, "quantity": 300, "trade_datetime": "2026-07-14T11:00:00", "source_ref": "arm=ARM1;rpt=R-4"},
+    {"report_id": "R-6", "transaction_ref": "TXN-6", "status": "accepted", "report_submitted_ts": "2026-07-14T12:15:00", "reporting_firm_lei": "5493001KJTIIGC8Y1R12", "buyer_id": "213800QILIUD4ROSUO03", "seller_id": "529900T8BM49AURSDO55", "instrument_isin": "NL0011794037", "trading_venue_mic": "XAMS", "price": 33.10, "quantity": 100, "trade_datetime": "2026-07-14T08:00:00", "source_ref": "arm=ARM1;rpt=R-6"},
+    {"report_id": "R-7", "transaction_ref": "TXN-7", "status": "accepted", "report_submitted_ts": "2026-07-14T14:00:00", "reporting_firm_lei": "INVALIDLEI123", "buyer_id": "", "seller_id": "529900T8BM49AURSDO55", "instrument_isin": "IT0003132476", "trading_venue_mic": "MTAA", "price": 9.99, "quantity": 750, "trade_datetime": "2026-07-14T09:30:00", "source_ref": "arm=ARM1;rpt=R-7"},
+    {"report_id": "R-8", "transaction_ref": "TXN-8", "status": "rejected", "report_submitted_ts": "2026-07-14T13:00:00", "reporting_firm_lei": "5493001KJTIIGC8Y1R12", "buyer_id": "213800QILIUD4ROSUO03", "seller_id": "529900T8BM49AURSDO55", "instrument_isin": "ES0113900J37", "trading_venue_mic": "XMAD", "price": 4.20, "quantity": 5000, "trade_datetime": "2026-07-14T09:45:00", "source_ref": "arm=ARM1;rpt=R-8"}
+  ]
+}

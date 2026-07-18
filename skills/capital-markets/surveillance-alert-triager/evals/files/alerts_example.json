@@ -1,0 +1,77 @@
+{
+  "config_version": "surv-2026.06",
+  "approved_whitelist": ["MM-1", "MM-2"],
+  "open_cases": [
+    {"case_id": "SURV-AL-1000", "entity_id": "E-500", "scenario_id": "S-SPOOF",
+     "period": {"from": "2026-06-01", "to": "2026-06-30"}, "evidence_ids": ["O1", "O2", "O3"]}
+  ],
+  "alerts": [
+    {"alert_id": "AL-3001", "entity_id": "DESK-EQ", "account_ref": "****3300", "scenario_id": "S-INSIDER",
+     "surveillance_type": "trade", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "notional_total": 1200000, "evidence_ids": ["O10", "O11"],
+     "events": [
+       {"ts": "2026-07-11T13:05:00Z", "system": "oms", "ref": "order=O10", "detail": "Buy 40k shares ahead of embargoed announcement window"},
+       {"ts": "2026-07-11T13:07:30Z", "system": "oms", "ref": "order=O11", "detail": "Add 20k shares; account on restricted list for issuer"}
+     ],
+     "parties": [{"role": "trader", "ref": "****3300"}, {"role": "issuer", "ref": "ISS-ACME"}],
+     "account": {"risk_rating": "High", "cross_product_linkage": true},
+     "flags": {"restricted_list_proximity": true}, "scenario_hint": "mnpi_adjacent",
+     "prior_alerts_90d": 1, "source_ref": "alert=AL-3001"},
+
+    {"alert_id": "AL-3002", "entity_id": "DESK-FX", "account_ref": "****3311", "scenario_id": "S-COMMS-LEX",
+     "surveillance_type": "ecomms", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "notional_total": 300000, "evidence_ids": ["M20"],
+     "events": [
+       {"ts": "2026-07-09T09:15:00Z", "system": "ecomms", "ref": "msg=M20", "detail": "Chat lexicon hit: 'keep this off the record'"}
+     ],
+     "parties": [{"role": "sender", "ref": "****3311"}, {"role": "recipient", "ref": "EXT-COUNTERPARTY"}],
+     "account": {"risk_rating": "Medium", "cross_product_linkage": false},
+     "flags": {"restricted_list_proximity": false}, "scenario_hint": null,
+     "prior_alerts_90d": 0, "source_ref": "alert=AL-3002"},
+
+    {"alert_id": "AL-3003", "entity_id": "E-500", "account_ref": "****3500", "scenario_id": "S-SPOOF",
+     "surveillance_type": "trade", "period": {"from": "2026-06-01", "to": "2026-06-30"},
+     "notional_total": 40000, "evidence_ids": ["O1", "O2"],
+     "events": [{"ts": "2026-06-15T10:00:00Z", "system": "oms", "ref": "order=O1", "detail": "Layered order later cancelled"}],
+     "parties": [{"role": "trader", "ref": "****3500"}],
+     "account": {"risk_rating": "Low", "cross_product_linkage": false},
+     "flags": {"restricted_list_proximity": false}, "prior_alerts_90d": 0, "source_ref": "alert=AL-3003"},
+
+    {"alert_id": "AL-3004", "entity_id": "DESK-MM", "account_ref": "****3402", "scenario_id": "S-WASH",
+     "surveillance_type": "trade", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "notional_total": 20000, "evidence_ids": ["O40"],
+     "events": [{"ts": "2026-07-05T11:00:00Z", "system": "oms", "ref": "order=O40", "detail": "Offsetting trade between approved market-maker books"}],
+     "parties": [{"role": "book_a", "ref": "MM-1"}, {"role": "book_b", "ref": "MM-2"}],
+     "account": {"risk_rating": "Low", "cross_product_linkage": false},
+     "flags": {"restricted_list_proximity": false}, "legs_whitelisted": true, "whitelist_accounts": ["MM-1", "MM-2"],
+     "prior_alerts_90d": 0, "source_ref": "alert=AL-3004"},
+
+    {"alert_id": "AL-3005", "entity_id": "DESK-EQ", "account_ref": "****3503", "scenario_id": "S-MARKCLOSE",
+     "surveillance_type": "trade", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "notional_total": 30000, "evidence_ids": ["O50"],
+     "events": [{"ts": "2026-07-08T15:59:00Z", "system": "oms", "ref": "order=O50", "detail": "Small on-close order within documented benchmark-rebalance window"}],
+     "parties": [{"role": "trader", "ref": "****3503"}],
+     "account": {"risk_rating": "Low", "cross_product_linkage": false},
+     "flags": {"restricted_list_proximity": false}, "calibration_pattern_id": "CAL-REBAL-Q3",
+     "prior_alerts_90d": 0, "source_ref": "alert=AL-3005"},
+
+    {"alert_id": "AL-3006", "entity_id": "DESK-RATES", "account_ref": "****3604", "scenario_id": "S-SPOOF",
+     "surveillance_type": "trade", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "notional_total": 80000, "evidence_ids": ["O60"],
+     "events": [{"ts": "2026-07-10T14:00:00Z", "system": "oms", "ref": "order=O60", "detail": "Large order later cancelled"}],
+     "parties": [{"role": "trader", "ref": "****3604"}],
+     "account": {"cross_product_linkage": false},
+     "flags": {"restricted_list_proximity": false}, "prior_alerts_90d": 0, "source_ref": "alert=AL-3006"},
+
+    {"alert_id": "AL-3007", "entity_id": "E-500", "account_ref": "****3500", "scenario_id": "S-SPOOF",
+     "surveillance_type": "trade", "period": {"from": "2026-06-01", "to": "2026-06-30"},
+     "notional_total": 60000, "evidence_ids": ["O3", "O99"],
+     "events": [
+       {"ts": "2026-06-20T10:30:00Z", "system": "oms", "ref": "order=O3", "detail": "Order overlapping open case window"},
+       {"ts": "2026-06-21T10:30:00Z", "system": "oms", "ref": "order=O99", "detail": "New order not in parent case"}
+     ],
+     "parties": [{"role": "trader", "ref": "****3500"}],
+     "account": {"risk_rating": "Low", "cross_product_linkage": false},
+     "flags": {"restricted_list_proximity": false}, "prior_alerts_90d": 0, "source_ref": "alert=AL-3007"}
+  ]
+}

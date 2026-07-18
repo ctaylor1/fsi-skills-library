@@ -1,0 +1,63 @@
+{
+  "config_version": "audit-wp-2026.07",
+  "engagement": {
+    "entity": "Meridian Manufacturing Inc. (de-identified sample)",
+    "period": "FY2026",
+    "framework": "US GAAP",
+    "reporting_currency": "USD",
+    "engagement_type": "financial-statement-support"
+  },
+  "planning": {
+    "overall_materiality": 500000,
+    "performance_materiality": 375000,
+    "clearly_trivial_threshold": 25000,
+    "tolerable_misstatement": 300000,
+    "reliability_factor": 3.0,
+    "sample_seed": 7
+  },
+  "financial_statements": [
+    {"caption": "Revenue", "assertion": "occurrence", "fs_amount": 12400000,
+     "tb_accounts": ["4000", "4010"], "source_ref": "fs:income-statement@FY2026"},
+    {"caption": "Accounts receivable", "assertion": "existence", "fs_amount": 2150000,
+     "tb_accounts": ["1200", "1210"], "source_ref": "fs:balance-sheet@FY2026"},
+    {"caption": "Inventory", "assertion": "existence", "fs_amount": 3000000,
+     "tb_accounts": ["1300"], "source_ref": "fs:balance-sheet@FY2026"}
+  ],
+  "trial_balance": [
+    {"account": "4000", "description": "Product revenue", "balance": 11900000, "source_ref": "tb:4000@FY2026"},
+    {"account": "4010", "description": "Service revenue", "balance": 500000, "source_ref": "tb:4010@FY2026"},
+    {"account": "1200", "description": "Trade receivables", "balance": 2100000, "source_ref": "tb:1200@FY2026"},
+    {"account": "1210", "description": "Other receivables", "balance": 20000, "source_ref": "tb:1210@FY2026"},
+    {"account": "1300", "description": "Finished goods inventory", "balance": 3000000, "source_ref": "tb:1300@FY2026"}
+  ],
+  "population": {
+    "label": "Accounts receivable subledger (existence)",
+    "assertion": "existence",
+    "source_ref": "subledger:AR@FY2026",
+    "items": [
+      {"item_id": "AR-1", "amount": 520000, "description": "Customer 0041", "source_ref": "subledger:AR:AR-1@FY2026"},
+      {"item_id": "AR-2", "amount": 300000, "description": "Customer 0088", "source_ref": "subledger:AR:AR-2@FY2026"},
+      {"item_id": "AR-3", "amount": 60000, "description": "Customer 0112", "source_ref": "subledger:AR:AR-3@FY2026"},
+      {"item_id": "AR-4", "amount": 55000, "description": "Customer 0134", "source_ref": "subledger:AR:AR-4@FY2026"},
+      {"item_id": "AR-5", "amount": 90000, "description": "Customer 0156", "source_ref": "subledger:AR:AR-5@FY2026"},
+      {"item_id": "AR-6", "amount": 70000, "description": "Customer 0177", "source_ref": "subledger:AR:AR-6@FY2026"},
+      {"item_id": "AR-7", "amount": 45000, "description": "Customer 0203", "source_ref": "subledger:AR:AR-7@FY2026"},
+      {"item_id": "AR-8", "amount": 80000, "description": "Customer 0219", "source_ref": "subledger:AR:AR-8@FY2026"},
+      {"item_id": "AR-9", "amount": 65000, "description": "Customer 0244", "source_ref": "subledger:AR:AR-9@FY2026"},
+      {"item_id": "AR-10", "amount": 40000, "description": "Customer 0261", "source_ref": "subledger:AR:AR-10@FY2026"},
+      {"item_id": "AR-11", "amount": 75000, "description": "Customer 0288", "source_ref": "subledger:AR:AR-11@FY2026"},
+      {"item_id": "AR-12", "amount": 50000, "description": "Customer 0301", "source_ref": "subledger:AR:AR-12@FY2026"},
+      {"item_id": "AR-13", "amount": 95000, "description": "Customer 0327", "source_ref": "subledger:AR:AR-13@FY2026"},
+      {"item_id": "AR-14", "amount": 85000, "description": "Customer 0349", "source_ref": "subledger:AR:AR-14@FY2026"},
+      {"item_id": "AR-15", "amount": 90000, "description": "Customer 0362", "source_ref": "subledger:AR:AR-15@FY2026"}
+    ]
+  },
+  "known_misstatements": [
+    {"finding_id": "MS-1", "description": "Accounts receivable caption exceeds trial-balance support",
+     "amount": 30000, "type": "factual", "source_ref": "tb:1200-1210@FY2026"}
+  ],
+  "approvals": [
+    {"role": "Preparer", "name": "J. Okafor (staff auditor)", "status": "signed", "date": "2026-07-16"},
+    {"role": "Reviewer", "name": "P. Nguyen (engagement senior)", "status": "pending", "date": ""}
+  ]
+}

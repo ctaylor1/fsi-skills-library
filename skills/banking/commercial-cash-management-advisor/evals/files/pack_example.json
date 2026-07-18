@@ -1,0 +1,230 @@
+{
+  "advisory_id": "ccma-4021-2026-07-15-0001",
+  "customer_id": "****-4021",
+  "as_of": "2026-07-15",
+  "config_version": "tm-cfg-2026.07",
+  "currency": "USD",
+  "analysis_period_months": 3,
+  "balances": {
+    "total_avg_collected": 2250000.0,
+    "operating_buffer": 500000.0,
+    "estimated_idle_balance": 1750000.0
+  },
+  "recommendations": [
+    {
+      "service": "excess_balance_investment",
+      "category": "liquidity",
+      "recommended": true,
+      "rationale": "estimated idle collected balance 1,750,000 >= 250,000; an earnings-credit review or excess-balance solution may be worth discussing",
+      "evidence": [
+        {
+          "account_id": "****1001",
+          "type": "operating_dda",
+          "avg_collected_balance": 1200000.0,
+          "citation": "cb:acct=****1001;stmt=2026-06"
+        },
+        {
+          "account_id": "****1002",
+          "type": "payroll_dda",
+          "avg_collected_balance": 300000.0,
+          "citation": "cb:acct=****1002;stmt=2026-06"
+        },
+        {
+          "account_id": "****1003",
+          "type": "reserve_dda",
+          "avg_collected_balance": 750000.0,
+          "citation": "cb:acct=****1003;stmt=2026-06"
+        }
+      ],
+      "basis": {
+        "total_avg_collected": 2250000.0,
+        "operating_buffer": 500000.0,
+        "estimated_idle_balance": 1750000.0,
+        "threshold": 250000.0
+      },
+      "implementation_questions": [
+        "What minimum operating buffer must stay liquid across the account group?",
+        "Is the client open to an earnings-credit arrangement, a sweep, or a separate investment vehicle (route investment suitability to a licensed specialist)?",
+        "What is the client's tolerance for tying up balances vs. same-day access?"
+      ]
+    },
+    {
+      "service": "liquidity_structure",
+      "category": "liquidity",
+      "recommended": true,
+      "rationale": "3 accounts with concentratable balances; a ZBA / target-balance sweep / pooling structure may simplify funding and visibility",
+      "evidence": [
+        {
+          "account_id": "****1001",
+          "type": "operating_dda",
+          "avg_collected_balance": 1200000.0,
+          "citation": "cb:acct=****1001;stmt=2026-06"
+        },
+        {
+          "account_id": "****1002",
+          "type": "payroll_dda",
+          "avg_collected_balance": 300000.0,
+          "citation": "cb:acct=****1002;stmt=2026-06"
+        },
+        {
+          "account_id": "****1003",
+          "type": "reserve_dda",
+          "avg_collected_balance": 750000.0,
+          "citation": "cb:acct=****1003;stmt=2026-06"
+        }
+      ],
+      "basis": {
+        "account_count": 3,
+        "threshold": 3
+      },
+      "implementation_questions": [
+        "Which account is the intended concentration (master) account?",
+        "Are there legal-entity or tax constraints on moving funds between accounts?",
+        "What target balances should each subsidiary account hold?"
+      ]
+    },
+    {
+      "service": "lockbox_receivables",
+      "category": "receivables",
+      "recommended": true,
+      "rationale": "900 mailed check receipts/month >= 200; a wholesale lockbox may accelerate availability and AR posting",
+      "evidence": [
+        {
+          "metric": "mailed_check_receipts",
+          "value": 900,
+          "citation": "cb:acct=****1001;analytics=2026Q2"
+        }
+      ],
+      "basis": {
+        "mailed_check_receipts": 900,
+        "threshold": 200
+      },
+      "implementation_questions": [
+        "What is average and peak-day mailed receipt volume?",
+        "Which remittance fields must be captured for automated AR posting?",
+        "Is a wholesale, retail, or wholetail configuration expected?"
+      ]
+    },
+    {
+      "service": "controlled_disbursement_payables",
+      "category": "payables",
+      "recommended": true,
+      "rationale": "320 checks issued/month >= 150; integrated payables / controlled disbursement / virtual card may reduce cost and effort",
+      "evidence": [
+        {
+          "metric": "checks_issued",
+          "value": 320,
+          "citation": "cb:acct=****1001;analytics=2026Q2"
+        }
+      ],
+      "basis": {
+        "checks_issued": 320,
+        "threshold": 150
+      },
+      "implementation_questions": [
+        "What share of payables could move from check to ACH or virtual card?",
+        "Does the client's ERP/AP system support a payment file integration?",
+        "What approval and dual-control workflow is required?"
+      ]
+    },
+    {
+      "service": "check_positive_pay",
+      "category": "fraud_control",
+      "recommended": true,
+      "rationale": "320 checks issued/month >= 50; check Positive Pay is a standard fraud control for this issuance volume",
+      "evidence": [
+        {
+          "metric": "checks_issued",
+          "value": 320,
+          "citation": "cb:acct=****1001;analytics=2026Q2"
+        }
+      ],
+      "basis": {
+        "checks_issued": 320,
+        "threshold": 50
+      },
+      "implementation_questions": [
+        "Can the client transmit a daily issue file (with payee data for payee-match)?",
+        "Who will adjudicate exceptions each morning, and by what cut-off?"
+      ]
+    },
+    {
+      "service": "ach_debit_block",
+      "category": "fraud_control",
+      "recommended": true,
+      "rationale": "60 ACH debits received/month >= 25; ACH debit block/filter (ACH Positive Pay) limits unauthorized debit exposure",
+      "evidence": [
+        {
+          "metric": "ach_debits_received",
+          "value": 60,
+          "citation": "cb:acct=****1001;analytics=2026Q2"
+        }
+      ],
+      "basis": {
+        "ach_debits_received": 60,
+        "threshold": 25
+      },
+      "implementation_questions": [
+        "Which originators should be on the authorized allow-list?",
+        "Should unauthorized debits be blocked outright or routed to review?"
+      ]
+    },
+    {
+      "service": "fx_international_services",
+      "category": "international",
+      "recommended": true,
+      "rationale": "cross-border volume 400,000/month >= 100,000; FX / international payment services may fit",
+      "evidence": [
+        {
+          "metric": "cross_border_amount",
+          "value": 400000.0,
+          "citation": "cb:acct=****1001;analytics=2026Q2"
+        }
+      ],
+      "basis": {
+        "cross_border_amount": 400000.0,
+        "currencies": [
+          "EUR",
+          "MXN"
+        ],
+        "threshold": 100000.0
+      },
+      "implementation_questions": [
+        "Which currencies and corridors are recurring vs. one-off?",
+        "Does the client need forward/hedging conversations (route to a licensed FX desk)?"
+      ]
+    }
+  ],
+  "recommended_services": [
+    "excess_balance_investment",
+    "liquidity_structure",
+    "lockbox_receivables",
+    "controlled_disbursement_payables",
+    "check_positive_pay",
+    "ach_debit_block",
+    "fx_international_services"
+  ],
+  "not_indicated": [
+    {
+      "service": "remote_deposit_capture",
+      "why": "checks deposited 40 < 50"
+    },
+    {
+      "service": "merchant_services",
+      "why": "card acceptance 0 < 50,000"
+    },
+    {
+      "service": "overdraft_liquidity_referral",
+      "why": "overdraft days 0 < 3"
+    }
+  ],
+  "already_in_place": [],
+  "engagement_priority": "Priority-review",
+  "assumptions": [
+    "Volumes and balances are period averages from the profile; validate current figures with the client before any proposal.",
+    "Thresholds are from the versioned config, not tuned to this customer.",
+    "Service fit is a discussion starting point for the banker; pricing, credit, and investment suitability are handled by the responsible desk under human review."
+  ],
+  "disclaimer": "Advisory analysis only; not a binding product, pricing, credit, or investment decision. No account or service has been opened, changed, or priced.",
+  "narrative": "Treasury-management review of customer ****-4021 for the period ending 2026-07-15 identified seven candidate services for the banker to explore with the client. The account group holds an estimated idle collected balance of 1,750,000 above the stated operating buffer, which may suit an earnings-credit review or an excess-balance solution, and the three-account structure may suit a ZBA or pooling arrangement. High check issuance (320/month) and ACH debit receipt volume (60/month) indicate fraud-control gaps that check Positive Pay and ACH debit block would address. Mailed check receipts (900/month) suggest a lockbox may accelerate receivables, and recurring cross-border volume suggests FX/international services may fit. Suggested engagement priority: Priority-review. These are discussion starting points for the client conversation, not offers; pricing, credit, and investment suitability sit with the responsible desk under human review. Advisory analysis only; not a binding product, pricing, credit, or investment decision. No account or service has been opened, changed, or priced."
+}

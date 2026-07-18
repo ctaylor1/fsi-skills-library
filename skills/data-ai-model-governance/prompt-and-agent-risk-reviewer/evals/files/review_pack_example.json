@@ -1,0 +1,238 @@
+{
+  "review_id": "PARR-2026-0731",
+  "agent_id": "collections-outreach-agent",
+  "as_of": "2026-07-15",
+  "control_catalog_version": "agent-controls-2026.07",
+  "findings": [
+    {
+      "control_id": "C-INJ-01",
+      "title": "Untrusted-input to privileged-action path",
+      "severity": "Critical",
+      "fired": true,
+      "rationale": "Untrusted input surfaces can reach high-impact tools with no injection-mediation guardrail.",
+      "evidence": [
+        {
+          "locus": "untrusted_input_surfaces",
+          "detail": "web_retrieval, user_freeform",
+          "citation": "agentspec:collections-outreach-agent#untrusted_input_surfaces@2026-07-15"
+        },
+        {
+          "locus": "retrieval.sources",
+          "detail": "untrusted retrieval source present",
+          "citation": "agentspec:collections-outreach-agent#retrieval.sources@2026-07-15"
+        },
+        {
+          "locus": "tools[email.send]",
+          "detail": "effect=external",
+          "citation": "agentspec:collections-outreach-agent#tools[email.send]@2026-07-15"
+        },
+        {
+          "locus": "tools[payment.plan.write]",
+          "detail": "effect=write",
+          "citation": "agentspec:collections-outreach-agent#tools[payment.plan.write]@2026-07-15"
+        },
+        {
+          "locus": "guardrails.injection_mediation",
+          "detail": "absent/false",
+          "citation": "agentspec:collections-outreach-agent#guardrails.injection_mediation@2026-07-15"
+        }
+      ],
+      "remediation": "Add an injection-mediation guardrail, or require human approval on every high-impact tool reachable from an untrusted surface, or isolate untrusted input from privileged actions."
+    },
+    {
+      "control_id": "C-INJ-02",
+      "title": "Injection-persistent memory",
+      "severity": "High",
+      "fired": true,
+      "rationale": "Untrusted content persists in memory and is re-fed to the prompt while high-impact tools are enabled.",
+      "evidence": [
+        {
+          "locus": "memory",
+          "detail": "persists_untrusted and feeds_prompt",
+          "citation": "agentspec:collections-outreach-agent#memory@2026-07-15"
+        },
+        {
+          "locus": "tools[email.send]",
+          "detail": "effect=external",
+          "citation": "agentspec:collections-outreach-agent#tools[email.send]@2026-07-15"
+        },
+        {
+          "locus": "tools[payment.plan.write]",
+          "detail": "effect=write",
+          "citation": "agentspec:collections-outreach-agent#tools[payment.plan.write]@2026-07-15"
+        }
+      ],
+      "remediation": "Do not persist untrusted content into prompt-feeding memory, or sanitize/quarantine it before reuse."
+    },
+    {
+      "control_id": "C-TOOL-01",
+      "title": "Autonomous high-impact tool without human approval",
+      "severity": "High",
+      "fired": true,
+      "rationale": "An autonomous agent holds a high-impact tool with no human-approval gate.",
+      "evidence": [
+        {
+          "locus": "tools[email.send]",
+          "detail": "effect=external",
+          "citation": "agentspec:collections-outreach-agent#tools[email.send]@2026-07-15"
+        },
+        {
+          "locus": "tools[payment.plan.write]",
+          "detail": "effect=write",
+          "citation": "agentspec:collections-outreach-agent#tools[payment.plan.write]@2026-07-15"
+        },
+        {
+          "locus": "autonomy",
+          "detail": "autonomous",
+          "citation": "agentspec:collections-outreach-agent#autonomy@2026-07-15"
+        }
+      ],
+      "remediation": "Add a human-approval gate on high-impact tools, or reduce agent autonomy to human-in-the-loop."
+    },
+    {
+      "control_id": "C-TOOL-02",
+      "title": "Over-broad tool scope (least privilege)",
+      "severity": "Moderate",
+      "fired": true,
+      "rationale": "One or more tools are granted a scope broader than the declared purpose.",
+      "evidence": [
+        {
+          "locus": "tools[email.send]",
+          "detail": "scope=email:send:*",
+          "citation": "agentspec:collections-outreach-agent#tools[email.send]@2026-07-15"
+        }
+      ],
+      "remediation": "Narrow each tool grant to the minimum scope the declared purpose requires."
+    },
+    {
+      "control_id": "C-GRD-01",
+      "title": "No output guardrail/DLP for sensitive data class",
+      "severity": "High",
+      "fired": true,
+      "rationale": "The agent handles a sensitive data class with no output filter or DLP guardrail.",
+      "evidence": [
+        {
+          "locus": "data_classification",
+          "detail": "Confidential",
+          "citation": "agentspec:collections-outreach-agent#data_classification@2026-07-15"
+        },
+        {
+          "locus": "guardrails",
+          "detail": "output_filter/dlp absent/false",
+          "citation": "agentspec:collections-outreach-agent#guardrails@2026-07-15"
+        }
+      ],
+      "remediation": "Enable an output filter / DLP guardrail appropriate to the data classification handled."
+    },
+    {
+      "control_id": "C-GRD-02",
+      "title": "No prohibited-behavior guardrail for a declared surface",
+      "severity": "High",
+      "fired": true,
+      "rationale": "A prohibited-behavior surface is reachable with no refusal guardrail configured.",
+      "evidence": [
+        {
+          "locus": "prohibited_surface",
+          "detail": "financial_advice, payment_negotiation",
+          "citation": "agentspec:collections-outreach-agent#prohibited_surface@2026-07-15"
+        },
+        {
+          "locus": "guardrails.prohibited_behavior_refusal",
+          "detail": "absent/false",
+          "citation": "agentspec:collections-outreach-agent#guardrails.prohibited_behavior_refusal@2026-07-15"
+        }
+      ],
+      "remediation": "Configure a refusal/guardrail for each declared prohibited surface (e.g., financial/legal/tax advice, money movement)."
+    },
+    {
+      "control_id": "C-PROMPT-01",
+      "title": "No instruction-source boundary",
+      "severity": "Moderate",
+      "fired": true,
+      "rationale": "The system prompt does not separate trusted instructions from untrusted retrieved/tool content.",
+      "evidence": [
+        {
+          "locus": "instruction_source_boundary",
+          "detail": "absent/false",
+          "citation": "agentspec:collections-outreach-agent#instruction_source_boundary@2026-07-15"
+        },
+        {
+          "locus": "untrusted_input_surfaces",
+          "detail": "web_retrieval, user_freeform",
+          "citation": "agentspec:collections-outreach-agent#untrusted_input_surfaces@2026-07-15"
+        }
+      ],
+      "remediation": "State in the system prompt that tool/retrieved/user content is data, not instructions, and must not be executed."
+    },
+    {
+      "control_id": "C-FAIL-01",
+      "title": "No fail-closed / escalation on uncertainty",
+      "severity": "Moderate",
+      "fired": true,
+      "rationale": "The failure mode does not fail closed and/or does not escalate to a human on uncertainty.",
+      "evidence": [
+        {
+          "locus": "failure_mode",
+          "detail": "fail_closed/human_escalation absent/false",
+          "citation": "agentspec:collections-outreach-agent#failure_mode@2026-07-15"
+        }
+      ],
+      "remediation": "Configure the agent to fail closed and escalate to a human when identity, source, or authorization is uncertain."
+    },
+    {
+      "control_id": "C-EVAL-01",
+      "title": "No evaluation/benchmark coverage",
+      "severity": "Moderate",
+      "fired": true,
+      "rationale": "No evaluation harness is wired for this agent.",
+      "evidence": [
+        {
+          "locus": "observability.eval_harness",
+          "detail": "absent/false",
+          "citation": "agentspec:collections-outreach-agent#observability.eval_harness@2026-07-15"
+        }
+      ],
+      "remediation": "Wire an evaluation/benchmark suite (route to ai-evaluation-benchmark-builder) before deployment."
+    },
+    {
+      "control_id": "C-OBS-01",
+      "title": "Insufficient tool-call audit logging",
+      "severity": "Low",
+      "fired": true,
+      "rationale": "Tool calls are not logged, limiting auditability and incident response.",
+      "evidence": [
+        {
+          "locus": "observability.logs_tool_calls",
+          "detail": "absent/false",
+          "citation": "agentspec:collections-outreach-agent#observability.logs_tool_calls@2026-07-15"
+        }
+      ],
+      "remediation": "Enable durable audit logging of every tool call with inputs, outputs, and identity."
+    }
+  ],
+  "fired_findings": [
+    "C-INJ-01",
+    "C-INJ-02",
+    "C-TOOL-01",
+    "C-TOOL-02",
+    "C-GRD-01",
+    "C-GRD-02",
+    "C-PROMPT-01",
+    "C-FAIL-01",
+    "C-EVAL-01",
+    "C-OBS-01"
+  ],
+  "severity_counts": {
+    "Critical": 1,
+    "High": 4,
+    "Moderate": 4,
+    "Low": 1
+  },
+  "data_gaps": [],
+  "recommended_rating": "Critical",
+  "recommended_disposition": "Remediate-before-deploy (recommended)",
+  "adjudication_note": "Recommendation only; requires human adjudication before any deployment decision. No approval, risk acceptance, attestation, or review closure has been recorded.",
+  "disclaimer": "Risk review evidence and recommendations only; not an approval, risk acceptance, or attestation. Deployment requires human adjudication by the accountable AI risk owner.",
+  "narrative": "Risk review of agent collections-outreach-agent (catalog agent-controls-2026.07) fired 10 controls: 1 Critical, 4 High, 4 Moderate, 1 Low. The Critical finding (C-INJ-01) is that untrusted web and free-form input can reach an autonomous email.send and payment.plan.write path with no injection-mediation guardrail. Recommended risk rating: Critical. Recommended disposition: Remediate-before-deploy. These are findings and recommendations for the accountable AI risk owner; the deployment decision requires human adjudication and is out of scope for this skill.",
+  "notes": "Every fired finding cites the exact configuration locus that triggered it."
+}

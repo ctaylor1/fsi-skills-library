@@ -1,0 +1,23 @@
+{
+  "entity": "ACME-US",
+  "account": "1010-operating-cash",
+  "as_of": "2026-06-30",
+  "config_version": "gl-recon-cfg-2026.06",
+  "currency": "USD",
+  "config": {"amount_tolerance": 0.01, "date_tolerance_days": 5, "materiality_threshold": 100.0, "recon_suspense_account": "1990-reconciliation-suspense"},
+  "gl_entries": [
+    {"entry_id": "GL-001", "match_key": "REF-001", "account": "1010-operating-cash", "date": "2026-06-28", "amount": 1000.00, "currency": "USD", "source_ref": "gl;je=JE-5001;ln=1", "description": "Customer receipt REF-001"},
+    {"entry_id": "GL-002", "match_key": "REF-002", "account": "1010-operating-cash", "date": "2026-06-29", "amount": 500.00, "currency": "USD", "source_ref": "gl;je=JE-5002;ln=1", "description": "Vendor payment REF-002"},
+    {"entry_id": "GL-004", "match_key": "REF-004", "account": "1010-operating-cash", "date": "2026-06-30", "amount": 75.00, "currency": "USD", "source_ref": "gl;je=JE-5004;ln=1", "description": "Bank fee posted in GL, no subledger support"},
+    {"entry_id": "GL-005", "match_key": "REF-005", "account": "1010-operating-cash", "date": "2026-06-15", "amount": 300.00, "currency": "USD", "source_ref": "gl;je=JE-5005;ln=1", "description": "Deposit recorded in GL 06-15"},
+    {"entry_id": "GL-006A", "match_key": "REF-006", "account": "1010-operating-cash", "date": "2026-06-20", "amount": 120.00, "currency": "USD", "source_ref": "gl;je=JE-5006;ln=1", "description": "ACH receipt REF-006"},
+    {"entry_id": "GL-006B", "match_key": "REF-006", "account": "1010-operating-cash", "date": "2026-06-20", "amount": 120.00, "currency": "USD", "source_ref": "gl;je=JE-5099;ln=1", "description": "Duplicate posting of ACH receipt REF-006"}
+  ],
+  "subledger_entries": [
+    {"entry_id": "SL-001", "match_key": "REF-001", "account": "1010-operating-cash", "date": "2026-06-28", "amount": 1000.00, "currency": "USD", "source_ref": "subledger;bank;stmt=JUN;ln=11", "description": "Customer receipt REF-001"},
+    {"entry_id": "SL-002", "match_key": "REF-002", "account": "1010-operating-cash", "date": "2026-06-29", "amount": 450.00, "currency": "USD", "source_ref": "subledger;bank;stmt=JUN;ln=12", "description": "Vendor payment REF-002 (bank cleared 450.00)"},
+    {"entry_id": "SL-003", "match_key": "REF-003", "account": "1010-operating-cash", "date": "2026-06-30", "amount": 250.00, "currency": "USD", "source_ref": "subledger;bank;stmt=JUN;ln=13", "description": "Interest credit not yet recorded in GL"},
+    {"entry_id": "SL-005", "match_key": "REF-005", "account": "1010-operating-cash", "date": "2026-06-30", "amount": 300.00, "currency": "USD", "source_ref": "subledger;bank;stmt=JUN;ln=14", "description": "Deposit cleared bank 06-30 (timing)"},
+    {"entry_id": "SL-006", "match_key": "REF-006", "account": "1010-operating-cash", "date": "2026-06-20", "amount": 120.00, "currency": "USD", "source_ref": "subledger;bank;stmt=JUN;ln=15", "description": "ACH receipt REF-006"}
+  ]
+}

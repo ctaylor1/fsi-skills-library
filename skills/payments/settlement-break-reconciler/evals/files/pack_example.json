@@ -1,0 +1,261 @@
+{
+  "reconciliation_id": "sbr-2026-07-01_2026-07-14-settle-recon-cfg-2026.07",
+  "as_of": "2026-07-15",
+  "period": {
+    "start": "2026-07-01",
+    "end": "2026-07-14"
+  },
+  "config_version": "settle-recon-cfg-2026.07",
+  "settlement_currency": "USD",
+  "tie_out": {
+    "network_gross_total": 255000.0,
+    "processor_gross_total": 255250.0,
+    "processor_fees_total": 5235.0,
+    "processor_reserve_total": 451.25,
+    "processor_net_total": 249563.75,
+    "bank_cash_total": 234583.75,
+    "ledger_net_total": 234923.75,
+    "gross_diff_processor_minus_network": 250.0,
+    "net_diff_bank_minus_processor": -14980.0,
+    "net_diff_ledger_minus_processor": -14640.0
+  },
+  "breaks": [
+    {
+      "break_id": "BRK-B-0702-MC-FEE_VARIANCE",
+      "match_key": "B-0702-MC",
+      "break_type": "FEE_VARIANCE",
+      "reason": "processor fee 1250.0 vs scheduled 1000.0 (200bps) (diff +250.00)",
+      "impact": 250.0,
+      "currency": "USD",
+      "evidence": [
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0702-MC@2026-07-02"
+        },
+        {
+          "system": "fee_schedule",
+          "citation": "fee_schedule:scheme=MC;rate_bps=200"
+        }
+      ]
+    },
+    {
+      "break_id": "BRK-B-0703-VISA-MISSING_IN_LEDGER",
+      "match_key": "B-0703-VISA",
+      "break_type": "MISSING_IN_LEDGER",
+      "reason": "settled net 19640.0 is not booked in the internal ledger",
+      "impact": 19640.0,
+      "currency": "USD",
+      "evidence": [
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0703-VISA@2026-07-03"
+        }
+      ]
+    },
+    {
+      "break_id": "BRK-B-0704-AMEX-NET_CASH_MISMATCH",
+      "match_key": "B-0704-AMEX",
+      "break_type": "NET_CASH_MISMATCH",
+      "reason": "bank cash 29000.0 vs processor net 29250.0 (diff -250.00)",
+      "impact": -250.0,
+      "currency": "USD",
+      "evidence": [
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0704-AMEX@2026-07-04"
+        },
+        {
+          "system": "bank_cash",
+          "citation": "bank_cash:bank=DDA123;fund=B-0704-AMEX@2026-07-05"
+        }
+      ]
+    },
+    {
+      "break_id": "BRK-B-0705-MC-AMOUNT_MISMATCH_GROSS",
+      "match_key": "B-0705-MC",
+      "break_type": "AMOUNT_MISMATCH_GROSS",
+      "reason": "processor gross 40250.0 vs network gross 40000.0 (diff +250.00)",
+      "impact": 250.0,
+      "currency": "USD",
+      "evidence": [
+        {
+          "system": "network",
+          "citation": "network:net=MC;batch=B-0705-MC@2026-07-05"
+        },
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0705-MC@2026-07-05"
+        }
+      ]
+    },
+    {
+      "break_id": "BRK-B-0710-ADJ-MISSING_IN_SETTLEMENT",
+      "match_key": "B-0710-ADJ",
+      "break_type": "MISSING_IN_SETTLEMENT",
+      "reason": "ledger entry 5000.0 has no matching settlement or bank record",
+      "impact": 5000.0,
+      "currency": "USD",
+      "evidence": [
+        {
+          "system": "ledger",
+          "citation": "ledger:gl=1000;je=JE-0710-ADJ@2026-07-10"
+        }
+      ]
+    }
+  ],
+  "reconciling_items": [
+    {
+      "reconciling_item_id": "RI-B-0714-VISA-TIMING_DIFFERENCE",
+      "match_key": "B-0714-VISA",
+      "type": "TIMING_DIFFERENCE",
+      "reason": "settled 2026-07-14 within 2d cash lag; cash expected next period",
+      "in_transit_amount": 14730.0,
+      "currency": "USD",
+      "evidence": [
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0714-VISA@2026-07-14"
+        }
+      ]
+    }
+  ],
+  "not_evaluable": [],
+  "corrections": [
+    {
+      "correction_id": "COR-BRK-B-0702-MC-FEE_VARIANCE",
+      "break_ref": "BRK-B-0702-MC-FEE_VARIANCE",
+      "match_key": "B-0702-MC",
+      "break_type": "FEE_VARIANCE",
+      "correction_type": "dispute",
+      "status": "proposed",
+      "requires_approval": true,
+      "impact": 250.0,
+      "currency": "USD",
+      "memo": "Query processor fee vs contracted schedule; propose fee adjustment",
+      "evidence": [
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0702-MC@2026-07-02"
+        },
+        {
+          "system": "fee_schedule",
+          "citation": "fee_schedule:scheme=MC;rate_bps=200"
+        }
+      ],
+      "proposed_entry": {
+        "debit_account": "Dr Fee Expense Adjustment",
+        "credit_account": "Cr Fee Recoverable",
+        "amount": 250.0,
+        "currency": "USD"
+      }
+    },
+    {
+      "correction_id": "COR-BRK-B-0703-VISA-MISSING_IN_LEDGER",
+      "break_ref": "BRK-B-0703-VISA-MISSING_IN_LEDGER",
+      "match_key": "B-0703-VISA",
+      "break_type": "MISSING_IN_LEDGER",
+      "correction_type": "journal",
+      "status": "proposed",
+      "requires_approval": true,
+      "impact": 19640.0,
+      "currency": "USD",
+      "memo": "Book settled net not yet reflected in the ledger",
+      "evidence": [
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0703-VISA@2026-07-03"
+        }
+      ],
+      "proposed_entry": {
+        "debit_account": "Dr Settlement Clearing",
+        "credit_account": "Cr Merchant Payable",
+        "amount": 19640.0,
+        "currency": "USD"
+      }
+    },
+    {
+      "correction_id": "COR-BRK-B-0704-AMEX-NET_CASH_MISMATCH",
+      "break_ref": "BRK-B-0704-AMEX-NET_CASH_MISMATCH",
+      "match_key": "B-0704-AMEX",
+      "break_type": "NET_CASH_MISMATCH",
+      "correction_type": "journal",
+      "status": "proposed",
+      "requires_approval": true,
+      "impact": -250.0,
+      "currency": "USD",
+      "memo": "Record cash-vs-settlement difference to suspense pending investigation",
+      "evidence": [
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0704-AMEX@2026-07-04"
+        },
+        {
+          "system": "bank_cash",
+          "citation": "bank_cash:bank=DDA123;fund=B-0704-AMEX@2026-07-05"
+        }
+      ],
+      "proposed_entry": {
+        "debit_account": "Dr/Cr Cash Suspense",
+        "credit_account": "Cr/Dr Settlement Clearing",
+        "amount": 250.0,
+        "currency": "USD"
+      }
+    },
+    {
+      "correction_id": "COR-BRK-B-0705-MC-AMOUNT_MISMATCH_GROSS",
+      "break_ref": "BRK-B-0705-MC-AMOUNT_MISMATCH_GROSS",
+      "match_key": "B-0705-MC",
+      "break_type": "AMOUNT_MISMATCH_GROSS",
+      "correction_type": "investigation",
+      "status": "proposed",
+      "requires_approval": true,
+      "impact": 250.0,
+      "currency": "USD",
+      "memo": "Investigate network-vs-processor gross discrepancy before any posting",
+      "evidence": [
+        {
+          "system": "network",
+          "citation": "network:net=MC;batch=B-0705-MC@2026-07-05"
+        },
+        {
+          "system": "processor",
+          "citation": "processor:proc=ACQ1;batch=B-0705-MC@2026-07-05"
+        }
+      ]
+    },
+    {
+      "correction_id": "COR-BRK-B-0710-ADJ-MISSING_IN_SETTLEMENT",
+      "break_ref": "BRK-B-0710-ADJ-MISSING_IN_SETTLEMENT",
+      "match_key": "B-0710-ADJ",
+      "break_type": "MISSING_IN_SETTLEMENT",
+      "correction_type": "investigation",
+      "status": "proposed",
+      "requires_approval": true,
+      "impact": 5000.0,
+      "currency": "USD",
+      "memo": "Entry has no settlement support; review for reversal or missing file",
+      "evidence": [
+        {
+          "system": "ledger",
+          "citation": "ledger:gl=1000;je=JE-0710-ADJ@2026-07-10"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "keys_examined": 7,
+    "break_count": 5,
+    "reconciling_item_count": 1,
+    "breaks_by_type": {
+      "FEE_VARIANCE": 1,
+      "MISSING_IN_LEDGER": 1,
+      "NET_CASH_MISMATCH": 1,
+      "AMOUNT_MISMATCH_GROSS": 1,
+      "MISSING_IN_SETTLEMENT": 1
+    },
+    "total_break_impact": 25390.0,
+    "clean": false
+  },
+  "disclaimer": "Reconciliation and proposed corrections only; no journal has been posted and no system of record has been changed. Every proposed correction requires human review and approval before posting.",
+  "narrative": "Settlement reconciliation for 2026-07-01 to 2026-07-14 examined 7 settlement keys and identified 5 breaks totaling 25,390.00 USD of gross impact, plus 1 timing reconciling item (14,730.00 in transit). Breaks: a fee variance on B-0702-MC (+250.00 vs the 200bps schedule), a settled VISA batch B-0703-VISA not booked in the ledger (19,640.00), a cash shortfall on B-0704-AMEX (bank cash 250.00 below processor net), a network-vs-processor gross discrepancy on B-0705-MC (+250.00), and a ledger adjustment JE-0710-ADJ with no settlement support (5,000.00). Corrections are proposed for review only. Reconciliation and proposed corrections only; no journal has been posted and no system of record has been changed. Every proposed correction requires human review and approval before posting."
+}

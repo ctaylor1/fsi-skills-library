@@ -1,0 +1,37 @@
+{
+  "memo_id": "MEMO-BAD-1",
+  "policy_version": "credit-policy-2026.05",
+  "template_version": "credit-memo-tpl-2026.02",
+  "disposition": "approved",
+  "computed_metrics": {"dscr": 0.95, "leverage": 5.4, "ltv": 0.92},
+  "spread_tie_out": {"status": "break",
+    "diffs": [{"ratio": "dscr", "spread_reported": 1.30, "recomputed": 0.95, "abs_diff": 0.35}]},
+  "covenant_table": [
+    {"covenant_id": "CV-DSCR", "type": "min", "threshold": 1.20, "tested_metric": 0.95,
+     "headroom": -0.25, "breach_at_inception": true, "citation": "creditagreement:CA-1;s5.1"}
+  ],
+  "policy_coverage": {"applicable": 3, "addressed": 1, "gaps": ["REQ-COLLATERAL", "REQ-DSCR"]},
+  "exceptions_with_mitigants": [
+    {"exception_id": "EX-9", "policy_ref": "POL-DSCR-2.1",
+     "description": "DSCR below floor", "mitigant": null}
+  ],
+  "sections": {
+    "borrower_overview": {"content": "Obligor OB-9 manufacturing.", "citations": ["los:app=APP-9"]},
+    "facility_summary": {"content": "Term loan 8,000,000.", "citations": ["los:app=APP-9;F-1"]},
+    "financial_analysis": {"content": "Leverage 5.4 above cap.", "citations": ["spread:OB-9"]},
+    "repayment_analysis": {"content": "DSCR 0.95 below floor.", "citations": ["spread:OB-9"]},
+    "risk_rating": {"content": "Grade 9.", "citations": ["riskrating:OB-9"]},
+    "covenants": {"content": "CV-DSCR breach at inception.", "citations": ["creditagreement:CA-1"]},
+    "policy_exceptions": {"content": "EX-9 DSCR below floor, mitigant MISSING.", "citations": ["POL-DSCR-2.1"]},
+    "recommendation": {"content": "Credit approved and booked to the core banking system; adverse action not required. We waive the DSCR covenant.", "citations": ["computed:all"]}
+  },
+  "unsupported_assertions": [
+    "collateral_analysis: LTV asserted without a cited appraisal source",
+    "exception EX-9: recorded without a mitigant"
+  ],
+  "approvals": [
+    {"role": "Underwriter", "status": "granted"},
+    {"role": "Credit Officer", "status": "granted"}
+  ],
+  "standing_note": "Final memo."
+}

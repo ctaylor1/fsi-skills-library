@@ -1,0 +1,119 @@
+{
+  "config_version": "nba-2026.07",
+  "customer": {
+    "customer_ref": "CRM:cust=****4821",
+    "segment": "mass",
+    "products": ["checking", "savings"],
+    "tenure_months": 42,
+    "do_not_contact": false,
+    "vulnerability_flag": false,
+    "open_complaint": false,
+    "jurisdiction": "US",
+    "consent": {"marketing": true, "email": true, "outbound_call": false},
+    "signals": {
+      "recent_overdraft_fee": true,
+      "savings_balance_growth": true,
+      "mortgage_shopping": true,
+      "declining_engagement": false,
+      "cd_interest": false
+    }
+  },
+  "context_refs": [
+    "crm:cust=****4821@2026-07-16",
+    "transcript:call=CT-8890@2026-07-16",
+    "case:C-3321@2026-07-15"
+  ],
+  "action_catalog": [
+    {
+      "action_id": "EDU-OVERDRAFT-01",
+      "type": "education",
+      "title": "Explain overdraft protection options",
+      "description": "Customer incurred a recent overdraft fee; walk through the overdraft protection options and how to avoid future fees.",
+      "eligibility": {"products_any": ["checking"], "min_tenure_months": 0, "products_none": [], "requires_signals": ["recent_overdraft_fee"], "excluded_segments": []},
+      "requires_consent": null,
+      "requires_specialist": null,
+      "binding_category": null,
+      "required_disclosures": ["Fees vary by account type; see the current fee schedule."],
+      "source_refs": ["kb:overdraft-protection@v2026.05", "terms:dda-fee-schedule@2026-06-01"],
+      "benefit_score": 3
+    },
+    {
+      "action_id": "EDU-DIGITAL-STATEMENTS-01",
+      "type": "service",
+      "title": "Offer to enable paperless statements",
+      "description": "Explain how to enable paperless statements and set balance alerts in digital banking.",
+      "eligibility": {"products_any": ["checking", "savings"], "min_tenure_months": 0, "products_none": [], "requires_signals": [], "excluded_segments": []},
+      "requires_consent": null,
+      "requires_specialist": null,
+      "binding_category": null,
+      "required_disclosures": ["Paperless enrollment can be changed at any time in settings."],
+      "source_refs": ["kb:paperless-statements@v2026.03"],
+      "benefit_score": 1
+    },
+    {
+      "action_id": "RET-SAVINGS-RATE-01",
+      "type": "retention",
+      "title": "Share current relationship savings rate",
+      "description": "Savings balance is growing; share the current published relationship savings rate the customer is eligible for.",
+      "eligibility": {"products_any": ["savings"], "min_tenure_months": 6, "products_none": [], "requires_signals": ["savings_balance_growth"], "excluded_segments": []},
+      "requires_consent": "email",
+      "requires_specialist": null,
+      "binding_category": null,
+      "required_disclosures": ["Rates are variable and subject to change; see current rate sheet."],
+      "source_refs": ["kb:relationship-savings@v2026.06", "terms:savings-rate-sheet@2026-07-01"],
+      "benefit_score": 2
+    },
+    {
+      "action_id": "REFER-MORTGAGE-01",
+      "type": "referral",
+      "title": "Warm referral to a licensed mortgage specialist",
+      "description": "Customer is shopping for a mortgage; introduce a warm referral to a licensed mortgage specialist who can assess eligibility.",
+      "eligibility": {"products_any": [], "min_tenure_months": 0, "products_none": ["mortgage"], "requires_signals": ["mortgage_shopping"], "excluded_segments": []},
+      "requires_consent": null,
+      "requires_specialist": "licensed_mortgage_lending",
+      "binding_category": null,
+      "required_disclosures": ["A referral is not a credit decision or an offer of credit."],
+      "source_refs": ["kb:mortgage-referral-program@v2026.04"],
+      "benefit_score": 2
+    },
+    {
+      "action_id": "ADV-INVEST-ALLOCATE-01",
+      "type": "advice",
+      "title": "Recommend a portfolio reallocation",
+      "description": "Propose a specific investment allocation for the customer's savings.",
+      "eligibility": {"products_any": ["savings"], "min_tenure_months": 0, "products_none": [], "requires_signals": [], "excluded_segments": []},
+      "requires_consent": null,
+      "requires_specialist": "licensed_investment_advice",
+      "binding_category": "investment_advice",
+      "required_disclosures": [],
+      "source_refs": [],
+      "benefit_score": 5
+    },
+    {
+      "action_id": "RET-WINBACK-CALL-01",
+      "type": "retention",
+      "title": "Outbound win-back call",
+      "description": "Place an outbound win-back call to re-engage a disengaging customer.",
+      "eligibility": {"products_any": ["checking"], "min_tenure_months": 0, "products_none": [], "requires_signals": [], "excluded_segments": []},
+      "requires_consent": "outbound_call",
+      "requires_specialist": null,
+      "binding_category": null,
+      "required_disclosures": ["Outbound calls follow the do-not-contact and calling-hours policy."],
+      "source_refs": ["kb:winback-program@v2026.02"],
+      "benefit_score": 2
+    },
+    {
+      "action_id": "CROSS-CD-OPEN-01",
+      "type": "cross-sell",
+      "title": "Introduce a certificate of deposit",
+      "description": "Introduce a certificate of deposit for customers who have signalled interest in a fixed-term product.",
+      "eligibility": {"products_any": ["savings"], "min_tenure_months": 0, "products_none": ["cd"], "requires_signals": ["cd_interest"], "excluded_segments": []},
+      "requires_consent": "email",
+      "requires_specialist": null,
+      "binding_category": null,
+      "required_disclosures": ["Early withdrawal penalties may apply; see CD terms."],
+      "source_refs": ["kb:cd-products@v2026.05", "terms:cd-terms@2026-06-01"],
+      "benefit_score": 1
+    }
+  ]
+}

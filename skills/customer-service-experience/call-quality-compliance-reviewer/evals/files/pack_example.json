@@ -1,0 +1,133 @@
+{
+  "review_id": "cqc-INT-55231-2026-07-15-0001",
+  "interaction_id": "INT-55231",
+  "as_of": "2026-07-15",
+  "config_version": "cqc-rubric-2026.07",
+  "channel": "voice",
+  "product_context": "collections",
+  "findings": [
+    {
+      "check": "recording_consent_disclosure",
+      "severity": "critical",
+      "fired": true,
+      "reason": "no call recording/monitoring notice in the first 4 agent/IVR turns",
+      "evidence": [
+        {
+          "scope": "early_agent_or_ivr_turns",
+          "turns_scanned": 5,
+          "citation": "transcript:int=INT-55231;scan=recording_notice;agent_turns=5"
+        }
+      ],
+      "rubric_ref": "rubric.recording_notice_markers"
+    },
+    {
+      "check": "identity_authentication",
+      "severity": "critical",
+      "fired": true,
+      "reason": "authentication was required but no verification-complete marker was found",
+      "evidence": [
+        {
+          "scope": "agent_turns",
+          "turns_scanned": 5,
+          "citation": "transcript:int=INT-55231;scan=auth_completed;agent_turns=5"
+        }
+      ],
+      "rubric_ref": "rubric.auth_completed_markers"
+    },
+    {
+      "check": "required_disclosures",
+      "severity": "critical",
+      "fired": true,
+      "reason": "required disclosure 'mini_miranda' for product 'collections' not detected",
+      "evidence": [
+        {
+          "scope": "agent_turns",
+          "turns_scanned": 5,
+          "citation": "transcript:int=INT-55231;scan=disclosure_mini_miranda;agent_turns=5"
+        }
+      ],
+      "rubric_ref": "rubric.required_disclosures[mini_miranda]"
+    },
+    {
+      "check": "prohibited_language",
+      "severity": "critical",
+      "fired": true,
+      "reason": "1 prohibited-language match(es) in agent turns",
+      "evidence": [
+        {
+          "turn_id": "t6",
+          "category": "improper_threat",
+          "phrase": "have you arrested",
+          "citation": "transcript:int=INT-55231;turn=t6@2026-07-14T09:01:10"
+        }
+      ],
+      "rubric_ref": "rubric.prohibited_lexicon"
+    },
+    {
+      "check": "complaint_acknowledgement",
+      "severity": "coaching",
+      "fired": true,
+      "reason": "customer expressed a complaint but the agent did not acknowledge/log/route it",
+      "evidence": [
+        {
+          "turn_id": "t5",
+          "quote": "complaint cue",
+          "citation": "transcript:int=INT-55231;turn=t5@2026-07-14T09:00:55"
+        }
+      ],
+      "rubric_ref": "rubric.complaint_markers"
+    },
+    {
+      "check": "commitment_capture",
+      "severity": "coaching",
+      "fired": true,
+      "reason": "1 agent commitment(s) to capture as follow-up",
+      "evidence": [
+        {
+          "turn_id": "t8",
+          "quote": "agent commitment",
+          "citation": "transcript:int=INT-55231;turn=t8@2026-07-14T09:01:35"
+        }
+      ],
+      "rubric_ref": "rubric.commitment_markers"
+    }
+  ],
+  "fired_findings": [
+    "recording_consent_disclosure",
+    "identity_authentication",
+    "required_disclosures",
+    "prohibited_language",
+    "complaint_acknowledgement",
+    "commitment_capture"
+  ],
+  "fired_critical": [
+    "recording_consent_disclosure",
+    "identity_authentication",
+    "required_disclosures",
+    "prohibited_language"
+  ],
+  "fired_coaching": [
+    "complaint_acknowledgement",
+    "commitment_capture"
+  ],
+  "not_evaluable": [
+    {
+      "check": "fair_treatment_vulnerability",
+      "why": "no vulnerability cue in context or customer turns"
+    },
+    {
+      "check": "empathy_courtesy",
+      "why": "no distress cue in customer turns"
+    }
+  ],
+  "suggested_disposition": "Compliance review required",
+  "considerations": [
+    "recording/authentication may have occurred in an IVR segment or prior transfer not in this transcript",
+    "a required disclosure may have been delivered in writing (email/SMS) outside the audio",
+    "ASR/transcription errors can hide a spoken marker \u2014 spot-check the audio before dispositioning",
+    "partial or redacted transcript can suppress a marker that was actually present",
+    "product_context may be mislabeled, changing which disclosures are required"
+  ],
+  "disclaimer": "Quality-review evidence only; not a determination of misconduct, a regulatory breach, or a disciplinary decision. No action has been taken.",
+  "narrative": "Quality review of interaction INT-55231 (collections voice call, window ending 2026-07-15) fired 4 compliance-critical findings and 2 coaching findings. The agent disclosed the outstanding balance before completing identity verification, no call recording or monitoring notice was detected in the opening turns, the collections mini-Miranda disclosure was not detected, and a prohibited improper-threat phrase ('have you arrested') appears at turn t6. Two coaching items: a customer complaint at t5 was not acknowledged, and an agent call-back commitment at t8 should be captured as follow-up. Suggested QA disposition: Compliance review required. A human QA lead or compliance reviewer should weigh the considerations (for example, disclosures delivered in an IVR segment or in writing, or possible transcription errors) before dispositioning and before any coaching or routing. Quality-review evidence only; not a determination of misconduct, a regulatory breach, or a disciplinary decision. No action has been taken."
+}

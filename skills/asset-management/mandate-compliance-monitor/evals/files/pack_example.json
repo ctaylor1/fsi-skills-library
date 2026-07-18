@@ -1,0 +1,315 @@
+{
+  "run_id": "mcm-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "mandate-cfg-2026.07",
+  "data_freshness": [
+    {
+      "portfolio_id": "FUND-A",
+      "holdings_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "portfolio_id": "FUND-B",
+      "holdings_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "portfolio_id": "FUND-C",
+      "holdings_as_of": "2026-07-10",
+      "staleness_days": 7,
+      "stale": true
+    }
+  ],
+  "alerts": [
+    {
+      "fingerprint": "FUND-A|CONC-ISSUER-5|ACME|position|BREACH",
+      "portfolio_id": "FUND-A",
+      "rule_id": "CONC-ISSUER-5",
+      "rule_type": "concentration",
+      "scope": "issuer",
+      "bucket": "ACME",
+      "status": "BREACH",
+      "breach_type": "position",
+      "severity": "Medium",
+      "queue": "compliance-review-queue",
+      "is_duplicate": true,
+      "stale_input": false,
+      "evidence": [
+        {
+          "scope_value": "ACME",
+          "measured_pct": 6.0,
+          "market_value": 6000000.0,
+          "citation": "pms:portfolio=FUND-A;issuer=ACME@2026-07-17"
+        },
+        {
+          "rule": "CONC-ISSUER-5",
+          "citation": "rules:rule_id=CONC-ISSUER-5@mandate-cfg-2026.07"
+        }
+      ],
+      "measured_pct": 6.0,
+      "limit": 5.0,
+      "warn_buffer": 0.5
+    },
+    {
+      "fingerprint": "FUND-A|CONC-ISSUER-5|GLOBEX|position|WARN",
+      "portfolio_id": "FUND-A",
+      "rule_id": "CONC-ISSUER-5",
+      "rule_type": "concentration",
+      "scope": "issuer",
+      "bucket": "GLOBEX",
+      "status": "WARN",
+      "breach_type": "position",
+      "severity": "Low",
+      "queue": "monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "scope_value": "GLOBEX",
+          "measured_pct": 4.7,
+          "market_value": 4700000.0,
+          "citation": "pms:portfolio=FUND-A;issuer=GLOBEX@2026-07-17"
+        },
+        {
+          "rule": "CONC-ISSUER-5",
+          "citation": "rules:rule_id=CONC-ISSUER-5@mandate-cfg-2026.07"
+        }
+      ],
+      "measured_pct": 4.7,
+      "limit": 5.0,
+      "warn_buffer": 0.5
+    },
+    {
+      "fingerprint": "FUND-A|CONC-ISSUER-5|GLOBEX|pre_trade|BREACH",
+      "portfolio_id": "FUND-A",
+      "rule_id": "CONC-ISSUER-5",
+      "rule_type": "concentration",
+      "scope": "issuer",
+      "bucket": "GLOBEX",
+      "status": "BREACH",
+      "breach_type": "pre_trade",
+      "severity": "High",
+      "queue": "compliance-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "scope_value": "GLOBEX",
+          "projected_pct": 5.7,
+          "current_pct": 4.7,
+          "citation": "pms:portfolio=FUND-A;issuer=GLOBEX@2026-07-17"
+        },
+        {
+          "rule": "CONC-ISSUER-5",
+          "citation": "rules:rule_id=CONC-ISSUER-5@mandate-cfg-2026.07"
+        }
+      ],
+      "measured_pct": 5.7,
+      "limit": 5.0,
+      "warn_buffer": 0.5
+    },
+    {
+      "fingerprint": "FUND-A|CONC-SECTOR-25|Technology|position|BREACH",
+      "portfolio_id": "FUND-A",
+      "rule_id": "CONC-SECTOR-25",
+      "rule_type": "concentration",
+      "scope": "sector",
+      "bucket": "Technology",
+      "status": "BREACH",
+      "breach_type": "position",
+      "severity": "Medium",
+      "queue": "compliance-review-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "scope_value": "Technology",
+          "measured_pct": 26.7,
+          "market_value": 26700000.0,
+          "citation": "pms:portfolio=FUND-A;sector=Technology@2026-07-17"
+        },
+        {
+          "rule": "CONC-SECTOR-25",
+          "citation": "rules:rule_id=CONC-SECTOR-25@mandate-cfg-2026.07"
+        }
+      ],
+      "measured_pct": 26.7,
+      "limit": 25.0,
+      "warn_buffer": 2.0
+    },
+    {
+      "fingerprint": "FUND-A|RESTRICT-LIST|held|position|BREACH",
+      "portfolio_id": "FUND-A",
+      "rule_id": "RESTRICT-LIST",
+      "rule_type": "restriction",
+      "scope": "security",
+      "bucket": "held",
+      "status": "BREACH",
+      "breach_type": "position",
+      "severity": "High",
+      "queue": "compliance-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "security_id": "US_SANCTION_1",
+          "issuer": "SANCTIONCO",
+          "market_value": 1000000.0,
+          "citation": "pms:portfolio=FUND-A;security=US_SANCTION_1@2026-07-17"
+        },
+        {
+          "rule": "RESTRICT-LIST",
+          "citation": "rules:rule_id=RESTRICT-LIST@mandate-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "FUND-A|RESTRICT-LIST|proposed_buy|pre_trade|BREACH",
+      "portfolio_id": "FUND-A",
+      "rule_id": "RESTRICT-LIST",
+      "rule_type": "restriction",
+      "scope": "security",
+      "bucket": "proposed_buy",
+      "status": "BREACH",
+      "breach_type": "pre_trade",
+      "severity": "High",
+      "queue": "compliance-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "trade_id": "PT-2",
+          "security_id": "US_SANCTION_1",
+          "citation": "oms:portfolio=FUND-A;trade=PT-2@2026-07-17"
+        },
+        {
+          "rule": "RESTRICT-LIST",
+          "citation": "rules:rule_id=RESTRICT-LIST@mandate-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "FUND-A|ESG-MIN-40|min_score|position|BREACH",
+      "portfolio_id": "FUND-A",
+      "rule_id": "ESG-MIN-40",
+      "rule_type": "esg",
+      "scope": "esg",
+      "bucket": "min_score",
+      "status": "BREACH",
+      "breach_type": "position",
+      "severity": "Medium",
+      "queue": "compliance-review-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "security_id": "US_DIRTYCO",
+          "esg_score": 30.0,
+          "citation": "pms:portfolio=FUND-A;security=US_DIRTYCO@2026-07-17"
+        },
+        {
+          "rule": "ESG-MIN-40",
+          "citation": "rules:rule_id=ESG-MIN-40@mandate-cfg-2026.07"
+        }
+      ],
+      "measured": 30.0,
+      "limit": 40.0
+    },
+    {
+      "fingerprint": "FUND-A|ESG-EXCLUDE|exclusion|position|BREACH",
+      "portfolio_id": "FUND-A",
+      "rule_id": "ESG-EXCLUDE",
+      "rule_type": "esg",
+      "scope": "sector",
+      "bucket": "exclusion",
+      "status": "BREACH",
+      "breach_type": "position",
+      "severity": "Medium",
+      "queue": "compliance-review-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "security_id": "US_WEAPONCO",
+          "sector": "Controversial Weapons",
+          "citation": "pms:portfolio=FUND-A;security=US_WEAPONCO@2026-07-17"
+        },
+        {
+          "rule": "ESG-EXCLUDE",
+          "citation": "rules:rule_id=ESG-EXCLUDE@mandate-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "FUND-C|DATA-FRESHNESS|staleness|freshness|WARN",
+      "portfolio_id": "FUND-C",
+      "rule_id": "DATA-FRESHNESS",
+      "rule_type": "freshness",
+      "scope": "data",
+      "bucket": "staleness",
+      "status": "WARN",
+      "breach_type": "freshness",
+      "severity": "Low",
+      "queue": "monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": true,
+      "evidence": [
+        {
+          "portfolio_id": "FUND-C",
+          "holdings_as_of": "2026-07-10",
+          "staleness_days": 7,
+          "citation": "pms:portfolio=FUND-C;holdings_as_of=2026-07-10@2026-07-17"
+        }
+      ],
+      "measured": 7,
+      "limit": 2
+    }
+  ],
+  "new_alerts": [
+    "FUND-A|CONC-ISSUER-5|GLOBEX|position|WARN",
+    "FUND-A|CONC-ISSUER-5|GLOBEX|pre_trade|BREACH",
+    "FUND-A|CONC-SECTOR-25|Technology|position|BREACH",
+    "FUND-A|RESTRICT-LIST|held|position|BREACH",
+    "FUND-A|RESTRICT-LIST|proposed_buy|pre_trade|BREACH",
+    "FUND-A|ESG-MIN-40|min_score|position|BREACH",
+    "FUND-A|ESG-EXCLUDE|exclusion|position|BREACH",
+    "FUND-C|DATA-FRESHNESS|staleness|freshness|WARN"
+  ],
+  "still_open": [
+    "FUND-A|CONC-ISSUER-5|ACME|position|BREACH"
+  ],
+  "summary": {
+    "portfolios": 3,
+    "rules_evaluated": 7,
+    "alerts_total": 9,
+    "new": 8,
+    "deduplicated": 1,
+    "warn": 2,
+    "breach": 7,
+    "stale_portfolios": [
+      "FUND-C"
+    ]
+  },
+  "escalations": [
+    {
+      "severity": "High",
+      "queue": "compliance-escalation",
+      "count": 3
+    },
+    {
+      "severity": "Medium",
+      "queue": "compliance-review-queue",
+      "count": 4
+    },
+    {
+      "severity": "Low",
+      "queue": "monitoring-watchlist",
+      "count": 2
+    }
+  ],
+  "disclaimer": "Monitoring alert only; no trade, block, waiver, cure, or system-of-record change has been made. Mandate exceptions require human compliance review and disposition.",
+  "narrative": "Scheduled mandate-compliance run mcm-2026-07-17-0001 (as of 2026-07-17) evaluated 3 portfolios against 7 versioned rules and raised 9 alerts (8 new, 1 already open and deduplicated). FUND-A shows an issuer-concentration breach on ACME (6.0% vs 5% limit, already open), a sector-concentration breach on Technology (26.7% vs 25%), a held restricted security (US_SANCTION_1), an ESG minimum-score breach (DIRTYCO score 30 vs 40), and an ESG exclusion breach (Controversial Weapons). Two proposed trades would newly breach limits: a GLOBEX buy (projected 5.7% vs 5%) and a buy of the restricted security US_SANCTION_1; both are flagged pre-trade for the reviewer. FUND-B is within all limits. FUND-C holdings are 7 days stale (limit 2) and are flagged for a freshness check; its results are marked stale_input and not treated as fresh. All items are routed to the compliance review queues for human disposition. Monitoring alert only; no trade, block, waiver, cure, or system-of-record change has been made. Mandate exceptions require human compliance review and disposition.",
+  "notes": "Thresholds are versioned configuration (mandate-cfg-2026.07); no per-portfolio tuning. Severity and queue are deterministic."
+}

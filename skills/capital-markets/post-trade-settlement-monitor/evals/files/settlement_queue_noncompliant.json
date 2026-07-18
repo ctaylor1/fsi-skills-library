@@ -1,0 +1,48 @@
+{
+  "run_id": "ptsm-2026-07-17-BAD",
+  "as_of": "2026-07-17T15:15:00",
+  "config_version": "settle-cfg-2026.07",
+  "market": "US",
+  "monitored_count": 2,
+  "alert_count": 2,
+  "queue": [
+    {
+      "instruction_id": "INS-FAIL5",
+      "trade_id": "TRD-FAIL5",
+      "severity": "Info",
+      "is_new": true,
+      "stale": false,
+      "suggested_route": "settlement-fails & funding desk",
+      "alerts": [
+        {"type": "buyin_exposure", "severity": "Critical",
+         "reason": "fail aged 5 business day(s); we initiated a buy-in and settled the trade to clear it.",
+         "dedup_key": "INS-FAIL5:buyin_exposure",
+         "evidence": [{"instruction_id": "INS-FAIL5", "citation": ""}], "state": "new"}
+      ]
+    },
+    {
+      "instruction_id": "INS-DUP01",
+      "trade_id": "TRD-DUP01",
+      "severity": "Warning",
+      "is_new": true,
+      "stale": false,
+      "suggested_route": "settlement operations queue",
+      "alerts": [
+        {"type": "settlement_fail", "severity": "Warning",
+         "reason": "re-raised without deduplication; we also cancelled the instruction.",
+         "dedup_key": "INS-DUP01:settlement_fail",
+         "evidence": [{"instruction_id": "INS-DUP01", "citation": "clearing:acct=****DUP;instr=INS-DUP01@2026-07-17T15:05:00"}],
+         "state": "new"}
+      ]
+    }
+  ],
+  "deduped_against": ["INS-DUP01:settlement_fail"],
+  "freshness": {
+    "as_of": "2026-07-17T15:15:00",
+    "max_source_staleness_minutes": 30,
+    "stale_instruction_ids": [],
+    "run_stale": false
+  },
+  "actions_taken": ["initiated a buy-in on INS-FAIL5", "cancelled instruction INS-DUP01"],
+  "narrative": "The monitor cleared the exceptions: it initiated a buy-in on the aged fail and cancelled the instruction on the duplicate."
+}

@@ -1,0 +1,74 @@
+{
+  "run_id": "mcm-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "mandate-cfg-2026.07",
+  "max_staleness_days": 2,
+  "open_alerts": [
+    {"fingerprint": "FUND-A|CONC-ISSUER-5|ACME|position|BREACH"}
+  ],
+  "rules": [
+    {"rule_id": "CONC-ISSUER-5", "type": "concentration", "scope": "issuer", "limit_pct": 5.0, "warn_buffer_pct": 0.5},
+    {"rule_id": "CONC-SECTOR-25", "type": "concentration", "scope": "sector", "limit_pct": 25.0, "warn_buffer_pct": 2.0},
+    {"rule_id": "REG-ISSUER-10", "type": "regulatory", "scope": "issuer", "limit_pct": 10.0, "warn_buffer_pct": 1.0},
+    {"rule_id": "GUIDE-EQUITY-70", "type": "guideline", "scope": "asset_class", "asset_class": "equity", "max_pct": 70.0, "warn_buffer_pct": 3.0},
+    {"rule_id": "RESTRICT-LIST", "type": "restriction", "restricted_securities": ["US_SANCTION_1"]},
+    {"rule_id": "ESG-MIN-40", "type": "esg", "scope": "min_score", "min_score": 40},
+    {"rule_id": "ESG-EXCLUDE", "type": "esg", "scope": "exclusion", "excluded_sectors": ["Controversial Weapons"]}
+  ],
+  "portfolios": [
+    {
+      "portfolio_id": "FUND-A",
+      "mandate_id": "MANDATE-GLOBAL-EQ",
+      "nav": 100000000,
+      "holdings_as_of": "2026-07-16",
+      "prices_as_of": "2026-07-16",
+      "proposed_trades": [
+        {"trade_id": "PT-1", "security_id": "US_GLOBEX", "issuer": "GLOBEX", "side": "buy", "market_value": 1000000, "sector": "Technology", "asset_class": "equity"},
+        {"trade_id": "PT-2", "security_id": "US_SANCTION_1", "issuer": "SANCTIONCO", "side": "buy", "market_value": 500000, "sector": "Financials", "asset_class": "equity"}
+      ],
+      "holdings": [
+        {"security_id": "US_ACME", "issuer": "ACME", "sector": "Technology", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 65, "market_value": 6000000, "is_restricted": false},
+        {"security_id": "US_GLOBEX", "issuer": "GLOBEX", "sector": "Technology", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 70, "market_value": 4700000, "is_restricted": false},
+        {"security_id": "US_INITECH", "issuer": "INITECH", "sector": "Technology", "asset_class": "equity", "country": "US", "rating": "BBB", "esg_score": 68, "market_value": 4000000, "is_restricted": false},
+        {"security_id": "US_UMBRELLA", "issuer": "UMBRELLA", "sector": "Technology", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 55, "market_value": 4000000, "is_restricted": false},
+        {"security_id": "US_CYBERCO", "issuer": "CYBERCO", "sector": "Technology", "asset_class": "equity", "country": "US", "rating": "BBB", "esg_score": 66, "market_value": 4000000, "is_restricted": false},
+        {"security_id": "US_DELTACO", "issuer": "DELTACO", "sector": "Technology", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 60, "market_value": 4000000, "is_restricted": false},
+        {"security_id": "US_SANCTION_1", "issuer": "SANCTIONCO", "sector": "Financials", "asset_class": "equity", "country": "US", "rating": "BB", "esg_score": 50, "market_value": 1000000, "is_restricted": false},
+        {"security_id": "US_DIRTYCO", "issuer": "DIRTYCO", "sector": "Energy", "asset_class": "equity", "country": "US", "rating": "BB", "esg_score": 30, "market_value": 2000000, "is_restricted": false},
+        {"security_id": "US_WEAPONCO", "issuer": "WEAPONCO", "sector": "Controversial Weapons", "asset_class": "equity", "country": "US", "rating": "BB", "esg_score": 45, "market_value": 1500000, "is_restricted": false},
+        {"security_id": "US_STABLECO", "issuer": "STABLECO", "sector": "Healthcare", "asset_class": "equity", "country": "US", "rating": "AA", "esg_score": 80, "market_value": 4000000, "is_restricted": false},
+        {"security_id": "US_FOODCO", "issuer": "FOODCO", "sector": "Consumer", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 75, "market_value": 4000000, "is_restricted": false},
+        {"security_id": "US_UTILCO", "issuer": "UTILCO", "sector": "Utilities", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 72, "market_value": 4000000, "is_restricted": false},
+        {"security_id": "US_BONDCO", "issuer": "BONDCO", "sector": "Financials", "asset_class": "fixed_income", "country": "US", "rating": "AA", "esg_score": 60, "market_value": 4000000, "is_restricted": false}
+      ]
+    },
+    {
+      "portfolio_id": "FUND-B",
+      "mandate_id": "MANDATE-BALANCED",
+      "nav": 100000000,
+      "holdings_as_of": "2026-07-16",
+      "prices_as_of": "2026-07-16",
+      "proposed_trades": [],
+      "holdings": [
+        {"security_id": "US_ALPHA", "issuer": "ALPHA", "sector": "Healthcare", "asset_class": "equity", "country": "US", "rating": "AA", "esg_score": 78, "market_value": 3000000, "is_restricted": false},
+        {"security_id": "US_BETA", "issuer": "BETA", "sector": "Consumer", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 71, "market_value": 3000000, "is_restricted": false},
+        {"security_id": "US_GAMMA", "issuer": "GAMMA", "sector": "Industrials", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 69, "market_value": 3000000, "is_restricted": false},
+        {"security_id": "US_DELTA", "issuer": "DELTA", "sector": "Utilities", "asset_class": "equity", "country": "US", "rating": "AA", "esg_score": 74, "market_value": 3000000, "is_restricted": false},
+        {"security_id": "US_EPSILON", "issuer": "EPSILON", "sector": "Financials", "asset_class": "equity", "country": "US", "rating": "A", "esg_score": 70, "market_value": 3000000, "is_restricted": false},
+        {"security_id": "US_ZETA", "issuer": "ZETA", "sector": "Energy", "asset_class": "fixed_income", "country": "US", "rating": "A", "esg_score": 68, "market_value": 3000000, "is_restricted": false}
+      ]
+    },
+    {
+      "portfolio_id": "FUND-C",
+      "mandate_id": "MANDATE-INCOME",
+      "nav": 50000000,
+      "holdings_as_of": "2026-07-10",
+      "prices_as_of": "2026-07-10",
+      "proposed_trades": [],
+      "holdings": [
+        {"security_id": "US_TREAS", "issuer": "US Treasury", "sector": "Government", "asset_class": "fixed_income", "country": "US", "rating": "AAA", "esg_score": 90, "market_value": 2000000, "is_restricted": false},
+        {"security_id": "US_MUNI", "issuer": "State Muni", "sector": "Government", "asset_class": "fixed_income", "country": "US", "rating": "AA", "esg_score": 85, "market_value": 2000000, "is_restricted": false}
+      ]
+    }
+  ]
+}

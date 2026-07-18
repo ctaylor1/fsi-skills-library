@@ -1,0 +1,186 @@
+{
+  "analysis_id": "lsa-AM-BALANCED-01-2026-07-15-0001",
+  "portfolio_id": "AM-BALANCED-01",
+  "as_of": "2026-07-15",
+  "config_version": "liq-cfg-2026.07",
+  "base_currency": "USD",
+  "scenario_name": "severe-redemption-2026Q3",
+  "inputs_summary": {
+    "nav": 100000000.0,
+    "redemption_demand": 50000000.0,
+    "notice_days": 7,
+    "participation_rate": 0.2
+  },
+  "liquidity_profile": {
+    "liquidatable_by_bucket": {
+      "1": 6420000.0,
+      "7": 39940000.0,
+      "30": 68600000.0
+    },
+    "pct_liquidatable_by_bucket": {
+      "1": 0.0642,
+      "7": 0.3994,
+      "30": 0.686
+    },
+    "full_liquidation_days": 500.0,
+    "portfolio_cost_bps": 41.0
+  },
+  "metrics": [
+    {
+      "metric": "redemption_coverage_shortfall",
+      "breached": true,
+      "value": 0.7988,
+      "threshold": 1.0,
+      "reason": "available at notice 39940000.00 vs redemption demand 50000000.00 = coverage 0.7988 (< 1.0)",
+      "evidence": [
+        {
+          "position_id": "P-1",
+          "liquidatable_at_notice": 30000000.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-1@2026-07-15"
+        },
+        {
+          "position_id": "P-2",
+          "liquidatable_at_notice": 5600000.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-2@2026-07-15"
+        },
+        {
+          "position_id": "P-3",
+          "liquidatable_at_notice": 3500000.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-3@2026-07-15"
+        }
+      ],
+      "basis": {
+        "available_at_notice": 39940000.0,
+        "redemption_demand": 50000000.0,
+        "notice_days": 7
+      }
+    },
+    {
+      "metric": "redemption_coverage_thin",
+      "breached": false,
+      "value": 0.7988,
+      "threshold": 1.25,
+      "reason": "coverage 0.7988 not in thin band",
+      "evidence": [],
+      "basis": {
+        "available_at_notice": 39940000.0,
+        "redemption_demand": 50000000.0
+      }
+    },
+    {
+      "metric": "full_liquidation_horizon_exceeded",
+      "breached": true,
+      "value": 500.0,
+      "threshold": 30,
+      "reason": "3 position(s) exceed the 30-day full-liquidation horizon",
+      "evidence": [
+        {
+          "position_id": "P-3",
+          "days_to_liquidate": 50.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-3@2026-07-15"
+        },
+        {
+          "position_id": "P-4",
+          "days_to_liquidate": 150.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-4@2026-07-15"
+        },
+        {
+          "position_id": "P-5",
+          "days_to_liquidate": 500.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-5@2026-07-15"
+        }
+      ],
+      "basis": {
+        "max_horizon_days": 30,
+        "participation_rate": 0.2,
+        "adv_haircut": 0.5
+      }
+    },
+    {
+      "metric": "collateral_buffer_shortfall",
+      "breached": true,
+      "value": 0.75,
+      "threshold": 1.0,
+      "reason": "liquidity buffer 3000000.00 vs additional margin 4000000.00 = coverage 0.75 (< 1.0)",
+      "evidence": [
+        {
+          "position_id": "D-1",
+          "notional": 40000000.0,
+          "citation": "pos:oms=AM-BALANCED-01;pos=D-1@2026-07-15"
+        }
+      ],
+      "basis": {
+        "buffer": 3000000.0,
+        "additional_margin": 4000000.0,
+        "price_shock": 0.1
+      }
+    },
+    {
+      "metric": "liquidation_cost_elevated",
+      "breached": false,
+      "value": 41.0,
+      "threshold": 75.0,
+      "reason": "portfolio liquidation cost 41.0 bps vs watch 75.0 bps",
+      "evidence": [],
+      "basis": {
+        "cost_ccy": 410000.0,
+        "spread_multiple": 2.0
+      }
+    },
+    {
+      "metric": "illiquid_concentration",
+      "breached": true,
+      "value": 0.314,
+      "threshold": 0.2,
+      "reason": "0.3140 of NAV not liquidatable within 30 days (watch 0.2)",
+      "evidence": [
+        {
+          "position_id": "P-3",
+          "days_to_liquidate": 50.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-3@2026-07-15"
+        },
+        {
+          "position_id": "P-4",
+          "days_to_liquidate": 150.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-4@2026-07-15"
+        },
+        {
+          "position_id": "P-5",
+          "days_to_liquidate": 500.0,
+          "citation": "pos:pms=AM-BALANCED-01;pos=P-5@2026-07-15"
+        }
+      ],
+      "basis": {
+        "liquidatable_by_bucket": 68600000.0,
+        "bucket_days": 30
+      }
+    }
+  ],
+  "breached_metrics": [
+    "redemption_coverage_shortfall",
+    "full_liquidation_horizon_exceeded",
+    "collateral_buffer_shortfall",
+    "illiquid_concentration"
+  ],
+  "not_evaluable": [],
+  "suggested_band": "Stressed",
+  "scenario_assumptions": {
+    "name": "severe-redemption-2026Q3",
+    "adv_haircut": 0.5,
+    "spread_multiple": 2.0,
+    "price_shock": 0.1,
+    "redemption_pct": 0.5,
+    "redemption_notice_days": 7,
+    "participation_rate": 0.2
+  },
+  "caveats": [
+    "ADV and spread inputs are point-in-time estimates; realized liquidity may differ",
+    "the participation-of-ADV model assumes orderly trading and ignores second-order price impact",
+    "redemptions and market stress may be correlated across positions and investors",
+    "scenario parameters are assumptions, not forecasts; vary them before drawing conclusions",
+    "netting, credit lines, and lines of last resort outside the modeled buffer are not counted"
+  ],
+  "disclaimer": "Liquidity analysis and evidence only under stated scenario assumptions; not an investment, trading, or fund-liquidity-action determination. No trade, redemption gate, or other liquidity action has been taken.",
+  "narrative": "Under the transparent stress scenario 'severe-redemption-2026Q3' (ADV haircut 0.50, spreads x2.0, 10% price shock, 50% redemption over a 7-day notice), portfolio AM-BALANCED-01 shows a redemption-coverage shortfall (coverage 0.80 vs demand 50,000,000), a full-liquidation horizon of ~500 days driven by three positions beyond the 30-day cap, and a collateral buffer that covers only 0.75x the modeled additional margin. About 31% of NAV is not liquidatable within 30 days. Suggested liquidity-risk band: Stressed. These are evidenced metrics under stated assumptions for the liquidity risk committee and portfolio manager to weigh alongside the modeling caveats; vary the scenario before drawing conclusions. Liquidity analysis and evidence only under stated scenario assumptions; not an investment, trading, or fund-liquidity-action determination. No trade, redemption gate, or other liquidity action has been taken.",
+  "notes": "Cost metric (41 bps) is below the 75 bps watch threshold and did not breach; reported for context."
+}

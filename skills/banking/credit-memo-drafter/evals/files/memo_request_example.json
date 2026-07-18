@@ -1,0 +1,60 @@
+{
+  "memo_id": "MEMO-7788",
+  "policy_version": "credit-policy-2026.05",
+  "template_version": "credit-memo-tpl-2026.02",
+  "borrower": {
+    "obligor_id": "OB-4210",
+    "name_masked": "[Obligor A]",
+    "entity_type": "LLC",
+    "industry": "Commercial real estate services (NAICS 5313)"
+  },
+  "facilities": [
+    {"facility_id": "F-1", "type": "term_loan", "amount": 4000000, "tenor_months": 84,
+     "purpose": "Refinance existing CRE term debt", "source_ref": "los:app=APP-7788;facility=F-1"},
+    {"facility_id": "F-2", "type": "revolver", "amount": 1500000, "tenor_months": 12,
+     "purpose": "Working capital", "source_ref": "los:app=APP-7788;facility=F-2"}
+  ],
+  "financial_spread": {
+    "source_ref": "spread:OB-4210@FY2025;v3",
+    "spread_provider": "financial-spreading-assistant",
+    "periods": ["FY2023", "FY2024", "FY2025"],
+    "cfads": 1800000,
+    "total_debt_service": 1400000,
+    "total_debt": 6000000,
+    "ebitda": 2000000,
+    "ratios": {"dscr": 1.29, "leverage": 3.0}
+  },
+  "collateral": [
+    {"collateral_id": "C-1", "type": "commercial_real_estate", "appraised_value": 6000000,
+     "advance_rate": 0.75, "source_ref": "collateral:appraisal=APR-1121@2026-05-30"},
+    {"collateral_id": "C-2", "type": "equipment", "appraised_value": 2000000,
+     "advance_rate": 0.60, "source_ref": "collateral:appraisal=APR-1122@2026-05-30"}
+  ],
+  "risk_rating": {"model": "CRR-9pt", "grade": "6", "source_ref": "riskrating:OB-4210@2026-06-02"},
+  "covenants": [
+    {"covenant_id": "CV-DSCR", "type": "min", "threshold": 1.20, "tested_metric": 1.29,
+     "source_ref": "creditagreement:CA-7788;s5.1(a)"},
+    {"covenant_id": "CV-LEV", "type": "max", "threshold": 4.00, "tested_metric": 3.00,
+     "source_ref": "creditagreement:CA-7788;s5.1(b)"}
+  ],
+  "policy_requirements": [
+    {"requirement_id": "REQ-DSCR", "description": "Minimum DSCR analysis documented",
+     "applies": true, "addressed_section": "repayment_analysis"},
+    {"requirement_id": "REQ-COLLATERAL", "description": "Collateral valuation and LTV documented",
+     "applies": true, "addressed_section": "collateral_analysis"},
+    {"requirement_id": "REQ-RISKGRADE", "description": "Approved risk grade recorded",
+     "applies": true, "addressed_section": "risk_rating"},
+    {"requirement_id": "REQ-CONCENTRATION", "description": "Industry concentration guideline",
+     "applies": true, "exception_ref": "EX-1"}
+  ],
+  "exceptions": [
+    {"exception_id": "EX-1", "policy_ref": "POL-CONC-3.2",
+     "description": "Industry concentration exceeds the 15% portfolio guideline",
+     "mitigant": "Additional CRE collateral pledged and a quarterly concentration reporting covenant added"}
+  ],
+  "evidence": [
+    {"ref": "los:app=APP-7788", "source": "loan_origination"},
+    {"ref": "taxreturn:OB-4210;FY2024;form1065", "source": "borrower_tax_return"},
+    {"ref": "financials:OB-4210;FY2025;audited", "source": "borrower_financial_statement"}
+  ]
+}

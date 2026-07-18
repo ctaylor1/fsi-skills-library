@@ -1,0 +1,94 @@
+{
+  "config_version": "mrp-2026.07",
+  "period": "2026-06 (June FY26)",
+  "entity": "NorthStar Manufacturing - Consolidated",
+  "reporting_tolerance": 1000,
+  "kpis": [
+    {
+      "id": "REV",
+      "name": "Total revenue",
+      "value": 48250000,
+      "unit": "USD",
+      "budget": 47000000,
+      "prior": 45900000,
+      "source_ref": "erp:GL@2026-06-30;pkg=FIN-CLOSE-06",
+      "commentary": "Revenue is 2.7% ahead of budget and 5.1% above prior month, driven by East-region volume.",
+      "commentary_source_ref": "fpa:variance=VAR-0612@2026-07-03"
+    },
+    {
+      "id": "GM",
+      "name": "Gross margin %",
+      "value": 38.4,
+      "unit": "percent",
+      "budget": 39.0,
+      "prior": 38.1,
+      "source_ref": "erp:GL@2026-06-30;pkg=FIN-CLOSE-06",
+      "commentary": "Gross margin is 0.6pt below budget on input-cost inflation, partly offset by mix.",
+      "commentary_source_ref": "fpa:variance=VAR-0613@2026-07-03"
+    },
+    {
+      "id": "OPEX",
+      "name": "Operating expense",
+      "value": 12100000,
+      "unit": "USD",
+      "budget": 12000000,
+      "prior": 11850000,
+      "source_ref": "erp:GL@2026-06-30;pkg=FIN-CLOSE-06",
+      "commentary": "Opex is 0.8% over budget on one-time recruiting spend flagged in exceptions.",
+      "commentary_source_ref": "fpa:variance=VAR-0614@2026-07-03"
+    },
+    {
+      "id": "DSO",
+      "name": "Days sales outstanding",
+      "value": 47,
+      "unit": "days",
+      "budget": 45,
+      "prior": 46,
+      "source_ref": "erp:AR-subledger@2026-06-30;pkg=FIN-CLOSE-06",
+      "commentary": "DSO up 1 day vs prior; concentrated in two East-region accounts.",
+      "commentary_source_ref": "fpa:variance=VAR-0615@2026-07-03"
+    }
+  ],
+  "reconciliations": [
+    {
+      "name": "AR subledger to GL",
+      "ledger_balance": 8120000,
+      "subledger_balance": 8120000,
+      "tolerance": 1000,
+      "source_ref": "recon:AR-0630@2026-07-02;skill=gl-reconciler"
+    },
+    {
+      "name": "AP subledger to GL",
+      "ledger_balance": 5342500,
+      "subledger_balance": 5342100,
+      "tolerance": 1000,
+      "source_ref": "recon:AP-0630@2026-07-02;skill=gl-reconciler"
+    },
+    {
+      "name": "Revenue subledger to GL",
+      "ledger_balance": 48250000,
+      "subledger_balance": 48250000,
+      "tolerance": 1000,
+      "source_ref": "recon:REV-0630@2026-07-02;skill=gl-reconciler"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "EXC-01",
+      "description": "One-time recruiting spend of 95,000 USD recorded in June opex; non-recurring.",
+      "severity": "low",
+      "source_ref": "erp:GL;je=JE-4471@2026-06-28"
+    },
+    {
+      "id": "EXC-02",
+      "description": "Two East-region customer accounts past 60 days driving the DSO increase.",
+      "severity": "medium",
+      "source_ref": "erp:AR-subledger;aging=AR-AGE-0630@2026-06-30"
+    }
+  ],
+  "approvals": [
+    {"role": "preparer", "approver": "FP&A analyst (masked)", "status": "recorded", "source_ref": "wf:prep=WF-0701@2026-07-04"},
+    {"role": "reviewer", "approver": "Controller (masked)", "status": "recorded", "source_ref": "wf:rev=WF-0702@2026-07-05"},
+    {"role": "delivery", "approver": null, "status": "pending"}
+  ]
+}

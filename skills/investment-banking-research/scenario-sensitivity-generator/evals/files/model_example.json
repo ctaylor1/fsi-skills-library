@@ -1,0 +1,39 @@
+{
+  "model_id": "PROJECT-ATLAS",
+  "as_of": "2026-07-15",
+  "config_version": "ssg-cfg-2026.07",
+  "currency": "USD",
+  "unit": "millions",
+  "drivers": [
+    {"name": "revenue", "base": 1000.0, "unit": "USD_mm", "source_ref": "model:Rev!B10", "provenance": "three-statement-model-builder@v1.2 (de-identified)"},
+    {"name": "ebitda_margin", "base": 0.25, "unit": "ratio", "source_ref": "model:Ops!B22", "provenance": "three-statement-model-builder@v1.2 (de-identified)"},
+    {"name": "ev_ebitda_multiple", "base": 10.0, "unit": "x", "source_ref": "comps:median_ev_ebitda", "provenance": "comps-analysis-builder@v0.9 (de-identified peer set)"},
+    {"name": "net_debt", "base": 500.0, "unit": "USD_mm", "source_ref": "model:Cap!B5", "provenance": "three-statement-model-builder@v1.2 (de-identified)"},
+    {"name": "shares_out", "base": 100.0, "unit": "mm_shares", "source_ref": "model:Cap!B9", "provenance": "filings:10-K cover (de-identified)"}
+  ],
+  "outputs": [
+    {"name": "ebitda", "formula": "revenue * ebitda_margin", "unit": "USD_mm"},
+    {"name": "enterprise_value", "formula": "ebitda * ev_ebitda_multiple", "unit": "USD_mm"},
+    {"name": "equity_value", "formula": "enterprise_value - net_debt", "unit": "USD_mm"},
+    {"name": "implied_share_price", "formula": "equity_value / shares_out", "unit": "USD_per_share"}
+  ],
+  "scenarios": [
+    {"name": "Base", "overrides": {}},
+    {"name": "Bull", "overrides": {"revenue": 1100.0, "ebitda_margin": 0.28, "ev_ebitda_multiple": 11.0}},
+    {"name": "Bear", "overrides": {"revenue": 900.0, "ebitda_margin": 0.22, "ev_ebitda_multiple": 9.0}}
+  ],
+  "sensitivities": [
+    {"driver": "ebitda_margin", "output": "implied_share_price", "points": [0.20, 0.225, 0.25, 0.275, 0.30]}
+  ],
+  "two_way": [
+    {"row_driver": "ebitda_margin", "col_driver": "ev_ebitda_multiple", "output": "implied_share_price",
+     "row_points": [0.22, 0.25, 0.28], "col_points": [9.0, 10.0, 11.0]}
+  ],
+  "breakevens": [
+    {"driver": "ebitda_margin", "output": "equity_value", "target": 0.0, "lo": 0.0, "hi": 0.5}
+  ],
+  "decision_thresholds": [
+    {"driver": "ev_ebitda_multiple", "output": "implied_share_price", "target": 25.0,
+     "label": "multiple required to reach a 25.00/share reference level", "lo": 1.0, "hi": 30.0}
+  ]
+}

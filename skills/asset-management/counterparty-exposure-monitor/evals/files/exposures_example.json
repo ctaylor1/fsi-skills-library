@@ -1,0 +1,49 @@
+{
+  "as_of": "2026-07-17T07:00:00",
+  "config_version": "cpty-cfg-2026.07",
+  "run_id": "cem-run-2026-07-17-0700",
+  "feeds": [
+    {"feed": "derivatives_mtm", "as_of": "2026-07-17T06:00:00", "max_age_hours": 24},
+    {"feed": "settlement", "as_of": "2026-07-17T05:30:00", "max_age_hours": 24},
+    {"feed": "financing", "as_of": "2026-07-15T04:00:00", "max_age_hours": 24},
+    {"feed": "collateral", "as_of": "2026-07-17T02:00:00", "max_age_hours": 24},
+    {"feed": "credit", "as_of": "2026-07-16T00:00:00", "max_age_hours": 72}
+  ],
+  "counterparties": [
+    {"counterparty_id": "CP-ACME", "name": "Acme Global Bank", "rating": "A-", "rating_floor": "BBB-", "cds_bps": 180, "cds_baseline_bps": 110, "watch": "negative", "source_ref": "cp=CP-ACME"},
+    {"counterparty_id": "CP-BOLT", "name": "Bolt Securities", "rating": "BB", "rating_floor": "BBB-", "cds_bps": 260, "cds_baseline_bps": 240, "watch": "none", "source_ref": "cp=CP-BOLT"},
+    {"counterparty_id": "CP-CIRRUS", "name": "Cirrus Clearing", "rating": "AA-", "rating_floor": "A-", "cds_bps": 70, "cds_baseline_bps": 60, "watch": "none", "source_ref": "cp=CP-CIRRUS"},
+    {"counterparty_id": "CP-DELTA", "name": "Delta Markets", "rating": "A", "rating_floor": "BBB", "cds_bps": 130, "cds_baseline_bps": 120, "watch": "none", "source_ref": "cp=CP-DELTA"}
+  ],
+  "limits": [
+    {"counterparty_id": "CP-ACME", "limit_type": "total_current_exposure", "limit": 40000000},
+    {"counterparty_id": "CP-BOLT", "limit_type": "total_current_exposure", "limit": 20000000},
+    {"counterparty_id": "CP-CIRRUS", "limit_type": "total_current_exposure", "limit": 60000000},
+    {"counterparty_id": "CP-DELTA", "limit_type": "total_current_exposure", "limit": 30000000},
+    {"limit_type": "single_name_concentration_pct", "limit": 40.0}
+  ],
+  "exposures": [
+    {"counterparty_id": "CP-ACME", "exposure_type": "derivative_mtm", "current_exposure": 30000000, "collateral": 8000000, "pfe_addon": 6000000, "feed": "derivatives_mtm", "source_ref": "cp=CP-ACME;set=NS-01"},
+    {"counterparty_id": "CP-ACME", "exposure_type": "settlement", "current_exposure": 12000000, "collateral": 0, "pfe_addon": 0, "feed": "settlement", "source_ref": "cp=CP-ACME;set=STL-11"},
+    {"counterparty_id": "CP-ACME", "exposure_type": "financing", "current_exposure": 5000000, "collateral": 1000000, "pfe_addon": 0, "feed": "financing", "source_ref": "cp=CP-ACME;set=REPO-3"},
+    {"counterparty_id": "CP-BOLT", "exposure_type": "derivative_mtm", "current_exposure": 6000000, "collateral": 2000000, "pfe_addon": 1000000, "feed": "derivatives_mtm", "source_ref": "cp=CP-BOLT;set=NS-02"},
+    {"counterparty_id": "CP-BOLT", "exposure_type": "settlement", "current_exposure": 3000000, "collateral": 0, "pfe_addon": 0, "feed": "settlement", "source_ref": "cp=CP-BOLT;set=STL-21"},
+    {"counterparty_id": "CP-CIRRUS", "exposure_type": "derivative_mtm", "current_exposure": 40000000, "collateral": 5000000, "pfe_addon": 2000000, "feed": "derivatives_mtm", "source_ref": "cp=CP-CIRRUS;set=NS-03"},
+    {"counterparty_id": "CP-CIRRUS", "exposure_type": "settlement", "current_exposure": 14000000, "collateral": 0, "pfe_addon": 0, "feed": "settlement", "source_ref": "cp=CP-CIRRUS;set=STL-31"},
+    {"counterparty_id": "CP-DELTA", "exposure_type": "derivative_mtm", "current_exposure": 10000000, "collateral": 3000000, "pfe_addon": 1000000, "feed": "derivatives_mtm", "source_ref": "cp=CP-DELTA;set=NS-04"},
+    {"counterparty_id": "CP-DELTA", "exposure_type": "settlement", "current_exposure": 5000000, "collateral": 0, "pfe_addon": 0, "feed": "settlement", "source_ref": "cp=CP-DELTA;set=STL-41"}
+  ],
+  "open_alerts": [
+    "counterparty:CP-ACME:limit_utilization:total_current_exposure",
+    "counterparty:CP-BOLT:credit_rating:rating_below_floor"
+  ],
+  "config": {
+    "warn_pct": 0.80,
+    "breach_pct": 1.00,
+    "critical_pct": 1.10,
+    "concentration_warn_pct": 30.0,
+    "cds_widen_warn_bps": 50,
+    "cds_widen_breach_bps": 150,
+    "feed_max_age_hours": 24
+  }
+}

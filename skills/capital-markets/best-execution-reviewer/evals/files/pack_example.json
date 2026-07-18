@@ -1,0 +1,159 @@
+{
+  "review_id": "ber-2026-07-15-0001",
+  "as_of": "2026-07-15",
+  "policy_version": "bestex-policy-2026.06",
+  "client_classification": "retail",
+  "population": {
+    "executions": 8,
+    "fired_finding_types": 7
+  },
+  "findings": [
+    {
+      "finding": "price_outside_benchmark",
+      "fired": true,
+      "reason": "execution price adverse to benchmark by more than 5.0 bps",
+      "evidence": [
+        {
+          "execution_id": "X-002",
+          "side": "buy",
+          "execution_price": 300.3,
+          "benchmark_price": 300.0,
+          "benchmark_type": "arrival_mid",
+          "adverse_bps": 10.0,
+          "citation": "oms:oms=US-Equities;exec=X-002@2026-07-14T10:05:01"
+        },
+        {
+          "execution_id": "X-003",
+          "side": "sell",
+          "execution_price": 249.0,
+          "benchmark_price": 250.0,
+          "benchmark_type": "arrival_mid",
+          "adverse_bps": 40.0,
+          "citation": "oms:oms=US-Equities;exec=X-003@2026-07-14T10:10:03"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "finding": "price_materially_off",
+      "fired": true,
+      "reason": "execution price adverse to benchmark by more than 25.0 bps (material)",
+      "evidence": [
+        {
+          "execution_id": "X-003",
+          "side": "sell",
+          "adverse_bps": 40.0,
+          "hard_bps": 25.0,
+          "citation": "oms:oms=US-Equities;exec=X-003@2026-07-14T10:10:03"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "finding": "slow_execution",
+      "fired": true,
+      "reason": "arrival-to-execution latency exceeds 60.0s",
+      "evidence": [
+        {
+          "execution_id": "X-004",
+          "latency_seconds": 150.0,
+          "limit_seconds": 60.0,
+          "citation": "oms:oms=US-Equities;exec=X-004@2026-07-14T10:22:30"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "finding": "low_fill_rate",
+      "fired": true,
+      "reason": "fill rate below policy minimum 0.9 for an evaluated order type",
+      "evidence": [
+        {
+          "execution_id": "X-007",
+          "order_type": "market",
+          "fill_rate": 0.7,
+          "min_fill_rate": 0.9,
+          "citation": "oms:oms=US-Equities;exec=X-007@2026-07-14T10:35:01"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "finding": "high_cost",
+      "fired": true,
+      "reason": "explicit + implicit cost exceeds 30.0 bps of notional",
+      "evidence": [
+        {
+          "execution_id": "X-003",
+          "explicit_bps": 0.8,
+          "implicit_bps": 40.0,
+          "cost_bps": 40.8,
+          "cap_bps": 30.0,
+          "citation": "oms:oms=US-Equities;exec=X-003@2026-07-14T10:10:03"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "finding": "venue_off_policy",
+      "fired": true,
+      "reason": "executed on a venue not in the effective approved-venue list",
+      "evidence": [
+        {
+          "execution_id": "X-005",
+          "venue": "DARKX",
+          "citation": "oms:oms=US-Equities;exec=X-005@2026-07-14T10:25:01"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "finding": "exception_undocumented",
+      "fired": true,
+      "reason": "manual/exception route flagged with no documented rationale reference",
+      "evidence": [
+        {
+          "execution_id": "X-006",
+          "exception_flag": true,
+          "exception_rationale_ref": null,
+          "citation": "oms:oms=US-Equities;exec=X-006@2026-07-14T10:30:02"
+        }
+      ],
+      "count": 1
+    }
+  ],
+  "fired_findings": [
+    "price_outside_benchmark",
+    "price_materially_off",
+    "slow_execution",
+    "low_fill_rate",
+    "high_cost",
+    "venue_off_policy",
+    "exception_undocumented"
+  ],
+  "not_evaluable": [
+    {
+      "check": "price/cost (missing benchmark)",
+      "executions_affected": 1
+    },
+    {
+      "check": "high_cost (missing benchmark/commission)",
+      "executions_affected": 1
+    },
+    {
+      "check": "low_fill_rate (order type not in scope)",
+      "executions_affected": 2
+    }
+  ],
+  "suggested_disposition": "Escalate",
+  "fp_checks": [
+    "benchmark source/timestamp: confirm the arrival benchmark (NBBO/EBBO/arrival mid) matches the order's decision time and market convention",
+    "order type & client instruction: a limit or client-directed order may legitimately show partial fills or off-touch prices",
+    "market conditions: volatility, auctions, halts, or thin liquidity can widen spreads within policy",
+    "venue list version: verify the execution venue against the approved-venue list effective on the trade date",
+    "documented exception: check the OMS/EMS annotation and communications archive for a rationale before treating an exception as undocumented",
+    "order size & working strategy: large or illiquid orders may be worked over time by design"
+  ],
+  "disclaimer": "Best-execution review evidence only; not a best-execution or compliance determination. No case has been closed, no exception has been dispositioned, no filing has been made, and no system of record has been updated.",
+  "narrative": "Best-execution review of 8 US-Equities executions for the period ending 2026-07-15 fired 7 finding types and is suggested for Escalate for the best-execution committee. Two executions (X-002, X-003) show adverse price deviation versus the arrival benchmark; X-003 is material at 40 bps and also exceeds the cost cap. One execution (X-004) exceeded the latency ceiling, one (X-005) routed to a venue outside the approved list, one (X-006) is a manual exception with no documented rationale on file, and one market order (X-007) filled at 70%. Before the committee weighs these, run the listed false-positive checks (benchmark timing, order instructions, market conditions, venue-list version, and the exception annotation). This pack is cited evidence for human adjudication only. Best-execution review evidence only; not a best-execution or compliance determination. No case has been closed, no exception has been dispositioned, no filing has been made, and no system of record has been updated."
+}

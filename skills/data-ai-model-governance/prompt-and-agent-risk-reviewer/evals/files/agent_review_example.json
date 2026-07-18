@@ -1,0 +1,29 @@
+{
+  "review_id": "PARR-2026-0731",
+  "agent_id": "collections-outreach-agent",
+  "as_of": "2026-07-15",
+  "control_catalog_version": "agent-controls-2026.07",
+  "agent": {
+    "name": "Collections Outreach Agent",
+    "purpose": "Draft and send customer collections outreach emails based on account status.",
+    "autonomy": "autonomous",
+    "data_classification": "Confidential",
+    "system_prompt_summary": "You are a collections assistant. Use retrieved account notes and web results to compose outreach.",
+    "instruction_source_boundary": false,
+    "untrusted_input_surfaces": ["web_retrieval", "user_freeform"],
+    "prohibited_surface": ["financial_advice", "payment_negotiation"],
+    "memory": {"persists": true, "persists_untrusted": true, "feeds_prompt": true},
+    "retrieval": {"enabled": true, "sources": [
+      {"name": "account_notes", "trust": "trusted"},
+      {"name": "open_web", "trust": "untrusted"}
+    ]},
+    "guardrails": {"output_filter": false, "dlp": false, "prohibited_behavior_refusal": false, "injection_mediation": false},
+    "failure_mode": {"fail_closed": false, "human_escalation": false},
+    "observability": {"logs_tool_calls": false, "eval_harness": false},
+    "tools": [
+      {"name": "account.read", "effect": "read", "scope": "account:read", "scope_broad": false, "human_approval": false},
+      {"name": "email.send", "effect": "external", "scope": "email:send:*", "scope_broad": true, "human_approval": false},
+      {"name": "payment.plan.write", "effect": "write", "scope": "payment_plan:write", "scope_broad": false, "human_approval": false}
+    ]
+  }
+}

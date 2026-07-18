@@ -1,0 +1,48 @@
+{
+  "config_version": "sourcing-2026.07",
+  "sourcing_id": "SRC-4001",
+  "category": "IT managed services",
+  "jurisdiction": "US",
+  "as_of_date": "2026-07-17",
+  "template_version": "sourcing-pack-template@0.1.0",
+  "weight_total_expected": 100,
+  "required_sections": ["requirements", "market_scan", "evaluation_criteria", "rfp_content", "bidder_comparison", "risk_inputs", "decision_record"],
+  "required_approvals": ["sourcing-lead", "budget-owner", "legal-review"],
+  "sponsor": {"sponsor_id": "SP-77", "name": "Enterprise Technology", "business_unit": "Infrastructure"},
+  "requirements": [
+    {"req_id": "R-1", "category": "functional", "text": "24x7 managed monitoring and incident response for core infrastructure.", "priority": "must", "owner": "Infra Ops Lead", "source_ref": "docintel:doc=REQ-1@2026-07-10"},
+    {"req_id": "R-2", "category": "technical", "text": "SOC 2 Type II attestation and encryption of data at rest and in transit.", "priority": "must", "owner": "Security Architect", "source_ref": "docintel:doc=REQ-2@2026-07-10"},
+    {"req_id": "R-3", "category": "commercial", "text": "Flexible consumption-based pricing with a 30-day exit for convenience.", "priority": "should", "owner": null, "source_ref": "docintel:doc=REQ-3@2026-07-11"}
+  ],
+  "market_scan": [
+    {"supplier_id": "S-1", "name": "Acme Managed Services", "segment": "incumbent", "source_ref": "crm:supplier=S-1@2026-07-12"},
+    {"supplier_id": "S-2", "name": "Globex Cloud Ops", "segment": "challenger", "source_ref": "crm:supplier=S-2@2026-07-12"},
+    {"supplier_id": "S-3", "name": "Initech Platforms", "segment": "challenger", "source_ref": "crm:supplier=S-3@2026-07-12"}
+  ],
+  "evaluation_criteria": [
+    {"criterion_id": "C-1", "name": "Technical fit and service capability", "weight": 40, "mandatory": false, "source_ref": "kb:category-playbook@2026.07"},
+    {"criterion_id": "C-2", "name": "Commercial value and total cost", "weight": 35, "mandatory": false, "source_ref": "kb:category-playbook@2026.07"},
+    {"criterion_id": "C-3", "name": "Security and compliance (SOC 2 / encryption)", "weight": 25, "mandatory": true, "source_ref": "kb:category-playbook@2026.07"}
+  ],
+  "rfp_content": [
+    {"section_id": "RFP-1", "title": "Scope of work and service levels", "status": "drafted", "source_ref": "docintel:doc=RFP-1@2026-07-14"},
+    {"section_id": "RFP-2", "title": "Commercial terms and pricing schedule", "status": "drafted", "source_ref": "docintel:doc=RFP-2@2026-07-14"}
+  ],
+  "bidders": [
+    {"bidder_id": "B-1", "name": "Acme Managed Services",
+     "scores": {"C-1": 8, "C-2": 7, "C-3": 9}, "mandatory_met": {"C-3": true},
+     "risk_flags": ["security-review-required"], "response_ref": "proc:bid=B-1-response@2026-07-15"},
+    {"bidder_id": "B-2", "name": "Globex Cloud Ops",
+     "scores": {"C-1": 9, "C-2": 8, "C-3": 3}, "mandatory_met": {"C-3": false},
+     "risk_flags": [], "response_ref": "proc:bid=B-2-response@2026-07-15"},
+    {"bidder_id": "B-3", "name": "Initech Platforms",
+     "scores": {"C-1": 7, "C-3": 6}, "mandatory_met": {"C-3": true},
+     "risk_flags": [], "response_ref": "proc:bid=B-3-response@2026-07-15"}
+  ],
+  "approvals": [
+    {"approval_id": "AP-1", "type": "sourcing-lead", "approver_role": "Sourcing Lead", "approver": "user-3120", "status": "recorded", "date": "2026-07-16", "source_ref": "proc:approval=AP-1@2026-07-16"}
+  ],
+  "risk_inputs": [
+    {"risk_id": "RK-1", "type": "third-party-risk", "description": "Incumbent handles production infrastructure; concentration and operational-resilience risk to assess.", "status": "open", "source_ref": "proc:event=SRC-4001@2026-07-16"}
+  ]
+}

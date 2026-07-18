@@ -1,0 +1,52 @@
+{
+  "as_of": "2026-07-15",
+  "period": {"start": "2026-07-01", "end": "2026-07-14"},
+  "config_version": "settle-recon-cfg-2026.07",
+  "settlement_currency": "USD",
+  "config": {
+    "amount_tolerance_abs": 0.50,
+    "fee_tolerance_abs": 0.50,
+    "reserve_tolerance_abs": 0.50,
+    "cash_tolerance_abs": 0.50,
+    "net_calc_tolerance_abs": 0.50,
+    "cash_settlement_lag_days": 2
+  },
+  "fee_schedule": [
+    {"scheme": "VISA", "rate_bps": 180, "reserve_bps": 0},
+    {"scheme": "MC", "rate_bps": 200, "reserve_bps": 50},
+    {"scheme": "AMEX", "rate_bps": 250, "reserve_bps": 0}
+  ],
+  "sources": {
+    "network": [
+      {"match_key": "B-0701-VISA", "scheme": "VISA", "settlement_date": "2026-07-01", "currency": "USD", "gross": 100000.00, "source_ref": "net=VISA;batch=B-0701-VISA"},
+      {"match_key": "B-0702-MC", "scheme": "MC", "settlement_date": "2026-07-02", "currency": "USD", "gross": 50000.00, "source_ref": "net=MC;batch=B-0702-MC"},
+      {"match_key": "B-0703-VISA", "scheme": "VISA", "settlement_date": "2026-07-03", "currency": "USD", "gross": 20000.00, "source_ref": "net=VISA;batch=B-0703-VISA"},
+      {"match_key": "B-0704-AMEX", "scheme": "AMEX", "settlement_date": "2026-07-04", "currency": "USD", "gross": 30000.00, "source_ref": "net=AMEX;batch=B-0704-AMEX"},
+      {"match_key": "B-0714-VISA", "scheme": "VISA", "settlement_date": "2026-07-14", "currency": "USD", "gross": 15000.00, "source_ref": "net=VISA;batch=B-0714-VISA"},
+      {"match_key": "B-0705-MC", "scheme": "MC", "settlement_date": "2026-07-05", "currency": "USD", "gross": 40000.00, "source_ref": "net=MC;batch=B-0705-MC"}
+    ],
+    "processor": [
+      {"match_key": "B-0701-VISA", "scheme": "VISA", "settlement_date": "2026-07-01", "currency": "USD", "gross": 100000.00, "fees": 1800.00, "reserve": 0.00, "net": 98200.00, "source_ref": "proc=ACQ1;batch=B-0701-VISA"},
+      {"match_key": "B-0702-MC", "scheme": "MC", "settlement_date": "2026-07-02", "currency": "USD", "gross": 50000.00, "fees": 1250.00, "reserve": 250.00, "net": 48500.00, "source_ref": "proc=ACQ1;batch=B-0702-MC"},
+      {"match_key": "B-0703-VISA", "scheme": "VISA", "settlement_date": "2026-07-03", "currency": "USD", "gross": 20000.00, "fees": 360.00, "reserve": 0.00, "net": 19640.00, "source_ref": "proc=ACQ1;batch=B-0703-VISA"},
+      {"match_key": "B-0704-AMEX", "scheme": "AMEX", "settlement_date": "2026-07-04", "currency": "USD", "gross": 30000.00, "fees": 750.00, "reserve": 0.00, "net": 29250.00, "source_ref": "proc=ACQ1;batch=B-0704-AMEX"},
+      {"match_key": "B-0714-VISA", "scheme": "VISA", "settlement_date": "2026-07-14", "currency": "USD", "gross": 15000.00, "fees": 270.00, "reserve": 0.00, "net": 14730.00, "source_ref": "proc=ACQ1;batch=B-0714-VISA"},
+      {"match_key": "B-0705-MC", "scheme": "MC", "settlement_date": "2026-07-05", "currency": "USD", "gross": 40250.00, "fees": 805.00, "reserve": 201.25, "net": 39243.75, "source_ref": "proc=ACQ1;batch=B-0705-MC"}
+    ],
+    "bank_cash": [
+      {"match_key": "B-0701-VISA", "value_date": "2026-07-02", "currency": "USD", "amount": 98200.00, "source_ref": "bank=DDA123;fund=B-0701-VISA"},
+      {"match_key": "B-0702-MC", "value_date": "2026-07-03", "currency": "USD", "amount": 48500.00, "source_ref": "bank=DDA123;fund=B-0702-MC"},
+      {"match_key": "B-0703-VISA", "value_date": "2026-07-04", "currency": "USD", "amount": 19640.00, "source_ref": "bank=DDA123;fund=B-0703-VISA"},
+      {"match_key": "B-0704-AMEX", "value_date": "2026-07-05", "currency": "USD", "amount": 29000.00, "source_ref": "bank=DDA123;fund=B-0704-AMEX"},
+      {"match_key": "B-0705-MC", "value_date": "2026-07-06", "currency": "USD", "amount": 39243.75, "source_ref": "bank=DDA123;fund=B-0705-MC"}
+    ],
+    "ledger": [
+      {"match_key": "B-0701-VISA", "post_date": "2026-07-02", "currency": "USD", "net": 98200.00, "source_ref": "gl=1000;je=JE-0701"},
+      {"match_key": "B-0702-MC", "post_date": "2026-07-03", "currency": "USD", "net": 48500.00, "source_ref": "gl=1000;je=JE-0702"},
+      {"match_key": "B-0704-AMEX", "post_date": "2026-07-05", "currency": "USD", "net": 29250.00, "source_ref": "gl=1000;je=JE-0704"},
+      {"match_key": "B-0714-VISA", "post_date": "2026-07-14", "currency": "USD", "net": 14730.00, "source_ref": "gl=1000;je=JE-0714"},
+      {"match_key": "B-0705-MC", "post_date": "2026-07-06", "currency": "USD", "net": 39243.75, "source_ref": "gl=1000;je=JE-0705"},
+      {"match_key": "B-0710-ADJ", "post_date": "2026-07-10", "currency": "USD", "net": 5000.00, "source_ref": "gl=1000;je=JE-0710-ADJ"}
+    ]
+  }
+}

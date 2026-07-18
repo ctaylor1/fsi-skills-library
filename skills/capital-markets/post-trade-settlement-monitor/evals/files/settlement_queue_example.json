@@ -1,0 +1,279 @@
+{
+  "run_id": "ptsm-2026-07-17-1515",
+  "as_of": "2026-07-17T15:15:00",
+  "config_version": "settle-cfg-2026.07",
+  "market": "US",
+  "monitored_count": 9,
+  "alert_count": 7,
+  "new_count": 6,
+  "deduplicated_count": 1,
+  "queue": [
+    {
+      "instruction_id": "INS-BRK01",
+      "trade_id": "TRD-BRK01",
+      "security_id": "SEC-DDD",
+      "counterparty": "Broker D",
+      "severity": "Critical",
+      "is_new": true,
+      "stale": false,
+      "suggested_route": "matching & affirmation ops",
+      "alerts": [
+        {
+          "type": "cutoff_breach",
+          "severity": "Critical",
+          "reason": "cutoff 2026-07-17T14:00:00 passed 75 min ago with instruction still unmatched",
+          "dedup_key": "INS-BRK01:cutoff_breach",
+          "evidence": [
+            {
+              "instruction_id": "INS-BRK01",
+              "status": "unmatched",
+              "citation": "clearing:acct=****BRK;instr=INS-BRK01@2026-07-17T15:09:00"
+            }
+          ],
+          "state": "new"
+        }
+      ]
+    },
+    {
+      "instruction_id": "INS-FAIL5",
+      "trade_id": "TRD-FAIL5",
+      "security_id": "SEC-EEE",
+      "counterparty": "Broker E",
+      "severity": "Critical",
+      "is_new": true,
+      "stale": false,
+      "suggested_route": "settlement-fails & funding desk",
+      "alerts": [
+        {
+          "type": "settlement_fail",
+          "severity": "Warning",
+          "reason": "not settled 5 business day(s) past intended settlement date 2026-07-10 (status=failed)",
+          "dedup_key": "INS-FAIL5:settlement_fail",
+          "evidence": [
+            {
+              "instruction_id": "INS-FAIL5",
+              "status": "failed",
+              "citation": "clearing:acct=****FL5;instr=INS-FAIL5@2026-07-17T15:08:00"
+            }
+          ],
+          "state": "new"
+        },
+        {
+          "type": "fail_aging_high",
+          "severity": "High",
+          "reason": "fail aged 5 business day(s) >= band 3",
+          "dedup_key": "INS-FAIL5:fail_aging_high",
+          "evidence": [
+            {
+              "instruction_id": "INS-FAIL5",
+              "status": "failed",
+              "citation": "clearing:acct=****FL5;instr=INS-FAIL5@2026-07-17T15:08:00"
+            }
+          ],
+          "state": "new"
+        },
+        {
+          "type": "fail_aging_critical",
+          "severity": "Critical",
+          "reason": "fail aged 5 business day(s) >= band 5",
+          "dedup_key": "INS-FAIL5:fail_aging_critical",
+          "evidence": [
+            {
+              "instruction_id": "INS-FAIL5",
+              "status": "failed",
+              "citation": "clearing:acct=****FL5;instr=INS-FAIL5@2026-07-17T15:08:00"
+            }
+          ],
+          "state": "new"
+        },
+        {
+          "type": "buyin_exposure",
+          "severity": "Critical",
+          "reason": "fail aged 5 business day(s) >= buy-in window 4; buy-in exposure (CSDR SDR)",
+          "dedup_key": "INS-FAIL5:buyin_exposure",
+          "evidence": [
+            {
+              "instruction_id": "INS-FAIL5",
+              "status": "failed",
+              "citation": "clearing:acct=****FL5;instr=INS-FAIL5@2026-07-17T15:08:00"
+            }
+          ],
+          "state": "new"
+        },
+        {
+          "type": "material_cash_impact",
+          "severity": "High",
+          "reason": "fail cash impact 5,000,000.00 USD >= materiality 1,000,000.00",
+          "dedup_key": "INS-FAIL5:material_cash_impact",
+          "evidence": [
+            {
+              "instruction_id": "INS-FAIL5",
+              "status": "failed",
+              "citation": "clearing:acct=****FL5;instr=INS-FAIL5@2026-07-17T15:08:00"
+            }
+          ],
+          "state": "new"
+        }
+      ]
+    },
+    {
+      "instruction_id": "INS-CUT01",
+      "trade_id": "TRD-CUT01",
+      "security_id": "SEC-CCC",
+      "counterparty": "Broker C",
+      "severity": "High",
+      "is_new": true,
+      "stale": false,
+      "suggested_route": "matching & affirmation ops",
+      "alerts": [
+        {
+          "type": "unmatched_near_cutoff",
+          "severity": "High",
+          "reason": "instruction unmatched 45 min before cutoff 2026-07-17T16:00:00 (warn <= 60 min)",
+          "dedup_key": "INS-CUT01:unmatched_near_cutoff",
+          "evidence": [
+            {
+              "instruction_id": "INS-CUT01",
+              "status": "unmatched",
+              "citation": "clearing:acct=****CUT;instr=INS-CUT01@2026-07-17T15:11:00"
+            }
+          ],
+          "state": "new"
+        }
+      ]
+    },
+    {
+      "instruction_id": "INS-DUP01",
+      "trade_id": "TRD-DUP01",
+      "security_id": "SEC-HHH",
+      "counterparty": "Broker H",
+      "severity": "Warning",
+      "is_new": false,
+      "stale": false,
+      "suggested_route": "settlement operations queue",
+      "alerts": [
+        {
+          "type": "settlement_fail",
+          "severity": "Warning",
+          "reason": "not settled 1 business day(s) past intended settlement date 2026-07-16 (status=failed)",
+          "dedup_key": "INS-DUP01:settlement_fail",
+          "evidence": [
+            {
+              "instruction_id": "INS-DUP01",
+              "status": "failed",
+              "citation": "clearing:acct=****DUP;instr=INS-DUP01@2026-07-17T15:05:00"
+            }
+          ],
+          "state": "duplicate"
+        }
+      ]
+    },
+    {
+      "instruction_id": "INS-FAIL1",
+      "trade_id": "TRD-FAIL1",
+      "security_id": "SEC-FFF",
+      "counterparty": "Broker F",
+      "severity": "Warning",
+      "is_new": true,
+      "stale": false,
+      "suggested_route": "settlement operations queue",
+      "alerts": [
+        {
+          "type": "settlement_fail",
+          "severity": "Warning",
+          "reason": "not settled 1 business day(s) past intended settlement date 2026-07-16 (status=failed)",
+          "dedup_key": "INS-FAIL1:settlement_fail",
+          "evidence": [
+            {
+              "instruction_id": "INS-FAIL1",
+              "status": "failed",
+              "citation": "clearing:acct=****FL1;instr=INS-FAIL1@2026-07-17T15:07:00"
+            }
+          ],
+          "state": "new"
+        }
+      ]
+    },
+    {
+      "instruction_id": "INS-PEN01",
+      "trade_id": "TRD-PEN01",
+      "security_id": "SEC-GGG",
+      "counterparty": "Broker G",
+      "severity": "Warning",
+      "is_new": true,
+      "stale": false,
+      "suggested_route": "CSDR penalties analyst",
+      "alerts": [
+        {
+          "type": "settlement_fail",
+          "severity": "Warning",
+          "reason": "not settled 2 business day(s) past intended settlement date 2026-07-15 (status=failed)",
+          "dedup_key": "INS-PEN01:settlement_fail",
+          "evidence": [
+            {
+              "instruction_id": "INS-PEN01",
+              "status": "failed",
+              "citation": "clearing:acct=****PEN;instr=INS-PEN01@2026-07-17T15:06:00"
+            }
+          ],
+          "state": "new"
+        },
+        {
+          "type": "penalty_accrual",
+          "severity": "Warning",
+          "reason": "accrued penalty 7,500.00 >= materiality 5,000.00",
+          "dedup_key": "INS-PEN01:penalty_accrual",
+          "evidence": [
+            {
+              "instruction_id": "INS-PEN01",
+              "status": "failed",
+              "citation": "clearing:acct=****PEN;instr=INS-PEN01@2026-07-17T15:06:00"
+            }
+          ],
+          "state": "new"
+        }
+      ]
+    },
+    {
+      "instruction_id": "INS-STL01",
+      "trade_id": "TRD-STL01",
+      "security_id": "SEC-III",
+      "counterparty": "Broker I",
+      "severity": "Warning",
+      "is_new": true,
+      "stale": true,
+      "suggested_route": "settlement operations queue",
+      "alerts": [
+        {
+          "type": "settlement_fail",
+          "severity": "Warning",
+          "reason": "not settled 1 business day(s) past intended settlement date 2026-07-16 (status=failed)",
+          "dedup_key": "INS-STL01:settlement_fail",
+          "evidence": [
+            {
+              "instruction_id": "INS-STL01",
+              "status": "failed",
+              "citation": "clearing:acct=****STL;instr=INS-STL01@2026-07-17T14:30:00"
+            }
+          ],
+          "state": "new"
+        }
+      ]
+    }
+  ],
+  "deduped_against": [
+    "INS-DUP01:settlement_fail"
+  ],
+  "freshness": {
+    "as_of": "2026-07-17T15:15:00",
+    "max_source_staleness_minutes": 30,
+    "stale_instruction_ids": [
+      "INS-STL01"
+    ],
+    "run_stale": true
+  },
+  "actions_taken": [],
+  "disclaimer": "Monitoring alerts only; no settlement action has been taken. A human must review, decide, and act.",
+  "narrative": "Settlement monitor run ptsm-2026-07-17-1515 (market US) reviewed 9 instructions as of 2026-07-17T15:15:00 and queued 7 exception items (6 new, 1 deduplicated against an already-open alert). Highest severity is Critical: INS-BRK01 is unmatched after its 14:00 cutoff, and INS-FAIL5 has been failing 5 business days past intended settlement with a 5,000,000.00 USD impact and CSDR buy-in exposure. INS-STL01 is stale (feed older than 30 minutes) and is flagged for re-pull before any reliance. Items are prioritized and routed to the settlement-fails desk, matching ops, and the CSDR penalties analyst for human review. Monitoring alerts only; no settlement action has been taken. A human must review, decide, and act.",
+  "notes": "Severity, dedup state, and staleness are deterministic from config settle-cfg-2026.07."
+}

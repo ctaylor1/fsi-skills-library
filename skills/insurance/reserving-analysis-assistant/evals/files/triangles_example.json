@@ -1,0 +1,74 @@
+{
+  "dataset_version": "reserving-2026Q2",
+  "valuation_date": "2026-06-30",
+  "currency": "USD",
+  "unit": "USD (thousands)",
+  "large_loss_threshold": 1000,
+  "segments": [
+    {
+      "segment_id": "AUTO-LIAB",
+      "line_of_business": "Commercial Auto Liability",
+      "triangle_basis": "incurred",
+      "origin_label": "accident_year",
+      "factor_method": "volume-weighted",
+      "tail_factor": 1.02,
+      "triangle": {
+        "2021": [5000, 7500, 8625, 9057, 9200],
+        "2022": [5200, 7800, 8970, 9418],
+        "2023": [5400, 8100, 9315],
+        "2024": [5600, 8400],
+        "2025": [5800]
+      },
+      "claim_counts": {"2021": 1200, "2022": 1250, "2023": 1300, "2024": 1350, "2025": 1400},
+      "earned_exposure": {"2021": 10000, "2022": 10400, "2023": 10800, "2024": 11200, "2025": 11600},
+      "source_ref": "triangle=AUTO-LIAB;basis=incurred@2026-06-30"
+    },
+    {
+      "segment_id": "PROP-CAT",
+      "line_of_business": "Commercial Property (Catastrophe-exposed)",
+      "triangle_basis": "incurred",
+      "origin_label": "accident_year",
+      "factor_method": "volume-weighted",
+      "tail_factor": 1.0,
+      "triangle": {
+        "2021": [8000, 12000, 13000, 13500],
+        "2022": [9000, 13500, 14625],
+        "2023": [10000, 15000],
+        "2024": [11000]
+      },
+      "large_losses": [
+        {"claim_id": "CAT-778", "origin": "2023", "amount": 6500, "source_ref": "claims=CAT-778"},
+        {"claim_id": "CAT-902", "origin": "2024", "amount": 1200, "source_ref": "claims=CAT-902"}
+      ],
+      "source_ref": "triangle=PROP-CAT;basis=incurred@2026-06-30"
+    },
+    {
+      "segment_id": "WC",
+      "line_of_business": "Workers Compensation",
+      "triangle_basis": "paid",
+      "origin_label": "accident_year",
+      "factor_method": "volume-weighted",
+      "tail_factor": 1.10,
+      "triangle": {
+        "2024": [1200],
+        "2025": [1300]
+      },
+      "source_ref": "triangle=WC;basis=paid@2026-06-30"
+    },
+    {
+      "segment_id": "GL",
+      "line_of_business": "General Liability",
+      "triangle_basis": "incurred",
+      "origin_label": "accident_year",
+      "factor_method": "volume-weighted",
+      "tail_factor": 1.0,
+      "triangle": {
+        "2021": [6000, 4000, 4200, 4300],
+        "2022": [5000, 5200, 5400],
+        "2023": [5100, 5300],
+        "2024": [5200]
+      },
+      "source_ref": "triangle=GL;basis=incurred@2026-06-30"
+    }
+  ]
+}

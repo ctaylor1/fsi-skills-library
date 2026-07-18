@@ -1,0 +1,31 @@
+{
+  "screening_id": "aas-7788-2026-07-15-0001",
+  "account_id": "****7788",
+  "as_of": "2026-07-15",
+  "config_version": "anomaly-cfg-2026.07",
+  "window": {"lookback_days": 180, "as_of": "2026-07-15"},
+  "signals": [
+    {"signal": "amount_vs_history", "fired": true,
+     "reason": "focal debit(s) exceed baseline mean 82.30 + 3.0*stdev 28.09 = 166.57",
+     "evidence": [{"txn_id": "T-90001", "amount": 6000.0, "citation": "txns:acct=****7788;txnid=T-90001@2026-07-14T10:15:00"}],
+     "baseline": {"mean": 82.3, "stdev": 28.09, "threshold": 166.57, "n": 12}, "contribution": 1},
+    {"signal": "new_counterparty_high_value", "fired": true,
+     "reason": "first-seen payee with amount >= 1000.0",
+     "evidence": [{"txn_id": "T-90001", "counterparty": "CryptoExchange XYZ", "amount": 6000.0, "citation": "txns:acct=****7788;txnid=T-90001@2026-07-14T10:15:00"}],
+     "baseline": {"new_payee_amount": 1000.0, "known_payees_checked": true}, "contribution": 1},
+    {"signal": "geo_novelty", "fired": true,
+     "reason": "focal txn in country not seen in lookback and no CRM travel notice",
+     "evidence": [{"txn_id": "T-90001", "country": "GB", "citation": "txns:acct=****7788;txnid=T-90001@2026-07-14T10:15:00"}],
+     "baseline": {"prior_countries": ["US"], "travel_notice": []}, "contribution": 1},
+    {"signal": "dormancy_reactivation", "fired": false, "reason": "gap 9d",
+     "evidence": [], "baseline": {"last_active": "2026-07-05", "gap_days": 9}, "contribution": 0},
+    {"signal": "round_amount_clustering", "fired": false, "reason": "1 clustered round debits (below count 3)",
+     "evidence": [], "baseline": {"count": 1, "threshold": 10000.0}, "contribution": 0}
+  ],
+  "fired_signals": ["amount_vs_history", "new_counterparty_high_value", "geo_novelty"],
+  "not_evaluable": [{"signal": "velocity", "why": "no timestamps"}, {"signal": "rapid_in_out", "why": "no timestamps"}],
+  "suggested_priority": "Elevated",
+  "benign_prompts": ["payroll/benefit or tax-refund change", "seasonal spending", "a genuine large purchase", "travel or relocation (verify CRM travel notice)", "a new recurring biller", "customer using a new device/branch"],
+  "narrative": "Screening of account ****7788 for the 180-day window ending 2026-07-15 fired 3 evaluable signals. A 6,000.00 debit on 2026-07-14 to a first-seen counterparty (CryptoExchange XYZ), settled in GB via a crypto on-ramp, exceeds the account's baseline debit threshold (166.57), is a new high-value payee, and is in a country not previously seen with no travel notice on file. Suggested review priority: Elevated. Before reaching any conclusion, weigh benign explanations such as a genuine large purchase, travel, or a new biller. Screening evidence only; not a fraud determination. No account action has been taken.",
+  "disclaimer": "Screening evidence only; not a fraud determination. No account action has been taken."
+}

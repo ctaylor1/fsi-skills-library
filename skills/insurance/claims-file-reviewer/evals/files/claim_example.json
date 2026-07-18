@@ -1,0 +1,55 @@
+{
+  "claim_id": "CLM-2026-0442",
+  "as_of": "2026-07-20",
+  "config_version": "claims-review-cfg-2026.07",
+  "claim_type": "auto_collision",
+  "jurisdiction": "US-CA",
+  "loss_date": "2026-06-10",
+  "report_date": "2026-06-12",
+  "policy": {
+    "policy_number": "PA-2026-778812",
+    "effective_date": "2026-01-01",
+    "expiration_date": "2027-01-01",
+    "coverages": [
+      {"code": "COLL", "limit": 50000.0, "deductible": 500.0, "citation": "policy:PA-2026-778812;form=CA-0001;COLL@2026-01-01"},
+      {"code": "RENTAL", "limit": 900.0, "deductible": 0.0, "citation": "policy:PA-2026-778812;end=CA-2020;RENTAL@2026-01-01"}
+    ],
+    "endorsements": [
+      {"id": "CA-2020", "citation": "policy:PA-2026-778812;end=CA-2020@2026-01-01"}
+    ]
+  },
+  "documents": [
+    {"doc_id": "DOC-FNOL", "type": "fnol", "date": "2026-06-12", "source_ref": "claim=CLM-2026-0442;doc=DOC-FNOL"},
+    {"doc_id": "DOC-EST", "type": "repair_estimate", "amount": 28000.0, "date": "2026-06-20", "source_ref": "claim=CLM-2026-0442;doc=DOC-EST"},
+    {"doc_id": "DOC-ADJ", "type": "adjuster_report", "date": "2026-06-21", "source_ref": "claim=CLM-2026-0442;doc=DOC-ADJ"}
+  ],
+  "events": [
+    {"date": "2026-06-12", "type": "fnol_received", "description": "First notice of loss received", "source_ref": "claim=CLM-2026-0442;evt=E1"},
+    {"date": "2026-06-15", "type": "inspection_scheduled", "description": "Vehicle inspection scheduled", "source_ref": "claim=CLM-2026-0442;evt=E2"},
+    {"date": "2026-06-15", "type": "open_task", "description": "Await police report from claimant", "status": "open", "source_ref": "claim=CLM-2026-0442;evt=E3"},
+    {"date": "2026-06-20", "type": "estimate_received", "description": "Repair estimate received", "source_ref": "claim=CLM-2026-0442;evt=E4"},
+    {"date": "2026-06-25", "type": "payment_issued", "description": "Payment issued to repair shop", "source_ref": "claim=CLM-2026-0442;evt=E5"}
+  ],
+  "reserves": [
+    {"category": "indemnity", "amount": 28000.0, "basis": "repair estimate", "as_of": "2026-06-21", "supporting_ref": "DOC-EST", "source_ref": "claim=CLM-2026-0442;rsv=RSV-IND"},
+    {"category": "expense", "amount": 3000.0, "basis": "allocated loss adjustment expense", "as_of": "2026-06-21", "source_ref": "claim=CLM-2026-0442;rsv=RSV-EXP"}
+  ],
+  "payments": [
+    {"payment_id": "PMT-1", "amount": 15000.0, "date": "2026-06-25", "payee": "Auto Body Shop", "authority_ref": null, "supporting_ref": "DOC-EST", "source_ref": "claim=CLM-2026-0442;pmt=PMT-1"}
+  ],
+  "decisions": [
+    {"decision_id": "DEC-1", "type": "coverage", "outcome": "coverage_position_recorded", "rationale": "", "authority_ref": "ADJ-778", "date": "2026-06-21", "source_ref": "claim=CLM-2026-0442;dec=DEC-1"}
+  ],
+  "config": {
+    "required_documents": {
+      "auto_collision": ["fnol", "police_report", "repair_estimate", "photos"],
+      "property_fire": ["fnol", "fire_report", "damage_estimate", "photos", "proof_of_loss"],
+      "gl_bodily_injury": ["fnol", "medical_records", "demand_letter", "adjuster_report"],
+      "default": ["fnol", "adjuster_report"]
+    },
+    "report_lag_days": 30,
+    "stale_days": 30,
+    "reserve_support_tolerance": 0.25,
+    "large_loss_threshold": 100000.0
+  }
+}

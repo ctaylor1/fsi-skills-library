@@ -1,0 +1,230 @@
+{
+  "recon_id": "trx-merchant42-2026-07-15",
+  "as_of": "2026-07-15",
+  "config_version": "recon-cfg-2026.07",
+  "currency": "USD",
+  "summary": {
+    "groups": 5,
+    "matched": 1,
+    "breaks": 3,
+    "routed": 1
+  },
+  "matched": [
+    {
+      "txn_ref": "TXN-1001",
+      "amount": 100.0,
+      "sources": [
+        "bank",
+        "gateway",
+        "ledger",
+        "processor"
+      ],
+      "citation": "gateway:gw=stripe;id=G-1001@2026-07-10"
+    }
+  ],
+  "breaks": [
+    {
+      "txn_ref": "TXN-1002",
+      "break_type": "missing_record",
+      "reason": "TXN-1002 present in ['bank', 'gateway', 'processor'] but missing from ['ledger']; unrecorded relative to the bank cash position",
+      "present_sources": [
+        "bank",
+        "gateway",
+        "processor"
+      ],
+      "missing_sources": [
+        "ledger"
+      ],
+      "amounts": {
+        "gateway": 250.0,
+        "processor": 250.0,
+        "bank": 250.0
+      },
+      "evidence": [
+        {
+          "record_id": "G-1002",
+          "source": "gateway",
+          "amount": 250.0,
+          "citation": "gateway:gw=stripe;id=G-1002@2026-07-11"
+        },
+        {
+          "record_id": "P-1002",
+          "source": "processor",
+          "amount": 250.0,
+          "citation": "processor:proc=acquirer;id=P-1002@2026-07-11"
+        },
+        {
+          "record_id": "B-1002",
+          "source": "bank",
+          "amount": 250.0,
+          "citation": "bank:bank=dda;id=B-1002@2026-07-13"
+        }
+      ],
+      "proposed_entry": {
+        "txn_ref": "TXN-1002",
+        "type": "ledger_adjustment",
+        "status": "proposed",
+        "ledger_delta": 250.0,
+        "requires_approval": true,
+        "narrative": "Propose recording TXN-1002 in the ledger at the bank amount 250.0."
+      },
+      "route_to": null
+    },
+    {
+      "txn_ref": "TXN-1003",
+      "break_type": "amount_mismatch",
+      "reason": "TXN-1003 amounts differ across sources {'gateway': 80.0, 'processor': 80.0, 'bank': 75.0, 'ledger': 80.0}; ledger 80.0 vs bank position 75.0",
+      "present_sources": [
+        "bank",
+        "gateway",
+        "ledger",
+        "processor"
+      ],
+      "missing_sources": [],
+      "amounts": {
+        "gateway": 80.0,
+        "processor": 80.0,
+        "bank": 75.0,
+        "ledger": 80.0
+      },
+      "evidence": [
+        {
+          "record_id": "G-1003",
+          "source": "gateway",
+          "amount": 80.0,
+          "citation": "gateway:gw=stripe;id=G-1003@2026-07-11"
+        },
+        {
+          "record_id": "P-1003",
+          "source": "processor",
+          "amount": 80.0,
+          "citation": "processor:proc=acquirer;id=P-1003@2026-07-11"
+        },
+        {
+          "record_id": "B-1003",
+          "source": "bank",
+          "amount": 75.0,
+          "citation": "bank:bank=dda;id=B-1003@2026-07-13"
+        },
+        {
+          "record_id": "L-1003",
+          "source": "ledger",
+          "amount": 80.0,
+          "citation": "ledger:gl=erp;id=L-1003@2026-07-11"
+        }
+      ],
+      "proposed_entry": {
+        "txn_ref": "TXN-1003",
+        "type": "ledger_adjustment",
+        "status": "proposed",
+        "ledger_delta": -5.0,
+        "requires_approval": true,
+        "narrative": "Propose a -5.00 ledger adjustment to tie TXN-1003 to the bank amount."
+      },
+      "route_to": null
+    },
+    {
+      "txn_ref": "TXN-1005",
+      "break_type": "unmatched",
+      "reason": "ledger-only orphan for TXN-1005: recorded in the ledger with no gateway/processor/bank support",
+      "present_sources": [
+        "ledger"
+      ],
+      "missing_sources": [
+        "gateway",
+        "processor",
+        "bank"
+      ],
+      "amounts": {
+        "ledger": 40.0
+      },
+      "evidence": [
+        {
+          "record_id": "L-1005",
+          "source": "ledger",
+          "amount": 40.0,
+          "citation": "ledger:gl=erp;id=L-1005@2026-07-09"
+        }
+      ],
+      "proposed_entry": {
+        "txn_ref": "TXN-1005",
+        "type": "ledger_adjustment",
+        "status": "proposed",
+        "ledger_delta": -40.0,
+        "requires_approval": true,
+        "narrative": "Propose reversing the unsupported ledger entry pending investigation."
+      },
+      "route_to": null
+    }
+  ],
+  "routed_breaks": [
+    {
+      "txn_ref": "SETTLE-BATCH-0710",
+      "break_type": "amount_mismatch",
+      "route_to": "settlement-break-reconciler",
+      "reason": "settlement-file / cash-ledger break \u2014 out of scope for the transaction-level helper; route to the settlement workflow",
+      "amounts": {
+        "settlement": 425.0,
+        "bank": 420.0
+      },
+      "evidence": [
+        {
+          "record_id": "S-0710",
+          "source": "settlement",
+          "amount": 425.0,
+          "citation": "settlement:settle=acquirer;batch=0710@2026-07-10"
+        },
+        {
+          "record_id": "B-0710",
+          "source": "bank",
+          "amount": 420.0,
+          "citation": "bank:bank=dda;deposit=0710@2026-07-12"
+        }
+      ]
+    }
+  ],
+  "proposed_entries": [
+    {
+      "txn_ref": "TXN-1002",
+      "type": "ledger_adjustment",
+      "status": "proposed",
+      "ledger_delta": 250.0,
+      "requires_approval": true,
+      "narrative": "Propose recording TXN-1002 in the ledger at the bank amount 250.0."
+    },
+    {
+      "txn_ref": "TXN-1003",
+      "type": "ledger_adjustment",
+      "status": "proposed",
+      "ledger_delta": -5.0,
+      "requires_approval": true,
+      "narrative": "Propose a -5.00 ledger adjustment to tie TXN-1003 to the bank amount."
+    },
+    {
+      "txn_ref": "TXN-1005",
+      "type": "ledger_adjustment",
+      "status": "proposed",
+      "ledger_delta": -40.0,
+      "requires_approval": true,
+      "narrative": "Propose reversing the unsupported ledger entry pending investigation."
+    }
+  ],
+  "tie_out": {
+    "source_totals": {
+      "gateway": 430.0,
+      "processor": 430.0,
+      "bank": 425.0,
+      "ledger": 220.0
+    },
+    "target_source": "bank",
+    "target_total": 425.0,
+    "ledger_total": 220.0,
+    "net_proposed": 205.0,
+    "residual_before": 205.0,
+    "residual_after": 0.0,
+    "tolerance": 0.01,
+    "tied_out": true
+  },
+  "disclaimer": "Proposed entries only; not posted to any system of record. Human approval and posting required.",
+  "narrative": "Reconciliation trx-merchant42-2026-07-15 covered 5 transaction groups: 1 fully matched, 3 transaction-level breaks, and 1 settlement-file break routed to settlement-break-reconciler. TXN-1002 (250.00) is present in gateway, processor, and bank but unrecorded in the ledger; TXN-1003 was funded by the bank at 75.00 against 80.00 recorded in the ledger; TXN-1005 is a 40.00 ledger-only orphan with no cash support. After the three proposed ledger adjustments (net +205.00) the ledger ties to the bank cash position with a residual of 0.00. All entries are drafts requiring analyst review and posting through the ledger system. Proposed entries only; not posted to any system of record. Human approval and posting required."
+}

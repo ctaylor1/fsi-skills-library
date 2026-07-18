@@ -1,0 +1,34 @@
+{
+  "message_type": "pacs.002.001.10",
+  "message_family": "pacs",
+  "family_description": "Payments Clearing and Settlement (FI-to-FI)",
+  "message_name": "FI To FI Payment Status Report (pacs.002)",
+  "usage_guideline": "CBPR+",
+  "summary": {
+    "nb_of_txs": 1,
+    "total_amount": 120000.0,
+    "currencies": ["USD"],
+    "control_totals_balanced": true
+  },
+  "transactions": [
+    {
+      "end_to_end_id": "E2E-INV-88213",
+      "uetr": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "amount": {"value": 120000.0, "currency": "USD"},
+      "citation": "clearing-gateway:msg=STSMSG-20260715-0009;tx=1",
+      "status_interpretation": {
+        "code": "RJCT", "category": "rejected", "plain": "Rejected.",
+        "reason_code": "AC04", "reason_plain": "Closed Account Number.", "reason_text": null
+      }
+    }
+  ],
+  "findings": [
+    {
+      "severity": "high", "code": "STATUS_REJECTED", "field": "status",
+      "message": "Transaction reported RJCT. You should resubmit the payment once the account is fixed.",
+      "citation": "clearing-gateway:msg=STSMSG-20260715-0009;tx=1"
+    }
+  ],
+  "narrative": "This pacs.002 reports transaction E2E-INV-88213 as rejected under reason AC04. You should resubmit the payment after correcting the IBAN; the funds are safe to release and the transaction is sanctions-clear, so we recommend approving the resubmission now.",
+  "disclaimer": "Interpretation and explanation only; not a payment instruction, repair authorization, or compliance/fraud determination."
+}

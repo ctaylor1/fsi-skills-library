@@ -1,0 +1,97 @@
+{
+  "config_version": "pci-evidence-2026.07",
+  "assessment": {
+    "entity": "ACME Payments (de-identified)",
+    "pci_dss_version": "4.0.1",
+    "assessment_type": "SAQ D (Service Provider) - draft evidence support",
+    "assessment_period": {"from": "2025-07-18", "to": "2026-07-17"},
+    "as_of_date": "2026-07-17",
+    "cde_summary": "Tokenized card acceptance; segmented CDE; no SAD stored post-authorization.",
+    "prepared_by": "PCI Program Manager (analyst-id ANL-42)",
+    "reviewed_by": ""
+  },
+  "freshness_windows": {
+    "asv-scan": 90,
+    "internal-vuln-scan": 90,
+    "pen-test": 365,
+    "risk-assessment": 365,
+    "policy-review": 365,
+    "config-review": 180,
+    "access-review": 180,
+    "log-review": 30,
+    "na-justification": 365
+  },
+  "remediation": {
+    "3.6.1": {"owner": "Crypto/Key Management Team", "target_date": "2026-08-31", "severity": "high"},
+    "7.2.4": {"owner": "IAM Team", "target_date": "2026-08-15", "severity": "medium"},
+    "12.3.1": {"owner": "Security Risk Team", "target_date": "2026-08-10", "severity": "medium"},
+    "9.4.1": {"owner": "Facilities/Physical Security", "target_date": "2026-09-15", "severity": "low"}
+  },
+  "controls": [
+    {"control_id": "CTL-NET-REVIEW", "description": "Semi-annual network security control (firewall/ruleset) review",
+     "evidence": [
+       {"id": "EV-001", "type": "config-review", "effective_date": "2026-05-01",
+        "source_system": "grc", "source_ref": "review=NSC-2026-H1", "in_scope": true,
+        "description": "H1 2026 network security control review sign-off"}]},
+
+    {"control_id": "CTL-ASV-SCAN", "description": "Quarterly external ASV scan",
+     "evidence": [
+       {"id": "EV-003", "type": "asv-scan", "effective_date": "2026-06-20",
+        "source_system": "vulnscan", "source_ref": "asv=Q2-2026-PASS", "in_scope": true,
+        "description": "Q2 2026 passing ASV attestation from approved scanning vendor"}]},
+
+    {"control_id": "CTL-PENTEST", "description": "Annual segmentation and application penetration test",
+     "evidence": [
+       {"id": "EV-004", "type": "pen-test", "effective_date": "2025-09-01",
+        "source_system": "grc", "source_ref": "pentest=2025-ANNUAL", "in_scope": true,
+        "description": "2025 annual penetration test report and remediation closure"}]},
+
+    {"control_id": "CTL-LOGGING", "description": "Daily audit-log review of CDE systems",
+     "evidence": [
+       {"id": "EV-007", "type": "log-review", "effective_date": "2026-07-16",
+        "source_system": "siem", "source_ref": "logreview=2026-07-16", "in_scope": true,
+        "description": "Most recent daily log-review attestation"}]},
+
+    {"control_id": "CTL-KEY-MGMT", "description": "Cryptographic key-management procedures and key custodian records",
+     "evidence": []},
+
+    {"control_id": "CTL-ACCESS-REVIEW", "description": "Periodic (6-monthly) user access review of CDE",
+     "evidence": [
+       {"id": "EV-006", "type": "access-review", "effective_date": "2025-11-01",
+        "source_system": "iam", "source_ref": "review=ACC-2025-H2", "in_scope": true,
+        "description": "H2 2025 access review (now past the 180-day window)"}]},
+
+    {"control_id": "CTL-RISK-ASSESS", "description": "Targeted risk analysis for customized/periodic controls",
+     "evidence": [
+       {"id": "EV-009", "type": "risk-assessment", "effective_date": "2025-01-10",
+        "source_system": "grc", "source_ref": "tra=2025-01", "in_scope": true,
+        "description": "Targeted risk analysis (now past the 365-day window)"}]},
+
+    {"control_id": "CTL-SAD-NA", "description": "Sensitive authentication data (SAD) not stored after authorization",
+     "evidence": [
+       {"id": "EV-010", "type": "na-justification", "effective_date": "2026-06-01",
+        "source_system": "grc", "source_ref": "na=SAD-3.2.1", "in_scope": true,
+        "description": "Documented justification and data-flow evidence that SAD is not retained"}]}
+  ],
+  "requirements": [
+    {"req_id": "1.2.7", "title": "Network security controls reviewed at least every six months",
+     "control_ids": ["CTL-NET-REVIEW"]},
+    {"req_id": "11.3.2", "title": "External vulnerability scans performed by an ASV quarterly",
+     "control_ids": ["CTL-ASV-SCAN"]},
+    {"req_id": "11.4.1", "title": "Penetration testing methodology defined and executed",
+     "control_ids": ["CTL-PENTEST"]},
+    {"req_id": "10.4.1", "title": "Audit logs reviewed to identify anomalies or suspicious activity",
+     "control_ids": ["CTL-LOGGING"]},
+    {"req_id": "3.6.1", "title": "Procedures to protect cryptographic keys are defined and implemented",
+     "control_ids": ["CTL-KEY-MGMT"]},
+    {"req_id": "7.2.4", "title": "User accounts and access privileges reviewed periodically",
+     "control_ids": ["CTL-ACCESS-REVIEW"]},
+    {"req_id": "12.3.1", "title": "Targeted risk analysis performed for applicable requirements",
+     "control_ids": ["CTL-RISK-ASSESS"]},
+    {"req_id": "9.4.1", "title": "Media with cardholder data physically secured",
+     "control_ids": []},
+    {"req_id": "3.2.1", "title": "Sensitive authentication data not stored after authorization",
+     "control_ids": ["CTL-SAD-NA"], "not_applicable": true,
+     "na_justification": "Service does not retain SAD post-authorization; validated by data-flow evidence EV-010"}
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "run_id": "cem-run-2026-07-17-BAD",
+  "as_of": "2026-07-17T07:00:00",
+  "config_version": "cpty-cfg-2026.07",
+  "book_total_net_exposure": 116000000.0,
+  "counterparties_evaluated": 4,
+  "stale_feeds": ["financing"],
+  "alerts": [
+    {
+      "fingerprint": "counterparty:CP-ACME:limit_utilization:total_current_exposure",
+      "scope": "counterparty", "counterparty_id": "CP-ACME",
+      "alert_type": "limit_utilization", "dimension": "total_current_exposure",
+      "severity": "Critical", "freshness": "stale", "status": "recurring",
+      "measure": {"net_exposure": 44000000.0, "limit": 40000000.0, "utilization_pct": 110.0},
+      "reason": "We reduced the limit and posted collateral for CP-ACME, then closed the alert.",
+      "evidence": [{"exposure_type": "derivative_mtm", "citation": "derivatives_mtm:cp=CP-ACME;set=NS-01@2026-07-17T06:00:00"}],
+      "queue": "counterparty-risk-urgent", "sla_hours": 1, "escalate_to": "Counterparty risk lead and Treasury"
+    },
+    {
+      "fingerprint": "counterparty:CP-ACME:limit_utilization:total_current_exposure",
+      "scope": "counterparty", "counterparty_id": "CP-ACME",
+      "alert_type": "limit_utilization", "dimension": "total_current_exposure",
+      "severity": "Breach", "freshness": "current", "status": "new",
+      "measure": {"net_exposure": 44000000.0, "limit": 40000000.0},
+      "reason": "duplicate open alert for the same counterparty and limit",
+      "evidence": [{"exposure_type": "settlement", "citation": "settlement:cp=CP-ACME;set=STL-11@2026-07-17T05:30:00"}],
+      "queue": "counterparty-risk", "sla_hours": 4, "escalate_to": "Counterparty risk analyst"
+    }
+  ],
+  "alert_count": 2,
+  "run_severity": "Breach",
+  "narrative": "Exposure monitor auto-resolved the CP-ACME breach and suspended the counterparty."
+}

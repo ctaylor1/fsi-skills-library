@@ -1,0 +1,255 @@
+{
+  "analysis_id": "ssg-PROJECT-ATLAS-2026-07-15-0001",
+  "model_id": "PROJECT-ATLAS",
+  "as_of": "2026-07-15",
+  "config_version": "ssg-cfg-2026.07",
+  "currency": "USD",
+  "unit": "millions",
+  "drivers": [
+    {
+      "name": "revenue",
+      "base": 1000.0,
+      "unit": "USD_mm",
+      "source_ref": "model:Rev!B10",
+      "provenance": "three-statement-model-builder@v1.2 (de-identified)"
+    },
+    {
+      "name": "ebitda_margin",
+      "base": 0.25,
+      "unit": "ratio",
+      "source_ref": "model:Ops!B22",
+      "provenance": "three-statement-model-builder@v1.2 (de-identified)"
+    },
+    {
+      "name": "ev_ebitda_multiple",
+      "base": 10.0,
+      "unit": "x",
+      "source_ref": "comps:median_ev_ebitda",
+      "provenance": "comps-analysis-builder@v0.9 (de-identified peer set)"
+    },
+    {
+      "name": "net_debt",
+      "base": 500.0,
+      "unit": "USD_mm",
+      "source_ref": "model:Cap!B5",
+      "provenance": "three-statement-model-builder@v1.2 (de-identified)"
+    },
+    {
+      "name": "shares_out",
+      "base": 100.0,
+      "unit": "mm_shares",
+      "source_ref": "model:Cap!B9",
+      "provenance": "filings:10-K cover (de-identified)"
+    }
+  ],
+  "outputs_def": [
+    {
+      "name": "ebitda",
+      "formula": "revenue * ebitda_margin",
+      "unit": "USD_mm"
+    },
+    {
+      "name": "enterprise_value",
+      "formula": "ebitda * ev_ebitda_multiple",
+      "unit": "USD_mm"
+    },
+    {
+      "name": "equity_value",
+      "formula": "enterprise_value - net_debt",
+      "unit": "USD_mm"
+    },
+    {
+      "name": "implied_share_price",
+      "formula": "equity_value / shares_out",
+      "unit": "USD_per_share"
+    }
+  ],
+  "base_case": {
+    "ebitda": 250.0,
+    "enterprise_value": 2500.0,
+    "equity_value": 2000.0,
+    "implied_share_price": 20.0
+  },
+  "scenarios": [
+    {
+      "name": "Base",
+      "overrides": {},
+      "outputs": {
+        "ebitda": 250.0,
+        "enterprise_value": 2500.0,
+        "equity_value": 2000.0,
+        "implied_share_price": 20.0
+      },
+      "deltas_vs_base": {
+        "ebitda": 0.0,
+        "enterprise_value": 0.0,
+        "equity_value": 0.0,
+        "implied_share_price": 0.0
+      },
+      "pct_vs_base": {
+        "ebitda": 0.0,
+        "enterprise_value": 0.0,
+        "equity_value": 0.0,
+        "implied_share_price": 0.0
+      }
+    },
+    {
+      "name": "Bull",
+      "overrides": {
+        "revenue": 1100.0,
+        "ebitda_margin": 0.28,
+        "ev_ebitda_multiple": 11.0
+      },
+      "outputs": {
+        "ebitda": 308.00000000000006,
+        "enterprise_value": 3388.0000000000005,
+        "equity_value": 2888.0000000000005,
+        "implied_share_price": 28.880000000000006
+      },
+      "deltas_vs_base": {
+        "ebitda": 58.00000000000006,
+        "enterprise_value": 888.0000000000005,
+        "equity_value": 888.0000000000005,
+        "implied_share_price": 8.880000000000006
+      },
+      "pct_vs_base": {
+        "ebitda": 0.23200000000000023,
+        "enterprise_value": 0.3552000000000002,
+        "equity_value": 0.44400000000000023,
+        "implied_share_price": 0.4440000000000003
+      }
+    },
+    {
+      "name": "Bear",
+      "overrides": {
+        "revenue": 900.0,
+        "ebitda_margin": 0.22,
+        "ev_ebitda_multiple": 9.0
+      },
+      "outputs": {
+        "ebitda": 198.0,
+        "enterprise_value": 1782.0,
+        "equity_value": 1282.0,
+        "implied_share_price": 12.82
+      },
+      "deltas_vs_base": {
+        "ebitda": -52.0,
+        "enterprise_value": -718.0,
+        "equity_value": -718.0,
+        "implied_share_price": -7.18
+      },
+      "pct_vs_base": {
+        "ebitda": -0.208,
+        "enterprise_value": -0.2872,
+        "equity_value": -0.359,
+        "implied_share_price": -0.359
+      }
+    }
+  ],
+  "sensitivities": [
+    {
+      "driver": "ebitda_margin",
+      "output": "implied_share_price",
+      "base_value": 20.0,
+      "points": [
+        {
+          "driver_value": 0.2,
+          "output_value": 15.0,
+          "pct_change_vs_base": -0.25
+        },
+        {
+          "driver_value": 0.225,
+          "output_value": 17.5,
+          "pct_change_vs_base": -0.125
+        },
+        {
+          "driver_value": 0.25,
+          "output_value": 20.0,
+          "pct_change_vs_base": 0.0
+        },
+        {
+          "driver_value": 0.275,
+          "output_value": 22.5,
+          "pct_change_vs_base": 0.125
+        },
+        {
+          "driver_value": 0.3,
+          "output_value": 25.0,
+          "pct_change_vs_base": 0.25
+        }
+      ]
+    }
+  ],
+  "two_way_tables": [
+    {
+      "row_driver": "ebitda_margin",
+      "col_driver": "ev_ebitda_multiple",
+      "output": "implied_share_price",
+      "row_points": [
+        0.22,
+        0.25,
+        0.28
+      ],
+      "col_points": [
+        9.0,
+        10.0,
+        11.0
+      ],
+      "grid": [
+        [
+          14.8,
+          17.0,
+          19.2
+        ],
+        [
+          17.5,
+          20.0,
+          22.5
+        ],
+        [
+          20.2,
+          23.0,
+          25.8
+        ]
+      ]
+    }
+  ],
+  "breakevens": [
+    {
+      "driver": "ebitda_margin",
+      "output": "equity_value",
+      "target": 0.0,
+      "bracket": [
+        0.0,
+        0.5
+      ],
+      "method": "bisection",
+      "iterations": 40,
+      "converged": true,
+      "solution": 0.04999999999972715,
+      "note": null
+    }
+  ],
+  "decision_thresholds": [
+    {
+      "driver": "ev_ebitda_multiple",
+      "output": "implied_share_price",
+      "target": 25.0,
+      "label": "multiple required to reach a 25.00/share reference level",
+      "bracket": [
+        1.0,
+        30.0
+      ],
+      "iterations": 45,
+      "converged": true,
+      "threshold_value": 12.000000000000028,
+      "base_driver_value": 10.0,
+      "base_output_value": 20.0,
+      "base_meets_target": false,
+      "note": null
+    }
+  ],
+  "disclaimer": "Analytical scenario and sensitivity output only; not investment advice, a recommendation, or a price target. Assumptions are user/model-supplied and must be reviewed by a qualified professional before any decision or external delivery.",
+  "narrative": "Scenario and sensitivity analysis for model PROJECT-ATLAS as of 2026-07-15 (config ssg-cfg-2026.07). Base case implied value works out to 20.00 per share from an EBITDA of 250.0 (25.0% margin on 1,000.0 revenue), a 10.0x EV/EBITDA multiple, and 500.0 net debt across 100.0 shares. The Bull case (higher revenue, margin, and multiple) lifts the implied value to 28.88; the Bear case lowers it to 12.82. A one-way sweep of EBITDA margin from 20.0% to 30.0% moves the implied value linearly from 15.00 to 25.00, and the two-way margin-by-multiple table spans 14.80 to 25.80. Equity value reaches zero at a 5.0% EBITDA margin (breakeven); an EV/EBITDA multiple of 12.0x is required to reach the 25.00/share reference level, versus 10.0x in the base case. Every figure ties out to the stated drivers and formulas and is reproducible from the recorded assumption set. These are mechanics from supplied assumptions, not investment advice or a recommendation; a qualified reviewer must review and approve before any external delivery.",
+  "notes": "Assumptions sourced from an upstream three-statement model and comps set (de-identified). No advice."
+}

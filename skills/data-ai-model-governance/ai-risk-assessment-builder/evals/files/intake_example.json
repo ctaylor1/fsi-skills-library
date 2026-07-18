@@ -1,0 +1,83 @@
+{
+  "framework_version": "ai-rmf-2026.07",
+  "assessment_id": "RA-3001",
+  "system_name": "Retail Credit Decisioning Assistant",
+  "use_case": "GenAI-assisted adverse-action explanation drafting for consumer credit decisions",
+  "inherent_risk_tier": "High",
+  "intake_ref": "intake=UC-1200@2026-07-10",
+  "model_ref": "modelreg:MODEL-778@v3",
+  "domains": {
+    "data": {
+      "likelihood": "Medium", "impact": "High", "source_ref": "datacatalog:DS-4471@2026-07-11",
+      "controls": [
+        {"control_id": "DATA-1", "name": "Documented data provenance & lineage", "status": "implemented", "evidence_ref": "datacatalog:lineage=DS-4471@2026-07-11", "recommended_action": "Maintain lineage records."},
+        {"control_id": "DATA-2", "name": "Data quality checks on training set", "status": "implemented", "evidence_ref": "evalharness:dq-run=EV-201@2026-07-08", "recommended_action": "Keep DQ suite current."}
+      ]
+    },
+    "model": {
+      "likelihood": "Medium", "impact": "High", "source_ref": "modelreg:MODEL-778@v3",
+      "controls": [
+        {"control_id": "MODEL-1", "name": "Independent model validation", "status": "implemented", "evidence_ref": "modelreg:validation=VAL-778@2026-06-30", "recommended_action": "Refresh validation annually."},
+        {"control_id": "MODEL-2", "name": "Performance benchmark vs baseline", "status": "implemented", "evidence_ref": "evalharness:bench=EV-210@2026-07-05", "recommended_action": "Re-benchmark on drift."}
+      ]
+    },
+    "fairness": {
+      "likelihood": "Medium", "impact": "High", "source_ref": "evalharness:fairness-run=EV-220@2026-07-09",
+      "controls": [
+        {"control_id": "FAIR-1", "name": "Disparate-impact testing across protected groups", "status": "implemented", "evidence_ref": "evalharness:fairness-run=EV-220@2026-07-09", "recommended_action": "Run DI testing each release."},
+        {"control_id": "FAIR-2", "name": "Bias mitigation on flagged segments", "status": "missing", "recommended_action": "Implement reweighting / mitigation for the flagged segment and document results."},
+        {"control_id": "FAIR-3", "name": "Fairness monitoring in production", "status": "missing", "recommended_action": "Add ongoing fairness metrics to production monitoring."}
+      ]
+    },
+    "explainability": {
+      "likelihood": "Medium", "impact": "Medium", "source_ref": "modelreg:explainability=MODEL-778@v3",
+      "controls": [
+        {"control_id": "EXPL-1", "name": "Reason-code / feature attribution documentation", "status": "implemented", "evidence_ref": "modelreg:xai-doc=MODEL-778@2026-06-28", "recommended_action": "Keep attribution docs current."},
+        {"control_id": "EXPL-2", "name": "Adverse-action reason validation", "status": "missing", "recommended_action": "Validate generated adverse-action reasons against approved reason codes."},
+        {"control_id": "EXPL-3", "name": "Human-readable explanation review", "status": "missing", "recommended_action": "Add reviewer check of generated explanations for accuracy."},
+        {"control_id": "EXPL-4", "name": "Explanation drift checks", "status": "missing", "recommended_action": "Monitor explanation stability over time."}
+      ]
+    },
+    "security": {
+      "likelihood": "Medium", "impact": "High", "source_ref": "issue:SEC-REVIEW=SR-880@2026-07-01",
+      "controls": [
+        {"control_id": "SEC-1", "name": "Prompt-injection & input filtering", "status": "implemented", "evidence_ref": "evalharness:sec-run=EV-230@2026-07-06", "recommended_action": "Keep filters tuned."},
+        {"control_id": "SEC-2", "name": "Secrets & access controls on model endpoint", "status": "missing", "recommended_action": "Apply least-privilege access and secret rotation to the endpoint."}
+      ]
+    },
+    "privacy": {
+      "likelihood": "Medium", "impact": "High", "source_ref": "issue:DPIA=DPIA-455@2026-06-20",
+      "controls": [
+        {"control_id": "PRIV-1", "name": "Completed DPIA", "status": "implemented", "evidence_ref": "issue:DPIA=DPIA-455@2026-06-20", "recommended_action": "Refresh DPIA on material change."},
+        {"control_id": "PRIV-2", "name": "PII minimization in prompts/outputs", "status": "implemented", "evidence_ref": "modelreg:pii-scan=MODEL-778@2026-07-02", "recommended_action": "Keep PII redaction enabled."}
+      ]
+    },
+    "third_party": {
+      "likelihood": "High", "impact": "Medium", "source_ref": "issue:TPRM=TP-330@open",
+      "controls": [
+        {"control_id": "TP-1", "name": "Third-party LLM provider due diligence", "status": "missing", "recommended_action": "Complete third-party due diligence and contractual AI controls with the provider."}
+      ]
+    },
+    "human_oversight": {
+      "likelihood": "Low", "impact": "High", "source_ref": "agentlogs:oversight=MODEL-778@2026-07-12",
+      "controls": [
+        {"control_id": "HO-1", "name": "Human review before adverse action is sent", "status": "implemented", "evidence_ref": "agentlogs:review-gate=MODEL-778@2026-07-12", "recommended_action": "Maintain the human-in-the-loop gate."}
+      ]
+    },
+    "resilience": {
+      "likelihood": "Medium", "impact": "Medium", "source_ref": "modelreg:resilience=MODEL-778@v3",
+      "controls": [
+        {"control_id": "RES-1", "name": "Fallback to deterministic reason codes on outage", "status": "implemented", "evidence_ref": "modelreg:fallback=MODEL-778@2026-07-03", "recommended_action": "Test fallback quarterly."},
+        {"control_id": "RES-2", "name": "Rate-limit & timeout handling", "status": "implemented", "evidence_ref": "modelreg:resilience-test=MODEL-778@2026-07-03", "recommended_action": "Keep resilience tests current."}
+      ]
+    },
+    "monitoring": {
+      "likelihood": "Medium", "impact": "High", "source_ref": "modelreg:monitoring=MODEL-778@v3",
+      "controls": [
+        {"control_id": "MON-1", "name": "Output quality monitoring", "status": "partial", "evidence_ref": "modelreg:monitor-config=MODEL-778@2026-07-04", "recommended_action": "Expand monitoring coverage to all decision paths."},
+        {"control_id": "MON-2", "name": "Drift detection with alert thresholds", "status": "missing", "recommended_action": "Stand up drift detection with alerting."},
+        {"control_id": "MON-3", "name": "Incident escalation runbook", "status": "missing", "recommended_action": "Document and wire the model-incident escalation runbook."}
+      ]
+    }
+  }
+}

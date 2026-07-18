@@ -1,0 +1,201 @@
+{
+  "entity_id": "ACME-CORP",
+  "as_of": "2026-07-15",
+  "reporting_framework": "US-GAAP",
+  "currency": "USD",
+  "config_version": "normmap-2026.07",
+  "source_document": "ACME-CORP FY2025 audited financial statements (issuer-provided)",
+  "mapping": [
+    {
+      "source_label": "Net sales",
+      "std_account": "revenue",
+      "statement": "income_statement",
+      "normal_sign": "positive"
+    },
+    {
+      "source_label": "Cost of goods sold",
+      "std_account": "cogs",
+      "statement": "income_statement",
+      "normal_sign": "negative"
+    },
+    {
+      "source_label": "Selling, general and administrative",
+      "std_account": "sga",
+      "statement": "income_statement",
+      "normal_sign": "negative"
+    },
+    {
+      "source_label": "Restructuring charge",
+      "std_account": "restructuring",
+      "statement": "income_statement",
+      "normal_sign": "negative"
+    },
+    {
+      "source_label": "Interest expense",
+      "std_account": "interest_expense",
+      "statement": "income_statement",
+      "normal_sign": "negative"
+    },
+    {
+      "source_label": "Cash and cash equivalents",
+      "std_account": "cash",
+      "statement": "balance_sheet",
+      "normal_sign": "positive"
+    },
+    {
+      "source_label": "Accounts receivable, net",
+      "std_account": "receivables",
+      "statement": "balance_sheet",
+      "normal_sign": "positive"
+    },
+    {
+      "source_label": "Inventories",
+      "std_account": "inventory",
+      "statement": "balance_sheet",
+      "normal_sign": "positive"
+    }
+  ],
+  "line_items": [
+    {
+      "line_id": "IS-1",
+      "raw_label": "Net sales",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "value": 12000.0,
+      "source_ref": "IS;row=Net sales;FY2025"
+    },
+    {
+      "line_id": "IS-2",
+      "raw_label": "Cost of goods sold",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "value": -8000.0,
+      "source_ref": "IS;row=Cost of goods sold;FY2025"
+    },
+    {
+      "line_id": "IS-3",
+      "raw_label": "Selling, general and administrative",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "value": -2000.0,
+      "source_ref": "IS;row=SG&A;FY2025"
+    },
+    {
+      "line_id": "IS-4",
+      "raw_label": "Restructuring charge",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "value": -300.0,
+      "source_ref": "IS;row=Restructuring;FY2025"
+    },
+    {
+      "line_id": "IS-9",
+      "raw_label": "Interest expense",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "value": -100.0
+    },
+    {
+      "line_id": "IS-UM",
+      "raw_label": "Equity in earnings of affiliates",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "value": 50.0,
+      "source_ref": "IS;row=Equity in earnings of affiliates;FY2025"
+    },
+    {
+      "line_id": "BS-1",
+      "raw_label": "Cash and cash equivalents",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "value": 1000.0,
+      "source_ref": "BS;row=Cash;FY2025"
+    },
+    {
+      "line_id": "BS-2",
+      "raw_label": "Accounts receivable, net",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "value": 1500.0,
+      "source_ref": "BS;row=AR;FY2025"
+    },
+    {
+      "line_id": "BS-3",
+      "raw_label": "Inventories",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "value": 2200.0,
+      "source_ref": "BS;row=Inventory;FY2025"
+    },
+    {
+      "line_id": "BS-SUB-1",
+      "raw_label": "Total current assets",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "value": 5000.0,
+      "source_ref": "BS;row=Total current assets;FY2025",
+      "is_subtotal": true,
+      "components": [
+        "BS-1",
+        "BS-2",
+        "BS-3"
+      ]
+    },
+    {
+      "line_id": "BS-TA",
+      "raw_label": "Total assets",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "value": 9000.0,
+      "source_ref": "BS;row=Total assets;FY2025",
+      "is_subtotal": true,
+      "role": "total_assets"
+    },
+    {
+      "line_id": "BS-TL",
+      "raw_label": "Total liabilities",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "value": 4000.0,
+      "source_ref": "BS;row=Total liabilities;FY2025",
+      "is_subtotal": true,
+      "role": "total_liabilities"
+    },
+    {
+      "line_id": "BS-TE",
+      "raw_label": "Total stockholders' equity",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "value": 5100.0,
+      "source_ref": "BS;row=Total equity;FY2025",
+      "is_subtotal": true,
+      "role": "total_equity"
+    }
+  ],
+  "adjustments": [
+    {
+      "adj_id": "ADJ-1",
+      "std_account": "operating_income",
+      "type": "non_recurring_addback",
+      "period": "FY2025",
+      "amount": 300.0,
+      "rationale": "add back one-time restructuring charge disclosed in note 12",
+      "source_ref": "notes;note=12",
+      "approver": "controller"
+    },
+    {
+      "adj_id": "ADJ-2",
+      "std_account": "operating_income",
+      "type": "reclass",
+      "period": "FY2025",
+      "amount": -150.0,
+      "rationale": "",
+      "source_ref": "notes;note=12"
+    }
+  ],
+  "config": {
+    "tie_out_tolerance": 1.0,
+    "adjustment_materiality_pct": 5.0,
+    "escalate_finding_count": 4
+  }
+}

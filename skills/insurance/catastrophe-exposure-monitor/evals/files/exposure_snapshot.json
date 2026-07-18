@@ -1,0 +1,37 @@
+{
+  "run_id": "cem-2026-07-17-0001",
+  "as_of": "2026-07-17T06:00:00",
+  "config_version": "cat-cfg-2026.07",
+  "queue": "catastrophe-risk-review",
+  "sources": [
+    {"source": "policy_admin", "as_of": "2026-07-17T02:00:00", "ref": "pas;snapshot=2026-07-17T02Z"},
+    {"source": "event_feed", "as_of": "2026-07-17T01:00:00", "ref": "nhc;adv=27"},
+    {"source": "cat_model", "as_of": "2026-07-14T20:00:00", "ref": "model;run=2026-07-14T20Z"}
+  ],
+  "events": [
+    {"event_id": "AL072026", "name": "Hurricane Delta", "peril": "hurricane", "category": 3,
+     "footprint_zones": ["FL-MIA", "FL-BRO"], "footprint_as_of": "2026-07-17T01:00:00", "source_ref": "nhc;adv=27"}
+  ],
+  "locations": [
+    {"location_id": "L-1", "policy_id": "P-1", "zone": "FL-MIA", "peril_exposed": ["hurricane", "flood"], "tiv": 7000000, "limit": 5000000, "construction": "masonry", "geocoded": true, "valuation_date": "2025-06-01", "modeled_loss": {"low": 2000000, "mid": 5000000, "high": 9000000}, "source_ref": "pas;loc=L-1"},
+    {"location_id": "L-2", "policy_id": "P-2", "zone": "FL-MIA", "peril_exposed": ["hurricane"], "tiv": 9000000, "limit": 6500000, "construction": "steel", "geocoded": true, "valuation_date": "2025-03-01", "modeled_loss": {"low": 3000000, "mid": 7000000, "high": 14000000}, "source_ref": "pas;loc=L-2"},
+    {"location_id": "L-3", "policy_id": "P-3", "zone": "FL-MIA", "peril_exposed": ["hurricane"], "tiv": 3000000, "limit": 2000000, "construction": "wood", "geocoded": true, "valuation_date": "2021-01-01", "modeled_loss": {"low": 500000, "mid": 1500000, "high": 3000000}, "source_ref": "pas;loc=L-3"},
+    {"location_id": "L-4", "policy_id": "P-4", "zone": "FL-MIA", "peril_exposed": ["hurricane"], "tiv": 2500000, "limit": 1500000, "construction": "wood", "geocoded": false, "valuation_date": "2025-05-01", "modeled_loss": null, "source_ref": "pas;loc=L-4"},
+    {"location_id": "L-5", "policy_id": "P-5", "zone": "FL-BRO", "peril_exposed": ["hurricane"], "tiv": 8000000, "limit": 6000000, "construction": "masonry", "geocoded": true, "valuation_date": "2024-11-01", "modeled_loss": {"low": 2500000, "mid": 6000000, "high": 11000000}, "source_ref": "pas;loc=L-5"},
+    {"location_id": "L-6", "policy_id": "P-6", "zone": "FL-BRO", "peril_exposed": ["hurricane"], "tiv": 5000000, "limit": 4000000, "construction": "masonry", "geocoded": true, "valuation_date": "2025-02-01", "modeled_loss": {"low": 1500000, "mid": 3500000, "high": 7000000}, "source_ref": "pas;loc=L-6"},
+    {"location_id": "L-7", "policy_id": "P-7", "zone": "TX-HOU", "peril_exposed": ["hurricane"], "tiv": 4000000, "limit": 3000000, "construction": "masonry", "geocoded": true, "valuation_date": "2025-01-01", "modeled_loss": {"low": 500000, "mid": 1000000, "high": 2000000}, "source_ref": "pas;loc=L-7"},
+    {"location_id": "L-8", "policy_id": "P-8", "zone": "FL-MIA", "peril_exposed": ["flood"], "tiv": 2000000, "limit": 1500000, "construction": "masonry", "geocoded": true, "valuation_date": "2025-01-01", "modeled_loss": {"low": 100000, "mid": 300000, "high": 600000}, "source_ref": "pas;loc=L-8"}
+  ],
+  "prior_alerts": [
+    "AL072026:FL-MIA:hurricane:zone_accumulation",
+    "AL072026:FL-BRO:hurricane:zone_accumulation"
+  ],
+  "config": {
+    "zone_accum_limit": {"default": 20000000, "FL-MIA": 8000000},
+    "single_location_max": 6000000,
+    "modeled_loss_appetite": 30000000,
+    "approaching_ratio": 0.9,
+    "stale_valuation_years": 3,
+    "max_source_staleness_hours": {"event_feed": 6, "cat_model": 48, "policy_admin": 24, "default": 24}
+  }
+}

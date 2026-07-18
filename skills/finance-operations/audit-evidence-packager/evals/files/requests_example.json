@@ -1,0 +1,88 @@
+{
+  "config_version": "audit-evidence-2026.07",
+  "engagement": {
+    "entity": "ACME Manufacturing Inc. (de-identified)",
+    "engagement_name": "FY2026 SOX ITGC & Financial-Close Controls",
+    "engagement_type": "Internal audit / SOX walkthrough - draft evidence support",
+    "framework": "COSO 2013 / SOX 404",
+    "audit_period": {"from": "2026-01-01", "to": "2026-06-30"},
+    "as_of_date": "2026-07-17",
+    "prepared_by": "Audit Coordinator (analyst-id ANL-77)",
+    "reviewed_by": ""
+  },
+  "remediation": {
+    "PBC-03": {"owner": "Revenue Accounting", "target_date": "2026-08-05", "severity": "high"},
+    "PBC-04": {"owner": "HR Payroll", "target_date": "2026-07-31", "severity": "high"},
+    "PBC-05": {"owner": "IT Operations", "target_date": "2026-08-10", "severity": "medium"},
+    "PBC-06": {"owner": "General Ledger", "target_date": "2026-08-15", "severity": "medium"}
+  },
+  "artifacts": [
+    {"artifact_id": "ART-01", "title": "Q2 2026 bank reconciliation - operating account", "type": "reconciliation",
+     "as_of_date": "2026-06-30", "period": {"from": "2026-06-01", "to": "2026-06-30"},
+     "source_system": "erp-gl", "source_ref": "recon=BR-OPS-2026-06", "in_scope": true,
+     "chain_of_custody": {"source_system": "erp-gl", "prepared_by": "GL Accountant (id GLA-12)",
+       "extracted_on": "2026-07-05", "checksum": "sha256:1a2b3c4d5e6f"}},
+
+    {"artifact_id": "ART-02", "title": "Payroll register sample - June 2026", "type": "report-extract",
+     "as_of_date": "2026-06-30", "period": {"from": "2026-06-01", "to": "2026-06-30"},
+     "source_system": "hcm", "source_ref": "report=PAY-REG-2026-06", "in_scope": true,
+     "sensitive_fields": ["employee_ssn", "bank_account"],
+     "redaction": {"applied": true, "method": "masking", "redacted_fields": ["employee_ssn", "bank_account"],
+       "log_ref": "RED-2026-0142"},
+     "chain_of_custody": {"source_system": "hcm", "prepared_by": "Payroll Analyst (id PAY-08)",
+       "extracted_on": "2026-07-06", "checksum": "sha256:9f8e7d6c5b4a"}},
+
+    {"artifact_id": "ART-04", "title": "New-hire access provisioning tickets sample", "type": "report-extract",
+     "as_of_date": "2026-05-31", "period": {"from": "2026-04-01", "to": "2026-05-31"},
+     "source_system": "itsm", "source_ref": "sample=PROV-2026-Q2", "in_scope": true,
+     "sensitive_fields": ["employee_ssn"],
+     "redaction": {"applied": false, "method": null, "redacted_fields": [], "log_ref": null},
+     "chain_of_custody": {"source_system": "itsm", "prepared_by": "IT Analyst (id ITA-03)",
+       "extracted_on": "2026-07-02", "checksum": "sha256:aa11bb22cc33"}},
+
+    {"artifact_id": "ART-05", "title": "Privileged-access review export", "type": "config-export",
+     "as_of_date": "2026-06-15", "period": {"from": "2026-06-15", "to": "2026-06-15"},
+     "source_system": "iam", "source_ref": "review=PAR-2026-H1", "in_scope": true,
+     "chain_of_custody": {"source_system": "iam", "prepared_by": "IAM Analyst (id IAM-05)",
+       "extracted_on": "2026-07-04", "checksum": ""}},
+
+    {"artifact_id": "ART-06", "title": "Journal-entry approval log (prior year)", "type": "report-extract",
+     "as_of_date": "2025-06-30", "period": {"from": "2025-06-01", "to": "2025-06-30"},
+     "source_system": "erp-gl", "source_ref": "log=JE-APPROVAL-2025-06", "in_scope": true,
+     "chain_of_custody": {"source_system": "erp-gl", "prepared_by": "GL Manager (id GLM-01)",
+       "extracted_on": "2026-07-03", "checksum": "sha256:dd44ee55ff66"}},
+
+    {"artifact_id": "ART-08", "title": "Segregation-of-duties conflict N/A justification memo", "type": "signoff",
+     "as_of_date": "2026-06-20", "period": {"from": "2026-01-01", "to": "2026-06-30"},
+     "source_system": "grc", "source_ref": "memo=SOD-NA-2026", "in_scope": true,
+     "chain_of_custody": {"source_system": "grc", "prepared_by": "Control Owner (id CO-09)",
+       "extracted_on": "2026-07-01", "checksum": "sha256:7788990011aa"}}
+  ],
+  "requests": [
+    {"request_id": "PBC-01", "title": "Operating-account bank reconciliation, Q2", "control_ref": "FCR-CASH-02",
+     "period": {"from": "2026-01-01", "to": "2026-06-30"}, "artifact_refs": ["ART-01"]},
+
+    {"request_id": "PBC-02", "title": "Payroll register sample with PII redacted", "control_ref": "FCR-PAY-04",
+     "period": {"from": "2026-01-01", "to": "2026-06-30"}, "artifact_refs": ["ART-02"]},
+
+    {"request_id": "PBC-03", "title": "Revenue cutoff sales-order support", "control_ref": "FCR-REV-01",
+     "period": {"from": "2026-01-01", "to": "2026-06-30"}, "artifact_refs": ["ART-03"]},
+
+    {"request_id": "PBC-04", "title": "New-hire access provisioning evidence", "control_ref": "ITGC-ACC-01",
+     "period": {"from": "2026-01-01", "to": "2026-06-30"}, "artifact_refs": ["ART-04"]},
+
+    {"request_id": "PBC-05", "title": "Privileged-access periodic review", "control_ref": "ITGC-ACC-03",
+     "period": {"from": "2026-01-01", "to": "2026-06-30"}, "artifact_refs": ["ART-05"]},
+
+    {"request_id": "PBC-06", "title": "Manual journal-entry approval evidence", "control_ref": "FCR-JE-02",
+     "period": {"from": "2026-01-01", "to": "2026-06-30"}, "artifact_refs": ["ART-06"]},
+
+    {"request_id": "PBC-07", "title": "Inventory count sheets support", "control_ref": "FCR-INV-01",
+     "period": {"from": "2026-01-01", "to": "2026-06-30"}, "artifact_refs": []},
+
+    {"request_id": "PBC-08", "title": "SoD conflict remediation - not applicable this period", "control_ref": "ITGC-SOD-02",
+     "period": {"from": "2026-01-01", "to": "2026-06-30"}, "artifact_refs": ["ART-08"],
+     "not_applicable": true,
+     "na_justification": "No provisioning changes to conflicting roles in scope this period; documented in memo SOD-NA-2026 (ART-08)"}
+  ]
+}

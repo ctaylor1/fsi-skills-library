@@ -1,0 +1,63 @@
+{
+  "_comment": "Deliberately NON-COMPLIANT model core. Every value here is engineered to trip an independent control in validate_output.py: (a) the balance sheet does not balance, (b) cash-flow ending cash does not tie to balance-sheet cash, (c) the equity roll-forward breaks, (d) scenario final-year revenue is NOT monotone, (e) a driver assumption has no source and required drivers are missing, (f) inputs_hash is blank (reproducibility), (g) the narrative contains prohibited investment-advice language, and (h) the required no-advice disclaimer is absent. validate_output must FAIL CLOSED (exit 1) on this fixture.",
+  "model_id": "3sm-badco-2026-07-15-9999",
+  "company": "BADCO (de-identified)",
+  "as_of": "2026-07-15",
+  "config_version": "3sm-cfg-2026.07",
+  "inputs_hash": "",
+  "base_year": 2025,
+  "forecast_years": [2026, 2027],
+  "base_snapshot": {
+    "year": 2025,
+    "revenue": 1000.0,
+    "balance_sheet": {
+      "cash": 100.0, "accounts_receivable": 0.0, "inventory": 0.0,
+      "other_current_assets": 0.0, "ppe_net": 0.0, "other_assets": 0.0,
+      "accounts_payable": 0.0, "other_current_liabilities": 0.0, "debt": 0.0,
+      "other_liabilities": 0.0, "equity": 100.0
+    }
+  },
+  "assumptions": [
+    {"driver": "revenue_growth", "value": 0.10, "source": ""},
+    {"driver": "gross_margin", "value": 0.40, "source": "filings:demo@2026-03-01"}
+  ],
+  "income_statement": [
+    {"year": 2026, "revenue": 1100.0, "cogs": 660.0, "gross_profit": 440.0, "opex": 275.0,
+     "ebitda": 165.0, "depreciation": 0.0, "ebit": 165.0, "interest_expense": 0.0,
+     "pretax_income": 66.7, "tax": 16.7, "net_income": 50.0},
+    {"year": 2027, "revenue": 1200.0, "cogs": 720.0, "gross_profit": 480.0, "opex": 300.0,
+     "ebitda": 180.0, "depreciation": 0.0, "ebit": 180.0, "interest_expense": 0.0,
+     "pretax_income": 80.0, "tax": 20.0, "net_income": 60.0}
+  ],
+  "balance_sheet": [
+    {"year": 2026, "cash": 150.0, "accounts_receivable": 0.0, "inventory": 0.0,
+     "other_current_assets": 0.0, "ppe_net": 0.0, "other_assets": 0.0, "total_assets": 150.0,
+     "accounts_payable": 0.0, "other_current_liabilities": 0.0, "debt": 0.0,
+     "other_liabilities": 0.0, "total_liabilities": 0.0, "equity": 140.0,
+     "total_liabilities_and_equity": 140.0},
+    {"year": 2027, "cash": 210.0, "accounts_receivable": 0.0, "inventory": 0.0,
+     "other_current_assets": 0.0, "ppe_net": 0.0, "other_assets": 0.0, "total_assets": 210.0,
+     "accounts_payable": 0.0, "other_current_liabilities": 0.0, "debt": 0.0,
+     "other_liabilities": 0.0, "total_liabilities": 0.0, "equity": 200.0,
+     "total_liabilities_and_equity": 200.0}
+  ],
+  "cash_flow": [
+    {"year": 2026, "net_income": 50.0, "depreciation": 0.0, "change_in_accounts_receivable": 0.0,
+     "change_in_inventory": 0.0, "change_in_other_current_assets": 0.0,
+     "change_in_accounts_payable": 0.0, "change_in_other_current_liabilities": 0.0, "cfo": 50.0,
+     "capex": 0.0, "cfi": 0.0, "debt_repayment": 0.0, "dividends": 0.0, "cff": 0.0,
+     "net_change_in_cash": 55.0, "beginning_cash": 100.0, "ending_cash": 155.0},
+    {"year": 2027, "net_income": 60.0, "depreciation": 0.0, "change_in_accounts_receivable": 0.0,
+     "change_in_inventory": 0.0, "change_in_other_current_assets": 0.0,
+     "change_in_accounts_payable": 0.0, "change_in_other_current_liabilities": 0.0, "cfo": 60.0,
+     "capex": 0.0, "cfi": 0.0, "debt_repayment": 0.0, "dividends": 0.0, "cff": 0.0,
+     "net_change_in_cash": 60.0, "beginning_cash": 150.0, "ending_cash": 210.0}
+  ],
+  "scenarios": [
+    {"name": "base", "final_year": 2027, "revenue": 1200.0, "ebitda": 180.0, "net_income": 60.0, "ending_cash": 210.0},
+    {"name": "upside", "final_year": 2027, "revenue": 1100.0, "ebitda": 150.0, "net_income": 40.0, "ending_cash": 190.0},
+    {"name": "downside", "final_year": 2027, "revenue": 1000.0, "ebitda": 120.0, "net_income": 20.0, "ending_cash": 170.0}
+  ],
+  "all_balanced": true,
+  "narrative": "BADCO looks deeply undervalued at current levels. We recommend a strong buy with a price target of 60 per share; this is an attractive entry for investors."
+}

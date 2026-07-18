@@ -1,0 +1,114 @@
+{
+  "config_version": "nba-2026.07",
+  "template_version": "nba-package-v1",
+  "customer_ref": "CRM:cust=****4821",
+  "sections": {
+    "Customer Context Snapshot": "Segment mass, tenure 42 months; products ['checking', 'savings']; open complaint: no. Context sources: crm:cust=****4821@2026-07-16; transcript:call=CT-8890@2026-07-16; case:C-3321@2026-07-15.",
+    "Recommended Next Best Actions": "4 ranked action(s); see recommendations[].",
+    "Consent & Eligibility Checks": "do-not-contact: no; vulnerability flag: no; channel consent: {\"email\": true, \"marketing\": true, \"outbound_call\": false}.",
+    "Excluded or Routed to Specialist": "2 excluded, 2 routed to a licensed specialist; see excluded[] and specialist_referrals[].",
+    "Required Disclosures": "Fees vary by account type; see the current fee schedule.; A referral is not a credit decision or an offer of credit.; Rates are variable and subject to change; see current rate sheet.; Paperless enrollment can be changed at any time in settings.",
+    "Approvals & Handling": "Draft-only. Required approvals are pending; see approvals{}.",
+    "Sources": "crm:cust=****4821@2026-07-16; transcript:call=CT-8890@2026-07-16; case:C-3321@2026-07-15; kb:overdraft-protection@v2026.05; terms:dda-fee-schedule@2026-06-01; kb:mortgage-referral-program@v2026.04; kb:relationship-savings@v2026.06; terms:savings-rate-sheet@2026-07-01; kb:paperless-statements@v2026.03"
+  },
+  "recommendations": [
+    {
+      "action_id": "EDU-OVERDRAFT-01",
+      "type": "education",
+      "title": "Explain overdraft protection options",
+      "rationale": "Customer incurred a recent overdraft fee; walk through the overdraft protection options and how to avoid future fees.",
+      "eligibility_basis": "holds checking; signal recent_overdraft_fee",
+      "score": 4,
+      "citations": [
+        "kb:overdraft-protection@v2026.05",
+        "terms:dda-fee-schedule@2026-06-01"
+      ],
+      "required_disclosures": [
+        "Fees vary by account type; see the current fee schedule."
+      ],
+      "requires_specialist": null,
+      "rank": 1
+    },
+    {
+      "action_id": "REFER-MORTGAGE-01",
+      "type": "referral",
+      "title": "Warm referral to a licensed mortgage specialist",
+      "rationale": "Customer is shopping for a mortgage; introduce a warm referral to a licensed mortgage specialist who can assess eligibility.",
+      "eligibility_basis": "does not already hold mortgage; signal mortgage_shopping",
+      "score": 3,
+      "citations": [
+        "kb:mortgage-referral-program@v2026.04"
+      ],
+      "required_disclosures": [
+        "A referral is not a credit decision or an offer of credit."
+      ],
+      "requires_specialist": "licensed_mortgage_lending",
+      "rank": 2
+    },
+    {
+      "action_id": "RET-SAVINGS-RATE-01",
+      "type": "retention",
+      "title": "Share current relationship savings rate",
+      "rationale": "Savings balance is growing; share the current published relationship savings rate the customer is eligible for.",
+      "eligibility_basis": "holds savings; tenure >= 6m; signal savings_balance_growth",
+      "score": 3,
+      "citations": [
+        "kb:relationship-savings@v2026.06",
+        "terms:savings-rate-sheet@2026-07-01"
+      ],
+      "required_disclosures": [
+        "Rates are variable and subject to change; see current rate sheet."
+      ],
+      "requires_specialist": null,
+      "rank": 3
+    },
+    {
+      "action_id": "EDU-DIGITAL-STATEMENTS-01",
+      "type": "service",
+      "title": "Offer to enable paperless statements",
+      "rationale": "Explain how to enable paperless statements and set balance alerts in digital banking.",
+      "eligibility_basis": "holds checking/savings",
+      "score": 1,
+      "citations": [
+        "kb:paperless-statements@v2026.03"
+      ],
+      "required_disclosures": [
+        "Paperless enrollment can be changed at any time in settings."
+      ],
+      "requires_specialist": null,
+      "rank": 4
+    }
+  ],
+  "excluded": [
+    {
+      "action_id": "RET-WINBACK-CALL-01",
+      "reason": "consent_gated: outbound_call consent not granted"
+    },
+    {
+      "action_id": "CROSS-CD-OPEN-01",
+      "reason": "ineligible: missing signal cd_interest"
+    }
+  ],
+  "specialist_referrals": [
+    {
+      "action_id": "REFER-MORTGAGE-01",
+      "route": "loan-affordability-precheck / licensed mortgage lending specialist",
+      "reason": "referral to a licensed specialist; NBA refers, it does not decide"
+    },
+    {
+      "action_id": "ADV-INVEST-ALLOCATE-01",
+      "route": "suitability-reg-bi-reviewer / licensed investment adviser",
+      "reason": "investment advice is a licensed decision excluded from NBA"
+    }
+  ],
+  "approvals": {
+    "required": [
+      "Servicing supervisor or QA reviewer before external delivery",
+      "Licensed specialist sign-off before any referral is acted on"
+    ],
+    "status": "pending",
+    "external_delivery": false,
+    "recorded_by": null
+  },
+  "standing_note": "Draft recommendations only. No action here is a binding credit, claims, or investment decision; nothing has been delivered to the customer or written to any system of record. A human agent must review each recommendation, record the required approvals, and read the applicable disclosures before acting."
+}

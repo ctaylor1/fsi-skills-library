@@ -1,0 +1,68 @@
+{
+  "template_version": "ic-memo-2026.07",
+  "deal": {
+    "deal_id": "IC-2026-0142",
+    "name": "Project Meridian",
+    "strategy": "PE buyout",
+    "sector": "Industrials",
+    "geography": "US",
+    "stage": "Final IC",
+    "recommended_action": "conditional-approve"
+  },
+  "sources": [
+    {"source_id": "DIL-QoE", "type": "diligence", "ref": "vdr:QoE-final@2026-07-02", "as_of": "2026-07-02", "approved": true, "owner": "Deal team"},
+    {"source_id": "DIL-LEGAL", "type": "diligence", "ref": "vdr:legal-DD@2026-07-05", "as_of": "2026-07-05", "approved": true, "owner": "External counsel"},
+    {"source_id": "DIL-COMM", "type": "diligence", "ref": "vdr:commercial-DD@2026-07-04", "as_of": "2026-07-04", "approved": true, "owner": "Strategy consultant"},
+    {"source_id": "MDL-LBO", "type": "model", "ref": "model:meridian-lbo@v7", "as_of": "2026-07-10", "approved": true, "owner": "Deal team"},
+    {"source_id": "MKT-COMPS", "type": "market", "ref": "data:sector-comps@2026-07-08", "as_of": "2026-07-08", "approved": true, "owner": "Data desk"},
+    {"source_id": "RSH-SECTOR", "type": "research", "ref": "research:industrials-outlook@2026-Q2", "as_of": "2026-06-30", "approved": true, "owner": "Internal research"},
+    {"source_id": "PORT-CTX", "type": "portfolio", "ref": "portfolio:fund-III-exposure@2026-07-15", "as_of": "2026-07-15", "approved": true, "owner": "Portfolio ops"}
+  ],
+  "model": {
+    "source_id": "MDL-LBO",
+    "entry": {"ev": 480.0, "metric": "EBITDA", "metric_value": 60.0, "net_debt": 288.0, "entry_multiple": 8.0, "equity_check": 192.0},
+    "leverage": {"total_debt": 300.0, "ebitda": 60.0, "leverage_x": 5.0},
+    "returns": {"moic": 2.4, "irr": 21.0, "hold_years": 5}
+  },
+  "valuation": {
+    "method": "EV/EBITDA vs. peers",
+    "entry_multiple": 8.0,
+    "peer_range_low": 7.5,
+    "peer_range_high": 9.5,
+    "source_id": "MKT-COMPS"
+  },
+  "scenarios": [
+    {"name": "Base", "moic": 2.4, "irr": 21.0, "key_assumptions": "Margin holds; 8.5x exit", "source_id": "MDL-LBO"},
+    {"name": "Upside", "moic": 3.1, "irr": 28.0, "key_assumptions": "Margin expansion; multiple re-rating to 9.5x", "source_id": "MDL-LBO"},
+    {"name": "Downside", "moic": 1.3, "irr": 6.0, "key_assumptions": "Demand softness; exit compresses to 7.0x", "source_id": "MDL-LBO"}
+  ],
+  "thesis_points": [
+    {"claim": "Recurring aftermarket revenue is 55% of sales with high retention", "source_id": "DIL-COMM"},
+    {"claim": "Fragmented sector supports a buy-and-build add-on strategy", "source_id": "RSH-SECTOR"},
+    {"claim": "Quality-of-earnings confirmed normalized EBITDA of 60.0", "source_id": "DIL-QoE"}
+  ],
+  "risks": [
+    {"risk": "Customer concentration: top 3 customers are 34% of revenue", "mitigant": "Multi-year contracts; cross-sell into aftermarket", "severity": "medium", "source_id": "DIL-COMM"},
+    {"risk": "Cyclical end-market exposure could compress the exit multiple", "mitigant": "Downside case models 7.0x exit and still returns 1.3x", "severity": "medium", "source_id": "MDL-LBO"},
+    {"risk": "Pending environmental permit at the Ohio facility", "mitigant": "Escrow and seller indemnity in the SPA", "severity": "low", "source_id": "DIL-LEGAL"}
+  ],
+  "sizing": {
+    "proposed_commitment": 60.0,
+    "fund_nav": 1200.0,
+    "position_pct": 5.0,
+    "single_name_limit_pct": 8.0,
+    "sector_current_pct": 14.0,
+    "sector_limit_pct": 25.0,
+    "source_id": "PORT-CTX"
+  },
+  "decision_questions": [
+    "Do we approve a commitment of up to $60mm at 8.0x entry?",
+    "Is the proposed 5.0x leverage acceptable given the cyclical end-market?",
+    "Do we require the environmental escrow as a condition precedent?",
+    "Is the buy-and-build add-on pipeline sufficient to underwrite the upside case?"
+  ],
+  "approvals": [
+    {"role": "preparer", "name": "Deal team lead", "status": "recorded", "date": "2026-07-16"},
+    {"role": "reviewer", "name": "Independent desk reviewer", "status": "recorded", "date": "2026-07-16"}
+  ]
+}

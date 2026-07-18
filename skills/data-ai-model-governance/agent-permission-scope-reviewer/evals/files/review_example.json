@@ -1,0 +1,228 @@
+{
+  "review_id": "apsr-wealth-portfolio-copilot-2026-07-15-0001",
+  "agent_id": "wealth-portfolio-copilot",
+  "as_of": "2026-07-15",
+  "policy_version": "iam-lp-2026.07",
+  "environment": "production",
+  "operations_reviewed": 6,
+  "severity_counts": {
+    "Critical": 2,
+    "High": 5,
+    "Medium": 1
+  },
+  "findings": [
+    {
+      "rule_id": "LP-WRITE-NOGATE",
+      "op_id": "OP-003",
+      "tool": "payments",
+      "operation": "payments.transfer",
+      "dimension": "approval-gate",
+      "severity": "Critical",
+      "reason": "effective write (access_mode='auto-write', writes=True) with approval_gate='none' (not 'required')",
+      "evidence": [
+        {
+          "field": "approval_gate",
+          "value": "none",
+          "citation": "manifest:op=OP-003;field=approval_gate@2026-07-15"
+        },
+        {
+          "field": "access_mode",
+          "value": "auto-write",
+          "citation": "manifest:op=OP-003;field=access_mode@2026-07-15"
+        },
+        {
+          "field": "policy",
+          "value": "LP-WRITE-NOGATE",
+          "citation": "policy:iam-lp-2026.07#LP-WRITE-NOGATE"
+        }
+      ],
+      "recommended_remediation": "recommend the adjudicator require approval_gate='required' or reduce the operation to read-only"
+    },
+    {
+      "rule_id": "LP-CLASS-MODE",
+      "op_id": "OP-003",
+      "tool": "payments",
+      "operation": "payments.transfer",
+      "dimension": "least-privilege",
+      "severity": "Critical",
+      "reason": "auto-write access to 'Highly Confidential' data without approval_gate='required'",
+      "evidence": [
+        {
+          "field": "data_classification",
+          "value": "Highly Confidential",
+          "citation": "manifest:op=OP-003;field=data_classification@2026-07-15"
+        },
+        {
+          "field": "access_mode",
+          "value": "auto-write",
+          "citation": "manifest:op=OP-003;field=access_mode@2026-07-15"
+        },
+        {
+          "field": "policy",
+          "value": "LP-CLASS-MODE",
+          "citation": "policy:iam-lp-2026.07#LP-CLASS-MODE"
+        }
+      ],
+      "recommended_remediation": "recommend the adjudicator narrow the mode to read-only or require an approval gate for sensitive-data writes"
+    },
+    {
+      "rule_id": "LP-ENV-PROD",
+      "op_id": "OP-003",
+      "tool": "payments",
+      "operation": "payments.transfer",
+      "dimension": "least-privilege",
+      "severity": "High",
+      "reason": "production environment with an ungated effective-write operation",
+      "evidence": [
+        {
+          "field": "environment",
+          "value": "production",
+          "citation": "manifest:op=OP-003;field=environment@2026-07-15"
+        },
+        {
+          "field": "approval_gate",
+          "value": "none",
+          "citation": "manifest:op=OP-003;field=approval_gate@2026-07-15"
+        },
+        {
+          "field": "policy",
+          "value": "LP-ENV-PROD",
+          "citation": "policy:iam-lp-2026.07#LP-ENV-PROD"
+        }
+      ],
+      "recommended_remediation": "recommend the adjudicator block production promotion until the write is gated or removed"
+    },
+    {
+      "rule_id": "LP-NEED-01",
+      "op_id": "OP-004",
+      "tool": "iam-entitlements",
+      "operation": "entitlements.approve",
+      "dimension": "need",
+      "severity": "High",
+      "reason": "operation lacks a declared business need and/or an approving justification reference",
+      "evidence": [
+        {
+          "field": "declared_need/justification_ref",
+          "value": {
+            "declared_need": "approve entitlement changes for downstream agents",
+            "justification_ref": null
+          },
+          "citation": "manifest:op=OP-004;field=declared_need@2026-07-15"
+        },
+        {
+          "field": "policy",
+          "value": "LP-NEED-01",
+          "citation": "policy:iam-lp-2026.07#LP-NEED-01"
+        }
+      ],
+      "recommended_remediation": "recommend the adjudicator require a documented business need and approving reference before any grant"
+    },
+    {
+      "rule_id": "LP-CLASS-UNDECLARED",
+      "op_id": "OP-004",
+      "tool": "iam-entitlements",
+      "operation": "entitlements.approve",
+      "dimension": "data-classification",
+      "severity": "High",
+      "reason": "operation touches 'Restricted' data, which is not in the manifest's declared classification scope",
+      "evidence": [
+        {
+          "field": "data_classification",
+          "value": "Restricted",
+          "citation": "manifest:op=OP-004;field=data_classification@2026-07-15"
+        },
+        {
+          "field": "declared_scope",
+          "value": [
+            "Confidential",
+            "Highly Confidential",
+            "Internal"
+          ],
+          "citation": "manifest:op=OP-004;field=data_classification@2026-07-15"
+        },
+        {
+          "field": "policy",
+          "value": "LP-CLASS-UNDECLARED",
+          "citation": "policy:iam-lp-2026.07#LP-CLASS-UNDECLARED"
+        }
+      ],
+      "recommended_remediation": "recommend the adjudicator require the classification be added to declared scope with justification, or remove the operation"
+    },
+    {
+      "rule_id": "LP-LOG-OFF",
+      "op_id": "OP-005",
+      "tool": "model-registry",
+      "operation": "model.read",
+      "dimension": "logging",
+      "severity": "High",
+      "reason": "audit logging is disabled for a 'Confidential' source",
+      "evidence": [
+        {
+          "field": "logged",
+          "value": false,
+          "citation": "manifest:op=OP-005;field=logged@2026-07-15"
+        },
+        {
+          "field": "policy",
+          "value": "LP-LOG-OFF",
+          "citation": "policy:iam-lp-2026.07#LP-LOG-OFF"
+        }
+      ],
+      "recommended_remediation": "recommend the adjudicator require audit logging be enabled before any grant"
+    },
+    {
+      "rule_id": "LP-REVOKE-MISSING",
+      "op_id": "OP-006",
+      "tool": "config-service",
+      "operation": "config.read",
+      "dimension": "revocation",
+      "severity": "Medium",
+      "reason": "no revocation terms or recertification cadence defined",
+      "evidence": [
+        {
+          "field": "revocation",
+          "value": null,
+          "citation": "manifest:op=OP-006;field=revocation@2026-07-15"
+        },
+        {
+          "field": "policy",
+          "value": "LP-REVOKE-MISSING",
+          "citation": "policy:iam-lp-2026.07#LP-REVOKE-MISSING"
+        }
+      ],
+      "recommended_remediation": "recommend the adjudicator require a revocation owner and a recertification cadence"
+    },
+    {
+      "rule_id": "LP-SOD-COMBO",
+      "op_id": "AGENT",
+      "tool": null,
+      "operation": null,
+      "dimension": "segregation-of-duties",
+      "severity": "High",
+      "reason": "agent holds both effective-write and approve duties, a segregation-of-duties conflict",
+      "evidence": [
+        {
+          "field": "segregation_group",
+          "value": "write",
+          "citation": "manifest:op=OP-003;field=segregation_group@2026-07-15"
+        },
+        {
+          "field": "segregation_group",
+          "value": "approve",
+          "citation": "manifest:op=OP-004;field=segregation_group@2026-07-15"
+        },
+        {
+          "field": "policy",
+          "value": "LP-SOD-COMBO",
+          "citation": "policy:iam-lp-2026.07#LP-SOD-COMBO"
+        }
+      ],
+      "recommended_remediation": "recommend the adjudicator split write and approve duties across separate agents/identities"
+    }
+  ],
+  "not_evaluable": [],
+  "recommended_disposition": "Remediate-before-approval",
+  "human_adjudication_required": true,
+  "disclaimer": "Least-privilege review evidence only; not an access approval or denial. No entitlement has been granted, revoked, or provisioned, and no review has been closed. Human adjudication is required.",
+  "narrative": "Least-privilege review of agent 'wealth-portfolio-copilot' (production) against policy iam-lp-2026.07 evaluated 6 operations and raised 8 findings (2 Critical, 5 High, 1 Medium). The Critical findings are an ungated effective-write payment operation (OP-003) that also writes Highly Confidential data without a required approval gate. High findings include a segregation-of-duties conflict (the agent holds both write and approve duties), a Restricted classification touched outside the declared scope, an unlogged Confidential read, and a missing justification reference. Recommended disposition: Remediate-before-approval. This is a recommendation for a human adjudicator; the reviewer has not decided the request. Least-privilege review evidence only; not an access approval or denial. No entitlement has been granted, revoked, or provisioned, and no review has been closed. Human adjudication is required."
+}

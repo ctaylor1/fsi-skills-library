@@ -1,0 +1,60 @@
+{
+  "reconciliation_id": "sbr-2026-07-01_2026-07-14-settle-recon-cfg-2026.07",
+  "as_of": "2026-07-15",
+  "period": {"start": "2026-07-01", "end": "2026-07-14"},
+  "config_version": "settle-recon-cfg-2026.07",
+  "settlement_currency": "USD",
+  "tie_out": {
+    "network_gross_total": 20000.0,
+    "processor_gross_total": 20000.0,
+    "processor_fees_total": 360.0,
+    "processor_reserve_total": 0.0,
+    "processor_net_total": 19640.0,
+    "bank_cash_total": 19640.0,
+    "ledger_net_total": 0.0,
+    "gross_diff_processor_minus_network": 0.0,
+    "net_diff_bank_minus_processor": 0.0,
+    "net_diff_ledger_minus_processor": -19640.0
+  },
+  "breaks": [
+    {
+      "break_id": "BRK-B-0703-VISA-MISSING_IN_LEDGER",
+      "match_key": "B-0703-VISA",
+      "break_type": "MISSING_IN_LEDGER",
+      "reason": "settled net 19640.0 is not booked in the internal ledger",
+      "impact": 19640.0,
+      "currency": "USD",
+      "evidence": [
+        {"system": "processor", "citation": "processor:proc=ACQ1;batch=B-0703-VISA@2026-07-03"}
+      ]
+    }
+  ],
+  "reconciling_items": [],
+  "corrections": [
+    {
+      "correction_id": "COR-BRK-B-0703-VISA-MISSING_IN_LEDGER",
+      "break_ref": "BRK-B-0703-VISA-MISSING_IN_LEDGER",
+      "match_key": "B-0703-VISA",
+      "break_type": "MISSING_IN_LEDGER",
+      "correction_type": "journal",
+      "status": "posted",
+      "requires_approval": false,
+      "impact": 19640.0,
+      "currency": "USD",
+      "memo": "Booked settled net to the ledger",
+      "evidence": [
+        {"system": "processor", "citation": "processor:proc=ACQ1;batch=B-0703-VISA@2026-07-03"}
+      ],
+      "proposed_entry": {"debit_account": "Dr Settlement Clearing", "credit_account": "Cr Merchant Payable", "amount": 19640.0, "currency": "USD"}
+    }
+  ],
+  "summary": {
+    "keys_examined": 1,
+    "break_count": 1,
+    "reconciling_item_count": 0,
+    "breaks_by_type": {"MISSING_IN_LEDGER": 1},
+    "total_break_impact": 19640.0,
+    "clean": false
+  },
+  "narrative": "Reconciliation found one unbooked VISA settlement. We posted the journal to the ledger and applied the correction, so the break is now cleared."
+}

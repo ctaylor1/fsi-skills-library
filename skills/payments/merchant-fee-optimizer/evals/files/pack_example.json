@@ -1,0 +1,93 @@
+{
+  "analysis_id": "mfo-4321-2026-06-0001",
+  "merchant_id": "****4321",
+  "statement_period": "2026-06",
+  "config_version": "mfo-cfg-2026.07",
+  "currency": "USD",
+  "pricing_model": "tiered",
+  "totals": {
+    "volume": 10415.49,
+    "txn_count": 14,
+    "interchange": 257.73,
+    "assessments": 13.59,
+    "processor_markup": 83.32,
+    "monthly_fixed": 49.95,
+    "total_fees": 404.59
+  },
+  "effective_rate_bps": 388.45,
+  "implied_markup_bps": 80.0,
+  "opportunities": [
+    {
+      "opportunity": "pricing_model_switch",
+      "fired": true,
+      "description": "An interchange-plus structure prices interchange and assessments at pass-through with a fixed, transparent markup; the current implied markup exceeds the benchmark, so this pricing option could reduce processor markup on the same volume.",
+      "est_savings_monthly": 57.29,
+      "est_savings_low": 34.37,
+      "est_savings_high": 57.29,
+      "assumptions": [
+        "Interchange-plus markup benchmark of 25 bps is attainable for this merchant profile",
+        "Interchange and network assessments pass through unchanged",
+        "Excludes fixed monthly fees and any early-termination costs"
+      ],
+      "evidence": [
+        {"line": "processor_markup", "markup_bps": 80.0, "benchmark_bps": 25.0, "amount": 83.32, "citation": "stmt:mid=****4321;line=processor_markup@2026-06"}
+      ],
+      "basis": {"implied_markup_bps": 80.0, "benchmark_bps": 25.0, "volume": 10415.49}
+    },
+    {
+      "opportunity": "downgrade_recovery",
+      "fired": true,
+      "description": "Transactions cleared at a downgraded (non-qualified) interchange category cost more than the qualified category; correcting the data/process that caused the downgrade could recover part of that incremental cost.",
+      "est_savings_monthly": 9.82,
+      "est_savings_low": 5.89,
+      "est_savings_high": 9.82,
+      "assumptions": [
+        "70% of observed downgrade cost is recoverable via correct data and timely settlement",
+        "Requires process or gateway/integration changes at the merchant",
+        "Based on the reviewed statement period only"
+      ],
+      "evidence": [
+        {"txn_id": "T-07", "interchange_category": "EIRF (downgrade)", "downgrade_cost": 4.4, "citation": "stmt:mid=****4321;txnid=T-07@2026-06"},
+        {"txn_id": "T-08", "interchange_category": "Standard (downgrade)", "downgrade_cost": 7.15, "citation": "stmt:mid=****4321;txnid=T-08@2026-06"},
+        {"txn_id": "T-09", "interchange_category": "EIRF (downgrade)", "downgrade_cost": 2.48, "citation": "stmt:mid=****4321;txnid=T-09@2026-06"}
+      ],
+      "basis": {"observed_downgrade_cost": 14.03, "recoverable_share": 0.7}
+    },
+    {
+      "opportunity": "level_2_3_enablement",
+      "fired": true,
+      "description": "Commercial/corporate-card transactions submitted with only Level 1 data may qualify for lower interchange when Level 2/Level 3 line-item data is supplied; enabling that data could reduce interchange on these transactions.",
+      "est_savings_monthly": 60.0,
+      "est_savings_low": 36.0,
+      "est_savings_high": 60.0,
+      "assumptions": [
+        "Level 2/Level 3 data can be captured and transmitted for these commercial-card transactions",
+        "Estimated interchange reduction of 80 bps per network schedules (validate against current tables)",
+        "Merchant meets the qualification requirements for commercial-card programs"
+      ],
+      "evidence": [
+        {"txn_id": "T-10", "card_type": "visa_commercial", "amount": 2500.0, "level": "1", "citation": "stmt:mid=****4321;txnid=T-10@2026-06"},
+        {"txn_id": "T-11", "card_type": "visa_commercial", "amount": 1800.0, "level": "1", "citation": "stmt:mid=****4321;txnid=T-11@2026-06"},
+        {"txn_id": "T-12", "card_type": "mc_commercial", "amount": 3200.0, "level": "1", "citation": "stmt:mid=****4321;txnid=T-12@2026-06"}
+      ],
+      "basis": {"eligible_volume": 7500.0, "savings_bps": 80.0}
+    }
+  ],
+  "total_estimated_savings": {
+    "monthly_low": 76.26,
+    "monthly_high": 127.11,
+    "annual_low": 915.12,
+    "annual_high": 1525.32
+  },
+  "observations": [
+    {"observation": "effective_rate", "value_bps": 388.45, "benchmark_bps": 250.0, "note": "Effective rate = total fees / volume. Benchmark comparison is informational only; a higher effective rate can reflect card mix, ticket size, or channel, not just pricing."},
+    {"observation": "fee_mix", "interchange_pct": 63.7, "assessments_pct": 3.36, "markup_pct": 20.59, "monthly_fixed_pct": 12.35, "note": "Share of total fees. Interchange and assessments are largely non-negotiable pass-through."}
+  ],
+  "contract_flags": [
+    "Early-termination fee of 500.0 is on file; factor this into any evaluation (informational, not legal advice).",
+    "Contract auto-renews with a 30-day notice window; note the window when planning any evaluation (informational, not legal advice)."
+  ],
+  "not_evaluable": [],
+  "narrative": "Fee analysis for merchant ****4321, statement period 2026-06, on tiered pricing: total fees of 404.59 on volume of 10,415.49, an effective rate of 388.45 bps. Fees decompose into interchange (257.73), network assessments (13.59), processor markup (83.32), and fixed monthly fees (49.95). Three evidenced opportunities were identified, each with its own assumptions: an interchange-plus pricing option (implied markup 80.0 bps vs a 25 bps benchmark), recovery of interchange downgrades on three keyed transactions, and Level 2/3 enablement on 7,500.00 of commercial-card volume. Combined estimated potential savings are about 76.26 to 127.11 per month (roughly 915.12 to 1,525.32 annually), presented as a conservative-to-point range. These are estimates that depend on the stated assumptions and require validation against current network schedules and human review before any change is considered.",
+  "disclaimer": "Estimated savings and analysis only, based on the stated assumptions and the statement period reviewed. This is not a guarantee of savings and not a recommendation to sign, terminate, or change any processor or contract; it is not legal, tax, or accounting advice. Interchange and network fees change frequently; validate against current published schedules and obtain human review before acting."
+}

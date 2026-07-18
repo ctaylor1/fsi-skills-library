@@ -1,0 +1,244 @@
+{
+  "config_version": "surv-2026.06",
+  "triage": [
+    {
+      "alert_id": "AL-3001",
+      "case_id": "SURV-AL-3001",
+      "surveillance_type": "trade",
+      "priority_score": 15,
+      "priority_band": "P1 (Elevated)",
+      "priority_reason": "risk High +3; notional>=1000000 +3; restricted-list proximity +4; scenario hint +2; cross-product linkage +2; velocity +1",
+      "citations": [
+        "casemgmt:alert=AL-3001"
+      ],
+      "suppression": null,
+      "escalation_bundle": {
+        "case_id": "SURV-AL-3001",
+        "entity": "DESK-EQ",
+        "account_ref": "****3300",
+        "scenario_id": "S-INSIDER",
+        "surveillance_type": "trade",
+        "period": {
+          "from": "2026-07-01",
+          "to": "2026-07-14"
+        },
+        "notional_total": 1200000,
+        "evidence_ids": [
+          "O10",
+          "O11"
+        ],
+        "chronology": [
+          {
+            "ts": "2026-07-11T13:05:00Z",
+            "detail": "Buy 40k shares ahead of embargoed announcement window",
+            "cite": "oms:order=O10"
+          },
+          {
+            "ts": "2026-07-11T13:07:30Z",
+            "detail": "Add 20k shares; account on restricted list for issuer",
+            "cite": "oms:order=O11"
+          }
+        ],
+        "parties": [
+          {
+            "role": "trader",
+            "ref": "****3300"
+          },
+          {
+            "role": "issuer",
+            "ref": "ISS-ACME"
+          }
+        ],
+        "account": {
+          "risk_rating": "High",
+          "cross_product_linkage": true
+        },
+        "flags": {
+          "restricted_list_proximity": true
+        },
+        "scenario_hint": "mnpi_adjacent",
+        "linked_cases": [],
+        "recommended_priority": "P1 (Elevated)",
+        "citations": [
+          "casemgmt:alert=AL-3001"
+        ]
+      },
+      "needs": [],
+      "disposition": "escalate-to-investigation"
+    },
+    {
+      "alert_id": "AL-3002",
+      "case_id": "SURV-AL-3002",
+      "surveillance_type": "ecomms",
+      "priority_score": 3,
+      "priority_band": "P2 (Standard)",
+      "priority_reason": "risk Medium +1; notional>=250000 +2",
+      "citations": [
+        "casemgmt:alert=AL-3002"
+      ],
+      "suppression": null,
+      "escalation_bundle": {
+        "case_id": "SURV-AL-3002",
+        "entity": "DESK-FX",
+        "account_ref": "****3311",
+        "scenario_id": "S-COMMS-LEX",
+        "surveillance_type": "ecomms",
+        "period": {
+          "from": "2026-07-01",
+          "to": "2026-07-14"
+        },
+        "notional_total": 300000,
+        "evidence_ids": [
+          "M20"
+        ],
+        "chronology": [
+          {
+            "ts": "2026-07-09T09:15:00Z",
+            "detail": "Chat lexicon hit: 'keep this off the record'",
+            "cite": "ecomms:msg=M20"
+          }
+        ],
+        "parties": [
+          {
+            "role": "sender",
+            "ref": "****3311"
+          },
+          {
+            "role": "recipient",
+            "ref": "EXT-COUNTERPARTY"
+          }
+        ],
+        "account": {
+          "risk_rating": "Medium",
+          "cross_product_linkage": false
+        },
+        "flags": {
+          "restricted_list_proximity": false
+        },
+        "scenario_hint": null,
+        "linked_cases": [],
+        "recommended_priority": "P2 (Standard)",
+        "citations": [
+          "casemgmt:alert=AL-3002"
+        ]
+      },
+      "needs": [],
+      "disposition": "escalate-to-investigation",
+      "route_specialist": "communications-compliance-reviewer"
+    },
+    {
+      "alert_id": "AL-3003",
+      "case_id": "SURV-AL-3003",
+      "surveillance_type": "trade",
+      "priority_score": 0,
+      "priority_band": "P3 (Low)",
+      "priority_reason": "",
+      "citations": [
+        "casemgmt:alert=AL-3003"
+      ],
+      "suppression": {
+        "rule_id": "SUP-DUP-01",
+        "evidence": {
+          "parent_case_id": "SURV-AL-1000",
+          "matched_evidence": [
+            "O1",
+            "O2"
+          ]
+        },
+        "rule_set_version": "surv-2026.06"
+      },
+      "escalation_bundle": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "alert_id": "AL-3004",
+      "case_id": "SURV-AL-3004",
+      "surveillance_type": "trade",
+      "priority_score": 0,
+      "priority_band": "P3 (Low)",
+      "priority_reason": "",
+      "citations": [
+        "casemgmt:alert=AL-3004"
+      ],
+      "suppression": {
+        "rule_id": "SUP-WL-KNOWN",
+        "evidence": {
+          "whitelisted_accounts": [
+            "MM-1",
+            "MM-2"
+          ]
+        },
+        "rule_set_version": "surv-2026.06"
+      },
+      "escalation_bundle": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "alert_id": "AL-3005",
+      "case_id": "SURV-AL-3005",
+      "surveillance_type": "trade",
+      "priority_score": 0,
+      "priority_band": "P3 (Low)",
+      "priority_reason": "",
+      "citations": [
+        "casemgmt:alert=AL-3005"
+      ],
+      "suppression": {
+        "rule_id": "SUP-CALIB-01",
+        "evidence": {
+          "pattern_id": "CAL-REBAL-Q3",
+          "qualifying_evidence": [
+            "O50"
+          ]
+        },
+        "rule_set_version": "surv-2026.06"
+      },
+      "escalation_bundle": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "alert_id": "AL-3006",
+      "case_id": "SURV-AL-3006",
+      "surveillance_type": "trade",
+      "priority_score": 1,
+      "priority_band": "P3 (Low)",
+      "priority_reason": "notional>=50000 +1",
+      "citations": [
+        "casemgmt:alert=AL-3006"
+      ],
+      "suppression": null,
+      "escalation_bundle": null,
+      "needs": [
+        "account risk rating"
+      ],
+      "disposition": "needs-data"
+    },
+    {
+      "alert_id": "AL-3007",
+      "case_id": "SURV-AL-3007",
+      "surveillance_type": "trade",
+      "priority_score": 1,
+      "priority_band": "P3 (Low)",
+      "priority_reason": "notional>=50000 +1",
+      "citations": [
+        "casemgmt:alert=AL-3007"
+      ],
+      "suppression": null,
+      "escalation_bundle": null,
+      "needs": [],
+      "disposition": "possible-duplicate",
+      "linked_case_id": "SURV-AL-1000"
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "escalated": 2,
+    "approved_suppressed": 3,
+    "needs_data": 1,
+    "possible_duplicate": 1
+  },
+  "standing_note": "First-line triage only; no case has been closed, no determination of market abuse has been made, and nothing has been filed."
+}

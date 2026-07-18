@@ -1,0 +1,183 @@
+{
+  "config_version": "credit-pkg-2026.07",
+  "package_id": "CP-3001",
+  "product": "commercial-term-loan",
+  "jurisdiction": "US",
+  "as_of_date": "2026-07-17",
+  "template_version": "credit-package-template@0.1.0",
+  "assembly_status": "draft-assembled",
+  "human_approval_required_before_delivery": true,
+  "sections": {
+    "package_summary": {
+      "package_id": "CP-3001",
+      "product": "commercial-term-loan",
+      "jurisdiction": "US",
+      "as_of_date": "2026-07-17",
+      "borrower_id": "B-\u202600",
+      "required_components": [
+        "application",
+        "financial-statements",
+        "tax-returns",
+        "collateral",
+        "kyc-onboarding"
+      ],
+      "counts": {
+        "included": 2,
+        "stale": 1,
+        "unresolved": 1,
+        "open_item": 1,
+        "open_items_total": 5,
+        "approvals_recorded": 1,
+        "approvals_outstanding": 1
+      }
+    },
+    "borrower_profile": {
+      "borrower_id": "B-\u202600",
+      "legal_name": "Acme Widgets LLC",
+      "entity_type": "LLC"
+    },
+    "application": {
+      "component": "application",
+      "doc_id": "D-APP-1",
+      "title": "Credit Application",
+      "effective_date": "2026-07-01",
+      "expires": null,
+      "citation": "los:doc=D-APP-1@2026-07-01",
+      "values": {
+        "requested_amount": 500000,
+        "term_months": 60
+      },
+      "status": "included"
+    },
+    "financial_information": [
+      {
+        "component": "financial-statements",
+        "doc_id": "D-FS-1",
+        "title": "FY2025 Financial Statements",
+        "effective_date": "2026-03-31",
+        "expires": null,
+        "citation": "docintel:doc=D-FS-1@2026-03-31",
+        "values": {
+          "revenue": 4200000,
+          "net_income": 310000
+        },
+        "status": "included"
+      },
+      {
+        "component": "tax-returns",
+        "doc_id": "D-TAX-1",
+        "title": "2023 Business Tax Return",
+        "effective_date": "2024-04-15",
+        "expires": "2026-04-15",
+        "citation": "docintel:doc=D-TAX-1@2024-04-15",
+        "values": {
+          "tax_year": 2023
+        },
+        "status": "stale",
+        "reason": "document expired 2026-04-15 before as_of 2026-07-17"
+      }
+    ],
+    "collateral": {
+      "component": "collateral",
+      "status": "open-item",
+      "reason": "required component has no supporting document"
+    },
+    "kyc_onboarding": {
+      "component": "kyc-onboarding",
+      "doc_id": "D-KYC-1",
+      "title": "Beneficial Ownership / KYC",
+      "effective_date": "2026-06-20",
+      "expires": null,
+      "citation": "core:doc=D-KYC-1@2026-06-20",
+      "values": {},
+      "status": "unresolved",
+      "reason": "borrower identity mismatch: document borrower_id 'B-999' != package borrower_id 'B-100'"
+    },
+    "approvals": {
+      "recorded": [
+        {
+          "type": "credit-approval",
+          "approver_role": "Senior Credit Officer",
+          "approver": "us\u202671",
+          "date": "2026-07-10",
+          "citation": "los:approval=AP-1@2026-07-10"
+        }
+      ],
+      "outstanding": [
+        {
+          "type": "collateral-approval",
+          "status": "outstanding"
+        }
+      ]
+    },
+    "open_items": [
+      {
+        "item": "tax-returns (D-TAX-1)",
+        "type": "stale-document",
+        "citation": "docintel:doc=D-TAX-1@2024-04-15",
+        "action": "refresh with a current document"
+      },
+      {
+        "item": "collateral",
+        "type": "missing-component",
+        "action": "obtain and attach the required document"
+      },
+      {
+        "item": "kyc-onboarding (D-KYC-1)",
+        "type": "identity-unresolved",
+        "citation": "core:doc=D-KYC-1@2026-06-20",
+        "action": "reconcile borrower identity with a human"
+      },
+      {
+        "item": "collateral-approval",
+        "type": "outstanding-approval",
+        "action": "obtain the required approval before delivery"
+      },
+      {
+        "item": "COND-1",
+        "type": "outstanding-condition",
+        "citation": "los:cond=COND-1@2026-07-11",
+        "action": "Provide updated accounts-receivable aging (< 30 days old)"
+      }
+    ],
+    "source_index": [
+      "los:doc=D-APP-1@2026-07-01",
+      "docintel:doc=D-FS-1@2026-03-31",
+      "docintel:doc=D-TAX-1@2024-04-15",
+      "core:doc=D-KYC-1@2026-06-20",
+      "los:approval=AP-1@2026-07-10",
+      "los:cond=COND-1@2026-07-11"
+    ]
+  },
+  "open_items": [
+    {
+      "item": "tax-returns (D-TAX-1)",
+      "type": "stale-document",
+      "citation": "docintel:doc=D-TAX-1@2024-04-15",
+      "action": "refresh with a current document"
+    },
+    {
+      "item": "collateral",
+      "type": "missing-component",
+      "action": "obtain and attach the required document"
+    },
+    {
+      "item": "kyc-onboarding (D-KYC-1)",
+      "type": "identity-unresolved",
+      "citation": "core:doc=D-KYC-1@2026-06-20",
+      "action": "reconcile borrower identity with a human"
+    },
+    {
+      "item": "collateral-approval",
+      "type": "outstanding-approval",
+      "action": "obtain the required approval before delivery"
+    },
+    {
+      "item": "COND-1",
+      "type": "outstanding-condition",
+      "citation": "los:cond=COND-1@2026-07-11",
+      "action": "Provide updated accounts-receivable aging (< 30 days old)"
+    }
+  ],
+  "standing_note": "Draft credit package for human review only. This package is not a completeness certification, not a credit decision or adverse-action notice, and has not been submitted or delivered."
+}

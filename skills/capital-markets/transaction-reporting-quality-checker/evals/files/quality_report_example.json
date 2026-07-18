@@ -1,0 +1,136 @@
+{
+  "qc_id": "trqc-MiFIR-RTS22-2026-07-17-0001",
+  "report_regime": "MiFIR-RTS22",
+  "as_of": "2026-07-17",
+  "config_version": "txn-report-cfg-2026.07",
+  "population": {
+    "source_reportable": 6,
+    "submitted": 6,
+    "matched": 5
+  },
+  "exceptions": [
+    {
+      "code": "missing_report",
+      "severity": "blocking",
+      "reason": "reportable execution TXN-3 has no matching submitted report",
+      "evidence": [
+        {
+          "transaction_ref": "TXN-3",
+          "exec_id": "E-3",
+          "citation": "oms:oms=OMS1;exec=E-3@2026-07-13T15:00:00"
+        }
+      ],
+      "detail": {}
+    },
+    {
+      "code": "over_report",
+      "severity": "blocking",
+      "reason": "submitted report R-6 for TXN-6 has no reportable source (no source execution for this transaction_ref)",
+      "evidence": [
+        {
+          "transaction_ref": "TXN-6",
+          "report_id": "R-6",
+          "citation": "arm:arm=ARM1;rpt=R-6@2026-07-14T12:15:00"
+        }
+      ],
+      "detail": {}
+    },
+    {
+      "code": "late_report",
+      "severity": "high",
+      "reason": "report R-2 submitted 48.5h after execution, exceeds 24h deadline",
+      "evidence": [
+        {
+          "transaction_ref": "TXN-2",
+          "report_id": "R-2",
+          "citation": "arm:arm=ARM1;rpt=R-2@2026-07-16T10:30:00"
+        }
+      ],
+      "detail": {
+        "lag_hours": 48.5,
+        "deadline_hours": 24.0
+      }
+    },
+    {
+      "code": "economic_field_mismatch",
+      "severity": "blocking",
+      "reason": "report R-4 price=55.75 differs from source price=55.0",
+      "evidence": [
+        {
+          "transaction_ref": "TXN-4",
+          "field": "price",
+          "reported": 55.75,
+          "source": 55.0,
+          "citation_report": "arm:arm=ARM1;rpt=R-4@2026-07-14T15:00:00",
+          "citation_source": "oms:oms=OMS1;exec=E-4@2026-07-14T11:00:00"
+        }
+      ],
+      "detail": {}
+    },
+    {
+      "code": "missing_required_field",
+      "severity": "high",
+      "reason": "report R-7 is missing mandatory field(s): buyer_id",
+      "evidence": [
+        {
+          "transaction_ref": "TXN-7",
+          "report_id": "R-7",
+          "fields": [
+            "buyer_id"
+          ],
+          "citation": "arm:arm=ARM1;rpt=R-7@2026-07-14T14:00:00"
+        }
+      ],
+      "detail": {}
+    },
+    {
+      "code": "invalid_identifier",
+      "severity": "high",
+      "reason": "report R-7 field reporting_firm_lei value does not match required LEI format",
+      "evidence": [
+        {
+          "transaction_ref": "TXN-7",
+          "report_id": "R-7",
+          "field": "reporting_firm_lei",
+          "value": "INVALIDLEI123",
+          "citation": "arm:arm=ARM1;rpt=R-7@2026-07-14T14:00:00"
+        }
+      ],
+      "detail": {}
+    },
+    {
+      "code": "rejected_report_unresolved",
+      "severity": "high",
+      "reason": "report R-8 status is 'rejected' and is not yet resolved",
+      "evidence": [
+        {
+          "transaction_ref": "TXN-8",
+          "report_id": "R-8",
+          "status": "rejected",
+          "citation": "arm:arm=ARM1;rpt=R-8@2026-07-14T13:00:00"
+        }
+      ],
+      "detail": {}
+    }
+  ],
+  "exception_codes": [
+    "economic_field_mismatch",
+    "invalid_identifier",
+    "late_report",
+    "missing_report",
+    "missing_required_field",
+    "over_report",
+    "rejected_report_unresolved"
+  ],
+  "not_evaluable": [],
+  "suggested_priority": "Blocking",
+  "false_positive_checks": [
+    "confirm no reporting exemption, waiver, or deferral applies to the flagged transaction",
+    "normalize timezones and cut-off calendars before treating a report as late",
+    "confirm a correction is not already in flight before treating a reject as unresolved",
+    "confirm the source-of-record field is itself correct before treating a mismatch as a report defect",
+    "confirm the reference-data (LEI/ISIN/MIC) snapshot used is the effective one"
+  ],
+  "disclaimer": "Quality-control findings only; not a compliance determination. No regulatory report has been submitted, amended, cancelled, or suppressed.",
+  "narrative": "Quality-control review of the MiFIR-RTS22 batch as of 2026-07-17 examined 6 reportable executions against 6 submitted reports (5 matched). It surfaced 7 exceptions: a reportable execution with no report (TXN-3), a report with no reportable source (TXN-6), a reported price that differs from the source of record (TXN-4), a report submitted after the timeliness deadline (TXN-2), a mandatory field left empty and an identifier that does not match the required LEI format (TXN-7), and an unresolved reject (TXN-8). Suggested remediation priority: Blocking. Each exception cites its source and reported evidence. These are quality-control findings for human remediation review; a reporting-operations analyst decides disposition and any downstream routing. Run the false-positive checks before escalating."
+}

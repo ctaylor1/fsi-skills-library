@@ -1,0 +1,317 @@
+{
+  "run_id": "cem-run-2026-07-17-0700",
+  "as_of": "2026-07-17T07:00:00",
+  "config_version": "cpty-cfg-2026.07",
+  "book_total_net_exposure": 116000000.0,
+  "counterparties_evaluated": 4,
+  "feeds_evaluated": {
+    "derivatives_mtm": {
+      "as_of": "2026-07-17T06:00:00",
+      "age_hours": 1.0,
+      "max_age_hours": 24.0,
+      "status": "current"
+    },
+    "settlement": {
+      "as_of": "2026-07-17T05:30:00",
+      "age_hours": 1.5,
+      "max_age_hours": 24.0,
+      "status": "current"
+    },
+    "financing": {
+      "as_of": "2026-07-15T04:00:00",
+      "age_hours": 51.0,
+      "max_age_hours": 24.0,
+      "status": "stale"
+    },
+    "collateral": {
+      "as_of": "2026-07-17T02:00:00",
+      "age_hours": 5.0,
+      "max_age_hours": 24.0,
+      "status": "current"
+    },
+    "credit": {
+      "as_of": "2026-07-16T00:00:00",
+      "age_hours": 31.0,
+      "max_age_hours": 72.0,
+      "status": "current"
+    }
+  },
+  "stale_feeds": [
+    "financing"
+  ],
+  "alerts": [
+    {
+      "fingerprint": "counterparty:CP-ACME:limit_utilization:total_current_exposure",
+      "scope": "counterparty",
+      "counterparty_id": "CP-ACME",
+      "alert_type": "limit_utilization",
+      "dimension": "total_current_exposure",
+      "severity": "Critical",
+      "freshness": "stale",
+      "status": "recurring",
+      "measure": {
+        "net_exposure": 44000000.0,
+        "limit": 40000000.0,
+        "utilization_pct": 110.0
+      },
+      "reason": "net current exposure 44000000 is 110.0% of limit 40000000",
+      "evidence": [
+        {
+          "exposure_type": "derivative_mtm",
+          "net_exposure": 28000000.0,
+          "current_exposure": 30000000,
+          "collateral": 8000000,
+          "pfe_addon": 6000000,
+          "citation": "derivatives_mtm:cp=CP-ACME;set=NS-01@2026-07-17T06:00:00"
+        },
+        {
+          "exposure_type": "settlement",
+          "net_exposure": 12000000.0,
+          "current_exposure": 12000000,
+          "collateral": 0,
+          "pfe_addon": 0,
+          "citation": "settlement:cp=CP-ACME;set=STL-11@2026-07-17T05:30:00"
+        },
+        {
+          "exposure_type": "financing",
+          "net_exposure": 4000000.0,
+          "current_exposure": 5000000,
+          "collateral": 1000000,
+          "pfe_addon": 0,
+          "citation": "financing:cp=CP-ACME;set=REPO-3@2026-07-15T04:00:00"
+        }
+      ],
+      "queue": "counterparty-risk-urgent",
+      "sla_hours": 1,
+      "escalate_to": "Counterparty risk lead and Treasury"
+    },
+    {
+      "fingerprint": "counterparty:CP-ACME:concentration:single_name_concentration_pct",
+      "scope": "portfolio",
+      "counterparty_id": "CP-ACME",
+      "alert_type": "concentration",
+      "dimension": "single_name_concentration_pct",
+      "severity": "Warning",
+      "freshness": "stale",
+      "status": "new",
+      "measure": {
+        "share_pct": 37.9,
+        "limit_pct": 40.0,
+        "net_exposure": 44000000.0,
+        "book_total": 116000000.0
+      },
+      "reason": "single-name share 37.9% of book 116000000 vs limit 40.0%",
+      "evidence": [
+        {
+          "exposure_type": "derivative_mtm",
+          "net_exposure": 28000000.0,
+          "current_exposure": 30000000,
+          "collateral": 8000000,
+          "pfe_addon": 6000000,
+          "citation": "derivatives_mtm:cp=CP-ACME;set=NS-01@2026-07-17T06:00:00"
+        },
+        {
+          "exposure_type": "settlement",
+          "net_exposure": 12000000.0,
+          "current_exposure": 12000000,
+          "collateral": 0,
+          "pfe_addon": 0,
+          "citation": "settlement:cp=CP-ACME;set=STL-11@2026-07-17T05:30:00"
+        },
+        {
+          "exposure_type": "financing",
+          "net_exposure": 4000000.0,
+          "current_exposure": 5000000,
+          "collateral": 1000000,
+          "pfe_addon": 0,
+          "citation": "financing:cp=CP-ACME;set=REPO-3@2026-07-15T04:00:00"
+        }
+      ],
+      "queue": "counterparty-risk-watch",
+      "sla_hours": 24,
+      "escalate_to": "Counterparty risk analyst"
+    },
+    {
+      "fingerprint": "counterparty:CP-CIRRUS:limit_utilization:total_current_exposure",
+      "scope": "counterparty",
+      "counterparty_id": "CP-CIRRUS",
+      "alert_type": "limit_utilization",
+      "dimension": "total_current_exposure",
+      "severity": "Warning",
+      "freshness": "current",
+      "status": "new",
+      "measure": {
+        "net_exposure": 51000000.0,
+        "limit": 60000000.0,
+        "utilization_pct": 85.0
+      },
+      "reason": "net current exposure 51000000 is 85.0% of limit 60000000",
+      "evidence": [
+        {
+          "exposure_type": "derivative_mtm",
+          "net_exposure": 37000000.0,
+          "current_exposure": 40000000,
+          "collateral": 5000000,
+          "pfe_addon": 2000000,
+          "citation": "derivatives_mtm:cp=CP-CIRRUS;set=NS-03@2026-07-17T06:00:00"
+        },
+        {
+          "exposure_type": "settlement",
+          "net_exposure": 14000000.0,
+          "current_exposure": 14000000,
+          "collateral": 0,
+          "pfe_addon": 0,
+          "citation": "settlement:cp=CP-CIRRUS;set=STL-31@2026-07-17T05:30:00"
+        }
+      ],
+      "queue": "counterparty-risk-watch",
+      "sla_hours": 24,
+      "escalate_to": "Counterparty risk analyst"
+    },
+    {
+      "fingerprint": "counterparty:CP-CIRRUS:concentration:single_name_concentration_pct",
+      "scope": "portfolio",
+      "counterparty_id": "CP-CIRRUS",
+      "alert_type": "concentration",
+      "dimension": "single_name_concentration_pct",
+      "severity": "Breach",
+      "freshness": "current",
+      "status": "new",
+      "measure": {
+        "share_pct": 44.0,
+        "limit_pct": 40.0,
+        "net_exposure": 51000000.0,
+        "book_total": 116000000.0
+      },
+      "reason": "single-name share 44.0% of book 116000000 vs limit 40.0%",
+      "evidence": [
+        {
+          "exposure_type": "derivative_mtm",
+          "net_exposure": 37000000.0,
+          "current_exposure": 40000000,
+          "collateral": 5000000,
+          "pfe_addon": 2000000,
+          "citation": "derivatives_mtm:cp=CP-CIRRUS;set=NS-03@2026-07-17T06:00:00"
+        },
+        {
+          "exposure_type": "settlement",
+          "net_exposure": 14000000.0,
+          "current_exposure": 14000000,
+          "collateral": 0,
+          "pfe_addon": 0,
+          "citation": "settlement:cp=CP-CIRRUS;set=STL-31@2026-07-17T05:30:00"
+        }
+      ],
+      "queue": "counterparty-risk",
+      "sla_hours": 4,
+      "escalate_to": "Counterparty risk analyst"
+    },
+    {
+      "fingerprint": "counterparty:CP-ACME:credit_watch:negative_watch",
+      "scope": "counterparty",
+      "counterparty_id": "CP-ACME",
+      "alert_type": "credit_watch",
+      "dimension": "negative_watch",
+      "severity": "Warning",
+      "freshness": "current",
+      "status": "new",
+      "measure": {
+        "watch": "negative"
+      },
+      "reason": "counterparty on negative credit watch",
+      "evidence": [
+        {
+          "counterparty_id": "CP-ACME",
+          "watch": "negative",
+          "citation": "credit:cp=CP-ACME@2026-07-16T00:00:00"
+        }
+      ],
+      "queue": "counterparty-risk-watch",
+      "sla_hours": 24,
+      "escalate_to": "Counterparty risk analyst"
+    },
+    {
+      "fingerprint": "counterparty:CP-ACME:credit_spread:cds_widening",
+      "scope": "counterparty",
+      "counterparty_id": "CP-ACME",
+      "alert_type": "credit_spread",
+      "dimension": "cds_widening",
+      "severity": "Warning",
+      "freshness": "current",
+      "status": "new",
+      "measure": {
+        "cds_bps": 180,
+        "cds_baseline_bps": 110,
+        "widen_bps": 70.0
+      },
+      "reason": "CDS widened 70bps vs baseline (110 -> 180)",
+      "evidence": [
+        {
+          "counterparty_id": "CP-ACME",
+          "cds_bps": 180,
+          "cds_baseline_bps": 110,
+          "citation": "credit:cp=CP-ACME@2026-07-16T00:00:00"
+        }
+      ],
+      "queue": "counterparty-risk-watch",
+      "sla_hours": 24,
+      "escalate_to": "Counterparty risk analyst"
+    },
+    {
+      "fingerprint": "counterparty:CP-BOLT:credit_rating:rating_below_floor",
+      "scope": "counterparty",
+      "counterparty_id": "CP-BOLT",
+      "alert_type": "credit_rating",
+      "dimension": "rating_below_floor",
+      "severity": "Breach",
+      "freshness": "current",
+      "status": "recurring",
+      "measure": {
+        "rating": "BB",
+        "rating_floor": "BBB-"
+      },
+      "reason": "rating BB is below floor BBB-",
+      "evidence": [
+        {
+          "counterparty_id": "CP-BOLT",
+          "rating": "BB",
+          "rating_floor": "BBB-",
+          "citation": "credit:cp=CP-BOLT@2026-07-16T00:00:00"
+        }
+      ],
+      "queue": "counterparty-risk",
+      "sla_hours": 4,
+      "escalate_to": "Counterparty risk analyst"
+    },
+    {
+      "fingerprint": "feed::data_freshness:financing",
+      "scope": "feed",
+      "counterparty_id": null,
+      "alert_type": "data_freshness",
+      "dimension": "financing",
+      "severity": "Warning",
+      "freshness": "stale",
+      "status": "new",
+      "measure": {
+        "age_hours": 51.0,
+        "max_age_hours": 24.0
+      },
+      "reason": "feed 'financing' is 51.0h old (max 24.0h); dependent alerts are flagged stale, not suppressed",
+      "evidence": [
+        {
+          "feed": "financing",
+          "as_of": "2026-07-15T04:00:00",
+          "citation": "feed:financing@2026-07-15T04:00:00"
+        }
+      ],
+      "queue": "counterparty-risk-watch",
+      "sla_hours": 24,
+      "escalate_to": "Counterparty risk analyst"
+    }
+  ],
+  "alert_count": 8,
+  "run_severity": "Critical",
+  "not_evaluable": [],
+  "disclaimer": "Monitoring alert only; no limit, trade, collateral, or counterparty action has been taken. Human review is required before any action.",
+  "narrative": "Scheduled counterparty-exposure monitoring run cem-run-2026-07-17-0700 (as of 2026-07-17T07:00:00, config cpty-cfg-2026.07) raised 8 alerts for human review across a 116,000,000 net-exposure book. CP-ACME net current exposure of 44,000,000 is 110.0% of its 40,000,000 limit (Critical, recurring) and is flagged stale because the financing feed is 51h old; CP-CIRRUS single-name concentration of 44.0% breaches the 40.0% limit; CP-BOLT rating BB is below its BBB- floor (recurring). Lower-severity watch items (CP-ACME concentration, negative watch, CDS widening; CP-CIRRUS utilization) and a data-freshness alert for the financing feed are queued for the watch tier. All items are triage signals for the counterparty-risk queue. Monitoring alert only; no limit, trade, collateral, or counterparty action has been taken. Human review is required before any action."
+}

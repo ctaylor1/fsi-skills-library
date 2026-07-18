@@ -1,0 +1,64 @@
+{
+  "entity": "Northwind Manufacturing - Consolidated",
+  "period": "2026-06 (Jun YTD)",
+  "as_of": "2026-07-15",
+  "config_version": "fpa-materiality-2026.07",
+  "basis": "budget",
+  "config": {
+    "abs_threshold": 100000.0,
+    "pct_threshold": 0.10,
+    "min_base": 50000.0,
+    "run_rate_escalation": 250000.0,
+    "attribution_tolerance": 1.0,
+    "periods_remaining": 6
+  },
+  "lines": [
+    {
+      "line_id": "L-1", "account": "Product Revenue", "account_type": "revenue",
+      "actual": 12400000.0, "budget": 12000000.0, "forecast": 12300000.0, "prior": 11500000.0,
+      "persistence": "recurring",
+      "drivers": [
+        {"name": "volume", "amount": 250000.0, "source_ref": "fpa=driver;line=L-1;comp=volume"},
+        {"name": "price", "amount": 150000.0, "source_ref": "fpa=driver;line=L-1;comp=price"}
+      ],
+      "source_ref": "gl=cons;acct=4000;cc=REV"
+    },
+    {
+      "line_id": "L-2", "account": "Raw Materials", "account_type": "expense",
+      "actual": 6300000.0, "budget": 6000000.0, "forecast": 6100000.0, "prior": 5800000.0,
+      "persistence": "recurring",
+      "drivers": [
+        {"name": "commodity_price", "amount": 200000.0, "source_ref": "fpa=driver;line=L-2;comp=commodity"},
+        {"name": "volume", "amount": 50000.0, "source_ref": "fpa=driver;line=L-2;comp=volume"}
+      ],
+      "source_ref": "gl=cons;acct=5000;cc=COGS"
+    },
+    {
+      "line_id": "L-3", "account": "Freight & Logistics", "account_type": "expense",
+      "actual": 520000.0, "budget": 400000.0, "forecast": 450000.0, "prior": 380000.0,
+      "persistence": "one_time",
+      "source_ref": "gl=cons;acct=5200;cc=COGS"
+    },
+    {
+      "line_id": "L-4", "account": "Marketing", "account_type": "expense",
+      "actual": 890000.0, "budget": 900000.0, "forecast": 880000.0, "prior": 850000.0,
+      "persistence": "recurring",
+      "source_ref": "gl=cons;acct=6100;cc=SGA"
+    },
+    {
+      "line_id": "L-5", "account": "SG&A Salaries", "account_type": "expense",
+      "actual": 4050000.0, "budget": 4000000.0, "forecast": 4020000.0, "prior": 3900000.0,
+      "persistence": "recurring",
+      "source_ref": "gl=cons;acct=6000;cc=SGA"
+    },
+    {
+      "line_id": "L-6", "account": "Interest Income", "account_type": "revenue",
+      "actual": 30000.0, "budget": 60000.0, "forecast": 40000.0, "prior": 55000.0,
+      "persistence": "timing",
+      "drivers": [
+        {"name": "rate_decline", "amount": -30000.0, "source_ref": "fpa=driver;line=L-6;comp=rate"}
+      ],
+      "source_ref": "gl=cons;acct=7100;cc=TREAS"
+    }
+  ]
+}

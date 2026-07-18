@@ -1,0 +1,66 @@
+{
+  "record_id": "MOD-4471",
+  "as_of": "2026-07-17",
+  "config_version": "inv-rubric-2026.07",
+  "change_type": "update",
+  "asset_kind": "model",
+  "proposed_record": {
+    "name": "Retail Credit Decisioning Scorecard",
+    "owner": "Model Risk: Credit Decisioning Team",
+    "purpose": "Score consumer credit applications to support adverse-action decisions.",
+    "lifecycle_status": "in-use",
+    "materiality_tier": "Tier 2",
+    "materiality_factors": {
+      "financial_exposure": 3,
+      "decision_autonomy": 2,
+      "customer_impact": 3,
+      "regulatory_use": 3
+    },
+    "versions": [
+      {"version": "3.1", "effective": "2025-11-01"},
+      {"version": "3.2", "effective": "2026-06-15"}
+    ],
+    "latest_version": "3.2",
+    "dependencies": ["MOD-3300 (income-estimation)", "svc-decision-orchestrator"],
+    "lineage": [
+      {"dataset": "credit_bureau_v4", "classification": "Confidential"},
+      {"dataset": "application_features_v7", "classification": "Confidential"}
+    ],
+    "approvals": []
+  },
+  "current_record": {
+    "name": "Retail Credit Decisioning Scorecard",
+    "owner": "Retail Credit Analytics",
+    "lifecycle_status": "in-validation",
+    "latest_version": "3.1"
+  },
+  "evidence": [
+    {"attribute": "name", "system": "registry", "source_ref": "registry:model=MOD-4471;field=name@2026-07-10"},
+    {"attribute": "materiality_factors", "system": "risk", "source_ref": "risk:assessment=RA-2210;model=MOD-4471@2026-07-08"},
+    {"attribute": "lineage", "system": "catalog", "source_ref": "catalog:model=MOD-4471;lineage@2026-06-30"},
+    {"attribute": "versions", "system": "registry", "source_ref": "registry:model=MOD-4471;versions@2026-07-10"},
+    {"attribute": "lifecycle_status", "system": "registry", "source_ref": "registry:model=MOD-4471;field=lifecycle_status@2026-07-10"},
+    {"attribute": "owner", "system": "registry", "source_ref": "registry:model=MOD-4471;field=owner@2026-07-10"}
+  ],
+  "sources": {
+    "registry": {
+      "name": "Retail Credit Decisioning Scorecard",
+      "owner": "Retail Credit Analytics",
+      "lifecycle_status": "in-validation",
+      "latest_version": "3.2",
+      "snapshot_date": "2026-07-10",
+      "source_ref": "registry:model=MOD-4471@2026-07-10"
+    },
+    "catalog": {
+      "lineage": ["credit_bureau_v4", "application_features_v7"],
+      "snapshot_date": "2026-06-30"
+    }
+  },
+  "config": {
+    "tier1_min": 8,
+    "tier2_min": 4,
+    "escalate_at": 3,
+    "escalating_factors": ["decision_autonomy", "regulatory_use"],
+    "staleness_days": 90
+  }
+}

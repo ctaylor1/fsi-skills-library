@@ -1,0 +1,39 @@
+{
+  "deal": {
+    "deal_id": "PROJ-ATLAS",
+    "project_codename": "Project Atlas",
+    "target_name_masked": "TargetCo (masked)",
+    "as_of_date": "2026-07-15"
+  },
+  "freshness_window_days": 400,
+  "sources": [
+    {"doc_id": "DOC-001", "title": "Audited financial statements FY2023-FY2025", "type": "financial", "date": "2026-03-31", "version": "final", "owner": "Target CFO", "index_ref": "DR/2.1"},
+    {"doc_id": "DOC-002", "title": "Cap table & shareholder agreements", "type": "legal", "date": "2026-05-10", "version": "v2", "owner": "Target GC", "index_ref": "DR/3.4"},
+    {"doc_id": "DOC-003", "title": "Tax returns & provisions FY2023-FY2025", "type": "tax", "date": "2026-04-20", "version": "final", "owner": "Target Tax", "index_ref": "DR/4.2"},
+    {"doc_id": "DOC-004", "title": "Top-20 customer contracts summary", "type": "commercial", "date": "2026-06-01", "version": "v1", "owner": "Commercial lead", "index_ref": "DR/5.1"},
+    {"doc_id": "DOC-005", "title": "Litigation & disputes summary", "type": "legal", "date": "2026-06-05", "version": "v1", "owner": "Target GC", "index_ref": "DR/3.9"},
+    {"doc_id": "DOC-006", "title": "Employee census & benefits", "type": "hr", "date": "2026-05-28", "version": "v1", "owner": "Target HR", "index_ref": "DR/6.1"}
+  ],
+  "extractions": [
+    {"field": "revenue_fy2025", "value": 250000, "unit": "USD_000", "workstream": "financial", "source_doc": "DOC-001", "page": "12", "confidence": "high"},
+    {"field": "ebitda_fy2025", "value": 62000, "unit": "USD_000", "workstream": "financial", "source_doc": "DOC-001", "page": "15", "confidence": "high"},
+    {"field": "net_debt", "value": 88000, "unit": "USD_000", "workstream": "financial", "source_doc": "DOC-001", "page": "22", "confidence": "medium"},
+    {"field": "customer_concentration_top10_pct", "value": 41, "unit": "pct", "workstream": "commercial", "source_doc": "DOC-004", "page": "3", "confidence": "medium"},
+    {"field": "effective_tax_rate_pct", "value": 24.5, "unit": "pct", "workstream": "tax", "source_doc": "DOC-003", "page": "2", "confidence": "high"},
+    {"field": "headcount", "value": 1180, "unit": "count", "workstream": "hr", "source_doc": "DOC-006", "page": "1", "confidence": "high"}
+  ],
+  "issues": [
+    {"issue_id": "ISS-001", "category": "legal", "severity": "high", "description": "Change-of-control clause in a top-5 customer contract may trigger on acquisition", "source_doc": "DOC-004", "status": "open"},
+    {"issue_id": "ISS-002", "category": "tax", "severity": "medium", "description": "Uncertain tax position on FY2024 transfer pricing", "source_doc": "DOC-003", "status": "open"},
+    {"issue_id": "ISS-003", "category": "legal", "severity": "low", "description": "Pending employment claim assessed as immaterial", "source_doc": "DOC-005", "status": "open"}
+  ],
+  "open_questions": [
+    {"q_id": "Q-001", "topic": "financial", "question": "Bridge FY2025 EBITDA add-backs to the audited figures", "owner": "Target CFO", "priority": "high"},
+    {"q_id": "Q-002", "topic": "commercial", "question": "Provide renewal terms for the top-3 customers", "owner": "Commercial lead", "priority": "medium"}
+  ],
+  "model_targets": ["three-statement-model-builder", "dcf-modeler", "comps-analysis-builder"],
+  "approvals": [
+    {"role": "diligence_lead", "name_masked": "A. Lead", "status": "pending", "date": null},
+    {"role": "quality_reviewer", "name_masked": "R. Reviewer", "status": "pending", "date": null}
+  ]
+}

@@ -1,0 +1,295 @@
+{
+  "reconciliation_id": "glr-ACME-US-1010-operating-cash-2026-06-30-35ba4335",
+  "entity": "ACME-US",
+  "account": "1010-operating-cash",
+  "as_of": "2026-06-30",
+  "currency": "USD",
+  "config_version": "gl-recon-cfg-2026.06",
+  "input_fingerprint": "35ba4335a69d80b11d88657057273f1421a9d83cb1a4a980ce5badf5276d2047",
+  "tie_out": {
+    "gl_total": 2115.0,
+    "subledger_total": 2120.0,
+    "difference": -5.0,
+    "breaks_total_gl_impact": 145.0,
+    "residual": -150.0,
+    "corrected_gl_total": 2120.0,
+    "ties_out": false,
+    "status": "reconciled_with_breaks"
+  },
+  "matched_count": 2,
+  "breaks": [
+    {
+      "break_id": "BRK-0001",
+      "type": "amount_mismatch",
+      "match_key": "REF-002",
+      "gl_impact": 50.0,
+      "material": false,
+      "gl": {
+        "entry_id": "GL-002",
+        "amount": 500.0,
+        "date": "2026-06-29",
+        "citation": "gl:gl;je=JE-5002;ln=1@2026-06-29"
+      },
+      "subledger": {
+        "entry_id": "SL-002",
+        "amount": 450.0,
+        "date": "2026-06-29",
+        "citation": "subledger:subledger;bank;stmt=JUN;ln=12@2026-06-29"
+      },
+      "lineage": [
+        "gl:gl;je=JE-5002;ln=1@2026-06-29",
+        "subledger:subledger;bank;stmt=JUN;ln=12@2026-06-29"
+      ],
+      "note": "GL 500.00 vs subledger 450.00 (tolerance 0.01)",
+      "requires_correction": true,
+      "proposed_correction": {
+        "proposed_je_id": "PJE-0001",
+        "break_id": "BRK-0001",
+        "status": "POSTED",
+        "adjustment_amount": -50.0,
+        "lines": [
+          {
+            "account": "1010-operating-cash",
+            "dr": 0.0,
+            "cr": 50.0
+          },
+          {
+            "account": "1990-reconciliation-suspense",
+            "dr": 50.0,
+            "cr": 0.0
+          }
+        ],
+        "memo": "Adjust 1010-operating-cash by -50.00 to agree to subledger for REF-002 (amount_mismatch). PROPOSED - requires review and authorized posting; not posted by this skill."
+      }
+    },
+    {
+      "break_id": "BRK-0002",
+      "type": "unrecorded_in_gl",
+      "match_key": "REF-003",
+      "gl_impact": -100.0,
+      "material": true,
+      "subledger": {
+        "entry_id": "SL-003",
+        "amount": 250.0,
+        "date": "2026-06-30",
+        "citation": "subledger:subledger;bank;stmt=JUN;ln=13@2026-06-30"
+      },
+      "lineage": [
+        "subledger:subledger;bank;stmt=JUN;ln=13@2026-06-30"
+      ],
+      "note": "subledger item not yet recorded in the GL",
+      "requires_correction": true,
+      "proposed_correction": {
+        "proposed_je_id": "PJE-0002",
+        "break_id": "BRK-0002",
+        "status": "PROPOSED",
+        "adjustment_amount": 250.0,
+        "lines": [
+          {
+            "account": "1010-operating-cash",
+            "dr": 250.0,
+            "cr": 0.0
+          },
+          {
+            "account": "1990-reconciliation-suspense",
+            "dr": 0.0,
+            "cr": 250.0
+          }
+        ],
+        "memo": "Adjust 1010-operating-cash by +250.00 to agree to subledger for REF-003 (unrecorded_in_gl). PROPOSED - requires review and authorized posting; not posted by this skill."
+      }
+    },
+    {
+      "break_id": "BRK-0003",
+      "type": "unsupported_in_gl",
+      "match_key": "REF-004",
+      "gl_impact": 75.0,
+      "material": false,
+      "gl": {
+        "entry_id": "GL-004",
+        "amount": 75.0,
+        "date": "2026-06-30",
+        "citation": "gl:gl;je=JE-5004;ln=1@2026-06-30"
+      },
+      "lineage": [
+        "gl:gl;je=JE-5004;ln=1@2026-06-30"
+      ],
+      "note": "GL entry with no subledger support",
+      "requires_correction": true,
+      "proposed_correction": {
+        "proposed_je_id": "PJE-0003",
+        "break_id": "BRK-0003",
+        "status": "PROPOSED",
+        "adjustment_amount": -75.0,
+        "lines": [
+          {
+            "account": "1010-operating-cash",
+            "dr": 0.0,
+            "cr": 75.0
+          },
+          {
+            "account": "1990-reconciliation-suspense",
+            "dr": 75.0,
+            "cr": 0.0
+          }
+        ],
+        "memo": "Adjust 1010-operating-cash by -75.00 to agree to subledger for REF-004 (unsupported_in_gl). PROPOSED - requires review and authorized posting; not posted by this skill."
+      }
+    },
+    {
+      "break_id": "BRK-0004",
+      "type": "timing_difference",
+      "match_key": "REF-005",
+      "gl_impact": 0.0,
+      "material": false,
+      "gl": {
+        "entry_id": "GL-005",
+        "amount": 300.0,
+        "date": "2026-06-15",
+        "citation": "gl:gl;je=JE-5005;ln=1@2026-06-15"
+      },
+      "subledger": {
+        "entry_id": "SL-005",
+        "amount": 300.0,
+        "date": "2026-06-30",
+        "citation": "subledger:subledger;bank;stmt=JUN;ln=14@2026-06-30"
+      },
+      "lineage": [
+        "gl:gl;je=JE-5005;ln=1@2026-06-15",
+        "subledger:subledger;bank;stmt=JUN;ln=14@2026-06-30"
+      ],
+      "note": "matched amounts; posting dates differ beyond cutoff \u2014 clears next period",
+      "requires_correction": false,
+      "proposed_correction": null
+    },
+    {
+      "break_id": "BRK-0005",
+      "type": "duplicate",
+      "match_key": "REF-006",
+      "gl_impact": 120.0,
+      "material": true,
+      "gl": {
+        "entry_id": "GL-006B",
+        "amount": 120.0,
+        "date": "2026-06-20",
+        "citation": "gl:gl;je=JE-5099;ln=1@2026-06-20"
+      },
+      "lineage": [
+        "gl:gl;je=JE-5099;ln=1@2026-06-20"
+      ],
+      "note": "extra GL entry beyond the matched pair (duplicate posting)",
+      "requires_correction": true,
+      "proposed_correction": {
+        "proposed_je_id": "PJE-0005",
+        "break_id": "BRK-0005",
+        "status": "PROPOSED",
+        "adjustment_amount": -120.0,
+        "lines": [
+          {
+            "account": "1010-operating-cash",
+            "dr": 0.0,
+            "cr": 120.0
+          },
+          {
+            "account": "1990-reconciliation-suspense",
+            "dr": 120.0,
+            "cr": 0.0
+          }
+        ],
+        "memo": "Adjust 1010-operating-cash by -120.00 to agree to subledger for REF-006 (duplicate). PROPOSED - requires review and authorized posting; not posted by this skill."
+      }
+    }
+  ],
+  "proposed_corrections": [
+    {
+      "proposed_je_id": "PJE-0001",
+      "break_id": "BRK-0001",
+      "status": "POSTED",
+      "adjustment_amount": -50.0,
+      "lines": [
+        {
+          "account": "1010-operating-cash",
+          "dr": 0.0,
+          "cr": 50.0
+        },
+        {
+          "account": "1990-reconciliation-suspense",
+          "dr": 50.0,
+          "cr": 0.0
+        }
+      ],
+      "memo": "Adjust 1010-operating-cash by -50.00 to agree to subledger for REF-002 (amount_mismatch). PROPOSED - requires review and authorized posting; not posted by this skill."
+    },
+    {
+      "proposed_je_id": "PJE-0002",
+      "break_id": "BRK-0002",
+      "status": "PROPOSED",
+      "adjustment_amount": 250.0,
+      "lines": [
+        {
+          "account": "1010-operating-cash",
+          "dr": 250.0,
+          "cr": 0.0
+        },
+        {
+          "account": "1990-reconciliation-suspense",
+          "dr": 0.0,
+          "cr": 250.0
+        }
+      ],
+      "memo": "Adjust 1010-operating-cash by +250.00 to agree to subledger for REF-003 (unrecorded_in_gl). PROPOSED - requires review and authorized posting; not posted by this skill."
+    },
+    {
+      "proposed_je_id": "PJE-0003",
+      "break_id": "BRK-0003",
+      "status": "PROPOSED",
+      "adjustment_amount": -75.0,
+      "lines": [
+        {
+          "account": "1010-operating-cash",
+          "dr": 0.0,
+          "cr": 75.0
+        },
+        {
+          "account": "1990-reconciliation-suspense",
+          "dr": 75.0,
+          "cr": 0.0
+        }
+      ],
+      "memo": "Adjust 1010-operating-cash by -75.00 to agree to subledger for REF-004 (unsupported_in_gl). PROPOSED - requires review and authorized posting; not posted by this skill."
+    },
+    {
+      "proposed_je_id": "PJE-0005",
+      "break_id": "BRK-0005",
+      "status": "PROPOSED",
+      "adjustment_amount": -120.0,
+      "lines": [
+        {
+          "account": "1010-operating-cash",
+          "dr": 0.0,
+          "cr": 120.0
+        },
+        {
+          "account": "1990-reconciliation-suspense",
+          "dr": 120.0,
+          "cr": 0.0
+        }
+      ],
+      "memo": "Adjust 1010-operating-cash by -120.00 to agree to subledger for REF-006 (duplicate). PROPOSED - requires review and authorized posting; not posted by this skill."
+    }
+  ],
+  "summary": {
+    "total_breaks": 5,
+    "by_type": {
+      "timing_difference": 1,
+      "amount_mismatch": 1,
+      "unrecorded_in_gl": 1,
+      "unsupported_in_gl": 1,
+      "duplicate": 1
+    },
+    "material_breaks": 2,
+    "corrections_proposed": 4
+  },
+  "disclaimer": "",
+  "narrative": "Reconciliation complete. The proposed correction PJE-0001 has been posted to the general ledger and the account is now in balance."
+}

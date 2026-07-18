@@ -1,0 +1,317 @@
+{
+  "monitor_run_id": "itm-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "thesis-mon-cfg-2026.07",
+  "window": {
+    "lookback_days": 90,
+    "as_of": "2026-07-17"
+  },
+  "theses_evaluated": 4,
+  "alerts": [
+    {
+      "thesis_id": "TH-ACME",
+      "security": "ACME",
+      "direction": "long",
+      "owner": "analyst-jdoe",
+      "alert_key": "TH-ACME",
+      "stance": "challenging",
+      "escalation": "Elevated",
+      "duplicate": false,
+      "continuation_of": null,
+      "signals": [
+        {
+          "signal": "kpi_miss",
+          "side": "challenging",
+          "fired": true,
+          "reason": "1 KPI(s) below expectation by >= 15%",
+          "evidence": [
+            {
+              "kpi": "subscriber_growth",
+              "expected": 0.1,
+              "actual": 0.04,
+              "rel_delta": -0.6,
+              "citation": "research:th=TH-ACME;kpi=subscriber_growth;q=Q2@2026-07-15"
+            }
+          ]
+        },
+        {
+          "signal": "kpi_beat",
+          "side": "confirming",
+          "fired": false,
+          "reason": "no clean KPI beat",
+          "evidence": []
+        },
+        {
+          "signal": "catalyst_missed",
+          "side": "challenging",
+          "fired": true,
+          "reason": "thesis catalyst missed or overdue",
+          "evidence": [
+            {
+              "catalyst": "flagship product launch",
+              "status": "missed",
+              "due_by": "2026-07-01",
+              "citation": "research:th=TH-ACME;cat=launch@2026-07-11"
+            }
+          ]
+        },
+        {
+          "signal": "catalyst_met",
+          "side": "confirming",
+          "fired": false,
+          "reason": "no met catalyst this run",
+          "evidence": []
+        },
+        {
+          "signal": "estimate_revision_down",
+          "side": "challenging",
+          "fired": true,
+          "reason": "consensus EPS revised -16% (>= 10% down)",
+          "evidence": [
+            {
+              "prior_consensus_eps": 5.0,
+              "current_consensus_eps": 4.2,
+              "revision_pct": -0.16,
+              "citation": "research:th=TH-ACME;est=consensus_eps_fy26@2026-07-14"
+            }
+          ]
+        },
+        {
+          "signal": "stop_breach",
+          "side": "challenging",
+          "fired": true,
+          "reason": "price 78.0 crossed stop 80.0 against the long thesis",
+          "evidence": [
+            {
+              "price": 78.0,
+              "stop": 80.0,
+              "citation": "marketdata:th=TH-ACME;px=close@2026-07-16"
+            }
+          ]
+        },
+        {
+          "signal": "price_target_breach",
+          "side": "confirming",
+          "fired": false,
+          "reason": "price 78.0 short of target 120.0",
+          "evidence": []
+        },
+        {
+          "signal": "risk_news",
+          "side": "challenging",
+          "fired": true,
+          "reason": "monitored thesis risk appeared in news/filings",
+          "evidence": [
+            {
+              "risk_tag": "regulatory_probe",
+              "citation": "news:th=TH-ACME;news=probe-8871@2026-07-13"
+            }
+          ]
+        }
+      ],
+      "fired_signals": [
+        "kpi_miss",
+        "catalyst_missed",
+        "estimate_revision_down",
+        "stop_breach",
+        "risk_news"
+      ],
+      "fired_challenging": [
+        "kpi_miss",
+        "catalyst_missed",
+        "estimate_revision_down",
+        "stop_breach",
+        "risk_news"
+      ],
+      "fired_confirming": [],
+      "not_evaluable": [],
+      "data_freshness": {
+        "stalest_fresh_evidence_age_days": 6,
+        "max_staleness_days": 21,
+        "is_stale": false,
+        "has_stale_surfaces": false
+      }
+    },
+    {
+      "thesis_id": "TH-BETA",
+      "security": "BETA",
+      "direction": "long",
+      "owner": "analyst-msmith",
+      "alert_key": "TH-BETA",
+      "stance": "confirming",
+      "escalation": "Informational",
+      "duplicate": false,
+      "continuation_of": null,
+      "signals": [
+        {
+          "signal": "kpi_miss",
+          "side": "challenging",
+          "fired": false,
+          "reason": "no KPI misses beyond 15% band",
+          "evidence": []
+        },
+        {
+          "signal": "kpi_beat",
+          "side": "confirming",
+          "fired": true,
+          "reason": "1 KPI(s) above expectation by >= 15%",
+          "evidence": [
+            {
+              "kpi": "gross_margin",
+              "expected": 0.3,
+              "actual": 0.37,
+              "rel_delta": 0.2333,
+              "citation": "research:th=TH-BETA;kpi=gross_margin;q=Q2@2026-07-15"
+            }
+          ]
+        },
+        {
+          "signal": "catalyst_missed",
+          "side": "challenging",
+          "fired": false,
+          "reason": "no missed/overdue catalyst",
+          "evidence": []
+        },
+        {
+          "signal": "catalyst_met",
+          "side": "confirming",
+          "fired": true,
+          "reason": "thesis catalyst met",
+          "evidence": [
+            {
+              "catalyst": "anchor contract award",
+              "status": "met",
+              "citation": "research:th=TH-BETA;cat=contract@2026-07-12"
+            }
+          ]
+        },
+        {
+          "signal": "stop_breach",
+          "side": "challenging",
+          "fired": false,
+          "reason": "price 130.0 within stop 90.0",
+          "evidence": []
+        },
+        {
+          "signal": "price_target_breach",
+          "side": "confirming",
+          "fired": true,
+          "reason": "price 130.0 reached target 125.0 for the long thesis",
+          "evidence": [
+            {
+              "price": 130.0,
+              "price_target": 125.0,
+              "citation": "marketdata:th=TH-BETA;px=close@2026-07-16"
+            }
+          ]
+        }
+      ],
+      "fired_signals": [
+        "kpi_beat",
+        "catalyst_met",
+        "price_target_breach"
+      ],
+      "fired_challenging": [],
+      "fired_confirming": [
+        "kpi_beat",
+        "catalyst_met",
+        "price_target_breach"
+      ],
+      "not_evaluable": [],
+      "data_freshness": {
+        "stalest_fresh_evidence_age_days": 5,
+        "max_staleness_days": 21,
+        "is_stale": false,
+        "has_stale_surfaces": false
+      }
+    },
+    {
+      "thesis_id": "TH-DELTA",
+      "security": "DELTA",
+      "direction": "long",
+      "owner": "analyst-msmith",
+      "alert_key": "TH-DELTA",
+      "stance": "challenging",
+      "escalation": "Elevated",
+      "duplicate": true,
+      "continuation_of": "TH-DELTA",
+      "signals": [
+        {
+          "signal": "stop_breach",
+          "side": "challenging",
+          "fired": true,
+          "reason": "price 40.0 crossed stop 45.0 against the long thesis",
+          "evidence": [
+            {
+              "price": 40.0,
+              "stop": 45.0,
+              "citation": "marketdata:th=TH-DELTA;px=close@2026-07-16"
+            }
+          ]
+        },
+        {
+          "signal": "price_target_breach",
+          "side": "confirming",
+          "fired": false,
+          "reason": "price 40.0 short of target 80.0",
+          "evidence": []
+        }
+      ],
+      "fired_signals": [
+        "stop_breach"
+      ],
+      "fired_challenging": [
+        "stop_breach"
+      ],
+      "fired_confirming": [],
+      "not_evaluable": [],
+      "data_freshness": {
+        "stalest_fresh_evidence_age_days": 1,
+        "max_staleness_days": 21,
+        "is_stale": false,
+        "has_stale_surfaces": false
+      }
+    }
+  ],
+  "queue": {
+    "new": [
+      "TH-ACME",
+      "TH-BETA"
+    ],
+    "deduplicated": [
+      "TH-DELTA"
+    ],
+    "by_escalation": {
+      "Elevated": [
+        "TH-ACME",
+        "TH-DELTA"
+      ],
+      "Review": [],
+      "Informational": [
+        "TH-BETA"
+      ]
+    }
+  },
+  "freshness_gaps": [
+    {
+      "thesis_id": "TH-GAMMA",
+      "security": "GAMMA",
+      "owner": "analyst-jdoe",
+      "reason": "all evidence surfaces stale or unverifiable this run",
+      "detail": [
+        {
+          "signal": "kpi",
+          "detail": "units_shipped",
+          "why": "stale (observed 2026-05-01, 77d > 21d)"
+        },
+        {
+          "signal": "price",
+          "why": "stale (observed 2026-05-01, 77d > 21d)"
+        }
+      ]
+    }
+  ],
+  "action_taken": "none",
+  "disclaimer": "Monitoring alert only; not investment advice or a trading decision. No position or thesis action has been taken.",
+  "narrative": "Scheduled thesis monitor run itm-2026-07-17-0001 evaluated 4 active theses as of 2026-07-17. TH-ACME (ACME, long) raised a NEW Elevated alert: subscriber growth missed by 60% vs plan, the flagship product launch catalyst was missed, consensus EPS was revised -16%, and price 78.0 crossed the 80.0 stop; a regulatory-probe risk flag also appeared. TH-BETA (BETA, long) shows confirming evidence (KPI beat, catalyst met, price target reached) and is queued Informational. TH-DELTA (DELTA, long) breached its stop again; because an open alert already exists it is deduplicated as a continuation, not re-escalated. TH-GAMMA (GAMMA) could not be evaluated this run because all evidence was stale and is surfaced as a freshness gap for the analyst to refresh the feed. All bands are triage suggestions for the covering analyst and PM. Monitoring alert only; not investment advice or a trading decision. No position or thesis action has been taken."
+}

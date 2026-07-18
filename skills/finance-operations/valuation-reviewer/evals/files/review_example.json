@@ -1,0 +1,159 @@
+{
+  "review_id": "valr-OTC-SWAP-338-2026-07-15-0001",
+  "instrument_id": "OTC-SWAP-338",
+  "as_of": "2026-07-15",
+  "config_version": "valuation-cfg-2026.07",
+  "asset_class": "IR derivative (bespoke swap)",
+  "method": "income",
+  "fair_value_level": "3",
+  "reported_value": 12500000.0,
+  "currency": "USD",
+  "findings": [
+    {
+      "check": "hierarchy_consistency",
+      "fired": false,
+      "severity": "high",
+      "reason": "declared Level 3 consistent with input observability",
+      "evidence": [],
+      "context": {
+        "declared_level": "3",
+        "implied_min_level": "3"
+      }
+    },
+    {
+      "check": "input_staleness",
+      "fired": true,
+      "severity": "medium",
+      "reason": "1 input(s) older than 10d before as-of",
+      "evidence": [
+        {
+          "input": "discount_rate",
+          "source_date": "2026-05-01",
+          "age_days": 75,
+          "citation": "val:curve:USD-OIS;v=2026-05-01@2026-05-01"
+        }
+      ],
+      "context": {
+        "max_staleness_days": 10
+      }
+    },
+    {
+      "check": "input_source_missing",
+      "fired": true,
+      "severity": "medium",
+      "reason": "1 input(s) have no source reference (untraceable)",
+      "evidence": [
+        {
+          "input": "credit_spread",
+          "citation": "val:instrument=OTC-SWAP-338;input=credit_spread@2026-07-15"
+        }
+      ],
+      "context": {
+        "inputs_total": 4
+      }
+    },
+    {
+      "check": "ipv_missing",
+      "fired": false,
+      "severity": "high",
+      "reason": "IPV performed",
+      "evidence": [],
+      "context": {
+        "level": "3",
+        "ipv_performed": true
+      }
+    },
+    {
+      "check": "ipv_breach",
+      "fired": true,
+      "severity": "high",
+      "reason": "IPV variance 3.20% exceeds tolerance 1.00% with no documented rationale",
+      "evidence": [
+        {
+          "independent_value": 12100000.0,
+          "reported_value": 12500000.0,
+          "variance_pct": 3.2,
+          "citation": "ipv:vendor-Xmark;asof=2026-07-15@2026-07-15"
+        }
+      ],
+      "context": {
+        "tolerance_pct": 1.0,
+        "variance_pct": 3.2
+      }
+    },
+    {
+      "check": "unexplained_adjustment",
+      "fired": true,
+      "severity": "medium",
+      "reason": "1 adjustment(s) lack rationale/source or are material without an approver",
+      "evidence": [
+        {
+          "type": "model_reserve",
+          "amount": -1000000.0,
+          "pct_of_value": 8.0,
+          "citation": "val:instrument=OTC-SWAP-338;adjustment=model_reserve@2026-07-15"
+        }
+      ],
+      "context": {
+        "materiality_pct": 5.0
+      }
+    },
+    {
+      "check": "uncertainty_missing",
+      "fired": true,
+      "severity": "medium",
+      "reason": "Level 3 valuation has no documented valuation-uncertainty / sensitivity range",
+      "evidence": [
+        {
+          "detail": "no uncertainty_range",
+          "citation": "val:instrument=OTC-SWAP-338;level=3;uncertainty_range@2026-07-15"
+        }
+      ],
+      "context": {
+        "level": "3"
+      }
+    },
+    {
+      "check": "override_unapproved",
+      "fired": true,
+      "severity": "high",
+      "reason": "1 manual override(s) lack a recorded approver or rationale",
+      "evidence": [
+        {
+          "ref": "OVR-338-1",
+          "from_value": 12300000.0,
+          "to_value": 12500000.0,
+          "citation": "val:note:desk-338@2026-07-15"
+        }
+      ],
+      "context": {
+        "overrides_total": 1
+      }
+    }
+  ],
+  "fired_findings": [
+    "input_staleness",
+    "input_source_missing",
+    "ipv_breach",
+    "unexplained_adjustment",
+    "uncertainty_missing",
+    "override_unapproved"
+  ],
+  "not_evaluable": [
+    {
+      "check": "comparable_sufficiency",
+      "why": "method 'income' is not market approach"
+    }
+  ],
+  "suggested_disposition": "Escalate",
+  "review_considerations": [
+    "a documented, approved methodology/policy exception may be on file",
+    "a thin- or inactive-market instrument where comparables are legitimately scarce",
+    "an adjustment magnitude that is immaterial to the position and portfolio",
+    "an input refreshed after this extract — confirm the latest source date",
+    "an IPV variance within an approved tolerance band for this asset class",
+    "an override pre-approved under a standing delegated authority"
+  ],
+  "disclaimer": "Valuation review evidence only; not a valuation sign-off, override approval, or fair-value determination. No value has been posted or approved.",
+  "narrative": "Valuation review of instrument OTC-SWAP-338 (Level 3, income approach) for as-of 2026-07-15 raised 6 findings across independent price verification, valuation adjustments, input traceability and freshness, override governance, and Level 3 uncertainty disclosure. Two findings are high severity: an IPV variance of 3.20% above the 1.00% tolerance with no documented rationale, and a manual override that lacks a recorded approver. Suggested disposition: Escalate to the Valuation Control Committee and the responsible product-control reviewer. Every finding cites the specific valuation-record evidence behind it. This output is valuation-review evidence only; it is not a valuation sign-off, override approval, or fair-value determination, and no value has been posted or approved. Weigh the review considerations before reaching any conclusion."
+}

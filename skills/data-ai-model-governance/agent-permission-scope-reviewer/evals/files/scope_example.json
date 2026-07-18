@@ -1,0 +1,50 @@
+{
+  "agent_id": "wealth-portfolio-copilot",
+  "as_of": "2026-07-15",
+  "policy_version": "iam-lp-2026.07",
+  "environment": "production",
+  "data_classifications_in_scope": ["Internal", "Confidential", "Highly Confidential"],
+  "config": {"max_recert_days": 365, "max_recert_days_restricted": 90},
+  "operations": [
+    {"op_id": "OP-001", "tool": "core-banking-transactions", "operation": "txns.read",
+     "access_mode": "read-only", "data_classification": "Highly Confidential",
+     "declared_need": "read transaction history to build the anomaly baseline",
+     "writes": false, "logged": true, "approval_gate": "none",
+     "revocation": {"recert_days": 90, "owner": "banking-fraud-ops"},
+     "segregation_group": "read", "justification_ref": "policy:iam-lp-2026.07#GRANT-1187"},
+
+    {"op_id": "OP-002", "tool": "crm", "operation": "crm.read",
+     "access_mode": "read-only", "data_classification": "Confidential",
+     "declared_need": "read customer context for the review pack",
+     "writes": false, "logged": true, "approval_gate": "none",
+     "revocation": {"recert_days": 180, "owner": "crm-data-owner"},
+     "segregation_group": "read", "justification_ref": "policy:iam-lp-2026.07#GRANT-1188"},
+
+    {"op_id": "OP-003", "tool": "payments", "operation": "payments.transfer",
+     "access_mode": "auto-write", "data_classification": "Highly Confidential",
+     "declared_need": "move funds on the customer's behalf",
+     "writes": true, "logged": true, "approval_gate": "none",
+     "revocation": {"recert_days": 90, "owner": "payments-ops"},
+     "segregation_group": "write", "justification_ref": "policy:iam-lp-2026.07#GRANT-1189"},
+
+    {"op_id": "OP-004", "tool": "iam-entitlements", "operation": "entitlements.approve",
+     "access_mode": "ask-each-time", "data_classification": "Restricted",
+     "declared_need": "approve entitlement changes for downstream agents",
+     "writes": false, "logged": true, "approval_gate": "required",
+     "revocation": {"recert_days": 90, "owner": "iam-governance"},
+     "segregation_group": "approve"},
+
+    {"op_id": "OP-005", "tool": "model-registry", "operation": "model.read",
+     "access_mode": "read-only", "data_classification": "Confidential",
+     "declared_need": "read model metadata for scope mapping",
+     "writes": false, "logged": false, "approval_gate": "none",
+     "revocation": {"recert_days": 365, "owner": "model-risk"},
+     "segregation_group": "read", "justification_ref": "policy:iam-lp-2026.07#GRANT-1191"},
+
+    {"op_id": "OP-006", "tool": "config-service", "operation": "config.read",
+     "access_mode": "read-only", "data_classification": "Internal",
+     "declared_need": "read non-sensitive runtime configuration",
+     "writes": false, "logged": true, "approval_gate": "none",
+     "segregation_group": "read", "justification_ref": "policy:iam-lp-2026.07#GRANT-1192"}
+  ]
+}

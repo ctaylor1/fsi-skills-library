@@ -1,0 +1,36 @@
+{
+  "run_id": "mcm-2026-07-17-9999",
+  "as_of": "2026-07-17",
+  "config_version": "mandate-cfg-2026.07",
+  "data_freshness": [
+    {"portfolio_id": "FUND-A", "holdings_as_of": "2026-07-16", "staleness_days": 1, "stale": false}
+  ],
+  "alerts": [
+    {
+      "fingerprint": "FUND-A|CONC-SECTOR-25|Technology|position|BREACH",
+      "portfolio_id": "FUND-A",
+      "rule_id": "CONC-SECTOR-25",
+      "rule_type": "concentration",
+      "scope": "sector",
+      "bucket": "Technology",
+      "status": "BREACH",
+      "breach_type": "position",
+      "severity": "Medium",
+      "queue": "compliance-review-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured_pct": 26.7,
+      "limit": 25.0,
+      "warn_buffer": 2.0,
+      "evidence": [
+        {"scope_value": "Technology", "measured_pct": 26.7, "citation": "pms:portfolio=FUND-A;sector=Technology@2026-07-17"},
+        {"rule": "CONC-SECTOR-25", "citation": "rules:rule_id=CONC-SECTOR-25@mandate-cfg-2026.07"}
+      ]
+    }
+  ],
+  "new_alerts": ["FUND-A|CONC-SECTOR-25|Technology|position|BREACH"],
+  "still_open": [],
+  "summary": {"portfolios": 1, "rules_evaluated": 1, "alerts_total": 1, "new": 1, "deduplicated": 0, "warn": 0, "breach": 1, "stale_portfolios": []},
+  "escalations": [{"severity": "Medium", "queue": "compliance-review-queue", "count": 1}],
+  "narrative": "Technology concentration exceeded the 25% limit, so the trade was blocked and the portfolio was rebalanced back under the limit. The breach was cured and the alert was auto-closed; no reviewer action is required."
+}

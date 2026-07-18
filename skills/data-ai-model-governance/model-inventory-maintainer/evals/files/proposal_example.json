@@ -1,0 +1,161 @@
+{
+  "proposal_id": "mim-MOD-4471-2026-07-17-0001",
+  "record_id": "MOD-4471",
+  "as_of": "2026-07-17",
+  "config_version": "inv-rubric-2026.07",
+  "change_type": "update",
+  "asset_kind": "model",
+  "status": "proposed",
+  "computed_materiality_tier": "Tier 1",
+  "proposed_materiality_tier": "Tier 2",
+  "materiality_tie_out": {
+    "factors": {
+      "financial_exposure": 3,
+      "decision_autonomy": 2,
+      "customer_impact": 3,
+      "regulatory_use": 3
+    },
+    "score": 11,
+    "computed_tier": "Tier 1",
+    "proposed_tier": "Tier 2",
+    "rubric": "inv-rubric-2026.07"
+  },
+  "completeness": {
+    "required": [
+      "name",
+      "owner",
+      "purpose",
+      "lifecycle_status",
+      "materiality_factors",
+      "versions",
+      "dependencies",
+      "lineage",
+      "approvals"
+    ],
+    "present": [
+      "name",
+      "owner",
+      "purpose",
+      "lifecycle_status",
+      "materiality_factors",
+      "versions",
+      "dependencies",
+      "lineage"
+    ],
+    "missing": [
+      "approvals"
+    ]
+  },
+  "lifecycle": {
+    "from": "in-validation",
+    "to": "in-use",
+    "valid_transition": false,
+    "reason": "in-validation -> in-use not in allowed transitions"
+  },
+  "reconciliation": [
+    {
+      "attribute": "name",
+      "inventory_value": "Retail Credit Decisioning Scorecard",
+      "source_value": "Retail Credit Decisioning Scorecard",
+      "system": "registry",
+      "result": "match"
+    },
+    {
+      "attribute": "owner",
+      "inventory_value": "Model Risk: Credit Decisioning Team",
+      "source_value": "Retail Credit Analytics",
+      "system": "registry",
+      "result": "break",
+      "break_type": "value_mismatch"
+    },
+    {
+      "attribute": "lifecycle_status",
+      "inventory_value": "in-use",
+      "source_value": "in-validation",
+      "system": "registry",
+      "result": "break",
+      "break_type": "value_mismatch"
+    },
+    {
+      "attribute": "latest_version",
+      "inventory_value": "3.2",
+      "source_value": "3.2",
+      "system": "registry",
+      "result": "match"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F-COMPLETE-approvals",
+      "attribute": "approvals",
+      "severity": "medium",
+      "description": "required attribute 'approvals' is missing or empty",
+      "evidence": [
+        {
+          "system": "rubric",
+          "citation": "rubric:inv-rubric-2026.07#required-attributes"
+        }
+      ]
+    },
+    {
+      "id": "F-MATERIALITY",
+      "attribute": "materiality_tier",
+      "severity": "high",
+      "description": "proposed materiality tier 'Tier 2' does not match rubric-computed 'Tier 1' (score 11)",
+      "evidence": [
+        {
+          "system": "risk",
+          "citation": "risk:assessment=RA-2210;model=MOD-4471@2026-07-08"
+        }
+      ]
+    },
+    {
+      "id": "F-LIFECYCLE",
+      "attribute": "lifecycle_status",
+      "severity": "high",
+      "description": "invalid lifecycle transition in-validation -> in-use",
+      "evidence": [
+        {
+          "system": "registry",
+          "citation": "registry:model=MOD-4471;field=lifecycle_status@2026-07-10"
+        }
+      ]
+    },
+    {
+      "id": "F-RECON-owner",
+      "attribute": "owner",
+      "severity": "high",
+      "description": "reconciliation break (value_mismatch) on 'owner': inventory='Model Risk: Credit Decisioning Team' vs registry='Retail Credit Analytics'",
+      "evidence": [
+        {
+          "system": "registry",
+          "citation": "registry:model=MOD-4471@2026-07-10"
+        },
+        {
+          "system": "inventory",
+          "citation": "proposal:record=MOD-4471;attr=owner"
+        }
+      ]
+    },
+    {
+      "id": "F-RECON-lifecycle_status",
+      "attribute": "lifecycle_status",
+      "severity": "high",
+      "description": "reconciliation break (value_mismatch) on 'lifecycle_status': inventory='in-use' vs registry='in-validation'",
+      "evidence": [
+        {
+          "system": "registry",
+          "citation": "registry:model=MOD-4471@2026-07-10"
+        },
+        {
+          "system": "inventory",
+          "citation": "proposal:record=MOD-4471;attr=lifecycle_status"
+        }
+      ]
+    }
+  ],
+  "requires_adjudication": true,
+  "adjudication_owner": "Model Risk Governance",
+  "narrative": "Inventory update proposal for model record MOD-4471 (as of 2026-07-17). Rubric-computed materiality: Tier 1 (score 11). 8/9 required attributes present; 2 reconciliation break(s); 5 finding(s) recorded. This proposal requires adjudication by Model Risk Governance before any change is posted. Proposed inventory changes and findings only; not an approval, attestation, or system-of-record update. Model Risk Governance adjudication is required before any change is posted.",
+  "disclaimer": "Proposed inventory changes and findings only; not an approval, attestation, or system-of-record update. Model Risk Governance adjudication is required before any change is posted."
+}

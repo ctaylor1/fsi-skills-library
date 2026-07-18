@@ -1,0 +1,238 @@
+{
+  "review_id": "fipr-2026-07-15-0001",
+  "as_of": "2026-07-15",
+  "config_version": "fi-pricing-cfg-2026.07",
+  "focal_instrument_ids": [
+    "INSTR-A",
+    "INSTR-B"
+  ],
+  "instruments": [
+    {
+      "instrument_id": "INSTR-A",
+      "identifier": "****7890",
+      "asset_class": "corporate",
+      "liquidity_bucket": "illiquid",
+      "checks": [
+        {
+          "check": "mark_vs_independent",
+          "flagged": true,
+          "reason": "submitted mark 101.25 deviates from independent price 100.4 by 84.7 bps (tolerance 30)",
+          "evidence": [
+            {
+              "instrument_id": "INSTR-A",
+              "submitted_price": 101.25,
+              "independent_price": 100.4,
+              "deviation_bps": 84.7,
+              "citation": "mark:oms=BK;instr=INSTR-A@2026-07-15"
+            }
+          ],
+          "basis": {
+            "deviation_bps": 84.7,
+            "tolerance_bps": 30.0
+          },
+          "contribution": 1
+        },
+        {
+          "check": "comparable_support_thin",
+          "flagged": false,
+          "reason": "4 comps, dispersion 10.0 bps (adequate)",
+          "evidence": [],
+          "basis": {
+            "comparable_count": 4,
+            "dispersion_bps": 10.0
+          },
+          "contribution": 0
+        },
+        {
+          "check": "spread_to_comparables",
+          "flagged": true,
+          "reason": "instrument spread 210.0 bps deviates from comparable median 153.5 bps by 56.5 bps (tolerance 40)",
+          "evidence": [
+            {
+              "instrument_id": "INSTR-A",
+              "instrument_spread_bps": 210.0,
+              "comparable_median_bps": 153.5,
+              "citation": "mark:oms=BK;instr=INSTR-A@2026-07-15"
+            }
+          ],
+          "basis": {
+            "instrument_spread_bps": 210.0,
+            "comparable_median_bps": 153.5,
+            "tolerance_bps": 40.0
+          },
+          "contribution": 1
+        },
+        {
+          "check": "price_movement_unexplained",
+          "flagged": true,
+          "reason": "submitted mark moved 114.9 bps day-over-day while independent price moved only 5.0 bps (below 50% corroboration)",
+          "evidence": [
+            {
+              "instrument_id": "INSTR-A",
+              "prior_price": 100.1,
+              "submitted_price": 101.25,
+              "submitted_move_bps": 114.9,
+              "independent_move_bps": 5.0,
+              "citation": "mark:oms=BK;instr=INSTR-A@2026-07-15"
+            }
+          ],
+          "basis": {
+            "submitted_move_bps": 114.9,
+            "independent_move_bps": 5.0,
+            "move_tolerance_bps": 50.0
+          },
+          "contribution": 1
+        },
+        {
+          "check": "stale_price",
+          "flagged": false,
+          "reason": "price fresh (change gap 1d, source gap 1d)",
+          "evidence": [],
+          "basis": {
+            "change_gap_days": 1,
+            "source_gap_days": 1,
+            "staleness_days": 10,
+            "source_staleness_days": 4
+          },
+          "contribution": 0
+        },
+        {
+          "check": "liquidity_adj_plausibility",
+          "flagged": false,
+          "reason": "applied liquidity adj 8.0 bps within illiquid band [5, 60]",
+          "evidence": [],
+          "basis": {
+            "applied_bps": 8.0,
+            "band": [
+              5.0,
+              60.0
+            ],
+            "quoted_half_spread_bps": 49.8
+          },
+          "contribution": 0
+        },
+        {
+          "check": "fair_value_level_inconsistent",
+          "flagged": true,
+          "reason": "assigned level L2 inconsistent with unobservable inputs (expected L3)",
+          "evidence": [
+            {
+              "instrument_id": "INSTR-A",
+              "assigned_fv_level": "L2",
+              "input_observability": "unobservable",
+              "expected_level": "L3",
+              "citation": "mark:oms=BK;instr=INSTR-A@2026-07-15"
+            }
+          ],
+          "basis": {
+            "assigned_fv_level": "L2",
+            "input_observability": "unobservable",
+            "expected_level": "L3"
+          },
+          "contribution": 1
+        }
+      ],
+      "flagged_checks": [
+        "mark_vs_independent",
+        "spread_to_comparables",
+        "price_movement_unexplained",
+        "fair_value_level_inconsistent"
+      ],
+      "not_evaluable": [],
+      "suggested_priority": "Elevated"
+    },
+    {
+      "instrument_id": "INSTR-B",
+      "identifier": "****3312",
+      "asset_class": "govt",
+      "liquidity_bucket": "liquid",
+      "checks": [
+        {
+          "check": "mark_vs_independent",
+          "flagged": false,
+          "reason": "submitted mark within 30 bps of independent price (2.0)",
+          "evidence": [],
+          "basis": {
+            "deviation_bps": 2.0,
+            "tolerance_bps": 30.0
+          },
+          "contribution": 0
+        },
+        {
+          "check": "price_movement_unexplained",
+          "flagged": false,
+          "reason": "day-over-day move 2.0 bps (independent moved 3.0 bps)",
+          "evidence": [],
+          "basis": {
+            "submitted_move_bps": 2.0,
+            "independent_move_bps": 3.0,
+            "move_tolerance_bps": 50.0
+          },
+          "contribution": 0
+        },
+        {
+          "check": "stale_price",
+          "flagged": false,
+          "reason": "price fresh (change gap 1d, source gap 1d)",
+          "evidence": [],
+          "basis": {
+            "change_gap_days": 1,
+            "source_gap_days": 1,
+            "staleness_days": 10,
+            "source_staleness_days": 4
+          },
+          "contribution": 0
+        },
+        {
+          "check": "liquidity_adj_plausibility",
+          "flagged": false,
+          "reason": "applied liquidity adj 3.0 bps within liquid band [0, 10]",
+          "evidence": [],
+          "basis": {
+            "applied_bps": 3.0,
+            "band": [
+              0.0,
+              10.0
+            ],
+            "quoted_half_spread_bps": 2.0
+          },
+          "contribution": 0
+        },
+        {
+          "check": "fair_value_level_inconsistent",
+          "flagged": false,
+          "reason": "assigned level L1 consistent with observable inputs",
+          "evidence": [],
+          "basis": {
+            "assigned_fv_level": "L1",
+            "input_observability": "observable",
+            "expected_level": null
+          },
+          "contribution": 0
+        }
+      ],
+      "flagged_checks": [],
+      "not_evaluable": [
+        {
+          "check": "spread_to_comparables",
+          "why": "no comparables provided"
+        },
+        {
+          "check": "comparable_support_thin",
+          "why": "no comparables provided"
+        }
+      ],
+      "suggested_priority": "Informational"
+    }
+  ],
+  "overall_suggested_priority": "Elevated",
+  "benign_prompts": [
+    "a genuine idiosyncratic move (issuer news, rating action, coupon/call event)",
+    "a benchmark or curve shift the comparable set has not yet reflected",
+    "an approved, documented liquidity or model reserve for a thinly traded line",
+    "a stale vendor feed rather than a stale trader mark (verify source timestamps)",
+    "a legitimate fair-value level given documented input observability"
+  ],
+  "disclaimer": "Pricing-review evidence only; not a valuation determination or price approval. No mark has been changed, approved, or booked.",
+  "narrative": "Pricing review of book fipr-2026-07-15 for the marks dated 2026-07-15 evaluated 2 focal instruments. INSTR-A (illiquid corporate, ****7890) flagged 4 checks: its submitted mark is 84.7 bps above the independent price, its spread runs 56.5 bps wide of the comparable median, its day-over-day move was not corroborated by the independent price, and its assigned fair-value hierarchy level (L2) is inconsistent with unobservable inputs (documented expectation L3). Suggested review priority for INSTR-A: Elevated. INSTR-B (liquid government, ****3312) flagged no checks (Informational); its spread-to-comparables checks were not evaluable because no comparable set was supplied. Overall suggested priority: Elevated. Before reaching any conclusion a reviewer should weigh benign explanations such as issuer-specific news, a curve shift the comparables have not yet reflected, or an approved, documented liquidity reserve, and confirm whether a stale vendor feed rather than the trader mark is driving the deviation. Pricing-review evidence only; not a valuation determination or price approval. No mark has been changed, approved, or booked."
+}

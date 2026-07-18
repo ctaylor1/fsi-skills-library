@@ -1,0 +1,27 @@
+{
+  "portfolio_id": "DESK-CM-01",
+  "as_of": "2026-07-15",
+  "config_version": "collateral-cfg-2026.07",
+  "base_currency": "USD",
+  "margin_calls": [
+    {"call_id": "MC-1", "counterparty": "CCP-ALPHA", "agreement_id": "CCP-ALPHA-CLEAR", "call_type": "VM", "required_amount": 5000000.00, "currency": "USD", "eligible_asset_classes": ["cash_usd", "ust", "ig_corp", "equity"], "source_ref": "clearing;call=MC-1@2026-07-15"},
+    {"call_id": "MC-2", "counterparty": "BANK-BETA", "agreement_id": "CSA-BANK-BETA", "call_type": "IM", "required_amount": 2000000.00, "currency": "USD", "eligible_asset_classes": ["cash_usd", "ust"], "source_ref": "csa;call=MC-2@2026-07-15"}
+  ],
+  "collateral_inventory": [
+    {"asset_id": "A-CASH", "asset_class": "cash_usd", "description": "USD cash at custodian", "market_value": 1500000.00, "available_value": 1500000.00, "currency": "USD", "pledge_cost_bps": 25, "liquidity_score": "HQLA-L1", "source_ref": "inv;asset=A-CASH@2026-07-15"},
+    {"asset_id": "A-UST1", "asset_class": "ust", "description": "US Treasury note 2028", "market_value": 3000000.00, "available_value": 3000000.00, "currency": "USD", "pledge_cost_bps": 5, "liquidity_score": "HQLA-L1", "source_ref": "inv;asset=A-UST1@2026-07-15"},
+    {"asset_id": "A-UST2", "asset_class": "ust", "description": "US Treasury note 2031", "market_value": 2000000.00, "available_value": 2000000.00, "currency": "USD", "pledge_cost_bps": 6, "liquidity_score": "HQLA-L1", "source_ref": "inv;asset=A-UST2@2026-07-15"},
+    {"asset_id": "A-IGCORP", "asset_class": "ig_corp", "description": "Investment-grade corporate bond basket", "market_value": 2500000.00, "available_value": 2500000.00, "currency": "USD", "pledge_cost_bps": 15, "liquidity_score": "HQLA-L2", "source_ref": "inv;asset=A-IGCORP@2026-07-15"},
+    {"asset_id": "A-EQ", "asset_class": "equity", "description": "Large-cap equity basket", "market_value": 2000000.00, "available_value": 2000000.00, "currency": "USD", "pledge_cost_bps": 40, "liquidity_score": "non-HQLA", "source_ref": "inv;asset=A-EQ@2026-07-15"}
+  ],
+  "haircut_schedule": [
+    {"agreement_id": "CCP-ALPHA-CLEAR", "asset_class": "cash_usd", "haircut": 0.00, "eligible": true, "source_ref": "clearing-rulebook;CCP-ALPHA;cash_usd@2026-07-01"},
+    {"agreement_id": "CCP-ALPHA-CLEAR", "asset_class": "ust", "haircut": 0.02, "eligible": true, "source_ref": "clearing-rulebook;CCP-ALPHA;ust@2026-07-01"},
+    {"agreement_id": "CCP-ALPHA-CLEAR", "asset_class": "ig_corp", "haircut": 0.08, "eligible": true, "source_ref": "clearing-rulebook;CCP-ALPHA;ig_corp@2026-07-01"},
+    {"agreement_id": "CCP-ALPHA-CLEAR", "asset_class": "equity", "haircut": 0.15, "eligible": true, "source_ref": "clearing-rulebook;CCP-ALPHA;equity@2026-07-01"},
+    {"agreement_id": "CSA-BANK-BETA", "asset_class": "cash_usd", "haircut": 0.00, "eligible": true, "source_ref": "csa-annex;BANK-BETA;cash_usd@2026-06-30"},
+    {"agreement_id": "CSA-BANK-BETA", "asset_class": "ust", "haircut": 0.02, "eligible": true, "source_ref": "csa-annex;BANK-BETA;ust@2026-06-30"},
+    {"agreement_id": "CSA-BANK-BETA", "asset_class": "ig_corp", "haircut": 0.10, "eligible": false, "source_ref": "csa-annex;BANK-BETA;ig_corp@2026-06-30"}
+  ],
+  "config": {"max_asset_class_pct_per_call": 1.0, "coverage_tolerance": 0.01}
+}

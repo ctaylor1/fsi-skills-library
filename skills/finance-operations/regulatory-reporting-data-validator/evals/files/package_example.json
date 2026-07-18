@@ -1,0 +1,49 @@
+{
+  "report_code": "FR Y-9C",
+  "report_name": "Consolidated Financial Statements for Holding Companies",
+  "entity_id": "RSSD-***4567",
+  "period_end": "2026-06-30",
+  "as_of": "2026-07-15",
+  "due_date": "2026-08-09",
+  "jurisdiction": "US",
+  "config_version": "reg-reporting-cfg-2026.07",
+  "config": {
+    "variance_pct": 0.20,
+    "required_sign_off_roles": ["preparer", "reviewer", "approver"],
+    "enforce_segregation_of_duties": true,
+    "recon_default_tolerance": 0.0,
+    "due_soon_days": 5,
+    "range_checks": [
+      {"cell_id": "RATIO_TIER1", "min": 0.0, "max": 1.0}
+    ]
+  },
+  "required_cells": ["C_TA", "C_TL", "C_TE", "C_LN", "C_LNP", "C_LNN", "C_DEP", "RATIO_TIER1"],
+  "cells": [
+    {"cell_id": "C_TA", "label": "Total assets", "value": 1000000.00, "source_refs": ["gl:acct=GL-TA;entity=RSSD-***4567@2026-06-30", "recon:R1@2026-06-30"]},
+    {"cell_id": "C_TL", "label": "Total liabilities", "value": 900000.00, "source_refs": ["gl:acct=GL-TL;entity=RSSD-***4567@2026-06-30"]},
+    {"cell_id": "C_TE", "label": "Total equity capital", "value": 100000.00, "source_refs": ["gl:acct=GL-TE;entity=RSSD-***4567@2026-06-30"]},
+    {"cell_id": "C_LN", "label": "Total loans and leases", "value": 620000.00, "source_refs": ["gl:acct=GL-LN;entity=RSSD-***4567@2026-06-30", "recon:R2@2026-06-30"]},
+    {"cell_id": "C_LNP", "label": "Loans and leases, performing", "value": 600000.00, "source_refs": ["gl:acct=GL-LNP;entity=RSSD-***4567@2026-06-30"]},
+    {"cell_id": "C_LNN", "label": "Loans and leases, nonperforming", "value": 15000.00, "source_refs": ["gl:acct=GL-LNN;entity=RSSD-***4567@2026-06-30"]},
+    {"cell_id": "C_DEP", "label": "Total deposits", "value": 780000.00, "source_refs": ["gl:acct=GL-DEP;entity=RSSD-***4567@2026-06-30"]},
+    {"cell_id": "RATIO_TIER1", "label": "Tier 1 leverage ratio", "value": 0.098, "source_refs": ["calc:tier1/avg_assets@2026-06-30"]}
+  ],
+  "edit_checks": [
+    {"check_id": "EC1", "description": "Total assets = Total liabilities + Total equity", "target": "C_TA", "components": ["C_TL", "C_TE"], "op": "sum", "tolerance": 0.0},
+    {"check_id": "EC2", "description": "Total loans = performing + nonperforming", "target": "C_LN", "components": ["C_LNP", "C_LNN"], "op": "sum", "tolerance": 0.0}
+  ],
+  "reconciliations": [
+    {"recon_id": "R1", "cell_id": "C_TA", "source": "ERP/GL consolidated", "source_value": 1000000.00, "reported_value": 1000000.00, "tolerance": 0.0},
+    {"recon_id": "R2", "cell_id": "C_LN", "source": "Loan subledger", "source_value": 610000.00, "reported_value": 620000.00, "tolerance": 100.0}
+  ],
+  "prior_period": {
+    "period_end": "2026-03-31",
+    "restated": false,
+    "cells": {"C_TA": 950000.00, "C_TL": 855000.00, "C_TE": 95000.00, "C_LN": 610000.00, "C_LNP": 595000.00, "C_LNN": 12000.00, "C_DEP": 600000.00, "RATIO_TIER1": 0.096}
+  },
+  "sign_offs": [
+    {"role": "preparer", "name": "user-A", "signed_at": "2026-07-15T09:00:00"},
+    {"role": "reviewer", "name": "user-B", "signed_at": "2026-07-15T14:00:00"},
+    {"role": "approver", "name": "user-C", "signed_at": "2026-07-16T10:00:00"}
+  ]
+}

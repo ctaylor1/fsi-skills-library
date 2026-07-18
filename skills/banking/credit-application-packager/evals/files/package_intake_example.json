@@ -1,0 +1,40 @@
+{
+  "config_version": "credit-pkg-2026.07",
+  "package_id": "CP-3001",
+  "product": "commercial-term-loan",
+  "jurisdiction": "US",
+  "as_of_date": "2026-07-17",
+  "template_version": "credit-package-template@0.1.0",
+  "required_components": ["application", "financial-statements", "tax-returns", "collateral", "kyc-onboarding"],
+  "required_approvals": ["credit-approval", "collateral-approval"],
+  "borrower": {"borrower_id": "B-100", "legal_name": "Acme Widgets LLC", "entity_type": "LLC"},
+  "documents": [
+    {"component": "application", "doc_id": "D-APP-1", "title": "Credit Application",
+     "borrower_id": "B-100", "borrower_name": "Acme Widgets LLC",
+     "effective_date": "2026-07-01", "expires": null,
+     "source_ref": "los:doc=D-APP-1@2026-07-01", "values": {"requested_amount": 500000, "term_months": 60}},
+
+    {"component": "financial-statements", "doc_id": "D-FS-1", "title": "FY2025 Financial Statements",
+     "borrower_id": "B-100", "borrower_name": "Acme Widgets LLC",
+     "effective_date": "2026-03-31", "expires": null,
+     "source_ref": "docintel:doc=D-FS-1@2026-03-31", "values": {"revenue": 4200000, "net_income": 310000}},
+
+    {"component": "tax-returns", "doc_id": "D-TAX-1", "title": "2023 Business Tax Return",
+     "borrower_id": "B-100", "borrower_name": "Acme Widgets LLC",
+     "effective_date": "2024-04-15", "expires": "2026-04-15",
+     "source_ref": "docintel:doc=D-TAX-1@2024-04-15", "values": {"tax_year": 2023}},
+
+    {"component": "kyc-onboarding", "doc_id": "D-KYC-1", "title": "Beneficial Ownership / KYC",
+     "borrower_id": "B-999", "borrower_name": "Acme Widgets Inc",
+     "effective_date": "2026-06-20", "expires": null,
+     "source_ref": "core:doc=D-KYC-1@2026-06-20", "values": {}}
+  ],
+  "approvals": [
+    {"approval_id": "AP-1", "type": "credit-approval", "approver_role": "Senior Credit Officer",
+     "approver": "user-4471", "status": "recorded", "date": "2026-07-10", "source_ref": "los:approval=AP-1@2026-07-10"}
+  ],
+  "conditions": [
+    {"condition_id": "COND-1", "description": "Provide updated accounts-receivable aging (< 30 days old)",
+     "status": "outstanding", "source_ref": "los:cond=COND-1@2026-07-11"}
+  ]
+}
