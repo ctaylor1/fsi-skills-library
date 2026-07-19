@@ -62,7 +62,7 @@ def main() -> int:
             else:
                 total_fail += 1
                 if proc.returncode != c["expect_exit"]:
-                    print(f"        exit mismatch")
+                    print("        exit mismatch")
                 for sub in c.get("expect_contains", []):
                     if sub not in out:
                         print(f"        missing expected output: {sub!r}")

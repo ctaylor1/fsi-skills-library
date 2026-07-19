@@ -1,0 +1,78 @@
+{
+  "framework_version": "mrm-2026.07",
+  "validation_id": "VAL-3001",
+  "model_id": "MODEL-778",
+  "model_name": "Retail PD Scorecard",
+  "model_tier": "High",
+  "validation_type": "full",
+  "intake_ref": "modelreg:MODEL-778@v3",
+  "areas": {
+    "conceptual_soundness": {
+      "status": "pass",
+      "materiality": "High",
+      "independent_evidence": true,
+      "source_ref": "modelreg:MODEL-778/design-doc@v3",
+      "tests": [
+        {"test_id": "CS-1", "outcome": "pass", "evidence_ref": "valwp:CS-1@2026-07-09"},
+        {"test_id": "CS-2", "outcome": "pass", "evidence_ref": "valwp:CS-2@2026-07-09"}
+      ],
+      "recommended_action": null
+    },
+    "data": {
+      "status": "deficiency",
+      "materiality": "High",
+      "independent_evidence": true,
+      "source_ref": "datacatalog:DS-4471@2026-07-08",
+      "tests": [
+        {"test_id": "DQ-1", "outcome": "fail", "evidence_ref": "valwp:DQ-1@2026-07-10"}
+      ],
+      "recommended_action": "Remediate missing training-data lineage for the 2024 vintage and re-run data-quality profiling with independent evidence."
+    },
+    "performance": {
+      "status": "pass",
+      "materiality": "High",
+      "independent_evidence": false,
+      "source_ref": "modelreg:MODEL-778/dev-perf@v3",
+      "tests": [
+        {"test_id": "PF-1", "outcome": "pass", "evidence_ref": null}
+      ],
+      "recommended_action": "Reproduce discrimination/calibration metrics on an independent hold-out and evidence the benchmark comparison."
+    },
+    "outcomes": {
+      "status": "not_tested",
+      "materiality": "High",
+      "independent_evidence": false,
+      "source_ref": "valwp:outcomes-plan@2026-07-05",
+      "tests": [],
+      "recommended_action": "Perform back-testing / outcomes analysis over the required 12-month window before use is relied upon."
+    },
+    "limitations": {
+      "status": "deficiency",
+      "materiality": "Medium",
+      "independent_evidence": true,
+      "source_ref": "modelreg:MODEL-778/limitations@v3",
+      "tests": [],
+      "recommended_action": "Document the low-default-portfolio limitation and the compensating use restriction."
+    },
+    "controls": {
+      "status": "pass",
+      "materiality": "Medium",
+      "independent_evidence": true,
+      "source_ref": "issue:CTRL-220@evidenced",
+      "tests": [
+        {"test_id": "CT-1", "outcome": "pass", "evidence_ref": "valwp:CT-1@2026-07-11"}
+      ],
+      "recommended_action": null
+    },
+    "monitoring": {
+      "status": "pass",
+      "materiality": "Medium",
+      "independent_evidence": true,
+      "source_ref": "modelreg:MODEL-778/monitoring@v3",
+      "tests": [
+        {"test_id": "MON-1", "outcome": "fail", "evidence_ref": "valwp:MON-1@2026-07-12"}
+      ],
+      "recommended_action": "Define PSI/AUC drift thresholds and escalation triggers; current monitoring lacks a documented breach action."
+    }
+  }
+}

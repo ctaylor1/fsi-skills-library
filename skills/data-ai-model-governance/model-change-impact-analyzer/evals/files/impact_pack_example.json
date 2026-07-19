@@ -1,0 +1,42 @@
+{
+  "assessment_id": "mcia-MDL-00731-2026-07-17-0001",
+  "change_id": "MCR-2026-0042",
+  "model_id": "MDL-00731",
+  "as_of": "2026-07-17",
+  "config_version": "mcia-cfg-2026.07",
+  "config": {"band_high_min_dims": 3, "high_materiality_min_dims": 2},
+  "model_materiality": "high",
+  "regulated_use": true,
+  "is_agent": false,
+  "dimensions": [
+    {"dimension": "scope", "fired": false, "reason": "scope: no change declared", "risk_flags": [], "critical": false, "high_weight": true, "evidence": []},
+    {"dimension": "data", "fired": true, "reason": "data changed; risk flag(s) ['data_provenance_changed'] noted", "risk_flags": ["data_provenance_changed"], "critical": false, "high_weight": true,
+     "evidence": [{"field": "data", "before": "Bureau feed A (monthly refresh), 36-month training window", "after": "Bureau feed B (weekly refresh), 24-month training window", "citation": "registry:MDL-00731;field=training_data@2026-07-10"}]},
+    {"dimension": "tools", "fired": false, "reason": "tools: no change declared", "risk_flags": [], "critical": false, "high_weight": false, "evidence": []},
+    {"dimension": "behavior", "fired": true, "reason": "behavior changed; no critical risk flag", "risk_flags": [], "critical": false, "high_weight": true,
+     "evidence": [{"field": "behavior", "before": "GBM v3.1, decision cutoff 620", "after": "GBM v3.2 retrained on new feed, decision cutoff 590", "citation": "registry:MDL-00731;field=algorithm_version@2026-07-10"}]},
+    {"dimension": "controls", "fired": true, "reason": "controls changed; critical flag(s) ['threshold_loosened'] weaken a control / broaden autonomy / move regulatory surface (finding only, not a decision)", "risk_flags": ["threshold_loosened"], "critical": true, "high_weight": false,
+     "evidence": [{"field": "controls", "before": "Auto-decline at 620 with mandatory manual review band 580-620", "after": "Auto-decline at 590 with manual-review band narrowed to 560-590", "citation": "policy:credit-decisioning-standard;sec=4.2@2026-06-01"}]},
+    {"dimension": "testing", "fired": true, "reason": "testing changed; no critical risk flag", "risk_flags": [], "critical": false, "high_weight": false,
+     "evidence": [{"field": "testing", "before": "Backtest on 2023-2024 vintages; fairness test quarterly", "after": "Backtest refreshed to 2024-2025 vintages; fairness test cadence unchanged", "citation": "eval:MDL-00731;suite=backtest@2026-07-12"}]},
+    {"dimension": "users", "fired": false, "reason": "users: no change declared", "risk_flags": [], "critical": false, "high_weight": false, "evidence": []},
+    {"dimension": "regulatory", "fired": true, "reason": "regulatory changed; critical flag(s) ['regulatory_surface_changed'] weaken a control / broaden autonomy / move regulatory surface (finding only, not a decision)", "risk_flags": ["regulatory_surface_changed"], "critical": true, "high_weight": true,
+     "evidence": [{"field": "regulatory", "before": "ECOA/Reg B adverse-action reason codes mapped to the 620 cutoff", "after": "Adverse-action reason-code mapping must be revalidated for the 590 cutoff", "citation": "policy:fair-lending-standard;sec=3.1@2026-05-15"}]}
+  ],
+  "fired_dimensions": ["data", "behavior", "controls", "testing", "regulatory"],
+  "critical_flags_fired": ["regulatory_surface_changed", "threshold_loosened"],
+  "impact_band": "Critical",
+  "recommended_revalidation_scope": "Full independent revalidation before deployment",
+  "recommended_governance_path": "Independent model validation and change-governance adjudication required before any deployment",
+  "not_evaluable": [],
+  "adjudicator_prompts": [
+    "Confirm the change is within the model's approved use; a net-new use case is an intake, not a change.",
+    "Verify independent validation coverage for each changed component before deployment.",
+    "Confirm fair-lending / adverse-action impact of any threshold or cutoff change.",
+    "Confirm data-lineage and provenance review for any changed data source.",
+    "Confirm monitoring and rollback are in place for the changed behavior.",
+    "Record the human adjudication decision and rationale in the change record."
+  ],
+  "narrative": "Change MCR-2026-0042 to high-materiality, regulated model MDL-00731 changes five dimensions: data (new bureau feed and shorter training window), behavior (retrained GBM and lower cutoff), controls (auto-decline threshold loosened from 620 to 590), testing (refreshed backtest vintages), and regulatory (adverse-action reason-code mapping must be revalidated for the new cutoff). Two changes carry critical flags (threshold_loosened, regulatory_surface_changed), so the deterministic impact band is Critical. Recommended revalidation scope: Full independent revalidation before deployment. Recommended governance path: independent model validation and change-governance adjudication before any deployment. A human adjudicator must review the cited evidence and decide; this analysis does not itself clear the change. Impact assessment and revalidation recommendation only; not a change approval or deployment authorization. No model change has been approved, deployed, or attested.",
+  "disclaimer": "Impact assessment and revalidation recommendation only; not a change approval or deployment authorization. No model change has been approved, deployed, or attested."
+}

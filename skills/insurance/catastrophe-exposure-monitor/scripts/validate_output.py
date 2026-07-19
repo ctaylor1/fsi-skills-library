@@ -11,7 +11,8 @@ closed if the package looks like it acted, decided, or closed something. Checks:
      {new, ongoing, cleared}; no duplicate alert_keys; the dedup summary ties to the alerts.
   3. Escalation / queue packaging — every active (new|ongoing) alert has a queue target,
      >= 1 cited evidence row, and a severity + suggested_response_priority that equal the
-     deterministic mapping from its exceedance_ratio.
+     deterministic mapping from its exceedance_ratio (banded on the same configurable
+     approaching_ratio the engine used, carried on the package).
   4. NO autonomous action — no bind/decline/cede/cancel/endorse/reserve/limit-change/
      alert-closure language anywhere in the free text; the standing disclaimer is present.
 
@@ -28,6 +29,11 @@ DISCLAIMER = ("Monitoring alert only; exposure and modeled-loss figures are esti
               "system-of-record action has been taken.")
 PRIORITY = {"Critical": "P1", "Elevated": "P2", "Watch": "P3", "Informational": "P4"}
 VALID_STATUS = {"new", "ongoing", "cleared"}
+# Approaching-band default; mirrors DEFAULT_CONFIG["approaching_ratio"] in
+# calculate_or_transform.py. The engine reads this from versioned config and now carries the
+# resolved value on the package, so this validator bands on the SAME threshold the engine used
+# instead of assuming the default under a non-default config.
+DEFAULT_APPROACHING_RATIO = 0.9
 
 # Autonomous-action / decision / closure language a read-only alert-only monitor must never
 # use. The monitor observes and queues; humans and downstream skills act.
@@ -42,7 +48,7 @@ ACTION_PATTERNS = [
 ]
 
 
-def band_for_ratio(r: float, approaching: float = 0.9) -> str | None:
+def band_for_ratio(r: float, approaching: float = DEFAULT_APPROACHING_RATIO) -> str | None:
     if r >= 1.5:
         return "Critical"
     if r >= 1.25:
@@ -52,6 +58,25 @@ def band_for_ratio(r: float, approaching: float = 0.9) -> str | None:
     if r >= approaching:
         return "Informational"
     return None
+
+
+def _approaching_ratio(pack: dict) -> float:
+    """Approaching-band threshold the engine used, carried on the package.
+
+    Reads the resolved ``approaching_ratio`` the engine emits (falling back to a nested
+    ``config`` echo, then the documented default) so banding here matches the engine under a
+    non-default config. A package that predates the field still validates against the same
+    0.9 the engine defaults to.
+    """
+    raw = pack.get("approaching_ratio")
+    if raw is None:
+        cfg = pack.get("config")
+        if isinstance(cfg, dict):
+            raw = cfg.get("approaching_ratio")
+    try:
+        return float(raw)
+    except (TypeError, ValueError):
+        return DEFAULT_APPROACHING_RATIO
 
 
 def validate(pack: dict) -> list[str]:
@@ -98,6 +123,7 @@ def validate(pack: dict) -> list[str]:
             errors.append(f"dedup summary {st}={dd.get(st)!r} does not tie to alerts ({cnt})")
 
     # 3. escalation / queue packaging (deterministic tie-out on active alerts)
+    approaching = _approaching_ratio(pack)
     for a in active:
         key = a.get("alert_key", "?")
         if not a.get("queue"):
@@ -112,7 +138,7 @@ def validate(pack: dict) -> list[str]:
         if not isinstance(ratio, (int, float)):
             errors.append(f"active alert {key} missing numeric exceedance_ratio")
             continue
-        exp_band = band_for_ratio(float(ratio))
+        exp_band = band_for_ratio(float(ratio), approaching)
         if a.get("severity") != exp_band:
             errors.append(f"alert {key} severity {a.get('severity')!r} != deterministic {exp_band!r} for ratio {ratio}")
         if a.get("suggested_response_priority") != PRIORITY.get(exp_band):

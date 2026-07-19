@@ -1,0 +1,377 @@
+{
+  "review_id": "spcr-USDX-Payment-Stablecoin-2026-07-15-0001",
+  "program": "USDX Payment Stablecoin",
+  "as_of": "2026-07-15",
+  "jurisdiction": "US",
+  "config_version": "stablecoin-controls-cfg-2026.07",
+  "controls_evaluated": [
+    {
+      "id": "reserve_backing_ratio",
+      "category": "reserve",
+      "status": "fail",
+      "requirement": "Reserves fully back outstanding tokens (>= 1:1).",
+      "observed": {
+        "backing_ratio": 0.998,
+        "min": 1.0
+      },
+      "reason": "backing ratio 0.9980 < required 1.0",
+      "evidence": [
+        {
+          "citation": "controls:reserve-attestation;doc=RS-2026-06;as_of=2026-06-30",
+          "source_ref": "reserve-attestation;doc=RS-2026-06;as_of=2026-06-30"
+        }
+      ]
+    },
+    {
+      "id": "reserve_asset_quality",
+      "category": "reserve",
+      "status": "pass",
+      "requirement": "Reserves held in permitted high-quality liquid assets.",
+      "observed": {
+        "eligible_pct": 100.0,
+        "min": 100.0
+      },
+      "reason": "100.00% eligible assets vs required 100.00%",
+      "evidence": [
+        {
+          "citation": "controls:reserve-attestation;doc=RS-2026-06;schedule=composition",
+          "source_ref": "reserve-attestation;doc=RS-2026-06;schedule=composition"
+        }
+      ]
+    },
+    {
+      "id": "reserve_attestation_current",
+      "category": "reserve",
+      "status": "pass",
+      "requirement": "Independent reserve attestation within required cadence.",
+      "observed": {
+        "attestation_age_days": 15,
+        "max": 31
+      },
+      "reason": "attestation age 15d vs max 31d",
+      "evidence": [
+        {
+          "citation": "controls:reserve-attestation;doc=RS-2026-06;issued=2026-06-30",
+          "source_ref": "reserve-attestation;doc=RS-2026-06;issued=2026-06-30"
+        }
+      ]
+    },
+    {
+      "id": "reserve_segregation",
+      "category": "reserve",
+      "status": "pass",
+      "requirement": "Reserve assets segregated from operating funds.",
+      "observed": {
+        "segregated": true
+      },
+      "reason": "reserves segregated from operating funds",
+      "evidence": [
+        {
+          "citation": "controls:trust-agreement;doc=TA-118;clause=4.2",
+          "source_ref": "trust-agreement;doc=TA-118;clause=4.2"
+        }
+      ]
+    },
+    {
+      "id": "custody_qualified_custodian",
+      "category": "custody",
+      "status": "pass",
+      "requirement": "Reserve assets held at a qualified custodian.",
+      "observed": {
+        "qualified": true
+      },
+      "reason": "assets at qualified custodian",
+      "evidence": [
+        {
+          "citation": "controls:custody-agreement;doc=CA-77;custodian=QualBankNA",
+          "source_ref": "custody-agreement;doc=CA-77;custodian=QualBankNA"
+        }
+      ]
+    },
+    {
+      "id": "key_management",
+      "category": "custody",
+      "status": "pass",
+      "requirement": "Signing keys under quorum-based MPC/HSM controls.",
+      "observed": {
+        "scheme": "mpc",
+        "quorum": "3of5"
+      },
+      "reason": "signing keys under quorum-based MPC/HSM",
+      "evidence": [
+        {
+          "citation": "controls:key-ceremony;doc=KC-2026-02;scheme=mpc-3of5",
+          "source_ref": "key-ceremony;doc=KC-2026-02;scheme=mpc-3of5"
+        }
+      ]
+    },
+    {
+      "id": "sanctions_wallet_screening",
+      "category": "screening",
+      "status": "pass",
+      "requirement": "Counterparty wallet screening against sanctions lists.",
+      "observed": {
+        "enabled": true
+      },
+      "reason": "wallet sanctions screening enabled",
+      "evidence": [
+        {
+          "citation": "controls:screening-config;doc=SC-2026-07;provider=ChainScreenCo",
+          "source_ref": "screening-config;doc=SC-2026-07;provider=ChainScreenCo"
+        }
+      ]
+    },
+    {
+      "id": "travel_rule",
+      "category": "screening",
+      "status": "pass",
+      "requirement": "FATF travel-rule data captured for in-scope transfers.",
+      "observed": {
+        "threshold": 1000.0,
+        "required_max": 1000.0
+      },
+      "reason": "threshold 1000 <= required max 1000",
+      "evidence": [
+        {
+          "citation": "controls:screening-config;doc=SC-2026-07;travel_rule=on",
+          "source_ref": "screening-config;doc=SC-2026-07;travel_rule=on"
+        }
+      ]
+    },
+    {
+      "id": "kyc_program",
+      "category": "screening",
+      "status": "pass",
+      "requirement": "KYC on originator/beneficiary for hosted-wallet transfers.",
+      "observed": {
+        "enabled": true
+      },
+      "reason": "KYC program in place",
+      "evidence": [
+        {
+          "citation": "controls:kyc-policy;doc=KY-14;version=3",
+          "source_ref": "kyc-policy;doc=KY-14;version=3"
+        }
+      ]
+    },
+    {
+      "id": "txn_limits",
+      "category": "transaction",
+      "status": "pass",
+      "requirement": "Per-transaction and daily value limits enforced.",
+      "observed": {
+        "per_txn_limit": 250000.0,
+        "daily_limit": 2000000.0
+      },
+      "reason": "per-txn and daily limits configured",
+      "evidence": [
+        {
+          "citation": "controls:risk-config;doc=RC-2026-07;limits=set",
+          "source_ref": "risk-config;doc=RC-2026-07;limits=set"
+        }
+      ]
+    },
+    {
+      "id": "finality_confirmations",
+      "category": "transaction",
+      "status": "pass",
+      "requirement": "Minimum confirmations before settlement credit.",
+      "observed": {
+        "min_confirmations": 32.0,
+        "required": 12
+      },
+      "reason": "min confirmations 32 vs required 12",
+      "evidence": [
+        {
+          "citation": "controls:settlement-config;doc=ST-2026-07;confirmations=32",
+          "source_ref": "settlement-config;doc=ST-2026-07;confirmations=32"
+        }
+      ]
+    },
+    {
+      "id": "address_allowlist",
+      "category": "transaction",
+      "status": "pass",
+      "requirement": "Address allowlist/blocklist enforced.",
+      "observed": {
+        "enforced": true
+      },
+      "reason": "address allow/blocklist enforced",
+      "evidence": [
+        {
+          "citation": "controls:risk-config;doc=RC-2026-07;allowlist=on",
+          "source_ref": "risk-config;doc=RC-2026-07;allowlist=on"
+        }
+      ]
+    },
+    {
+      "id": "incident_response",
+      "category": "operational",
+      "status": "pass",
+      "requirement": "Incident runbook for key compromise/depeg/chain halt.",
+      "observed": {
+        "runbook": true
+      },
+      "reason": "incident runbook in place",
+      "evidence": [
+        {
+          "citation": "controls:ops-runbook;doc=IR-09;covers=depeg,key,halt",
+          "source_ref": "ops-runbook;doc=IR-09;covers=depeg,key,halt"
+        }
+      ]
+    },
+    {
+      "id": "reorg_handling",
+      "category": "operational",
+      "status": "gap",
+      "requirement": "Chain reorg/fork handling policy documented.",
+      "observed": {},
+      "reason": "attested as not implemented / not evidenced",
+      "evidence": [
+        {
+          "citation": "controls:control-register;item=reorg_handling;status=not_evidenced",
+          "source_ref": "control-register;item=reorg_handling;status=not_evidenced"
+        }
+      ]
+    },
+    {
+      "id": "onchain_ledger_recon",
+      "category": "reconciliation",
+      "status": "pass",
+      "requirement": "On-chain balances reconciled to internal ledger.",
+      "observed": {
+        "break_bps": 1.5,
+        "tolerance_bps": 5.0
+      },
+      "reason": "on-chain vs ledger break 1.50bps vs tolerance 5.00bps",
+      "evidence": [
+        {
+          "citation": "controls:recon-report;doc=RR-2026-07-14;break=1.5bps",
+          "source_ref": "recon-report;doc=RR-2026-07-14;break=1.5bps"
+        }
+      ]
+    },
+    {
+      "id": "mint_burn_recon",
+      "category": "reconciliation",
+      "status": "pass",
+      "requirement": "Mint/burn events reconciled to reserve movements.",
+      "observed": {
+        "reconciled": true
+      },
+      "reason": "mint/burn reconciled to reserve",
+      "evidence": [
+        {
+          "citation": "controls:recon-report;doc=RR-2026-07-14;mint_burn=tied",
+          "source_ref": "recon-report;doc=RR-2026-07-14;mint_burn=tied"
+        }
+      ]
+    },
+    {
+      "id": "redemption_disclosure",
+      "category": "disclosure",
+      "status": "pass",
+      "requirement": "Redemption rights and timing disclosed to holders.",
+      "observed": {
+        "disclosed": true
+      },
+      "reason": "redemption terms disclosed",
+      "evidence": [
+        {
+          "citation": "controls:disclosure;doc=TOS-2026;section=redemption",
+          "source_ref": "disclosure;doc=TOS-2026;section=redemption"
+        }
+      ]
+    },
+    {
+      "id": "reserve_reporting",
+      "category": "disclosure",
+      "status": "pass",
+      "requirement": "Reserve composition reported at required cadence.",
+      "observed": {
+        "cadence_days": 30.0,
+        "required": 31
+      },
+      "reason": "reserve-report cadence 30d vs required 31d",
+      "evidence": [
+        {
+          "citation": "controls:disclosure;doc=RESERVE-REPORT;cadence=30d",
+          "source_ref": "disclosure;doc=RESERVE-REPORT;cadence=30d"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "reserve_backing_ratio",
+      "category": "reserve",
+      "status": "fail",
+      "requirement": "Reserves fully back outstanding tokens (>= 1:1).",
+      "observed": {
+        "backing_ratio": 0.998,
+        "min": 1.0
+      },
+      "reason": "backing ratio 0.9980 < required 1.0",
+      "evidence": [
+        {
+          "citation": "controls:reserve-attestation;doc=RS-2026-06;as_of=2026-06-30",
+          "source_ref": "reserve-attestation;doc=RS-2026-06;as_of=2026-06-30"
+        }
+      ]
+    },
+    {
+      "id": "reorg_handling",
+      "category": "operational",
+      "status": "gap",
+      "requirement": "Chain reorg/fork handling policy documented.",
+      "observed": {},
+      "reason": "attested as not implemented / not evidenced",
+      "evidence": [
+        {
+          "citation": "controls:control-register;item=reorg_handling;status=not_evidenced",
+          "source_ref": "control-register;item=reorg_handling;status=not_evidenced"
+        }
+      ]
+    }
+  ],
+  "category_coverage": {
+    "reserve": {
+      "pass": 3,
+      "total": 4
+    },
+    "custody": {
+      "pass": 2,
+      "total": 2
+    },
+    "screening": {
+      "pass": 3,
+      "total": 3
+    },
+    "transaction": {
+      "pass": 3,
+      "total": 3
+    },
+    "operational": {
+      "pass": 1,
+      "total": 2
+    },
+    "reconciliation": {
+      "pass": 2,
+      "total": 2
+    },
+    "disclosure": {
+      "pass": 2,
+      "total": 2
+    }
+  },
+  "not_evaluable": [],
+  "suggested_disposition": "Material Gaps - Escalate",
+  "remediation_prompts": [
+    "Assign each finding to the accountable control owner (reserve, custody, screening, transaction, operational, reconciliation, or disclosure) for remediation planning.",
+    "Treat critical-control defects (reserve backing, reserve quality, attestation currency, qualified custody, sanctions screening, travel rule, on-chain reconciliation) as escalations for human adjudication.",
+    "Obtain independent verification of reserve and reconciliation figures from the source attestation before any decision is made.",
+    "This review recommends; a licensed compliance owner decides, adjudicates, and records the outcome."
+  ],
+  "disclaimer": "Control-review evidence only; not a compliance determination, launch approval, or attestation. No finding has been closed and no filing or system-of-record change has been made.",
+  "narrative": "Control review of the USDX Payment Stablecoin program for the period ending 2026-07-15 evaluated 18 controls across reserve, custody, screening, transaction, operational, reconciliation, and disclosure categories. Two findings were identified. Reserve backing is under 1:1 (backing ratio 0.9980 against a 1.0 minimum), a critical-control deficiency evidenced by the June reserve attestation. Chain reorg/fork handling is not evidenced, an operational gap. All other evaluated controls are supported by cited evidence. Because a critical reserve control is deficient, the suggested review disposition is Material Gaps - Escalate: route the findings to the accountable control owners and compliance for human adjudication and remediation planning. This review evidences findings and recommends next steps; it does not decide, adjudicate, or record any outcome. Control-review evidence only; not a compliance determination, launch approval, or attestation. No finding has been closed and no filing or system-of-record change has been made."
+}

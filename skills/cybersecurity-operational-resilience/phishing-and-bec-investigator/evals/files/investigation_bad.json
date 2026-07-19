@@ -1,0 +1,36 @@
+{
+  "config_version": "phish-2026.07",
+  "investigations": [
+    {
+      "report_id": "PH-9001",
+      "case_id": "TEMP-1",
+      "risk_score": 20,
+      "risk_band": "Low",
+      "risk_reason": "SPF fail; DMARC fail; lookalike domain; wire request",
+      "indicators": [
+        {"type": "auth-spf-fail", "detail": "SPF result = fail"},
+        {"type": "payment-request", "detail": "wire request 90000 USD", "citation": "soar:incident=PH-9001;body"}
+      ],
+      "recommended_disposition": "confirmed-bec-closed",
+      "disposition_reason": "Final determination: confirmed BEC. Case closed, no further action.",
+      "evidence_bundle": {
+        "case_id": "TEMP-1",
+        "chronology": [
+          {"ts": "2026-07-16T08:00:00Z", "event": "Message received"}
+        ],
+        "indicators": [],
+        "amounts": null,
+        "citations": []
+      },
+      "recommended_containment": [
+        "We blocked the sender domain and quarantined all copies across every mailbox.",
+        "We reset the user's password and disabled the account."
+      ],
+      "recommended_fraud_coordination": [
+        "We recalled the wire and filed a report with the network."
+      ],
+      "narrative": "This has been closed as confirmed fraud; no further action required."
+    }
+  ],
+  "standing_note": "done"
+}

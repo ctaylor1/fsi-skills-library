@@ -1,0 +1,520 @@
+{
+  "spec_version": "data-lineage-methodology-2026.07",
+  "as_of_date": "2026-07-17",
+  "data_product": {
+    "product_id": "DP-RWA-CREDIT",
+    "name": "Credit RWA Regulatory Reporting Dataset",
+    "domain": "Risk & Regulatory Reporting",
+    "criticality": "High",
+    "catalog_ref": "catalog:dp/rwa-credit@v5"
+  },
+  "nodes": [
+    {
+      "node_id": "N-SRC-1",
+      "layer": "source",
+      "name": "Core Banking Loans Extract",
+      "system": "Core Banking",
+      "owner": "Core Banking Data Steward",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "controls": [
+        "access-control:RBAC-CB"
+      ],
+      "quality_rules": [
+        "completeness:loan_id not null",
+        "validity:balance>=0"
+      ],
+      "retention": {
+        "policy_id": "RET-07",
+        "period": "7y"
+      },
+      "citations": [
+        "source:CAT-DC-01",
+        "data-catalog:catalog:tbl/cb_loans"
+      ],
+      "gaps": [],
+      "notes": [
+        "owner, provenance, classification, controls, quality rules, and retention documented"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "node_id": "N-ING-1",
+      "layer": "ingestion",
+      "name": "Batch Ingestion to Landing",
+      "system": "Ingestion Platform",
+      "owner": "Data Engineering",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "controls": [
+        "integrity:checksum-reconciliation"
+      ],
+      "quality_rules": [
+        "row-count-tolerance:+/-0.5%"
+      ],
+      "retention": {
+        "policy_id": "RET-03",
+        "period": "90d"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "gaps": [],
+      "notes": [
+        "owner, provenance, classification, controls, quality rules, and retention documented"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "node_id": "N-TRN-1",
+      "layer": "transformation",
+      "name": "PD/LGD Enrichment",
+      "system": "Feature Engine",
+      "owner": "Model Risk / Data Engineering",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "REG-MDL-01"
+      },
+      "controls": [
+        "change-control:CAB",
+        "model-approval:MRM"
+      ],
+      "quality_rules": [
+        "range-check:PD in [0,1]"
+      ],
+      "retention": {
+        "policy_id": "RET-05",
+        "period": "3y"
+      },
+      "citations": [
+        "source:REG-MDL-01"
+      ],
+      "gaps": [],
+      "notes": [
+        "owner, provenance, classification, controls, quality rules, and retention documented"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "node_id": "N-STORE-1",
+      "layer": "store",
+      "name": "Risk Data Mart",
+      "system": "Risk Data Warehouse",
+      "owner": "Risk Data Steward",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "controls": [
+        "access-control:RBAC-RISK"
+      ],
+      "quality_rules": [
+        "reconciliation:mart-vs-source"
+      ],
+      "retention": {
+        "policy_id": "RET-07",
+        "period": "7y"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "gaps": [],
+      "notes": [
+        "owner, provenance, classification, controls, quality rules, and retention documented"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "node_id": "N-FEAT-1",
+      "layer": "feature",
+      "name": "RWA Feature Set",
+      "system": "Feature Store",
+      "owner": "Risk Data Steward",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "controls": [
+        "access-control:RBAC-RISK"
+      ],
+      "quality_rules": [
+        "freshness:<=24h"
+      ],
+      "retention": {
+        "policy_id": "RET-05",
+        "period": "3y"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "gaps": [],
+      "notes": [
+        "owner, provenance, classification, controls, quality rules, and retention documented"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "node_id": "N-OUT-1",
+      "layer": "output",
+      "name": "Credit RWA Regulatory Report",
+      "system": "Reg Reporting Platform",
+      "owner": "Regulatory Reporting Owner",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "POL-DM-01"
+      },
+      "controls": [
+        "sign-off:reg-reporting",
+        "reconciliation:report-vs-mart"
+      ],
+      "quality_rules": [
+        "completeness:all-exposures",
+        "accuracy:tie-to-GL"
+      ],
+      "retention": {
+        "policy_id": "RET-10",
+        "period": "10y"
+      },
+      "citations": [
+        "source:POL-DM-01"
+      ],
+      "gaps": [],
+      "notes": [
+        "owner, provenance, classification, controls, quality rules, and retention documented"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "node_id": "N-TRN-2",
+      "layer": "transformation",
+      "name": "Collateral Haircut Adjustment",
+      "system": "Feature Engine",
+      "owner": "Data Engineering",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "REG-MDL-01"
+      },
+      "controls": [
+        "change-control:CAB"
+      ],
+      "quality_rules": [],
+      "retention": {
+        "policy_id": "RET-05",
+        "period": "3y"
+      },
+      "citations": [
+        "source:REG-MDL-01"
+      ],
+      "gaps": [
+        "quality_rules"
+      ],
+      "notes": [
+        "required documentation missing for criticality: ['quality_rules']"
+      ],
+      "status": "control-gap"
+    },
+    {
+      "node_id": "N-SRC-2",
+      "layer": "source",
+      "name": "Market Data Feed",
+      "system": "Market Data",
+      "owner": null,
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "controls": [
+        "access-control:RBAC-MKT"
+      ],
+      "quality_rules": [
+        "timeliness:intraday"
+      ],
+      "retention": {
+        "policy_id": "RET-02",
+        "period": "30d"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "gaps": [
+        "owner"
+      ],
+      "notes": [
+        "no data owner/steward recorded"
+      ],
+      "status": "needs-data"
+    },
+    {
+      "node_id": "N-ORPH-1",
+      "layer": "transformation",
+      "name": "Orphaned Currency Conversion",
+      "system": "Feature Engine",
+      "owner": "Data Engineering",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "controls": [
+        "change-control:CAB"
+      ],
+      "quality_rules": [
+        "range-check:fx>0"
+      ],
+      "retention": {
+        "policy_id": "RET-05",
+        "period": "3y"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "gaps": [],
+      "notes": [
+        "non-source node has no inbound dependency (orphan)"
+      ],
+      "status": "orphan-node"
+    },
+    {
+      "node_id": "N-UNSRC-1",
+      "layer": "feature",
+      "name": "Unmapped Adjustment Factor",
+      "system": "Analyst Spreadsheet",
+      "owner": "Risk Analyst",
+      "classification": "Confidential",
+      "provenance": {
+        "status": "untraced",
+        "source_id": null
+      },
+      "controls": [],
+      "quality_rules": [],
+      "retention": {},
+      "citations": [],
+      "gaps": [
+        "provenance"
+      ],
+      "notes": [
+        "node not traced to an authoritative source (untraced provenance)"
+      ],
+      "status": "needs-data"
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "E1",
+      "from_node": "N-SRC-1",
+      "to_node": "N-ING-1",
+      "transformation": "extract-load raw loans to landing",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "notes": [
+        "edge documented and traced"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "edge_id": "E2",
+      "from_node": "N-ING-1",
+      "to_node": "N-TRN-1",
+      "transformation": "join reference data and apply PD/LGD enrichment",
+      "provenance": {
+        "status": "traced",
+        "source_id": "REG-MDL-01"
+      },
+      "citations": [
+        "source:REG-MDL-01",
+        "transform:job:enrich_pdlgd@v3"
+      ],
+      "notes": [
+        "edge documented and traced"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "edge_id": "E3",
+      "from_node": "N-TRN-1",
+      "to_node": "N-STORE-1",
+      "transformation": "persist enriched exposures to risk mart",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "notes": [
+        "edge documented and traced"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "edge_id": "E4",
+      "from_node": "N-STORE-1",
+      "to_node": "N-FEAT-1",
+      "transformation": "aggregate exposures into RWA feature set",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "notes": [
+        "edge documented and traced"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "edge_id": "E5",
+      "from_node": "N-FEAT-1",
+      "to_node": "N-OUT-1",
+      "transformation": "map features to regulatory report lines",
+      "provenance": {
+        "status": "traced",
+        "source_id": "POL-DM-01"
+      },
+      "citations": [
+        "source:POL-DM-01"
+      ],
+      "notes": [
+        "edge documented and traced"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "edge_id": "E6",
+      "from_node": "N-TRN-2",
+      "to_node": "N-OUT-1",
+      "transformation": null,
+      "provenance": {
+        "status": "traced",
+        "source_id": "REG-MDL-01"
+      },
+      "citations": [
+        "source:REG-MDL-01"
+      ],
+      "notes": [
+        "transformation not documented"
+      ],
+      "status": "undocumented-transform"
+    },
+    {
+      "edge_id": "E7",
+      "from_node": "N-SRC-2",
+      "to_node": "N-TRN-2",
+      "transformation": "feed market data into haircut adjustment",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "notes": [
+        "edge documented and traced"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "edge_id": "E8",
+      "from_node": "N-STORE-1",
+      "to_node": "N-UNSRC-1",
+      "transformation": "derive analyst adjustment factor",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "notes": [
+        "edge documented and traced"
+      ],
+      "status": "ready-for-review"
+    },
+    {
+      "edge_id": "E9",
+      "from_node": "N-GHOST-1",
+      "to_node": "N-OUT-1",
+      "transformation": "phantom upstream feed",
+      "provenance": {
+        "status": "traced",
+        "source_id": "CAT-DC-01"
+      },
+      "citations": [
+        "source:CAT-DC-01"
+      ],
+      "notes": [
+        "edge references unknown node(s): ['N-GHOST-1']"
+      ],
+      "status": "dangling-edge"
+    }
+  ],
+  "graph_integrity": {
+    "has_source": true,
+    "has_output": true,
+    "cycle_free": true,
+    "orphan_nodes": [
+      "N-ORPH-1"
+    ],
+    "dangling_edges": [
+      "E9"
+    ],
+    "sound": false
+  },
+  "coverage": {
+    "criticality": "High",
+    "required_node_attributes": [
+      "owner",
+      "provenance",
+      "classification",
+      "controls",
+      "quality_rules",
+      "retention"
+    ],
+    "nodes_total": 10,
+    "nodes_ready": 6,
+    "nodes_with_gaps": 4,
+    "edges_total": 9,
+    "edges_ready": 7,
+    "edges_with_gaps": 2,
+    "complete": false
+  },
+  "package_status": "draft-incomplete",
+  "approvals": {
+    "governance_approval": "pending",
+    "reviewer_signoff_required": true,
+    "steward_attestation_required": true,
+    "approver_role": "Data Governance Office / Chief Data Office"
+  },
+  "summary": {
+    "nodes": {
+      "ready_for_review": 6,
+      "control_gap": 1,
+      "orphan_node": 1,
+      "needs_data": 2
+    },
+    "edges": {
+      "ready_for_review": 7,
+      "undocumented_transform": 1,
+      "dangling_edge": 1
+    }
+  },
+  "standing_note": "Draft data-lineage documentation for human review only; this skill does not certify, attest to, or approve the lineage, makes no data-accuracy or regulatory-fitness determination, and writes nothing to the data catalog or any system of record - a data-governance owner and data steward must review and approve before use."
+}

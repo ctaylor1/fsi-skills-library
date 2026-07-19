@@ -1,0 +1,37 @@
+{
+  "run_id": "mrl-2026-07-17-9999",
+  "as_of": "2026-07-17T18:00:00Z",
+  "config_version": "mrl-cfg-2026.07",
+  "data_freshness": [
+    {"unit_id": "RATES-GOVT", "desk": "RATES", "measured_as_of": "2026-07-17T06:00:00Z", "staleness_hours": 12.0, "stale": false}
+  ],
+  "alerts": [
+    {
+      "fingerprint": "RATES-GOVT|VAR-RATES-1D-99|var:1d:0.99|current|BREACH",
+      "unit_id": "RATES-GOVT",
+      "desk": "RATES",
+      "limit_id": "VAR-RATES-1D-99",
+      "metric": "var",
+      "scope": "book",
+      "bucket": "var:1d:0.99",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "High",
+      "queue": "market-risk-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 5600000.0,
+      "limit": 5000000.0,
+      "utilization_pct": 112.0,
+      "evidence": [
+        {"unit_id": "RATES-GOVT", "metric": "var:1d:0.99", "value": 5600000.0, "utilization_pct": 112.0, "citation": "risk:book=RATES-GOVT;metric=var:1d:0.99@2026-07-17T18:00:00Z"},
+        {"limit_id": "VAR-RATES-1D-99", "limit_value": 5000000.0, "citation": "limits:limit_id=VAR-RATES-1D-99@mrl-cfg-2026.07"}
+      ]
+    }
+  ],
+  "new_alerts": ["RATES-GOVT|VAR-RATES-1D-99|var:1d:0.99|current|BREACH"],
+  "still_open": [],
+  "summary": {"units": 1, "limits_evaluated": 1, "alerts_total": 1, "new": 1, "deduplicated": 0, "warn": 0, "breach": 1, "stale_units": []},
+  "escalations": [{"severity": "High", "queue": "market-risk-escalation", "sla": "same-day escalation", "count": 1}],
+  "narrative": "The 1-day 99% VaR exceeded the limit, so we hedged the book and the limit was raised to clear the breach. The breach was cured, the alert was auto-closed, and the breach was reported to the regulator; no reviewer action is required."
+}

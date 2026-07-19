@@ -1,0 +1,166 @@
+{
+  "config_version": "phish-2026.07",
+  "known_domains": ["ourbank.com", "ourbank-corp.com"],
+  "impersonation_watchlist": ["OurBank", "Jane Doe", "CEO", "CFO", "Payroll"],
+  "vendor_bank_registry": [
+    {"vendor": "Acme Supplies", "account_ref": "ACME-ACCT-001"},
+    {"vendor": "Globex", "account_ref": "GLBX-77"}
+  ],
+  "open_cases": [
+    {"case_id": "PHBEC-PH-2900", "from_addr": "payroll@0urbank.com",
+     "subject": "update your direct deposit", "day": "2026-07-10"}
+  ],
+  "reports": [
+    {
+      "report_id": "PH-3001",
+      "reported_by": "a.jones@ourbank.com",
+      "reported_at": "2026-07-15T09:20:00Z",
+      "message": {
+        "message_id": "<bec-3001@mail.example>",
+        "received_at": "2026-07-15T09:12:00Z",
+        "from_display": "Jane Doe (CEO)",
+        "from_addr": "jane.doe@0urbank.com",
+        "reply_to": "ceo.jane.doe@gmail.com",
+        "subject": "Urgent - confidential wire before close of business",
+        "recipients": ["a.jones@ourbank.com"],
+        "auth_results": {"spf": "fail", "dkim": "fail", "dmarc": "fail"},
+        "urls": [],
+        "attachments": []
+      },
+      "payment_request": {"requested": true, "type": "wire", "amount": 48500, "currency": "USD",
+        "beneficiary_account": "NEW-BENE-99", "vendor": "Acme Supplies", "vendor_bank_change": true},
+      "behavior": {"first_contact_external": true, "urgency": true, "requests_secrecy": true},
+      "related_report_ids": ["PH-3008"],
+      "source_ref": "soar:incident=PH-3001"
+    },
+    {
+      "report_id": "PH-3002",
+      "reported_by": "b.singh@ourbank.com",
+      "reported_at": "2026-07-15T11:02:00Z",
+      "message": {
+        "message_id": "<cred-3002@mail.example>",
+        "received_at": "2026-07-15T10:55:00Z",
+        "from_display": "OurBank IT Security",
+        "from_addr": "it-support@mail-secure-alerts.com",
+        "reply_to": null,
+        "subject": "Action required: verify your mailbox password",
+        "recipients": ["b.singh@ourbank.com", "c.diaz@ourbank.com"],
+        "auth_results": {"spf": "softfail", "dkim": "none", "dmarc": "fail"},
+        "urls": [
+          {"display": "https://ourbank-corp.com/reset", "href": "https://ourbank-verify.ru/login"}
+        ],
+        "attachments": []
+      },
+      "payment_request": {"requested": false},
+      "behavior": {"first_contact_external": false, "urgency": true, "requests_secrecy": false},
+      "related_report_ids": [],
+      "source_ref": "soar:incident=PH-3002"
+    },
+    {
+      "report_id": "PH-3003",
+      "reported_by": "d.patel@ourbank.com",
+      "reported_at": "2026-07-15T13:40:00Z",
+      "message": {
+        "message_id": "<mal-3003@mail.example>",
+        "received_at": "2026-07-15T13:31:00Z",
+        "from_display": "Accounts Payable",
+        "from_addr": "ap@invoices-globex.net",
+        "reply_to": null,
+        "subject": "Overdue invoice attached",
+        "recipients": ["d.patel@ourbank.com"],
+        "auth_results": {"spf": "fail", "dkim": "fail", "dmarc": "fail"},
+        "urls": [],
+        "attachments": [{"name": "Invoice_88431.html", "type": "text/html"}]
+      },
+      "payment_request": {"requested": false},
+      "behavior": {"first_contact_external": true, "urgency": false, "requests_secrecy": false},
+      "related_report_ids": [],
+      "source_ref": "soar:incident=PH-3003"
+    },
+    {
+      "report_id": "PH-3004",
+      "reported_by": "e.watson@ourbank.com",
+      "reported_at": "2026-07-15T14:18:00Z",
+      "message": {
+        "message_id": "<susp-3004@mail.example>",
+        "received_at": "2026-07-15T14:10:00Z",
+        "from_display": "Jane Doe",
+        "from_addr": "jane.doe@ourbank.com",
+        "reply_to": "jane.doe.personal@gmail.com",
+        "subject": "quick question",
+        "recipients": ["e.watson@ourbank.com"],
+        "auth_results": {"spf": "softfail", "dkim": "pass", "dmarc": "pass"},
+        "urls": [],
+        "attachments": []
+      },
+      "payment_request": {"requested": false},
+      "behavior": {"first_contact_external": false, "urgency": true, "requests_secrecy": false},
+      "related_report_ids": [],
+      "source_ref": "soar:incident=PH-3004"
+    },
+    {
+      "report_id": "PH-3005",
+      "reported_by": "f.kumar@ourbank.com",
+      "reported_at": "2026-07-15T15:05:00Z",
+      "message": {
+        "message_id": "<benign-3005@mail.example>",
+        "received_at": "2026-07-15T15:00:00Z",
+        "from_display": "Payroll",
+        "from_addr": "payroll@ourbank.com",
+        "reply_to": null,
+        "subject": "Your July payslip is available",
+        "recipients": ["f.kumar@ourbank.com"],
+        "auth_results": {"spf": "pass", "dkim": "pass", "dmarc": "pass"},
+        "urls": [
+          {"display": "https://ourbank-corp.com/portal", "href": "https://ourbank-corp.com/portal"}
+        ],
+        "attachments": []
+      },
+      "payment_request": {"requested": false},
+      "behavior": {"first_contact_external": false, "urgency": false, "requests_secrecy": false},
+      "related_report_ids": [],
+      "source_ref": "soar:incident=PH-3005"
+    },
+    {
+      "report_id": "PH-3006",
+      "reported_by": "g.owens@ourbank.com",
+      "reported_at": "2026-07-15T16:22:00Z",
+      "message": {
+        "message_id": "<nodata-3006@mail.example>",
+        "received_at": "2026-07-15T16:15:00Z",
+        "from_display": "Unknown Sender",
+        "from_addr": "noreply@somewhere.example",
+        "reply_to": null,
+        "subject": "Please review",
+        "recipients": ["g.owens@ourbank.com"],
+        "urls": [],
+        "attachments": []
+      },
+      "payment_request": {"requested": false},
+      "behavior": {"first_contact_external": true, "urgency": false, "requests_secrecy": false},
+      "related_report_ids": [],
+      "source_ref": "soar:incident=PH-3006"
+    },
+    {
+      "report_id": "PH-3007",
+      "reported_by": "h.nolan@ourbank.com",
+      "reported_at": "2026-07-15T17:03:00Z",
+      "message": {
+        "message_id": "<dup-3007@mail.example>",
+        "received_at": "2026-07-15T16:58:00Z",
+        "from_display": "Payroll Department",
+        "from_addr": "payroll@0urbank.com",
+        "reply_to": null,
+        "subject": "update your direct deposit",
+        "recipients": ["h.nolan@ourbank.com"],
+        "auth_results": {"spf": "fail", "dkim": "none", "dmarc": "fail"},
+        "urls": [],
+        "attachments": []
+      },
+      "payment_request": {"requested": false},
+      "behavior": {"first_contact_external": true, "urgency": true, "requests_secrecy": false},
+      "related_report_ids": [],
+      "source_ref": "soar:incident=PH-3007"
+    }
+  ]
+}

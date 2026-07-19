@@ -272,12 +272,20 @@ def triage(doc: dict) -> dict:
         "needs_data": sum(1 for r in records if r["disposition"] == "needs-data"),
         "needs_review": sum(1 for r in records if r["disposition"] == "needs-review"),
     }
-    return {"config_version": doc.get("config_version"), "triage": records,
-            "summary": summary, "standing_note": STANDING_NOTE}
+    # Record the effective band cutoffs the engine actually used so downstream
+    # validation ties bands out against the SAME thresholds (no hardcoded divergence).
+    band_cfg = {k: cfg[k] for k in ("s1_min", "s2_min", "u1_min", "u2_min")}
+    return {"config_version": doc.get("config_version"), "triage_config": band_cfg,
+            "triage": records, "summary": summary, "standing_note": STANDING_NOTE}
 
 
 def _self_check(out: dict) -> list[str]:
     errs = []
+    # Tie band consistency to the effective cutoffs the engine recorded, not to
+    # hardcoded literals, so the check tracks any triage_config override.
+    tc = out.get("triage_config") or {}
+    s1_min = tc.get("s1_min", DEFAULT_CONFIG["s1_min"])
+    s2_min = tc.get("s2_min", DEFAULT_CONFIG["s2_min"])
     for r in out.get("triage", []):
         cid = r.get("claim_id", "?")
         if r["disposition"] in ("draft-ready", "refer-specialist"):
@@ -292,7 +300,7 @@ def _self_check(out: dict) -> list[str]:
             # band consistency
             ss, sb = r.get("severity_score"), r.get("severity_band")
             if ss is not None:
-                exp = ("S1 (Complex)" if ss >= 7 else "S2 (Moderate)" if ss >= 3 else "S3 (Standard)")
+                exp = ("S1 (Complex)" if ss >= s1_min else "S2 (Moderate)" if ss >= s2_min else "S3 (Standard)")
                 if sb != exp:
                     errs.append(f"{cid}: severity_band {sb!r} != expected {exp!r} for score {ss}")
     return errs

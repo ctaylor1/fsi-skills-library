@@ -1,0 +1,940 @@
+{
+  "config_version": "sanctions-2026.07",
+  "cases": [
+    {
+      "alert_id": "SCR-3001",
+      "case_id": "SANC-SCR-3001",
+      "list_program": "OFAC-SDN",
+      "screening_context": "payment",
+      "screening_provenance": {
+        "screening_engine": "sanctions-filter",
+        "screening_run_id": "RUN-2026-07-14-0912",
+        "screened_at": "2026-07-14T09:12:00",
+        "screened_by": "batch"
+      },
+      "evidence_bundle": {
+        "case_id": "SANC-SCR-3001",
+        "subject_id": "CUST-100",
+        "list_ref": "OFAC-12345",
+        "list_program": "OFAC-SDN",
+        "screening_context": "payment",
+        "parties": [
+          {
+            "role": "subject",
+            "id": "CUST-100",
+            "name": "Ali Hassan Mohammadi",
+            "entity_type": "individual",
+            "citations": [
+              "kyc:subject=CUST-100@2026-07-10"
+            ]
+          },
+          {
+            "role": "matched-listed-entity",
+            "id": "OFAC-12345",
+            "name": "Ali Hassan Mohammadi",
+            "entity_type": "individual",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+            ]
+          },
+          {
+            "role": "transaction-party",
+            "id": "ORIG-1",
+            "name": "Ali Hassan Mohammadi",
+            "citations": [
+              "txns:payment=PMT-88120@2026-07-14"
+            ]
+          },
+          {
+            "role": "transaction-party",
+            "id": "BENE-1",
+            "name": "Gulf Metals FZE",
+            "citations": [
+              "txns:payment=PMT-88120@2026-07-14"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2021-03-01",
+            "type": "list-entry",
+            "summary": "OFAC-SDN listing OFAC-12345 (Ali Hassan Mohammadi) effective",
+            "citation": "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+          },
+          {
+            "ts": "2025-11-10",
+            "type": "list-update",
+            "summary": "OFAC-12345 listing last updated",
+            "citation": "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+          },
+          {
+            "ts": "2026-07-14",
+            "type": "transaction",
+            "summary": "payment PMT-88120 250000 USD (AE->IR)",
+            "citation": "txns:payment=PMT-88120@2026-07-14"
+          },
+          {
+            "ts": "2026-07-14T09:12:00",
+            "type": "screening-hit",
+            "summary": "screening hit SCR-3001 raised by sanctions-filter (run RUN-2026-07-14-0912)",
+            "citation": "screening:hit=SCR-3001@RUN-2026-07-14-0912"
+          }
+        ],
+        "amounts": {
+          "amount": 250000,
+          "currency": "USD"
+        },
+        "match_factors": [
+          {
+            "name": "name_primary_match",
+            "kind": "corroborator",
+            "weight": 3,
+            "detail": "subject name equals the listed primary name (normalized)",
+            "citations": [
+              "kyc:subject=CUST-100@2026-07-10",
+              "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+            ]
+          },
+          {
+            "name": "dob_match",
+            "kind": "corroborator",
+            "weight": 3,
+            "detail": "date of birth matches (1975-04-02)",
+            "citations": [
+              "kyc:subject=CUST-100@2026-07-10",
+              "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+            ]
+          },
+          {
+            "name": "strong_id_match",
+            "kind": "corroborator",
+            "weight": 5,
+            "detail": "strong identifier matches (['X1234567'])",
+            "citations": [
+              "kyc:subject=CUST-100@2026-07-10",
+              "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+            ]
+          },
+          {
+            "name": "nationality_match",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "nationality matches (IR)",
+            "citations": [
+              "kyc:subject=CUST-100@2026-07-10",
+              "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+            ]
+          },
+          {
+            "name": "place_of_birth_match",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "place of birth matches (Tehran)",
+            "citations": [
+              "kyc:subject=CUST-100@2026-07-10",
+              "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+            ]
+          },
+          {
+            "name": "transaction_jurisdiction_nexus",
+            "kind": "corroborator",
+            "weight": 2,
+            "detail": "transaction touches a jurisdiction tied to the listing (['IR'])",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01",
+              "txns:payment=PMT-88120@2026-07-14"
+            ]
+          },
+          {
+            "name": "program_asset_freeze",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "listing is on an asset-freeze program (OFAC-SDN)",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01"
+            ]
+          }
+        ],
+        "match_score": 16,
+        "corroborators": [
+          "name_primary_match +3",
+          "dob_match +3",
+          "strong_id_match +5",
+          "nationality_match +1",
+          "place_of_birth_match +1",
+          "transaction_jurisdiction_nexus +2",
+          "program_asset_freeze +1"
+        ],
+        "discriminators": [],
+        "linked_cases": [],
+        "citations": [
+          "kyc:subject=CUST-100@2026-07-10",
+          "sanctions-list:OFAC-SDN/OFAC-12345@2021-03-01",
+          "screening:hit=SCR-3001@RUN-2026-07-14-0912",
+          "txns:payment=PMT-88120@2026-07-14"
+        ]
+      },
+      "match_score": 16,
+      "score_reason": "name_primary_match +3; dob_match +3; strong_id_match +5; nationality_match +1; place_of_birth_match +1; transaction_jurisdiction_nexus +2; program_asset_freeze +1",
+      "recommended_routing": [
+        "enhanced-due-diligence-packager",
+        "adverse-media-investigator"
+      ],
+      "needs": [],
+      "linked_case_id": null,
+      "disposition_basis": "strong-id-override",
+      "disposition_recommendation": "recommend-true-match-escalate",
+      "rationale": "A strong identifier matches together with the name/alias; identity is corroborated. Recommend escalating as a true match to an authorized sanctions officer for the blocking/reporting decision."
+    },
+    {
+      "alert_id": "SCR-3002",
+      "case_id": "SANC-SCR-3002",
+      "list_program": "OFAC-SDN",
+      "screening_context": "counterparty",
+      "screening_provenance": {
+        "screening_engine": "kyc-rescreen",
+        "screening_run_id": "RUN-2026-07-13-0400",
+        "screened_at": "2026-07-13T04:00:00",
+        "screened_by": "batch"
+      },
+      "evidence_bundle": {
+        "case_id": "SANC-SCR-3002",
+        "subject_id": "CTPY-220",
+        "list_ref": "OFAC-77777",
+        "list_program": "OFAC-SDN",
+        "screening_context": "counterparty",
+        "parties": [
+          {
+            "role": "subject",
+            "id": "CTPY-220",
+            "name": "Acme Trading LLC",
+            "entity_type": "organization",
+            "citations": [
+              "kyc:subject=CTPY-220@2026-07-12"
+            ]
+          },
+          {
+            "role": "matched-listed-entity",
+            "id": "OFAC-77777",
+            "name": "Ivan Petrov",
+            "entity_type": "individual",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-77777@2022-04-08"
+            ]
+          },
+          {
+            "role": "listed-owner",
+            "id": "OFAC-77777",
+            "name": "Ivan Petrov",
+            "pct": 60,
+            "citations": [
+              "kyc:subject=CTPY-220@2026-07-12",
+              "sanctions-list:OFAC-SDN/OFAC-77777@2022-04-08"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2022-04-08",
+            "type": "list-entry",
+            "summary": "OFAC-SDN listing OFAC-77777 (Ivan Petrov) effective",
+            "citation": "sanctions-list:OFAC-SDN/OFAC-77777@2022-04-08"
+          },
+          {
+            "ts": "2026-07-13T04:00:00",
+            "type": "screening-hit",
+            "summary": "screening hit SCR-3002 raised by kyc-rescreen (run RUN-2026-07-13-0400)",
+            "citation": "screening:hit=SCR-3002@RUN-2026-07-13-0400"
+          }
+        ],
+        "amounts": {
+          "amount": null,
+          "currency": null
+        },
+        "match_factors": [
+          {
+            "name": "ownership_nexus",
+            "kind": "corroborator",
+            "weight": 6,
+            "detail": "subject is 60% owned by listed party 'Ivan Petrov' (>= 50% \u2014 50% Rule)",
+            "citations": [
+              "kyc:subject=CTPY-220@2026-07-12",
+              "sanctions-list:OFAC-SDN/OFAC-77777@2022-04-08"
+            ]
+          },
+          {
+            "name": "program_asset_freeze",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "listing is on an asset-freeze program (OFAC-SDN)",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-77777@2022-04-08"
+            ]
+          },
+          {
+            "name": "entity_type_mismatch",
+            "kind": "discriminator",
+            "weight": -4,
+            "detail": "entity type differs (subject organization vs listed individual)",
+            "citations": [
+              "kyc:subject=CTPY-220@2026-07-12",
+              "sanctions-list:OFAC-SDN/OFAC-77777@2022-04-08"
+            ]
+          }
+        ],
+        "match_score": 3,
+        "corroborators": [
+          "ownership_nexus +6",
+          "program_asset_freeze +1"
+        ],
+        "discriminators": [
+          "entity_type_mismatch -4"
+        ],
+        "linked_cases": [],
+        "citations": [
+          "kyc:subject=CTPY-220@2026-07-12",
+          "sanctions-list:OFAC-SDN/OFAC-77777@2022-04-08",
+          "screening:hit=SCR-3002@RUN-2026-07-13-0400"
+        ]
+      },
+      "match_score": 3,
+      "score_reason": "ownership_nexus +6; program_asset_freeze +1; entity_type_mismatch -4",
+      "recommended_routing": [
+        "beneficial-ownership-verifier",
+        "enhanced-due-diligence-packager",
+        "adverse-media-investigator"
+      ],
+      "needs": [],
+      "linked_case_id": null,
+      "disposition_basis": "ownership-override",
+      "disposition_recommendation": "recommend-true-match-escalate",
+      "rationale": "Subject is owned at or above the ownership threshold by a listed party (50% Rule); recommend escalating as a true match to an authorized sanctions officer for the blocking/reporting decision. An entity-type difference does not defeat an ownership nexus."
+    },
+    {
+      "alert_id": "SCR-3003",
+      "case_id": "SANC-SCR-3003",
+      "list_program": "OFAC-SDN",
+      "screening_context": "customer",
+      "screening_provenance": {
+        "screening_engine": "kyc-onboarding",
+        "screening_run_id": "RUN-2026-07-14-1030",
+        "screened_at": "2026-07-14T10:30:00",
+        "screened_by": "analyst-14"
+      },
+      "evidence_bundle": {
+        "case_id": "SANC-SCR-3003",
+        "subject_id": "CUST-300",
+        "list_ref": "OFAC-40001",
+        "list_program": "OFAC-SDN",
+        "screening_context": "customer",
+        "parties": [
+          {
+            "role": "subject",
+            "id": "CUST-300",
+            "name": "John Smith",
+            "entity_type": "individual",
+            "citations": [
+              "kyc:subject=CUST-300@2026-07-14"
+            ]
+          },
+          {
+            "role": "matched-listed-entity",
+            "id": "OFAC-40001",
+            "name": "John Smith",
+            "entity_type": "individual",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-40001@2019-06-20"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2019-06-20",
+            "type": "list-entry",
+            "summary": "OFAC-SDN listing OFAC-40001 (John Smith) effective",
+            "citation": "sanctions-list:OFAC-SDN/OFAC-40001@2019-06-20"
+          },
+          {
+            "ts": "2026-07-14T10:30:00",
+            "type": "screening-hit",
+            "summary": "screening hit SCR-3003 raised by kyc-onboarding (run RUN-2026-07-14-1030)",
+            "citation": "screening:hit=SCR-3003@RUN-2026-07-14-1030"
+          }
+        ],
+        "amounts": {
+          "amount": null,
+          "currency": null
+        },
+        "match_factors": [
+          {
+            "name": "name_primary_match",
+            "kind": "corroborator",
+            "weight": 3,
+            "detail": "subject name equals the listed primary name (normalized)",
+            "citations": [
+              "kyc:subject=CUST-300@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40001@2019-06-20"
+            ]
+          },
+          {
+            "name": "dob_mismatch",
+            "kind": "discriminator",
+            "weight": -3,
+            "detail": "date of birth differs (subject 1990-11-15 vs listed 1962-03-01)",
+            "citations": [
+              "kyc:subject=CUST-300@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40001@2019-06-20"
+            ]
+          },
+          {
+            "name": "strong_id_mismatch",
+            "kind": "discriminator",
+            "weight": -4,
+            "detail": "same-type strong identifier present on both but values differ (['passport'])",
+            "citations": [
+              "kyc:subject=CUST-300@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40001@2019-06-20"
+            ]
+          },
+          {
+            "name": "nationality_mismatch",
+            "kind": "discriminator",
+            "weight": -2,
+            "detail": "nationality differs (subject US vs listed IR)",
+            "citations": [
+              "kyc:subject=CUST-300@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40001@2019-06-20"
+            ]
+          },
+          {
+            "name": "program_asset_freeze",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "listing is on an asset-freeze program (OFAC-SDN)",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-40001@2019-06-20"
+            ]
+          }
+        ],
+        "match_score": -5,
+        "corroborators": [
+          "name_primary_match +3",
+          "program_asset_freeze +1"
+        ],
+        "discriminators": [
+          "dob_mismatch -3",
+          "strong_id_mismatch -4",
+          "nationality_mismatch -2"
+        ],
+        "linked_cases": [],
+        "citations": [
+          "kyc:subject=CUST-300@2026-07-14",
+          "sanctions-list:OFAC-SDN/OFAC-40001@2019-06-20",
+          "screening:hit=SCR-3003@RUN-2026-07-14-1030"
+        ]
+      },
+      "match_score": -5,
+      "score_reason": "name_primary_match +3; program_asset_freeze +1; dob_mismatch -3; strong_id_mismatch -4; nationality_mismatch -2",
+      "recommended_routing": [
+        "enhanced-due-diligence-packager",
+        "adverse-media-investigator"
+      ],
+      "needs": [],
+      "linked_case_id": null,
+      "disposition_basis": "score-band",
+      "disposition_recommendation": "recommend-false-positive-discount",
+      "rationale": "Discriminators outweigh corroborators and no strong-identity conflict remains; recommend discounting as a false positive, subject to reviewer confirmation. No determination is made here. Factors: name_primary_match +3; program_asset_freeze +1; dob_mismatch -3; strong_id_mismatch -4; nationality_mismatch -2."
+    },
+    {
+      "alert_id": "SCR-3004",
+      "case_id": "SANC-SCR-3004",
+      "list_program": "OFAC-SDN",
+      "screening_context": "customer",
+      "screening_provenance": {
+        "screening_engine": "kyc-onboarding",
+        "screening_run_id": "RUN-2026-07-14-1100",
+        "screened_at": "2026-07-14T11:00:00",
+        "screened_by": "analyst-14"
+      },
+      "evidence_bundle": {
+        "case_id": "SANC-SCR-3004",
+        "subject_id": "CUST-400",
+        "list_ref": "OFAC-40044",
+        "list_program": "OFAC-SDN",
+        "screening_context": "customer",
+        "parties": [
+          {
+            "role": "subject",
+            "id": "CUST-400",
+            "name": "Maria Gonzalez",
+            "entity_type": "individual",
+            "citations": [
+              "kyc:subject=CUST-400@2026-07-14"
+            ]
+          },
+          {
+            "role": "matched-listed-entity",
+            "id": "OFAC-40044",
+            "name": "Maria Gonzalez",
+            "entity_type": "individual",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-40044@2023-09-15"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2023-09-15",
+            "type": "list-entry",
+            "summary": "OFAC-SDN listing OFAC-40044 (Maria Gonzalez) effective",
+            "citation": "sanctions-list:OFAC-SDN/OFAC-40044@2023-09-15"
+          },
+          {
+            "ts": "2026-07-14T11:00:00",
+            "type": "screening-hit",
+            "summary": "screening hit SCR-3004 raised by kyc-onboarding (run RUN-2026-07-14-1100)",
+            "citation": "screening:hit=SCR-3004@RUN-2026-07-14-1100"
+          }
+        ],
+        "amounts": {
+          "amount": null,
+          "currency": null
+        },
+        "match_factors": [
+          {
+            "name": "name_primary_match",
+            "kind": "corroborator",
+            "weight": 3,
+            "detail": "subject name equals the listed primary name (normalized)",
+            "citations": [
+              "kyc:subject=CUST-400@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40044@2023-09-15"
+            ]
+          },
+          {
+            "name": "nationality_match",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "nationality matches (MX)",
+            "citations": [
+              "kyc:subject=CUST-400@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40044@2023-09-15"
+            ]
+          },
+          {
+            "name": "program_asset_freeze",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "listing is on an asset-freeze program (OFAC-SDN)",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-40044@2023-09-15"
+            ]
+          }
+        ],
+        "match_score": 5,
+        "corroborators": [
+          "name_primary_match +3",
+          "nationality_match +1",
+          "program_asset_freeze +1"
+        ],
+        "discriminators": [],
+        "linked_cases": [],
+        "citations": [
+          "kyc:subject=CUST-400@2026-07-14",
+          "sanctions-list:OFAC-SDN/OFAC-40044@2023-09-15",
+          "screening:hit=SCR-3004@RUN-2026-07-14-1100"
+        ]
+      },
+      "match_score": 5,
+      "score_reason": "name_primary_match +3; nationality_match +1; program_asset_freeze +1",
+      "recommended_routing": [
+        "enhanced-due-diligence-packager",
+        "adverse-media-investigator"
+      ],
+      "needs": [],
+      "linked_case_id": null,
+      "disposition_basis": "score-band",
+      "disposition_recommendation": "recommend-potential-match-l2-review",
+      "rationale": "Evidence is inconclusive (identity neither confirmed nor excluded); recommend L2/senior sanctions review. Factors: name_primary_match +3; nationality_match +1; program_asset_freeze +1."
+    },
+    {
+      "alert_id": "SCR-3005",
+      "case_id": "SANC-SCR-3005",
+      "list_program": "OFAC-SDN",
+      "screening_context": "payment",
+      "screening_provenance": {
+        "screening_engine": "sanctions-filter",
+        "screening_run_id": "RUN-2026-07-14-1300",
+        "screened_at": "2026-07-14T13:00:00",
+        "screened_by": "batch"
+      },
+      "evidence_bundle": {
+        "case_id": "SANC-SCR-3005",
+        "subject_id": "CUST-500",
+        "list_ref": "OFAC-40088",
+        "list_program": "OFAC-SDN",
+        "screening_context": "payment",
+        "parties": [
+          {
+            "role": "subject",
+            "id": "CUST-500",
+            "name": "A. Ivanov",
+            "entity_type": "individual",
+            "citations": [
+              "kyc:subject=CUST-500@2026-07-14T13:00:00"
+            ]
+          },
+          {
+            "role": "matched-listed-entity",
+            "id": "OFAC-40088",
+            "name": "Aleksandr Ivanov",
+            "entity_type": "individual",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-40088@2020-02-11"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2020-02-11",
+            "type": "list-entry",
+            "summary": "OFAC-SDN listing OFAC-40088 (Aleksandr Ivanov) effective",
+            "citation": "sanctions-list:OFAC-SDN/OFAC-40088@2020-02-11"
+          },
+          {
+            "ts": "2026-07-14T13:00:00",
+            "type": "screening-hit",
+            "summary": "screening hit SCR-3005 raised by sanctions-filter (run RUN-2026-07-14-1300)",
+            "citation": "screening:hit=SCR-3005@RUN-2026-07-14-1300"
+          }
+        ],
+        "amounts": {
+          "amount": null,
+          "currency": null
+        },
+        "match_factors": [
+          {
+            "name": "alias_match",
+            "kind": "corroborator",
+            "weight": 2,
+            "detail": "subject name/alias matches a listed name/AKA: ['a ivanov']",
+            "citations": [
+              "kyc:subject=CUST-500@2026-07-14T13:00:00",
+              "sanctions-list:OFAC-SDN/OFAC-40088@2020-02-11"
+            ]
+          },
+          {
+            "name": "program_asset_freeze",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "listing is on an asset-freeze program (OFAC-SDN)",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-40088@2020-02-11"
+            ]
+          }
+        ],
+        "match_score": 3,
+        "corroborators": [
+          "alias_match +2",
+          "program_asset_freeze +1"
+        ],
+        "discriminators": [],
+        "linked_cases": [],
+        "citations": [
+          "kyc:subject=CUST-500@2026-07-14T13:00:00",
+          "sanctions-list:OFAC-SDN/OFAC-40088@2020-02-11",
+          "screening:hit=SCR-3005@RUN-2026-07-14-1300"
+        ]
+      },
+      "match_score": 3,
+      "score_reason": "alias_match +2; program_asset_freeze +1",
+      "recommended_routing": [
+        "enhanced-due-diligence-packager",
+        "adverse-media-investigator"
+      ],
+      "needs": [
+        "a secondary identifier, DOB, nationality, place of birth, address, ownership, or transaction context to discriminate identity"
+      ],
+      "linked_case_id": null,
+      "disposition_basis": "needs-data",
+      "disposition_recommendation": "needs-data",
+      "rationale": "The subject record carries a name only; a name-alone hit cannot be confirmed or discounted. Needs-data: obtain a discriminating attribute before adjudication."
+    },
+    {
+      "alert_id": "SCR-3006",
+      "case_id": "SANC-SCR-3006",
+      "list_program": "OFAC-SDN",
+      "screening_context": "periodic-rescreening",
+      "screening_provenance": {
+        "screening_engine": "kyc-rescreen",
+        "screening_run_id": "RUN-2026-07-13-0400",
+        "screened_at": "2026-07-13T04:00:00",
+        "screened_by": "batch"
+      },
+      "evidence_bundle": {
+        "case_id": "SANC-SCR-3006",
+        "subject_id": "CUST-600",
+        "list_ref": "OFAC-88888",
+        "list_program": "OFAC-SDN",
+        "screening_context": "periodic-rescreening",
+        "parties": [
+          {
+            "role": "subject",
+            "id": "CUST-600",
+            "name": "Viktor Orlov",
+            "entity_type": "individual",
+            "citations": [
+              "kyc:subject=CUST-600@2026-07-13"
+            ]
+          },
+          {
+            "role": "matched-listed-entity",
+            "id": "OFAC-88888",
+            "name": "Viktor Orlov",
+            "entity_type": "individual",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-88888@2022-04-08"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2022-04-08",
+            "type": "list-entry",
+            "summary": "OFAC-SDN listing OFAC-88888 (Viktor Orlov) effective",
+            "citation": "sanctions-list:OFAC-SDN/OFAC-88888@2022-04-08"
+          },
+          {
+            "ts": "2026-05-02",
+            "type": "prior-case",
+            "summary": "prior adjudication SANC-SCR-8000 (open)",
+            "citation": "casemgmt:prior=SANC-SCR-8000"
+          },
+          {
+            "ts": "2026-07-13T04:00:00",
+            "type": "screening-hit",
+            "summary": "screening hit SCR-3006 raised by kyc-rescreen (run RUN-2026-07-13-0400)",
+            "citation": "screening:hit=SCR-3006@RUN-2026-07-13-0400"
+          }
+        ],
+        "amounts": {
+          "amount": null,
+          "currency": null
+        },
+        "match_factors": [
+          {
+            "name": "name_primary_match",
+            "kind": "corroborator",
+            "weight": 3,
+            "detail": "subject name equals the listed primary name (normalized)",
+            "citations": [
+              "kyc:subject=CUST-600@2026-07-13",
+              "sanctions-list:OFAC-SDN/OFAC-88888@2022-04-08"
+            ]
+          },
+          {
+            "name": "dob_match",
+            "kind": "corroborator",
+            "weight": 3,
+            "detail": "date of birth matches (1980-07-19)",
+            "citations": [
+              "kyc:subject=CUST-600@2026-07-13",
+              "sanctions-list:OFAC-SDN/OFAC-88888@2022-04-08"
+            ]
+          },
+          {
+            "name": "nationality_match",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "nationality matches (RU)",
+            "citations": [
+              "kyc:subject=CUST-600@2026-07-13",
+              "sanctions-list:OFAC-SDN/OFAC-88888@2022-04-08"
+            ]
+          },
+          {
+            "name": "program_asset_freeze",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "listing is on an asset-freeze program (OFAC-SDN)",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-88888@2022-04-08"
+            ]
+          }
+        ],
+        "match_score": 8,
+        "corroborators": [
+          "name_primary_match +3",
+          "dob_match +3",
+          "nationality_match +1",
+          "program_asset_freeze +1"
+        ],
+        "discriminators": [],
+        "linked_cases": [
+          "SANC-SCR-8000"
+        ],
+        "citations": [
+          "casemgmt:prior=SANC-SCR-8000",
+          "kyc:subject=CUST-600@2026-07-13",
+          "sanctions-list:OFAC-SDN/OFAC-88888@2022-04-08",
+          "screening:hit=SCR-3006@RUN-2026-07-13-0400"
+        ]
+      },
+      "match_score": 8,
+      "score_reason": "name_primary_match +3; dob_match +3; nationality_match +1; program_asset_freeze +1",
+      "recommended_routing": [
+        "enhanced-due-diligence-packager",
+        "adverse-media-investigator"
+      ],
+      "needs": [],
+      "linked_case_id": "SANC-SCR-8000",
+      "disposition_basis": "possible-duplicate",
+      "disposition_recommendation": "possible-duplicate",
+      "rationale": "Overlaps adjudication SANC-SCR-8000 for the same subject and listing; recommend linking as a possible duplicate for human confirmation rather than re-adjudicating in parallel."
+    },
+    {
+      "alert_id": "SCR-3007",
+      "case_id": "SANC-SCR-3007",
+      "list_program": "OFAC-SDN",
+      "screening_context": "customer",
+      "screening_provenance": {
+        "screening_engine": "kyc-onboarding",
+        "screening_run_id": "RUN-2026-07-14-1500",
+        "screened_at": "2026-07-14T15:00:00",
+        "screened_by": "analyst-22"
+      },
+      "evidence_bundle": {
+        "case_id": "SANC-SCR-3007",
+        "subject_id": "CUST-700",
+        "list_ref": "OFAC-40077",
+        "list_program": "OFAC-SDN",
+        "screening_context": "customer",
+        "parties": [
+          {
+            "role": "subject",
+            "id": "CUST-700",
+            "name": "Omar Farouk",
+            "entity_type": "individual",
+            "citations": [
+              "kyc:subject=CUST-700@2026-07-14"
+            ]
+          },
+          {
+            "role": "matched-listed-entity",
+            "id": "OFAC-40077",
+            "name": "Omar Farouk",
+            "entity_type": "individual",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-40077@2021-12-01"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2021-12-01",
+            "type": "list-entry",
+            "summary": "OFAC-SDN listing OFAC-40077 (Omar Farouk) effective",
+            "citation": "sanctions-list:OFAC-SDN/OFAC-40077@2021-12-01"
+          },
+          {
+            "ts": "2026-07-14T15:00:00",
+            "type": "screening-hit",
+            "summary": "screening hit SCR-3007 raised by kyc-onboarding (run RUN-2026-07-14-1500)",
+            "citation": "screening:hit=SCR-3007@RUN-2026-07-14-1500"
+          }
+        ],
+        "amounts": {
+          "amount": null,
+          "currency": null
+        },
+        "match_factors": [
+          {
+            "name": "name_primary_match",
+            "kind": "corroborator",
+            "weight": 3,
+            "detail": "subject name equals the listed primary name (normalized)",
+            "citations": [
+              "kyc:subject=CUST-700@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40077@2021-12-01"
+            ]
+          },
+          {
+            "name": "dob_match",
+            "kind": "corroborator",
+            "weight": 3,
+            "detail": "date of birth matches (1985-09-09)",
+            "citations": [
+              "kyc:subject=CUST-700@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40077@2021-12-01"
+            ]
+          },
+          {
+            "name": "strong_id_mismatch",
+            "kind": "discriminator",
+            "weight": -4,
+            "detail": "same-type strong identifier present on both but values differ (['passport'])",
+            "citations": [
+              "kyc:subject=CUST-700@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40077@2021-12-01"
+            ]
+          },
+          {
+            "name": "nationality_mismatch",
+            "kind": "discriminator",
+            "weight": -2,
+            "detail": "nationality differs (subject EG vs listed SY)",
+            "citations": [
+              "kyc:subject=CUST-700@2026-07-14",
+              "sanctions-list:OFAC-SDN/OFAC-40077@2021-12-01"
+            ]
+          },
+          {
+            "name": "program_asset_freeze",
+            "kind": "corroborator",
+            "weight": 1,
+            "detail": "listing is on an asset-freeze program (OFAC-SDN)",
+            "citations": [
+              "sanctions-list:OFAC-SDN/OFAC-40077@2021-12-01"
+            ]
+          }
+        ],
+        "match_score": 1,
+        "corroborators": [
+          "name_primary_match +3",
+          "dob_match +3",
+          "program_asset_freeze +1"
+        ],
+        "discriminators": [
+          "strong_id_mismatch -4",
+          "nationality_mismatch -2"
+        ],
+        "linked_cases": [],
+        "citations": [
+          "kyc:subject=CUST-700@2026-07-14",
+          "sanctions-list:OFAC-SDN/OFAC-40077@2021-12-01",
+          "screening:hit=SCR-3007@RUN-2026-07-14-1500"
+        ]
+      },
+      "match_score": 1,
+      "score_reason": "name_primary_match +3; dob_match +3; program_asset_freeze +1; strong_id_mismatch -4; nationality_mismatch -2",
+      "recommended_routing": [
+        "enhanced-due-diligence-packager",
+        "adverse-media-investigator"
+      ],
+      "needs": [],
+      "linked_case_id": null,
+      "disposition_basis": "conflict-guard",
+      "disposition_recommendation": "recommend-potential-match-l2-review",
+      "rationale": "Strong corroborating and strong discriminating signals disagree (e.g., matching name/DOB but a differing identifier); the hit cannot be auto-discounted. Recommend L2/senior sanctions review."
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "recommend_true_match_escalate": 2,
+    "recommend_potential_match_l2_review": 2,
+    "recommend_false_positive_discount": 1,
+    "needs_data": 1,
+    "possible_duplicate": 1
+  },
+  "standing_note": "Sanctions adjudication decision-support only; no match has been confirmed or discounted, no payment has been blocked, rejected, or released, no account has been blocked or unblocked, and no blocking/OFAC report has been filed. An authorized sanctions officer must adjudicate every disposition."
+}

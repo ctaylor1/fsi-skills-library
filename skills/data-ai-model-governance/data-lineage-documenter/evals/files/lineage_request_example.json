@@ -1,0 +1,82 @@
+{
+  "spec_version": "data-lineage-methodology-2026.07",
+  "as_of_date": "2026-07-17",
+  "data_product": {
+    "product_id": "DP-RWA-CREDIT",
+    "name": "Credit RWA Regulatory Reporting Dataset",
+    "domain": "Risk & Regulatory Reporting",
+    "criticality": "High",
+    "catalog_ref": "catalog:dp/rwa-credit@v5"
+  },
+  "authoritative_sources": [
+    {"source_id": "CAT-DC-01", "type": "data-catalog", "ref": "Enterprise Data Catalog - RWA credit domain", "owner": "Data Governance Office"},
+    {"source_id": "REG-MDL-01", "type": "model-registry", "ref": "Model registry - PD/LGD models MDL-3100/3200", "owner": "Model Risk Management"},
+    {"source_id": "POL-DM-01", "type": "policy", "ref": "Data Management Standard section 6 (lineage & retention)", "owner": "Chief Data Office"},
+    {"source_id": "CON-DQ-01", "type": "data-contract", "ref": "Loans extract data contract v4 (quality rules)", "owner": "Core Banking Data Product"},
+    {"source_id": "LOG-AGENT-01", "type": "agent-tool-log", "ref": "Agent/tool execution log - enrichment pipeline", "owner": "Data Engineering"}
+  ],
+  "nodes": [
+    {"node_id": "N-SRC-1", "layer": "source", "name": "Core Banking Loans Extract", "system": "Core Banking",
+     "owner": "Core Banking Data Steward", "classification": "Confidential", "source_id": "CAT-DC-01",
+     "catalog_ref": "catalog:tbl/cb_loans",
+     "controls": ["access-control:RBAC-CB"], "quality_rules": ["completeness:loan_id not null", "validity:balance>=0"],
+     "retention": {"policy_id": "RET-07", "period": "7y"}},
+
+    {"node_id": "N-ING-1", "layer": "ingestion", "name": "Batch Ingestion to Landing", "system": "Ingestion Platform",
+     "owner": "Data Engineering", "classification": "Confidential", "source_id": "CAT-DC-01",
+     "controls": ["integrity:checksum-reconciliation"], "quality_rules": ["row-count-tolerance:+/-0.5%"],
+     "retention": {"policy_id": "RET-03", "period": "90d"}},
+
+    {"node_id": "N-TRN-1", "layer": "transformation", "name": "PD/LGD Enrichment", "system": "Feature Engine",
+     "owner": "Model Risk / Data Engineering", "classification": "Confidential", "source_id": "REG-MDL-01",
+     "controls": ["change-control:CAB", "model-approval:MRM"], "quality_rules": ["range-check:PD in [0,1]"],
+     "retention": {"policy_id": "RET-05", "period": "3y"}},
+
+    {"node_id": "N-STORE-1", "layer": "store", "name": "Risk Data Mart", "system": "Risk Data Warehouse",
+     "owner": "Risk Data Steward", "classification": "Confidential", "source_id": "CAT-DC-01",
+     "controls": ["access-control:RBAC-RISK"], "quality_rules": ["reconciliation:mart-vs-source"],
+     "retention": {"policy_id": "RET-07", "period": "7y"}},
+
+    {"node_id": "N-FEAT-1", "layer": "feature", "name": "RWA Feature Set", "system": "Feature Store",
+     "owner": "Risk Data Steward", "classification": "Confidential", "source_id": "CAT-DC-01",
+     "controls": ["access-control:RBAC-RISK"], "quality_rules": ["freshness:<=24h"],
+     "retention": {"policy_id": "RET-05", "period": "3y"}},
+
+    {"node_id": "N-OUT-1", "layer": "output", "name": "Credit RWA Regulatory Report", "system": "Reg Reporting Platform",
+     "owner": "Regulatory Reporting Owner", "classification": "Confidential", "source_id": "POL-DM-01",
+     "controls": ["sign-off:reg-reporting", "reconciliation:report-vs-mart"],
+     "quality_rules": ["completeness:all-exposures", "accuracy:tie-to-GL"],
+     "retention": {"policy_id": "RET-10", "period": "10y"}},
+
+    {"node_id": "N-TRN-2", "layer": "transformation", "name": "Collateral Haircut Adjustment", "system": "Feature Engine",
+     "owner": "Data Engineering", "classification": "Confidential", "source_id": "REG-MDL-01",
+     "controls": ["change-control:CAB"],
+     "retention": {"policy_id": "RET-05", "period": "3y"}},
+
+    {"node_id": "N-SRC-2", "layer": "source", "name": "Market Data Feed", "system": "Market Data",
+     "owner": null, "classification": "Confidential", "source_id": "CAT-DC-01",
+     "controls": ["access-control:RBAC-MKT"], "quality_rules": ["timeliness:intraday"],
+     "retention": {"policy_id": "RET-02", "period": "30d"}},
+
+    {"node_id": "N-ORPH-1", "layer": "transformation", "name": "Orphaned Currency Conversion", "system": "Feature Engine",
+     "owner": "Data Engineering", "classification": "Confidential", "source_id": "CAT-DC-01",
+     "controls": ["change-control:CAB"], "quality_rules": ["range-check:fx>0"],
+     "retention": {"policy_id": "RET-05", "period": "3y"}},
+
+    {"node_id": "N-UNSRC-1", "layer": "feature", "name": "Unmapped Adjustment Factor", "system": "Analyst Spreadsheet",
+     "owner": "Risk Analyst", "classification": "Confidential", "source_id": null,
+     "controls": [], "quality_rules": [],
+     "retention": {}}
+  ],
+  "edges": [
+    {"edge_id": "E1", "from_node": "N-SRC-1", "to_node": "N-ING-1", "transformation": "extract-load raw loans to landing", "source_id": "CAT-DC-01"},
+    {"edge_id": "E2", "from_node": "N-ING-1", "to_node": "N-TRN-1", "transformation": "join reference data and apply PD/LGD enrichment", "source_id": "REG-MDL-01", "transform_ref": "job:enrich_pdlgd@v3"},
+    {"edge_id": "E3", "from_node": "N-TRN-1", "to_node": "N-STORE-1", "transformation": "persist enriched exposures to risk mart", "source_id": "CAT-DC-01"},
+    {"edge_id": "E4", "from_node": "N-STORE-1", "to_node": "N-FEAT-1", "transformation": "aggregate exposures into RWA feature set", "source_id": "CAT-DC-01"},
+    {"edge_id": "E5", "from_node": "N-FEAT-1", "to_node": "N-OUT-1", "transformation": "map features to regulatory report lines", "source_id": "POL-DM-01"},
+    {"edge_id": "E6", "from_node": "N-TRN-2", "to_node": "N-OUT-1", "transformation": null, "source_id": "REG-MDL-01"},
+    {"edge_id": "E7", "from_node": "N-SRC-2", "to_node": "N-TRN-2", "transformation": "feed market data into haircut adjustment", "source_id": "CAT-DC-01"},
+    {"edge_id": "E8", "from_node": "N-STORE-1", "to_node": "N-UNSRC-1", "transformation": "derive analyst adjustment factor", "source_id": "CAT-DC-01"},
+    {"edge_id": "E9", "from_node": "N-GHOST-1", "to_node": "N-OUT-1", "transformation": "phantom upstream feed", "source_id": "CAT-DC-01"}
+  ]
+}

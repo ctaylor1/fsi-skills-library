@@ -1,0 +1,94 @@
+{
+  "run_id": "tmai-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "aml-typology-cfg-2026.07",
+  "max_staleness_days": 3,
+  "open_cases": [
+    {"fingerprint": "CUST-1001|STRUCT-CTR-10K|cash_structuring|BREACH"}
+  ],
+  "rules": [
+    {"rule_id": "STRUCT-CTR-10K", "type": "structuring", "threshold_amount": 10000, "band_pct": 10, "window_days": 5, "min_count": 3, "warn_count": 2},
+    {"rule_id": "RAPID-PASS-90", "type": "pass_through", "min_ratio_pct": 90, "warn_buffer_pct": 5, "min_inflow": 50000},
+    {"rule_id": "HR-GEO-20", "type": "geography", "high_risk_countries": ["IR", "KP", "SY"], "limit_pct": 20, "warn_buffer_pct": 5},
+    {"rule_id": "VELOCITY-5X", "type": "velocity", "baseline_field": "expected_period_txns", "multiplier": 5, "warn_buffer_ratio": 1},
+    {"rule_id": "CASH-INT-50", "type": "cash_intensity", "limit_pct": 50, "warn_buffer_pct": 10}
+  ],
+  "subjects": [
+    {
+      "subject_id": "CUST-1001",
+      "alert_id": "AML-2026-07-15-77421",
+      "escalated": true,
+      "escalation_source": "aml-alert-triager",
+      "risk_rating": "high",
+      "data_as_of": "2026-07-16",
+      "profile": {"expected_period_txns": 4, "occupation": "retail merchant", "onboarding_country": "US"},
+      "accounts": [{"account_id": "ACCT-1001-DDA", "type": "checking", "opened": "2019-03-02"}],
+      "counterparties": [
+        {"counterparty_id": "CP-DOMESTIC-1", "name": "Payroll Aggregator LLC", "country": "US"},
+        {"counterparty_id": "CP-IR-1", "name": "Kish Trading Co", "country": "IR"}
+      ],
+      "transactions": [
+        {"txn_id": "T-1001-01", "date": "2026-07-10", "direction": "in", "amount": 9500, "instrument": "cash", "channel": "branch", "counterparty_id": "CP-DOMESTIC-1", "counterparty_country": "US"},
+        {"txn_id": "T-1001-02", "date": "2026-07-11", "direction": "in", "amount": 9600, "instrument": "cash", "channel": "branch", "counterparty_id": "CP-DOMESTIC-1", "counterparty_country": "US"},
+        {"txn_id": "T-1001-03", "date": "2026-07-12", "direction": "in", "amount": 9400, "instrument": "cash", "channel": "atm", "counterparty_id": "CP-DOMESTIC-1", "counterparty_country": "US"},
+        {"txn_id": "T-1001-04", "date": "2026-07-13", "direction": "in", "amount": 9700, "instrument": "cash", "channel": "branch", "counterparty_id": "CP-DOMESTIC-1", "counterparty_country": "US"},
+        {"txn_id": "T-1001-05", "date": "2026-07-13", "direction": "in", "amount": 20000, "instrument": "wire", "channel": "wire", "counterparty_id": "CP-DOMESTIC-1", "counterparty_country": "US"},
+        {"txn_id": "T-1001-06", "date": "2026-07-14", "direction": "out", "amount": 30000, "instrument": "wire", "channel": "wire", "counterparty_id": "CP-IR-1", "counterparty_country": "IR"},
+        {"txn_id": "T-1001-07", "date": "2026-07-15", "direction": "out", "amount": 25000, "instrument": "wire", "channel": "wire", "counterparty_id": "CP-IR-1", "counterparty_country": "IR"}
+      ],
+      "prior_cases": [{"case_id": "CASE-2025-0442", "status": "closed_no_sar", "closed": "2025-11-02"}]
+    },
+    {
+      "subject_id": "CUST-1002",
+      "alert_id": "AML-2026-07-15-77510",
+      "escalated": true,
+      "escalation_source": "aml-alert-triager",
+      "risk_rating": "medium",
+      "data_as_of": "2026-07-16",
+      "profile": {"expected_period_txns": 10, "occupation": "convenience store", "onboarding_country": "US"},
+      "accounts": [{"account_id": "ACCT-1002-DDA", "type": "business", "opened": "2021-06-14"}],
+      "counterparties": [{"counterparty_id": "CP-DOMESTIC-2", "name": "Metro Wholesale", "country": "US"}],
+      "transactions": [
+        {"txn_id": "T-1002-01", "date": "2026-07-14", "direction": "in", "amount": 40000, "instrument": "cash", "channel": "branch", "counterparty_id": "CP-DOMESTIC-2", "counterparty_country": "US"},
+        {"txn_id": "T-1002-02", "date": "2026-07-15", "direction": "in", "amount": 30000, "instrument": "cash", "channel": "branch", "counterparty_id": "CP-DOMESTIC-2", "counterparty_country": "US"},
+        {"txn_id": "T-1002-03", "date": "2026-07-16", "direction": "out", "amount": 5000, "instrument": "wire", "channel": "wire", "counterparty_id": "CP-DOMESTIC-2", "counterparty_country": "US"}
+      ],
+      "prior_cases": []
+    },
+    {
+      "subject_id": "CUST-1003",
+      "alert_id": "AML-2026-07-16-77988",
+      "escalated": true,
+      "escalation_source": "aml-alert-triager",
+      "risk_rating": "low",
+      "data_as_of": "2026-07-16",
+      "profile": {"expected_period_txns": 20, "occupation": "salaried employee", "onboarding_country": "US"},
+      "accounts": [{"account_id": "ACCT-1003-DDA", "type": "checking", "opened": "2018-01-09"}],
+      "counterparties": [{"counterparty_id": "CP-DOMESTIC-3", "name": "Acme Employer Inc", "country": "US"}],
+      "transactions": [
+        {"txn_id": "T-1003-01", "date": "2026-07-16", "direction": "in", "amount": 5000, "instrument": "wire", "channel": "wire", "counterparty_id": "CP-DOMESTIC-3", "counterparty_country": "US"},
+        {"txn_id": "T-1003-02", "date": "2026-07-16", "direction": "out", "amount": 2000, "instrument": "ach", "channel": "ach", "counterparty_id": "CP-DOMESTIC-3", "counterparty_country": "US"}
+      ],
+      "prior_cases": []
+    },
+    {
+      "subject_id": "CUST-1004",
+      "alert_id": "AML-2026-07-09-76002",
+      "escalated": true,
+      "escalation_source": "aml-alert-triager",
+      "risk_rating": "medium",
+      "data_as_of": "2026-07-08",
+      "profile": {"expected_period_txns": 5, "occupation": "import/export", "onboarding_country": "US"},
+      "accounts": [{"account_id": "ACCT-1004-DDA", "type": "business", "opened": "2022-09-30"}],
+      "counterparties": [
+        {"counterparty_id": "CP-DOMESTIC-4", "name": "Harbor Freight Partners", "country": "US"},
+        {"counterparty_id": "CP-SY-1", "name": "Levant Supply Co", "country": "SY"}
+      ],
+      "transactions": [
+        {"txn_id": "T-1004-01", "date": "2026-07-05", "direction": "in", "amount": 80000, "instrument": "wire", "channel": "wire", "counterparty_id": "CP-DOMESTIC-4", "counterparty_country": "US"},
+        {"txn_id": "T-1004-02", "date": "2026-07-06", "direction": "out", "amount": 16000, "instrument": "wire", "channel": "wire", "counterparty_id": "CP-SY-1", "counterparty_country": "SY"}
+      ],
+      "prior_cases": []
+    }
+  ]
+}

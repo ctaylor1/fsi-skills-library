@@ -1,0 +1,60 @@
+{
+  "incident_id": "INC-2026-0042",
+  "as_of": "2026-07-17T14:00:00",
+  "config_version": "ir-coord-cfg-2026.07",
+  "declared_by": "SOC-Analyst-A",
+  "classification_status": "proposed",
+  "config": {"major_breach_records": 500, "overdue_grace_minutes": 0, "mandatory_roles": ["incident_commander", "scribe", "technical_lead", "comms_lead", "legal_liaison"]},
+  "impact": {
+    "critical_service_affected": true,
+    "impact_tolerance_breached": false,
+    "confirmed_data_exposure": true,
+    "regulated_data": true,
+    "records_exposed": 1200,
+    "scope": "multi-system",
+    "suspected_compromise": true
+  },
+  "roles": [
+    {"role": "incident_commander", "assignee": "IC-1"},
+    {"role": "scribe", "assignee": "SC-1"},
+    {"role": "technical_lead", "assignee": "TL-1"},
+    {"role": "comms_lead", "assignee": "CM-1"},
+    {"role": "legal_liaison", "assignee": "LG-1"}
+  ],
+  "chronology": [
+    {"ts": "2026-07-17T08:15:00", "actor": "SIEM", "entry_type": "detection", "description": "SIEM correlation alert: anomalous OAuth token use for finance mailbox from unrecognized ASN", "source_ref": "siem:case=IR-8842;alert=A-1"},
+    {"ts": "2026-07-17T08:40:00", "actor": "SOC-Analyst-A", "entry_type": "triage", "description": "Confirmed session hijack indicators; escalated to major incident and paged on-call IC", "source_ref": "soar:ticket=SOAR-551"},
+    {"ts": "2026-07-17T08:55:00", "actor": "IC-1", "entry_type": "declaration", "description": "Incident declared; bridge opened; roles assigned", "source_ref": "bridge:log=BR-77;entry=1"},
+    {"ts": "2026-07-17T09:10:00", "actor": "TL-1", "entry_type": "containment", "description": "Disabled compromised service account and revoked active sessions", "source_ref": "iam:action=IAM-3321"},
+    {"ts": "2026-07-17T10:30:00", "actor": "TL-1", "entry_type": "eradication", "description": "Identified malicious inbox rule and forwarding address; queued for removal", "source_ref": "m365:audit=AUD-9001"},
+    {"ts": "2026-07-17T11:45:00", "actor": "CM-1", "entry_type": "communication", "description": "Executive situation report issued on the bridge", "source_ref": "bridge:log=BR-77;entry=14"}
+  ],
+  "tasks": [
+    {"task_id": "T-1", "phase": "containment", "description": "Disable compromised service account", "owner": "TL-1", "status": "done", "due": "2026-07-17T09:15:00"},
+    {"task_id": "T-2", "phase": "eradication", "description": "Remove malicious inbox rule and forwarding address", "owner": "TL-1", "status": "in-progress", "due": "2026-07-17T12:00:00"},
+    {"task_id": "T-3", "phase": "eradication", "description": "Rotate credentials and secrets for affected identities", "owner": "TL-1", "status": "open", "due": "2026-07-17T16:00:00"},
+    {"task_id": "T-4", "phase": "recovery", "description": "Validate mailbox integrity and restore normal routing", "owner": "TL-1", "status": "open", "due": "2026-07-17T18:00:00"},
+    {"task_id": "T-5", "phase": "evidence", "description": "Preserve mailbox audit logs and token logs to evidence vault", "owner": "SC-1", "status": "done", "due": "2026-07-17T10:00:00"}
+  ],
+  "evidence": [
+    {"evidence_id": "E-1", "type": "log", "description": "SIEM correlation case export", "source_ref": "siem:case=IR-8842", "hash": "sha256:1f0a...c9", "collected_by": "SC-1", "custody": "evidence-vault"},
+    {"evidence_id": "E-2", "type": "audit", "description": "M365 unified audit log for affected mailbox", "source_ref": "m365:audit=AUD-9001", "hash": "sha256:77bd...4e", "collected_by": "SC-1", "custody": "evidence-vault"},
+    {"evidence_id": "E-3", "type": "iam", "description": "IAM session revocation record", "source_ref": "iam:action=IAM-3321", "hash": "sha256:aa10...2b", "collected_by": "SC-1", "custody": "evidence-vault"}
+  ],
+  "decisions": [
+    {"decision_id": "D-1", "description": "Isolate the finance file share segment pending forensic imaging", "recommendation": "Isolate segment; accept temporary degradation of internal reporting", "adjudicator": "incident_commander", "status": "pending", "decided_by": null},
+    {"decision_id": "D-2", "description": "Engage the external DFIR forensics retainer", "recommendation": "Engage retainer to preserve and image affected hosts", "adjudicator": "incident_commander", "status": "adjudicated", "decided_by": "IC-1"},
+    {"decision_id": "D-3", "description": "Whether regulated-data exposure triggers external notification obligations", "recommendation": "Route to legal/privacy counsel for a notification decision; prepare evidence for the resilience reporter", "adjudicator": "legal_liaison", "status": "pending", "decided_by": null}
+  ],
+  "communications": [
+    {"comm_id": "C-1", "ts": "2026-07-17T11:45:00", "audience": "internal-executives", "channel": "incident-bridge", "summary": "Situation report: containment achieved on primary identity; scope assessment ongoing", "approved_by": "IC-1", "source_ref": "bridge:log=BR-77;entry=14"}
+  ],
+  "dependencies": [
+    {"service": "Finance reporting portal", "criticality": "critical", "status": "degraded", "upstream": ["Identity provider", "Finance file share"], "impact_tolerance": "4h"},
+    {"service": "Corporate email", "criticality": "important", "status": "operational", "upstream": ["Identity provider"], "impact_tolerance": "8h"}
+  ],
+  "post_incident_actions": [
+    {"action_id": "P-1", "description": "Add detection for anomalous OAuth token replay", "owner": "detection-engineering", "status": "proposed"},
+    {"action_id": "P-2", "description": "Review conditional-access policy for finance mailboxes", "owner": "identity-team", "status": "proposed"}
+  ]
+}

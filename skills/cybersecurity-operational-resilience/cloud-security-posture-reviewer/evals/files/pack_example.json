@@ -1,0 +1,305 @@
+{
+  "review_id": "cspr-CSPR-2026-0731-2026-07-15-0001",
+  "assessment_id": "CSPR-2026-0731",
+  "as_of": "2026-07-15",
+  "config_version": "cspm-policy-2026.07",
+  "cloud_provider": "aws",
+  "scope": {
+    "account_ids": [
+      "1111-2222-3333"
+    ],
+    "environment": "production"
+  },
+  "resource_count": 12,
+  "findings": [
+    {
+      "finding_id": "F001",
+      "category": "identity",
+      "severity": "critical",
+      "rule": "identity.root_access_key",
+      "resource_id": "acct-root",
+      "resource_type": "account",
+      "summary": "Root/organization account has an active access key; root credentials should carry no long-lived key.",
+      "recommended_remediation": "Delete the root access key and use short-lived, federated credentials for administrative tasks.",
+      "evidence": [
+        {
+          "ref": "acct-root",
+          "citation": "cspm:acct=1111-2222-3333;root@2026-07-15"
+        },
+        {
+          "ref": "rule:identity.root_access_key",
+          "citation": "config:cspm-policy-2026.07;rule=identity.root_access_key"
+        }
+      ]
+    },
+    {
+      "finding_id": "F002",
+      "category": "identity",
+      "severity": "high",
+      "rule": "identity.mfa_disabled",
+      "resource_id": "iam-svc-deploy",
+      "resource_type": "iam_user",
+      "summary": "IAM user with console access has no MFA enabled.",
+      "recommended_remediation": "Enforce MFA for all console-enabled identities via an account-wide policy.",
+      "evidence": [
+        {
+          "ref": "iam-svc-deploy",
+          "citation": "cspm:acct=1111-2222-3333;user=iam-svc-deploy@2026-07-15"
+        },
+        {
+          "ref": "rule:identity.mfa_disabled",
+          "citation": "config:cspm-policy-2026.07;rule=identity.mfa_disabled"
+        }
+      ]
+    },
+    {
+      "finding_id": "F003",
+      "category": "identity",
+      "severity": "medium",
+      "rule": "identity.stale_access_key",
+      "resource_id": "iam-analyst",
+      "resource_type": "iam_user",
+      "summary": "IAM user access key age 210d exceeds the maximum 90d.",
+      "recommended_remediation": "Rotate the access key on the standard schedule and prefer short-lived credentials.",
+      "evidence": [
+        {
+          "ref": "iam-analyst",
+          "citation": "cspm:acct=1111-2222-3333;user=iam-analyst@2026-07-15"
+        },
+        {
+          "ref": "rule:identity.stale_access_key",
+          "citation": "config:cspm-policy-2026.07;rule=identity.stale_access_key"
+        }
+      ]
+    },
+    {
+      "finding_id": "F004",
+      "category": "identity",
+      "severity": "high",
+      "rule": "identity.privileged_wildcard",
+      "resource_id": "role-ci-admin",
+      "resource_type": "iam_role",
+      "summary": "Attached identity grants wildcard administrative permissions (Action:* on Resource:*).",
+      "recommended_remediation": "Replace the wildcard grant with least-privilege, scoped permissions.",
+      "evidence": [
+        {
+          "ref": "role-ci-admin",
+          "citation": "cspm:acct=1111-2222-3333;role=role-ci-admin@2026-07-15"
+        },
+        {
+          "ref": "rule:identity.privileged_wildcard",
+          "citation": "config:cspm-policy-2026.07;rule=identity.privileged_wildcard"
+        }
+      ]
+    },
+    {
+      "finding_id": "F005",
+      "category": "network",
+      "severity": "critical",
+      "rule": "network.unrestricted_ingress",
+      "resource_id": "sg-bastion",
+      "resource_type": "security_group",
+      "summary": "Security group allows ingress from the public internet (0.0.0.0/0) to sensitive port 22.",
+      "recommended_remediation": "Restrict ingress on port 22 to known CIDRs / a bastion or private path.",
+      "evidence": [
+        {
+          "ref": "sg-bastion",
+          "citation": "cspm:acct=1111-2222-3333;sg=sg-bastion@2026-07-15"
+        },
+        {
+          "ref": "rule:network.unrestricted_ingress",
+          "citation": "config:cspm-policy-2026.07;rule=network.unrestricted_ingress"
+        }
+      ]
+    },
+    {
+      "finding_id": "F006",
+      "category": "network",
+      "severity": "high",
+      "rule": "network.unrestricted_ingress",
+      "resource_id": "sg-db",
+      "resource_type": "security_group",
+      "summary": "Security group allows ingress from the public internet (0.0.0.0/0) to sensitive port 5432.",
+      "recommended_remediation": "Restrict ingress on port 5432 to known CIDRs / a bastion or private path.",
+      "evidence": [
+        {
+          "ref": "sg-db",
+          "citation": "cspm:acct=1111-2222-3333;sg=sg-db@2026-07-15"
+        },
+        {
+          "ref": "rule:network.unrestricted_ingress",
+          "citation": "config:cspm-policy-2026.07;rule=network.unrestricted_ingress"
+        }
+      ]
+    },
+    {
+      "finding_id": "F007",
+      "category": "data_exposure",
+      "severity": "critical",
+      "rule": "data_exposure.public_access",
+      "resource_id": "s3-customer-exports",
+      "resource_type": "s3_bucket",
+      "summary": "Resource is publicly accessible (sensitive data classification).",
+      "recommended_remediation": "Remove public access grants and front the resource with an authenticated, least-privilege access path.",
+      "evidence": [
+        {
+          "ref": "s3-customer-exports",
+          "citation": "cspm:acct=1111-2222-3333;bucket=s3-customer-exports@2026-07-15"
+        },
+        {
+          "ref": "rule:data_exposure.public_access",
+          "citation": "config:cspm-policy-2026.07;rule=data_exposure.public_access"
+        }
+      ]
+    },
+    {
+      "finding_id": "F008",
+      "category": "encryption",
+      "severity": "critical",
+      "rule": "encryption.at_rest_disabled",
+      "resource_id": "rds-payments",
+      "resource_type": "rds_instance",
+      "summary": "Encryption at rest is disabled on a rds_instance holding sensitive data.",
+      "recommended_remediation": "Enable default encryption at rest with a managed key and re-encrypt existing data.",
+      "evidence": [
+        {
+          "ref": "rds-payments",
+          "citation": "cspm:acct=1111-2222-3333;rds=rds-payments@2026-07-15"
+        },
+        {
+          "ref": "rule:encryption.at_rest_disabled",
+          "citation": "config:cspm-policy-2026.07;rule=encryption.at_rest_disabled"
+        }
+      ]
+    },
+    {
+      "finding_id": "F009",
+      "category": "encryption",
+      "severity": "high",
+      "rule": "encryption.at_rest_disabled",
+      "resource_id": "vol-batch-logs",
+      "resource_type": "ebs_volume",
+      "summary": "Encryption at rest is disabled on a ebs_volume.",
+      "recommended_remediation": "Enable default encryption at rest with a managed key and re-encrypt existing data.",
+      "evidence": [
+        {
+          "ref": "vol-batch-logs",
+          "citation": "cspm:acct=1111-2222-3333;vol=vol-batch-logs@2026-07-15"
+        },
+        {
+          "ref": "rule:encryption.at_rest_disabled",
+          "citation": "config:cspm-policy-2026.07;rule=encryption.at_rest_disabled"
+        }
+      ]
+    },
+    {
+      "finding_id": "F010",
+      "category": "logging",
+      "severity": "high",
+      "rule": "logging.audit_log_disabled",
+      "resource_id": "trail-org",
+      "resource_type": "cloudtrail",
+      "summary": "Account/organization audit logging is disabled; administrative activity is not recorded.",
+      "recommended_remediation": "Enable a multi-region audit trail with log-file validation and central retention.",
+      "evidence": [
+        {
+          "ref": "trail-org",
+          "citation": "cspm:acct=1111-2222-3333;trail=trail-org@2026-07-15"
+        },
+        {
+          "ref": "rule:logging.audit_log_disabled",
+          "citation": "config:cspm-policy-2026.07;rule=logging.audit_log_disabled"
+        }
+      ]
+    },
+    {
+      "finding_id": "F011",
+      "category": "logging",
+      "severity": "medium",
+      "rule": "logging.flow_logs_disabled",
+      "resource_id": "vpc-prod",
+      "resource_type": "vpc",
+      "summary": "VPC flow logs are disabled; network telemetry for investigation is unavailable.",
+      "recommended_remediation": "Enable flow logs to a central logging destination.",
+      "evidence": [
+        {
+          "ref": "vpc-prod",
+          "citation": "cspm:acct=1111-2222-3333;vpc=vpc-prod@2026-07-15"
+        },
+        {
+          "ref": "rule:logging.flow_logs_disabled",
+          "citation": "config:cspm-policy-2026.07;rule=logging.flow_logs_disabled"
+        }
+      ]
+    },
+    {
+      "finding_id": "F012",
+      "category": "policy",
+      "severity": "medium",
+      "rule": "policy.disallowed_region",
+      "resource_id": "s3-app-config",
+      "resource_type": "s3_bucket",
+      "summary": "Resource is deployed in region 'ap-south-1', which is outside the approved region set.",
+      "recommended_remediation": "Confirm the deployment is authorized or migrate the resource to an approved region.",
+      "evidence": [
+        {
+          "ref": "s3-app-config",
+          "citation": "cspm:acct=1111-2222-3333;bucket=s3-app-config@2026-07-15"
+        },
+        {
+          "ref": "rule:policy.disallowed_region",
+          "citation": "config:cspm-policy-2026.07;rule=policy.disallowed_region"
+        }
+      ]
+    },
+    {
+      "finding_id": "F013",
+      "category": "policy",
+      "severity": "low",
+      "rule": "policy.missing_required_tag",
+      "resource_id": "s3-app-config",
+      "resource_type": "s3_bucket",
+      "summary": "Resource is missing required governance tag(s): data-owner.",
+      "recommended_remediation": "Apply the required governance tags so ownership and cost/data attribution are traceable.",
+      "evidence": [
+        {
+          "ref": "s3-app-config",
+          "citation": "cspm:acct=1111-2222-3333;bucket=s3-app-config@2026-07-15"
+        },
+        {
+          "ref": "rule:policy.missing_required_tag",
+          "citation": "config:cspm-policy-2026.07;rule=policy.missing_required_tag"
+        }
+      ]
+    }
+  ],
+  "findings_by_severity": {
+    "critical": 4,
+    "high": 5,
+    "medium": 3,
+    "low": 1
+  },
+  "fired_categories": [
+    "data_exposure",
+    "encryption",
+    "identity",
+    "logging",
+    "network",
+    "policy"
+  ],
+  "not_evaluable": [],
+  "posture_disposition": "remediate_now",
+  "reviewer_considerations": [
+    "Remediation deployment, risk acceptance, and exception/waiver approval are the cloud and control owner's decisions; findings only surface evidence.",
+    "A finding may be mitigated by a compensating control outside this export (WAF, SCP/guardrail, private network path); confirm before treating it as unmitigated.",
+    "Severity is driven by the resource criticality and data-classification labels in the export; verify those labels are accurate for the resource.",
+    "Framework mappings (PCI DSS, SOC 2, FFIEC, NIST) may change how a finding is weighted; this skill does not attest to any framework."
+  ],
+  "recommended_handoffs": [
+    "identity-access-reviewer (deep IAM entitlement, privileged-access, and certification review; stages revocations for human approval)",
+    "data-loss-prevention-incident-assistant (if a public exposure may already have led to data loss and needs incident investigation)",
+    "vulnerability-prioritization-assistant (if a finding intersects a known exploitable vulnerability on the same resource)"
+  ],
+  "disclaimer": "Posture findings and remediation evidence only; not a compliance attestation or risk-acceptance decision. No finding closure, suppression, waiver, or risk acceptance has been made, no exception has been granted, and no cloud configuration change or remediation has been applied.",
+  "narrative": "Posture review of AWS account scope 1111-2222-3333 (production) as of 2026-07-15 evaluated 12 resources against the documented policy checks and raised 13 findings with cited evidence: 4 critical, 5 high, 3 medium, and 1 low, spanning identity, network, encryption, data exposure, logging, and policy. The critical items are an active root access key, world-open SSH (port 22) ingress, a publicly accessible bucket holding sensitive data, and an unencrypted payments database. Deterministic posture disposition: remediate_now, driven by the critical findings. Each finding carries a recommended remediation for the cloud and control owners to adjudicate and act on; framework mappings and compensating controls should be weighed first. Posture findings and remediation evidence only; not a compliance attestation or risk-acceptance decision. No finding closure, suppression, waiver, or risk acceptance has been made, no exception has been granted, and no cloud configuration change or remediation has been applied."
+}

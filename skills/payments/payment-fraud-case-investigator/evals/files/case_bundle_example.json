@@ -1,0 +1,667 @@
+{
+  "config_version": "pfraud-2026.07",
+  "rules_version": "pfraud-signals@v2026.06",
+  "cases": [
+    {
+      "alert_id": "PF-3001",
+      "case_id": "PFC-PF-3001",
+      "risk_score": 12,
+      "risk_band": "High",
+      "disposition": "route-specialist",
+      "recommendation_rationale": "Sanctions/adverse-media proximity present; route to the sanctions specialist for match adjudication. This skill does not adjudicate sanctions matches.",
+      "evidence_bundle": {
+        "case_id": "PFC-PF-3001",
+        "customer_id_masked": "****8101",
+        "account_ref": "****3300",
+        "channel": "wire",
+        "amount": 82000,
+        "currency": "USD",
+        "chronology": [
+          {
+            "ts": "2026-07-16T08:55:00Z",
+            "type": "transaction",
+            "detail": "debit 82000 USD txn=T-90011 benef=****0201",
+            "citation": "txns:txnid=T-90011@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T09:12:00Z",
+            "type": "case_opened",
+            "detail": "Fraud alert opened on channel wire",
+            "citation": "casemgmt:alert=PF-3001@2026-07-16"
+          }
+        ],
+        "parties": [
+          {
+            "role": "customer",
+            "ref": "****8101",
+            "citation": "idv:cust=****8101@2026-07-16"
+          },
+          {
+            "role": "beneficiary",
+            "ref": "****0201",
+            "citation": "benef:acct=****0201@2026-07-16"
+          }
+        ],
+        "evidence_items": [
+          {
+            "category": "device",
+            "signal": "new_device",
+            "value": true,
+            "citation": "fraudplatform:device=DVC-8841@2026-07-16"
+          },
+          {
+            "category": "device",
+            "signal": "ip_geo_mismatch",
+            "value": true,
+            "citation": "fraudplatform:device=DVC-8841@2026-07-16"
+          },
+          {
+            "category": "behavior",
+            "signal": "velocity_spike",
+            "value": true,
+            "citation": "fraudplatform:behavior=BH-3001@2026-07-16"
+          },
+          {
+            "category": "transaction",
+            "signal": "cross_border",
+            "value": true,
+            "citation": "txns:txnid=T-90011@2026-07-16"
+          },
+          {
+            "category": "beneficiary",
+            "signal": "new_beneficiary",
+            "value": true,
+            "citation": "benef:acct=****0201@2026-07-16"
+          }
+        ],
+        "network_links": [],
+        "risk_score": 12,
+        "risk_band": "High",
+        "score_reasons": [
+          "device.new_device +2",
+          "device.ip_geo_mismatch +2",
+          "behavior.velocity_spike +2",
+          "transaction.cross_border +1",
+          "beneficiary.new_beneficiary +1",
+          "sanctions/adverse-media +4"
+        ],
+        "evidence_complete": true,
+        "missing_evidence": [],
+        "recommended_disposition": "route-specialist",
+        "recommendation_rationale": "Sanctions/adverse-media proximity present; route to the sanctions specialist for match adjudication. This skill does not adjudicate sanctions matches.",
+        "citations": [
+          "benef:acct=****0201@2026-07-16",
+          "casemgmt:alert=PF-3001@2026-07-16",
+          "fraudplatform:behavior=BH-3001@2026-07-16",
+          "fraudplatform:device=DVC-8841@2026-07-16",
+          "idv:cust=****8101@2026-07-16",
+          "txns:txnid=T-90011@2026-07-16"
+        ]
+      },
+      "needs": [],
+      "route_specialist": "sanctions-match-adjudicator"
+    },
+    {
+      "alert_id": "PF-3002",
+      "case_id": "PFC-PF-3002",
+      "risk_score": 16,
+      "risk_band": "High",
+      "disposition": "recommend-fraud",
+      "recommendation_rationale": "Evidence is consistent with a fraud pattern; recommend a fraud adjudicator review and action this case. No determination, block, or filing is made here.",
+      "evidence_bundle": {
+        "case_id": "PFC-PF-3002",
+        "customer_id_masked": "****8102",
+        "account_ref": "****3311",
+        "channel": "rtp",
+        "amount": 14500,
+        "currency": "USD",
+        "chronology": [
+          {
+            "ts": "2026-07-16T13:20:00Z",
+            "type": "credential_reset",
+            "detail": "Password and phone number reset from a new device",
+            "citation": "idv:event=RST-4471@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T13:40:00Z",
+            "type": "transaction",
+            "detail": "debit 9500 USD txn=T-90021 benef=****0233",
+            "citation": "txns:txnid=T-90021@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T13:52:00Z",
+            "type": "transaction",
+            "detail": "debit 5000 USD txn=T-90022 benef=****0233",
+            "citation": "txns:txnid=T-90022@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T14:02:00Z",
+            "type": "case_opened",
+            "detail": "Fraud alert opened on channel rtp",
+            "citation": "casemgmt:alert=PF-3002@2026-07-16"
+          }
+        ],
+        "parties": [
+          {
+            "role": "customer",
+            "ref": "****8102",
+            "citation": "idv:cust=****8102@2026-07-16"
+          },
+          {
+            "role": "beneficiary",
+            "ref": "****0233",
+            "citation": "benef:acct=****0233@2026-07-16"
+          }
+        ],
+        "evidence_items": [
+          {
+            "category": "device",
+            "signal": "new_device",
+            "value": true,
+            "citation": "fraudplatform:device=DVC-8842@2026-07-16"
+          },
+          {
+            "category": "device",
+            "signal": "ip_geo_mismatch",
+            "value": true,
+            "citation": "fraudplatform:device=DVC-8842@2026-07-16"
+          },
+          {
+            "category": "identity",
+            "signal": "credential_reset_recent",
+            "value": true,
+            "citation": "idv:cust=****8102@2026-07-16"
+          },
+          {
+            "category": "behavior",
+            "signal": "velocity_spike",
+            "value": true,
+            "citation": "fraudplatform:behavior=BH-3002@2026-07-16"
+          },
+          {
+            "category": "beneficiary",
+            "signal": "new_beneficiary",
+            "value": true,
+            "citation": "benef:acct=****0233@2026-07-16"
+          },
+          {
+            "category": "beneficiary",
+            "signal": "mule_watchlist_hit",
+            "value": true,
+            "citation": "benef:acct=****0233@2026-07-16"
+          },
+          {
+            "category": "beneficiary",
+            "signal": "beneficiary_new_30d",
+            "value": true,
+            "citation": "benef:acct=****0233@2026-07-16"
+          }
+        ],
+        "network_links": [],
+        "risk_score": 16,
+        "risk_band": "High",
+        "score_reasons": [
+          "device.new_device +2",
+          "device.ip_geo_mismatch +2",
+          "identity.credential_reset_recent +3",
+          "behavior.velocity_spike +2",
+          "beneficiary.new_beneficiary +1",
+          "beneficiary.mule_watchlist_hit +4",
+          "beneficiary.beneficiary_new_30d +2"
+        ],
+        "evidence_complete": true,
+        "missing_evidence": [],
+        "recommended_disposition": "recommend-fraud",
+        "recommendation_rationale": "Evidence is consistent with a fraud pattern; recommend a fraud adjudicator review and action this case. No determination, block, or filing is made here.",
+        "citations": [
+          "benef:acct=****0233@2026-07-16",
+          "casemgmt:alert=PF-3002@2026-07-16",
+          "fraudplatform:behavior=BH-3002@2026-07-16",
+          "fraudplatform:device=DVC-8842@2026-07-16",
+          "idv:cust=****8102@2026-07-16",
+          "idv:event=RST-4471@2026-07-16",
+          "txns:txnid=T-90021@2026-07-16",
+          "txns:txnid=T-90022@2026-07-16"
+        ]
+      },
+      "needs": []
+    },
+    {
+      "alert_id": "PF-3003",
+      "case_id": "PFC-PF-3003",
+      "risk_score": 6,
+      "risk_band": "Elevated",
+      "disposition": "route-specialist",
+      "recommendation_rationale": "Authorized-push-payment / business-email-compromise indicators present; route to the BEC specialist for social-engineering investigation.",
+      "evidence_bundle": {
+        "case_id": "PFC-PF-3003",
+        "customer_id_masked": "****8103",
+        "account_ref": "****3322",
+        "channel": "rtp",
+        "amount": 6200,
+        "currency": "USD",
+        "chronology": [
+          {
+            "ts": "2026-07-16T10:15:00Z",
+            "type": "transaction",
+            "detail": "debit 6200 USD txn=T-90031 benef=****0244",
+            "citation": "txns:txnid=T-90031@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T10:30:00Z",
+            "type": "case_opened",
+            "detail": "Fraud alert opened on channel rtp",
+            "citation": "casemgmt:alert=PF-3003@2026-07-16"
+          }
+        ],
+        "parties": [
+          {
+            "role": "customer",
+            "ref": "****8103",
+            "citation": "idv:cust=****8103@2026-07-16"
+          },
+          {
+            "role": "beneficiary",
+            "ref": "****0244",
+            "citation": "benef:acct=****0244@2026-07-16"
+          }
+        ],
+        "evidence_items": [
+          {
+            "category": "behavior",
+            "signal": "off_pattern_amount",
+            "value": true,
+            "citation": "fraudplatform:behavior=BH-3003@2026-07-16"
+          },
+          {
+            "category": "transaction",
+            "signal": "cross_border",
+            "value": true,
+            "citation": "txns:txnid=T-90031@2026-07-16"
+          },
+          {
+            "category": "beneficiary",
+            "signal": "new_beneficiary",
+            "value": true,
+            "citation": "benef:acct=****0244@2026-07-16"
+          },
+          {
+            "category": "beneficiary",
+            "signal": "beneficiary_new_30d",
+            "value": true,
+            "citation": "benef:acct=****0244@2026-07-16"
+          }
+        ],
+        "network_links": [],
+        "risk_score": 6,
+        "risk_band": "Elevated",
+        "score_reasons": [
+          "behavior.off_pattern_amount +2",
+          "transaction.cross_border +1",
+          "beneficiary.new_beneficiary +1",
+          "beneficiary.beneficiary_new_30d +2"
+        ],
+        "evidence_complete": true,
+        "missing_evidence": [],
+        "recommended_disposition": "route-specialist",
+        "recommendation_rationale": "Authorized-push-payment / business-email-compromise indicators present; route to the BEC specialist for social-engineering investigation.",
+        "citations": [
+          "benef:acct=****0244@2026-07-16",
+          "casemgmt:alert=PF-3003@2026-07-16",
+          "fraudplatform:behavior=BH-3003@2026-07-16",
+          "idv:cust=****8103@2026-07-16",
+          "txns:txnid=T-90031@2026-07-16"
+        ]
+      },
+      "needs": [],
+      "route_specialist": "phishing-and-bec-investigator"
+    },
+    {
+      "alert_id": "PF-3004",
+      "case_id": "PFC-PF-3004",
+      "risk_score": 1,
+      "risk_band": "Low",
+      "disposition": "recommend-legitimate",
+      "recommendation_rationale": "Evidence is complete and signals are low; recommend releasing the hold pending human review. This is a recommendation, not a clearance.",
+      "evidence_bundle": {
+        "case_id": "PFC-PF-3004",
+        "customer_id_masked": "****8104",
+        "account_ref": "****3333",
+        "channel": "card-cnp",
+        "amount": 240,
+        "currency": "USD",
+        "chronology": [
+          {
+            "ts": "2026-07-16T22:38:00Z",
+            "type": "transaction",
+            "detail": "debit 240 USD txn=T-90041 benef=****1002",
+            "citation": "txns:txnid=T-90041@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T22:41:00Z",
+            "type": "case_opened",
+            "detail": "Fraud alert opened on channel card-cnp",
+            "citation": "casemgmt:alert=PF-3004@2026-07-16"
+          }
+        ],
+        "parties": [
+          {
+            "role": "customer",
+            "ref": "****8104",
+            "citation": "idv:cust=****8104@2026-07-16"
+          },
+          {
+            "role": "beneficiary",
+            "ref": "****1002",
+            "citation": "benef:merch=MERCH-1002@2026-07-16"
+          }
+        ],
+        "evidence_items": [
+          {
+            "category": "behavior",
+            "signal": "unusual_hour",
+            "value": true,
+            "citation": "fraudplatform:behavior=BH-3004@2026-07-16"
+          }
+        ],
+        "network_links": [],
+        "risk_score": 1,
+        "risk_band": "Low",
+        "score_reasons": [
+          "behavior.unusual_hour +1"
+        ],
+        "evidence_complete": true,
+        "missing_evidence": [],
+        "recommended_disposition": "recommend-legitimate",
+        "recommendation_rationale": "Evidence is complete and signals are low; recommend releasing the hold pending human review. This is a recommendation, not a clearance.",
+        "citations": [
+          "benef:merch=MERCH-1002@2026-07-16",
+          "casemgmt:alert=PF-3004@2026-07-16",
+          "fraudplatform:behavior=BH-3004@2026-07-16",
+          "idv:cust=****8104@2026-07-16",
+          "txns:txnid=T-90041@2026-07-16"
+        ]
+      },
+      "needs": []
+    },
+    {
+      "alert_id": "PF-3005",
+      "case_id": "PFC-PF-3005",
+      "risk_score": 5,
+      "risk_band": "Elevated",
+      "disposition": "recommend-elevated-monitoring",
+      "recommendation_rationale": "Mixed signals below the fraud threshold; recommend elevated monitoring and human review rather than a fraud recommendation or release.",
+      "evidence_bundle": {
+        "case_id": "PFC-PF-3005",
+        "customer_id_masked": "****8105",
+        "account_ref": "****3344",
+        "channel": "ach",
+        "amount": 3100,
+        "currency": "USD",
+        "chronology": [
+          {
+            "ts": "2026-07-16T10:50:00Z",
+            "type": "transaction",
+            "detail": "debit 3100 USD txn=T-90051 benef=****0255",
+            "citation": "txns:txnid=T-90051@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T11:05:00Z",
+            "type": "case_opened",
+            "detail": "Fraud alert opened on channel ach",
+            "citation": "casemgmt:alert=PF-3005@2026-07-16"
+          }
+        ],
+        "parties": [
+          {
+            "role": "customer",
+            "ref": "****8105",
+            "citation": "idv:cust=****8105@2026-07-16"
+          },
+          {
+            "role": "beneficiary",
+            "ref": "****0255",
+            "citation": "benef:acct=****0255@2026-07-16"
+          }
+        ],
+        "evidence_items": [
+          {
+            "category": "behavior",
+            "signal": "velocity_spike",
+            "value": true,
+            "citation": "fraudplatform:behavior=BH-3005@2026-07-16"
+          },
+          {
+            "category": "transaction",
+            "signal": "high_risk_mcc",
+            "value": true,
+            "citation": "txns:txnid=T-90051@2026-07-16"
+          },
+          {
+            "category": "beneficiary",
+            "signal": "new_beneficiary",
+            "value": true,
+            "citation": "benef:acct=****0255@2026-07-16"
+          }
+        ],
+        "network_links": [],
+        "risk_score": 5,
+        "risk_band": "Elevated",
+        "score_reasons": [
+          "behavior.velocity_spike +2",
+          "transaction.high_risk_mcc +2",
+          "beneficiary.new_beneficiary +1"
+        ],
+        "evidence_complete": true,
+        "missing_evidence": [],
+        "recommended_disposition": "recommend-elevated-monitoring",
+        "recommendation_rationale": "Mixed signals below the fraud threshold; recommend elevated monitoring and human review rather than a fraud recommendation or release.",
+        "citations": [
+          "benef:acct=****0255@2026-07-16",
+          "casemgmt:alert=PF-3005@2026-07-16",
+          "fraudplatform:behavior=BH-3005@2026-07-16",
+          "idv:cust=****8105@2026-07-16",
+          "txns:txnid=T-90051@2026-07-16"
+        ]
+      },
+      "needs": []
+    },
+    {
+      "alert_id": "PF-3006",
+      "case_id": "PFC-PF-3006",
+      "risk_score": 4,
+      "risk_band": "Elevated",
+      "disposition": "needs-evidence",
+      "recommendation_rationale": "Required evidence is incomplete and signals are not decisive; gather the missing evidence before any recommendation. The case is not resolved by guessing.",
+      "evidence_bundle": {
+        "case_id": "PFC-PF-3006",
+        "customer_id_masked": "****8106",
+        "account_ref": "****3355",
+        "channel": "wire",
+        "amount": 27000,
+        "currency": "USD",
+        "chronology": [
+          {
+            "ts": "2026-07-16T15:05:00Z",
+            "type": "transaction",
+            "detail": "debit 27000 USD txn=T-90061 benef=****0266",
+            "citation": "txns:txnid=T-90061@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T15:20:00Z",
+            "type": "case_opened",
+            "detail": "Fraud alert opened on channel wire",
+            "citation": "casemgmt:alert=PF-3006@2026-07-16"
+          }
+        ],
+        "parties": [
+          {
+            "role": "customer",
+            "ref": "****8106",
+            "citation": "idv:cust=****8106@2026-07-16"
+          },
+          {
+            "role": "beneficiary",
+            "ref": "****0266",
+            "citation": "benef:acct=none@2026-07-16"
+          }
+        ],
+        "evidence_items": [
+          {
+            "category": "device",
+            "signal": "new_device",
+            "value": true,
+            "citation": "fraudplatform:device=DVC-8846@2026-07-16"
+          },
+          {
+            "category": "behavior",
+            "signal": "velocity_spike",
+            "value": true,
+            "citation": "fraudplatform:behavior=BH-3006@2026-07-16"
+          }
+        ],
+        "network_links": [],
+        "risk_score": 4,
+        "risk_band": "Elevated",
+        "score_reasons": [
+          "device.new_device +2",
+          "behavior.velocity_spike +2"
+        ],
+        "evidence_complete": false,
+        "missing_evidence": [
+          "beneficiary"
+        ],
+        "recommended_disposition": "needs-evidence",
+        "recommendation_rationale": "Required evidence is incomplete and signals are not decisive; gather the missing evidence before any recommendation. The case is not resolved by guessing.",
+        "citations": [
+          "benef:acct=none@2026-07-16",
+          "casemgmt:alert=PF-3006@2026-07-16",
+          "fraudplatform:behavior=BH-3006@2026-07-16",
+          "fraudplatform:device=DVC-8846@2026-07-16",
+          "idv:cust=****8106@2026-07-16",
+          "txns:txnid=T-90061@2026-07-16"
+        ]
+      },
+      "needs": [
+        "evidence category: beneficiary"
+      ]
+    },
+    {
+      "alert_id": "PF-3007",
+      "case_id": "PFC-PF-3007",
+      "risk_score": 15,
+      "risk_band": "High",
+      "disposition": "recommend-fraud",
+      "recommendation_rationale": "Evidence is consistent with a fraud pattern; recommend a fraud adjudicator review and action this case. No determination, block, or filing is made here.",
+      "evidence_bundle": {
+        "case_id": "PFC-PF-3007",
+        "customer_id_masked": "****8107",
+        "account_ref": "****3366",
+        "channel": "rtp",
+        "amount": 48000,
+        "currency": "USD",
+        "chronology": [
+          {
+            "ts": "2026-07-16T16:20:00Z",
+            "type": "transaction",
+            "detail": "debit 9600 USD txn=T-90071 benef=****0277",
+            "citation": "txns:txnid=T-90071@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T16:31:00Z",
+            "type": "transaction",
+            "detail": "debit 9600 USD txn=T-90072 benef=****0277",
+            "citation": "txns:txnid=T-90072@2026-07-16"
+          },
+          {
+            "ts": "2026-07-16T16:44:00Z",
+            "type": "case_opened",
+            "detail": "Fraud alert opened on channel rtp",
+            "citation": "casemgmt:alert=PF-3007@2026-07-16"
+          }
+        ],
+        "parties": [
+          {
+            "role": "customer",
+            "ref": "****8107",
+            "citation": "idv:cust=****8107@2026-07-16"
+          },
+          {
+            "role": "beneficiary",
+            "ref": "****0277",
+            "citation": "benef:acct=****0277@2026-07-16"
+          }
+        ],
+        "evidence_items": [
+          {
+            "category": "behavior",
+            "signal": "off_pattern_amount",
+            "value": true,
+            "citation": "fraudplatform:behavior=BH-3007@2026-07-16"
+          },
+          {
+            "category": "transaction",
+            "signal": "structuring_pattern",
+            "value": true,
+            "citation": "txns:txnid=T-90071@2026-07-16"
+          },
+          {
+            "category": "beneficiary",
+            "signal": "new_beneficiary",
+            "value": true,
+            "citation": "benef:acct=****0277@2026-07-16"
+          },
+          {
+            "category": "network",
+            "signal": "shared_device_ring",
+            "value": true,
+            "citation": "fraudplatform:ring=RNG-77@2026-07-16"
+          }
+        ],
+        "network_links": [
+          {
+            "linked_case_id": "PFC-PF-2900",
+            "citation": "fraudplatform:ring=RNG-77@2026-07-16"
+          },
+          {
+            "linked_case_id": "PFC-PF-2911",
+            "citation": "fraudplatform:ring=RNG-77@2026-07-16"
+          }
+        ],
+        "risk_score": 15,
+        "risk_band": "High",
+        "score_reasons": [
+          "behavior.off_pattern_amount +2",
+          "transaction.structuring_pattern +3",
+          "beneficiary.new_beneficiary +1",
+          "network.shared_device_ring +3",
+          "linked fraud cases (2) +4",
+          "prior fraud cases (2) +2"
+        ],
+        "evidence_complete": true,
+        "missing_evidence": [],
+        "recommended_disposition": "recommend-fraud",
+        "recommendation_rationale": "Evidence is consistent with a fraud pattern; recommend a fraud adjudicator review and action this case. No determination, block, or filing is made here.",
+        "citations": [
+          "benef:acct=****0277@2026-07-16",
+          "casemgmt:alert=PF-3007@2026-07-16",
+          "fraudplatform:behavior=BH-3007@2026-07-16",
+          "fraudplatform:ring=RNG-77@2026-07-16",
+          "idv:cust=****8107@2026-07-16",
+          "txns:txnid=T-90071@2026-07-16",
+          "txns:txnid=T-90072@2026-07-16"
+        ]
+      },
+      "needs": []
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "needs-evidence": 1,
+    "recommend-elevated-monitoring": 1,
+    "recommend-fraud": 2,
+    "recommend-legitimate": 1,
+    "route-specialist": 2
+  },
+  "standing_note": "Investigation evidence and a disposition recommendation only; no case has been closed, no fraud determination has been made, and no filing has been performed. Human adjudication is required before any block, closure, filing, or customer commitment."
+}

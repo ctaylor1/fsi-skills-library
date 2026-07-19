@@ -28,7 +28,7 @@ This file is the human narrative: conventions locked, what's done, and what's qu
 - Spec: [agentskills.io/specification](https://agentskills.io/specification);
   standards: [docs/BUILD-STANDARDS.md](docs/BUILD-STANDARDS.md).
 
-## Coverage snapshot (106/173 built, verified 0/0 + all self-tests green)
+## Coverage snapshot — ✅ COMPLETE: 173/173 built, verified 0/0 + all self-tests green
 
 | Delivery wave | Built | Total |
 | ------------- | ----- | ----- |
@@ -36,17 +36,42 @@ This file is the human narrative: conventions locked, what's done, and what's qu
 | Wave 1 — platform controls | **8** | 8 ✅ |
 | Wave 1 — low-risk productivity | **4** | 4 ✅ |
 | Wave 2 — analytical production | **61** | 61 ✅ |
-| Wave 3 — regulated casework | **12** | 71 (59 remaining) |
-| Wave 4 — gated orchestration | 1 | 9 (8 remaining) |
-| **Total** | **106** | **173** |
+| Wave 3 — regulated casework | **71** | 71 ✅ |
+| Wave 4 — gated orchestration | **9** | 9 ✅ |
+| **Total** | **173** | **173 ✅** |
 
-**Waves 1–2 complete; Wave 3 in progress (12/71).** All 106 built skills pass
-`validate_skills.py` (0/0), `check_handoffs.py` (0 dangling), and `run_selftests.py`
-(431/431). Wave-3 batch 1 was cut short by the usage limit; 4 half-written skills were
-removed (to rebuild) and 2 over-long descriptions trimmed — clean checkpoint. **67 remain**
-(Wave 3: 59, Wave 4: 8). Remainder work-lists prepped in scratchpad
-(`wave3_remaining_args.json`, `wave4_args.json`); generic build workflow at
-`workflows/scripts/build-fsi-wave-wf_f38affd7-d73.js`. Resume when the usage limit resets.
+**All 173 skills built and verified.** Final integrity check:
+- `validate_skills.py`: **173/173, 0 errors / 0 warnings**
+- `check_handoffs.py`: **0 dangling references**
+- `run_selftests.py`: **703/703 pass** (all validators green; every safety fixture fails closed)
+- 0 incomplete packages; 0 catalog↔metadata mismatches.
+- Risk tiers match plan exactly (R1=8, R2=77, R3=79, R4=9); 12 read-only scheduled monitors;
+  all 6 skill-types represented; 14 categories; all 9 R4 orchestrators carry a fail-closed
+  executed-without-approval safety check.
+
+### Pre-commit review & hardening (2026-07-19)
+Ran `ruff` (clean, with `ruff.toml`), compiled all 519 Python files, validated all 700 JSON
+files, and confirmed all 175 safety self-tests fail via the intended guardrail (0 pass-by-crash).
+A fan-out adversarial code review (14 category reviewers) found **41 real defects** (9 high,
+20 medium, 12 low); a targeted fix workflow resolved all of them, each proven by a new
+fail-closed fixture. Independent re-verification (constructing the bypass directly, not
+trusting the agents' fixtures) then caught **1 additional** R4 skill the review missed and it
+was fixed. Highlights:
+- **Systemic R4 approval-gating**: plan-hash tamper check failed *open* when the hash was
+  stripped, across all 9 orchestrators (root: the exemplar). Now every non-rejected plan must
+  carry a matching hash or fail closed; plus approver-role enforcement, `required_role` in the
+  hash, token↔hash binding, denylist→allowlist for permissible actions. **All 9 independently
+  re-verified fail-closed.**
+- **Material logic bug**: `financial-spreading-assistant` DSCR was ~2× overstated (interest
+  read from the wrong dict); corrected and regression-tested.
+- Paraphrase-bypassable narrative guardrails (fraud finding, denial-side decisions, executed
+  response actions, decided-status) hardened; ~10 config-divergence validators fixed.
+- Self-test count grew 703 → 751 (new fail-closed regression tests).
+
+### Remaining before production release (per-skill, not blocking authoring)
+Each skill's CHANGELOG lists its "Pending before release": domain-SME / control-owner blind
+review, jurisdiction/rule-set sign-off, and wiring the real MCP integrations at deployment
+(all bundled scripts are deterministic validators over schemas + fixtures, not live connectors).
 
 ## Done
 

@@ -1,0 +1,69 @@
+{
+  "run_id": "crm-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "concentration-cfg-2026.07",
+  "max_staleness_days": 2,
+  "open_alerts": [
+    {"fingerprint": "BOOK-WHOLESALE|SECTOR-30|Financials|current|BREACH"}
+  ],
+  "rules": [
+    {"rule_id": "SINGLE-NAME-25", "type": "concentration", "scope": "counterparty_group", "basis": "eligible_capital", "limit_pct": 25.0, "warn_buffer_pct": 2.0, "regulatory": true},
+    {"rule_id": "SECTOR-30", "type": "concentration", "scope": "sector", "basis": "total_exposure", "limit_pct": 30.0, "warn_buffer_pct": 3.0},
+    {"rule_id": "GEO-40", "type": "concentration", "scope": "geography", "basis": "total_exposure", "limit_pct": 40.0, "warn_buffer_pct": 5.0},
+    {"rule_id": "PRODUCT-35", "type": "concentration", "scope": "product", "basis": "total_exposure", "limit_pct": 35.0, "warn_buffer_pct": 3.0},
+    {"rule_id": "CLOUD-50", "type": "concentration", "scope": "cloud_provider", "basis": "total_exposure", "limit_pct": 50.0, "warn_buffer_pct": 5.0},
+    {"rule_id": "CLOUD-DIVERSITY", "type": "diversification", "scope": "cloud_provider", "min_count": 2},
+    {"rule_id": "COUNTERPARTY-CAP", "type": "absolute_cap", "scope": "counterparty_group", "limit_amount": 250000000, "warn_buffer_amount": 0}
+  ],
+  "books": [
+    {
+      "book_id": "BOOK-WHOLESALE",
+      "book_name": "Wholesale Credit",
+      "exposures_as_of": "2026-07-16",
+      "bases": {"total_exposure": 1560000000, "eligible_capital": 1000000000},
+      "proposed_exposures": [
+        {"exposure_id": "PROP-1", "counterparty_group": "NEWTECH-GRP", "counterparty": "NEWTECH", "sector": "Technology", "geography": "EU", "product": "Loans", "amount": 200000000}
+      ],
+      "exposures": [
+        {"exposure_id": "EXP-W1", "counterparty_group": "MEGABANK-GRP", "counterparty": "MEGABANK", "sector": "Financials", "geography": "US", "product": "Loans", "amount": 300000000},
+        {"exposure_id": "EXP-W2", "counterparty_group": "ACME-GRP", "counterparty": "ACME", "sector": "Financials", "geography": "US", "product": "Loans", "amount": 220000000},
+        {"exposure_id": "EXP-W3", "counterparty_group": "GLOBEX-GRP", "counterparty": "GLOBEX", "sector": "Technology", "geography": "EU", "product": "Derivatives", "amount": 220000000},
+        {"exposure_id": "EXP-W4", "counterparty_group": "INITECH-GRP", "counterparty": "INITECH", "sector": "Technology", "geography": "US", "product": "Derivatives", "amount": 220000000},
+        {"exposure_id": "EXP-W5", "counterparty_group": "UMBRELLA-GRP", "counterparty": "UMBRELLA", "sector": "Energy", "geography": "APAC", "product": "Loans", "amount": 200000000},
+        {"exposure_id": "EXP-W6", "counterparty_group": "WAYNE-GRP", "counterparty": "WAYNE", "sector": "Healthcare", "geography": "US", "product": "Securities", "amount": 200000000},
+        {"exposure_id": "EXP-W7", "counterparty_group": "STARK-GRP", "counterparty": "STARK", "sector": "Industrials", "geography": "EU", "product": "Securities", "amount": 200000000}
+      ]
+    },
+    {
+      "book_id": "BOOK-TECH",
+      "book_name": "Technology & Operational Resilience",
+      "exposures_as_of": "2026-07-16",
+      "bases": {"total_exposure": 1000000000},
+      "exposures": [
+        {"exposure_id": "EXP-T1", "cloud_provider": "CloudCo", "operational_dependency": "CoreHostingCloudCo", "amount": 800000000},
+        {"exposure_id": "EXP-T2", "cloud_provider": null, "operational_dependency": "OnPremDataCenter", "amount": 200000000}
+      ]
+    },
+    {
+      "book_id": "BOOK-STALE",
+      "book_name": "Trade Finance (delayed feed)",
+      "exposures_as_of": "2026-07-10",
+      "bases": {"total_exposure": 700000000},
+      "exposures": [
+        {"exposure_id": "EXP-S1", "counterparty_group": "STALECO-GRP", "counterparty": "STALECO", "sector": "Materials", "geography": "LATAM", "product": "TradeFinance", "amount": 217000000}
+      ]
+    },
+    {
+      "book_id": "BOOK-CLEAN",
+      "book_name": "Diversified Corporate",
+      "exposures_as_of": "2026-07-16",
+      "bases": {"total_exposure": 800000000},
+      "exposures": [
+        {"exposure_id": "EXP-C1", "counterparty_group": "ALPHA-GRP", "counterparty": "ALPHA", "sector": "Healthcare", "geography": "US", "product": "Securities", "amount": 200000000},
+        {"exposure_id": "EXP-C2", "counterparty_group": "BETA-GRP", "counterparty": "BETA", "sector": "Consumer", "geography": "EU", "product": "Loans", "amount": 200000000},
+        {"exposure_id": "EXP-C3", "counterparty_group": "GAMMA-GRP", "counterparty": "GAMMA", "sector": "Industrials", "geography": "APAC", "product": "Derivatives", "amount": 200000000},
+        {"exposure_id": "EXP-C4", "counterparty_group": "DELTA-GRP", "counterparty": "DELTA", "sector": "Utilities", "geography": "LATAM", "product": "Repo", "amount": 200000000}
+      ]
+    }
+  ]
+}

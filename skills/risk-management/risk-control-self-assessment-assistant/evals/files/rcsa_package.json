@@ -1,0 +1,276 @@
+{
+  "template_id": "RCSA-PKG-v1",
+  "config_version": "rcsa-2026.07",
+  "sections": {
+    "assessment_scope": {
+      "entity": "Retail Payments Operations",
+      "assessment_period": {
+        "from": "2026-01-01",
+        "to": "2026-06-30"
+      },
+      "as_of_date": "2026-07-15",
+      "risk_appetite": "Medium",
+      "scoring_config_version": "rcsa-2026.07"
+    },
+    "risk_and_control_assessment": [
+      {
+        "risk_id": "R-001",
+        "statement": "High-value outbound wires may be released without independent dual authorization, causing financial loss and settlement error.",
+        "category": "Operational - Process Execution",
+        "inherent_impact": 4,
+        "inherent_likelihood": 3,
+        "inherent_score": 12,
+        "inherent_level": 3,
+        "inherent_band": "High",
+        "controls": [
+          {
+            "control_id": "C-001",
+            "description": "Payment system enforces dual authorization on wires above USD 10,000; second approver cannot be the initiator.",
+            "control_type": "Preventive",
+            "design_rating": "Effective",
+            "operating_rating": "Effective",
+            "overall_effectiveness": "Effective",
+            "evidence": [
+              {
+                "type": "control-test",
+                "ref": "CT-2026-Q2-014",
+                "date": "2026-06-20",
+                "result": "40/40 sampled wires had a distinct second approver; 0 exceptions"
+              }
+            ]
+          }
+        ],
+        "overall_control_effectiveness": "Effective",
+        "control_effect_reduction": 2,
+        "residual_level": 1,
+        "residual_band": "Low",
+        "within_appetite": true,
+        "remediation_required": false,
+        "challenges": [],
+        "needs": []
+      },
+      {
+        "risk_id": "R-002",
+        "statement": "Sanctions screening of payment beneficiaries may fail to interdict a hit before release.",
+        "category": "Compliance - Sanctions",
+        "inherent_impact": 5,
+        "inherent_likelihood": 4,
+        "inherent_score": 20,
+        "inherent_level": 4,
+        "inherent_band": "Critical",
+        "controls": [
+          {
+            "control_id": "C-002",
+            "description": "Real-time sanctions screening on beneficiary and originator with mandatory analyst clearance of every alert before release.",
+            "control_type": "Detective",
+            "design_rating": "Effective",
+            "operating_rating": "Partially Effective",
+            "overall_effectiveness": "Partially Effective",
+            "evidence": [
+              {
+                "type": "control-test",
+                "ref": "CT-2026-Q2-021",
+                "date": "2026-06-25",
+                "result": "6/50 alerts cleared after SLA due to queue backlog; no missed true hit"
+              }
+            ]
+          }
+        ],
+        "overall_control_effectiveness": "Partially Effective",
+        "control_effect_reduction": 1,
+        "residual_level": 3,
+        "residual_band": "High",
+        "within_appetite": false,
+        "remediation_required": true,
+        "challenges": [
+          "R-002: loss event(s) recorded while a key control reads 'Partially Effective' -- corroborate effectiveness before sign-off"
+        ],
+        "needs": []
+      },
+      {
+        "risk_id": "R-003",
+        "statement": "Reconciliation of the nostro settlement account may miss a break, delaying detection of a misdirected payment.",
+        "category": "Operational - Reconciliation",
+        "inherent_impact": 3,
+        "inherent_likelihood": 3,
+        "inherent_score": 9,
+        "inherent_level": 2,
+        "inherent_band": "Medium",
+        "controls": [
+          {
+            "control_id": "C-003",
+            "description": "Daily automated nostro reconciliation with break investigation and sign-off.",
+            "control_type": "Detective",
+            "design_rating": "Effective",
+            "operating_rating": "Effective",
+            "overall_effectiveness": "Unsubstantiated",
+            "evidence": []
+          }
+        ],
+        "overall_control_effectiveness": "Unsubstantiated",
+        "control_effect_reduction": 0,
+        "residual_level": 2,
+        "residual_band": "Medium",
+        "within_appetite": true,
+        "remediation_required": false,
+        "challenges": [
+          "C-003: rated but unevidenced -> not credited (evidence gap); confirm with a control test or attestation"
+        ],
+        "needs": [
+          "evidence for C-003"
+        ]
+      },
+      {
+        "risk_id": "R-004",
+        "statement": "Manual fee overrides in the payment system may be applied without secondary review, causing revenue leakage.",
+        "category": "Operational - Process Execution",
+        "inherent_impact": 4,
+        "inherent_likelihood": 3,
+        "inherent_score": 12,
+        "inherent_level": 3,
+        "inherent_band": "High",
+        "controls": [],
+        "overall_control_effectiveness": "None",
+        "control_effect_reduction": 0,
+        "residual_level": 3,
+        "residual_band": "High",
+        "within_appetite": false,
+        "remediation_required": true,
+        "challenges": [
+          "R-004: no controls mapped to a High inherent risk"
+        ],
+        "needs": []
+      },
+      {
+        "risk_id": "R-005",
+        "statement": "Payment operations staff access may exceed least privilege following a role change.",
+        "category": "Operational - Access Management",
+        "inherent_impact": 2,
+        "inherent_likelihood": 2,
+        "inherent_score": 4,
+        "inherent_level": 1,
+        "inherent_band": "Low",
+        "controls": [
+          {
+            "control_id": "C-005",
+            "description": "Quarterly user-access recertification with line-manager approval and revocation on failure.",
+            "control_type": "Detective",
+            "design_rating": "Effective",
+            "operating_rating": "Effective",
+            "overall_effectiveness": "Effective",
+            "evidence": [
+              {
+                "type": "attestation",
+                "ref": "UAR-2026-Q2",
+                "date": "2026-07-05",
+                "result": "100% of 38 users recertified; 3 excess grants revoked"
+              }
+            ]
+          }
+        ],
+        "overall_control_effectiveness": "Effective",
+        "control_effect_reduction": 2,
+        "residual_level": 1,
+        "residual_band": "Low",
+        "within_appetite": true,
+        "remediation_required": false,
+        "challenges": [],
+        "needs": []
+      }
+    ],
+    "residual_risk_summary": {
+      "total_risks": 5,
+      "by_residual_band": {
+        "Low": 2,
+        "Medium": 1,
+        "High": 2,
+        "Critical": 0
+      },
+      "above_appetite": 2,
+      "remediation_items": 2,
+      "evidence_gaps": 1,
+      "risk_appetite": "Medium"
+    },
+    "evidence_map": [
+      {
+        "risk_id": "R-001",
+        "control_id": "C-001",
+        "type": "control-test",
+        "ref": "CT-2026-Q2-014",
+        "date": "2026-06-20",
+        "result": "40/40 sampled wires had a distinct second approver; 0 exceptions"
+      },
+      {
+        "risk_id": "R-002",
+        "control_id": "C-002",
+        "type": "control-test",
+        "ref": "CT-2026-Q2-021",
+        "date": "2026-06-25",
+        "result": "6/50 alerts cleared after SLA due to queue backlog; no missed true hit"
+      },
+      {
+        "risk_id": "R-005",
+        "control_id": "C-005",
+        "type": "attestation",
+        "ref": "UAR-2026-Q2",
+        "date": "2026-07-05",
+        "result": "100% of 38 users recertified; 3 excess grants revoked"
+      }
+    ],
+    "challenges_and_gaps": [
+      {
+        "risk_id": "R-002",
+        "challenge": "R-002: loss event(s) recorded while a key control reads 'Partially Effective' -- corroborate effectiveness before sign-off"
+      },
+      {
+        "risk_id": "R-003",
+        "challenge": "C-003: rated but unevidenced -> not credited (evidence gap); confirm with a control test or attestation"
+      },
+      {
+        "risk_id": "R-004",
+        "challenge": "R-004: no controls mapped to a High inherent risk"
+      }
+    ],
+    "remediation_plan": [
+      {
+        "risk_id": "R-002",
+        "residual_band": "High",
+        "reason": "residual above appetite",
+        "action": "Add screening-queue staffing during peak windows and an SLA-breach escalation trigger.",
+        "owner": "Head of Payments Screening",
+        "due_date": "2026-06-30",
+        "status": "overdue"
+      },
+      {
+        "risk_id": "R-004",
+        "residual_band": "High",
+        "reason": "residual above appetite",
+        "action": "TBD -- define remediation action (human)",
+        "owner": "TBD -- assign owner (human)",
+        "due_date": null,
+        "status": "unplanned"
+      }
+    ],
+    "approvals": [
+      {
+        "role": "Control / process owner (accuracy attestation)",
+        "status": "pending",
+        "approver": null,
+        "date": null
+      },
+      {
+        "role": "First-line business management (assessment sign-off)",
+        "status": "pending",
+        "approver": null,
+        "date": null
+      },
+      {
+        "role": "Second-line operational risk (independent challenge / validation)",
+        "status": "pending",
+        "approver": null,
+        "date": null
+      }
+    ]
+  },
+  "standing_note": "DRAFT RCSA prepared for first-line and independent human review only. No assessment sign-off, independent challenge, control attestation, or risk-acceptance decision has been completed by this assistant, and nothing has been written to the GRC system of record."
+}

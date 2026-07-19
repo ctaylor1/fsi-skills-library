@@ -1,0 +1,43 @@
+{
+  "case_id": "CASE-77310",
+  "customer_id": "****8842",
+  "channels": ["phone", "chat"],
+  "catalog_version": "cx-action-catalog-2026.05",
+  "unified_history": "Customer contacted by phone (2026-07-14) and web chat (2026-07-15) about a duplicate late fee after a billing-system retry. Identity verified on the phone call. Requested the fee removed, a goodwill gesture, and future notices by email only.",
+  "proposed_actions": [
+    {
+      "action_id": "A1",
+      "type": "fee_adjustment",
+      "action": "waive_fee",
+      "amount": 39.00,
+      "target": "late_fee",
+      "evidence": {
+        "fee_record": "fee=F-4471;amount=39.00;assessed=2026-07-10;reason=late_payment",
+        "eligibility": "product-terms=consumer-card-2026;first-courtesy-waiver=eligible;duplicate-assessment=confirmed"
+      }
+    },
+    {
+      "action_id": "A2",
+      "type": "goodwill_credit",
+      "action": "issue_goodwill_credit",
+      "amount": 25.00,
+      "target": "goodwill_credit",
+      "evidence": {
+        "goodwill_matrix_ref": "goodwill-matrix-2026.05;tier=service-disruption;max=50.00",
+        "reason_code": "billing_system_error"
+      }
+    },
+    {
+      "action_id": "A3",
+      "type": "account_change",
+      "action": "update_contact_preference",
+      "amount": 0,
+      "target": "contact_preference",
+      "new_value": "email",
+      "evidence": {
+        "verified_identity": "id-verified=phone;method=knowledge-based;time=2026-07-14T15:22Z",
+        "customer_request": "customer requested notices by email only"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Ruff configuration for the FSI Skills Library.
+#
+# Bundled skill scripts use a deliberately compact, self-contained style: single-line
+# stdlib imports and occasional semicolons in small CLI/glue code. We lint for real
+# defects (pyflakes `F`, syntax/runtime `E9`) and pycodestyle, but ignore the purely
+# stylistic rules adopted library-wide so `ruff check` stays signal, not noise.
+line-length = 120
+
+[lint]
+ignore = [
+  "E401",  # multiple imports on one line — intentional compact stdlib imports
+  "E702",  # multiple statements on one line (semicolon) — intentional in CLI glue
+  "E731",  # lambda assignment — intentional small helpers
+  "E741",  # ambiguous variable name (l/I/O) — accepted in local math/loops
+]

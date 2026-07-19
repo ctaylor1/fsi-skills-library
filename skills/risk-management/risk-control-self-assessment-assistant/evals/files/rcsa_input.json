@@ -1,0 +1,103 @@
+{
+  "config_version": "rcsa-2026.07",
+  "entity": "Retail Payments Operations",
+  "assessment_period": {"from": "2026-01-01", "to": "2026-06-30"},
+  "as_of_date": "2026-07-15",
+  "risk_appetite": "Medium",
+  "risks": [
+    {
+      "risk_id": "R-001",
+      "statement": "High-value outbound wires may be released without independent dual authorization, causing financial loss and settlement error.",
+      "category": "Operational - Process Execution",
+      "inherent_impact": 4,
+      "inherent_likelihood": 3,
+      "controls": [
+        {
+          "control_id": "C-001",
+          "description": "Payment system enforces dual authorization on wires above USD 10,000; second approver cannot be the initiator.",
+          "control_type": "Preventive",
+          "frequency": "Per transaction",
+          "design_rating": "Effective",
+          "operating_rating": "Effective",
+          "evidence": [
+            {"type": "control-test", "ref": "CT-2026-Q2-014", "date": "2026-06-20", "result": "40/40 sampled wires had a distinct second approver; 0 exceptions"}
+          ]
+        }
+      ]
+    },
+    {
+      "risk_id": "R-002",
+      "statement": "Sanctions screening of payment beneficiaries may fail to interdict a hit before release.",
+      "category": "Compliance - Sanctions",
+      "inherent_impact": 5,
+      "inherent_likelihood": 4,
+      "loss_events": [
+        {"ref": "LE-2026-031", "date": "2026-05-03", "description": "Screening queue backlog delayed one release review beyond SLA (no true hit)"}
+      ],
+      "controls": [
+        {
+          "control_id": "C-002",
+          "description": "Real-time sanctions screening on beneficiary and originator with mandatory analyst clearance of every alert before release.",
+          "control_type": "Detective",
+          "frequency": "Per transaction",
+          "design_rating": "Effective",
+          "operating_rating": "Partially Effective",
+          "evidence": [
+            {"type": "control-test", "ref": "CT-2026-Q2-021", "date": "2026-06-25", "result": "6/50 alerts cleared after SLA due to queue backlog; no missed true hit"}
+          ]
+        }
+      ],
+      "remediation": {
+        "action": "Add screening-queue staffing during peak windows and an SLA-breach escalation trigger.",
+        "owner": "Head of Payments Screening",
+        "due_date": "2026-06-30"
+      }
+    },
+    {
+      "risk_id": "R-003",
+      "statement": "Reconciliation of the nostro settlement account may miss a break, delaying detection of a misdirected payment.",
+      "category": "Operational - Reconciliation",
+      "inherent_impact": 3,
+      "inherent_likelihood": 3,
+      "controls": [
+        {
+          "control_id": "C-003",
+          "description": "Daily automated nostro reconciliation with break investigation and sign-off.",
+          "control_type": "Detective",
+          "frequency": "Daily",
+          "design_rating": "Effective",
+          "operating_rating": "Effective",
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "risk_id": "R-004",
+      "statement": "Manual fee overrides in the payment system may be applied without secondary review, causing revenue leakage.",
+      "category": "Operational - Process Execution",
+      "inherent_impact": 4,
+      "inherent_likelihood": 3,
+      "controls": []
+    },
+    {
+      "risk_id": "R-005",
+      "statement": "Payment operations staff access may exceed least privilege following a role change.",
+      "category": "Operational - Access Management",
+      "inherent_impact": 2,
+      "inherent_likelihood": 2,
+      "controls": [
+        {
+          "control_id": "C-005",
+          "description": "Quarterly user-access recertification with line-manager approval and revocation on failure.",
+          "control_type": "Detective",
+          "frequency": "Quarterly",
+          "design_rating": "Effective",
+          "operating_rating": "Effective",
+          "evidence": [
+            {"type": "attestation", "ref": "UAR-2026-Q2", "date": "2026-07-05", "result": "100% of 38 users recertified; 3 excess grants revoked"}
+          ]
+        }
+      ]
+    }
+  ]
+}

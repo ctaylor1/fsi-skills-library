@@ -1,0 +1,63 @@
+{
+  "plan_id": "PLAN-CASE-88002",
+  "status": "planned",
+  "case_id": "CASE-88002",
+  "customer_id": "****9002",
+  "channels": [
+    "phone"
+  ],
+  "catalog_version": "cx-action-catalog-2026.05",
+  "actions": [
+    {
+      "action_id": "A1",
+      "type": "fee_adjustment",
+      "action": "waive_fee",
+      "amount": 150.0,
+      "authority_limit": 250,
+      "monetary": true,
+      "reversible": true,
+      "target": "late_fee"
+    }
+  ],
+  "total_monetary_exposure": 150.0,
+  "plan_authority_cap": 1000,
+  "required_role": "case-supervisor",
+  "preconditions": [
+    "fee of 150.0 is currently assessed on late_fee"
+  ],
+  "steps": [
+    {
+      "step_id": "A1",
+      "action_type": "fee_adjustment",
+      "action": "waive_fee",
+      "idempotency_key": "63e0a8664a338f74",
+      "precondition": "fee of 150.0 is currently assessed on late_fee",
+      "expected_effect": "waive 150.0 fee on late_fee",
+      "effect_amount": 150.0,
+      "verification": "late_fee balance reduced by 150.0",
+      "rollback": "re-assess the 150.0 fee on late_fee",
+      "post_delta": {
+        "late_fee": -150.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "late_fee": -150.0
+  },
+  "plan_hash": "a1bc7be8185195ee82d02f557379350fe62d2b71d894310d3462679b12377853",
+  "approval": {
+    "required_role": "case-supervisor",
+    "status": "approved",
+    "approver": "s.rivera",
+    "approver_role": "case-supervisor",
+    "token": "APPRV-TOKEN-REPLAYED",
+    "plan_hash": "3d2d8dc1df82738f56df255a53080dd17d67a0a1d985bc3554911fd6a30348a3"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": [
+      "A1"
+    ]
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

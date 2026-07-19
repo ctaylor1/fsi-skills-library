@@ -1,0 +1,94 @@
+{
+  "change_id": "RC-2026-0142",
+  "as_of": "2026-07-18",
+  "config_version": "rcia-cfg-2026.07",
+  "instrument": {
+    "authority": "CFPB",
+    "citation": "12 CFR Part 1033",
+    "authority_level": "regulation",
+    "jurisdiction": "US",
+    "title": "Personal Financial Data Rights — consumer data access and third-party sharing",
+    "publication_date": "2026-06-15",
+    "effective_date": "2026-08-10",
+    "comment_close_date": "2026-05-01",
+    "source_ref": "reg-corpus:cfpb;doc=1033-amend-2026;sec=all"
+  },
+  "obligations": [
+    {
+      "obligation_id": "OB-1",
+      "text": "Provide consumers a machine-readable interface to access covered account data on request.",
+      "obligation_type": "process_control",
+      "applies_to_lines": ["retail-deposits", "cards"],
+      "conflicts_with": [],
+      "source_ref": "reg-corpus:cfpb;doc=1033-amend-2026;sec=1033.201"
+    },
+    {
+      "obligation_id": "OB-2",
+      "text": "Retain records of authorized third-party data access for the prescribed retention period.",
+      "obligation_type": "recordkeeping",
+      "applies_to_lines": ["retail-deposits", "cards"],
+      "conflicts_with": [
+        {"instrument": "State privacy statute (deletion right)", "jurisdiction": "US-CA",
+         "note": "State deletion right may require earlier purge than the federal retention floor; obtain a legal reading."}
+      ],
+      "source_ref": "reg-corpus:cfpb;doc=1033-amend-2026;sec=1033.351"
+    },
+    {
+      "obligation_id": "OB-3",
+      "text": "Disclose to consumers the categories of data shared and the identity of authorized recipients.",
+      "obligation_type": "disclosure",
+      "applies_to_lines": ["all"],
+      "conflicts_with": [],
+      "source_ref": "reg-corpus:cfpb;doc=1033-amend-2026;sec=1033.421"
+    },
+    {
+      "obligation_id": "OB-4",
+      "text": "Broker-dealer suitability supervision procedures for discretionary accounts.",
+      "obligation_type": "process_control",
+      "applies_to_lines": ["broker-dealer"],
+      "conflicts_with": [],
+      "source_ref": "reg-corpus:cfpb;doc=1033-amend-2026;sec=note-out-of-scope"
+    }
+  ],
+  "firm_profile": {
+    "business_lines": ["retail-deposits", "cards", "mortgage"],
+    "jurisdictions": ["US"]
+  },
+  "inventory": {
+    "mappings": [
+      {
+        "obligation_id": "OB-1",
+        "policies": ["POL-Data-Access-014"],
+        "controls": ["CTL-API-Access-221"],
+        "systems": ["open-banking-gateway"],
+        "data_elements": ["account_balance", "transaction_history"],
+        "training": ["TRN-Data-Rights-2026"],
+        "owner": {"role": "Open Banking Product Owner", "team": "Digital Channels"}
+      },
+      {
+        "obligation_id": "OB-2",
+        "policies": ["POL-Records-Retention-003"],
+        "controls": [],
+        "systems": ["records-archive"],
+        "data_elements": ["access_grant_log"],
+        "training": [],
+        "owner": {"role": "Records Management Lead", "team": "Compliance Ops"}
+      },
+      {
+        "obligation_id": "OB-3",
+        "policies": [],
+        "controls": [],
+        "systems": [],
+        "data_elements": [],
+        "training": [],
+        "owner": {}
+      }
+    ]
+  },
+  "config": {
+    "near_term_days": 30,
+    "require_policy": true,
+    "require_control": true,
+    "require_owner": true
+  }
+}

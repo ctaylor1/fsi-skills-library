@@ -1,0 +1,98 @@
+{
+  "plan_id": "PLAN-****C003",
+  "status": "planned",
+  "account_id": "****C003",
+  "account_type": "non_discretionary",
+  "model_id": "balanced-60-40",
+  "policy_version": "ips-model-2026.Q2",
+  "tax_assumptions_version": "tax-assumptions-2026.US",
+  "limits": {
+    "max_order_notional": 250000,
+    "max_plan_turnover_pct": 40,
+    "st_gain_budget": 10000,
+    "max_position_weight_bps": 4500,
+    "drift_tolerance_bps": 500
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "sell",
+      "symbol": "VTI",
+      "idempotency_key": "32b009e09eda95f8",
+      "precondition": "position VTI holds at least 140000.0 of market value at execute time",
+      "expected_effect": "reduce VTI by 140000.0 (sell to reach target weight)",
+      "effect_amount": 140000.0,
+      "verification": "OMS fill confirms sell of 140000.0 VTI; post-trade VTI weight is within 500bps of target",
+      "rollback": "buy 140000.0 of VTI to reverse (or cancel the unfilled order)"
+    },
+    {
+      "step_id": "S2",
+      "action": "buy",
+      "symbol": "BND",
+      "idempotency_key": "9dcb5effe82f0d7f",
+      "precondition": "settled cash covers 140000.0 after prior sells settle; BND is not restricted at execute time",
+      "expected_effect": "increase BND by 140000.0 (buy to reach target weight)",
+      "effect_amount": 140000.0,
+      "verification": "OMS fill confirms buy of 140000.0 BND; post-trade BND weight is within 500bps of target",
+      "rollback": "sell 140000.0 of BND to reverse (or cancel the unfilled order)"
+    }
+  ],
+  "expected_post_state": {
+    "positions": {
+      "VTI": {
+        "market_value": 360000.0,
+        "weight_bps": 3600,
+        "target_weight_bps": 3600,
+        "drift_bps": 0
+      },
+      "VXUS": {
+        "market_value": 240000.0,
+        "weight_bps": 2400,
+        "target_weight_bps": 2400,
+        "drift_bps": 0
+      },
+      "BND": {
+        "market_value": 400000.0,
+        "weight_bps": 4000,
+        "target_weight_bps": 4000,
+        "drift_bps": 0
+      }
+    },
+    "cash": 0.0,
+    "max_abs_drift_bps": 0
+  },
+  "compliance": {
+    "restricted_symbol_buys": [],
+    "wash_sale_violations": [],
+    "over_limit_orders": [],
+    "st_gain_estimate": 0.0,
+    "lt_gain_estimate": 33600.0,
+    "st_gain_budget": 10000,
+    "st_gain_within_budget": true,
+    "turnover_pct": 35.0,
+    "turnover_ceiling_pct": 40,
+    "estimated_cost": 140.0,
+    "net_cash_after": 0.0,
+    "post_drift_within_tolerance": true
+  },
+  "approval": {
+    "required_advisor_role": "licensed-advisor",
+    "advisor": {
+      "status": "pending",
+      "approver": null,
+      "token": null
+    },
+    "client": {
+      "status": "pending",
+      "approver": null,
+      "token": null
+    },
+    "status": "pending"
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Proposed trades only; no order has been routed or submitted to any OMS/EMS and no position has changed. Execution requires advisor AND client authorization.",
+  "plan_hash": "25d9b5ffec23fd54acb25610ce518102a305417ade175ede80a887492f7964be"
+}

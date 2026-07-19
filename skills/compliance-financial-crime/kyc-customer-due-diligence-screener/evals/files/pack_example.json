@@ -1,0 +1,45 @@
+{
+  "screening_id": "cdd-KYC-2026-0042-2026-07-15-0001",
+  "case_id": "KYC-2026-0042",
+  "as_of": "2026-07-15",
+  "config_version": "cdd-cfg-2026.07",
+  "customer": {"customer_id": "CUST-88231", "customer_type": "entity", "legal_name": "Meridian Digital Trading Ltd", "country": "GB"},
+  "signals": [
+    {"signal": "high_risk_industry", "fired": true,
+     "reason": "entity industry 'crypto' is on the configured higher-risk list",
+     "evidence": [{"industry": "crypto", "citation": "kyc:case=KYC-2026-0042;industry=crypto@2026-07-15"}],
+     "basis": {"high_risk_industries": ["arms", "crypto", "gambling", "msb", "precious_metals", "shell_company"]}, "contribution": 1},
+    {"signal": "pep_flag", "fired": true,
+     "reason": "PEP indicator(s) present as a potential match - not adjudicated here",
+     "evidence": [{"party": "Alex Petrov", "role": "close associate of a foreign government official (potential)", "citation": "pep:case=KYC-2026-0042;party=Alex Petrov@2026-07-15"}],
+     "basis": {"note": "potential match; adjudicate via specialist + human"}, "contribution": 1},
+    {"signal": "adverse_media_flag", "fired": true,
+     "reason": "adverse-media indicator(s) present - allegation, not a finding",
+     "evidence": [{"party": "Alex Petrov", "summary": "regional news article alleging an unresolved dispute (allegation, not adjudicated)", "citation": "media:case=KYC-2026-0042;party=Alex Petrov@2026-07-15"}],
+     "basis": {"note": "distinguish allegation from finding; assess relevance/source quality"}, "contribution": 1},
+    {"signal": "sanctions_potential_match", "fired": false, "reason": "no potential sanctions/watchlist match",
+     "evidence": [], "basis": {}, "contribution": 0},
+    {"signal": "ubo_below_coverage", "fired": true,
+     "reason": "identified ownership 60.0% below coverage target 75.0%",
+     "evidence": [
+       {"name": "Alex Petrov", "ownership_pct": 40.0, "citation": "kyc:case=KYC-2026-0042;owner=Alex Petrov@2026-07-15"},
+       {"name": "Dana Osei", "ownership_pct": 20.0, "citation": "kyc:case=KYC-2026-0042;owner=Dana Osei@2026-07-15"}],
+     "basis": {"identified_pct": 60.0, "coverage_target_pct": 75.0}, "contribution": 1},
+    {"signal": "ubo_unverified", "fired": true,
+     "reason": "1 beneficial owner(s) at/above 25% not verified",
+     "evidence": [{"name": "Alex Petrov", "ownership_pct": 40.0, "citation": "kyc:case=KYC-2026-0042;owner=Alex Petrov@2026-07-15"}],
+     "basis": {"ubo_threshold_pct": 25.0}, "contribution": 1}
+  ],
+  "fired_signals": ["high_risk_industry", "pep_flag", "adverse_media_flag", "ubo_below_coverage", "ubo_unverified"],
+  "not_evaluable": [],
+  "recommended_track": "EDD-Recommended",
+  "adjudication_required": true,
+  "recommended_next_steps": [
+    "Have an analyst adjudicate the PEP potential match and source of wealth.",
+    "Assess adverse-media relevance and source quality before any conclusion.",
+    "If the analyst confirms EDD, assemble an enhanced-due-diligence package."
+  ],
+  "benign_prompts": ["a legitimate digital-asset business model", "a PEP relationship with fully documented source of wealth", "adverse media referring to a different person of the same name"],
+  "narrative": "CDD screening of case KYC-2026-0042 (Meridian Digital Trading Ltd, an entity) for as-of 2026-07-15 fired 5 evaluable findings: a higher-risk industry (crypto), a potential PEP indicator tied to a 40% beneficial owner, an adverse-media allegation on the same owner, identified ownership of only 60% (below the 75% coverage target), and one 40% owner not yet verified. No potential sanctions/watchlist match was present. On the deterministic mapping these findings point to a recommended review track of EDD-Recommended. These are potential matches and allegations, not findings; each must be weighed against benign explanations and adjudicated by a qualified analyst before any conclusion.",
+  "disclaimer": "CDD screening evidence and a recommended review track only; not a KYC/AML decision. No customer has been onboarded, exited, or risk-rated, no case disposition or closure has been recorded, and no regulatory filing has been made. A qualified analyst must adjudicate every finding."
+}

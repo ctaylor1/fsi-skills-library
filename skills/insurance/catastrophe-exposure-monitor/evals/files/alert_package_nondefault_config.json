@@ -1,0 +1,66 @@
+{
+  "run_id": "cem-2026-07-18-0007",
+  "as_of": "2026-07-18T06:00:00",
+  "config_version": "cat-cfg-2026.07-earlywarn",
+  "queue": "catastrophe-risk-review",
+  "approaching_ratio": 0.8,
+  "confidence": "normal",
+  "sources": [
+    {
+      "source": "policy_admin",
+      "as_of": "2026-07-18T02:00:00",
+      "age_hours": 4.0,
+      "max_staleness_hours": 24.0,
+      "freshness": "fresh"
+    },
+    {
+      "source": "event_feed",
+      "as_of": "2026-07-18T01:00:00",
+      "age_hours": 5.0,
+      "max_staleness_hours": 6.0,
+      "freshness": "fresh"
+    },
+    {
+      "source": "cat_model",
+      "as_of": "2026-07-18T00:00:00",
+      "age_hours": 6.0,
+      "max_staleness_hours": 48.0,
+      "freshness": "fresh"
+    }
+  ],
+  "alerts": [
+    {
+      "alert_key": "AL092026:TX-HOU:hurricane:single_location:L-10",
+      "event_id": "AL092026",
+      "event_name": "Tropical Storm Echo",
+      "zone": "TX-HOU",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": 8500000.0,
+      "threshold": 10000000.0,
+      "exceedance_ratio": 0.85,
+      "severity": "Informational",
+      "suggested_response_priority": "P4",
+      "queue": "catastrophe-risk-review",
+      "reason": "location L-10 limit 8,500,000 vs single-location max 10,000,000",
+      "evidence": [
+        {
+          "location_id": "L-10",
+          "limit": 8500000,
+          "citation": "pas:pas;loc=L-10@2026-07-18T06:00:00"
+        }
+      ],
+      "status": "new"
+    }
+  ],
+  "dedup": {
+    "new": 1,
+    "ongoing": 0,
+    "cleared": 0
+  },
+  "data_gaps": [],
+  "overall_severity": "Informational",
+  "disclaimer": "Monitoring alert only; exposure and modeled-loss figures are estimates for human review. No underwriting, reinsurance, capacity, reserving, or system-of-record action has been taken.",
+  "narrative": "Scheduled catastrophe-exposure run cem-2026-07-18-0007 over Tropical Storm Echo (AL092026, cat 1) fired 1 early-warning alert in the Houston footprint under the deployment's non-default approaching_ratio of 0.8. Location L-10 single-location limit (8,500,000) is Informational at exceedance ratio 0.85 against the 10,000,000 single-location max; because approaching_ratio is 0.8 for this pack, an 0.85 ratio bands as Informational (early warning), not below-threshold. All sources are fresh so confidence is normal and no data gaps were found. This is an estimate queued to catastrophe-risk-review for a human; the catastrophe-risk / portfolio manager decides any response. Monitoring alert only; exposure and modeled-loss figures are estimates for human review. No underwriting, reinsurance, capacity, reserving, or system-of-record action has been taken.",
+  "notes": "Early-warning-only run: the sole breach is an approaching-band single-location alert surfaced because this deployment lowers approaching_ratio to 0.8; nothing is at or over a hard threshold."
+}

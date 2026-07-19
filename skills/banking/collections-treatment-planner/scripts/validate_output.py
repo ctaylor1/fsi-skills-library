@@ -11,7 +11,9 @@ Checks:
   2. Every treatment marked eligible carries >= 1 cited evidence row.
   3. recommended_treatments equals exactly the set of eligible treatments (deterministic
      tie-out to the engine — no injected/ineligible option).
-  4. No regulated-decision / closure / filing / bureau-reporting / commitment language.
+  4. No regulated-decision language — neither approval-side (approve/grant/settle/close/file/
+     report) NOR denial-side (deny/decline/reject a forbearance/modification/hardship/
+     arrangement/request). The skill recommends; a human adjudicates and acts either way.
   5. No FDCPA/UDAAP-prohibited threat language.
   6. Suppression honored: if outreach is suppressed, no outreach channel may be eligible.
   7. Call cap honored: 'phone' may be an eligible channel only if phone_outreach_eligible.
@@ -40,6 +42,22 @@ DECISION_PATTERNS = [
     r"\breferred (the account )?to legal for filing\b",
     r"\bwe (have )?reported (this )?(to|the) (the )?(credit )?bureau", r"\breported to the bureau",
     r"\bwe (have )?settled\b", r"\bsettlement (is )?agreed\b",
+]
+
+# Denial-side adverse decisions are equally prohibited: an R3 decision-support skill never
+# denies/declines/rejects a treatment, hardship accommodation, or consumer request — that
+# adverse decision belongs to the human adjudicator. Matched in BOTH word orders (verb->subject
+# "we have denied the forbearance" and subject->verb "the modification request is rejected") so
+# the screen can't be side-stepped by rephrasing.
+_DENY_VERB = r"(den(?:y|ies|ied|ying)|declin(?:e|es|ed|ing)|reject(?:s|ed|ing)?)"
+_DECISION_SUBJECT = (
+    r"(forbearance|modification|hardship|arrangement|repayment plan|payment plan|"
+    r"promise[ -]?to[ -]?pay|settlement|re-?age|due[ -]?date change|counseling referral|"
+    r"application|request|accommodation|treatment|option)"
+)
+DENIAL_PATTERNS = [
+    rf"\b{_DENY_VERB}\b[^.]{{0,40}}\b{_DECISION_SUBJECT}\b",  # verb then subject
+    rf"\b{_DECISION_SUBJECT}\b[^.]{{0,40}}\b{_DENY_VERB}\b",  # subject then verb
 ]
 
 # FDCPA/UDAAP-prohibited conduct / threats (never in a recommendation pack).
@@ -90,6 +108,10 @@ def validate(pack: dict) -> list[str]:
         m = re.search(pat, text, re.I)
         if m:
             errors.append(f"regulated-decision/closure/filing language detected: {m.group(0)!r} (R3 recommends; it does not decide or act)")
+    for pat in DENIAL_PATTERNS:
+        m = re.search(pat, text, re.I)
+        if m:
+            errors.append(f"regulated adverse-decision (deny/decline/reject) language detected: {m.group(0)!r} (R3 recommends; a human adjudicates and issues any denial)")
     for pat in THREAT_PATTERNS:
         m = re.search(pat, text, re.I)
         if m:

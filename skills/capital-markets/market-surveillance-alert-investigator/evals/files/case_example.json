@@ -1,0 +1,119 @@
+{
+  "config_version": "mktsurv-2026.07",
+  "cases": [
+    {
+      "alert_id": "AL-1001",
+      "alert_type": "spoofing_layering",
+      "surveillance_rule_id": "SURV-SPOOF-02",
+      "source_ref": "surv-case=AL-1001",
+      "escalation": {"from_skill": "surveillance-alert-triager", "triage_case_id": "SURV-TRI-AL-1001",
+                     "escalated_by": "analyst-07", "reason": "Excessive cancellations around fills; triage could not clear."},
+      "instrument": {"symbol": "ABCD", "asset_class": "equity", "venue": "XNAS", "currency": "USD"},
+      "period": {"from": "2026-07-15", "to": "2026-07-15"},
+      "subject_party_id": "TRD-100",
+      "parties": [{"party_id": "TRD-100", "role": "trader", "desk": "cash-equities", "account_ref": "****3300"}],
+      "orders": [
+        {"order_id": "O-100-1", "party_id": "TRD-100", "side": "sell", "qty": 12000, "price": 100.12, "ts": "2026-07-15T09:30:00", "state": "cancelled"},
+        {"order_id": "O-100-2", "party_id": "TRD-100", "side": "sell", "qty": 12000, "price": 100.13, "ts": "2026-07-15T09:30:01", "state": "cancelled"},
+        {"order_id": "O-100-3", "party_id": "TRD-100", "side": "sell", "qty": 12000, "price": 100.14, "ts": "2026-07-15T09:30:02", "state": "cancelled"},
+        {"order_id": "O-100-4", "party_id": "TRD-100", "side": "sell", "qty": 12000, "price": 100.15, "ts": "2026-07-15T09:30:03", "state": "cancelled"},
+        {"order_id": "O-100-5", "party_id": "TRD-100", "side": "buy", "qty": 2000, "price": 100.05, "ts": "2026-07-15T09:30:05", "state": "filled"}
+      ],
+      "trades": [
+        {"trade_id": "T-100-1", "party_id": "TRD-100", "side": "buy", "qty": 2000, "price": 100.05, "ts": "2026-07-15T09:30:05"}
+      ],
+      "prior_cases": []
+    },
+
+    {
+      "alert_id": "AL-1002",
+      "alert_type": "insider_dealing",
+      "surveillance_rule_id": "SURV-INS-01",
+      "source_ref": "surv-case=AL-1002",
+      "escalation": {"from_skill": "surveillance-alert-triager", "triage_case_id": "SURV-TRI-AL-1002",
+                     "escalated_by": "analyst-07", "reason": "Flagged chat preceding a directional trade near a corporate event."},
+      "instrument": {"symbol": "WXYZ", "asset_class": "equity", "venue": "XNYS", "currency": "USD"},
+      "period": {"from": "2026-07-15", "to": "2026-07-15"},
+      "subject_party_id": "TRD-200",
+      "parties": [{"party_id": "TRD-200", "role": "trader", "desk": "cash-equities", "account_ref": "****4200"}],
+      "orders": [
+        {"order_id": "O-200-1", "party_id": "TRD-200", "side": "buy", "qty": 5000, "price": 50.00, "ts": "2026-07-15T10:05:00", "state": "filled"}
+      ],
+      "trades": [
+        {"trade_id": "T-200-1", "party_id": "TRD-200", "side": "buy", "qty": 5000, "price": 50.00, "ts": "2026-07-15T10:05:00"}
+      ],
+      "messages": [
+        {"msg_id": "M-200-1", "party_id": "TRD-200", "channel": "chat", "ts": "2026-07-15T10:00:00",
+         "excerpt": "heard the merger is signing tonight, load up before it prints", "flagged_terms": ["merger", "load up"]}
+      ],
+      "prior_cases": []
+    },
+
+    {
+      "alert_id": "AL-1003",
+      "alert_type": "wash_trade",
+      "surveillance_rule_id": "SURV-WASH-03",
+      "source_ref": "surv-case=AL-1003",
+      "escalation": {"from_skill": "surveillance-alert-triager", "triage_case_id": "SURV-TRI-AL-1003",
+                     "escalated_by": "analyst-12", "reason": "Opposing trades flagged; triage requested review."},
+      "instrument": {"symbol": "LMNO", "asset_class": "equity", "venue": "XNAS", "currency": "USD"},
+      "period": {"from": "2026-07-15", "to": "2026-07-15"},
+      "subject_party_id": "TRD-300",
+      "parties": [{"party_id": "TRD-300", "role": "trader", "desk": "cash-equities", "account_ref": "****4300"}],
+      "orders": [
+        {"order_id": "O-300-1", "party_id": "TRD-300", "side": "buy", "qty": 1000, "price": 20.00, "ts": "2026-07-15T11:00:00", "state": "filled"},
+        {"order_id": "O-300-2", "party_id": "TRD-300", "side": "sell", "qty": 1000, "price": 20.05, "ts": "2026-07-15T11:30:00", "state": "filled"}
+      ],
+      "trades": [
+        {"trade_id": "T-300-1", "party_id": "TRD-300", "side": "buy", "qty": 1000, "price": 20.00, "ts": "2026-07-15T11:00:00"},
+        {"trade_id": "T-300-2", "party_id": "TRD-300", "side": "sell", "qty": 1000, "price": 20.05, "ts": "2026-07-15T11:30:00"}
+      ],
+      "prior_cases": []
+    },
+
+    {
+      "alert_id": "AL-1004",
+      "alert_type": "marking_the_close",
+      "surveillance_rule_id": "SURV-MOC-01",
+      "source_ref": "surv-case=AL-1004",
+      "escalation": {"from_skill": "surveillance-alert-triager", "triage_case_id": "SURV-TRI-AL-1004",
+                     "escalated_by": "analyst-12", "reason": "Late-session selling; market data not attached at triage."},
+      "instrument": {"symbol": "PQRS", "asset_class": "equity", "venue": "XNAS", "currency": "USD"},
+      "period": {"from": "2026-07-15", "to": "2026-07-15"},
+      "subject_party_id": "TRD-400",
+      "parties": [{"party_id": "TRD-400", "role": "trader", "desk": "cash-equities", "account_ref": "****4400"}],
+      "orders": [
+        {"order_id": "O-400-1", "party_id": "TRD-400", "side": "sell", "qty": 3000, "price": 99.00, "ts": "2026-07-15T15:58:00", "state": "filled"}
+      ],
+      "trades": [
+        {"trade_id": "T-400-1", "party_id": "TRD-400", "side": "sell", "qty": 3000, "price": 99.00, "ts": "2026-07-15T15:58:00"}
+      ],
+      "market": [],
+      "prior_cases": []
+    },
+
+    {
+      "alert_id": "AL-1005",
+      "alert_type": "spoofing_layering",
+      "surveillance_rule_id": "SURV-SPOOF-02",
+      "source_ref": "surv-case=AL-1005",
+      "escalation": {"from_skill": "surveillance-alert-triager", "triage_case_id": "SURV-TRI-AL-1005",
+                     "escalated_by": "analyst-07", "reason": "Same trader/pattern as a case already open."},
+      "instrument": {"symbol": "ABCD", "asset_class": "equity", "venue": "XNAS", "currency": "USD"},
+      "period": {"from": "2026-07-10", "to": "2026-07-11"},
+      "subject_party_id": "TRD-500",
+      "parties": [{"party_id": "TRD-500", "role": "trader", "desk": "cash-equities", "account_ref": "****4500"}],
+      "orders": [
+        {"order_id": "O-500-1", "party_id": "TRD-500", "side": "sell", "qty": 8000, "price": 100.20, "ts": "2026-07-10T14:00:00", "state": "cancelled"},
+        {"order_id": "O-500-2", "party_id": "TRD-500", "side": "buy", "qty": 1500, "price": 100.05, "ts": "2026-07-10T14:00:03", "state": "filled"}
+      ],
+      "trades": [
+        {"trade_id": "T-500-1", "party_id": "TRD-500", "side": "buy", "qty": 1500, "price": 100.05, "ts": "2026-07-10T14:00:03"}
+      ],
+      "prior_cases": [
+        {"case_id": "MKT-SURV-AL-9000", "party_id": "TRD-500", "alert_type": "spoofing_layering",
+         "period": {"from": "2026-07-10", "to": "2026-07-11"}, "order_ids": ["O-500-1"], "status": "open"}
+      ]
+    }
+  ]
+}

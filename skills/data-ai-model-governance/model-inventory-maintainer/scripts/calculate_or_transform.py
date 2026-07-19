@@ -104,7 +104,14 @@ def compute(doc: dict) -> dict:
     tie_out = {"factors": {k: int(factors.get(k, 0) or 0) for k in FACTOR_KEYS},
                "score": score, "computed_tier": computed_tier,
                "proposed_tier": proposed_tier,
-               "rubric": f"{doc['config_version']}"}
+               "rubric": f"{doc['config_version']}",
+               # Echo the EFFECTIVE tier thresholds this compute step used (defaults merged
+               # with the doc's config override) so validate_output re-derives the tier with
+               # the same rubric config, not the hardcoded default.
+               "config": {"tier1_min": int(cfg["tier1_min"]),
+                          "tier2_min": int(cfg["tier2_min"]),
+                          "escalate_at": int(cfg["escalate_at"]),
+                          "escalating_factors": list(cfg["escalating_factors"])}}
     if proposed_tier is not None and proposed_tier != computed_tier:
         add_finding("F-MATERIALITY", "materiality_tier", "high",
                     f"proposed materiality tier {proposed_tier!r} does not match rubric-computed "

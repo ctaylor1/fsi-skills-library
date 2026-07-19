@@ -5,7 +5,9 @@ Enforces the R3 decision-support guardrails before the inventory change proposal
 presented or handed off:
   1. status is 'proposed' (never posted/approved/final/certified) and requires_adjudication.
   2. computed_materiality_tier ties out to the versioned rubric applied to the recorded
-     materiality_tie_out.factors.
+     materiality_tie_out.factors — using the EFFECTIVE thresholds the compute step recorded
+     in materiality_tie_out.config (so a configured, non-default rubric ties out to itself),
+     falling back to the strict defaults when no config is echoed.
   3. Every finding has >= 1 cited evidence row (non-empty citation) — traceability.
   4. Every reconciliation break is typed from the taxonomy.
   5. No autonomous-decision / posting / approval / attestation / closure / filing language.
@@ -41,6 +43,30 @@ DECISION_PATTERNS = [
 ]
 
 
+def _effective_cfg(tie: dict) -> dict:
+    """Re-derive the tier with the SAME thresholds the compute step used.
+
+    calculate_or_transform.py resolves cfg = {**DEFAULT_CONFIG, **doc.config} and echoes the
+    effective tier thresholds into materiality_tie_out.config. Read those back so a configured
+    (non-default) rubric ties out to itself rather than to the hardcoded defaults — otherwise
+    a legitimately configured rubric fails its own validation. Missing or malformed values
+    fall back to the strict DEFAULT_CONFIG (fail-safe: an absent/garbled echo can only tighten
+    the check, never loosen it)."""
+    echoed = tie.get("config") if isinstance(tie, dict) else None
+    echoed = echoed if isinstance(echoed, dict) else {}
+    cfg = dict(DEFAULT_CONFIG)
+    for k in ("tier1_min", "tier2_min", "escalate_at"):
+        if k in echoed:
+            try:
+                cfg[k] = int(echoed[k])
+            except (TypeError, ValueError):
+                pass  # keep the strict default on a malformed threshold
+    ef = echoed.get("escalating_factors")
+    if isinstance(ef, list) and all(isinstance(x, str) for x in ef):
+        cfg["escalating_factors"] = list(ef)
+    return cfg
+
+
 def _expected_tier(factors: dict, cfg: dict) -> str:
     score = sum(int(factors.get(k, 0) or 0) for k in FACTOR_KEYS)
     escalate = any(int(factors.get(k, 0) or 0) >= cfg["escalate_at"]
@@ -66,10 +92,10 @@ def validate(pack: dict) -> list[str]:
     if not (pack.get("adjudication_owner") or "").strip():
         errors.append("missing adjudication_owner")
 
-    # 2. materiality tie-out
+    # 2. materiality tie-out (re-derive with the rubric config the compute step recorded)
     tie = pack.get("materiality_tie_out") or {}
     factors = tie.get("factors") or {}
-    exp_tier = _expected_tier(factors, DEFAULT_CONFIG)
+    exp_tier = _expected_tier(factors, _effective_cfg(tie))
     if pack.get("computed_materiality_tier") != exp_tier:
         errors.append(f"computed_materiality_tier {pack.get('computed_materiality_tier')!r} != "
                       f"deterministic {exp_tier!r} for factors {factors}")

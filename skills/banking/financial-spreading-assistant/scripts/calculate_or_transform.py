@@ -87,7 +87,7 @@ def _resolve(item, class_map):
 
 
 def _bs_view(comp):
-    g = lambda k: _round(comp.get(k, 0.0))
+    lambda k: _round(comp.get(k, 0.0))
     tca = _round(sum(comp.get(k, 0.0) for k in CURRENT_ASSETS))
     tnca = _round(sum(comp.get(k, 0.0) for k in NONCURRENT_ASSETS))
     ta = _round(tca + tnca)
@@ -135,7 +135,7 @@ def _ratios(bs, is_view, comp, tol):
         "net_margin": _ratio(is_view["net_income"], is_view["revenue"], tol),
         "interest_coverage": _ratio(is_view["ebit"], is_view["interest_expense"], tol),
         "dscr": _ratio(is_view["ebitda"],
-                       comp.get("interest_expense", 0.0) + comp.get("current_portion_ltd", 0.0), tol),
+                       is_view["interest_expense"] + comp.get("current_portion_ltd", 0.0), tol),
     }
 
 

@@ -1,0 +1,63 @@
+{
+  "plan_id": "PLAN-CASE-88001",
+  "status": "planned",
+  "case_id": "CASE-88001",
+  "customer_id": "****9001",
+  "channels": [
+    "phone"
+  ],
+  "catalog_version": "cx-action-catalog-2026.05",
+  "actions": [
+    {
+      "action_id": "A1",
+      "type": "fee_adjustment",
+      "action": "waive_fee",
+      "amount": 200.0,
+      "authority_limit": 250,
+      "monetary": true,
+      "reversible": true,
+      "target": "late_fee"
+    }
+  ],
+  "total_monetary_exposure": 200.0,
+  "plan_authority_cap": 1000,
+  "required_role": "account-specialist",
+  "preconditions": [
+    "fee of 200.0 is currently assessed on late_fee"
+  ],
+  "steps": [
+    {
+      "step_id": "A1",
+      "action_type": "fee_adjustment",
+      "action": "waive_fee",
+      "idempotency_key": "84953d5ae5e3a883",
+      "precondition": "fee of 200.0 is currently assessed on late_fee",
+      "expected_effect": "waive 200.0 fee on late_fee",
+      "effect_amount": 200.0,
+      "verification": "late_fee balance reduced by 200.0",
+      "rollback": "re-assess the 200.0 fee on late_fee",
+      "post_delta": {
+        "late_fee": -200.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "late_fee": -200.0
+  },
+  "plan_hash": "35d72d2e511aff4e7eadec3bd85d9f6f8357ecd264822be3b1dc647e4ccd77e7",
+  "approval": {
+    "required_role": "account-specialist",
+    "status": "approved",
+    "approver": "j.lowe",
+    "approver_role": "account-specialist",
+    "token": "APPRV-TOKEN-A1",
+    "plan_hash": "35d72d2e511aff4e7eadec3bd85d9f6f8357ecd264822be3b1dc647e4ccd77e7"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": [
+      "A1"
+    ]
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

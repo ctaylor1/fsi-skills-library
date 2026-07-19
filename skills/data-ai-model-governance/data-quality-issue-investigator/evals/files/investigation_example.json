@@ -1,0 +1,345 @@
+{
+  "config_version": "dq-2026.06",
+  "investigation": [
+    {
+      "issue_id": "DQI-3001",
+      "case_id": "DQI-DQI-3001",
+      "citations": [
+        "catalog:issue=DQI-3001"
+      ],
+      "severity_score": 19,
+      "severity_band": "S1 (Critical)",
+      "severity_reason": "failure_rate>=0.2 +3; regulatory report +4; material model +3; regulated decision +3; classification Restricted +2; downstream consumers +3; recurrence +1",
+      "evidence_bundle": {
+        "case_id": "DQI-DQI-3001",
+        "dataset_id": "DS-CUSTOMER",
+        "field": "tax_id",
+        "rule_id": "DQ-COMPLETENESS-01",
+        "defect_type": "completeness",
+        "period": {
+          "from": "2026-07-01",
+          "to": "2026-07-14"
+        },
+        "parties": {
+          "data_owner": "OWN-RETAIL-DATA",
+          "steward": "STW-014",
+          "upstream_owner": "OWN-CORE-BANKING"
+        },
+        "amounts": {
+          "total_records": 100000,
+          "failing_records": 25000,
+          "failure_rate": 0.25,
+          "affected_regulatory_reports": 1,
+          "affected_internal_reports": 0,
+          "affected_models": 1,
+          "affected_regulated_decisions": 1,
+          "monetary_exposure": 0
+        },
+        "consumers": {
+          "regulatory_reports": [
+            "RPT-FR-Y9C"
+          ],
+          "internal_reports": [],
+          "models": [
+            {
+              "id": "MDL-CREDIT-01",
+              "materiality": "High"
+            }
+          ],
+          "regulated_decisions": [
+            "credit_decisioning"
+          ]
+        },
+        "chronology": [
+          {
+            "ts": "2026-07-01T02:00:00Z",
+            "type": "data_loaded",
+            "citation": "catalog:load=LB-7781"
+          },
+          {
+            "ts": "2026-07-14T03:10:00Z",
+            "type": "rule_run",
+            "citation": "catalog:dqrun=RUN-5521"
+          },
+          {
+            "ts": "2026-07-14T06:40:00Z",
+            "type": "first_observed",
+            "citation": "catalog:dqrun=RUN-5521;fail"
+          },
+          {
+            "ts": "2026-07-15T09:00:00Z",
+            "type": "last_consumed",
+            "citation": "catalog:report=RPT-FR-Y9C@2026-07-15"
+          }
+        ],
+        "recommended_severity": "S1 (Critical)",
+        "citations": [
+          "catalog:issue=DQI-3001"
+        ]
+      },
+      "needs": [],
+      "disposition": "recommend-incident-escalation",
+      "route_specialist": "ai-incident-investigator"
+    },
+    {
+      "issue_id": "DQI-3002",
+      "case_id": "DQI-DQI-3002",
+      "citations": [
+        "catalog:issue=DQI-3002"
+      ],
+      "severity_score": 5,
+      "severity_band": "S2 (High)",
+      "severity_reason": "failure_rate>=0.05 +2; classification Confidential +1; downstream consumers +2",
+      "evidence_bundle": {
+        "case_id": "DQI-DQI-3002",
+        "dataset_id": "DS-MARKETING",
+        "field": "segment_code",
+        "rule_id": "DQ-VALIDITY-05",
+        "defect_type": "validity",
+        "period": {
+          "from": "2026-07-01",
+          "to": "2026-07-14"
+        },
+        "parties": {
+          "data_owner": "OWN-MKTG-DATA",
+          "steward": "STW-022",
+          "upstream_owner": "OWN-CRM"
+        },
+        "amounts": {
+          "total_records": 50000,
+          "failing_records": 3000,
+          "failure_rate": 0.06,
+          "affected_regulatory_reports": 0,
+          "affected_internal_reports": 1,
+          "affected_models": 1,
+          "affected_regulated_decisions": 0,
+          "monetary_exposure": 0
+        },
+        "consumers": {
+          "regulatory_reports": [],
+          "internal_reports": [
+            "RPT-MKTG-07"
+          ],
+          "models": [
+            {
+              "id": "MDL-SEG-02",
+              "materiality": "Medium"
+            }
+          ],
+          "regulated_decisions": []
+        },
+        "chronology": [
+          {
+            "ts": "2026-07-02T02:00:00Z",
+            "type": "data_loaded",
+            "citation": "catalog:load=LB-7790"
+          },
+          {
+            "ts": "2026-07-14T03:15:00Z",
+            "type": "rule_run",
+            "citation": "catalog:dqrun=RUN-5540"
+          },
+          {
+            "ts": "2026-07-14T06:50:00Z",
+            "type": "first_observed",
+            "citation": "catalog:dqrun=RUN-5540;fail"
+          }
+        ],
+        "recommended_severity": "S2 (High)",
+        "citations": [
+          "catalog:issue=DQI-3002"
+        ]
+      },
+      "needs": [],
+      "disposition": "recommend-remediation"
+    },
+    {
+      "issue_id": "DQI-3003",
+      "case_id": "DQI-DQI-3003",
+      "citations": [
+        "catalog:issue=DQI-3003"
+      ],
+      "severity_score": 3,
+      "severity_band": "S3 (Moderate)",
+      "severity_reason": "failure_rate>=0.01 +1; classification Confidential +1; downstream consumers +1",
+      "evidence_bundle": {
+        "case_id": "DQI-DQI-3003",
+        "dataset_id": "DS-POSITIONS",
+        "field": "book_id",
+        "rule_id": "DQ-CONSISTENCY-03",
+        "defect_type": "consistency",
+        "period": {
+          "from": "2026-07-01",
+          "to": "2026-07-14"
+        },
+        "parties": {
+          "data_owner": "OWN-RISK-DATA",
+          "steward": "STW-031",
+          "upstream_owner": "OWN-POSITIONS-FEED"
+        },
+        "amounts": {
+          "total_records": 20000,
+          "failing_records": 800,
+          "failure_rate": 0.04,
+          "affected_regulatory_reports": 0,
+          "affected_internal_reports": 1,
+          "affected_models": 0,
+          "affected_regulated_decisions": 0,
+          "monetary_exposure": 0
+        },
+        "consumers": {
+          "regulatory_reports": [],
+          "internal_reports": [
+            "RPT-RISK-11"
+          ],
+          "models": [],
+          "regulated_decisions": []
+        },
+        "chronology": [
+          {
+            "ts": "2026-07-03T02:00:00Z",
+            "type": "data_loaded",
+            "citation": "catalog:load=LB-7801"
+          },
+          {
+            "ts": "2026-07-14T03:20:00Z",
+            "type": "rule_run",
+            "citation": "catalog:dqrun=RUN-5560"
+          },
+          {
+            "ts": "2026-07-14T07:05:00Z",
+            "type": "first_observed",
+            "citation": "catalog:dqrun=RUN-5560;fail"
+          }
+        ],
+        "recommended_severity": "S3 (Moderate)",
+        "citations": [
+          "catalog:issue=DQI-3003"
+        ]
+      },
+      "needs": [],
+      "disposition": "recommend-upstream-trace",
+      "route_specialist": "data-lineage-documenter"
+    },
+    {
+      "issue_id": "DQI-3004",
+      "case_id": "DQI-DQI-3004",
+      "citations": [
+        "catalog:issue=DQI-3004"
+      ],
+      "severity_score": 0,
+      "severity_band": "S4 (Low)",
+      "severity_reason": "",
+      "evidence_bundle": null,
+      "needs": [],
+      "disposition": "possible-duplicate",
+      "linked_case_id": "DQI-CASE-1000"
+    },
+    {
+      "issue_id": "DQI-3005",
+      "case_id": "DQI-DQI-3005",
+      "citations": [
+        "catalog:issue=DQI-3005"
+      ],
+      "severity_score": 0,
+      "severity_band": "S4 (Low)",
+      "severity_reason": "",
+      "evidence_bundle": null,
+      "needs": [
+        "defect_type",
+        "total_records/failing_records"
+      ],
+      "disposition": "needs-data"
+    },
+    {
+      "issue_id": "DQI-3006",
+      "case_id": "DQI-DQI-3006",
+      "citations": [
+        "catalog:issue=DQI-3006"
+      ],
+      "severity_score": 1,
+      "severity_band": "S4 (Low)",
+      "severity_reason": "downstream consumers +1",
+      "evidence_bundle": {
+        "case_id": "DQI-DQI-3006",
+        "dataset_id": "DS-REFERENCE",
+        "field": "country_name",
+        "rule_id": "DQ-COMPLETENESS-07",
+        "defect_type": "completeness",
+        "period": {
+          "from": "2026-07-01",
+          "to": "2026-07-14"
+        },
+        "parties": {
+          "data_owner": "OWN-REFDATA",
+          "steward": "STW-061",
+          "upstream_owner": "OWN-VENDOR-REF"
+        },
+        "amounts": {
+          "total_records": 100000,
+          "failing_records": 500,
+          "failure_rate": 0.005,
+          "affected_regulatory_reports": 0,
+          "affected_internal_reports": 1,
+          "affected_models": 0,
+          "affected_regulated_decisions": 0,
+          "monetary_exposure": 0
+        },
+        "consumers": {
+          "regulatory_reports": [],
+          "internal_reports": [
+            "RPT-OPS-02"
+          ],
+          "models": [],
+          "regulated_decisions": []
+        },
+        "chronology": [
+          {
+            "ts": "2026-07-05T02:00:00Z",
+            "type": "data_loaded",
+            "citation": "catalog:load=LB-7830"
+          },
+          {
+            "ts": "2026-07-14T03:30:00Z",
+            "type": "rule_run",
+            "citation": "catalog:dqrun=RUN-5600"
+          },
+          {
+            "ts": "2026-07-14T07:20:00Z",
+            "type": "first_observed",
+            "citation": "catalog:dqrun=RUN-5600;fail"
+          }
+        ],
+        "recommended_severity": "S4 (Low)",
+        "citations": [
+          "catalog:issue=DQI-3006"
+        ]
+      },
+      "needs": [],
+      "disposition": "recommend-remediation"
+    },
+    {
+      "issue_id": "DQI-3007",
+      "case_id": "DQI-DQI-3007",
+      "citations": [
+        "catalog:issue=DQI-3007"
+      ],
+      "severity_score": 0,
+      "severity_band": "S4 (Low)",
+      "severity_reason": "",
+      "evidence_bundle": null,
+      "needs": [],
+      "disposition": "possible-duplicate",
+      "linked_case_id": "DQI-CASE-1000"
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "recommend_incident_escalation": 1,
+    "recommend_remediation": 2,
+    "recommend_upstream_trace": 1,
+    "needs_data": 1,
+    "possible_duplicate": 2
+  },
+  "standing_note": "Investigation evidence and recommendations only; no data-quality issue has been closed, no root cause confirmed, and no data remediated, waived, or signed off."
+}

@@ -1,0 +1,59 @@
+{
+  "report_request": {
+    "report_type": "self-assessment",
+    "jurisdiction": "UK-PRA-SS1-21",
+    "template_version": "SS1-21-v2026.07",
+    "as_of_date": "2026-07-18",
+    "reporting_period": {"from": "2026-01-01", "to": "2026-06-30"},
+    "self_assessment_doc_ref": "SA-DOC-2026-H1",
+    "attestation_status": {"body": "Board Resilience Committee", "status": "scheduled", "target_date": "2026-09-30"},
+    "notification_status": {"regulator": "PRA/FCA", "status": "pending-human-review", "owner_ref": "AE-1"}
+  },
+  "ruleset_version": "opres-rules-2026.07",
+  "critical_services": [
+    {"service_id": "IBS-PAY-001", "name": "Retail payments", "is_important_business_service": true,
+     "impact_tolerance": {"metric": "disruption_minutes", "threshold": 120, "unit": "minutes", "direction": "max"}},
+    {"service_id": "IBS-ONB-002", "name": "Customer onboarding", "is_important_business_service": true,
+     "impact_tolerance": {"metric": "disruption_minutes", "threshold": 240, "unit": "minutes", "direction": "max"}},
+    {"service_id": "IBS-TRD-003", "name": "Securities trading", "is_important_business_service": true,
+     "impact_tolerance": {"metric": "disruption_minutes", "threshold": 60, "unit": "minutes", "direction": "max"}}
+  ],
+  "third_parties": [
+    {"tp_id": "TP-CLOUD-01", "name": "CloudInfra Provider", "is_critical": true,
+     "service_ids": ["IBS-PAY-001", "IBS-TRD-003"], "contract_ref": "CNTR-4410", "exit_plan_ref": "EXIT-3300"},
+    {"tp_id": "TP-CARDNET-02", "name": "Card Network", "is_critical": true,
+     "service_ids": ["IBS-PAY-001"], "contract_ref": "CNTR-4415", "exit_plan_ref": "EXIT-3305"},
+    {"tp_id": "TP-KYCVND-03", "name": "KYC Data Vendor", "is_critical": false,
+     "service_ids": ["IBS-ONB-002"], "contract_ref": "CNTR-4420", "exit_plan_ref": null}
+  ],
+  "dependencies": [
+    {"service_id": "IBS-PAY-001", "depends_on": "TP-CLOUD-01", "type": "hosting"},
+    {"service_id": "IBS-PAY-001", "depends_on": "TP-CARDNET-02", "type": "settlement"},
+    {"service_id": "IBS-ONB-002", "depends_on": "TP-KYCVND-03", "type": "identity-verification"},
+    {"service_id": "IBS-TRD-003", "depends_on": "TP-CLOUD-01", "type": "hosting"}
+  ],
+  "incidents": [
+    {"incident_id": "INC-5501", "service_id": "IBS-PAY-001", "start": "2026-05-02T09:00",
+     "detected": "2026-05-02T09:05", "resolved": "2026-05-02T12:30", "severity": "major",
+     "metrics": {"disruption_minutes": 205}, "third_party": "TP-CLOUD-01",
+     "root_cause_ref": "RCA-9001", "remediation_ref": "REM-9001", "customer_impact": "delayed retail payments"},
+    {"incident_id": "INC-5502", "service_id": "IBS-ONB-002", "start": "2026-06-10T14:00",
+     "detected": "2026-06-10T14:10", "resolved": "2026-06-10T15:30", "severity": "minor",
+     "metrics": {"disruption_minutes": 80}, "third_party": "TP-KYCVND-03",
+     "root_cause_ref": "RCA-9002", "remediation_ref": "REM-9002", "customer_impact": "onboarding delays"}
+  ],
+  "tests": [
+    {"test_id": "TEST-7001", "service_id": "IBS-PAY-001", "scenario": "cloud region outage",
+     "date": "2026-04-15", "outcome": "recovered", "metrics": {"recovery_minutes": 95},
+     "within_tolerance": true, "remediation_ref": null},
+    {"test_id": "TEST-7002", "service_id": "IBS-TRD-003", "scenario": "cyber ransomware",
+     "date": "2026-04-20", "outcome": "partial-recovery", "metrics": {"recovery_minutes": 75},
+     "within_tolerance": false, "remediation_ref": "REM-9003"}
+  ],
+  "approvals": [
+    {"role": "accountable-executive", "name": "SMF24 Owner (masked)", "approver_ref": "AE-1",
+     "decision": "approved", "date": "2026-07-16"},
+    {"role": "second-line-review", "name": "Operational Risk Reviewer (masked)", "approver_ref": "2LR-7",
+     "decision": "approved", "date": "2026-07-17"}
+  ]
+}

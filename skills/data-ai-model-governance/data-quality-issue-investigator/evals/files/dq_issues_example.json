@@ -1,0 +1,102 @@
+{
+  "config_version": "dq-2026.06",
+  "open_cases": [
+    {"case_id": "DQI-CASE-1000", "dataset_id": "DS-TXN", "rule_id": "DQ-VALIDITY-02",
+     "period": {"from": "2026-06-01", "to": "2026-06-30"}, "record_keys": ["K1", "K2", "K3"]}
+  ],
+  "issues": [
+    {"issue_id": "DQI-3001", "dataset_id": "DS-CUSTOMER", "field": "tax_id", "rule_id": "DQ-COMPLETENESS-01",
+     "defect_type": "completeness", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "total_records": 100000, "failing_records": 25000, "data_classification": "Restricted",
+     "consumers": {"regulatory_reports": ["RPT-FR-Y9C"], "internal_reports": [],
+                   "models": [{"id": "MDL-CREDIT-01", "materiality": "High"}], "regulated_decisions": ["credit_decisioning"]},
+     "prior_issues_90d": 1, "upstream_suspected": false,
+     "owners": {"data_owner": "OWN-RETAIL-DATA", "steward": "STW-014", "upstream_owner": "OWN-CORE-BANKING"},
+     "monetary_exposure": 0,
+     "events": [
+       {"ts": "2026-07-01T02:00:00Z", "type": "data_loaded", "ref": "load=LB-7781"},
+       {"ts": "2026-07-14T03:10:00Z", "type": "rule_run", "ref": "dqrun=RUN-5521"},
+       {"ts": "2026-07-14T06:40:00Z", "type": "first_observed", "ref": "dqrun=RUN-5521;fail"},
+       {"ts": "2026-07-15T09:00:00Z", "type": "last_consumed", "ref": "report=RPT-FR-Y9C@2026-07-15"}
+     ],
+     "record_keys": ["C10", "C11", "C12"], "source_ref": "issue=DQI-3001"},
+
+    {"issue_id": "DQI-3002", "dataset_id": "DS-MARKETING", "field": "segment_code", "rule_id": "DQ-VALIDITY-05",
+     "defect_type": "validity", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "total_records": 50000, "failing_records": 3000, "data_classification": "Confidential",
+     "consumers": {"regulatory_reports": [], "internal_reports": ["RPT-MKTG-07"],
+                   "models": [{"id": "MDL-SEG-02", "materiality": "Medium"}], "regulated_decisions": []},
+     "prior_issues_90d": 0, "upstream_suspected": false,
+     "owners": {"data_owner": "OWN-MKTG-DATA", "steward": "STW-022", "upstream_owner": "OWN-CRM"},
+     "events": [
+       {"ts": "2026-07-02T02:00:00Z", "type": "data_loaded", "ref": "load=LB-7790"},
+       {"ts": "2026-07-14T03:15:00Z", "type": "rule_run", "ref": "dqrun=RUN-5540"},
+       {"ts": "2026-07-14T06:50:00Z", "type": "first_observed", "ref": "dqrun=RUN-5540;fail"}
+     ],
+     "record_keys": ["M20", "M21"], "source_ref": "issue=DQI-3002"},
+
+    {"issue_id": "DQI-3003", "dataset_id": "DS-POSITIONS", "field": "book_id", "rule_id": "DQ-CONSISTENCY-03",
+     "defect_type": "consistency", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "total_records": 20000, "failing_records": 800, "data_classification": "Confidential",
+     "consumers": {"regulatory_reports": [], "internal_reports": ["RPT-RISK-11"],
+                   "models": [], "regulated_decisions": []},
+     "prior_issues_90d": 0, "upstream_suspected": true,
+     "owners": {"data_owner": "OWN-RISK-DATA", "steward": "STW-031", "upstream_owner": "OWN-POSITIONS-FEED"},
+     "events": [
+       {"ts": "2026-07-03T02:00:00Z", "type": "data_loaded", "ref": "load=LB-7801"},
+       {"ts": "2026-07-14T03:20:00Z", "type": "rule_run", "ref": "dqrun=RUN-5560"},
+       {"ts": "2026-07-14T07:05:00Z", "type": "first_observed", "ref": "dqrun=RUN-5560;fail"}
+     ],
+     "record_keys": ["P30", "P31"], "source_ref": "issue=DQI-3003"},
+
+    {"issue_id": "DQI-3004", "dataset_id": "DS-TXN", "field": "currency_code", "rule_id": "DQ-VALIDITY-02",
+     "defect_type": "validity", "period": {"from": "2026-06-01", "to": "2026-06-30"},
+     "total_records": 80000, "failing_records": 1200, "data_classification": "Confidential",
+     "consumers": {"regulatory_reports": [], "internal_reports": ["RPT-FIN-04"],
+                   "models": [], "regulated_decisions": []},
+     "prior_issues_90d": 0, "upstream_suspected": false,
+     "owners": {"data_owner": "OWN-FIN-DATA", "steward": "STW-040", "upstream_owner": "OWN-PAYMENTS"},
+     "events": [
+       {"ts": "2026-06-15T03:20:00Z", "type": "rule_run", "ref": "dqrun=RUN-4400"}
+     ],
+     "record_keys": ["K1", "K2"], "source_ref": "issue=DQI-3004"},
+
+    {"issue_id": "DQI-3005", "dataset_id": "DS-LOANS", "field": "orig_date", "rule_id": "DQ-TIMELINESS-01",
+     "defect_type": null, "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "data_classification": "Confidential",
+     "consumers": {"regulatory_reports": [], "internal_reports": ["RPT-LOAN-09"],
+                   "models": [], "regulated_decisions": []},
+     "prior_issues_90d": 0, "upstream_suspected": false,
+     "owners": {"data_owner": "OWN-LENDING-DATA", "steward": "STW-050", "upstream_owner": "OWN-LOS"},
+     "events": [
+       {"ts": "2026-07-14T03:25:00Z", "type": "rule_run", "ref": "dqrun=RUN-5580"}
+     ],
+     "record_keys": ["L60"], "source_ref": "issue=DQI-3005"},
+
+    {"issue_id": "DQI-3006", "dataset_id": "DS-REFERENCE", "field": "country_name", "rule_id": "DQ-COMPLETENESS-07",
+     "defect_type": "completeness", "period": {"from": "2026-07-01", "to": "2026-07-14"},
+     "total_records": 100000, "failing_records": 500, "data_classification": "Internal",
+     "consumers": {"regulatory_reports": [], "internal_reports": ["RPT-OPS-02"],
+                   "models": [], "regulated_decisions": []},
+     "prior_issues_90d": 0, "upstream_suspected": false,
+     "owners": {"data_owner": "OWN-REFDATA", "steward": "STW-061", "upstream_owner": "OWN-VENDOR-REF"},
+     "events": [
+       {"ts": "2026-07-05T02:00:00Z", "type": "data_loaded", "ref": "load=LB-7830"},
+       {"ts": "2026-07-14T03:30:00Z", "type": "rule_run", "ref": "dqrun=RUN-5600"},
+       {"ts": "2026-07-14T07:20:00Z", "type": "first_observed", "ref": "dqrun=RUN-5600;fail"}
+     ],
+     "record_keys": ["R70"], "source_ref": "issue=DQI-3006"},
+
+    {"issue_id": "DQI-3007", "dataset_id": "DS-TXN", "field": "currency_code", "rule_id": "DQ-VALIDITY-02",
+     "defect_type": "validity", "period": {"from": "2026-06-01", "to": "2026-06-30"},
+     "total_records": 80000, "failing_records": 2100, "data_classification": "Confidential",
+     "consumers": {"regulatory_reports": [], "internal_reports": ["RPT-FIN-04"],
+                   "models": [], "regulated_decisions": []},
+     "prior_issues_90d": 0, "upstream_suspected": false,
+     "owners": {"data_owner": "OWN-FIN-DATA", "steward": "STW-040", "upstream_owner": "OWN-PAYMENTS"},
+     "events": [
+       {"ts": "2026-06-20T03:20:00Z", "type": "rule_run", "ref": "dqrun=RUN-4450"}
+     ],
+     "record_keys": ["K3", "K9"], "source_ref": "issue=DQI-3007"}
+  ]
+}

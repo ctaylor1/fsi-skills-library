@@ -1,0 +1,82 @@
+{
+  "coordination_id": "circ-INC-2026-0042-2026-07-17-0001",
+  "incident_id": "INC-2026-0042",
+  "as_of": "2026-07-17T14:00:00",
+  "config_version": "ir-coord-cfg-2026.07",
+  "severity_config": {"major_breach_records": 500},
+  "impact": {
+    "critical_service_affected": true,
+    "impact_tolerance_breached": false,
+    "confirmed_data_exposure": true,
+    "regulated_data": true,
+    "records_exposed": 1200,
+    "scope": "multi-system",
+    "suspected_compromise": true
+  },
+  "severity_suggested": "SEV1",
+  "severity_basis": ["confirmed regulated-data exposure of 1200 records (>= 500)"],
+  "roles": {
+    "filled": [
+      {"role": "incident_commander", "assignee": "IC-1"},
+      {"role": "scribe", "assignee": "SC-1"},
+      {"role": "technical_lead", "assignee": "TL-1"},
+      {"role": "comms_lead", "assignee": "CM-1"},
+      {"role": "legal_liaison", "assignee": "LG-1"}
+    ],
+    "missing": []
+  },
+  "chronology": [
+    {"ts": "2026-07-17T08:15:00", "actor": "SIEM", "entry_type": "detection", "description": "SIEM correlation alert: anomalous OAuth token use for finance mailbox from unrecognized ASN", "source_ref": "siem:case=IR-8842;alert=A-1"},
+    {"ts": "2026-07-17T08:40:00", "actor": "SOC-Analyst-A", "entry_type": "triage", "description": "Confirmed session hijack indicators; escalated to major incident and paged on-call IC", "source_ref": "soar:ticket=SOAR-551"},
+    {"ts": "2026-07-17T08:55:00", "actor": "IC-1", "entry_type": "declaration", "description": "Incident declared; bridge opened; roles assigned", "source_ref": "bridge:log=BR-77;entry=1"},
+    {"ts": "2026-07-17T09:10:00", "actor": "TL-1", "entry_type": "containment", "description": "Disabled compromised service account and revoked active sessions", "source_ref": "iam:action=IAM-3321"},
+    {"ts": "2026-07-17T10:30:00", "actor": "TL-1", "entry_type": "eradication", "description": "Identified malicious inbox rule and forwarding address; queued for removal", "source_ref": "m365:audit=AUD-9001"},
+    {"ts": "2026-07-17T11:45:00", "actor": "CM-1", "entry_type": "communication", "description": "Executive situation report issued on the bridge", "source_ref": "bridge:log=BR-77;entry=14"}
+  ],
+  "tasks": {
+    "open": [
+      {"task_id": "T-2", "phase": "eradication", "description": "Remove malicious inbox rule and forwarding address", "owner": "TL-1", "status": "in-progress", "due": "2026-07-17T12:00:00"},
+      {"task_id": "T-3", "phase": "eradication", "description": "Rotate credentials and secrets for affected identities", "owner": "TL-1", "status": "open", "due": "2026-07-17T16:00:00"},
+      {"task_id": "T-4", "phase": "recovery", "description": "Validate mailbox integrity and restore normal routing", "owner": "TL-1", "status": "open", "due": "2026-07-17T18:00:00"}
+    ],
+    "overdue": [
+      {"task_id": "T-2", "phase": "eradication", "description": "Remove malicious inbox rule and forwarding address", "owner": "TL-1", "status": "in-progress", "due": "2026-07-17T12:00:00"}
+    ],
+    "done_count": 2,
+    "by_phase": {
+      "containment": {"open": 0, "done": 1},
+      "eradication": {"open": 2, "done": 0},
+      "recovery": {"open": 1, "done": 0},
+      "evidence": {"open": 0, "done": 1}
+    }
+  },
+  "evidence": [
+    {"evidence_id": "E-1", "type": "log", "description": "SIEM correlation case export", "source_ref": "siem:case=IR-8842", "hash": "sha256:1f0a...c9", "custody": "evidence-vault", "custody_complete": true},
+    {"evidence_id": "E-2", "type": "audit", "description": "M365 unified audit log for affected mailbox", "source_ref": "m365:audit=AUD-9001", "hash": "sha256:77bd...4e", "custody": "evidence-vault", "custody_complete": true},
+    {"evidence_id": "E-3", "type": "iam", "description": "IAM session revocation record", "source_ref": "iam:action=IAM-3321", "hash": "sha256:aa10...2b", "custody": "evidence-vault", "custody_complete": true}
+  ],
+  "decisions": [
+    {"decision_id": "D-1", "description": "Isolate the finance file share segment pending forensic imaging", "recommendation": "Isolate segment; accept temporary degradation of internal reporting", "adjudicator": "incident_commander", "status": "pending", "decided_by": null, "awaiting_human": true},
+    {"decision_id": "D-2", "description": "Engage the external DFIR forensics retainer", "recommendation": "Engage retainer to preserve and image affected hosts", "adjudicator": "incident_commander", "status": "adjudicated", "decided_by": "IC-1", "awaiting_human": false},
+    {"decision_id": "D-3", "description": "Whether regulated-data exposure triggers external notification obligations", "recommendation": "Route to legal/privacy counsel for a notification decision; prepare evidence for the resilience reporter", "adjudicator": "legal_liaison", "status": "pending", "decided_by": null, "awaiting_human": true}
+  ],
+  "communications": [
+    {"comm_id": "C-1", "ts": "2026-07-17T11:45:00", "audience": "internal-executives", "channel": "incident-bridge", "summary": "Situation report: containment achieved on primary identity; scope assessment ongoing", "approved_by": "IC-1", "source_ref": "bridge:log=BR-77;entry=14"}
+  ],
+  "dependencies": [
+    {"service": "Finance reporting portal", "criticality": "critical", "status": "degraded", "upstream": ["Identity provider", "Finance file share"], "impact_tolerance": "4h"},
+    {"service": "Corporate email", "criticality": "important", "status": "operational", "upstream": ["Identity provider"], "impact_tolerance": "8h"}
+  ],
+  "notification_reminders": [
+    {"trigger": "confirmed regulated/customer-data exposure", "reminder": "Data-protection and breach-notification clocks MAY apply. Route the notification decision to legal/privacy counsel; for drafting jurisdiction reports, hand off to operational-resilience-reporter.", "route_to": ["legal/privacy counsel (human)", "operational-resilience-reporter"], "note": "Reminder only - not a determination that notification is required and not a filing."},
+    {"trigger": "critical service affected", "reminder": "BCP/continuity obligations and customer/stakeholder communications MAY apply. Confirm with the business-continuity and communications owners.", "route_to": ["business-continuity owner (human)", "comms lead (human)"], "note": "Reminder only - no communication has been sent by this skill."}
+  ],
+  "post_incident_actions": [
+    {"action_id": "P-1", "description": "Add detection for anomalous OAuth token replay", "owner": "detection-engineering", "status": "proposed"},
+    {"action_id": "P-2", "description": "Review conditional-access policy for finance mailboxes", "owner": "identity-team", "status": "proposed"}
+  ],
+  "record_status": "open",
+  "readiness": {"roles_missing": 0, "open_tasks": 3, "overdue_tasks": 1, "decisions_awaiting_human": 2, "evidence_custody_incomplete": 0},
+  "narrative": "Coordination snapshot for INC-2026-0042 as of 2026-07-17T14:00. Suggested severity band SEV1 (Critical); basis: confirmed regulated-data exposure of 1200 records. This is a proposed band for the incident commander to confirm, not a binding classification. All five mandatory IR roles are filled and every chronology entry and evidence item is source-linked. Three decisions are tracked: D-2 was adjudicated by the incident commander (IC-1); D-1 (segment isolation) and D-3 (notification obligations) remain pending human adjudication. One eradication task (T-2) is past its due time and is flagged for the incident commander. Notification reminders have been routed to legal/privacy counsel and the resilience owners because data-protection and continuity clocks may apply; those owners decide whether any obligation applies and own any external report. No regulated decision, incident closure, or regulatory filing has been made by this skill. Coordination record only; recommendations and evidence for human adjudication. No regulated decision, severity classification, incident closure, regulatory filing, or system-of-record write has been performed by this skill.",
+  "disclaimer": "Coordination record only; recommendations and evidence for human adjudication. No regulated decision, severity classification, incident closure, regulatory filing, or system-of-record write has been performed by this skill."
+}

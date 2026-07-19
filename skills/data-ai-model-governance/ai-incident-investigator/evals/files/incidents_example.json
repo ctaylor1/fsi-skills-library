@@ -1,0 +1,94 @@
+{
+  "config_version": "ai-gov-2026.07",
+  "incidents": [
+    {
+      "incident_id": "3001",
+      "detected_at": "2026-07-14T11:00:00Z",
+      "incident_class": "biased",
+      "root_cause_hypothesis_category": "model",
+      "model_or_agent": {"ref": "M-27", "name": "adverse-action-generator", "version": "v3.1", "owner": "credit-model-owner"},
+      "related_incidents": ["AIINC-2900"],
+      "affected": {"population": 45000, "financial_exposure": 250000, "customer_facing": true,
+                   "regulated_decision_affected": true, "data_classification": "Confidential",
+                   "reversible": true, "detection_latency_days": 12},
+      "events": [
+        {"ts": "2026-07-02T09:00:00Z", "description": "Model M-27 v3.1 promoted to production for adverse-action letter generation", "source_ref": "modelreg:model=M-27@v3.1"},
+        {"ts": "2026-07-05T14:20:00Z", "description": "Fairness monitor flagged elevated decline rate on a protected-class proxy segment", "source_ref": "evalharness:run=EVAL-556@2026-07-05"},
+        {"ts": "2026-07-14T11:00:00Z", "description": "Incident raised by model owner after customer complaints", "source_ref": "issue:INC-4471@2026-07-14"}
+      ],
+      "source_ref": "issue:INC-4471@2026-07-14"
+    },
+    {
+      "incident_id": "3002",
+      "detected_at": "2026-07-12T08:00:00Z",
+      "incident_class": "security",
+      "root_cause_hypothesis_category": "prompt-agent-design",
+      "model_or_agent": {"ref": "AGT-11", "name": "support-copilot", "version": "2026.06", "owner": "servicing-ops"},
+      "affected": {"population": 1200, "financial_exposure": 0, "customer_facing": false,
+                   "regulated_decision_affected": false, "data_classification": "Restricted",
+                   "reversible": false, "detection_latency_days": 3},
+      "events": [
+        {"ts": "2026-07-11T22:10:00Z", "description": "Agent processed a crafted document containing embedded instructions", "source_ref": "agentlog:trace=TR-88@2026-07-11"},
+        {"ts": "2026-07-11T22:12:00Z", "description": "Agent invoked an internal knowledge tool and returned restricted content", "source_ref": "agentlog:trace=TR-89@2026-07-11"},
+        {"ts": "2026-07-12T08:00:00Z", "description": "Security alert triaged and referred to AI governance", "source_ref": "issue:SEC-2210@2026-07-12"}
+      ],
+      "source_ref": "issue:SEC-2210@2026-07-12"
+    },
+    {
+      "incident_id": "3003",
+      "detected_at": "2026-07-08T16:30:00Z",
+      "incident_class": "privacy",
+      "root_cause_hypothesis_category": "data",
+      "model_or_agent": {"ref": "AGT-4", "name": "retail-chatbot", "version": "2026.05", "owner": "digital-channels"},
+      "affected": {"population": 300, "financial_exposure": 0, "customer_facing": true,
+                   "regulated_decision_affected": false, "data_classification": "Highly Confidential",
+                   "reversible": false, "detection_latency_days": 40},
+      "events": [
+        {"ts": "2026-05-30T10:00:00Z", "description": "Chatbot began surfacing prior-session content to new sessions", "source_ref": "agentlog:trace=TR-1201@2026-05-30"},
+        {"ts": "2026-07-08T16:30:00Z", "description": "Customer reported seeing another person's details", "source_ref": "issue:PRIV-778@2026-07-08"},
+        {"ts": "2026-07-09T09:00:00Z", "description": "Privacy incident opened; data protection officer notified for assessment", "source_ref": "issue:PRIV-778@2026-07-09"}
+      ],
+      "source_ref": "issue:PRIV-778@2026-07-08"
+    },
+    {
+      "incident_id": "3004",
+      "detected_at": "2026-07-16T09:00:00Z",
+      "incident_class": "unauthorized",
+      "root_cause_hypothesis_category": "permissions",
+      "model_or_agent": {"ref": "AGT-7", "name": "ops-automation-agent", "version": "2026.07", "owner": "platform-eng"},
+      "affected": {"population": 5, "financial_exposure": 15000, "customer_facing": false,
+                   "regulated_decision_affected": false, "data_classification": "Confidential",
+                   "reversible": true, "detection_latency_days": 1},
+      "events": [
+        {"ts": "2026-07-15T13:00:00Z", "description": "Agent executed an account-update tool outside its approved read-only scope", "source_ref": "agentlog:trace=TR-3300@2026-07-15"},
+        {"ts": "2026-07-15T13:05:00Z", "description": "Guardrail flagged the out-of-scope write; action captured for review", "source_ref": "agentlog:trace=TR-3301@2026-07-15"},
+        {"ts": "2026-07-16T09:00:00Z", "description": "Incident opened by platform owner", "source_ref": "issue:INC-4490@2026-07-16"}
+      ],
+      "source_ref": "issue:INC-4490@2026-07-16"
+    },
+    {
+      "incident_id": "3005",
+      "detected_at": "2026-07-15T09:00:00Z",
+      "incident_class": "incorrect",
+      "root_cause_hypothesis_category": "model",
+      "model_or_agent": {"ref": "M-52", "name": "report-summarizer", "version": "v1.4", "owner": "finance-analytics"},
+      "affected": {"population": 40, "financial_exposure": 2000, "customer_facing": false,
+                   "regulated_decision_affected": false, "data_classification": "Confidential",
+                   "reversible": true, "detection_latency_days": 2},
+      "events": [
+        {"ts": "2026-07-14T10:00:00Z", "description": "Summarization model produced incorrect figures in internal reports", "source_ref": "evalharness:run=EVAL-901@2026-07-14"},
+        {"ts": "2026-07-15T09:00:00Z", "description": "Analyst reported the discrepancy; incident logged", "source_ref": "issue:INC-4501@2026-07-15"}
+      ],
+      "source_ref": "issue:INC-4501@2026-07-15"
+    },
+    {
+      "incident_id": "3006",
+      "detected_at": "2026-07-17T06:00:00Z",
+      "incident_class": "resilience",
+      "root_cause_hypothesis_category": "infrastructure",
+      "model_or_agent": {"ref": "AGT-9", "name": "kyc-screening-agent", "version": "2026.06", "owner": "fincrime-ops"},
+      "events": [],
+      "source_ref": "issue:INC-4510@2026-07-17"
+    }
+  ]
+}

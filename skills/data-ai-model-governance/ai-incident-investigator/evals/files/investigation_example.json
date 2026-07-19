@@ -1,0 +1,537 @@
+{
+  "config_version": "ai-gov-2026.07",
+  "investigations": [
+    {
+      "incident_id": "3001",
+      "case_id": "AIINC-3001",
+      "incident_class": "biased",
+      "severity_score": 15,
+      "severity_band": "SEV-1 (Critical)",
+      "severity_reason": "class biased +3; affected>=10000 +3; exposure>=100000 +2; customer-facing +2; regulated-decision affected +3; data Confidential +1; detection latency>7d +1",
+      "severity_inputs": {
+        "escalation_class": false
+      },
+      "citations": [
+        "evalharness:run=EVAL-556@2026-07-05",
+        "issue:INC-4471@2026-07-14",
+        "modelreg:model=M-27@v3.1"
+      ],
+      "needs": [],
+      "evidence_bundle": {
+        "case_id": "AIINC-3001",
+        "incident_class": "biased",
+        "severity_band": "SEV-1 (Critical)",
+        "model_or_agent": {
+          "ref": "M-27",
+          "name": "adverse-action-generator",
+          "version": "v3.1",
+          "owner": "credit-model-owner"
+        },
+        "parties": {
+          "model_owner": "credit-model-owner",
+          "affected_population_count": 45000,
+          "affected_descriptor": "aggregate count only; individual identities not included"
+        },
+        "impact_estimate": {
+          "affected_population": 45000,
+          "financial_exposure": 250000,
+          "data_classification": "Confidential",
+          "customer_facing": true,
+          "regulated_decision_affected": true,
+          "reversible": true
+        },
+        "chronology": [
+          {
+            "ts": "2026-07-02T09:00:00Z",
+            "event": "Model M-27 v3.1 promoted to production for adverse-action letter generation",
+            "citation": "modelreg:model=M-27@v3.1"
+          },
+          {
+            "ts": "2026-07-05T14:20:00Z",
+            "event": "Fairness monitor flagged elevated decline rate on a protected-class proxy segment",
+            "citation": "evalharness:run=EVAL-556@2026-07-05"
+          },
+          {
+            "ts": "2026-07-14T11:00:00Z",
+            "event": "Incident raised by model owner after customer complaints",
+            "citation": "issue:INC-4471@2026-07-14"
+          }
+        ],
+        "candidate_root_cause_hypotheses": [
+          {
+            "category": "model",
+            "statement": "Candidate hypothesis: a model behavior/version change may have contributed; independent validation evidence is required before any determination.",
+            "evidence_ref": "modelreg:model=M-27@v3.1"
+          }
+        ],
+        "recommended_routing": [
+          {
+            "target": "model-change-impact-analyzer",
+            "reason": "assess corrective model change / retraining"
+          },
+          {
+            "target": "model-validation-assistant",
+            "reason": "independent revalidation of fairness"
+          },
+          {
+            "target": "ai-risk-assessment-builder",
+            "reason": "refresh the fairness / AI risk assessment"
+          },
+          {
+            "target": "model-risk-documenter",
+            "reason": "update model documentation and validation evidence"
+          },
+          {
+            "target": "operational-risk-event-analyzer",
+            "reason": "log the operational-risk event and track remediation"
+          },
+          {
+            "target": "agent-audit-trail-reviewer",
+            "reason": "preserve the agent trail for reproducibility"
+          },
+          {
+            "target": "human:AI governance / model risk committee",
+            "reason": "adjudicate the disposition and own any incident closure, root-cause determination, redeployment authorization, or regulatory-notification decision (reserved to a human owner)"
+          }
+        ],
+        "linked_incidents": [
+          "AIINC-2900"
+        ],
+        "recommended_severity": "SEV-1 (Critical)",
+        "pending_adjudication": true,
+        "citations": [
+          "evalharness:run=EVAL-556@2026-07-05",
+          "issue:INC-4471@2026-07-14",
+          "modelreg:model=M-27@v3.1"
+        ]
+      },
+      "disposition": "recommend-escalate-for-adjudication"
+    },
+    {
+      "incident_id": "3002",
+      "case_id": "AIINC-3002",
+      "incident_class": "security",
+      "severity_score": 11,
+      "severity_band": "SEV-1 (Critical)",
+      "severity_reason": "class security +4; affected>=1000 +2; data Restricted +3; not reversible +2",
+      "severity_inputs": {
+        "escalation_class": true
+      },
+      "citations": [
+        "agentlog:trace=TR-88@2026-07-11",
+        "agentlog:trace=TR-89@2026-07-11",
+        "issue:SEC-2210@2026-07-12",
+        "modelreg:model=AGT-11@2026.06"
+      ],
+      "needs": [],
+      "evidence_bundle": {
+        "case_id": "AIINC-3002",
+        "incident_class": "security",
+        "severity_band": "SEV-1 (Critical)",
+        "model_or_agent": {
+          "ref": "AGT-11",
+          "name": "support-copilot",
+          "version": "2026.06",
+          "owner": "servicing-ops"
+        },
+        "parties": {
+          "model_owner": "servicing-ops",
+          "affected_population_count": 1200,
+          "affected_descriptor": "aggregate count only; individual identities not included"
+        },
+        "impact_estimate": {
+          "affected_population": 1200,
+          "financial_exposure": 0,
+          "data_classification": "Restricted",
+          "customer_facing": false,
+          "regulated_decision_affected": false,
+          "reversible": false
+        },
+        "chronology": [
+          {
+            "ts": "2026-07-11T22:10:00Z",
+            "event": "Agent processed a crafted document containing embedded instructions",
+            "citation": "agentlog:trace=TR-88@2026-07-11"
+          },
+          {
+            "ts": "2026-07-11T22:12:00Z",
+            "event": "Agent invoked an internal knowledge tool and returned restricted content",
+            "citation": "agentlog:trace=TR-89@2026-07-11"
+          },
+          {
+            "ts": "2026-07-12T08:00:00Z",
+            "event": "Security alert triaged and referred to AI governance",
+            "citation": "issue:SEC-2210@2026-07-12"
+          }
+        ],
+        "candidate_root_cause_hypotheses": [
+          {
+            "category": "prompt-agent-design",
+            "statement": "Candidate hypothesis: prompt/agent design or prompt-injection exposure may have contributed; a design review is required before any determination.",
+            "evidence_ref": "agentlog:trace=TR-88@2026-07-11"
+          }
+        ],
+        "recommended_routing": [
+          {
+            "target": "cyber-incident-response-coordinator",
+            "reason": "own containment chronology and IR"
+          },
+          {
+            "target": "security-alert-triage-assistant",
+            "reason": "enrich and prioritize related alerts"
+          },
+          {
+            "target": "prompt-and-agent-risk-reviewer",
+            "reason": "assess prompt-injection exposure"
+          },
+          {
+            "target": "operational-risk-event-analyzer",
+            "reason": "log the operational-risk event and track remediation"
+          },
+          {
+            "target": "agent-audit-trail-reviewer",
+            "reason": "preserve the agent trail for reproducibility"
+          },
+          {
+            "target": "human:AI governance / model risk committee",
+            "reason": "adjudicate the disposition and own any incident closure, root-cause determination, redeployment authorization, or regulatory-notification decision (reserved to a human owner)"
+          }
+        ],
+        "linked_incidents": [],
+        "recommended_severity": "SEV-1 (Critical)",
+        "pending_adjudication": true,
+        "citations": [
+          "agentlog:trace=TR-88@2026-07-11",
+          "agentlog:trace=TR-89@2026-07-11",
+          "issue:SEC-2210@2026-07-12",
+          "modelreg:model=AGT-11@2026.06"
+        ]
+      },
+      "disposition": "recommend-containment-referral"
+    },
+    {
+      "incident_id": "3003",
+      "case_id": "AIINC-3003",
+      "incident_class": "privacy",
+      "severity_score": 13,
+      "severity_band": "SEV-1 (Critical)",
+      "severity_reason": "class privacy +4; affected>=100 +1; customer-facing +2; data Highly Confidential +2; not reversible +2; detection latency>30d +2",
+      "severity_inputs": {
+        "escalation_class": true
+      },
+      "citations": [
+        "agentlog:trace=TR-1201@2026-05-30",
+        "issue:PRIV-778@2026-07-08",
+        "issue:PRIV-778@2026-07-09",
+        "modelreg:model=AGT-4@2026.05"
+      ],
+      "needs": [],
+      "evidence_bundle": {
+        "case_id": "AIINC-3003",
+        "incident_class": "privacy",
+        "severity_band": "SEV-1 (Critical)",
+        "model_or_agent": {
+          "ref": "AGT-4",
+          "name": "retail-chatbot",
+          "version": "2026.05",
+          "owner": "digital-channels"
+        },
+        "parties": {
+          "model_owner": "digital-channels",
+          "affected_population_count": 300,
+          "affected_descriptor": "aggregate count only; individual identities not included"
+        },
+        "impact_estimate": {
+          "affected_population": 300,
+          "financial_exposure": 0,
+          "data_classification": "Highly Confidential",
+          "customer_facing": true,
+          "regulated_decision_affected": false,
+          "reversible": false
+        },
+        "chronology": [
+          {
+            "ts": "2026-05-30T10:00:00Z",
+            "event": "Chatbot began surfacing prior-session content to new sessions",
+            "citation": "agentlog:trace=TR-1201@2026-05-30"
+          },
+          {
+            "ts": "2026-07-08T16:30:00Z",
+            "event": "Customer reported seeing another person's details",
+            "citation": "issue:PRIV-778@2026-07-08"
+          },
+          {
+            "ts": "2026-07-09T09:00:00Z",
+            "event": "Privacy incident opened; data protection officer notified for assessment",
+            "citation": "issue:PRIV-778@2026-07-09"
+          }
+        ],
+        "candidate_root_cause_hypotheses": [
+          {
+            "category": "data",
+            "statement": "Candidate hypothesis: an upstream data defect may have contributed; lineage and data-quality review are required before any determination.",
+            "evidence_ref": "agentlog:trace=TR-1201@2026-05-30"
+          }
+        ],
+        "recommended_routing": [
+          {
+            "target": "data-loss-prevention-incident-assistant",
+            "reason": "determine exposure and coordinate escalation"
+          },
+          {
+            "target": "data-lineage-documenter",
+            "reason": "trace affected-data lineage"
+          },
+          {
+            "target": "data-quality-issue-investigator",
+            "reason": "profile the data defect and trace the cause"
+          },
+          {
+            "target": "operational-risk-event-analyzer",
+            "reason": "log the operational-risk event and track remediation"
+          },
+          {
+            "target": "agent-audit-trail-reviewer",
+            "reason": "preserve the agent trail for reproducibility"
+          },
+          {
+            "target": "human:AI governance / model risk committee",
+            "reason": "adjudicate the disposition and own any incident closure, root-cause determination, redeployment authorization, or regulatory-notification decision (reserved to a human owner)"
+          }
+        ],
+        "linked_incidents": [],
+        "recommended_severity": "SEV-1 (Critical)",
+        "pending_adjudication": true,
+        "citations": [
+          "agentlog:trace=TR-1201@2026-05-30",
+          "issue:PRIV-778@2026-07-08",
+          "issue:PRIV-778@2026-07-09",
+          "modelreg:model=AGT-4@2026.05"
+        ]
+      },
+      "disposition": "recommend-containment-referral"
+    },
+    {
+      "incident_id": "3004",
+      "case_id": "AIINC-3004",
+      "incident_class": "unauthorized",
+      "severity_score": 6,
+      "severity_band": "SEV-2 (High)",
+      "severity_reason": "class unauthorized +4; exposure>=10000 +1; data Confidential +1",
+      "severity_inputs": {
+        "escalation_class": true
+      },
+      "citations": [
+        "agentlog:trace=TR-3300@2026-07-15",
+        "agentlog:trace=TR-3301@2026-07-15",
+        "issue:INC-4490@2026-07-16",
+        "modelreg:model=AGT-7@2026.07"
+      ],
+      "needs": [],
+      "evidence_bundle": {
+        "case_id": "AIINC-3004",
+        "incident_class": "unauthorized",
+        "severity_band": "SEV-2 (High)",
+        "model_or_agent": {
+          "ref": "AGT-7",
+          "name": "ops-automation-agent",
+          "version": "2026.07",
+          "owner": "platform-eng"
+        },
+        "parties": {
+          "model_owner": "platform-eng",
+          "affected_population_count": 5,
+          "affected_descriptor": "aggregate count only; individual identities not included"
+        },
+        "impact_estimate": {
+          "affected_population": 5,
+          "financial_exposure": 15000,
+          "data_classification": "Confidential",
+          "customer_facing": false,
+          "regulated_decision_affected": false,
+          "reversible": true
+        },
+        "chronology": [
+          {
+            "ts": "2026-07-15T13:00:00Z",
+            "event": "Agent executed an account-update tool outside its approved read-only scope",
+            "citation": "agentlog:trace=TR-3300@2026-07-15"
+          },
+          {
+            "ts": "2026-07-15T13:05:00Z",
+            "event": "Guardrail flagged the out-of-scope write; action captured for review",
+            "citation": "agentlog:trace=TR-3301@2026-07-15"
+          },
+          {
+            "ts": "2026-07-16T09:00:00Z",
+            "event": "Incident opened by platform owner",
+            "citation": "issue:INC-4490@2026-07-16"
+          }
+        ],
+        "candidate_root_cause_hypotheses": [
+          {
+            "category": "permissions",
+            "statement": "Candidate hypothesis: an over-broad tool/permission scope may have enabled the action; a least-privilege scope review is required before any determination.",
+            "evidence_ref": "agentlog:trace=TR-3300@2026-07-15"
+          }
+        ],
+        "recommended_routing": [
+          {
+            "target": "agent-permission-scope-reviewer",
+            "reason": "review tool/permission scope"
+          },
+          {
+            "target": "model-change-impact-analyzer",
+            "reason": "assess a guardrail / scope change"
+          },
+          {
+            "target": "operational-risk-event-analyzer",
+            "reason": "log the operational-risk event and track remediation"
+          },
+          {
+            "target": "agent-audit-trail-reviewer",
+            "reason": "preserve the agent trail for reproducibility"
+          },
+          {
+            "target": "human:AI governance / model risk committee",
+            "reason": "adjudicate the disposition and own any incident closure, root-cause determination, redeployment authorization, or regulatory-notification decision (reserved to a human owner)"
+          }
+        ],
+        "linked_incidents": [],
+        "recommended_severity": "SEV-2 (High)",
+        "pending_adjudication": true,
+        "citations": [
+          "agentlog:trace=TR-3300@2026-07-15",
+          "agentlog:trace=TR-3301@2026-07-15",
+          "issue:INC-4490@2026-07-16",
+          "modelreg:model=AGT-7@2026.07"
+        ]
+      },
+      "disposition": "recommend-escalate-for-adjudication"
+    },
+    {
+      "incident_id": "3005",
+      "case_id": "AIINC-3005",
+      "incident_class": "incorrect",
+      "severity_score": 3,
+      "severity_band": "SEV-3 (Moderate)",
+      "severity_reason": "class incorrect +2; data Confidential +1",
+      "severity_inputs": {
+        "escalation_class": false
+      },
+      "citations": [
+        "evalharness:run=EVAL-901@2026-07-14",
+        "issue:INC-4501@2026-07-15",
+        "modelreg:model=M-52@v1.4"
+      ],
+      "needs": [],
+      "evidence_bundle": {
+        "case_id": "AIINC-3005",
+        "incident_class": "incorrect",
+        "severity_band": "SEV-3 (Moderate)",
+        "model_or_agent": {
+          "ref": "M-52",
+          "name": "report-summarizer",
+          "version": "v1.4",
+          "owner": "finance-analytics"
+        },
+        "parties": {
+          "model_owner": "finance-analytics",
+          "affected_population_count": 40,
+          "affected_descriptor": "aggregate count only; individual identities not included"
+        },
+        "impact_estimate": {
+          "affected_population": 40,
+          "financial_exposure": 2000,
+          "data_classification": "Confidential",
+          "customer_facing": false,
+          "regulated_decision_affected": false,
+          "reversible": true
+        },
+        "chronology": [
+          {
+            "ts": "2026-07-14T10:00:00Z",
+            "event": "Summarization model produced incorrect figures in internal reports",
+            "citation": "evalharness:run=EVAL-901@2026-07-14"
+          },
+          {
+            "ts": "2026-07-15T09:00:00Z",
+            "event": "Analyst reported the discrepancy; incident logged",
+            "citation": "issue:INC-4501@2026-07-15"
+          }
+        ],
+        "candidate_root_cause_hypotheses": [
+          {
+            "category": "model",
+            "statement": "Candidate hypothesis: a model behavior/version change may have contributed; independent validation evidence is required before any determination.",
+            "evidence_ref": "evalharness:run=EVAL-901@2026-07-14"
+          }
+        ],
+        "recommended_routing": [
+          {
+            "target": "model-change-impact-analyzer",
+            "reason": "assess a corrective model change"
+          },
+          {
+            "target": "model-validation-assistant",
+            "reason": "revalidate performance"
+          },
+          {
+            "target": "model-risk-documenter",
+            "reason": "update model documentation and validation evidence"
+          },
+          {
+            "target": "operational-risk-event-analyzer",
+            "reason": "log the operational-risk event and track remediation"
+          },
+          {
+            "target": "agent-audit-trail-reviewer",
+            "reason": "preserve the agent trail for reproducibility"
+          },
+          {
+            "target": "human:AI governance / model risk committee",
+            "reason": "adjudicate the disposition and own any incident closure, root-cause determination, redeployment authorization, or regulatory-notification decision (reserved to a human owner)"
+          }
+        ],
+        "linked_incidents": [],
+        "recommended_severity": "SEV-3 (Moderate)",
+        "pending_adjudication": true,
+        "citations": [
+          "evalharness:run=EVAL-901@2026-07-14",
+          "issue:INC-4501@2026-07-15",
+          "modelreg:model=M-52@v1.4"
+        ]
+      },
+      "disposition": "recommend-remediation-owner"
+    },
+    {
+      "incident_id": "3006",
+      "case_id": "AIINC-3006",
+      "incident_class": "resilience",
+      "severity_score": 2,
+      "severity_band": "SEV-3 (Moderate)",
+      "severity_reason": "class resilience +2",
+      "severity_inputs": {
+        "escalation_class": false
+      },
+      "citations": [
+        "issue:INC-4510@2026-07-17",
+        "modelreg:model=AGT-9@2026.06"
+      ],
+      "needs": [
+        "chronology / timeline events",
+        "impact estimate (affected population, exposure)"
+      ],
+      "evidence_bundle": null,
+      "disposition": "needs-evidence"
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "escalate_for_adjudication": 2,
+    "containment_referral": 2,
+    "remediation_owner": 1,
+    "needs_evidence": 1
+  },
+  "standing_note": "Investigation evidence and recommendations only; no incident has been closed, no root cause determined, no regulatory notification filed, and no redeployment authorized. Disposition is pending human adjudication."
+}

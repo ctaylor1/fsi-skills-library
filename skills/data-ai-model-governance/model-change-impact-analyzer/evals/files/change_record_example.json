@@ -1,0 +1,48 @@
+{
+  "change_id": "MCR-2026-0042",
+  "as_of": "2026-07-17",
+  "config_version": "mcia-cfg-2026.07",
+  "model": {
+    "model_id": "MDL-00731",
+    "name": "Retail Credit PD Model v3 (de-identified)",
+    "materiality": "high",
+    "regulated_use": true,
+    "is_agent": false
+  },
+  "proposed_change": {
+    "summary": "Replace bureau data feed, retrain on a 24-month window, and lower the auto-decline score cutoff.",
+    "requested_by": "Model Owner - Retail Credit",
+    "target_deploy": "2026-08-15"
+  },
+  "config": {"band_high_min_dims": 3, "high_materiality_min_dims": 2},
+  "dimensions": [
+    {"dimension": "data", "changed": true,
+     "before": "Bureau feed A (monthly refresh), 36-month training window",
+     "after": "Bureau feed B (weekly refresh), 24-month training window",
+     "risk_flags": ["data_provenance_changed"],
+     "evidence_ref": "registry:MDL-00731;field=training_data@2026-07-10"},
+    {"dimension": "behavior", "changed": true,
+     "before": "GBM v3.1, decision cutoff 620",
+     "after": "GBM v3.2 retrained on new feed, decision cutoff 590",
+     "risk_flags": [],
+     "evidence_ref": "registry:MDL-00731;field=algorithm_version@2026-07-10"},
+    {"dimension": "controls", "changed": true,
+     "before": "Auto-decline at 620 with mandatory manual review band 580-620",
+     "after": "Auto-decline at 590 with manual-review band narrowed to 560-590",
+     "risk_flags": ["threshold_loosened"],
+     "evidence_ref": "policy:credit-decisioning-standard;sec=4.2@2026-06-01"},
+    {"dimension": "testing", "changed": true,
+     "before": "Backtest on 2023-2024 vintages; fairness test quarterly",
+     "after": "Backtest refreshed to 2024-2025 vintages; fairness test cadence unchanged",
+     "risk_flags": [],
+     "evidence_ref": "eval:MDL-00731;suite=backtest@2026-07-12"},
+    {"dimension": "regulatory", "changed": true,
+     "before": "ECOA/Reg B adverse-action reason codes mapped to the 620 cutoff",
+     "after": "Adverse-action reason-code mapping must be revalidated for the 590 cutoff",
+     "risk_flags": ["regulatory_surface_changed"],
+     "evidence_ref": "policy:fair-lending-standard;sec=3.1@2026-05-15"},
+    {"dimension": "scope", "changed": false, "before": "", "after": "", "risk_flags": [], "evidence_ref": ""},
+    {"dimension": "tools", "changed": false, "before": "", "after": "", "risk_flags": [], "evidence_ref": ""},
+    {"dimension": "users", "changed": false, "before": "", "after": "", "risk_flags": [], "evidence_ref": ""}
+  ]
+}

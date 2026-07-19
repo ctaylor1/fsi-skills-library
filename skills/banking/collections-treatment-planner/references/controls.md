@@ -26,9 +26,13 @@
 - Every **eligible** treatment carries ≥ 1 cited evidence row (delinquency basis + policy rule).
 - `recommended_treatments` equals exactly the deterministic eligible set (tie-out to the
   engine — no injected or ineligible option).
-- No regulated-decision / closure / filing / bureau-reporting / commitment language (regex
-  screen: "we approve", "approved", "forbearance granted", "closed the case", "charged off",
-  "we have filed", "filed suit", "reported to the credit bureau", "settlement is agreed", etc.).
+- No regulated-decision language (regex screen), covering **both** an approval-side commitment
+  ("we approve", "approved", "forbearance granted", "closed the case", "charged off", "we have
+  filed", "filed suit", "reported to the credit bureau", "settlement is agreed", etc.) **and** a
+  denial-side adverse decision — denying/declining/rejecting a forbearance, modification,
+  hardship accommodation, arrangement, or request ("the forbearance request is denied", "we
+  declined the modification", "rejecting the payment arrangement", etc.). The skill recommends;
+  a human adjudicates and issues any approval **or** denial.
 - No threat/conduct language ("we will sue you", "garnish your wages", "you will be arrested").
 - **Suppression honored:** if outreach is suppressed, no channel may be eligible.
 - **Call cap honored:** `phone` may be eligible only when `phone_outreach_eligible` is true.

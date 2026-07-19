@@ -26,9 +26,13 @@ assertion** and is listed in `unsupported_claims`; the pack cannot pass with any
 
 - A decision requiring approval is **`proposed`** by default and appears in the approvals
   register with its approver role and status `pending`.
-- A decision may only read **`approved` / `adopted` / `resolved` / `ratified` / `carried`**
-  when a **named human approver** and status (`obtained`) are recorded on it. The skill
-  never sets these itself.
+- A decision is treated as **not yet taken** only while its status is a recognized
+  non-decided state (e.g. `proposed`, `pending`); it then needs no recorded approver. **Any
+  other status** presents the decision as taken and may stand **only** when a **named human
+  approver** and status (`obtained`) are recorded on it. This is an **allowlist**: `approved`,
+  `adopted`, `resolved`, `ratified`, `carried`, and any equivalent decided-state wording
+  (e.g. `agreed`, `passed`, `carried by the committee`) — as well as any unrecognized status —
+  fail closed as a decided claim. The skill never sets these itself.
 - Every `requires_approval` decision must be recorded in the approvals register — omitting
   the requirement is a failure, not a convenience.
 

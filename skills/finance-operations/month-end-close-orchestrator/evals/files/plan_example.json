@@ -1,0 +1,99 @@
+{
+  "plan_id": "PLAN-CLOSE-2026-06-ACME-US",
+  "status": "planned",
+  "close_run_id": "CLOSE-2026-06-ACME-US",
+  "entity": "ACME-US",
+  "period": "2026-06",
+  "catalog_version": "close-action-catalog-2026.06",
+  "step_order": [
+    "S1",
+    "S2",
+    "S3"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "task_id": "T1",
+      "action": "post_accrual_journal",
+      "kind": "journal",
+      "target": "GL:6100-accrued-expenses",
+      "idempotency_key": "80b1039ed4257f54",
+      "precondition": "period is open and GL:6100-accrued-expenses is postable",
+      "expected_effect": "post 48000.0 to GL:6100-accrued-expenses (offset GL:2100-accrued-liabilities)",
+      "effect_amount": 48000.0,
+      "verification": "GL shows journal for 48000.0 posted to GL:6100-accrued-expenses under this idempotency key",
+      "rollback": "post the reversing journal for 48000.0 against GL:6100-accrued-expenses",
+      "depends_on": [],
+      "post_delta": {
+        "GL:6100-accrued-expenses": 48000.0,
+        "GL:2100-accrued-liabilities": -48000.0
+      },
+      "depends_on_steps": []
+    },
+    {
+      "step_id": "S2",
+      "task_id": "T2",
+      "action": "certify_reconciliation",
+      "kind": "certify",
+      "target": "RECON:bank-1001-operating",
+      "idempotency_key": "2be87a9c0f9931db",
+      "precondition": "RECON:bank-1001-operating is complete with evidence attached and zero unresolved breaks after T1",
+      "expected_effect": "record certification sign-off on RECON:bank-1001-operating",
+      "effect_amount": null,
+      "verification": "close system shows RECON:bank-1001-operating certified with actor and timestamp",
+      "rollback": "rescind the certification sign-off on RECON:bank-1001-operating",
+      "depends_on": [
+        "T1"
+      ],
+      "post_delta": {
+        "RECON:bank-1001-operating": "certified"
+      },
+      "unresolved_breaks": 0,
+      "depends_on_steps": [
+        "S1"
+      ]
+    },
+    {
+      "step_id": "S3",
+      "task_id": "T3",
+      "action": "close_period",
+      "kind": "lock",
+      "target": "PERIOD:2026-06",
+      "idempotency_key": "dd35ec36590ff43b",
+      "precondition": "all prerequisite steps verified and PERIOD:2026-06 is not already closed after T1, T2",
+      "expected_effect": "set PERIOD:2026-06 to closed for the period",
+      "effect_amount": null,
+      "verification": "period-control system shows PERIOD:2026-06 = closed",
+      "rollback": "re-open PERIOD:2026-06 (reverse the closed state)",
+      "depends_on": [
+        "T1",
+        "T2"
+      ],
+      "post_delta": {
+        "PERIOD:2026-06": "closed"
+      },
+      "depends_on_steps": [
+        "S1",
+        "S2"
+      ]
+    }
+  ],
+  "expected_post_state": {
+    "GL:6100-accrued-expenses": 48000.0,
+    "GL:2100-accrued-liabilities": -48000.0,
+    "RECON:bank-1001-operating": "certified",
+    "PERIOD:2026-06": "closed"
+  },
+  "plan_hash": "f4a9e3de8a3b3ce51600f2865927ed859528f60816f34eeb27eb96f35b707ca9",
+  "approval": {
+    "required_role": "controller",
+    "status": "pending",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Plan only; no journal has been posted and no task, reconciliation, or period has been certified or locked. Execution requires human approval."
+}

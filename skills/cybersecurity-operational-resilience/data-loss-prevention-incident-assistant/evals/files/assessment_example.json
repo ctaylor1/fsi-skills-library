@@ -1,0 +1,1092 @@
+{
+  "config_version": "dlp-2026.07",
+  "template_version": "dlp-incident-package-v1",
+  "batch_id": "DLP-BATCH-2026-0717-A",
+  "package_status": "needs-data",
+  "hard_boundary": false,
+  "assessments": [
+    {
+      "event_id": "DLP-4001",
+      "case_id": "DLP-DLP-4001",
+      "channel": "web-upload",
+      "vector": "insider-egress",
+      "classification": "Restricted (PII/NPI)",
+      "severity_score": 14,
+      "severity_band": "S1 (Critical)",
+      "severity_reason": "classification Restricted (PII/NPI) +4; egress completed +3; destination external-untrusted +3; records>=1000 +2; actor privileged +2",
+      "active_exfiltration": false,
+      "enrichment": {
+        "actor": {
+          "identity_ref": "user-****-711",
+          "privilege": "privileged",
+          "department": "operations"
+        },
+        "asset": {
+          "asset_id": "AST-LT-77",
+          "asset_ref": "laptop-ops-77",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "paste-site-external",
+          "trust": "external-untrusted",
+          "category": "file-share"
+        },
+        "channel": "web-upload",
+        "vector": "insider-egress"
+      },
+      "exposure": {
+        "classification": "Restricted (PII/NPI)",
+        "contains_regulated": true,
+        "egress_completed": true,
+        "destination_trust": "external-untrusted",
+        "record_count": 2500,
+        "volume_mb": 42,
+        "data_types": [
+          "pii",
+          "npi"
+        ],
+        "regulated_data_left_perimeter": true
+      },
+      "citations": [
+        "dlp:event=DLP-4001@2026-07-17",
+        "iam:identity=user-****-711@2026-07-17",
+        "cmdb:asset=AST-LT-77@2026-07-17",
+        "proxy:dest=paste-site-external@2026-07-17",
+        "dlp:policy=DLP-BULK-PII@2026-07-17"
+      ],
+      "suppression": null,
+      "assessment_context": {
+        "case_id": "DLP-DLP-4001",
+        "actor": {
+          "identity_ref": "user-****-711",
+          "privilege": "privileged",
+          "department": "operations"
+        },
+        "asset": {
+          "asset_id": "AST-LT-77",
+          "asset_ref": "laptop-ops-77",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "paste-site-external",
+          "trust": "external-untrusted",
+          "category": "file-share"
+        },
+        "channel": "web-upload",
+        "vector": "insider-egress",
+        "dlp_rule_id": "DLP-BULK-PII",
+        "window": {
+          "from": "2026-07-17",
+          "to": "2026-07-17"
+        },
+        "event_ids": [
+          "S10",
+          "S11"
+        ],
+        "classification": "Restricted (PII/NPI)",
+        "exposure": {
+          "classification": "Restricted (PII/NPI)",
+          "contains_regulated": true,
+          "egress_completed": true,
+          "destination_trust": "external-untrusted",
+          "record_count": 2500,
+          "volume_mb": 42,
+          "data_types": [
+            "pii",
+            "npi"
+          ],
+          "regulated_data_left_perimeter": true
+        },
+        "correlated_cases": [],
+        "recommended_severity": "S1 (Critical)",
+        "severity_reason": "classification Restricted (PII/NPI) +4; egress completed +3; destination external-untrusted +3; records>=1000 +2; actor privileged +2",
+        "recommended_next_steps": "Recommend the reviewer corroborate the destination reputation and the classified data involved, quantify records exposed, and confirm whether a human breach adjudication and privacy/legal notification review are warranted. This skill performs no containment.",
+        "citations": [
+          "dlp:event=DLP-4001@2026-07-17",
+          "iam:identity=user-****-711@2026-07-17",
+          "cmdb:asset=AST-LT-77@2026-07-17",
+          "proxy:dest=paste-site-external@2026-07-17",
+          "dlp:policy=DLP-BULK-PII@2026-07-17"
+        ]
+      },
+      "evidence": {
+        "event_id": "DLP-4001",
+        "case_id": "DLP-DLP-4001",
+        "source_ref": "event=DLP-4001",
+        "event_ids": [
+          "S10",
+          "S11"
+        ],
+        "integrity_ref": "sha256:aa10",
+        "legal_hold": true,
+        "custody_note": "Evidence references recorded to preserve chain-of-custody; this skill acquires, alters, and removes nothing.",
+        "citations": [
+          "dlp:event=DLP-4001@2026-07-17",
+          "iam:identity=user-****-711@2026-07-17",
+          "cmdb:asset=AST-LT-77@2026-07-17",
+          "proxy:dest=paste-site-external@2026-07-17",
+          "dlp:policy=DLP-BULK-PII@2026-07-17"
+        ]
+      },
+      "needs": [],
+      "disposition": "prepared-for-review",
+      "route_specialist": "cyber-incident-response-coordinator"
+    },
+    {
+      "event_id": "DLP-4002",
+      "case_id": "DLP-DLP-4002",
+      "channel": "cloud-sync",
+      "vector": "privilege-abuse",
+      "classification": "Confidential (IP/Proprietary)",
+      "severity_score": 8,
+      "severity_band": "S2 (High)",
+      "severity_reason": "classification Confidential (IP/Proprietary) +3; egress completed +3; destination personal +2",
+      "active_exfiltration": false,
+      "enrichment": {
+        "actor": {
+          "identity_ref": "user-****-712",
+          "privilege": "standard",
+          "department": "engineering"
+        },
+        "asset": {
+          "asset_id": "AST-WS-88",
+          "asset_ref": "ws-eng-88",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "personal-cloud-drive",
+          "trust": "personal",
+          "category": "cloud-storage"
+        },
+        "channel": "cloud-sync",
+        "vector": "privilege-abuse"
+      },
+      "exposure": {
+        "classification": "Confidential (IP/Proprietary)",
+        "contains_regulated": false,
+        "egress_completed": true,
+        "destination_trust": "personal",
+        "record_count": 50,
+        "volume_mb": 15,
+        "data_types": [
+          "source-code",
+          "confidential"
+        ],
+        "regulated_data_left_perimeter": false
+      },
+      "citations": [
+        "dlp:event=DLP-4002@2026-07-17",
+        "iam:identity=user-****-712@2026-07-17",
+        "cmdb:asset=AST-WS-88@2026-07-17",
+        "proxy:dest=personal-cloud-drive@2026-07-17",
+        "dlp:policy=DLP-SRCCODE@2026-07-17"
+      ],
+      "suppression": null,
+      "assessment_context": {
+        "case_id": "DLP-DLP-4002",
+        "actor": {
+          "identity_ref": "user-****-712",
+          "privilege": "standard",
+          "department": "engineering"
+        },
+        "asset": {
+          "asset_id": "AST-WS-88",
+          "asset_ref": "ws-eng-88",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "personal-cloud-drive",
+          "trust": "personal",
+          "category": "cloud-storage"
+        },
+        "channel": "cloud-sync",
+        "vector": "privilege-abuse",
+        "dlp_rule_id": "DLP-SRCCODE",
+        "window": {
+          "from": "2026-07-17",
+          "to": "2026-07-17"
+        },
+        "event_ids": [
+          "S20"
+        ],
+        "classification": "Confidential (IP/Proprietary)",
+        "exposure": {
+          "classification": "Confidential (IP/Proprietary)",
+          "contains_regulated": false,
+          "egress_completed": true,
+          "destination_trust": "personal",
+          "record_count": 50,
+          "volume_mb": 15,
+          "data_types": [
+            "source-code",
+            "confidential"
+          ],
+          "regulated_data_left_perimeter": false
+        },
+        "correlated_cases": [],
+        "recommended_severity": "S2 (High)",
+        "severity_reason": "classification Confidential (IP/Proprietary) +3; egress completed +3; destination personal +2",
+        "recommended_next_steps": "Recommend the reviewer examine the actor's access and entitlements against baseline and route to the identity-access review for a privileged-access assessment.",
+        "citations": [
+          "dlp:event=DLP-4002@2026-07-17",
+          "iam:identity=user-****-712@2026-07-17",
+          "cmdb:asset=AST-WS-88@2026-07-17",
+          "proxy:dest=personal-cloud-drive@2026-07-17",
+          "dlp:policy=DLP-SRCCODE@2026-07-17"
+        ]
+      },
+      "evidence": {
+        "event_id": "DLP-4002",
+        "case_id": "DLP-DLP-4002",
+        "source_ref": "event=DLP-4002",
+        "event_ids": [
+          "S20"
+        ],
+        "integrity_ref": "sha256:bb20",
+        "legal_hold": false,
+        "custody_note": "Evidence references recorded to preserve chain-of-custody; this skill acquires, alters, and removes nothing.",
+        "citations": [
+          "dlp:event=DLP-4002@2026-07-17",
+          "iam:identity=user-****-712@2026-07-17",
+          "cmdb:asset=AST-WS-88@2026-07-17",
+          "proxy:dest=personal-cloud-drive@2026-07-17",
+          "dlp:policy=DLP-SRCCODE@2026-07-17"
+        ]
+      },
+      "needs": [],
+      "disposition": "prepared-for-review",
+      "route_specialist": "identity-access-reviewer"
+    },
+    {
+      "event_id": "DLP-4003",
+      "case_id": "DLP-DLP-4003",
+      "channel": "web-upload",
+      "vector": "insider-egress",
+      "classification": "Internal",
+      "severity_score": 1,
+      "severity_band": "S3 (Moderate)",
+      "severity_reason": "classification Internal +1",
+      "active_exfiltration": false,
+      "enrichment": {
+        "actor": {
+          "identity_ref": "user-****-500",
+          "privilege": "standard",
+          "department": "finance"
+        },
+        "asset": {
+          "asset_id": "AST-DT-55",
+          "asset_ref": "desktop-fin-55",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "internal-fileshare",
+          "trust": "internal",
+          "category": "internal"
+        },
+        "channel": "web-upload",
+        "vector": "insider-egress"
+      },
+      "exposure": {
+        "classification": "Internal",
+        "contains_regulated": false,
+        "egress_completed": false,
+        "destination_trust": "internal",
+        "record_count": 10,
+        "volume_mb": 1,
+        "data_types": [
+          "internal"
+        ],
+        "regulated_data_left_perimeter": false
+      },
+      "citations": [
+        "dlp:event=DLP-4003@2026-07-16",
+        "iam:identity=user-****-500@2026-07-16",
+        "cmdb:asset=AST-DT-55@2026-07-16",
+        "proxy:dest=internal-fileshare@2026-07-16",
+        "dlp:policy=DLP-EXFIL@2026-07-16"
+      ],
+      "suppression": {
+        "rule_id": "SUP-DUP-01",
+        "evidence": {
+          "parent_case_id": "DLP-EV-1000",
+          "matched_events": [
+            "G1",
+            "G2"
+          ]
+        },
+        "rule_set_version": "dlp-2026.07"
+      },
+      "assessment_context": null,
+      "evidence": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "event_id": "DLP-4004",
+      "case_id": "DLP-DLP-4004",
+      "channel": "cloud-sync",
+      "vector": "sanctioned-business-use",
+      "classification": "Internal",
+      "severity_score": 4,
+      "severity_band": "S3 (Moderate)",
+      "severity_reason": "classification Internal +1; egress completed +3",
+      "active_exfiltration": false,
+      "enrichment": {
+        "actor": {
+          "identity_ref": "user-****-713",
+          "privilege": "standard",
+          "department": "marketing"
+        },
+        "asset": {
+          "asset_id": "AST-LT-90",
+          "asset_ref": "laptop-mkt-90",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "box-corp",
+          "trust": "sanctioned",
+          "category": "cloud-storage"
+        },
+        "channel": "cloud-sync",
+        "vector": "sanctioned-business-use"
+      },
+      "exposure": {
+        "classification": "Internal",
+        "contains_regulated": false,
+        "egress_completed": true,
+        "destination_trust": "sanctioned",
+        "record_count": 30,
+        "volume_mb": 5,
+        "data_types": [
+          "internal"
+        ],
+        "regulated_data_left_perimeter": false
+      },
+      "citations": [
+        "dlp:event=DLP-4004@2026-07-17",
+        "iam:identity=user-****-713@2026-07-17",
+        "cmdb:asset=AST-LT-90@2026-07-17",
+        "proxy:dest=box-corp@2026-07-17",
+        "dlp:policy=DLP-SAAS@2026-07-17"
+      ],
+      "suppression": {
+        "rule_id": "SUP-SANCTIONED-01",
+        "evidence": {
+          "destination_id": "DEST-BOX-SANCTIONED",
+          "classification": "Internal"
+        },
+        "rule_set_version": "dlp-2026.07"
+      },
+      "assessment_context": null,
+      "evidence": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "event_id": "DLP-4005",
+      "case_id": "DLP-DLP-4005",
+      "channel": "email",
+      "vector": "false-positive",
+      "classification": "Restricted (PII/NPI)",
+      "severity_score": 4,
+      "severity_band": "S3 (Moderate)",
+      "severity_reason": "classification Restricted (PII/NPI) +4",
+      "active_exfiltration": false,
+      "enrichment": {
+        "actor": {
+          "identity_ref": "user-****-714",
+          "privilege": "standard",
+          "department": "qa"
+        },
+        "asset": {
+          "asset_id": "AST-WS-91",
+          "asset_ref": "ws-qa-91",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "internal-test-mailbox",
+          "trust": "internal",
+          "category": "internal"
+        },
+        "channel": "email",
+        "vector": "false-positive"
+      },
+      "exposure": {
+        "classification": "Restricted (PII/NPI)",
+        "contains_regulated": true,
+        "egress_completed": false,
+        "destination_trust": "internal",
+        "record_count": 5,
+        "volume_mb": 1,
+        "data_types": [
+          "pii"
+        ],
+        "regulated_data_left_perimeter": false
+      },
+      "citations": [
+        "dlp:event=DLP-4005@2026-07-17",
+        "iam:identity=user-****-714@2026-07-17",
+        "cmdb:asset=AST-WS-91@2026-07-17",
+        "proxy:dest=internal-test-mailbox@2026-07-17",
+        "dlp:policy=DLP-BULK-PII@2026-07-17"
+      ],
+      "suppression": {
+        "rule_id": "SUP-FP-PATTERN-01",
+        "evidence": {
+          "pattern_id": "FP-SYNTHETIC-TESTDATA-01",
+          "qualifying_events": [
+            "S50"
+          ]
+        },
+        "rule_set_version": "dlp-2026.07"
+      },
+      "assessment_context": null,
+      "evidence": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "event_id": "DLP-4006",
+      "case_id": "DLP-DLP-4006",
+      "channel": "usb",
+      "vector": "insider-egress",
+      "classification": null,
+      "severity_score": 0,
+      "severity_band": "S3 (Moderate)",
+      "severity_reason": "",
+      "active_exfiltration": false,
+      "enrichment": {
+        "actor": {
+          "identity_ref": "user-****-604",
+          "privilege": "standard",
+          "department": "sales"
+        },
+        "asset": {
+          "asset_id": "AST-LT-33",
+          "asset_ref": "laptop-sales-33",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "removable-media",
+          "trust": "internal",
+          "category": "usb"
+        },
+        "channel": "usb",
+        "vector": "insider-egress"
+      },
+      "exposure": {
+        "classification": null,
+        "contains_regulated": false,
+        "egress_completed": false,
+        "destination_trust": "internal",
+        "record_count": 0,
+        "volume_mb": 0,
+        "data_types": [],
+        "regulated_data_left_perimeter": false
+      },
+      "citations": [
+        "dlp:event=DLP-4006@2026-07-17",
+        "iam:identity=user-****-604@2026-07-17",
+        "cmdb:asset=AST-LT-33@2026-07-17",
+        "proxy:dest=removable-media@2026-07-17",
+        "dlp:policy=DLP-EXFIL@2026-07-17"
+      ],
+      "suppression": null,
+      "assessment_context": null,
+      "evidence": null,
+      "needs": [
+        "data types (unclassified)"
+      ],
+      "disposition": "needs-data"
+    },
+    {
+      "event_id": "DLP-4007",
+      "case_id": "DLP-DLP-4007",
+      "channel": "web-upload",
+      "vector": "insider-egress",
+      "classification": "Internal",
+      "severity_score": 1,
+      "severity_band": "S3 (Moderate)",
+      "severity_reason": "classification Internal +1",
+      "active_exfiltration": false,
+      "enrichment": {
+        "actor": {
+          "identity_ref": "user-****-500",
+          "privilege": "standard",
+          "department": "finance"
+        },
+        "asset": {
+          "asset_id": "AST-DT-55",
+          "asset_ref": "desktop-fin-55",
+          "managed": true
+        },
+        "destination": {
+          "dest_ref": "internal-fileshare",
+          "trust": "internal",
+          "category": "internal"
+        },
+        "channel": "web-upload",
+        "vector": "insider-egress"
+      },
+      "exposure": {
+        "classification": "Internal",
+        "contains_regulated": false,
+        "egress_completed": false,
+        "destination_trust": "internal",
+        "record_count": 12,
+        "volume_mb": 2,
+        "data_types": [
+          "internal"
+        ],
+        "regulated_data_left_perimeter": false
+      },
+      "citations": [
+        "dlp:event=DLP-4007@2026-07-16",
+        "iam:identity=user-****-500@2026-07-16",
+        "cmdb:asset=AST-DT-55@2026-07-16",
+        "proxy:dest=internal-fileshare@2026-07-16",
+        "dlp:policy=DLP-EXFIL@2026-07-16"
+      ],
+      "suppression": null,
+      "assessment_context": null,
+      "evidence": {
+        "event_id": "DLP-4007",
+        "case_id": "DLP-DLP-4007",
+        "source_ref": "event=DLP-4007",
+        "event_ids": [
+          "G3",
+          "S99"
+        ],
+        "integrity_ref": "sha256:aa70",
+        "legal_hold": false,
+        "custody_note": "Evidence references recorded to preserve chain-of-custody; this skill acquires, alters, and removes nothing.",
+        "citations": [
+          "dlp:event=DLP-4007@2026-07-16",
+          "iam:identity=user-****-500@2026-07-16",
+          "cmdb:asset=AST-DT-55@2026-07-16",
+          "proxy:dest=internal-fileshare@2026-07-16",
+          "dlp:policy=DLP-EXFIL@2026-07-16"
+        ]
+      },
+      "needs": [],
+      "disposition": "correlated-duplicate",
+      "linked_case_id": "DLP-EV-1000"
+    }
+  ],
+  "sections": {
+    "incident_batch_overview": {
+      "title": "Incident Batch Overview",
+      "batch_id": "DLP-BATCH-2026-0717-A",
+      "source_queue": "dlp-console-queue",
+      "package_status": "needs-data",
+      "total_events": 7,
+      "counts": {
+        "prepared_for_review": 2,
+        "approved_suppressed": 3,
+        "needs_data": 1,
+        "correlated_duplicate": 1
+      },
+      "config_version": "dlp-2026.07",
+      "template_version": "dlp-incident-package-v1"
+    },
+    "event_enrichment": {
+      "title": "Event Enrichment",
+      "status": "present",
+      "items": [
+        "DLP-4001 [web-upload/insider-egress]: actor user-****-711 (privileged) via asset laptop-ops-77 -> destination paste-site-external (external-untrusted)",
+        "DLP-4002 [cloud-sync/privilege-abuse]: actor user-****-712 (standard) via asset ws-eng-88 -> destination personal-cloud-drive (personal)",
+        "DLP-4003 [web-upload/insider-egress]: actor user-****-500 (standard) via asset desktop-fin-55 -> destination internal-fileshare (internal)",
+        "DLP-4004 [cloud-sync/sanctioned-business-use]: actor user-****-713 (standard) via asset laptop-mkt-90 -> destination box-corp (sanctioned)",
+        "DLP-4005 [email/false-positive]: actor user-****-714 (standard) via asset ws-qa-91 -> destination internal-test-mailbox (internal)",
+        "DLP-4006 [usb/insider-egress]: actor user-****-604 (standard) via asset laptop-sales-33 -> destination removable-media (internal)",
+        "DLP-4007 [web-upload/insider-egress]: actor user-****-500 (standard) via asset desktop-fin-55 -> destination internal-fileshare (internal)"
+      ],
+      "citations": [
+        "cmdb:asset=AST-DT-55@2026-07-16",
+        "cmdb:asset=AST-LT-33@2026-07-17",
+        "cmdb:asset=AST-LT-77@2026-07-17",
+        "cmdb:asset=AST-LT-90@2026-07-17",
+        "cmdb:asset=AST-WS-88@2026-07-17",
+        "cmdb:asset=AST-WS-91@2026-07-17",
+        "dlp:event=DLP-4001@2026-07-17",
+        "dlp:event=DLP-4002@2026-07-17",
+        "dlp:event=DLP-4003@2026-07-16",
+        "dlp:event=DLP-4004@2026-07-17",
+        "dlp:event=DLP-4005@2026-07-17",
+        "dlp:event=DLP-4006@2026-07-17",
+        "dlp:event=DLP-4007@2026-07-16",
+        "dlp:policy=DLP-BULK-PII@2026-07-17",
+        "dlp:policy=DLP-EXFIL@2026-07-16",
+        "dlp:policy=DLP-EXFIL@2026-07-17",
+        "dlp:policy=DLP-SAAS@2026-07-17",
+        "dlp:policy=DLP-SRCCODE@2026-07-17",
+        "iam:identity=user-****-500@2026-07-16",
+        "iam:identity=user-****-604@2026-07-17",
+        "iam:identity=user-****-711@2026-07-17",
+        "iam:identity=user-****-712@2026-07-17",
+        "iam:identity=user-****-713@2026-07-17",
+        "iam:identity=user-****-714@2026-07-17",
+        "proxy:dest=box-corp@2026-07-17",
+        "proxy:dest=internal-fileshare@2026-07-16",
+        "proxy:dest=internal-test-mailbox@2026-07-17",
+        "proxy:dest=paste-site-external@2026-07-17",
+        "proxy:dest=personal-cloud-drive@2026-07-17",
+        "proxy:dest=removable-media@2026-07-17"
+      ]
+    },
+    "data_classification": {
+      "title": "Data Classification",
+      "status": "present",
+      "items": [
+        {
+          "event_id": "DLP-4001",
+          "classification": "Restricted (PII/NPI)",
+          "data_types": [
+            "pii",
+            "npi"
+          ]
+        },
+        {
+          "event_id": "DLP-4002",
+          "classification": "Confidential (IP/Proprietary)",
+          "data_types": [
+            "source-code",
+            "confidential"
+          ]
+        },
+        {
+          "event_id": "DLP-4003",
+          "classification": "Internal",
+          "data_types": [
+            "internal"
+          ]
+        },
+        {
+          "event_id": "DLP-4004",
+          "classification": "Internal",
+          "data_types": [
+            "internal"
+          ]
+        },
+        {
+          "event_id": "DLP-4005",
+          "classification": "Restricted (PII/NPI)",
+          "data_types": [
+            "pii"
+          ]
+        },
+        {
+          "event_id": "DLP-4006",
+          "classification": null,
+          "data_types": []
+        },
+        {
+          "event_id": "DLP-4007",
+          "classification": "Internal",
+          "data_types": [
+            "internal"
+          ]
+        }
+      ],
+      "citations": [
+        "cmdb:asset=AST-DT-55@2026-07-16",
+        "cmdb:asset=AST-LT-33@2026-07-17",
+        "cmdb:asset=AST-LT-77@2026-07-17",
+        "cmdb:asset=AST-LT-90@2026-07-17",
+        "cmdb:asset=AST-WS-88@2026-07-17",
+        "cmdb:asset=AST-WS-91@2026-07-17",
+        "dlp:event=DLP-4001@2026-07-17",
+        "dlp:event=DLP-4002@2026-07-17",
+        "dlp:event=DLP-4003@2026-07-16",
+        "dlp:event=DLP-4004@2026-07-17",
+        "dlp:event=DLP-4005@2026-07-17",
+        "dlp:event=DLP-4006@2026-07-17",
+        "dlp:event=DLP-4007@2026-07-16",
+        "dlp:policy=DLP-BULK-PII@2026-07-17",
+        "dlp:policy=DLP-EXFIL@2026-07-16",
+        "dlp:policy=DLP-EXFIL@2026-07-17",
+        "dlp:policy=DLP-SAAS@2026-07-17",
+        "dlp:policy=DLP-SRCCODE@2026-07-17",
+        "iam:identity=user-****-500@2026-07-16",
+        "iam:identity=user-****-604@2026-07-17",
+        "iam:identity=user-****-711@2026-07-17",
+        "iam:identity=user-****-712@2026-07-17",
+        "iam:identity=user-****-713@2026-07-17",
+        "iam:identity=user-****-714@2026-07-17",
+        "proxy:dest=box-corp@2026-07-17",
+        "proxy:dest=internal-fileshare@2026-07-16",
+        "proxy:dest=internal-test-mailbox@2026-07-17",
+        "proxy:dest=paste-site-external@2026-07-17",
+        "proxy:dest=personal-cloud-drive@2026-07-17",
+        "proxy:dest=removable-media@2026-07-17"
+      ],
+      "note": "Deterministic taxonomy; the highest-sensitivity detected type sets the label. A recommendation for human confirmation, not a legal determination."
+    },
+    "exposure_assessment": {
+      "title": "Exposure Assessment",
+      "status": "present",
+      "items": [
+        {
+          "event_id": "DLP-4001",
+          "classification": "Restricted (PII/NPI)",
+          "contains_regulated": true,
+          "egress_completed": true,
+          "destination_trust": "external-untrusted",
+          "record_count": 2500,
+          "regulated_data_left_perimeter": true
+        },
+        {
+          "event_id": "DLP-4002",
+          "classification": "Confidential (IP/Proprietary)",
+          "contains_regulated": false,
+          "egress_completed": true,
+          "destination_trust": "personal",
+          "record_count": 50,
+          "regulated_data_left_perimeter": false
+        },
+        {
+          "event_id": "DLP-4003",
+          "classification": "Internal",
+          "contains_regulated": false,
+          "egress_completed": false,
+          "destination_trust": "internal",
+          "record_count": 10,
+          "regulated_data_left_perimeter": false
+        },
+        {
+          "event_id": "DLP-4004",
+          "classification": "Internal",
+          "contains_regulated": false,
+          "egress_completed": true,
+          "destination_trust": "sanctioned",
+          "record_count": 30,
+          "regulated_data_left_perimeter": false
+        },
+        {
+          "event_id": "DLP-4005",
+          "classification": "Restricted (PII/NPI)",
+          "contains_regulated": true,
+          "egress_completed": false,
+          "destination_trust": "internal",
+          "record_count": 5,
+          "regulated_data_left_perimeter": false
+        },
+        {
+          "event_id": "DLP-4006",
+          "classification": null,
+          "contains_regulated": false,
+          "egress_completed": false,
+          "destination_trust": "internal",
+          "record_count": 0,
+          "regulated_data_left_perimeter": false
+        },
+        {
+          "event_id": "DLP-4007",
+          "classification": "Internal",
+          "contains_regulated": false,
+          "egress_completed": false,
+          "destination_trust": "internal",
+          "record_count": 12,
+          "regulated_data_left_perimeter": false
+        }
+      ],
+      "citations": [
+        "cmdb:asset=AST-DT-55@2026-07-16",
+        "cmdb:asset=AST-LT-33@2026-07-17",
+        "cmdb:asset=AST-LT-77@2026-07-17",
+        "cmdb:asset=AST-LT-90@2026-07-17",
+        "cmdb:asset=AST-WS-88@2026-07-17",
+        "cmdb:asset=AST-WS-91@2026-07-17",
+        "dlp:event=DLP-4001@2026-07-17",
+        "dlp:event=DLP-4002@2026-07-17",
+        "dlp:event=DLP-4003@2026-07-16",
+        "dlp:event=DLP-4004@2026-07-17",
+        "dlp:event=DLP-4005@2026-07-17",
+        "dlp:event=DLP-4006@2026-07-17",
+        "dlp:event=DLP-4007@2026-07-16",
+        "dlp:policy=DLP-BULK-PII@2026-07-17",
+        "dlp:policy=DLP-EXFIL@2026-07-16",
+        "dlp:policy=DLP-EXFIL@2026-07-17",
+        "dlp:policy=DLP-SAAS@2026-07-17",
+        "dlp:policy=DLP-SRCCODE@2026-07-17",
+        "iam:identity=user-****-500@2026-07-16",
+        "iam:identity=user-****-604@2026-07-17",
+        "iam:identity=user-****-711@2026-07-17",
+        "iam:identity=user-****-712@2026-07-17",
+        "iam:identity=user-****-713@2026-07-17",
+        "iam:identity=user-****-714@2026-07-17",
+        "proxy:dest=box-corp@2026-07-17",
+        "proxy:dest=internal-fileshare@2026-07-16",
+        "proxy:dest=internal-test-mailbox@2026-07-17",
+        "proxy:dest=paste-site-external@2026-07-17",
+        "proxy:dest=personal-cloud-drive@2026-07-17",
+        "proxy:dest=removable-media@2026-07-17"
+      ],
+      "note": "Estimated exposure from egress, destination trust, and magnitude; whether regulated data left the perimeter is a signal for human breach adjudication."
+    },
+    "correlation_deduplication": {
+      "title": "Correlation & Deduplication",
+      "links": [
+        {
+          "event_id": "DLP-4007",
+          "relationship": "correlated-duplicate",
+          "parent_case_id": "DLP-EV-1000"
+        },
+        {
+          "event_id": "DLP-4003",
+          "relationship": "exact-duplicate",
+          "parent_case_id": "DLP-EV-1000"
+        }
+      ],
+      "note": "Duplicates are linked to a parent case; they are never merged and never dispositioned here."
+    },
+    "severity_prioritization": {
+      "title": "Severity Prioritization",
+      "bands": {
+        "S1 (Critical)": 1,
+        "S2 (High)": 1,
+        "S3 (Moderate)": 5
+      },
+      "records": [
+        {
+          "event_id": "DLP-4001",
+          "severity_band": "S1 (Critical)",
+          "severity_score": 14,
+          "severity_reason": "classification Restricted (PII/NPI) +4; egress completed +3; destination external-untrusted +3; records>=1000 +2; actor privileged +2"
+        },
+        {
+          "event_id": "DLP-4002",
+          "severity_band": "S2 (High)",
+          "severity_score": 8,
+          "severity_reason": "classification Confidential (IP/Proprietary) +3; egress completed +3; destination personal +2"
+        },
+        {
+          "event_id": "DLP-4003",
+          "severity_band": "S3 (Moderate)",
+          "severity_score": 1,
+          "severity_reason": "classification Internal +1"
+        },
+        {
+          "event_id": "DLP-4004",
+          "severity_band": "S3 (Moderate)",
+          "severity_score": 4,
+          "severity_reason": "classification Internal +1; egress completed +3"
+        },
+        {
+          "event_id": "DLP-4005",
+          "severity_band": "S3 (Moderate)",
+          "severity_score": 4,
+          "severity_reason": "classification Restricted (PII/NPI) +4"
+        },
+        {
+          "event_id": "DLP-4006",
+          "severity_band": "S3 (Moderate)",
+          "severity_score": 0,
+          "severity_reason": ""
+        },
+        {
+          "event_id": "DLP-4007",
+          "severity_band": "S3 (Moderate)",
+          "severity_score": 1,
+          "severity_reason": "classification Internal +1"
+        }
+      ],
+      "note": "Deterministic, documented scoring; a triage rank for a human reviewer, not a verdict."
+    },
+    "suppression_log": {
+      "title": "Approved Suppression Log",
+      "entries": [
+        {
+          "event_id": "DLP-4003",
+          "rule_id": "SUP-DUP-01",
+          "evidence": {
+            "parent_case_id": "DLP-EV-1000",
+            "matched_events": [
+              "G1",
+              "G2"
+            ]
+          },
+          "rule_set_version": "dlp-2026.07"
+        },
+        {
+          "event_id": "DLP-4004",
+          "rule_id": "SUP-SANCTIONED-01",
+          "evidence": {
+            "destination_id": "DEST-BOX-SANCTIONED",
+            "classification": "Internal"
+          },
+          "rule_set_version": "dlp-2026.07"
+        },
+        {
+          "event_id": "DLP-4005",
+          "rule_id": "SUP-FP-PATTERN-01",
+          "evidence": {
+            "pattern_id": "FP-SYNTHETIC-TESTDATA-01",
+            "qualifying_events": [
+              "S50"
+            ]
+          },
+          "rule_set_version": "dlp-2026.07"
+        }
+      ],
+      "note": "Only approved, documented suppression rules; suppression removes known-benign or approved-business noise, never a genuine incident."
+    },
+    "evidence_preservation": {
+      "title": "Evidence Preservation & Chain-of-Custody",
+      "status": "present",
+      "entries": [
+        {
+          "event_id": "DLP-4001",
+          "case_id": "DLP-DLP-4001",
+          "source_ref": "event=DLP-4001",
+          "event_ids": [
+            "S10",
+            "S11"
+          ],
+          "integrity_ref": "sha256:aa10",
+          "legal_hold": true,
+          "custody_note": "Evidence references recorded to preserve chain-of-custody; this skill acquires, alters, and removes nothing.",
+          "citations": [
+            "dlp:event=DLP-4001@2026-07-17",
+            "iam:identity=user-****-711@2026-07-17",
+            "cmdb:asset=AST-LT-77@2026-07-17",
+            "proxy:dest=paste-site-external@2026-07-17",
+            "dlp:policy=DLP-BULK-PII@2026-07-17"
+          ]
+        },
+        {
+          "event_id": "DLP-4002",
+          "case_id": "DLP-DLP-4002",
+          "source_ref": "event=DLP-4002",
+          "event_ids": [
+            "S20"
+          ],
+          "integrity_ref": "sha256:bb20",
+          "legal_hold": false,
+          "custody_note": "Evidence references recorded to preserve chain-of-custody; this skill acquires, alters, and removes nothing.",
+          "citations": [
+            "dlp:event=DLP-4002@2026-07-17",
+            "iam:identity=user-****-712@2026-07-17",
+            "cmdb:asset=AST-WS-88@2026-07-17",
+            "proxy:dest=personal-cloud-drive@2026-07-17",
+            "dlp:policy=DLP-SRCCODE@2026-07-17"
+          ]
+        },
+        {
+          "event_id": "DLP-4007",
+          "case_id": "DLP-DLP-4007",
+          "source_ref": "event=DLP-4007",
+          "event_ids": [
+            "G3",
+            "S99"
+          ],
+          "integrity_ref": "sha256:aa70",
+          "legal_hold": false,
+          "custody_note": "Evidence references recorded to preserve chain-of-custody; this skill acquires, alters, and removes nothing.",
+          "citations": [
+            "dlp:event=DLP-4007@2026-07-16",
+            "iam:identity=user-****-500@2026-07-16",
+            "cmdb:asset=AST-DT-55@2026-07-16",
+            "proxy:dest=internal-fileshare@2026-07-16",
+            "dlp:policy=DLP-EXFIL@2026-07-16"
+          ]
+        }
+      ],
+      "citations": [
+        "cmdb:asset=AST-DT-55@2026-07-16",
+        "cmdb:asset=AST-LT-77@2026-07-17",
+        "cmdb:asset=AST-WS-88@2026-07-17",
+        "dlp:event=DLP-4001@2026-07-17",
+        "dlp:event=DLP-4002@2026-07-17",
+        "dlp:event=DLP-4007@2026-07-16",
+        "dlp:policy=DLP-BULK-PII@2026-07-17",
+        "dlp:policy=DLP-EXFIL@2026-07-16",
+        "dlp:policy=DLP-SRCCODE@2026-07-17",
+        "iam:identity=user-****-500@2026-07-16",
+        "iam:identity=user-****-711@2026-07-17",
+        "iam:identity=user-****-712@2026-07-17",
+        "proxy:dest=internal-fileshare@2026-07-16",
+        "proxy:dest=paste-site-external@2026-07-17",
+        "proxy:dest=personal-cloud-drive@2026-07-17"
+      ],
+      "note": "Evidence references and legal-hold flags recorded for the human owner; this skill acquires, alters, and removes nothing."
+    },
+    "escalation_routing": {
+      "title": "Escalation Routing (advisory)",
+      "routes": [
+        {
+          "event_id": "DLP-4001",
+          "skill": "cyber-incident-response-coordinator",
+          "reason": "insider-egress at S1 (Critical)",
+          "urgent": false
+        },
+        {
+          "event_id": "DLP-4002",
+          "skill": "identity-access-reviewer",
+          "reason": "privilege-abuse at S2 (High)",
+          "urgent": false
+        }
+      ],
+      "note": "Advisory handoffs to the appropriate specialist skill or the privacy/incident-response owner; the human decides and initiates. No route is executed here."
+    },
+    "sources_citations": {
+      "title": "Sources & Citations",
+      "citations": [
+        "cmdb:asset=AST-DT-55@2026-07-16",
+        "cmdb:asset=AST-LT-33@2026-07-17",
+        "cmdb:asset=AST-LT-77@2026-07-17",
+        "cmdb:asset=AST-LT-90@2026-07-17",
+        "cmdb:asset=AST-WS-88@2026-07-17",
+        "cmdb:asset=AST-WS-91@2026-07-17",
+        "dlp:event=DLP-4001@2026-07-17",
+        "dlp:event=DLP-4002@2026-07-17",
+        "dlp:event=DLP-4003@2026-07-16",
+        "dlp:event=DLP-4004@2026-07-17",
+        "dlp:event=DLP-4005@2026-07-17",
+        "dlp:event=DLP-4006@2026-07-17",
+        "dlp:event=DLP-4007@2026-07-16",
+        "dlp:policy=DLP-BULK-PII@2026-07-17",
+        "dlp:policy=DLP-EXFIL@2026-07-16",
+        "dlp:policy=DLP-EXFIL@2026-07-17",
+        "dlp:policy=DLP-SAAS@2026-07-17",
+        "dlp:policy=DLP-SRCCODE@2026-07-17",
+        "iam:identity=user-****-500@2026-07-16",
+        "iam:identity=user-****-604@2026-07-17",
+        "iam:identity=user-****-711@2026-07-17",
+        "iam:identity=user-****-712@2026-07-17",
+        "iam:identity=user-****-713@2026-07-17",
+        "iam:identity=user-****-714@2026-07-17",
+        "proxy:dest=box-corp@2026-07-17",
+        "proxy:dest=internal-fileshare@2026-07-16",
+        "proxy:dest=internal-test-mailbox@2026-07-17",
+        "proxy:dest=paste-site-external@2026-07-17",
+        "proxy:dest=personal-cloud-drive@2026-07-17",
+        "proxy:dest=removable-media@2026-07-17"
+      ],
+      "note": "Every enriched signal is mapped to an approved source above."
+    },
+    "standing_note_limitations": {
+      "title": "Standing Note / Limitations",
+      "text": "Draft data-loss-prevention incident assessment for privacy/IR review and human adjudication only. This assessment enriches events, classifies the data involved, estimates exposure, records evidence references for chain-of-custody, and applies only approved suppression rules to raise review-ready context. It makes no breach determination, does not confirm or disposition exfiltration, decides no notification obligation, blocks/quarantines/revokes nothing, removes or recalls no data, disables no account, writes no system of record (DLP console / case management / ticketing), and has not been sent, submitted, or filed. Every regulated data-loss decision, breach determination, notification, and response action remains with the authorized privacy/incident-response owner and legal/compliance."
+    },
+    "approvals": {
+      "title": "Approvals & Sign-off",
+      "required": [
+        "DLP / privacy analyst",
+        "Incident-response reviewer / privacy officer"
+      ],
+      "ledger": [
+        {
+          "role": "DLP / privacy analyst",
+          "status": "pending"
+        },
+        {
+          "role": "Incident-response reviewer / privacy officer",
+          "status": "pending"
+        }
+      ],
+      "note": "Draft is queued for privacy/IR adjudication; obtaining these approvals is the human step."
+    }
+  },
+  "standing_note": "Draft data-loss-prevention incident assessment for privacy/IR review and human adjudication only. This assessment enriches events, classifies the data involved, estimates exposure, records evidence references for chain-of-custody, and applies only approved suppression rules to raise review-ready context. It makes no breach determination, does not confirm or disposition exfiltration, decides no notification obligation, blocks/quarantines/revokes nothing, removes or recalls no data, disables no account, writes no system of record (DLP console / case management / ticketing), and has not been sent, submitted, or filed. Every regulated data-loss decision, breach determination, notification, and response action remains with the authorized privacy/incident-response owner and legal/compliance."
+}

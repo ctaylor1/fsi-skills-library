@@ -1,0 +1,105 @@
+{
+  "programme_id": "OPRES-PROG-2026",
+  "as_of": "2026-07-15",
+  "config_version": "opres-cfg-2026.07",
+  "config": {
+    "severity_levels": ["moderate", "severe", "extreme"],
+    "plausibility_levels": ["implausible", "plausible", "highly_plausible"],
+    "min_severity_for_test": "severe",
+    "min_plausibility_for_test": "plausible",
+    "margin_buffer_hours": 1.0,
+    "dependency_dimensions": ["people", "process", "technology", "facilities", "third_parties", "data"]
+  },
+  "important_business_services": [
+    {
+      "service_id": "IBS-01",
+      "name": "Retail Payments",
+      "impact_tolerance": {"max_downtime_hours": 4, "max_data_loss_hours": 1, "metric": "customer-visible payment settlement"},
+      "dependencies": {
+        "people": ["Payments Operations team"],
+        "process": ["payment authorization", "settlement reconciliation"],
+        "technology": ["core payments platform", "card switch"],
+        "facilities": ["primary data centre"],
+        "third_parties": ["Card Network X", "Cloud Provider Y"],
+        "data": ["transaction ledger"]
+      }
+    },
+    {
+      "service_id": "IBS-02",
+      "name": "Online Banking",
+      "impact_tolerance": {"max_downtime_hours": 8, "max_data_loss_hours": 2, "metric": "authenticated session availability"},
+      "dependencies": {
+        "people": ["Digital Operations team"],
+        "process": ["customer authentication"],
+        "technology": ["mobile gateway", "identity and access management"],
+        "facilities": ["primary data centre"],
+        "third_parties": ["Cloud Provider Y", "Identity Provider Z"],
+        "data": ["customer profile store"]
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "SC-01",
+      "service_id": "IBS-01",
+      "title": "Ransomware encrypts core payments platform",
+      "threat_type": "cyber",
+      "severity": "severe",
+      "plausibility": "plausible",
+      "narrative": "A ransomware detonation encrypts the primary core payments platform nodes during peak settlement, forcing a disaster-recovery failover to the secondary site.",
+      "dimensions_exercised": ["technology", "third_parties", "people", "process"],
+      "observed": {"time_to_recover_hours": 6.0, "data_loss_hours": 0.5},
+      "decisions": [
+        {"decision_id": "D-1", "description": "Invoke disaster-recovery failover to secondary payments site", "owner_role": "Incident Commander", "timestamp": "2026-06-12T09:20:00", "evidence_ref": "bcp:exercise=EX-2026-04;decision=D-1"},
+        {"decision_id": "D-2", "description": "Activate manual settlement bypass for priority corporate clients", "owner_role": "Payments Operations Lead", "timestamp": "2026-06-12T09:55:00", "evidence_ref": "bcp:exercise=EX-2026-04;decision=D-2"}
+      ],
+      "recovery_evidence": [
+        {"evidence_id": "RE-1", "description": "Failover completion log with restored settlement timestamp", "source_ref": "siem:exercise=EX-2026-04;artifact=failover-log"},
+        {"evidence_id": "RE-2", "description": "Post-recovery settlement reconciliation report showing 0.5h data replay", "source_ref": "cmdb:exercise=EX-2026-04;artifact=recon-report"}
+      ],
+      "lessons": [
+        {"lesson_id": "L-1", "description": "DR failover exceeded the recovery-time objective by two hours because runbook steps were manual", "severity": "high", "remediation_owner_role": "Head of Payments Resilience", "evidence_ref": "bcp:exercise=EX-2026-04;finding=L-1"}
+      ]
+    },
+    {
+      "scenario_id": "SC-02",
+      "service_id": "IBS-02",
+      "title": "Cloud region loss at strategic provider",
+      "threat_type": "third_party",
+      "severity": "severe",
+      "plausibility": "highly_plausible",
+      "narrative": "Cloud Provider Y loses an entire hosting region, removing the primary online-banking compute and requiring failover to the secondary region.",
+      "dimensions_exercised": ["technology", "third_parties", "facilities"],
+      "observed": {"time_to_recover_hours": 5.0, "data_loss_hours": 1.0},
+      "decisions": [
+        {"decision_id": "D-3", "description": "Fail online-banking workloads over to the secondary cloud region", "owner_role": "Cloud Platform Lead", "timestamp": "2026-06-19T14:10:00", "evidence_ref": "bcp:exercise=EX-2026-05;decision=D-3"}
+      ],
+      "recovery_evidence": [
+        {"evidence_id": "RE-3", "description": "Secondary-region cutover log with restored session-availability metric", "source_ref": "siem:exercise=EX-2026-05;artifact=cutover-log"}
+      ],
+      "lessons": [
+        {"lesson_id": "L-2", "description": "Secondary region ran at 80 percent capacity headroom under peak load", "severity": "medium", "remediation_owner_role": "Head of Cloud Engineering", "evidence_ref": "bcp:exercise=EX-2026-05;finding=L-2"}
+      ]
+    },
+    {
+      "scenario_id": "SC-03",
+      "service_id": "IBS-01",
+      "title": "Primary data centre power loss",
+      "threat_type": "facilities",
+      "severity": "moderate",
+      "plausibility": "plausible",
+      "narrative": "A utility power failure at the primary data centre triggers generator cutover with a short interruption to payments processing.",
+      "dimensions_exercised": ["facilities", "technology"],
+      "observed": {"time_to_recover_hours": 3.0, "data_loss_hours": 0.0},
+      "decisions": [
+        {"decision_id": "D-4", "description": "Confirm generator cutover and monitor payments platform health", "owner_role": "Facilities Duty Manager", "timestamp": "2026-05-30T02:40:00", "evidence_ref": "bcp:exercise=EX-2026-03;decision=D-4"}
+      ],
+      "recovery_evidence": [
+        {"evidence_id": "RE-4", "description": "Generator cutover log and platform health confirmation", "source_ref": "cmdb:exercise=EX-2026-03;artifact=power-log"}
+      ],
+      "lessons": [
+        {"lesson_id": "L-3", "description": "Runbook contact list contained one stale on-call number", "severity": "low", "remediation_owner_role": "Facilities Duty Manager", "evidence_ref": "bcp:exercise=EX-2026-03;finding=L-3"}
+      ]
+    }
+  ]
+}

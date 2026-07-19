@@ -203,8 +203,11 @@ def transform(doc: dict) -> dict:
         "insufficient": sum(1 for r in records if r["recommendation"] == "insufficient-indicators"),
         "needs_data": sum(1 for r in records if r["recommendation"] == "needs-data"),
     }
-    return {"config_version": doc.get("config_version"), "referrals": records,
-            "summary": summary, "standing_note": STANDING_NOTE}
+    # Record the effective (versioned) config on the output so the band tie-out in
+    # validate_output uses exactly the thresholds/weights the engine used — a non-default
+    # deployment config stays reproducible and must not be false-rejected downstream.
+    return {"config_version": doc.get("config_version"), "indicator_config": cfg,
+            "referrals": records, "summary": summary, "standing_note": STANDING_NOTE}
 
 
 def main(argv):

@@ -1,0 +1,61 @@
+{
+  "plan_id": "PLAN-EXC-AP-70418",
+  "status": "planned",
+  "exception_id": "EXC-AP-70418",
+  "invoice_id": "****8842",
+  "vendor_id": "****3310",
+  "catalog_version": "ap-remedy-catalog-2026.05",
+  "remedy": "adjust_invoice_price",
+  "amount": 480.0,
+  "target": "price_variance",
+  "authority_limit": 5000,
+  "reversible": true,
+  "preconditions": [
+    "AP liability holds the 480.0 price variance for ****8842",
+    "price-variance account price_variance is open"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "debit_ap_liability",
+      "idempotency_key": "7a9af2409e70fade",
+      "precondition": "AP liability holds the 480.0 price variance for ****8842",
+      "expected_effect": "reduce AP liability by 480.0",
+      "effect_amount": 480.0,
+      "verification": "AP liability decreased by 480.0",
+      "rollback": "restore 480.0 to AP liability",
+      "post_delta": {
+        "ap_liability": -480.0
+      }
+    },
+    {
+      "step_id": "S2",
+      "action": "credit_price_variance",
+      "idempotency_key": "a368a149287d7989",
+      "precondition": "price-variance account price_variance is open",
+      "expected_effect": "post 480.0 price variance to price_variance",
+      "effect_amount": 480.0,
+      "verification": "price_variance increased by 480.0",
+      "rollback": "reverse the 480.0 posting to price_variance",
+      "post_delta": {
+        "price_variance": 480.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "ap_liability": -480.0,
+    "price_variance": 480.0
+  },
+  "plan_hash": "7d88c36315efbabde07f3a32118a0719a4e7941e95c33918f4949b5c90b33a9f",
+  "approval": {
+    "required_role": "ap-supervisor",
+    "status": "pending",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

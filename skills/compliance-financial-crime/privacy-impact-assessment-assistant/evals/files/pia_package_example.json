@@ -1,0 +1,222 @@
+{
+  "config_version": "pia-2026.07",
+  "template_version": "pia-dpia-v1",
+  "assessment_id": "PIA-2026-0031",
+  "processing_ref": "****4471",
+  "jurisdiction": "US",
+  "packaging_status": "ready-for-adjudication",
+  "hard_boundary": false,
+  "gaps": [],
+  "routes": [
+    {
+      "skill": "third-party-risk-assessor",
+      "reason": "assess processor / sub-processor and international-transfer recipient risk"
+    },
+    {
+      "skill": "ai-risk-assessment-builder",
+      "reason": "automated decision-making / novel technology warrants a dedicated AI risk assessment"
+    },
+    {
+      "skill": "data-lineage-documenter",
+      "reason": "map the end-to-end personal-data flows and lineage for the processing"
+    }
+  ],
+  "sections": {
+    "processing_purpose": {
+      "title": "Processing Description & Purpose",
+      "status": "present",
+      "items": [
+        "Purpose: rank customers by predicted churn and recommend a retention offer via the marketing platform",
+        "Data controller: the bank; processing operated by Retail Marketing with a model vendor as processor"
+      ],
+      "citations": [
+        "ropa:proc=PROC-4471@2026-07-09",
+        "docint:project-charter=CHT-2210@2026-07-08"
+      ],
+      "gaps": []
+    },
+    "data_inventory": {
+      "title": "Personal Data Inventory & Categories",
+      "status": "present",
+      "items": [
+        "Personal data: customer identifiers, product holdings, transaction aggregates, channel engagement",
+        "Special-category proxy: inferred financial-vulnerability indicator flagged as sensitive; volume ~2.1m data subjects"
+      ],
+      "citations": [
+        "datainv:model-features=FEAT-8890@2026-07-10",
+        "datalineage:flow=FL-3321@2026-07-10"
+      ],
+      "gaps": []
+    },
+    "legal_basis": {
+      "title": "Legal Basis, Necessity & Proportionality",
+      "status": "present",
+      "items": [
+        "Lawful basis: legitimate interests for churn scoring, with a documented balancing test; opt-out honored",
+        "Necessity/proportionality: feature set minimized; sensitive proxy gated behind an Article 9 substantial-public-interest / consent condition"
+      ],
+      "citations": [
+        "privacyreg:lia=LIA-4471@2026-07-11",
+        "regcorpus:gdpr-art6-art9@2026-06"
+      ],
+      "gaps": []
+    },
+    "data_sharing": {
+      "title": "Data Sharing, Recipients & International Transfers",
+      "status": "present",
+      "items": [
+        "Recipients: analytics vendor (processor) under a data-processing agreement; no onward sale",
+        "International transfer to a third-country vendor covered by standard contractual clauses + transfer risk assessment"
+      ],
+      "citations": [
+        "contracts:dpa=DPA-771@2026-05",
+        "privacyreg:tia=TIA-4471@2026-07-11"
+      ],
+      "gaps": []
+    },
+    "retention": {
+      "title": "Retention & Data Minimization",
+      "status": "present",
+      "items": [
+        "Scores retained 13 months then deleted; training data pseudonymized after model refresh",
+        "Retention aligned to the records-retention schedule; deletion routine tested"
+      ],
+      "citations": [
+        "recordsarchive:retention-schedule=RS-09@2026-01",
+        "privacyreg:retention-note=RN-4471@2026-07-10"
+      ],
+      "gaps": []
+    },
+    "security": {
+      "title": "Security & Technical/Organizational Measures",
+      "status": "present",
+      "items": [
+        "Encryption in transit and at rest; role-based access; vendor SOC 2 Type II reviewed",
+        "Pseudonymization of training data; access logging and monitoring in place"
+      ],
+      "citations": [
+        "infosec:control-set=SEC-1180@2026-07-09",
+        "tprm:vendor-soc2=SOC2-771@2026-06"
+      ],
+      "gaps": []
+    },
+    "data_subject_rights": {
+      "title": "Data Subject Rights & Transparency",
+      "status": "present",
+      "items": [
+        "Transparency: privacy notice updated to describe scoring and the retention offer; no solely-automated decision with legal effect",
+        "Rights: access, rectification, erasure, objection to profiling, and opt-out supported operationally"
+      ],
+      "citations": [
+        "privacyreg:notice=PN-2026-04@2026-07-01",
+        "privacyreg:rights-runbook=DSR-12@2026-06"
+      ],
+      "gaps": []
+    },
+    "mitigations": {
+      "title": "Risk Mitigations & Safeguards",
+      "status": "present",
+      "items": [
+        "Sensitive proxy access restricted and separately approved; human review before any adverse retention action",
+        "Bias/fairness evaluation scheduled; opt-out suppression enforced at scoring time"
+      ],
+      "citations": [
+        "privacyreg:mitigation-plan=MP-4471@2026-07-12",
+        "modelgov:eval-plan=EVP-4471@2026-07-12"
+      ],
+      "gaps": []
+    },
+    "assessment_scope": {
+      "title": "Assessment Scope & Trigger",
+      "processing_name": "AI-assisted customer churn and next-best-action model",
+      "triggers": [
+        "large-scale-profiling",
+        "novel-technology-ai",
+        "systematic-monitoring"
+      ],
+      "jurisdiction": "US",
+      "business_owner_role": "Head of Retail Marketing",
+      "citations": [
+        "privacyreg:PIA-2026-0031@intake"
+      ],
+      "note": "Scope and DPIA trigger for context; this assessment does not authorize the processing."
+    },
+    "privacy_risk_assessment": {
+      "title": "Privacy Risk Assessment",
+      "residual_risk_band": "High",
+      "score": 12,
+      "factors": [
+        "special-category (Art 9) data +3",
+        "large-scale processing +2",
+        "systematic monitoring / profiling +3",
+        "novel technology (e.g., AI / biometric) +2",
+        "high-risk international transfer x1 +2"
+      ],
+      "hard_boundary": false,
+      "hard_boundary_reasons": [],
+      "prior_consultation_indicated": true,
+      "note": "Deterministic indicator of risk to data subjects' rights and freedoms to inform human sign-off; not a decision on the processing or a lawful basis of record."
+    },
+    "recommendation": {
+      "title": "Recommendation for Sign-off",
+      "recommended_review_path": "dpo-and-senior-review",
+      "note": "Residual privacy risk assessed High on documented factors. Recommend DPO and senior review with the mitigations tracked to completion and prior consultation with the supervisory authority (GDPR Art 36) considered before any go-live sign-off decision. Recommendation only \u2014 not a decision, lawful-basis setting, or filing."
+    },
+    "approvals": {
+      "title": "Approvals & Sign-off",
+      "required": [
+        "Privacy officer / DPIA author",
+        "Data Protection Officer (DPO)",
+        "Business process owner",
+        "Information security (CISO delegate)"
+      ],
+      "ledger": [
+        {
+          "role": "Privacy officer / DPIA author",
+          "status": "pending"
+        },
+        {
+          "role": "Data Protection Officer (DPO)",
+          "status": "pending"
+        },
+        {
+          "role": "Business process owner",
+          "status": "pending"
+        },
+        {
+          "role": "Information security (CISO delegate)",
+          "status": "pending"
+        }
+      ],
+      "note": "Draft is queued for sign-off; obtaining these approvals is the human step."
+    },
+    "sources_citations": {
+      "title": "Sources & Citations",
+      "citations": [
+        "contracts:dpa=DPA-771@2026-05",
+        "datainv:model-features=FEAT-8890@2026-07-10",
+        "datalineage:flow=FL-3321@2026-07-10",
+        "docint:project-charter=CHT-2210@2026-07-08",
+        "infosec:control-set=SEC-1180@2026-07-09",
+        "modelgov:eval-plan=EVP-4471@2026-07-12",
+        "privacyreg:PIA-2026-0031@intake",
+        "privacyreg:lia=LIA-4471@2026-07-11",
+        "privacyreg:mitigation-plan=MP-4471@2026-07-12",
+        "privacyreg:notice=PN-2026-04@2026-07-01",
+        "privacyreg:retention-note=RN-4471@2026-07-10",
+        "privacyreg:rights-runbook=DSR-12@2026-06",
+        "privacyreg:tia=TIA-4471@2026-07-11",
+        "recordsarchive:retention-schedule=RS-09@2026-01",
+        "regcorpus:gdpr-art6-art9@2026-06",
+        "ropa:proc=PROC-4471@2026-07-09",
+        "tprm:vendor-soc2=SOC2-771@2026-06"
+      ],
+      "note": "Every asserted evidence item is mapped to an approved source above."
+    },
+    "standing_note_limitations": {
+      "title": "Standing Note / Limitations",
+      "text": "Draft privacy impact assessment for human sign-off only. This assessment records the processing description, personal-data inventory, legal basis, sharing, retention, security, data-subject rights, risks, and mitigations with source citations and a risk-based recommendation; it makes no approval of the processing, sets no lawful basis of record, files nothing with a supervisory authority, writes no system of record, and has not been sent or submitted. Every regulated privacy decision and sign-off remains with the authorized Data Protection Officer / privacy adjudicator."
+    }
+  },
+  "standing_note": "Draft privacy impact assessment for human sign-off only. This assessment records the processing description, personal-data inventory, legal basis, sharing, retention, security, data-subject rights, risks, and mitigations with source citations and a risk-based recommendation; it makes no approval of the processing, sets no lawful basis of record, files nothing with a supervisory authority, writes no system of record, and has not been sent or submitted. Every regulated privacy decision and sign-off remains with the authorized Data Protection Officer / privacy adjudicator."
+}

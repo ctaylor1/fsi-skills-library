@@ -1,0 +1,80 @@
+{
+  "plan_id": "CAE-PLAN-CAEV-77310-****5521",
+  "status": "planned",
+  "event_id": "CAEV-77310",
+  "interpretation_id": "INTERP-77310-A",
+  "account": "****5521",
+  "event_type": "dividend_option",
+  "catalog_version": "ca-election-catalog-2026.06",
+  "election_action": "submit_election",
+  "permissible_options": [
+    "cash",
+    "shares"
+  ],
+  "basis": "entire",
+  "effective_cap": 1.0,
+  "instructed_quantity": 1000.0,
+  "eligible_quantity": 1000.0,
+  "reference_price": 45.0,
+  "notional": 45000.0,
+  "authority_limit": 1000000,
+  "reversible": true,
+  "as_of": "2026-07-18",
+  "submission_deadline": "2026-07-25",
+  "market_deadline": "2026-07-28",
+  "legs": [
+    {
+      "option": "cash",
+      "quantity": 600.0
+    },
+    {
+      "option": "shares",
+      "quantity": 400.0
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "submit_option_leg",
+      "idempotency_key": "040355e2d346c6f9",
+      "precondition": "as of 2026-07-18 account ****5521 holds eligible 1000.0; cumulative instructed 600.0 <= eligible 1000.0; election window open until 2026-07-25; option 'cash' permissible for dividend_option",
+      "expected_effect": "submit instruction to elect 600.0 under 'cash' for event CAEV-77310 / account ****5521",
+      "effect_quantity": 600.0,
+      "verification": "custodian/agent acknowledgment matches event CAEV-77310, account ****5521, option 'cash', quantity 600.0",
+      "rollback": "withdraw or supersede the 'cash' election of 600.0 before 2026-07-25",
+      "post_delta": {
+        "cash": 600.0
+      }
+    },
+    {
+      "step_id": "S2",
+      "action": "submit_option_leg",
+      "idempotency_key": "a170404bf470be87",
+      "precondition": "as of 2026-07-18 account ****5521 holds eligible 1000.0; cumulative instructed 1000.0 <= eligible 1000.0; election window open until 2026-07-25; option 'shares' permissible for dividend_option",
+      "expected_effect": "submit instruction to elect 400.0 under 'shares' for event CAEV-77310 / account ****5521",
+      "effect_quantity": 400.0,
+      "verification": "custodian/agent acknowledgment matches event CAEV-77310, account ****5521, option 'shares', quantity 400.0",
+      "rollback": "withdraw or supersede the 'shares' election of 400.0 before 2026-07-25",
+      "post_delta": {
+        "shares": 400.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "cash": 600.0,
+    "shares": 400.0,
+    "total_instructed": 1000.0
+  },
+  "approval": {
+    "required_role": "corporate-actions-specialist",
+    "status": "pending",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Plan only; no election has been submitted to the custodian or agent. Submission requires human approval.",
+  "plan_hash": "9daa840406573c89cf4633d414060ecc12193c4648059e8ae45e7e0a90576d32"
+}

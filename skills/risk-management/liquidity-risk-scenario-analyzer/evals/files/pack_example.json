@@ -1,0 +1,254 @@
+{
+  "analysis_id": "lrsa-LE-BANK-01-2026-07-15-0001",
+  "entity_id": "LE-BANK-01",
+  "as_of": "2026-07-15",
+  "currency": "USD",
+  "config_version": "liq-cfg-2026.07",
+  "reporting_horizon_days": 30,
+  "limits": {
+    "min_survival_days": 7,
+    "min_coverage_ratio": 1.0,
+    "concentration_limit_pct": 0.3
+  },
+  "scenarios": [
+    {
+      "scenario_id": "IDIO",
+      "name": "Idiosyncratic downgrade",
+      "counterbalancing_capacity": 2630.0,
+      "cbc_detail": [
+        {
+          "asset_id": "CB-1",
+          "asset_class": "level1_hqla",
+          "market_value": 2000.0,
+          "effective_haircut": 0.0,
+          "available": 2000.0,
+          "citation": "liq:entity=LE-BANK-01;asset=CB-1@2026-07-15"
+        },
+        {
+          "asset_id": "CB-2",
+          "asset_class": "level2a_hqla",
+          "market_value": 900.0,
+          "effective_haircut": 0.3,
+          "available": 630.0,
+          "citation": "liq:entity=LE-BANK-01;asset=CB-2@2026-07-15"
+        }
+      ],
+      "buckets": [
+        {
+          "bucket": "overnight",
+          "end_day": 1.0,
+          "stressed_inflow": 0,
+          "stressed_outflow": 924.0,
+          "net": -924.0,
+          "cumulative_net": -924.0,
+          "liquidity_position": 1706.0
+        },
+        {
+          "bucket": "2-7d",
+          "end_day": 7.0,
+          "stressed_inflow": 800.0,
+          "stressed_outflow": 2000.0,
+          "net": -1200.0,
+          "cumulative_net": -2124.0,
+          "liquidity_position": 506.0
+        },
+        {
+          "bucket": "8-30d",
+          "end_day": 30.0,
+          "stressed_inflow": 380.0,
+          "stressed_outflow": 1220.0,
+          "net": -840.0,
+          "cumulative_net": -2964.0,
+          "liquidity_position": -334.0
+        }
+      ],
+      "survival_horizon_days": 7.0,
+      "coverage_ratio": 0.8873,
+      "peak_cumulative_gap": -2964.0,
+      "findings": [
+        {
+          "finding": "coverage_ratio_breach",
+          "severity": "HIGH",
+          "detail": "stressed coverage ratio 0.887 < minimum 1 over the 30-day horizon under scenario IDIO (CBC 2630.00 / net cumulative outflow 2964.00)",
+          "evidence": [
+            {
+              "counterbalancing_capacity": 2630.0,
+              "net_cumulative_outflow": 2964.0,
+              "coverage_ratio": 0.8873,
+              "citation": "liq:LE-BANK-01;scenario=IDIO;horizon=30d@2026-07-15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "MARKET",
+      "name": "Market-wide stress",
+      "counterbalancing_capacity": 2585.0,
+      "cbc_detail": [
+        {
+          "asset_id": "CB-1",
+          "asset_class": "level1_hqla",
+          "market_value": 2000.0,
+          "effective_haircut": 0.0,
+          "available": 2000.0,
+          "citation": "liq:entity=LE-BANK-01;asset=CB-1@2026-07-15"
+        },
+        {
+          "asset_id": "CB-2",
+          "asset_class": "level2a_hqla",
+          "market_value": 900.0,
+          "effective_haircut": 0.35,
+          "available": 585.0,
+          "citation": "liq:entity=LE-BANK-01;asset=CB-2@2026-07-15"
+        }
+      ],
+      "buckets": [
+        {
+          "bucket": "overnight",
+          "end_day": 1.0,
+          "stressed_inflow": 0,
+          "stressed_outflow": 640.0,
+          "net": -640.0,
+          "cumulative_net": -640.0,
+          "liquidity_position": 1945.0
+        },
+        {
+          "bucket": "2-7d",
+          "end_day": 7.0,
+          "stressed_inflow": 800.0,
+          "stressed_outflow": 1100.0,
+          "net": -300.0,
+          "cumulative_net": -940.0,
+          "liquidity_position": 1645.0
+        },
+        {
+          "bucket": "8-30d",
+          "end_day": 30.0,
+          "stressed_inflow": 585.0,
+          "stressed_outflow": 780.0,
+          "net": -195.0,
+          "cumulative_net": -1135.0,
+          "liquidity_position": 1450.0
+        }
+      ],
+      "survival_horizon_days": 30.0,
+      "coverage_ratio": 2.2775,
+      "peak_cumulative_gap": -1135.0,
+      "findings": []
+    },
+    {
+      "scenario_id": "COMBINED",
+      "name": "Combined idiosyncratic + market",
+      "counterbalancing_capacity": 2540.0,
+      "cbc_detail": [
+        {
+          "asset_id": "CB-1",
+          "asset_class": "level1_hqla",
+          "market_value": 2000.0,
+          "effective_haircut": 0.0,
+          "available": 2000.0,
+          "citation": "liq:entity=LE-BANK-01;asset=CB-1@2026-07-15"
+        },
+        {
+          "asset_id": "CB-2",
+          "asset_class": "level2a_hqla",
+          "market_value": 900.0,
+          "effective_haircut": 0.4,
+          "available": 540.0,
+          "citation": "liq:entity=LE-BANK-01;asset=CB-2@2026-07-15"
+        }
+      ],
+      "buckets": [
+        {
+          "bucket": "overnight",
+          "end_day": 1.0,
+          "stressed_inflow": 0,
+          "stressed_outflow": 1670.0,
+          "net": -1670.0,
+          "cumulative_net": -1670.0,
+          "liquidity_position": 870.0
+        },
+        {
+          "bucket": "2-7d",
+          "end_day": 7.0,
+          "stressed_inflow": 720.0,
+          "stressed_outflow": 2500.0,
+          "net": -1780.0,
+          "cumulative_net": -3450.0,
+          "liquidity_position": -910.0
+        },
+        {
+          "bucket": "8-30d",
+          "end_day": 30.0,
+          "stressed_inflow": 380.0,
+          "stressed_outflow": 1300.0,
+          "net": -920.0,
+          "cumulative_net": -4370.0,
+          "liquidity_position": -1830.0
+        }
+      ],
+      "survival_horizon_days": 1.0,
+      "coverage_ratio": 0.5812,
+      "peak_cumulative_gap": -4370.0,
+      "findings": [
+        {
+          "finding": "survival_horizon_breach",
+          "severity": "CRITICAL",
+          "detail": "survival horizon 1d < minimum 7d under scenario COMBINED; net position turns negative in bucket '2-7d'",
+          "evidence": [
+            {
+              "bucket": "2-7d",
+              "liquidity_position": -910.0,
+              "cumulative_net": -3450.0,
+              "counterbalancing_capacity": 2540.0,
+              "citation": "liq:LE-BANK-01;scenario=COMBINED;bucket=2-7d@2026-07-15"
+            }
+          ]
+        },
+        {
+          "finding": "coverage_ratio_breach",
+          "severity": "HIGH",
+          "detail": "stressed coverage ratio 0.581 < minimum 1 over the 30-day horizon under scenario COMBINED (CBC 2540.00 / net cumulative outflow 4370.00)",
+          "evidence": [
+            {
+              "counterbalancing_capacity": 2540.0,
+              "net_cumulative_outflow": 4370.0,
+              "coverage_ratio": 0.5812,
+              "citation": "liq:LE-BANK-01;scenario=COMBINED;horizon=30d@2026-07-15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "structural_findings": [
+    {
+      "finding": "funding_concentration",
+      "severity": "MEDIUM",
+      "detail": "funding category 'retail_stable' is 41.4% of maturing/contractual outflow notional, above the 30% concentration limit",
+      "evidence": [
+        {
+          "category": "retail_stable",
+          "share": 0.4138,
+          "notional": 6000.0,
+          "item_ids": [
+            "O-1"
+          ],
+          "citation": "liq:LE-BANK-01;category=retail_stable@2026-07-15"
+        }
+      ]
+    }
+  ],
+  "worst_scenario": "COMBINED",
+  "overall_assessment": "Breach",
+  "proposed_contingency_actions": [
+    "PROPOSAL (Treasury/ALCO adjudication required): monetize Level 1 HQLA via repo to cover the near-term cumulative gap; size against the survival-horizon bucket.",
+    "PROPOSAL (Treasury/ALCO adjudication required): pre-position additional eligible collateral at the central-bank standing facility to extend counterbalancing capacity.",
+    "PROPOSAL (Treasury/ALCO adjudication required): term out maturing wholesale unsecured funding to lengthen the maturity profile and reduce short-bucket rollover risk.",
+    "PROPOSAL (Treasury/ALCO adjudication required): slow discretionary asset growth / new lending during the stress window to preserve liquidity.",
+    "These are options for the Contingency Funding Plan owner to evaluate; none has been executed."
+  ],
+  "disclaimer": "Liquidity stress analysis and evidence only; not a regulatory determination, funding decision, or limit action. All contingency measures are proposals requiring Treasury/ALCO adjudication. No funding action has been taken and no system of record has been updated.",
+  "narrative": "Liquidity stress analysis for entity LE-BANK-01 as of 2026-07-15 (USD), config liq-cfg-2026.07, over a 30-day reporting horizon against an idiosyncratic, a market-wide, and a combined scenario. Under the combined scenario the survival horizon is 1 day, below the 7-day minimum, and the stressed coverage ratio is 0.58, below the 1.0 minimum; the idiosyncratic scenario survives 7 days but its coverage ratio of 0.89 is below the minimum. A structural funding concentration in retail_stable deposits (41.4%) sits above the 30% limit. Suggested overall assessment: Breach. This is a triage read for Treasury and ALCO to adjudicate; proposed contingency options are listed for their evaluation and none has been acted on. Liquidity stress analysis and evidence only; not a regulatory determination, funding decision, or limit action. All contingency measures are proposals requiring Treasury/ALCO adjudication. No funding action has been taken and no system of record has been updated."
+}

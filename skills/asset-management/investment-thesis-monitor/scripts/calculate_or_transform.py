@@ -60,6 +60,14 @@ def _cite(system, ref, observed):
     return f"{system}:{ref or '?'}@{observed or '?'}"
 
 
+def _citation_age_days(citation, as_of):
+    """Age (days) of the observation date embedded in a citation (system:ref@observed),
+    measured against as_of. None when the citation carries no parseable observed date."""
+    if not citation or "@" not in str(citation):
+        return None
+    return _age_days(str(citation).rsplit("@", 1)[-1], as_of)
+
+
 def _escalation(fired_challenging, fired_confirming):
     if len(fired_challenging) >= 3 or (ESCALATORS & set(fired_challenging)):
         return "Elevated"
@@ -238,6 +246,20 @@ def compute(doc: dict) -> dict:
         fired_ch = [s["signal"] for s in fired if s["side"] == "challenging"]
         fired_cf = [s["signal"] for s in fired if s["side"] == "confirming"]
 
+        # Re-derive staleness from the evidence the FIRED signals actually cite, so is_stale is
+        # a real value that can exceed max_staleness_days rather than being structurally false.
+        # In a correct run every fired surface already passed the fresh() gate, so this stays
+        # False; if that gate ever regressed and a fired signal rested on stale evidence,
+        # is_stale flips true and the downstream validator fails closed.
+        fired_evidence_ages = []
+        for s in fired:
+            for row in (s.get("evidence") or []):
+                a_days = _citation_age_days(row.get("citation"), as_of)
+                if a_days is not None:
+                    fired_evidence_ages.append(a_days)
+        stalest_fired_age = max(fired_evidence_ages) if fired_evidence_ages else None
+        is_stale = bool(stalest_fired_age is not None and stalest_fired_age > cfg["max_staleness_days"])
+
         # A thesis with no fresh evidence at all is a freshness gap (a feed problem to
         # surface to the analyst), NOT a thesis breach — the monitor never guesses on stale data.
         if not fired and fresh_hits == 0 and not_evaluable:
@@ -270,7 +292,7 @@ def compute(doc: dict) -> dict:
             "not_evaluable": not_evaluable,
             "data_freshness": {"stalest_fresh_evidence_age_days": stalest_fresh_age,
                                "max_staleness_days": cfg["max_staleness_days"],
-                               "is_stale": bool(stalest_fresh_age is not None and stalest_fresh_age > cfg["max_staleness_days"]),
+                               "is_stale": is_stale,
                                "has_stale_surfaces": has_stale},
         })
 

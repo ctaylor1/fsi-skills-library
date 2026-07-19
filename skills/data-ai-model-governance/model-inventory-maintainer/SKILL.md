@@ -110,8 +110,10 @@ break and do not silently overwrite either.
 ## Validation loop
 Run `validate_input` before and [scripts/validate_output.py](scripts/validate_output.py)
 after. The output check confirms: `status` is `proposed` and `requires_adjudication` is
-true; the computed materiality tier ties out to the rubric applied to the recorded factors;
-every finding has ≥1 cited evidence row; every reconciliation break is typed from the
+true; the computed materiality tier ties out to the **effective rubric config recorded in
+`materiality_tie_out.config`** (the thresholds the compute step used, not the hardcoded
+default) applied to the recorded factors; every finding has ≥1 cited evidence row; every
+reconciliation break is typed from the
 taxonomy; the standing disclaimer is present; and no autonomous-decision / posting /
 approval / closure / filing language appears. Fail closed on any miss.
 

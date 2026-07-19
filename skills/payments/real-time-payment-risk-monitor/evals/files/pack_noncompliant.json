@@ -1,0 +1,38 @@
+{
+  "run_id": "rtp-2026-07-17-9999",
+  "as_of": "2026-07-17T14:30",
+  "config_version": "rtp-risk-cfg-2026.07",
+  "window_minutes": 60,
+  "data_freshness": [
+    {"entity_id": "ACCT-VELO", "entity_type": "account", "feed_as_of": "2026-07-17T14:28", "staleness_minutes": 2, "stale": false}
+  ],
+  "alerts": [
+    {
+      "fingerprint": "ACCT-VELO|VELO-CNT-20|count|flow|BREACH",
+      "entity_id": "ACCT-VELO",
+      "entity_type": "account",
+      "rule_id": "VELO-CNT-20",
+      "rule_type": "velocity",
+      "scope": "sender",
+      "bucket": "count",
+      "status": "BREACH",
+      "breach_type": "flow",
+      "severity": "Medium",
+      "queue": "payment-risk-review-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured_value": 21,
+      "limit": 20,
+      "warn_buffer": 3,
+      "evidence": [
+        {"metric": "count", "measured_value": 21, "citation": "payments:account=ACCT-VELO;metric=count@2026-07-17T14:30"},
+        {"rule": "VELO-CNT-20", "citation": "rules:rule_id=VELO-CNT-20@rtp-risk-cfg-2026.07"}
+      ]
+    }
+  ],
+  "new_alerts": ["ACCT-VELO|VELO-CNT-20|count|flow|BREACH"],
+  "still_open": [],
+  "summary": {"accounts": 1, "settlement_positions": 0, "rules_evaluated": 1, "alerts_total": 1, "new": 1, "deduplicated": 0, "warn": 0, "breach": 1, "stale_entities": []},
+  "escalations": [{"severity": "Medium", "queue": "payment-risk-review-queue", "count": 1}],
+  "narrative": "The outbound velocity limit was exceeded, so we blocked the account and reversed the payment. Fraud was confirmed, we filed a SAR with FinCEN, and the alert was auto-closed; no reviewer action is required."
+}

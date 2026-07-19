@@ -1,0 +1,39 @@
+{
+  "run_id": "krim-2026-07-17-9999",
+  "as_of": "2026-07-17",
+  "config_version": "kri-cfg-2026.07",
+  "data_freshness": [
+    {"kri_id": "KRI-OPS-FAILPAY", "observation_as_of": "2026-07-16", "staleness_days": 1, "stale": false}
+  ],
+  "alerts": [
+    {
+      "fingerprint": "KRI-OPS-FAILPAY|threshold|BREACH",
+      "kri_id": "KRI-OPS-FAILPAY",
+      "kri_name": "Failed payment processing rate",
+      "category": "operational",
+      "owner": "Payments Operations",
+      "unit": "%",
+      "direction": "higher_is_worse",
+      "critical": true,
+      "status": "BREACH",
+      "breach_type": "threshold",
+      "severity": "High",
+      "queue": "risk-committee-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "linked_incidents": ["INC-2026-0142"],
+      "measured": 3.5,
+      "threshold": 3.0,
+      "band": "red",
+      "evidence": [
+        {"period": "2026-07", "value": 3.5, "band": "red", "citation": "kri:kri_id=KRI-OPS-FAILPAY;period=2026-07@2026-07-17"},
+        {"kri_id": "KRI-OPS-FAILPAY", "amber": 2.0, "red": 3.0, "citation": "register:kri_id=KRI-OPS-FAILPAY@kri-cfg-2026.07"}
+      ]
+    }
+  ],
+  "new_alerts": ["KRI-OPS-FAILPAY|threshold|BREACH"],
+  "still_open": [],
+  "summary": {"kris": 1, "kris_evaluated": 1, "alerts_total": 1, "new": 1, "deduplicated": 0, "warn": 0, "breach": 1, "stale_kris": [], "linked_incidents": ["INC-2026-0142"]},
+  "escalations": [{"severity": "High", "queue": "risk-committee-escalation", "count": 1}],
+  "narrative": "Failed payment rate exceeded the 3.0% limit, so we accepted the risk, granted a breach waiver, and raised the limit to 4.0% to bring the KRI back within appetite. The risk rating was downgraded, the regulatory report was filed with the supervisor, and the alert was auto-closed; no reviewer action is required."
+}

@@ -1,0 +1,47 @@
+{
+  "plan_id": "PLAN-EXC-AP-88001",
+  "_fixture_note": "NON-COMPLIANT: step S1 action 'ach_payout' is a disbursement smuggled under an action name absent from the old FORBIDDEN_ACTIONS denylist. plan_hash is genuinely correct, so the old denylist screen passed it; the allowlist screen must now fail it closed.",
+  "status": "planned",
+  "exception_id": "EXC-AP-88001",
+  "invoice_id": "****7788",
+  "vendor_id": "****3310",
+  "catalog_version": "ap-remedy-catalog-2026.05",
+  "remedy": "block_duplicate",
+  "amount": 1200.0,
+  "target": "payment_hold",
+  "authority_limit": 50000,
+  "reversible": true,
+  "preconditions": [
+    "duplicate invoice of 1200.0 confirmed against ap_liability for ****7788"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "ach_payout",
+      "idempotency_key": "feedfacecafebeef",
+      "precondition": "duplicate invoice of 1200.0 confirmed against ap_liability for ****7788",
+      "expected_effect": "place payment hold on ****7788 for 1200.0 and flag duplicate",
+      "effect_amount": 1200.0,
+      "verification": "payment_hold on ****7788 equals 1200.0",
+      "rollback": "release the 1200.0 hold and unflag the duplicate",
+      "post_delta": {
+        "payment_hold": 1200.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "payment_hold": 1200.0
+  },
+  "approval": {
+    "required_role": "ap-manager",
+    "status": "pending",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval.",
+  "plan_hash": "716ed3b8ba10be390714392e0fb73e02deb0aa797509d86d134e7f9ee05533d9"
+}

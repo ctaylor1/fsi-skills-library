@@ -30,8 +30,9 @@ may not set the pack to `final`, `issued`, `sent`, or `distributed`.
   present and non-empty; source register and approvals register present.
 - **No unsupported claims:** `unsupported_claims` empty; every decision/metric/risk/issue
   carries at least one citation.
-- **No unapproved claims:** any decision presented as approved/adopted/resolved names a
-  human approver.
+- **No unapproved claims:** a decision whose status is not a recognized non-decided state
+  (`proposed`/`pending`/...) is treated as decided and must name a human approver; the check
+  is an allowlist, so paraphrased or unrecognized decided-state wording fails closed.
 - **Required approvals recorded:** every `requires_approval` decision appears in the
   approvals register with an approver_role and status.
 - **Draft-only:** `status == "draft"`; no send/submit/distribute/finalize/board-approved

@@ -233,6 +233,7 @@ def compute(doc: dict) -> dict:
         "as_of": doc["as_of"],
         "config_version": doc.get("config_version"),
         "queue": doc.get("queue", "catastrophe-risk-review"),
+        "approaching_ratio": approaching,
         "confidence": "degraded" if degraded else "normal",
         "sources": sources,
         "alerts": alerts,

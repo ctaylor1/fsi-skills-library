@@ -1,0 +1,47 @@
+{
+  "_fixture_note": "NON-COMPLIANT (finding: authority limit checked against the plan's OWN field). This price_mismatch repair moves 300,000 — ABOVE the catalog limit of 250,000 for price_mismatch — but the plan self-declares authority_limit=10,000,000 to look in-scope. The old validator compared the amount to that inflated self-declared field (300000 <= 10000000) and passed at exit 0. The fixed validator compares the amount to the CATALOG limit for the break type (250,000) and rejects it. plan_hash is valid (matches core) so the limit check is what closes the bypass.",
+  "plan_id": "PLAN-BRK-55021",
+  "status": "planned",
+  "break_id": "BRK-55021",
+  "trade_id": "TRD-55555",
+  "break_type": "price_mismatch",
+  "catalog_version": "trade-repair-catalog-2026.05",
+  "repair": "amend_price",
+  "amount": 300000.0,
+  "target": "TRD-55555",
+  "authority_limit": 10000000,
+  "reversible": true,
+  "preconditions": [
+    "trade TRD-55555 shows the pre-amendment price"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "amend_price",
+      "idempotency_key": "a1b2c3d4e5f60718",
+      "precondition": "trade TRD-55555 shows the pre-amendment price",
+      "expected_effect": "adjust settlement amount on TRD-55555 by 300000.0",
+      "effect_amount": 300000.0,
+      "verification": "TRD-55555 settlement amount adjusted by 300000.0 to the agreed price",
+      "rollback": "re-amend TRD-55555 to the prior price",
+      "post_delta": {
+        "TRD-55555": 300000.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "TRD-55555": 300000.0
+  },
+  "plan_hash": "db5b9ac245067c46b356fa92a9d1fd26ffcb936ba5438aaf450f0786cb5d6f1c",
+  "approval": {
+    "required_role": "trade-support-specialist",
+    "status": "pending",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

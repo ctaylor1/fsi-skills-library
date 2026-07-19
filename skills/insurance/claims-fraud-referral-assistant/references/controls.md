@@ -23,11 +23,15 @@ fraud-confirmed, denial, closure, void, or SIU-accepted state.
 
 - Only allowed recommendations appear; no fraud-finding/denial/closure/void states.
 - Every triggered indicator ID is from the approved catalogue and carries evidence + citation.
-- `score_band` equals the deterministic mapping (with the prior-SIU override).
+- `score_band` equals the deterministic mapping (with the prior-SIU override), evaluated with
+  the effective band thresholds the engine records on the output (`indicator_config`) so a
+  non-default deployment config ties out instead of being false-rejected against fixed defaults.
 - Each `refer-to-siu` referral has a complete, cited `referral_package` and a drafted
   `referral_document` containing all required template sections (template fidelity).
 - Required human approvals are recorded as **pending/required** — never auto-granted.
-- No unsupported-claim, adverse-decision, or accusatory customer-facing language.
+- No unsupported-claim, adverse-decision, or accusatory customer-facing language — including an
+  affirmative fraud finding in plain phrasing ("this is fraud", "the claim is a fraud", "clearly
+  fraud", "is a fraudster"), which fails closed just like the explicit "confirmed fraud" forms.
 - Standing note present (draft-only; no finding, no denial/closure, no adverse decision).
 
 ## Segregation of duties

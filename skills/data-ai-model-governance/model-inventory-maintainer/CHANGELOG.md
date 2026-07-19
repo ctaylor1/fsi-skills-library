@@ -1,5 +1,14 @@
 # Changelog — model-inventory-maintainer
 
+## [Unreleased]
+- **Fix (materiality tie-out config divergence):** `calculate_or_transform.py` now echoes the
+  effective tier thresholds it used into `materiality_tie_out.config`, and
+  `validate_output.py` re-derives the expected tier from that recorded config instead of the
+  hardcoded `DEFAULT_CONFIG`. A legitimately configured (non-default) rubric no longer fails
+  its own validation; an absent/malformed echo falls back to the strict defaults (fail-safe).
+  Added `evals/files/proposal_nondefault_config.json` + eval `det-output-nondefault-config`
+  as a regression guard (EU-strict rubric, score 6 → Tier 1).
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`).
 

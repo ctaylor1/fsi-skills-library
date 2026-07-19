@@ -1,0 +1,60 @@
+{
+  "plan_id": "PLAN-****0000",
+  "status": "planned",
+  "account_id": "****0000",
+  "account_type": "non_discretionary",
+  "model_id": "balanced-60-40",
+  "policy_version": "ips-model-2026.Q2",
+  "limits": {
+    "max_order_notional": 250000,
+    "max_plan_turnover_pct": 30,
+    "st_gain_budget": 10000,
+    "max_position_weight_bps": 4500,
+    "drift_tolerance_bps": 500
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "sell",
+      "symbol": "VTI",
+      "idempotency_key": "abc123",
+      "precondition": "position VTI holds enough",
+      "expected_effect": "reduce VTI by 999999",
+      "effect_amount": 999999.0,
+      "verification": "OMS fill confirms sell"
+    }
+  ],
+  "expected_post_state": {
+    "positions": {
+      "VTI": {"market_value": 0.0, "weight_bps": 0, "target_weight_bps": 3600, "drift_bps": -3600}
+    },
+    "cash": 999999.0,
+    "max_abs_drift_bps": 3600
+  },
+  "compliance": {
+    "restricted_symbol_buys": [],
+    "wash_sale_violations": [],
+    "over_limit_orders": [],
+    "st_gain_estimate": 0.0,
+    "lt_gain_estimate": 0.0,
+    "st_gain_budget": 10000,
+    "st_gain_within_budget": true,
+    "turnover_pct": 100.0,
+    "turnover_ceiling_pct": 30,
+    "estimated_cost": 500.0,
+    "net_cash_after": 999999.0,
+    "post_drift_within_tolerance": true
+  },
+  "approval": {
+    "required_advisor_role": "licensed-advisor",
+    "advisor": {"status": "pending", "approver": null, "token": null},
+    "client": {"status": "pending", "approver": null, "token": null},
+    "status": "pending"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": ["S1"]
+  },
+  "plan_hash": "deadbeefdeadbeefdeadbeefdeadbeef",
+  "standing_note": "Proposed trades only; no order has been routed or submitted to any OMS/EMS and no position has changed. Execution requires advisor AND client authorization."
+}

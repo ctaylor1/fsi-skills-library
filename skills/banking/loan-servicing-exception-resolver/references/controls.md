@@ -24,9 +24,12 @@ diagnoses/plans cannot also be the approving authority for the same plan.
 - Remedy is in the catalog and within the authority limit; amounts tie to expected
   post-state.
 - Every step has: idempotency key, precondition, expected effect, verification, rollback.
+- `plan_hash` is present and matches the recomputed plan contents. A **missing or blank**
+  hash on any non-rejected plan **fails closed** (integrity cannot be verified).
 - Pre-execution: `approval.status == "pending"` and `execution.state == "blocked"`.
-- No step is marked `executed` unless a valid approval token is present and the approver
-  role matches; otherwise **fail closed**.
+- No step is marked `executed` unless a valid approval token is present, an approver is
+  recorded, and `approval.approver_role` **equals** `approval.required_role`; a missing or
+  mismatched role **fails closed**.
 - Standing note present (pre-execution).
 
 ## Idempotency, verification, rollback

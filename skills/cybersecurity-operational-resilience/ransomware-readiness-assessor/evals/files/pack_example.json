@@ -1,0 +1,276 @@
+{
+  "readiness_id": "rra-wholesale-payments-platform-2026-07-15-0001",
+  "scope": "wholesale-payments-platform",
+  "as_of": "2026-07-15",
+  "config_version": "rw-readiness-cfg-2026.07",
+  "findings": [
+    {
+      "finding": "privileged_mfa_gap",
+      "domain": "identity",
+      "fired": true,
+      "reason": "privileged MFA coverage 0.82 < required 1.00",
+      "evidence": [
+        {
+          "privileged_total": 40,
+          "privileged_with_mfa": 33,
+          "ratio": 0.82,
+          "citation": "rra:iam=pam;report=Q2-2026"
+        }
+      ],
+      "criteria": {
+        "min_privileged_mfa_ratio": 1.0
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "admin_tiering_gap",
+      "domain": "identity",
+      "fired": true,
+      "reason": "no administrative tiering / privileged-access workstation model in place",
+      "evidence": [
+        {
+          "admin_tiering": false,
+          "citation": "rra:iam=pam;report=Q2-2026"
+        }
+      ],
+      "criteria": {
+        "requires": "admin_tiering == true"
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "segmentation_gap",
+      "domain": "segmentation",
+      "fired": true,
+      "reason": "1 critical service(s) not network-segmented",
+      "evidence": [
+        {
+          "service_id": "SVC-PAY",
+          "tier": 1,
+          "segmented": false,
+          "citation": "rra:cmdb=svc;id=SVC-PAY"
+        }
+      ],
+      "criteria": {
+        "requires": "segmented == true"
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "backup_coverage_gap",
+      "domain": "backups",
+      "fired": true,
+      "reason": "1 critical service(s) without a backup",
+      "evidence": [
+        {
+          "service_id": "SVC-RPT",
+          "tier": 2,
+          "citation": "rra:cmdb=svc;id=SVC-RPT"
+        }
+      ],
+      "criteria": {
+        "requires": "backup.exists == true"
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "backup_immutability_gap",
+      "domain": "backups",
+      "fired": true,
+      "reason": "1 critical-service backup(s) neither immutable nor offline",
+      "evidence": [
+        {
+          "service_id": "SVC-PAY",
+          "tier": 1,
+          "immutable": false,
+          "offline_copy": false,
+          "citation": "rra:cmdb=svc;id=SVC-PAY"
+        }
+      ],
+      "criteria": {
+        "requires": "backup.immutable or backup.offline_copy"
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "restore_test_stale",
+      "domain": "recovery",
+      "fired": true,
+      "reason": "1 critical service(s) with no/overdue restore test (> 180d)",
+      "evidence": [
+        {
+          "service_id": "SVC-PAY",
+          "tier": 1,
+          "last_restore_test": "2025-06-01",
+          "days_since": 409,
+          "citation": "rra:cmdb=svc;id=SVC-PAY@2025-06-01"
+        }
+      ],
+      "criteria": {
+        "restore_test_interval_days": 180
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "detection_coverage_gap",
+      "domain": "detection",
+      "fired": true,
+      "reason": "1 critical service(s) below detection coverage 0.9",
+      "evidence": [
+        {
+          "service_id": "SVC-PAY",
+          "tier": 1,
+          "detection_coverage": 0.72,
+          "citation": "rra:cmdb=svc;id=SVC-PAY"
+        }
+      ],
+      "criteria": {
+        "min_detection_coverage": 0.9
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "dependency_mapping_gap",
+      "domain": "critical-service dependencies",
+      "fired": true,
+      "reason": "1 critical service(s) without a dependency map",
+      "evidence": [
+        {
+          "service_id": "SVC-PAY",
+          "tier": 1,
+          "citation": "rra:cmdb=svc;id=SVC-PAY"
+        }
+      ],
+      "criteria": {
+        "requires": "dependency_map == true"
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "third_party_resilience_gap",
+      "domain": "third parties",
+      "fired": true,
+      "reason": "1 critical third part(y/ies) without resilience/recovery assurance",
+      "evidence": [
+        {
+          "tp_id": "TP-1",
+          "name": "PrimaryCloudHost",
+          "missing": [
+            "resilience_evidence",
+            "recovery_commitment"
+          ],
+          "citation": "rra:trm=vendor;id=TP-1"
+        }
+      ],
+      "criteria": {
+        "requires": "resilience_evidence and recovery_commitment for critical vendors"
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "exercise_overdue",
+      "domain": "exercises",
+      "fired": true,
+      "reason": "no ransomware/IR exercise within 365d (latest 2024-11-01)",
+      "evidence": [
+        {
+          "latest_relevant_exercise": "2024-11-01",
+          "citation": "rra:grc=exercise;id=EX-1"
+        }
+      ],
+      "criteria": {
+        "exercise_interval_days": 365,
+        "relevant_types": [
+          "ransomware_tabletop",
+          "ir",
+          "backup_restore"
+        ]
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "comms_readiness_gap",
+      "domain": "communications",
+      "fired": false,
+      "reason": "crisis communications ready and tested",
+      "evidence": [],
+      "criteria": {
+        "requires": "out_of_band channel and tested plan"
+      },
+      "contribution": 0
+    }
+  ],
+  "fired_findings": [
+    "privileged_mfa_gap",
+    "admin_tiering_gap",
+    "segmentation_gap",
+    "backup_coverage_gap",
+    "backup_immutability_gap",
+    "restore_test_stale",
+    "detection_coverage_gap",
+    "dependency_mapping_gap",
+    "third_party_resilience_gap",
+    "exercise_overdue"
+  ],
+  "not_evaluable": [],
+  "staged_remediations": [
+    {
+      "remediation_id": "privileged_mfa_gap:privileged-accounts",
+      "target": "privileged-accounts",
+      "related_finding": "privileged_mfa_gap",
+      "action": "enforce phishing-resistant MFA on all privileged accounts",
+      "citation": "rra:iam=pam;report=Q2-2026",
+      "status": "staged_for_approval"
+    },
+    {
+      "remediation_id": "segmentation_gap:SVC-PAY",
+      "target": "SVC-PAY",
+      "related_finding": "segmentation_gap",
+      "action": "isolate/segment the critical service to contain lateral movement",
+      "citation": "rra:cmdb=svc;id=SVC-PAY",
+      "status": "staged_for_approval"
+    },
+    {
+      "remediation_id": "backup_immutability_gap:SVC-PAY",
+      "target": "SVC-PAY",
+      "related_finding": "backup_immutability_gap",
+      "action": "add an immutable or offline (air-gapped) backup copy",
+      "citation": "rra:cmdb=svc;id=SVC-PAY",
+      "status": "staged_for_approval"
+    },
+    {
+      "remediation_id": "restore_test_stale:SVC-PAY",
+      "target": "SVC-PAY",
+      "related_finding": "restore_test_stale",
+      "action": "perform and evidence a full restore test within the interval",
+      "citation": "rra:cmdb=svc;id=SVC-PAY@2025-06-01",
+      "status": "staged_for_approval"
+    },
+    {
+      "remediation_id": "backup_coverage_gap:SVC-RPT",
+      "target": "SVC-RPT",
+      "related_finding": "backup_coverage_gap",
+      "action": "establish a backup for the critical service",
+      "citation": "rra:cmdb=svc;id=SVC-RPT",
+      "status": "staged_for_approval"
+    },
+    {
+      "remediation_id": "exercise_overdue:ransomware-exercise",
+      "target": "ransomware-exercise",
+      "related_finding": "exercise_overdue",
+      "action": "schedule and conduct a ransomware tabletop / IR exercise",
+      "citation": "rra:grc=exercise;id=EX-1",
+      "status": "staged_for_approval"
+    }
+  ],
+  "suggested_priority": "Elevated",
+  "context_prompts": [
+    "a documented compensating control or accepted exception is on file for a flagged gap",
+    "remediation already in flight but not yet reflected in the evidence extract",
+    "the critical service is scheduled for decommission / migration (verify before prioritizing)",
+    "backup immutability provided by an out-of-band vault not captured in this extract",
+    "an exercise was conducted but its after-action record is not yet logged"
+  ],
+  "disclaimer": "Ransomware-readiness assessment: evidence and staged remediation recommendations only; not a readiness decision or attestation. No remediation has been executed and no assessment has been filed or closed.",
+  "narrative": "Ransomware-readiness assessment of the wholesale-payments-platform scope as of 2026-07-15 (config rw-readiness-cfg-2026.07) evaluated eleven control gaps across the readiness domains and found ten fired. The most material concerns are on the tier-1 Wholesale Payments Core (SVC-PAY): it is not network-segmented, its backup is neither immutable nor offline, its last restore test was 409 days ago against a 180-day interval, and detection coverage is 0.72 against a 0.90 threshold. The Regulatory Reporting Hub (SVC-RPT) has no backup on record. Privileged accounts show 33 of 40 covered by MFA (0.82 against a required 1.00) with no administrative tiering. The most recent ransomware/IR exercise was 2024-11-01, beyond the 365-day interval, and the primary cloud host lacks resilience and recovery-commitment evidence. Six remediation recommendations are staged for a control owner to adjudicate; each is a candidate for approval, not an executed change. Suggested remediation-review priority: Elevated. Before prioritizing, weigh the review-context prompts (compensating controls, remediation already in flight, a planned decommission)."
+}

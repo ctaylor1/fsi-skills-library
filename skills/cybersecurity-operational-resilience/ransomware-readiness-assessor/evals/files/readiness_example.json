@@ -1,0 +1,68 @@
+{
+  "scope": "wholesale-payments-platform",
+  "as_of": "2026-07-15",
+  "config_version": "rw-readiness-cfg-2026.07",
+  "config": {
+    "restore_test_interval_days": 180,
+    "exercise_interval_days": 365,
+    "comms_test_interval_days": 365,
+    "min_detection_coverage": 0.9,
+    "min_privileged_mfa_ratio": 1.0,
+    "relevant_exercise_types": ["ransomware_tabletop", "ir", "backup_restore"]
+  },
+  "identity": {
+    "privileged_total": 40,
+    "privileged_with_mfa": 33,
+    "admin_tiering": false,
+    "source_ref": "iam=pam;report=Q2-2026"
+  },
+  "critical_services": [
+    {
+      "service_id": "SVC-PAY",
+      "name": "Wholesale Payments Core",
+      "tier": 1,
+      "segmented": false,
+      "backup": {"exists": true, "immutable": false, "offline_copy": false},
+      "last_restore_test": "2025-06-01",
+      "detection_coverage": 0.72,
+      "dependency_map": false,
+      "source_ref": "cmdb=svc;id=SVC-PAY"
+    },
+    {
+      "service_id": "SVC-RPT",
+      "name": "Regulatory Reporting Hub",
+      "tier": 2,
+      "segmented": true,
+      "backup": {"exists": false, "immutable": false, "offline_copy": false},
+      "last_restore_test": "2026-05-20",
+      "detection_coverage": 0.94,
+      "dependency_map": true,
+      "source_ref": "cmdb=svc;id=SVC-RPT"
+    },
+    {
+      "service_id": "SVC-MAIL",
+      "name": "Corporate Email",
+      "tier": 2,
+      "segmented": true,
+      "backup": {"exists": true, "immutable": true, "offline_copy": true},
+      "last_restore_test": "2026-06-10",
+      "detection_coverage": 0.97,
+      "dependency_map": true,
+      "source_ref": "cmdb=svc;id=SVC-MAIL"
+    }
+  ],
+  "third_parties": [
+    {"tp_id": "TP-1", "name": "PrimaryCloudHost", "critical": true, "resilience_evidence": false, "recovery_commitment": false, "source_ref": "trm=vendor;id=TP-1"},
+    {"tp_id": "TP-2", "name": "MarketDataFeed", "critical": false, "resilience_evidence": false, "recovery_commitment": false, "source_ref": "trm=vendor;id=TP-2"}
+  ],
+  "exercises": [
+    {"exercise_id": "EX-1", "type": "ransomware_tabletop", "last_conducted": "2024-11-01", "source_ref": "grc=exercise;id=EX-1"},
+    {"exercise_id": "EX-2", "type": "phishing_sim", "last_conducted": "2026-06-01", "source_ref": "grc=exercise;id=EX-2"}
+  ],
+  "communications": {
+    "crisis_plan": true,
+    "out_of_band": true,
+    "last_tested": "2026-04-15",
+    "source_ref": "bcp=comms;plan=v3"
+  }
+}

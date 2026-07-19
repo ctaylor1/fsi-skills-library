@@ -1,0 +1,46 @@
+{
+  "plan_id": "PLAN-PCR-90001",
+  "status": "planned",
+  "request_id": "PCR-90001",
+  "employee_id": "EMP-****8888",
+  "policy_version": "personal-trading-policy-2026.06",
+  "instrument": {"symbol": "ACME", "issuer": "Acme Robotics Corp", "asset_class": "single_name_equity"},
+  "side": "buy",
+  "quantity": 90000,
+  "notional_usd": 5000000.0,
+  "decision": "approve",
+  "hard_blocks": ["restricted_list", "conflicts_mnpi"],
+  "watch_list_hit": false,
+  "conditions": [],
+  "authority_limit": 100000,
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "record_decision",
+      "idempotency_key": "aaaa1111bbbb2222",
+      "precondition": "no prior open preclearance decision exists for PCR-90001",
+      "expected_effect": "record decision 'approve' for PCR-90001 in the preclearance register",
+      "verification": "preclearance register shows decision 'approve' for PCR-90001",
+      "post_state": {"register:PCR-90001:decision": "approve"}
+    },
+    {
+      "step_id": "S2",
+      "action": "issue_clearance_window",
+      "idempotency_key": "cccc3333dddd4444",
+      "precondition": "decision 'approve' recorded for PCR-90001",
+      "expected_effect": "issue clearance window authorizing up to 5000000.0 notional",
+      "verification": "active clearance window present for PCR-90001",
+      "rollback": "revoke the clearance window for PCR-90001",
+      "cleared_notional": 5000000.0,
+      "post_state": {"register:PCR-90001:clearance_state": "cleared"}
+    }
+  ],
+  "expected_post_state": {
+    "register:PCR-90001:decision": "approve",
+    "register:PCR-90001:clearance_state": "cleared"
+  },
+  "plan_hash": "deadbeefdeadbeefdeadbeefdeadbeef",
+  "approval": {"required_role": "compliance-preclearance-analyst", "status": "pending", "approver": null, "token": null},
+  "execution": {"state": "executed", "executed_steps": ["S1", "S2"]},
+  "standing_note": "Decision plan only; no preclearance decision has been recorded and no clearance has been issued. Execution requires compliance approval."
+}

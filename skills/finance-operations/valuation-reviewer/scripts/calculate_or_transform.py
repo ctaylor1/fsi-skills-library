@@ -230,6 +230,9 @@ def compute(doc: dict) -> dict:
         "fired_findings": fired_names,
         "not_evaluable": not_evaluable,
         "suggested_disposition": disposition,
+        # Stamp the escalation threshold actually used (default or config-override) so the
+        # output validator maps the disposition against the SAME threshold, never a hard-coded one.
+        "escalate_finding_count": cfg["escalate_finding_count"],
         "review_considerations": considerations,
         "disclaimer": DISCLAIMER,
     }

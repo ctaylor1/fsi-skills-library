@@ -18,12 +18,39 @@ Usage: python validate_input.py pack_request.json | --selftest
 Exit 0 if no errors (warnings allowed), 1 otherwise.
 """
 from __future__ import annotations
-import json, sys
+import json, re, sys
 from pathlib import Path
 
 REQUIRED_TOP = ("pack_id", "committee", "meeting_date", "template_version", "sources")
 CONTENT_KINDS = ("decisions", "metrics", "risks", "issues")
 TAKEAWAY_MAX_WORDS = 40
+# Allowlist of statuses that mean a decision is NOT yet taken and may stand WITHOUT a recorded
+# human approver. Any status that is non-empty and not one of these -- however phrased -- is a
+# decided claim that needs an approver (fail closed on unknown/paraphrased decided language).
+UNDECIDED_STATES = frozenset({
+    "proposed", "pending", "draft", "tabled", "deferred", "withdrawn", "open",
+    "for discussion", "for noting", "noting", "for information", "information",
+    "for decision", "for approval", "under review", "in review", "not decided",
+    "undecided", "to be approved", "awaiting approval", "awaiting ratification",
+    "pending approval", "pending ratification", "recommended",
+})
+
+
+def _norm_status(status) -> str:
+    """Normalize a status for allowlist comparison: lowercase, punctuation->space, collapse ws."""
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", str(status or "").lower()).split())
+
+
+def presents_as_decided(status) -> bool:
+    """True if a decision's status asserts the decision has been TAKEN (allowlist, fail closed).
+
+    A status counts as *not yet decided* only when empty or an exact match of a recognized
+    non-decided state; any other non-empty status is a decided claim needing an approver.
+    """
+    norm = _norm_status(status)
+    if not norm:
+        return False
+    return norm not in UNDECIDED_STATES
 
 
 def validate(doc: dict) -> tuple[list[str], list[str]]:
@@ -80,8 +107,9 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
             ap = d.get("approval")
             if not ap or not ap.get("approver_role"):
                 warnings.append(f"{tag}: requires approval but no approver_role recorded")
-            status = str(d.get("status", "")).lower()
-            if status in {"approved", "adopted", "resolved", "ratified", "carried"} and not (ap or {}).get("approver"):
+            # Allowlist screen: any status that is not a recognized non-decided state is a
+            # decided claim and must name a human approver (fail closed on paraphrased status).
+            if presents_as_decided(d.get("status")) and not (ap or {}).get("approver"):
                 errors.append(f"{tag}: presented as '{d.get('status')}' but no human approver recorded")
 
     for j, t in enumerate(doc.get("takeaways") or []):

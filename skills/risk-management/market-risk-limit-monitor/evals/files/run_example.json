@@ -1,0 +1,53 @@
+{
+  "run_id": "mrl-2026-07-17-1800",
+  "as_of": "2026-07-17T18:00:00Z",
+  "config_version": "mrl-cfg-2026.07",
+  "max_staleness_hours": 24,
+  "open_alerts": [
+    {"fingerprint": "RATES-GOVT|VAR-RATES-1D-99|var:1d:0.99|current|BREACH"}
+  ],
+  "limits": [
+    {"limit_id": "VAR-RATES-1D-99", "metric": "var", "scope": "book", "scope_value": "RATES-GOVT", "horizon": "1d", "confidence": 0.99, "direction": "max", "limit_value": 5000000, "warn_buffer_pct": 10, "unit": "USD"},
+    {"limit_id": "ES-RATES-1D-975", "metric": "es", "scope": "book", "scope_value": "RATES-GOVT", "horizon": "1d", "confidence": 0.975, "direction": "max", "limit_value": 7500000, "warn_buffer_pct": 10, "unit": "USD"},
+    {"limit_id": "DV01-RATES", "metric": "sensitivity", "sensitivity": "dv01", "scope": "book", "scope_value": "RATES-GOVT", "direction": "max", "limit_value": 150000, "warn_buffer_pct": 10, "unit": "USD/bp"},
+    {"limit_id": "STRESS-2008-RATES", "metric": "stress_loss", "scenario_id": "SCEN-2008-CRISIS", "scope": "book", "scope_value": "RATES-GOVT", "direction": "max", "limit_value": 10000000, "warn_buffer_pct": 10, "unit": "USD"},
+    {"limit_id": "NOTIONAL-RATES", "metric": "notional", "scope": "book", "scope_value": "RATES-GOVT", "direction": "max", "limit_value": 500000000, "warn_buffer_pct": 5, "unit": "USD"},
+    {"limit_id": "CONC-ISSUER-RATES", "metric": "concentration", "sub_scope": "issuer", "scope": "book", "scope_value": "RATES-GOVT", "direction": "max", "limit_value": 20, "warn_buffer_pct": 10, "unit": "%"},
+    {"limit_id": "VAR-EQ-1D-99", "metric": "var", "scope": "book", "scope_value": "EQ-CASH", "horizon": "1d", "confidence": 0.99, "direction": "max", "limit_value": 4000000, "warn_buffer_pct": 10, "unit": "USD"},
+    {"limit_id": "VAR-FX-1D-99", "metric": "var", "scope": "book", "scope_value": "FX-EM", "horizon": "1d", "confidence": 0.99, "direction": "max", "limit_value": 3000000, "warn_buffer_pct": 10, "unit": "USD"}
+  ],
+  "books": [
+    {
+      "unit_id": "RATES-GOVT",
+      "unit_type": "book",
+      "desk": "RATES",
+      "measured_as_of": "2026-07-17T06:00:00Z",
+      "measures": [
+        {"metric": "var", "horizon": "1d", "confidence": 0.99, "value": 5600000, "unit": "USD"},
+        {"metric": "es", "horizon": "1d", "confidence": 0.975, "value": 7800000, "unit": "USD"},
+        {"metric": "sensitivity", "sensitivity": "dv01", "value": 142000, "projected_value": 165000, "unit": "USD/bp"},
+        {"metric": "stress_loss", "scenario_id": "SCEN-2008-CRISIS", "value": 11000000, "unit": "USD"},
+        {"metric": "notional", "value": 480000000, "unit": "USD"},
+        {"metric": "concentration", "sub_scope": "issuer", "value": 22.0, "unit": "%", "largest_name": "GOVT-BOND-30Y"}
+      ]
+    },
+    {
+      "unit_id": "EQ-CASH",
+      "unit_type": "book",
+      "desk": "EQUITIES",
+      "measured_as_of": "2026-07-17T06:00:00Z",
+      "measures": [
+        {"metric": "var", "horizon": "1d", "confidence": 0.99, "value": 3200000, "unit": "USD"}
+      ]
+    },
+    {
+      "unit_id": "FX-EM",
+      "unit_type": "book",
+      "desk": "FX",
+      "measured_as_of": "2026-07-16T06:00:00Z",
+      "measures": [
+        {"metric": "var", "horizon": "1d", "confidence": 0.99, "value": 3300000, "unit": "USD"}
+      ]
+    }
+  ]
+}

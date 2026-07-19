@@ -1,0 +1,242 @@
+{
+  "review_id": "iar-finance-erp-2026-07-15-0001",
+  "org_unit": "finance-erp",
+  "as_of": "2026-07-15",
+  "config_version": "iam-review-cfg-2026.07",
+  "findings": [
+    {
+      "finding": "sod_conflict",
+      "fired": true,
+      "reason": "1 user(s) hold a toxic SoD entitlement pair",
+      "evidence": [
+        {
+          "user_id": "U-100",
+          "entitlements": [
+            "ap_payment_release",
+            "ap_vendor_maintenance"
+          ],
+          "grant_ids": [
+            "G-2",
+            "G-1"
+          ],
+          "citation": "iam:iam=erp;grant=G-2"
+        }
+      ],
+      "criteria": {
+        "sod_rules": [
+          [
+            "ap_payment_release",
+            "ap_vendor_maintenance"
+          ],
+          [
+            "trade_execution",
+            "trade_settlement"
+          ],
+          [
+            "audit_log_admin",
+            "user_admin"
+          ]
+        ]
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "dormant_privileged",
+      "fired": true,
+      "reason": "1 privileged grant(s) on dormant accounts",
+      "evidence": [
+        {
+          "grant_id": "G-8",
+          "account_id": "A-6",
+          "entitlement": "infra_admin",
+          "gap_days": 164,
+          "citation": "iam:iam=erp;grant=G-8@2026-02-01"
+        }
+      ],
+      "criteria": {
+        "dormancy_days": 90
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "inactive_account",
+      "fired": true,
+      "reason": "2 account(s) inactive >= 90d",
+      "evidence": [
+        {
+          "account_id": "A-4",
+          "user_id": "U-103",
+          "gap_days": 191,
+          "citation": "iam:iam=erp;acct=A-4@2026-01-05"
+        },
+        {
+          "account_id": "A-6",
+          "user_id": "U-100",
+          "gap_days": 164,
+          "citation": "iam:iam=erp;acct=A-6@2026-02-01"
+        }
+      ],
+      "criteria": {
+        "inactivity_days": 90
+      },
+      "contribution": 2
+    },
+    {
+      "finding": "orphaned_account",
+      "fired": true,
+      "reason": "2 orphaned account(s)",
+      "evidence": [
+        {
+          "account_id": "A-3",
+          "user_id": "U-102",
+          "why": "owner HR status terminated",
+          "citation": "iam:iam=erp;acct=A-3"
+        },
+        {
+          "account_id": "A-5",
+          "user_id": "U-999",
+          "why": "owner not in identity roster",
+          "citation": "iam:iam=erp;acct=A-5"
+        }
+      ],
+      "criteria": {
+        "checks": [
+          "terminated owner",
+          "owner missing from roster"
+        ]
+      },
+      "contribution": 2
+    },
+    {
+      "finding": "unapproved_privileged",
+      "fired": true,
+      "reason": "1 privileged grant(s) without an approval record",
+      "evidence": [
+        {
+          "grant_id": "G-8",
+          "account_id": "A-6",
+          "entitlement": "infra_admin",
+          "citation": "iam:iam=erp;grant=G-8"
+        }
+      ],
+      "criteria": {
+        "requires": "approval_ref for privileged"
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "stale_certification",
+      "fired": true,
+      "reason": "2 grant(s) overdue for recertification (> 365d)",
+      "evidence": [
+        {
+          "grant_id": "G-7",
+          "entitlement": "batch_runner",
+          "last_certified": "2024-01-01",
+          "days_since": 926,
+          "citation": "iam:iam=erp;grant=G-7@2024-01-01"
+        },
+        {
+          "grant_id": "G-8",
+          "entitlement": "infra_admin",
+          "last_certified": "2025-01-01",
+          "days_since": 560,
+          "citation": "iam:iam=erp;grant=G-8@2025-01-01"
+        }
+      ],
+      "criteria": {
+        "certification_interval_days": 365
+      },
+      "contribution": 2
+    },
+    {
+      "finding": "privileged_without_mfa",
+      "fired": true,
+      "reason": "1 privileged grant(s) on accounts without MFA",
+      "evidence": [
+        {
+          "grant_id": "G-3",
+          "account_id": "A-2",
+          "entitlement": "user_admin",
+          "citation": "iam:iam=erp;grant=G-3"
+        }
+      ],
+      "criteria": {
+        "requires": "mfa_enabled for privileged"
+      },
+      "contribution": 1
+    },
+    {
+      "finding": "over_entitled",
+      "fired": false,
+      "reason": "no over-entitled accounts",
+      "evidence": [],
+      "criteria": {
+        "max_entitlements": 15
+      },
+      "contribution": 0
+    }
+  ],
+  "fired_findings": [
+    "sod_conflict",
+    "dormant_privileged",
+    "inactive_account",
+    "orphaned_account",
+    "unapproved_privileged",
+    "stale_certification",
+    "privileged_without_mfa"
+  ],
+  "not_evaluable": [],
+  "staged_revocations": [
+    {
+      "grant_id": "G-2",
+      "account_id": "A-1",
+      "entitlement": "ap_payment_release",
+      "related_finding": "sod_conflict",
+      "reason": "toxic-combination side of SoD pair (ap_payment_release + ap_vendor_maintenance) for U-100",
+      "status": "staged_for_approval"
+    },
+    {
+      "grant_id": "G-8",
+      "account_id": "A-6",
+      "entitlement": "infra_admin",
+      "related_finding": "dormant_privileged",
+      "reason": "privileged entitlement on account inactive 164d (>= 90)",
+      "status": "staged_for_approval"
+    },
+    {
+      "grant_id": "G-4",
+      "account_id": "A-3",
+      "entitlement": "reporting_read",
+      "related_finding": "orphaned_account",
+      "reason": "grant on orphaned account (owner HR status terminated)",
+      "status": "staged_for_approval"
+    },
+    {
+      "grant_id": "G-5",
+      "account_id": "A-3",
+      "entitlement": "db_admin",
+      "related_finding": "orphaned_account",
+      "reason": "grant on orphaned account (owner HR status terminated)",
+      "status": "staged_for_approval"
+    },
+    {
+      "grant_id": "G-7",
+      "account_id": "A-5",
+      "entitlement": "batch_runner",
+      "related_finding": "orphaned_account",
+      "reason": "grant on orphaned account (owner not in identity roster)",
+      "status": "staged_for_approval"
+    }
+  ],
+  "suggested_priority": "Elevated",
+  "context_prompts": [
+    "approved standing exception or break-glass account on file",
+    "recent role change / transfer still within grace period",
+    "service or shared account operating by design (verify owner + rotation)",
+    "planned leave of absence explaining inactivity",
+    "certification in progress but not yet recorded"
+  ],
+  "disclaimer": "Access-review evidence and staged recommendations only; not an access decision. No entitlement has been revoked, disabled, or certified.",
+  "narrative": "Access review of org unit finance-erp for the period ending 2026-07-15 evaluated eight rules and fired seven findings across identities, accounts, and entitlements. One user (U-100) holds a toxic segregation-of-duties pair (ap_vendor_maintenance + ap_payment_release); one privileged entitlement (infra_admin on A-6) sits on a dormant account and carries no approval record; two accounts are orphaned (a terminated owner and an owner missing from the roster); one privileged account lacks MFA; and two grants are overdue for recertification. The review stages five revocation candidates for the control owner to adjudicate and recommends the owners recertify or justify the flagged grants. Suggested review priority: Elevated. Before adjudicating, weigh the review-context prompts (approved exceptions, break-glass, recent transfers, planned leave). No access decision has been made and no entitlement has been changed; see disclaimer."
+}

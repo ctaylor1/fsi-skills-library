@@ -22,8 +22,9 @@ import json, sys
 from pathlib import Path
 
 REQUIRED_SECTIONS = ("cover", "agenda", "decisions", "metrics", "risks", "issues", "takeaways")
-# statuses that assert the decision has been made (require a recorded human approver)
-APPROVED_STATES = {"approved", "adopted", "resolved", "ratified", "carried"}
+# A decision may be presented as taken ONLY when a human approver is recorded on its approval
+# block; the assembler carries status/approver through unchanged and never sets them itself.
+# The decided-vs-non-decided allowlist screen lives in validate_input / validate_output.
 STANDING_NOTE = ("DRAFT board/committee pack assembled for human review; nothing has been "
                  "sent, submitted, distributed, or finalized, and no decision has been "
                  "approved by this skill.")

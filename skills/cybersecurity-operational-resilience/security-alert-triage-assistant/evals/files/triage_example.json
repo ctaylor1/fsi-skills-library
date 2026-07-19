@@ -1,0 +1,911 @@
+{
+  "config_version": "sec-triage-2026.07",
+  "template_version": "sec-triage-package-v1",
+  "batch_id": "SOC-BATCH-2026-0716-A",
+  "package_status": "needs-data",
+  "hard_boundary": false,
+  "triage": [
+    {
+      "alert_id": "SA-3001",
+      "case_id": "SEC-SA-3001",
+      "alert_class": "malware-c2",
+      "priority_score": 16,
+      "priority_band": "P1 (Critical)",
+      "priority_reason": "asset Critical +4; identity privileged +3; threat-intel known_malicious +4; internet-facing +2; confidence high +2; correlation +1",
+      "ti_known_malicious": true,
+      "enrichment": {
+        "asset": {
+          "asset_id": "AST-WEB-11",
+          "asset_ref": "web-prod-11",
+          "criticality": "Critical",
+          "internet_facing": true
+        },
+        "identity": {
+          "identity_ref": "svc-****-adm",
+          "privilege": "privileged"
+        },
+        "threat_intel": {
+          "severity": "high",
+          "known_malicious": true,
+          "active_compromise": false,
+          "iocs": [
+            "185.x.x.x",
+            "sha256:abcd"
+          ]
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "internet-facing"
+        }
+      },
+      "citations": [
+        "siem:alert=SA-3001@2026-07-16",
+        "cmdb:asset=AST-WEB-11@2026-07-16",
+        "iam:identity=svc-****-adm@2026-07-16",
+        "ti:signature=SIG-C2-BEACON@2026-07-16",
+        "posture:asset=AST-WEB-11@2026-07-16"
+      ],
+      "suppression": null,
+      "investigation_context": {
+        "case_id": "SEC-SA-3001",
+        "asset": {
+          "asset_id": "AST-WEB-11",
+          "asset_ref": "web-prod-11",
+          "criticality": "Critical",
+          "internet_facing": true
+        },
+        "identity": {
+          "identity_ref": "svc-****-adm",
+          "privilege": "privileged"
+        },
+        "signature_id": "SIG-C2-BEACON",
+        "alert_class": "malware-c2",
+        "window": {
+          "from": "2026-07-16",
+          "to": "2026-07-16"
+        },
+        "signal_ids": [
+          "S10",
+          "S11"
+        ],
+        "threat_intel": {
+          "severity": "high",
+          "known_malicious": true,
+          "active_compromise": false,
+          "iocs": [
+            "185.x.x.x",
+            "sha256:abcd"
+          ]
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "internet-facing"
+        },
+        "correlated_cases": [],
+        "recommended_priority": "P1 (Critical)",
+        "priority_reason": "asset Critical +4; identity privileged +3; threat-intel known_malicious +4; internet-facing +2; confidence high +2; correlation +1",
+        "recommended_next_steps": "Recommend the analyst review the malicious-signal chain and correlated alerts, confirm indicator reputation against threat intelligence, and assess blast radius across the affected asset before incident response determines any response action.",
+        "citations": [
+          "siem:alert=SA-3001@2026-07-16",
+          "cmdb:asset=AST-WEB-11@2026-07-16",
+          "iam:identity=svc-****-adm@2026-07-16",
+          "ti:signature=SIG-C2-BEACON@2026-07-16",
+          "posture:asset=AST-WEB-11@2026-07-16"
+        ]
+      },
+      "needs": [],
+      "disposition": "prepared-for-investigation",
+      "route_specialist": "cyber-incident-response-coordinator"
+    },
+    {
+      "alert_id": "SA-3002",
+      "case_id": "SEC-SA-3002",
+      "alert_class": "auth-anomaly",
+      "priority_score": 5,
+      "priority_band": "P2 (High)",
+      "priority_reason": "asset High +3; threat-intel medium +1; confidence medium +1",
+      "ti_known_malicious": false,
+      "enrichment": {
+        "asset": {
+          "asset_id": "AST-APP-22",
+          "asset_ref": "app-hr-22",
+          "criticality": "High",
+          "internet_facing": false
+        },
+        "identity": {
+          "identity_ref": "user-****-772",
+          "privilege": "standard"
+        },
+        "threat_intel": {
+          "severity": "medium",
+          "known_malicious": false,
+          "active_compromise": false,
+          "iocs": []
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "internal"
+        }
+      },
+      "citations": [
+        "siem:alert=SA-3002@2026-07-16",
+        "cmdb:asset=AST-APP-22@2026-07-16",
+        "iam:identity=user-****-772@2026-07-16",
+        "ti:signature=SIG-IMPOSSIBLE-TRAVEL@2026-07-16",
+        "posture:asset=AST-APP-22@2026-07-16"
+      ],
+      "suppression": null,
+      "investigation_context": {
+        "case_id": "SEC-SA-3002",
+        "asset": {
+          "asset_id": "AST-APP-22",
+          "asset_ref": "app-hr-22",
+          "criticality": "High",
+          "internet_facing": false
+        },
+        "identity": {
+          "identity_ref": "user-****-772",
+          "privilege": "standard"
+        },
+        "signature_id": "SIG-IMPOSSIBLE-TRAVEL",
+        "alert_class": "auth-anomaly",
+        "window": {
+          "from": "2026-07-16",
+          "to": "2026-07-16"
+        },
+        "signal_ids": [
+          "S20"
+        ],
+        "threat_intel": {
+          "severity": "medium",
+          "known_malicious": false,
+          "active_compromise": false,
+          "iocs": []
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "internal"
+        },
+        "correlated_cases": [],
+        "recommended_priority": "P2 (High)",
+        "priority_reason": "asset High +3; threat-intel medium +1; confidence medium +1",
+        "recommended_next_steps": "Recommend the analyst review authentication and sign-in evidence for the affected identity, compare against baseline behavior, and route to the identity-access review for a privileged-access assessment.",
+        "citations": [
+          "siem:alert=SA-3002@2026-07-16",
+          "cmdb:asset=AST-APP-22@2026-07-16",
+          "iam:identity=user-****-772@2026-07-16",
+          "ti:signature=SIG-IMPOSSIBLE-TRAVEL@2026-07-16",
+          "posture:asset=AST-APP-22@2026-07-16"
+        ]
+      },
+      "needs": [],
+      "disposition": "prepared-for-investigation",
+      "route_specialist": "identity-access-reviewer"
+    },
+    {
+      "alert_id": "SA-3003",
+      "case_id": "SEC-SA-3003",
+      "alert_class": "brute-force",
+      "priority_score": 1,
+      "priority_band": "P3 (Moderate)",
+      "priority_reason": "asset Medium +1",
+      "ti_known_malicious": false,
+      "enrichment": {
+        "asset": {
+          "asset_id": "AST-DB-07",
+          "asset_ref": "db-fin-07",
+          "criticality": "Medium",
+          "internet_facing": false
+        },
+        "identity": {
+          "identity_ref": "user-****-118",
+          "privilege": "standard"
+        },
+        "threat_intel": {
+          "severity": "low",
+          "known_malicious": false,
+          "active_compromise": false,
+          "iocs": []
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "internal"
+        }
+      },
+      "citations": [
+        "siem:alert=SA-3003@2026-07-16",
+        "cmdb:asset=AST-DB-07@2026-07-16",
+        "iam:identity=user-****-118@2026-07-16",
+        "ti:signature=SIG-BRUTEFORCE@2026-07-16",
+        "posture:asset=AST-DB-07@2026-07-16"
+      ],
+      "suppression": {
+        "rule_id": "SUP-DUP-01",
+        "evidence": {
+          "parent_case_id": "SEC-SA-1000",
+          "matched_signals": [
+            "G1",
+            "G2"
+          ]
+        },
+        "rule_set_version": "sec-triage-2026.07"
+      },
+      "investigation_context": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "alert_id": "SA-3004",
+      "case_id": "SEC-SA-3004",
+      "alert_class": "vuln-exploit",
+      "priority_score": 3,
+      "priority_band": "P3 (Moderate)",
+      "priority_reason": "asset Medium +1; identity service +2",
+      "ti_known_malicious": false,
+      "enrichment": {
+        "asset": {
+          "asset_id": "AST-SRV-40",
+          "asset_ref": "srv-app-40",
+          "criticality": "Medium",
+          "internet_facing": false
+        },
+        "identity": {
+          "identity_ref": "svc-scan-****",
+          "privilege": "service"
+        },
+        "threat_intel": {
+          "severity": "none",
+          "known_malicious": false,
+          "active_compromise": false,
+          "iocs": []
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "internal"
+        }
+      },
+      "citations": [
+        "siem:alert=SA-3004@2026-07-16",
+        "cmdb:asset=AST-SRV-40@2026-07-16",
+        "iam:identity=svc-scan-****@2026-07-16",
+        "ti:signature=SIG-VULN-PROBE@2026-07-16",
+        "posture:asset=AST-SRV-40@2026-07-16"
+      ],
+      "suppression": {
+        "rule_id": "SUP-SCANNER-01",
+        "evidence": {
+          "scanner_id": "SCANNER-QUALYS-01",
+          "signal_ids": [
+            "S40"
+          ]
+        },
+        "rule_set_version": "sec-triage-2026.07"
+      },
+      "investigation_context": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "alert_id": "SA-3005",
+      "case_id": "SEC-SA-3005",
+      "alert_class": "cloud-misconfig",
+      "priority_score": 3,
+      "priority_band": "P3 (Moderate)",
+      "priority_reason": "asset Medium +1; identity service +2",
+      "ti_known_malicious": false,
+      "enrichment": {
+        "asset": {
+          "asset_id": "AST-CLD-53",
+          "asset_ref": "cloud-acct-53",
+          "criticality": "Medium",
+          "internet_facing": false
+        },
+        "identity": {
+          "identity_ref": "svc-deploy-****",
+          "privilege": "service"
+        },
+        "threat_intel": {
+          "severity": "none",
+          "known_malicious": false,
+          "active_compromise": false,
+          "iocs": []
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "internal"
+        }
+      },
+      "citations": [
+        "siem:alert=SA-3005@2026-07-15",
+        "cmdb:asset=AST-CLD-53@2026-07-15",
+        "iam:identity=svc-deploy-****@2026-07-15",
+        "ti:signature=SIG-CONFIG-CHANGE@2026-07-15",
+        "posture:asset=AST-CLD-53@2026-07-15"
+      ],
+      "suppression": {
+        "rule_id": "SUP-MAINT-01",
+        "evidence": {
+          "window_id": "CHG-2026-0714",
+          "qualifying_signals": [
+            "S50"
+          ]
+        },
+        "rule_set_version": "sec-triage-2026.07"
+      },
+      "investigation_context": null,
+      "needs": [],
+      "disposition": "approved-suppressed"
+    },
+    {
+      "alert_id": "SA-3006",
+      "case_id": "SEC-SA-3006",
+      "alert_class": "malware-c2",
+      "priority_score": 1,
+      "priority_band": "P3 (Moderate)",
+      "priority_reason": "confidence medium +1",
+      "ti_known_malicious": false,
+      "enrichment": {
+        "asset": {
+          "asset_id": null,
+          "asset_ref": "unknown-host",
+          "criticality": null,
+          "internet_facing": false
+        },
+        "identity": {
+          "identity_ref": "user-****-604",
+          "privilege": "standard"
+        },
+        "threat_intel": {
+          "severity": "low",
+          "known_malicious": false,
+          "active_compromise": false,
+          "iocs": []
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "unknown"
+        }
+      },
+      "citations": [
+        "siem:alert=SA-3006@2026-07-16",
+        "iam:identity=user-****-604@2026-07-16",
+        "ti:signature=SIG-SUSPICIOUS-EXEC@2026-07-16",
+        "posture:asset=asset@2026-07-16"
+      ],
+      "suppression": null,
+      "investigation_context": null,
+      "needs": [
+        "asset criticality (asset unresolved in CMDB)"
+      ],
+      "disposition": "needs-data"
+    },
+    {
+      "alert_id": "SA-3007",
+      "case_id": "SEC-SA-3007",
+      "alert_class": "brute-force",
+      "priority_score": 1,
+      "priority_band": "P3 (Moderate)",
+      "priority_reason": "asset Medium +1",
+      "ti_known_malicious": false,
+      "enrichment": {
+        "asset": {
+          "asset_id": "AST-DB-07",
+          "asset_ref": "db-fin-07",
+          "criticality": "Medium",
+          "internet_facing": false
+        },
+        "identity": {
+          "identity_ref": "user-****-118",
+          "privilege": "standard"
+        },
+        "threat_intel": {
+          "severity": "low",
+          "known_malicious": false,
+          "active_compromise": false,
+          "iocs": []
+        },
+        "vuln_posture": {
+          "kev_nexus": false,
+          "exposure": "internal"
+        }
+      },
+      "citations": [
+        "siem:alert=SA-3007@2026-07-16",
+        "cmdb:asset=AST-DB-07@2026-07-16",
+        "iam:identity=user-****-118@2026-07-16",
+        "ti:signature=SIG-BRUTEFORCE@2026-07-16",
+        "posture:asset=AST-DB-07@2026-07-16"
+      ],
+      "suppression": null,
+      "investigation_context": null,
+      "needs": [],
+      "disposition": "correlated-duplicate",
+      "linked_case_id": "SEC-SA-1000"
+    }
+  ],
+  "sections": {
+    "triage_batch_overview": {
+      "title": "Triage Batch Overview",
+      "batch_id": "SOC-BATCH-2026-0716-A",
+      "source_queue": "tier-1-siem-queue",
+      "package_status": "needs-data",
+      "total_alerts": 7,
+      "counts": {
+        "prepared_for_investigation": 2,
+        "approved_suppressed": 3,
+        "needs_data": 1,
+        "correlated_duplicate": 1
+      },
+      "config_version": "sec-triage-2026.07",
+      "template_version": "sec-triage-package-v1"
+    },
+    "alert_enrichment": {
+      "title": "Alert Enrichment",
+      "status": "present",
+      "items": [
+        "SA-3001 [malware-c2]: asset web-prod-11 (Critical), identity svc-****-adm (privileged)",
+        "SA-3002 [auth-anomaly]: asset app-hr-22 (High), identity user-****-772 (standard)",
+        "SA-3003 [brute-force]: asset db-fin-07 (Medium), identity user-****-118 (standard)",
+        "SA-3004 [vuln-exploit]: asset srv-app-40 (Medium), identity svc-scan-**** (service)",
+        "SA-3005 [cloud-misconfig]: asset cloud-acct-53 (Medium), identity svc-deploy-**** (service)",
+        "SA-3006 [malware-c2]: asset unknown-host (None), identity user-****-604 (standard)",
+        "SA-3007 [brute-force]: asset db-fin-07 (Medium), identity user-****-118 (standard)"
+      ],
+      "citations": [
+        "cmdb:asset=AST-APP-22@2026-07-16",
+        "cmdb:asset=AST-CLD-53@2026-07-15",
+        "cmdb:asset=AST-DB-07@2026-07-16",
+        "cmdb:asset=AST-SRV-40@2026-07-16",
+        "cmdb:asset=AST-WEB-11@2026-07-16",
+        "iam:identity=svc-****-adm@2026-07-16",
+        "iam:identity=svc-deploy-****@2026-07-15",
+        "iam:identity=svc-scan-****@2026-07-16",
+        "iam:identity=user-****-118@2026-07-16",
+        "iam:identity=user-****-604@2026-07-16",
+        "iam:identity=user-****-772@2026-07-16",
+        "posture:asset=AST-APP-22@2026-07-16",
+        "posture:asset=AST-CLD-53@2026-07-15",
+        "posture:asset=AST-DB-07@2026-07-16",
+        "posture:asset=AST-SRV-40@2026-07-16",
+        "posture:asset=AST-WEB-11@2026-07-16",
+        "posture:asset=asset@2026-07-16",
+        "siem:alert=SA-3001@2026-07-16",
+        "siem:alert=SA-3002@2026-07-16",
+        "siem:alert=SA-3003@2026-07-16",
+        "siem:alert=SA-3004@2026-07-16",
+        "siem:alert=SA-3005@2026-07-15",
+        "siem:alert=SA-3006@2026-07-16",
+        "siem:alert=SA-3007@2026-07-16",
+        "ti:signature=SIG-BRUTEFORCE@2026-07-16",
+        "ti:signature=SIG-C2-BEACON@2026-07-16",
+        "ti:signature=SIG-CONFIG-CHANGE@2026-07-15",
+        "ti:signature=SIG-IMPOSSIBLE-TRAVEL@2026-07-16",
+        "ti:signature=SIG-SUSPICIOUS-EXEC@2026-07-16",
+        "ti:signature=SIG-VULN-PROBE@2026-07-16"
+      ]
+    },
+    "asset_identity_map": {
+      "title": "Affected Assets & Identities",
+      "status": "present",
+      "assets": [
+        {
+          "asset_id": "AST-WEB-11",
+          "asset_ref": "web-prod-11",
+          "criticality": "Critical",
+          "internet_facing": true,
+          "alert_ids": [
+            "SA-3001"
+          ]
+        },
+        {
+          "asset_id": "AST-APP-22",
+          "asset_ref": "app-hr-22",
+          "criticality": "High",
+          "internet_facing": false,
+          "alert_ids": [
+            "SA-3002"
+          ]
+        },
+        {
+          "asset_id": "AST-DB-07",
+          "asset_ref": "db-fin-07",
+          "criticality": "Medium",
+          "internet_facing": false,
+          "alert_ids": [
+            "SA-3003",
+            "SA-3007"
+          ]
+        },
+        {
+          "asset_id": "AST-SRV-40",
+          "asset_ref": "srv-app-40",
+          "criticality": "Medium",
+          "internet_facing": false,
+          "alert_ids": [
+            "SA-3004"
+          ]
+        },
+        {
+          "asset_id": "AST-CLD-53",
+          "asset_ref": "cloud-acct-53",
+          "criticality": "Medium",
+          "internet_facing": false,
+          "alert_ids": [
+            "SA-3005"
+          ]
+        }
+      ],
+      "identities": [
+        {
+          "identity_ref": "svc-****-adm",
+          "privilege": "privileged",
+          "alert_ids": [
+            "SA-3001"
+          ]
+        },
+        {
+          "identity_ref": "user-****-772",
+          "privilege": "standard",
+          "alert_ids": [
+            "SA-3002"
+          ]
+        },
+        {
+          "identity_ref": "user-****-118",
+          "privilege": "standard",
+          "alert_ids": [
+            "SA-3003",
+            "SA-3007"
+          ]
+        },
+        {
+          "identity_ref": "svc-scan-****",
+          "privilege": "service",
+          "alert_ids": [
+            "SA-3004"
+          ]
+        },
+        {
+          "identity_ref": "svc-deploy-****",
+          "privilege": "service",
+          "alert_ids": [
+            "SA-3005"
+          ]
+        },
+        {
+          "identity_ref": "user-****-604",
+          "privilege": "standard",
+          "alert_ids": [
+            "SA-3006"
+          ]
+        }
+      ],
+      "citations": [
+        "cmdb:asset=AST-APP-22@2026-07-16",
+        "cmdb:asset=AST-CLD-53@2026-07-15",
+        "cmdb:asset=AST-DB-07@2026-07-16",
+        "cmdb:asset=AST-SRV-40@2026-07-16",
+        "cmdb:asset=AST-WEB-11@2026-07-16",
+        "iam:identity=svc-****-adm@2026-07-16",
+        "iam:identity=svc-deploy-****@2026-07-15",
+        "iam:identity=svc-scan-****@2026-07-16",
+        "iam:identity=user-****-118@2026-07-16",
+        "iam:identity=user-****-604@2026-07-16",
+        "iam:identity=user-****-772@2026-07-16",
+        "posture:asset=AST-APP-22@2026-07-16",
+        "posture:asset=AST-CLD-53@2026-07-15",
+        "posture:asset=AST-DB-07@2026-07-16",
+        "posture:asset=AST-SRV-40@2026-07-16",
+        "posture:asset=AST-WEB-11@2026-07-16",
+        "posture:asset=asset@2026-07-16",
+        "siem:alert=SA-3001@2026-07-16",
+        "siem:alert=SA-3002@2026-07-16",
+        "siem:alert=SA-3003@2026-07-16",
+        "siem:alert=SA-3004@2026-07-16",
+        "siem:alert=SA-3005@2026-07-15",
+        "siem:alert=SA-3006@2026-07-16",
+        "siem:alert=SA-3007@2026-07-16",
+        "ti:signature=SIG-BRUTEFORCE@2026-07-16",
+        "ti:signature=SIG-C2-BEACON@2026-07-16",
+        "ti:signature=SIG-CONFIG-CHANGE@2026-07-15",
+        "ti:signature=SIG-IMPOSSIBLE-TRAVEL@2026-07-16",
+        "ti:signature=SIG-SUSPICIOUS-EXEC@2026-07-16",
+        "ti:signature=SIG-VULN-PROBE@2026-07-16"
+      ]
+    },
+    "correlation_deduplication": {
+      "title": "Correlation & Deduplication",
+      "links": [
+        {
+          "alert_id": "SA-3007",
+          "relationship": "correlated-duplicate",
+          "parent_case_id": "SEC-SA-1000"
+        },
+        {
+          "alert_id": "SA-3003",
+          "relationship": "exact-duplicate",
+          "parent_case_id": "SEC-SA-1000"
+        }
+      ],
+      "note": "Duplicates are linked to a parent case; they are never merged and never dispositioned here."
+    },
+    "prioritization": {
+      "title": "Prioritization",
+      "bands": {
+        "P1 (Critical)": 1,
+        "P2 (High)": 1,
+        "P3 (Moderate)": 5
+      },
+      "records": [
+        {
+          "alert_id": "SA-3001",
+          "priority_band": "P1 (Critical)",
+          "priority_score": 16,
+          "priority_reason": "asset Critical +4; identity privileged +3; threat-intel known_malicious +4; internet-facing +2; confidence high +2; correlation +1"
+        },
+        {
+          "alert_id": "SA-3002",
+          "priority_band": "P2 (High)",
+          "priority_score": 5,
+          "priority_reason": "asset High +3; threat-intel medium +1; confidence medium +1"
+        },
+        {
+          "alert_id": "SA-3003",
+          "priority_band": "P3 (Moderate)",
+          "priority_score": 1,
+          "priority_reason": "asset Medium +1"
+        },
+        {
+          "alert_id": "SA-3004",
+          "priority_band": "P3 (Moderate)",
+          "priority_score": 3,
+          "priority_reason": "asset Medium +1; identity service +2"
+        },
+        {
+          "alert_id": "SA-3005",
+          "priority_band": "P3 (Moderate)",
+          "priority_score": 3,
+          "priority_reason": "asset Medium +1; identity service +2"
+        },
+        {
+          "alert_id": "SA-3006",
+          "priority_band": "P3 (Moderate)",
+          "priority_score": 1,
+          "priority_reason": "confidence medium +1"
+        },
+        {
+          "alert_id": "SA-3007",
+          "priority_band": "P3 (Moderate)",
+          "priority_score": 1,
+          "priority_reason": "asset Medium +1"
+        }
+      ],
+      "note": "Deterministic, documented scoring; a triage rank for a human analyst, not a verdict."
+    },
+    "suppression_log": {
+      "title": "Approved Suppression Log",
+      "entries": [
+        {
+          "alert_id": "SA-3003",
+          "rule_id": "SUP-DUP-01",
+          "evidence": {
+            "parent_case_id": "SEC-SA-1000",
+            "matched_signals": [
+              "G1",
+              "G2"
+            ]
+          },
+          "rule_set_version": "sec-triage-2026.07"
+        },
+        {
+          "alert_id": "SA-3004",
+          "rule_id": "SUP-SCANNER-01",
+          "evidence": {
+            "scanner_id": "SCANNER-QUALYS-01",
+            "signal_ids": [
+              "S40"
+            ]
+          },
+          "rule_set_version": "sec-triage-2026.07"
+        },
+        {
+          "alert_id": "SA-3005",
+          "rule_id": "SUP-MAINT-01",
+          "evidence": {
+            "window_id": "CHG-2026-0714",
+            "qualifying_signals": [
+              "S50"
+            ]
+          },
+          "rule_set_version": "sec-triage-2026.07"
+        }
+      ],
+      "note": "Only approved, documented suppression rules; suppression removes known-benign noise, never a genuine alert."
+    },
+    "investigation_context": {
+      "title": "Analyst-Ready Investigation Context",
+      "status": "present",
+      "packages": [
+        {
+          "case_id": "SEC-SA-3001",
+          "asset": {
+            "asset_id": "AST-WEB-11",
+            "asset_ref": "web-prod-11",
+            "criticality": "Critical",
+            "internet_facing": true
+          },
+          "identity": {
+            "identity_ref": "svc-****-adm",
+            "privilege": "privileged"
+          },
+          "signature_id": "SIG-C2-BEACON",
+          "alert_class": "malware-c2",
+          "window": {
+            "from": "2026-07-16",
+            "to": "2026-07-16"
+          },
+          "signal_ids": [
+            "S10",
+            "S11"
+          ],
+          "threat_intel": {
+            "severity": "high",
+            "known_malicious": true,
+            "active_compromise": false,
+            "iocs": [
+              "185.x.x.x",
+              "sha256:abcd"
+            ]
+          },
+          "vuln_posture": {
+            "kev_nexus": false,
+            "exposure": "internet-facing"
+          },
+          "correlated_cases": [],
+          "recommended_priority": "P1 (Critical)",
+          "priority_reason": "asset Critical +4; identity privileged +3; threat-intel known_malicious +4; internet-facing +2; confidence high +2; correlation +1",
+          "recommended_next_steps": "Recommend the analyst review the malicious-signal chain and correlated alerts, confirm indicator reputation against threat intelligence, and assess blast radius across the affected asset before incident response determines any response action.",
+          "citations": [
+            "siem:alert=SA-3001@2026-07-16",
+            "cmdb:asset=AST-WEB-11@2026-07-16",
+            "iam:identity=svc-****-adm@2026-07-16",
+            "ti:signature=SIG-C2-BEACON@2026-07-16",
+            "posture:asset=AST-WEB-11@2026-07-16"
+          ]
+        },
+        {
+          "case_id": "SEC-SA-3002",
+          "asset": {
+            "asset_id": "AST-APP-22",
+            "asset_ref": "app-hr-22",
+            "criticality": "High",
+            "internet_facing": false
+          },
+          "identity": {
+            "identity_ref": "user-****-772",
+            "privilege": "standard"
+          },
+          "signature_id": "SIG-IMPOSSIBLE-TRAVEL",
+          "alert_class": "auth-anomaly",
+          "window": {
+            "from": "2026-07-16",
+            "to": "2026-07-16"
+          },
+          "signal_ids": [
+            "S20"
+          ],
+          "threat_intel": {
+            "severity": "medium",
+            "known_malicious": false,
+            "active_compromise": false,
+            "iocs": []
+          },
+          "vuln_posture": {
+            "kev_nexus": false,
+            "exposure": "internal"
+          },
+          "correlated_cases": [],
+          "recommended_priority": "P2 (High)",
+          "priority_reason": "asset High +3; threat-intel medium +1; confidence medium +1",
+          "recommended_next_steps": "Recommend the analyst review authentication and sign-in evidence for the affected identity, compare against baseline behavior, and route to the identity-access review for a privileged-access assessment.",
+          "citations": [
+            "siem:alert=SA-3002@2026-07-16",
+            "cmdb:asset=AST-APP-22@2026-07-16",
+            "iam:identity=user-****-772@2026-07-16",
+            "ti:signature=SIG-IMPOSSIBLE-TRAVEL@2026-07-16",
+            "posture:asset=AST-APP-22@2026-07-16"
+          ]
+        }
+      ],
+      "citations": [
+        "cmdb:asset=AST-APP-22@2026-07-16",
+        "cmdb:asset=AST-WEB-11@2026-07-16",
+        "iam:identity=svc-****-adm@2026-07-16",
+        "iam:identity=user-****-772@2026-07-16",
+        "posture:asset=AST-APP-22@2026-07-16",
+        "posture:asset=AST-WEB-11@2026-07-16",
+        "siem:alert=SA-3001@2026-07-16",
+        "siem:alert=SA-3002@2026-07-16",
+        "ti:signature=SIG-C2-BEACON@2026-07-16",
+        "ti:signature=SIG-IMPOSSIBLE-TRAVEL@2026-07-16"
+      ]
+    },
+    "recommended_routing": {
+      "title": "Recommended Routing (advisory)",
+      "routes": [
+        {
+          "alert_id": "SA-3001",
+          "skill": "cyber-incident-response-coordinator",
+          "reason": "malware-c2 at P1 (Critical)",
+          "urgent": false
+        },
+        {
+          "alert_id": "SA-3002",
+          "skill": "identity-access-reviewer",
+          "reason": "auth-anomaly at P2 (High)",
+          "urgent": false
+        }
+      ],
+      "note": "Advisory handoffs; the analyst decides and initiates. No route is executed here."
+    },
+    "sources_citations": {
+      "title": "Sources & Citations",
+      "citations": [
+        "cmdb:asset=AST-APP-22@2026-07-16",
+        "cmdb:asset=AST-CLD-53@2026-07-15",
+        "cmdb:asset=AST-DB-07@2026-07-16",
+        "cmdb:asset=AST-SRV-40@2026-07-16",
+        "cmdb:asset=AST-WEB-11@2026-07-16",
+        "iam:identity=svc-****-adm@2026-07-16",
+        "iam:identity=svc-deploy-****@2026-07-15",
+        "iam:identity=svc-scan-****@2026-07-16",
+        "iam:identity=user-****-118@2026-07-16",
+        "iam:identity=user-****-604@2026-07-16",
+        "iam:identity=user-****-772@2026-07-16",
+        "posture:asset=AST-APP-22@2026-07-16",
+        "posture:asset=AST-CLD-53@2026-07-15",
+        "posture:asset=AST-DB-07@2026-07-16",
+        "posture:asset=AST-SRV-40@2026-07-16",
+        "posture:asset=AST-WEB-11@2026-07-16",
+        "posture:asset=asset@2026-07-16",
+        "siem:alert=SA-3001@2026-07-16",
+        "siem:alert=SA-3002@2026-07-16",
+        "siem:alert=SA-3003@2026-07-16",
+        "siem:alert=SA-3004@2026-07-16",
+        "siem:alert=SA-3005@2026-07-15",
+        "siem:alert=SA-3006@2026-07-16",
+        "siem:alert=SA-3007@2026-07-16",
+        "ti:signature=SIG-BRUTEFORCE@2026-07-16",
+        "ti:signature=SIG-C2-BEACON@2026-07-16",
+        "ti:signature=SIG-CONFIG-CHANGE@2026-07-15",
+        "ti:signature=SIG-IMPOSSIBLE-TRAVEL@2026-07-16",
+        "ti:signature=SIG-SUSPICIOUS-EXEC@2026-07-16",
+        "ti:signature=SIG-VULN-PROBE@2026-07-16"
+      ],
+      "note": "Every enriched signal is mapped to an approved source above."
+    },
+    "standing_note_limitations": {
+      "title": "Standing Note / Limitations",
+      "text": "Draft security-alert triage package for analyst investigation only. This package enriches, prioritizes, correlates, and applies only approved suppression rules to raise analyst-ready context; it makes no alert-closure, incident, containment, or remediation decision, isolates/blocks/disables nothing, writes no system of record (SIEM/SOAR/ticketing), and has not been sent or submitted. Every regulated security decision and response action remains with the authorized human analyst and incident-response process."
+    },
+    "approvals": {
+      "title": "Approvals & Sign-off",
+      "required": [
+        "SOC triage analyst",
+        "SOC shift lead / IR reviewer"
+      ],
+      "ledger": [
+        {
+          "role": "SOC triage analyst",
+          "status": "pending"
+        },
+        {
+          "role": "SOC shift lead / IR reviewer",
+          "status": "pending"
+        }
+      ],
+      "note": "Draft is queued for analyst adjudication; obtaining these approvals is the human step."
+    }
+  },
+  "standing_note": "Draft security-alert triage package for analyst investigation only. This package enriches, prioritizes, correlates, and applies only approved suppression rules to raise analyst-ready context; it makes no alert-closure, incident, containment, or remediation decision, isolates/blocks/disables nothing, writes no system of record (SIEM/SOAR/ticketing), and has not been sent or submitted. Every regulated security decision and response action remains with the authorized human analyst and incident-response process."
+}
