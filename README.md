@@ -1,10 +1,9 @@
 # FSI Skills Library
 
-Agent Skills for the Financial Services Industry, built for **Amazon Quick Desktop** and
-conformant with the [Agent Skills specification](https://agentskills.io/specification).
+Agent Skills for the Financial Services Industry, built for general-purpose AI agent platforms/agentic AI assistant applications, such as Amazon Quick Desktop, Claude Desktop, ChatGPT Desktop, Microsoft Copilot, Google Gemini, Perplexity, and Amazon Kiro.
+It is conformant with the [Agent Skills specification](https://agentskills.io/specification).
 
-This repository implements the **Amazon Quick Desktop — 2026 Financial Services Skill
-Portfolio v2**: a governed catalog of **173 skills** across **14 functional categories**,
+This repository implements a governed catalog of **173 skills** across **14 functional categories**,
 each authored to a common standards-based lifecycle with explicit risk tiers, action
 boundaries, human-approval gates, adjacent-skill handoffs, and evaluation packs.
 
