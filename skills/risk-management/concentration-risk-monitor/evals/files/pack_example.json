@@ -1,0 +1,522 @@
+{
+  "run_id": "crm-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "concentration-cfg-2026.07",
+  "data_freshness": [
+    {
+      "book_id": "BOOK-WHOLESALE",
+      "exposures_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "book_id": "BOOK-TECH",
+      "exposures_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "book_id": "BOOK-STALE",
+      "exposures_as_of": "2026-07-10",
+      "staleness_days": 7,
+      "stale": true
+    },
+    {
+      "book_id": "BOOK-CLEAN",
+      "exposures_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    }
+  ],
+  "alerts": [
+    {
+      "fingerprint": "BOOK-WHOLESALE|SINGLE-NAME-25|MEGABANK-GRP|current|BREACH",
+      "book_id": "BOOK-WHOLESALE",
+      "rule_id": "SINGLE-NAME-25",
+      "rule_type": "concentration",
+      "scope": "counterparty_group",
+      "bucket": "MEGABANK-GRP",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "High",
+      "queue": "risk-escalation",
+      "regulatory": true,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 30.0,
+      "limit": 25.0,
+      "unit": "pct",
+      "warn_buffer": 2.0,
+      "evidence": [
+        {
+          "scope_value": "MEGABANK-GRP",
+          "measured": 30.0,
+          "unit": "pct",
+          "bucket_amount": 300000000.0,
+          "basis": "eligible_capital",
+          "basis_value": 1000000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;counterparty_group=MEGABANK-GRP@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W1",
+          "amount": 300000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W1@2026-07-17"
+        },
+        {
+          "rule": "SINGLE-NAME-25",
+          "citation": "limits:rule_id=SINGLE-NAME-25@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-WHOLESALE|SECTOR-30|Financials|current|BREACH",
+      "book_id": "BOOK-WHOLESALE",
+      "rule_id": "SECTOR-30",
+      "rule_type": "concentration",
+      "scope": "sector",
+      "bucket": "Financials",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "regulatory": false,
+      "is_duplicate": true,
+      "stale_input": false,
+      "measured": 33.3333,
+      "limit": 30.0,
+      "unit": "pct",
+      "warn_buffer": 3.0,
+      "evidence": [
+        {
+          "scope_value": "Financials",
+          "measured": 33.3333,
+          "unit": "pct",
+          "bucket_amount": 520000000.0,
+          "basis": "total_exposure",
+          "basis_value": 1560000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;sector=Financials@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W1",
+          "amount": 300000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W1@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W2",
+          "amount": 220000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W2@2026-07-17"
+        },
+        {
+          "rule": "SECTOR-30",
+          "citation": "limits:rule_id=SECTOR-30@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-WHOLESALE|SECTOR-30|Technology|current|WARN",
+      "book_id": "BOOK-WHOLESALE",
+      "rule_id": "SECTOR-30",
+      "rule_type": "concentration",
+      "scope": "sector",
+      "bucket": "Technology",
+      "status": "WARN",
+      "breach_type": "current",
+      "severity": "Low",
+      "queue": "risk-monitoring-watchlist",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 28.2051,
+      "limit": 30.0,
+      "unit": "pct",
+      "warn_buffer": 3.0,
+      "evidence": [
+        {
+          "scope_value": "Technology",
+          "measured": 28.2051,
+          "unit": "pct",
+          "bucket_amount": 440000000.0,
+          "basis": "total_exposure",
+          "basis_value": 1560000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;sector=Technology@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W3",
+          "amount": 220000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W3@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W4",
+          "amount": 220000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W4@2026-07-17"
+        },
+        {
+          "rule": "SECTOR-30",
+          "citation": "limits:rule_id=SECTOR-30@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-WHOLESALE|SECTOR-30|Technology|proposed|BREACH",
+      "book_id": "BOOK-WHOLESALE",
+      "rule_id": "SECTOR-30",
+      "rule_type": "concentration",
+      "scope": "sector",
+      "bucket": "Technology",
+      "status": "BREACH",
+      "breach_type": "proposed",
+      "severity": "High",
+      "queue": "risk-escalation",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 41.0256,
+      "limit": 30.0,
+      "unit": "pct",
+      "warn_buffer": 3.0,
+      "evidence": [
+        {
+          "scope_value": "Technology",
+          "current": 28.2051,
+          "projected": 41.0256,
+          "unit": "pct",
+          "basis": "total_exposure",
+          "basis_value": 1560000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;sector=Technology@2026-07-17"
+        },
+        {
+          "exposure_id": "PROP-1",
+          "amount": 200000000.0,
+          "citation": "pipeline:book=BOOK-WHOLESALE;proposed=PROP-1@2026-07-17"
+        },
+        {
+          "rule": "SECTOR-30",
+          "citation": "limits:rule_id=SECTOR-30@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-WHOLESALE|GEO-40|US|current|BREACH",
+      "book_id": "BOOK-WHOLESALE",
+      "rule_id": "GEO-40",
+      "rule_type": "concentration",
+      "scope": "geography",
+      "bucket": "US",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 60.2564,
+      "limit": 40.0,
+      "unit": "pct",
+      "warn_buffer": 5.0,
+      "evidence": [
+        {
+          "scope_value": "US",
+          "measured": 60.2564,
+          "unit": "pct",
+          "bucket_amount": 940000000.0,
+          "basis": "total_exposure",
+          "basis_value": 1560000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;geography=US@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W1",
+          "amount": 300000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W1@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W2",
+          "amount": 220000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W2@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W4",
+          "amount": 220000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W4@2026-07-17"
+        },
+        {
+          "rule": "GEO-40",
+          "citation": "limits:rule_id=GEO-40@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-WHOLESALE|PRODUCT-35|Loans|current|BREACH",
+      "book_id": "BOOK-WHOLESALE",
+      "rule_id": "PRODUCT-35",
+      "rule_type": "concentration",
+      "scope": "product",
+      "bucket": "Loans",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 46.1538,
+      "limit": 35.0,
+      "unit": "pct",
+      "warn_buffer": 3.0,
+      "evidence": [
+        {
+          "scope_value": "Loans",
+          "measured": 46.1538,
+          "unit": "pct",
+          "bucket_amount": 720000000.0,
+          "basis": "total_exposure",
+          "basis_value": 1560000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;product=Loans@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W1",
+          "amount": 300000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W1@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W2",
+          "amount": 220000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W2@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W5",
+          "amount": 200000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W5@2026-07-17"
+        },
+        {
+          "rule": "PRODUCT-35",
+          "citation": "limits:rule_id=PRODUCT-35@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-WHOLESALE|COUNTERPARTY-CAP|MEGABANK-GRP|current|BREACH",
+      "book_id": "BOOK-WHOLESALE",
+      "rule_id": "COUNTERPARTY-CAP",
+      "rule_type": "absolute_cap",
+      "scope": "counterparty_group",
+      "bucket": "MEGABANK-GRP",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 300000000.0,
+      "limit": 250000000.0,
+      "unit": "amount",
+      "warn_buffer": 0.0,
+      "evidence": [
+        {
+          "scope_value": "MEGABANK-GRP",
+          "measured": 300000000.0,
+          "unit": "amount",
+          "bucket_amount": 300000000.0,
+          "basis": "total_exposure",
+          "basis_value": null,
+          "citation": "risk:book=BOOK-WHOLESALE;counterparty_group=MEGABANK-GRP@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-W1",
+          "amount": 300000000.0,
+          "citation": "risk:book=BOOK-WHOLESALE;exposure=EXP-W1@2026-07-17"
+        },
+        {
+          "rule": "COUNTERPARTY-CAP",
+          "citation": "limits:rule_id=COUNTERPARTY-CAP@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-TECH|CLOUD-50|CloudCo|current|BREACH",
+      "book_id": "BOOK-TECH",
+      "rule_id": "CLOUD-50",
+      "rule_type": "concentration",
+      "scope": "cloud_provider",
+      "bucket": "CloudCo",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 80.0,
+      "limit": 50.0,
+      "unit": "pct",
+      "warn_buffer": 5.0,
+      "evidence": [
+        {
+          "scope_value": "CloudCo",
+          "measured": 80.0,
+          "unit": "pct",
+          "bucket_amount": 800000000.0,
+          "basis": "total_exposure",
+          "basis_value": 1000000000.0,
+          "citation": "risk:book=BOOK-TECH;cloud_provider=CloudCo@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-T1",
+          "amount": 800000000.0,
+          "citation": "risk:book=BOOK-TECH;exposure=EXP-T1@2026-07-17"
+        },
+        {
+          "rule": "CLOUD-50",
+          "citation": "limits:rule_id=CLOUD-50@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-TECH|CLOUD-DIVERSITY|diversification|current|BREACH",
+      "book_id": "BOOK-TECH",
+      "rule_id": "CLOUD-DIVERSITY",
+      "rule_type": "diversification",
+      "scope": "cloud_provider",
+      "bucket": "diversification",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "High",
+      "queue": "risk-escalation",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 1,
+      "limit": 2,
+      "unit": "count",
+      "warn_buffer": null,
+      "evidence": [
+        {
+          "scope": "cloud_provider",
+          "distinct_count": 1,
+          "min_count": 2,
+          "buckets_present": [
+            "CloudCo"
+          ],
+          "citation": "risk:book=BOOK-TECH;cloud_provider=diversification@2026-07-17"
+        },
+        {
+          "rule": "CLOUD-DIVERSITY",
+          "citation": "limits:rule_id=CLOUD-DIVERSITY@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-STALE|SECTOR-30|Materials|current|BREACH",
+      "book_id": "BOOK-STALE",
+      "rule_id": "SECTOR-30",
+      "rule_type": "concentration",
+      "scope": "sector",
+      "bucket": "Materials",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": true,
+      "measured": 31.0,
+      "limit": 30.0,
+      "unit": "pct",
+      "warn_buffer": 3.0,
+      "evidence": [
+        {
+          "scope_value": "Materials",
+          "measured": 31.0,
+          "unit": "pct",
+          "bucket_amount": 217000000.0,
+          "basis": "total_exposure",
+          "basis_value": 700000000.0,
+          "citation": "risk:book=BOOK-STALE;sector=Materials@2026-07-17"
+        },
+        {
+          "exposure_id": "EXP-S1",
+          "amount": 217000000.0,
+          "citation": "risk:book=BOOK-STALE;exposure=EXP-S1@2026-07-17"
+        },
+        {
+          "rule": "SECTOR-30",
+          "citation": "limits:rule_id=SECTOR-30@concentration-cfg-2026.07"
+        }
+      ]
+    },
+    {
+      "fingerprint": "BOOK-STALE|DATA-FRESHNESS|staleness|freshness|WARN",
+      "book_id": "BOOK-STALE",
+      "rule_id": "DATA-FRESHNESS",
+      "rule_type": "freshness",
+      "scope": "data",
+      "bucket": "staleness",
+      "status": "WARN",
+      "breach_type": "freshness",
+      "severity": "Low",
+      "queue": "risk-monitoring-watchlist",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": true,
+      "measured": 7,
+      "limit": 2,
+      "unit": "days",
+      "warn_buffer": null,
+      "evidence": [
+        {
+          "book_id": "BOOK-STALE",
+          "exposures_as_of": "2026-07-10",
+          "staleness_days": 7,
+          "citation": "risk:book=BOOK-STALE;exposures_as_of=2026-07-10@2026-07-17"
+        }
+      ]
+    }
+  ],
+  "new_alerts": [
+    "BOOK-WHOLESALE|SINGLE-NAME-25|MEGABANK-GRP|current|BREACH",
+    "BOOK-WHOLESALE|SECTOR-30|Technology|current|WARN",
+    "BOOK-WHOLESALE|SECTOR-30|Technology|proposed|BREACH",
+    "BOOK-WHOLESALE|GEO-40|US|current|BREACH",
+    "BOOK-WHOLESALE|PRODUCT-35|Loans|current|BREACH",
+    "BOOK-WHOLESALE|COUNTERPARTY-CAP|MEGABANK-GRP|current|BREACH",
+    "BOOK-TECH|CLOUD-50|CloudCo|current|BREACH",
+    "BOOK-TECH|CLOUD-DIVERSITY|diversification|current|BREACH",
+    "BOOK-STALE|SECTOR-30|Materials|current|BREACH",
+    "BOOK-STALE|DATA-FRESHNESS|staleness|freshness|WARN"
+  ],
+  "still_open": [
+    "BOOK-WHOLESALE|SECTOR-30|Financials|current|BREACH"
+  ],
+  "summary": {
+    "books": 4,
+    "rules_evaluated": 7,
+    "alerts_total": 11,
+    "new": 10,
+    "deduplicated": 1,
+    "warn": 2,
+    "breach": 9,
+    "stale_books": [
+      "BOOK-STALE"
+    ]
+  },
+  "escalations": [
+    {
+      "severity": "High",
+      "queue": "risk-escalation",
+      "count": 3
+    },
+    {
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "count": 6
+    },
+    {
+      "severity": "Low",
+      "queue": "risk-monitoring-watchlist",
+      "count": 2
+    }
+  ],
+  "disclaimer": "Monitoring alert only; no risk decision, limit change, waiver, case closure, regulatory filing, or system-of-record change has been made. Concentration exceptions require human risk review and adjudication.",
+  "narrative": "Scheduled concentration-risk run crm-2026-07-17-0001 (as of 2026-07-17) evaluated 4 books against 7 versioned limits and raised 11 alerts (10 new, 1 already open and deduplicated). BOOK-WHOLESALE shows a single-counterparty-group breach on MEGABANK-GRP (30.0% of eligible capital vs a 25% regulatory cap) that also exceeds the 250m absolute counterparty cap, a Financials sector breach (33.3% vs 30%, already open), a US geography breach (60.3% vs 40%), and a Loans product breach (46.2% vs 35%); Technology is within buffer of the sector limit (WARN). A proposed NEWTECH-GRP facility would newly push Technology sector concentration to 41.0% (vs 30%), flagged as a forward pre-onboarding signal. BOOK-TECH concentrates 80.0% of operational exposure on a single cloud provider (CloudCo) and holds only one distinct provider against a diversification floor of two. BOOK-STALE exposures are 7 days old (limit 2) and are flagged for a freshness check; its Materials sector breach is marked stale_input and not treated as current. BOOK-CLEAN is within all limits. Every item is cited and routed to the enterprise-risk review queues for human adjudication. Monitoring alert only; no risk decision, limit change, waiver, case closure, regulatory filing, or system-of-record change has been made. Concentration exceptions require human risk review and adjudication.",
+  "notes": "Thresholds are versioned configuration (concentration-cfg-2026.07); no per-book tuning. Severity and queue are deterministic. This pack is evidence for human risk review only."
+}

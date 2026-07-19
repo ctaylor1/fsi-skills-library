@@ -1,0 +1,38 @@
+{
+  "event_id": "ORE-2026-0142",
+  "as_of": "2026-07-15",
+  "config_version": "oprisk-cfg-2026.07",
+  "currency": "USD",
+  "event_source_ref": "lossdb:ORE-2026-0142",
+  "is_near_miss": false,
+  "reported_event_type": "Execution, Delivery & Process Management",
+  "reported_business_line": "Payment & Settlement",
+  "occurrence_date": "2026-06-30",
+  "discovery_date": "2026-07-02",
+  "description": "A payment-routing table change deployed outside the validated change window, combined with a skipped daily nostro reconciliation, produced four business days of misrouted settlement instructions that required manual repair and client redress.",
+  "financials": {
+    "gross_loss": 480000.0,
+    "recoveries": [
+      {"amount": 80000.0, "type": "insurance", "source_ref": "ins:CLM-771"}
+    ],
+    "indirect_costs": 20000.0,
+    "potential_loss": null
+  },
+  "customer_harm": true,
+  "affected_customers": 4200,
+  "third_party_involved": false,
+  "causes": [
+    {"cause_code": "PROC-BREAK", "description": "Daily nostro reconciliation control was not performed for four consecutive business days, so the misrouting went undetected.", "source_ref": "inc:INC-88421"},
+    {"cause_code": "SYS-CONFIG", "description": "Payment-routing table change was deployed without the required pre-deployment validation and outside the approved change window.", "source_ref": "chg:CHG-20455"},
+    {"cause_code": "PEOPLE-SKILL", "description": "Operations staff had not been trained on the new reconciliation exception queue introduced in the prior release.", "source_ref": "hr:TRN-3310"}
+  ],
+  "config": {
+    "moderate_threshold": 25000.0,
+    "high_threshold": 250000.0,
+    "critical_threshold": 1000000.0,
+    "regulatory_reporting_threshold": 100000.0,
+    "board_notify_threshold": 1000000.0,
+    "board_customer_threshold": 250,
+    "sensitive_reporting_factor": 0.5
+  }
+}

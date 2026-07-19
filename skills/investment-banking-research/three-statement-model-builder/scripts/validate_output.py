@@ -73,7 +73,7 @@ def validate(model: dict) -> list[str]:
 
     base = model.get("base_snapshot") or {}
     prev_bs = base.get("balance_sheet") or {}
-    prev_cash = _n(prev_bs.get("cash"))
+    _n(prev_bs.get("cash"))
     prev_equity = _n(prev_bs.get("equity"))
     prev_ppe = _n(prev_bs.get("ppe_net"))
 

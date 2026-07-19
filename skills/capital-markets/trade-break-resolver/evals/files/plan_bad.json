@@ -1,0 +1,21 @@
+{
+  "plan_id": "PLAN-BRK-99999",
+  "status": "planned",
+  "break_id": "BRK-99999",
+  "trade_id": "TRD-00000",
+  "break_type": "price_mismatch",
+  "repair": "amend_price",
+  "amount": 999999999.00,
+  "target": "TRD-00000",
+  "authority_limit": 250000,
+  "reversible": true,
+  "steps": [
+    {"step_id": "S1", "action": "amend_price", "idempotency_key": "abc123",
+     "precondition": "price mismatch", "expected_effect": "amend price", "effect_amount": 999999999.00}
+  ],
+  "expected_post_state": {"TRD-00000": 999999999.00},
+  "plan_hash": "deadbeefdeadbeef",
+  "approval": {"required_role": "trade-support-specialist", "status": "pending", "approver": null, "token": null},
+  "execution": {"state": "executed", "executed_steps": ["S1"]},
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

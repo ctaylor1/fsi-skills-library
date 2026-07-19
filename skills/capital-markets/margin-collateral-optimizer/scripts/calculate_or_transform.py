@@ -63,7 +63,7 @@ def compute(doc: dict) -> dict:
     # mutable remaining market value per asset (consumed across calls)
     remaining = {a["asset_id"]: _num(a.get("available_value", a.get("market_value"))) or 0.0
                  for a in doc.get("collateral_inventory", [])}
-    asset_by_id = {a["asset_id"]: a for a in doc.get("collateral_inventory", [])}
+    {a["asset_id"]: a for a in doc.get("collateral_inventory", [])}
 
     calls = list(doc.get("margin_calls", []))
 

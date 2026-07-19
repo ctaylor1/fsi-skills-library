@@ -1,0 +1,62 @@
+{
+  "event_id": "ORE-2026-0142",
+  "as_of": "2026-07-15",
+  "config_version": "oprisk-cfg-2026.07",
+  "analysis_id": "ore-ORE-2026-0142-2026-07-15",
+  "is_near_miss": false,
+  "classification": {
+    "basel_event_type": "Execution, Delivery & Process Management",
+    "business_line": "Payment & Settlement"
+  },
+  "impact": {
+    "currency": "USD",
+    "is_near_miss": false,
+    "gross_loss": 480000.0,
+    "total_recoveries": 80000.0,
+    "net_loss": 400000.0,
+    "indirect_costs": 20000.0,
+    "total_impact": 420000.0,
+    "potential_loss": null,
+    "banding_amount": 420000.0
+  },
+  "thresholds": {
+    "moderate_threshold": 25000.0,
+    "high_threshold": 250000.0,
+    "critical_threshold": 1000000.0,
+    "regulatory_reporting_threshold": 100000.0,
+    "board_notify_threshold": 1000000.0
+  },
+  "escalation": {
+    "regulatory_reporting_candidate": true,
+    "board_notifiable": true
+  },
+  "severity_band": "Critical",
+  "root_cause": {"primary": "Process", "distribution": {"Process": 1, "Systems": 1, "People": 1}},
+  "control_themes": ["Change management", "Control execution & reconciliation", "Training & competency"],
+  "findings": [
+    {"id": "F-CLASS", "type": "classification",
+     "statement": "Event classified as Basel L1 'Execution, Delivery & Process Management' in business line 'Payment & Settlement'.",
+     "evidence": [{"citation": "lossdb:ORE-2026-0142"}]},
+    {"id": "F-IMPACT", "type": "materiality",
+     "statement": "Net loss 400000.00 USD + indirect 20000.00 = total impact 420000.00; banding amount 420000.00.",
+     "evidence": [{"citation": "lossdb:ORE-2026-0142"}, {"citation": "ins:CLM-771"}]},
+    {"id": "F-CAUSE-1", "type": "control", "control_theme": "Control execution & reconciliation", "root_cause_category": "Process",
+     "statement": "[Process] Control execution & reconciliation: Daily nostro reconciliation control was not performed for four consecutive business days, so the misrouting went undetected.",
+     "evidence": [{"citation": "inc:INC-88421"}]},
+    {"id": "F-CAUSE-2", "type": "control", "control_theme": "Change management", "root_cause_category": "Systems",
+     "statement": "[Systems] Change management: Payment-routing table change was deployed without the required pre-deployment validation and outside the approved change window.",
+     "evidence": [{"citation": "chg:CHG-20455"}]},
+    {"id": "F-CAUSE-3", "type": "control", "control_theme": "Training & competency", "root_cause_category": "People",
+     "statement": "[People] Training & competency: Operations staff had not been trained on the new reconciliation exception queue introduced in the prior release.",
+     "evidence": [{"citation": "hr:TRN-3310"}]}
+  ],
+  "remediation_recommendations": [
+    {"control_theme": "Control execution & reconciliation", "recommendation": "Recommend reinstating the reconciliation control with exception monitoring and a completion check."},
+    {"control_theme": "Change management", "recommendation": "Recommend reinforcing pre-deployment validation and change-window enforcement."},
+    {"control_theme": "Training & competency", "recommendation": "Recommend targeted retraining and a competency attestation for staff on the affected procedure."}
+  ],
+  "not_evaluable": [],
+  "requires_human_adjudication": true,
+  "narrative": "Event ORE-2026-0142 is analyzed as an Execution, Delivery & Process Management loss in Payment & Settlement. Total impact is 420,000.00 USD (net loss 400,000.00 plus 20,000.00 indirect), which places it in the Critical band and makes it a candidate for regulatory reporting and board notification; both are flags for human adjudication, not decisions. Three contributing causes span Process (reconciliation not performed), Systems (unvalidated change), and People (untrained staff), each cited to its source record. Remediation actions are proposed, not opened. The event remains open pending review. Analysis and recommendations only; not a risk decision or regulatory filing.",
+  "disclaimer": "Analysis and recommendations only; not a risk decision or regulatory filing. Event classification, materiality, and remediation require human adjudication before any case update, escalation, or system-of-record change. No case action has been taken."
+}

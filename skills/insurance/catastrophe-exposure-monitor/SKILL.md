@@ -128,7 +128,9 @@ policy action.
   computed so far with a clear "incomplete" flag; never assume automatic retries.
 
 ## Output contract
-1. **Run summary** — `run_id`, `as_of`, `config_version`, queue, `confidence`, overall severity.
+1. **Run summary** — `run_id`, `as_of`, `config_version`, queue, `confidence`, overall severity,
+   and the resolved `approaching_ratio` (the early-warning band threshold the run used, so the
+   output validator bands on the same configured value the engine did).
 2. **Sources** — per source: `as_of`, age, staleness limit, `fresh|stale`.
 3. **Alerts** — per alert: `alert_key`, event, zone, peril, `breach_type`, metric vs
    threshold, `exceedance_ratio`, `severity`, `suggested_response_priority`, queue, cited

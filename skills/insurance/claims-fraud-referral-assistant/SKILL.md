@@ -91,7 +91,8 @@ The fraud-indicator config is a **versioned contract** recorded on each referral
 ## Validation loop
 Run `validate_input` before and [scripts/validate_output.py](scripts/validate_output.py)
 after. The output check enforces: only allowed recommendations; approved indicator IDs with
-evidence + citation; band ties to the deterministic mapping; each referral carries a complete
+evidence + citation; band ties to the deterministic mapping using the recorded indicator-config
+thresholds; each referral carries a complete
 cited package and a template-faithful document; approvals recorded as pending (never granted);
 no fraud-finding/denial/closure/void or accusatory customer-facing language; standing note
 present. Fail closed on any miss.

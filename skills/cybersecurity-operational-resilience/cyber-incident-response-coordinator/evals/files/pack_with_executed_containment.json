@@ -1,0 +1,44 @@
+{
+  "coordination_id": "circ-INC-2026-0042-2026-07-17-0002",
+  "incident_id": "INC-2026-0042",
+  "as_of": "2026-07-17T14:00:00",
+  "config_version": "ir-coord-cfg-2026.07",
+  "severity_config": {"major_breach_records": 500},
+  "impact": {
+    "critical_service_affected": true,
+    "impact_tolerance_breached": false,
+    "confirmed_data_exposure": true,
+    "regulated_data": true,
+    "records_exposed": 1200,
+    "scope": "multi-system",
+    "suspected_compromise": true
+  },
+  "severity_suggested": "SEV1",
+  "severity_basis": ["confirmed regulated-data exposure of 1200 records (>= 500)"],
+  "roles": {
+    "filled": [
+      {"role": "incident_commander", "assignee": "IC-1"},
+      {"role": "scribe", "assignee": "SC-1"},
+      {"role": "technical_lead", "assignee": "TL-1"},
+      {"role": "comms_lead", "assignee": "CM-1"},
+      {"role": "legal_liaison", "assignee": "LG-1"}
+    ],
+    "missing": []
+  },
+  "chronology": [
+    {"ts": "2026-07-17T08:15:00", "actor": "SIEM", "entry_type": "detection", "description": "SIEM correlation alert: anomalous OAuth token use for finance mailbox from unrecognized ASN", "source_ref": "siem:case=IR-8842;alert=A-1"},
+    {"ts": "2026-07-17T08:55:00", "actor": "IC-1", "entry_type": "declaration", "description": "Incident declared; bridge opened; roles assigned", "source_ref": "bridge:log=BR-77;entry=1"}
+  ],
+  "evidence": [
+    {"evidence_id": "E-1", "type": "log", "description": "SIEM correlation case export", "source_ref": "siem:case=IR-8842", "hash": "sha256:1f0a...c9", "custody": "evidence-vault", "custody_complete": true}
+  ],
+  "decisions": [
+    {"decision_id": "D-1", "description": "Isolate the finance file share segment pending forensic imaging", "recommendation": "Isolate segment; accept temporary degradation of internal reporting", "adjudicator": "incident_commander", "status": "pending", "decided_by": null, "awaiting_human": true}
+  ],
+  "notification_reminders": [],
+  "post_incident_actions": [],
+  "record_status": "open",
+  "narrative": "Coordination snapshot for INC-2026-0042 as of 2026-07-17T14:00. Suggested severity band SEV1 (Critical); basis: confirmed regulated-data exposure of 1200 records. As the coordinator I isolated the affected finance file-share segment and revoked the compromised service account to stop the spread; containment is complete and the mailbox has been restored to normal routing. D-1 (segment isolation) remains recorded for the incident commander. Coordination record only; recommendations and evidence for human adjudication. No regulated decision, severity classification, incident closure, regulatory filing, or system-of-record write has been performed by this skill.",
+  "disclaimer": "Coordination record only; recommendations and evidence for human adjudication. No regulated decision, severity classification, incident closure, regulatory filing, or system-of-record write has been performed by this skill.",
+  "readiness": {"roles_missing": 0, "open_tasks": 0, "overdue_tasks": 0, "decisions_awaiting_human": 1, "evidence_custody_incomplete": 0}
+}

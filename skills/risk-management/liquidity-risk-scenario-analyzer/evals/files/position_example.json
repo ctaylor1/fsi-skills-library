@@ -1,0 +1,49 @@
+{
+  "entity_id": "LE-BANK-01",
+  "as_of": "2026-07-15",
+  "currency": "USD",
+  "config_version": "liq-cfg-2026.07",
+  "reporting_horizon_days": 30,
+  "buckets": [
+    {"bucket": "overnight", "end_day": 1},
+    {"bucket": "2-7d", "end_day": 7},
+    {"bucket": "8-30d", "end_day": 30}
+  ],
+  "limits": {"min_survival_days": 7, "min_coverage_ratio": 1.0, "concentration_limit_pct": 0.30},
+  "counterbalancing": [
+    {"asset_id": "CB-1", "asset_class": "level1_hqla", "market_value": 2000.0, "base_haircut": 0.0, "source_ref": "entity=LE-BANK-01;asset=CB-1"},
+    {"asset_id": "CB-2", "asset_class": "level2a_hqla", "market_value": 900.0, "base_haircut": 0.15, "source_ref": "entity=LE-BANK-01;asset=CB-2"}
+  ],
+  "positions": [
+    {"item_id": "O-1", "direction": "outflow", "category": "retail_stable", "bucket": "overnight", "amount": 6000.0, "source_ref": "entity=LE-BANK-01;item=O-1"},
+    {"item_id": "O-2", "direction": "outflow", "category": "retail_less_stable", "bucket": "overnight", "amount": 2500.0, "source_ref": "entity=LE-BANK-01;item=O-2"},
+    {"item_id": "O-5", "direction": "outflow", "category": "operational_deposits", "bucket": "overnight", "amount": 1800.0, "source_ref": "entity=LE-BANK-01;item=O-5"},
+    {"item_id": "O-3", "direction": "outflow", "category": "wholesale_unsecured", "bucket": "2-7d", "amount": 1500.0, "source_ref": "entity=LE-BANK-01;item=O-3"},
+    {"item_id": "O-7", "direction": "outflow", "category": "wholesale_secured", "bucket": "2-7d", "amount": 1000.0, "source_ref": "entity=LE-BANK-01;item=O-7"},
+    {"item_id": "O-4", "direction": "outflow", "category": "wholesale_unsecured", "bucket": "8-30d", "amount": 900.0, "source_ref": "entity=LE-BANK-01;item=O-4"},
+    {"item_id": "O-6", "direction": "outflow", "category": "committed_facility_drawdown", "bucket": "8-30d", "amount": 800.0, "source_ref": "entity=LE-BANK-01;item=O-6"},
+    {"item_id": "I-2", "direction": "inflow", "category": "maturing_reverse_repo", "bucket": "2-7d", "amount": 800.0, "source_ref": "entity=LE-BANK-01;item=I-2"},
+    {"item_id": "I-1", "direction": "inflow", "category": "loan_repayment", "bucket": "8-30d", "amount": 700.0, "source_ref": "entity=LE-BANK-01;item=I-1"},
+    {"item_id": "I-3", "direction": "inflow", "category": "marketable_securities_coupon", "bucket": "8-30d", "amount": 60.0, "source_ref": "entity=LE-BANK-01;item=I-3"}
+  ],
+  "scenarios": [
+    {"scenario_id": "IDIO", "name": "Idiosyncratic downgrade",
+     "outflow_rates": {"retail_stable": 0.08, "retail_less_stable": 0.12, "operational_deposits": 0.08, "wholesale_unsecured": 1.00, "wholesale_secured": 0.50, "committed_facility_drawdown": 0.40},
+     "default_outflow_rate": 0.12,
+     "inflow_rates": {"loan_repayment": 0.50, "maturing_reverse_repo": 1.00, "marketable_securities_coupon": 0.50},
+     "default_inflow_rate": 0.50,
+     "cb_haircut_addon": {"level2a_hqla": 0.15}},
+    {"scenario_id": "MARKET", "name": "Market-wide stress",
+     "outflow_rates": {"retail_stable": 0.05, "retail_less_stable": 0.10, "operational_deposits": 0.05, "wholesale_unsecured": 0.60, "wholesale_secured": 0.20, "committed_facility_drawdown": 0.30},
+     "default_outflow_rate": 0.10,
+     "inflow_rates": {"loan_repayment": 0.75, "maturing_reverse_repo": 1.00, "marketable_securities_coupon": 1.00},
+     "default_inflow_rate": 0.75,
+     "cb_haircut_addon": {"level2a_hqla": 0.20}},
+    {"scenario_id": "COMBINED", "name": "Combined idiosyncratic + market",
+     "outflow_rates": {"retail_stable": 0.15, "retail_less_stable": 0.20, "operational_deposits": 0.15, "wholesale_unsecured": 1.00, "wholesale_secured": 1.00, "committed_facility_drawdown": 0.50},
+     "default_outflow_rate": 0.20,
+     "inflow_rates": {"loan_repayment": 0.50, "maturing_reverse_repo": 0.90, "marketable_securities_coupon": 0.50},
+     "default_inflow_rate": 0.50,
+     "cb_haircut_addon": {"level2a_hqla": 0.25}}
+  ]
+}

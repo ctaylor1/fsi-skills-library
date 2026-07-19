@@ -1,0 +1,73 @@
+{
+  "config_version": "sec-triage-2026.07",
+  "template_version": "sec-triage-package-v1",
+  "batch_id": "SOC-BATCH-2026-0716-A",
+  "source_queue": "tier-1-siem-queue",
+  "required_approvals": ["SOC triage analyst", "SOC shift lead / IR reviewer"],
+  "recorded_approvals": [],
+  "approved_scanner_sources": ["SCANNER-QUALYS-01", "SCANNER-NESSUS-02"],
+  "approved_maintenance_windows": [
+    {"id": "CHG-2026-0714", "signature": "SIG-CONFIG-CHANGE", "from": "2026-07-14T22:00:00Z", "to": "2026-07-15T02:00:00Z"}
+  ],
+  "open_cases": [
+    {"case_id": "SEC-SA-1000", "asset_id": "AST-DB-07", "signature_id": "SIG-BRUTEFORCE",
+     "window": {"from": "2026-07-15", "to": "2026-07-16"}, "signal_ids": ["G1", "G2", "G3"]}
+  ],
+  "alerts": [
+    {"alert_id": "SA-3001", "signature_id": "SIG-C2-BEACON", "alert_class": "malware-c2",
+     "window": {"from": "2026-07-16", "to": "2026-07-16"}, "source_ref": "alert=SA-3001", "as_of": "2026-07-16",
+     "asset": {"asset_id": "AST-WEB-11", "asset_ref": "web-prod-11", "criticality": "Critical", "internet_facing": true},
+     "identity": {"identity_ref": "svc-****-adm", "privilege": "privileged"},
+     "threat_intel": {"severity": "high", "known_malicious": true, "active_compromise": false, "iocs": ["185.x.x.x", "sha256:abcd"]},
+     "vuln_posture": {"kev_nexus": false, "exposure": "internet-facing"},
+     "signal_ids": ["S10", "S11"], "signal_confidence": "high", "correlated_count": 1},
+
+    {"alert_id": "SA-3002", "signature_id": "SIG-IMPOSSIBLE-TRAVEL", "alert_class": "auth-anomaly",
+     "window": {"from": "2026-07-16", "to": "2026-07-16"}, "source_ref": "alert=SA-3002", "as_of": "2026-07-16",
+     "asset": {"asset_id": "AST-APP-22", "asset_ref": "app-hr-22", "criticality": "High", "internet_facing": false},
+     "identity": {"identity_ref": "user-****-772", "privilege": "standard"},
+     "threat_intel": {"severity": "medium", "known_malicious": false, "active_compromise": false, "iocs": []},
+     "vuln_posture": {"kev_nexus": false, "exposure": "internal"},
+     "signal_ids": ["S20"], "signal_confidence": "medium", "correlated_count": 0},
+
+    {"alert_id": "SA-3003", "signature_id": "SIG-BRUTEFORCE", "alert_class": "brute-force",
+     "window": {"from": "2026-07-15", "to": "2026-07-16"}, "source_ref": "alert=SA-3003", "as_of": "2026-07-16",
+     "asset": {"asset_id": "AST-DB-07", "asset_ref": "db-fin-07", "criticality": "Medium", "internet_facing": false},
+     "identity": {"identity_ref": "user-****-118", "privilege": "standard"},
+     "threat_intel": {"severity": "low", "known_malicious": false, "active_compromise": false, "iocs": []},
+     "vuln_posture": {"kev_nexus": false, "exposure": "internal"},
+     "signal_ids": ["G1", "G2"], "signal_confidence": "low", "correlated_count": 0},
+
+    {"alert_id": "SA-3004", "signature_id": "SIG-VULN-PROBE", "alert_class": "vuln-exploit",
+     "window": {"from": "2026-07-16", "to": "2026-07-16"}, "source_ref": "alert=SA-3004", "as_of": "2026-07-16",
+     "asset": {"asset_id": "AST-SRV-40", "asset_ref": "srv-app-40", "criticality": "Medium", "internet_facing": false},
+     "identity": {"identity_ref": "svc-scan-****", "privilege": "service"},
+     "threat_intel": {"severity": "none", "known_malicious": false, "active_compromise": false, "iocs": []},
+     "vuln_posture": {"kev_nexus": false, "exposure": "internal"},
+     "signal_ids": ["S40"], "signal_confidence": "low", "correlated_count": 0, "source_scanner": "SCANNER-QUALYS-01"},
+
+    {"alert_id": "SA-3005", "signature_id": "SIG-CONFIG-CHANGE", "alert_class": "cloud-misconfig",
+     "window": {"from": "2026-07-14T22:00:00Z", "to": "2026-07-15T02:00:00Z"}, "source_ref": "alert=SA-3005", "as_of": "2026-07-15",
+     "asset": {"asset_id": "AST-CLD-53", "asset_ref": "cloud-acct-53", "criticality": "Medium", "internet_facing": false},
+     "identity": {"identity_ref": "svc-deploy-****", "privilege": "service"},
+     "threat_intel": {"severity": "none", "known_malicious": false, "active_compromise": false, "iocs": []},
+     "vuln_posture": {"kev_nexus": false, "exposure": "internal"},
+     "signal_ids": ["S50"], "signal_confidence": "low", "correlated_count": 0, "maintenance_window_id": "CHG-2026-0714"},
+
+    {"alert_id": "SA-3006", "signature_id": "SIG-SUSPICIOUS-EXEC", "alert_class": "malware-c2",
+     "window": {"from": "2026-07-16", "to": "2026-07-16"}, "source_ref": "alert=SA-3006", "as_of": "2026-07-16",
+     "asset": {"asset_ref": "unknown-host", "internet_facing": false},
+     "identity": {"identity_ref": "user-****-604", "privilege": "standard"},
+     "threat_intel": {"severity": "low", "known_malicious": false, "active_compromise": false, "iocs": []},
+     "vuln_posture": {"kev_nexus": false, "exposure": "unknown"},
+     "signal_ids": ["S60"], "signal_confidence": "medium", "correlated_count": 0},
+
+    {"alert_id": "SA-3007", "signature_id": "SIG-BRUTEFORCE", "alert_class": "brute-force",
+     "window": {"from": "2026-07-15", "to": "2026-07-16"}, "source_ref": "alert=SA-3007", "as_of": "2026-07-16",
+     "asset": {"asset_id": "AST-DB-07", "asset_ref": "db-fin-07", "criticality": "Medium", "internet_facing": false},
+     "identity": {"identity_ref": "user-****-118", "privilege": "standard"},
+     "threat_intel": {"severity": "low", "known_malicious": false, "active_compromise": false, "iocs": []},
+     "vuln_posture": {"kev_nexus": false, "exposure": "internal"},
+     "signal_ids": ["G3", "S99"], "signal_confidence": "low", "correlated_count": 0}
+  ]
+}

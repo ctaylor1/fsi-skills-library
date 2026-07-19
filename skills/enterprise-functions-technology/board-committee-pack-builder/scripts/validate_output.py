@@ -5,8 +5,11 @@ Enforces the Draft & package guardrails before an assembled pack is handed to a 
   1. Template fidelity: every required section is present and non-empty.
   2. No unsupported claims: unsupported_claims is empty and every decision/metric/risk/issue
      carries at least one resolvable citation.
-  3. No unapproved claims: any decision presented as approved/adopted/resolved must have a
-     named human approver recorded in the approvals register.
+  3. No unapproved claims: a decision is treated as "not yet taken" only while its status is a
+     recognized non-decided state (proposed/pending/...); ANY other status -- including
+     paraphrased or multi-word decided language ('agreed', 'passed', 'carried by the
+     committee') -- is a decided claim that MUST have a named human approver recorded in the
+     approvals register. This is an allowlist: unrecognized statuses fail closed as decided.
   4. Required human approvals are recorded: every requires_approval decision appears in the
      approvals register with an approver_role and a status.
   5. Draft-only: status is 'draft' and no send / submit / distribute / finalize language.
@@ -21,7 +24,17 @@ from pathlib import Path
 
 REQUIRED_SECTIONS = ("cover", "agenda", "decisions", "metrics", "risks", "issues", "takeaways")
 SOURCED_KINDS = ("decisions", "metrics", "risks", "issues")
-APPROVED_STATES = {"approved", "adopted", "resolved", "ratified", "carried"}
+# Allowlist of statuses that mean a decision is NOT yet taken and may stand WITHOUT a recorded
+# human approver. This is the safety backstop: any status that is non-empty and not one of
+# these recognized non-decided states -- however it is phrased -- is treated as a decided
+# claim that must name a human approver (fail closed on unknown/paraphrased decided language).
+UNDECIDED_STATES = frozenset({
+    "proposed", "pending", "draft", "tabled", "deferred", "withdrawn", "open",
+    "for discussion", "for noting", "noting", "for information", "information",
+    "for decision", "for approval", "under review", "in review", "not decided",
+    "undecided", "to be approved", "awaiting approval", "awaiting ratification",
+    "pending approval", "pending ratification", "recommended",
+})
 STANDING_NOTE = ("DRAFT board/committee pack assembled for human review; nothing has been "
                  "sent, submitted, distributed, or finalized, and no decision has been "
                  "approved by this skill.")
@@ -32,6 +45,25 @@ SEND_PATTERNS = [
     r"\bfiled with\b", r"\bissued to\b", r"\bfinal and issued\b",
     r"\bboard[- ]?approved\b", r"\bpack finalized\b", r"\bpack finalised\b",
 ]
+
+
+def _norm_status(status) -> str:
+    """Normalize a status for allowlist comparison: lowercase, punctuation->space, collapse ws."""
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", str(status or "").lower()).split())
+
+
+def presents_as_decided(status) -> bool:
+    """True if a decision's status asserts the decision has been TAKEN.
+
+    Allowlist model (fail closed): a status counts as *not yet decided* only when it is empty
+    or exactly matches a recognized non-decided state in UNDECIDED_STATES. Any other non-empty
+    status -- 'agreed', 'passed', 'carried by the committee', 'board-approved', or any other
+    decided-state wording -- is a decided claim that must name a recorded human approver.
+    """
+    norm = _norm_status(status)
+    if not norm:
+        return False
+    return norm not in UNDECIDED_STATES
 
 
 def validate(doc: dict) -> list[str]:
@@ -76,8 +108,9 @@ def validate(doc: dict) -> list[str]:
                     errors.append(f"decision {did!r} approval has no approver_role recorded")
                 if not a.get("status"):
                     errors.append(f"decision {did!r} approval has no status recorded")
-        # unapproved-claim check: an 'approved' decision must name a human approver
-        if str(d.get("status", "")).lower() in APPROVED_STATES:
+        # unapproved-claim check: a decision presented as decided must name a human approver.
+        # Allowlist screen: any status that is not a recognized non-decided state is decided.
+        if presents_as_decided(d.get("status")):
             a = ap_by_decision.get(did) or {}
             if not a.get("approver"):
                 errors.append(f"decision {did!r} presented as {d.get('status')!r} without a recorded human approver (unapproved claim)")

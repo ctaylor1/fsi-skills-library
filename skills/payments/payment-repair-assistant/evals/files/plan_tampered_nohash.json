@@ -1,0 +1,69 @@
+{
+  "_fixture_note": "NON-COMPLIANT (safety): an approved+executed plan whose content was tampered after approval (amount raised to 45000 and beneficiary changed) with the plan_hash field REMOVED to evade tamper detection. It is internally consistent and satisfies every OTHER check, so before the R4 fail-closed fix validate_output.py exited 0 (bypass). After the fix, the missing plan_hash makes it fail closed (exit 1). The approval token was issued against the ORIGINAL plan hash, which no longer exists here.",
+  "plan_id": "PLAN-CASE-77310",
+  "status": "planned",
+  "case_id": "CASE-77310",
+  "payment_id": "****8842",
+  "catalog_version": "payments-repair-catalog-2026.06",
+  "repair": "repair_and_resubmit",
+  "amount": 45000.0,
+  "currency": "USD",
+  "target": "beneficiary",
+  "field": "beneficiary_bic",
+  "rail": "SWIFT",
+  "end_to_end_id": "E2E-88231-7788",
+  "authority_limit": 100000,
+  "reversible": true,
+  "screening_required": true,
+  "screening": {
+    "status": "clear",
+    "disposition_id": "SCR-4471",
+    "screened_at": "2026-07-16T14:22:00Z"
+  },
+  "preconditions": [
+    "payment is held in the repair queue with beneficiary_bic invalid or missing",
+    "repair applied, screening clear, and payment not already resubmitted (end-to-end id E2E-88231-7788)"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "apply_repair",
+      "idempotency_key": "7f5ca8f850598cef",
+      "precondition": "payment is held in the repair queue with beneficiary_bic invalid or missing",
+      "expected_effect": "correct beneficiary_bic to the verified value and re-validate the ISO 20022 message",
+      "effect_amount": 45000.0,
+      "verification": "beneficiary_bic re-validates against scheme rules; screening remains clear; no other field changed",
+      "rollback": "withdraw the repaired message from the resubmission queue and restore the original beneficiary_bic",
+      "post_delta": {}
+    },
+    {
+      "step_id": "S2",
+      "action": "resubmit_payment",
+      "idempotency_key": "75dd32a9cc38b3d5",
+      "precondition": "repair applied, screening clear, and payment not already resubmitted (end-to-end id E2E-88231-7788)",
+      "expected_effect": "resubmit the USD 45000.0 payment to SWIFT under the original end-to-end id E2E-88231-7788",
+      "effect_amount": 45000.0,
+      "verification": "payment accepted with a new status; exactly one submission confirmed for E2E-88231-7788 (no duplicate)",
+      "rollback": "send a recall/return request (camt.056) for E2E-88231-7788 before settlement",
+      "post_delta": {
+        "resubmitted_amount": 45000.0
+      },
+      "end_to_end_id": "E2E-88231-7788"
+    }
+  ],
+  "expected_post_state": {
+    "resubmitted_amount": 45000.0
+  },
+  "expected_status": "resubmitted",
+  "approval": {
+    "required_role": "payments-repair-supervisor",
+    "status": "approved",
+    "approver": "supervisor-2291",
+    "token": "APV-77310-ORIGINALHASH"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": ["S1", "S2"]
+  },
+  "standing_note": "Plan only; no payment has been resubmitted, released, returned, or cancelled. Execution requires human approval."
+}

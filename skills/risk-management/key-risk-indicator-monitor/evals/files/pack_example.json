@@ -1,0 +1,394 @@
+{
+  "run_id": "krim-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "kri-cfg-2026.07",
+  "data_freshness": [
+    {
+      "kri_id": "KRI-OPS-FAILPAY",
+      "observation_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "kri_id": "KRI-CR-PD",
+      "observation_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "kri_id": "KRI-LIQ-LCR",
+      "observation_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "kri_id": "KRI-TPRM-SLA",
+      "observation_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "kri_id": "KRI-COMP-COMPLAINTS",
+      "observation_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "kri_id": "KRI-MR-VAR",
+      "observation_as_of": "2026-07-05",
+      "staleness_days": 12,
+      "stale": true
+    },
+    {
+      "kri_id": "KRI-OPS-STAFFATTR",
+      "observation_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    }
+  ],
+  "alerts": [
+    {
+      "fingerprint": "KRI-OPS-FAILPAY|threshold|BREACH",
+      "kri_id": "KRI-OPS-FAILPAY",
+      "kri_name": "Failed payment processing rate",
+      "category": "operational",
+      "owner": "Payments Operations",
+      "unit": "%",
+      "direction": "higher_is_worse",
+      "critical": true,
+      "status": "BREACH",
+      "breach_type": "threshold",
+      "severity": "High",
+      "queue": "risk-committee-escalation",
+      "is_duplicate": true,
+      "stale_input": false,
+      "linked_incidents": [
+        "INC-2026-0142"
+      ],
+      "evidence": [
+        {
+          "period": "2026-07",
+          "value": 3.5,
+          "band": "red",
+          "citation": "kri:kri_id=KRI-OPS-FAILPAY;period=2026-07@2026-07-17"
+        },
+        {
+          "kri_id": "KRI-OPS-FAILPAY",
+          "amber": 2.0,
+          "red": 3.0,
+          "citation": "register:kri_id=KRI-OPS-FAILPAY@kri-cfg-2026.07"
+        }
+      ],
+      "measured": 3.5,
+      "threshold": 3.0,
+      "band": "red"
+    },
+    {
+      "fingerprint": "KRI-CR-PD|threshold|WARN",
+      "kri_id": "KRI-CR-PD",
+      "kri_name": "90+ day delinquency rate (retail book)",
+      "category": "credit",
+      "owner": "Retail Credit Risk",
+      "unit": "%",
+      "direction": "higher_is_worse",
+      "critical": false,
+      "status": "WARN",
+      "breach_type": "threshold",
+      "severity": "Low",
+      "queue": "kri-monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": false,
+      "linked_incidents": [],
+      "evidence": [
+        {
+          "period": "2026-07",
+          "value": 4.5,
+          "band": "amber",
+          "citation": "kri:kri_id=KRI-CR-PD;period=2026-07@2026-07-17"
+        },
+        {
+          "kri_id": "KRI-CR-PD",
+          "amber": 4.0,
+          "red": 6.0,
+          "citation": "register:kri_id=KRI-CR-PD@kri-cfg-2026.07"
+        }
+      ],
+      "measured": 4.5,
+      "threshold": 4.0,
+      "band": "amber"
+    },
+    {
+      "fingerprint": "KRI-CR-PD|trend|WARN",
+      "kri_id": "KRI-CR-PD",
+      "kri_name": "90+ day delinquency rate (retail book)",
+      "category": "credit",
+      "owner": "Retail Credit Risk",
+      "unit": "%",
+      "direction": "higher_is_worse",
+      "critical": false,
+      "status": "WARN",
+      "breach_type": "trend",
+      "severity": "Low",
+      "queue": "kri-monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": false,
+      "linked_incidents": [],
+      "evidence": [
+        {
+          "from_period": "2026-04",
+          "from_value": 2.8,
+          "to_period": "2026-07",
+          "to_value": 4.5,
+          "consecutive_adverse_moves": 3,
+          "citation": "kri:kri_id=KRI-CR-PD;period=2026-07@2026-07-17"
+        },
+        {
+          "kri_id": "KRI-CR-PD",
+          "citation": "register:kri_id=KRI-CR-PD@kri-cfg-2026.07"
+        }
+      ],
+      "measured": 4.5,
+      "consecutive_adverse_moves": 3
+    },
+    {
+      "fingerprint": "KRI-LIQ-LCR|threshold|BREACH",
+      "kri_id": "KRI-LIQ-LCR",
+      "kri_name": "Liquidity Coverage Ratio",
+      "category": "liquidity",
+      "owner": "Treasury / ALM",
+      "unit": "%",
+      "direction": "lower_is_worse",
+      "critical": true,
+      "status": "BREACH",
+      "breach_type": "threshold",
+      "severity": "High",
+      "queue": "risk-committee-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "linked_incidents": [],
+      "evidence": [
+        {
+          "period": "2026-07",
+          "value": 102.0,
+          "band": "red",
+          "citation": "kri:kri_id=KRI-LIQ-LCR;period=2026-07@2026-07-17"
+        },
+        {
+          "kri_id": "KRI-LIQ-LCR",
+          "amber": 115.0,
+          "red": 105.0,
+          "citation": "register:kri_id=KRI-LIQ-LCR@kri-cfg-2026.07"
+        }
+      ],
+      "measured": 102.0,
+      "threshold": 105.0,
+      "band": "red"
+    },
+    {
+      "fingerprint": "KRI-TPRM-SLA|threshold|WARN",
+      "kri_id": "KRI-TPRM-SLA",
+      "kri_name": "Critical third-party SLA misses",
+      "category": "third_party",
+      "owner": "Third-Party Risk Management",
+      "unit": "count",
+      "direction": "higher_is_worse",
+      "critical": false,
+      "status": "WARN",
+      "breach_type": "threshold",
+      "severity": "Low",
+      "queue": "kri-monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": false,
+      "linked_incidents": [],
+      "evidence": [
+        {
+          "period": "2026-07",
+          "value": 4.0,
+          "band": "amber",
+          "citation": "kri:kri_id=KRI-TPRM-SLA;period=2026-07@2026-07-17"
+        },
+        {
+          "kri_id": "KRI-TPRM-SLA",
+          "amber": 3.0,
+          "red": 5.0,
+          "citation": "register:kri_id=KRI-TPRM-SLA@kri-cfg-2026.07"
+        }
+      ],
+      "measured": 4.0,
+      "threshold": 3.0,
+      "band": "amber"
+    },
+    {
+      "fingerprint": "KRI-TPRM-SLA|seasonal|BREACH",
+      "kri_id": "KRI-TPRM-SLA",
+      "kri_name": "Critical third-party SLA misses",
+      "category": "third_party",
+      "owner": "Third-Party Risk Management",
+      "unit": "count",
+      "direction": "higher_is_worse",
+      "critical": false,
+      "status": "BREACH",
+      "breach_type": "seasonal",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "linked_incidents": [],
+      "evidence": [
+        {
+          "period": "2026-07",
+          "value": 4.0,
+          "seasonal_expected": 2.0,
+          "seasonal_bound": 3.0,
+          "deviation_pct": 100.0,
+          "tolerance_pct": 50.0,
+          "citation": "kri:kri_id=KRI-TPRM-SLA;period=2026-07@2026-07-17"
+        },
+        {
+          "kri_id": "KRI-TPRM-SLA",
+          "citation": "register:kri_id=KRI-TPRM-SLA@kri-cfg-2026.07"
+        }
+      ],
+      "measured": 4.0,
+      "threshold": 3.0,
+      "band": "seasonal",
+      "seasonal_expected": 2.0,
+      "deviation_pct": 100.0
+    },
+    {
+      "fingerprint": "KRI-COMP-COMPLAINTS|data_quality|WARN",
+      "kri_id": "KRI-COMP-COMPLAINTS",
+      "kri_name": "Upheld complaints per 1,000 accounts",
+      "category": "compliance_conduct",
+      "owner": "Conduct Risk",
+      "unit": "per 1,000",
+      "direction": "higher_is_worse",
+      "critical": true,
+      "status": "WARN",
+      "breach_type": "data_quality",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "linked_incidents": [],
+      "evidence": [
+        {
+          "period": "2026-07",
+          "value": null,
+          "reason": "latest observation (2026-07) value is missing",
+          "citation": "kri:kri_id=KRI-COMP-COMPLAINTS;period=2026-07@2026-07-17"
+        }
+      ],
+      "reason": "latest observation (2026-07) value is missing"
+    },
+    {
+      "fingerprint": "KRI-MR-VAR|threshold|WARN",
+      "kri_id": "KRI-MR-VAR",
+      "kri_name": "1-day 99% VaR limit utilization",
+      "category": "market",
+      "owner": "Market Risk",
+      "unit": "%",
+      "direction": "higher_is_worse",
+      "critical": true,
+      "status": "WARN",
+      "breach_type": "threshold",
+      "severity": "Low",
+      "queue": "kri-monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": true,
+      "linked_incidents": [],
+      "evidence": [
+        {
+          "period": "2026-07",
+          "value": 88.0,
+          "band": "amber",
+          "citation": "kri:kri_id=KRI-MR-VAR;period=2026-07@2026-07-17"
+        },
+        {
+          "kri_id": "KRI-MR-VAR",
+          "amber": 80.0,
+          "red": 95.0,
+          "citation": "register:kri_id=KRI-MR-VAR@kri-cfg-2026.07"
+        }
+      ],
+      "measured": 88.0,
+      "threshold": 80.0,
+      "band": "amber"
+    },
+    {
+      "fingerprint": "KRI-MR-VAR|freshness|WARN",
+      "kri_id": "KRI-MR-VAR",
+      "kri_name": "1-day 99% VaR limit utilization",
+      "category": "market",
+      "owner": "Market Risk",
+      "unit": "%",
+      "direction": "higher_is_worse",
+      "critical": true,
+      "status": "WARN",
+      "breach_type": "freshness",
+      "severity": "Low",
+      "queue": "kri-monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": true,
+      "linked_incidents": [],
+      "evidence": [
+        {
+          "kri_id": "KRI-MR-VAR",
+          "observation_as_of": "2026-07-05",
+          "staleness_days": 12,
+          "max_staleness_days": 5,
+          "citation": "kri:kri_id=KRI-MR-VAR;observation_as_of=2026-07-05@2026-07-17"
+        }
+      ],
+      "measured": 12
+    }
+  ],
+  "new_alerts": [
+    "KRI-CR-PD|threshold|WARN",
+    "KRI-CR-PD|trend|WARN",
+    "KRI-LIQ-LCR|threshold|BREACH",
+    "KRI-TPRM-SLA|threshold|WARN",
+    "KRI-TPRM-SLA|seasonal|BREACH",
+    "KRI-COMP-COMPLAINTS|data_quality|WARN",
+    "KRI-MR-VAR|threshold|WARN",
+    "KRI-MR-VAR|freshness|WARN"
+  ],
+  "still_open": [
+    "KRI-OPS-FAILPAY|threshold|BREACH"
+  ],
+  "summary": {
+    "kris": 7,
+    "kris_evaluated": 7,
+    "alerts_total": 9,
+    "new": 8,
+    "deduplicated": 1,
+    "warn": 6,
+    "breach": 3,
+    "stale_kris": [
+      "KRI-MR-VAR"
+    ],
+    "linked_incidents": [
+      "INC-2026-0142"
+    ]
+  },
+  "escalations": [
+    {
+      "severity": "High",
+      "queue": "risk-committee-escalation",
+      "count": 2
+    },
+    {
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "count": 2
+    },
+    {
+      "severity": "Low",
+      "queue": "kri-monitoring-watchlist",
+      "count": 5
+    }
+  ],
+  "disclaimer": "Monitoring alert only; no risk acceptance, breach waiver, limit or appetite change, risk- or control-rating change, incident or case closure, regulatory filing, or system-of-record change has been made or recommended. KRI exceptions require human risk review and adjudication.",
+  "narrative": "Scheduled KRI monitoring run krim-2026-07-17-0001 (as of 2026-07-17) evaluated 7 Key Risk Indicators against their versioned appetite thresholds (kri-cfg-2026.07) and raised 9 alerts (8 new, 1 already open and deduplicated). Two critical KRIs are in red-limit breach and routed to the risk committee for adjudication: the failed payment processing rate reached 3.5% against a 3.0% limit (already open; linked to incident INC-2026-0142) and the Liquidity Coverage Ratio fell to 102% against a 105% floor. The retail 90+ day delinquency rate sits at 4.5% in the amber band and has deteriorated for three consecutive months, raising a threshold warning and an adverse-trend warning on the watchlist. Critical third-party SLA misses are within absolute appetite (4 vs a 5 limit) but run at twice the seasonally-expected level, so a seasonal-deviation alert is queued for review. The upheld-complaints KRI has no reported value this period, so a data-quality alert is queued rather than a false all-clear. Market-risk VaR utilization is 88% (amber) but its observation is 12 days stale against a 5-day limit, so both its threshold warning and a freshness alert are flagged stale_input and treated as low-confidence pending a refreshed feed. Staff attrition remains within appetite and raised no alert. All items are routed to the named risk queues for human review; severity and queue are deterministic. Monitoring alert only; no risk acceptance, breach waiver, limit or appetite change, risk- or control-rating change, incident or case closure, regulatory filing, or system-of-record change has been made or recommended. KRI exceptions require human risk review and adjudication.",
+  "notes": "Thresholds, directions, and seasonal baselines are versioned configuration (kri-cfg-2026.07); no per-metric tuning. Severity and queue are deterministic. Linked incident INC-2026-0142 is context only; this monitor does not create, modify, or dispose of incidents or cases."
+}

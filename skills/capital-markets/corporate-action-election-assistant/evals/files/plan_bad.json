@@ -1,0 +1,33 @@
+{
+  "plan_id": "CAE-PLAN-CAEV-BAD-****0000",
+  "status": "planned",
+  "event_id": "CAEV-BAD",
+  "account": "****0000",
+  "event_type": "tender_offer",
+  "election_action": "submit_election",
+  "permissible_options": ["tender"],
+  "basis": "up_to",
+  "effective_cap": 1.0,
+  "instructed_quantity": 50000,
+  "eligible_quantity": 1000,
+  "reference_price": 200.00,
+  "notional": 10000000,
+  "authority_limit": 5000000,
+  "reversible": true,
+  "as_of": "2026-08-01",
+  "submission_deadline": "2026-07-20",
+  "market_deadline": "2026-07-25",
+  "legs": [
+    {"option": "tender", "quantity": 50000}
+  ],
+  "steps": [
+    {"step_id": "S1", "action": "submit_option_leg", "idempotency_key": "abc123",
+     "precondition": "position held", "expected_effect": "submit 50000 tender",
+     "effect_quantity": 50000, "verification": "agent ack"}
+  ],
+  "expected_post_state": {"tender": 50000, "total_instructed": 50000},
+  "plan_hash": "deadbeefdeadbeef",
+  "approval": {"required_role": "corporate-actions-supervisor", "status": "pending", "approver": null, "token": null},
+  "execution": {"state": "executed", "executed_steps": ["S1"]},
+  "standing_note": "Plan only; no election has been submitted to the custodian or agent. Submission requires human approval."
+}

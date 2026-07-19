@@ -29,7 +29,9 @@ Severity/urgency bands and routing are **recommendations**, never decisions.
 ## Required output screens (`scripts/validate_output.py`)
 
 - Only allowed dispositions appear.
-- `severity_band` / `urgency_band` tie out to their documented scores.
+- `severity_band` / `urgency_band` tie out to their documented scores, using the band cutoffs
+  the engine recorded on the output (`triage_config`) — the same versioned config it applied,
+  never hardcoded thresholds — so a config override cannot silently disable the check.
 - Every draft summary contains all required template sections + the DRAFT marker + citations.
 - Required approvals are recorded: `triage_lead_review`, `claims_supervisor_approval`.
 - No unsupported/unapproved-claim language (coverage determination, claim approve/deny/pay/

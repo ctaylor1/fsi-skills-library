@@ -1,0 +1,50 @@
+{
+  "plan_id": "PLAN-CLOSE-2026-06-BADCO",
+  "status": "planned",
+  "close_run_id": "CLOSE-2026-06-BADCO",
+  "entity": "BADCO",
+  "period": "2026-06",
+  "catalog_version": "close-action-catalog-2026.06",
+  "step_order": ["S1", "S2"],
+  "steps": [
+    {
+      "step_id": "S1",
+      "task_id": "T1",
+      "action": "post_accrual_journal",
+      "kind": "journal",
+      "target": "GL:6100-accrued-expenses",
+      "idempotency_key": "aaaa111122223333",
+      "precondition": "period is open and GL:6100-accrued-expenses is postable",
+      "expected_effect": "post 999999.0 to GL:6100-accrued-expenses",
+      "effect_amount": 999999.00,
+      "verification": "GL shows journal posted under this idempotency key",
+      "post_delta": {"GL:6100-accrued-expenses": 999999.00},
+      "depends_on": [],
+      "depends_on_steps": []
+    },
+    {
+      "step_id": "S2",
+      "task_id": "T2",
+      "action": "close_period",
+      "kind": "lock",
+      "target": "PERIOD:2026-06",
+      "idempotency_key": "bbbb444455556666",
+      "precondition": "all prerequisite steps verified",
+      "expected_effect": "set PERIOD:2026-06 to closed",
+      "effect_amount": null,
+      "verification": "period-control system shows PERIOD:2026-06 = closed",
+      "rollback": "re-open PERIOD:2026-06",
+      "post_delta": {"PERIOD:2026-06": "closed"},
+      "depends_on": ["T1"],
+      "depends_on_steps": ["S1"]
+    }
+  ],
+  "expected_post_state": {
+    "GL:6100-accrued-expenses": 999999.00,
+    "PERIOD:2026-06": "closed"
+  },
+  "plan_hash": "deadbeefdeadbeefdeadbeefdeadbeef",
+  "approval": {"required_role": "controller", "status": "pending", "approver": null, "token": null},
+  "execution": {"state": "executed", "executed_steps": ["S2"]},
+  "standing_note": "Plan only; no journal has been posted. Execution requires human approval."
+}

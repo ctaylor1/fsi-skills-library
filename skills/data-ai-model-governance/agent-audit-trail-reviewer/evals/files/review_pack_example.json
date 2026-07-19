@@ -1,0 +1,136 @@
+{
+  "review_id": "aatr-R-771-2026-07-17-0001",
+  "run_id": "R-771",
+  "agent_id": "AG-Underwriting-Copilot",
+  "as_of": "2026-07-17",
+  "policy_version": "agent-audit-policy-2026.07",
+  "reproducibility": {
+    "complete": false,
+    "present_fields": [
+      "model_id",
+      "model_version",
+      "prompt_version",
+      "config_version"
+    ],
+    "missing_fields": [
+      "seed"
+    ]
+  },
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "type": "reproducibility_gap",
+      "control_domain": "reproducibility",
+      "severity": "low",
+      "description": "Run header is missing reproducibility field(s) ['seed']; the run cannot be deterministically reproduced from the recorded trail.",
+      "evidence": [
+        {
+          "event_id": "run-header",
+          "ref": "run=R-771",
+          "citation": "trail:run=R-771#header@2026-07-17"
+        }
+      ],
+      "recommendation": "Route to the model/agent owner to backfill the missing reproducibility fields in the run record."
+    },
+    {
+      "finding_id": "F-002",
+      "type": "evidence_traceability_gap",
+      "control_domain": "traceability",
+      "severity": "low",
+      "description": "Retrieval event E-003 has no citation to its source; the retrieved material cannot be traced to an authoritative record.",
+      "evidence": [
+        {
+          "event_id": "E-003",
+          "ref": "bureau:report=BR-55",
+          "citation": "trail:run=R-771;event=E-003@2026-07-16T10:00:07"
+        }
+      ],
+      "recommendation": "Route to the agent owner to confirm the retrieved source and record its citation."
+    },
+    {
+      "finding_id": "F-003",
+      "type": "out_of_scope_tool",
+      "control_domain": "least-privilege",
+      "severity": "medium",
+      "description": "Tool 'underwriting_decision' (event E-005) is not in the run's allowed-tool set; the call falls outside the approved least-privilege scope.",
+      "evidence": [
+        {
+          "event_id": "E-005",
+          "ref": "tool=underwriting_decision",
+          "citation": "trail:run=R-771;event=E-005@2026-07-16T10:10:00"
+        }
+      ],
+      "recommendation": "Route to an agent-permission review to confirm whether the tool should be in scope."
+    },
+    {
+      "finding_id": "F-004",
+      "type": "prohibited_autonomous_action",
+      "control_domain": "human-oversight",
+      "severity": "high",
+      "description": "Tool 'underwriting_decision' executed a regulated decision (adverse_action) at event E-005 with no recorded human approval event; a regulated decision was taken without the required oversight gate.",
+      "evidence": [
+        {
+          "event_id": "E-005",
+          "ref": "tool=underwriting_decision;op=adverse_action",
+          "citation": "trail:run=R-771;event=E-005@2026-07-16T10:10:00"
+        }
+      ],
+      "recommendation": "Escalate to a human adjudicator; a regulated decision must have a human approval gate."
+    },
+    {
+      "finding_id": "F-005",
+      "type": "unauthorized_override",
+      "control_domain": "human-oversight",
+      "severity": "high",
+      "description": "Override E-007 of a guardrail was performed by a non-human actor (agent); a control was bypassed without human authority.",
+      "evidence": [
+        {
+          "event_id": "E-007",
+          "ref": "overrode=guardrail",
+          "citation": "trail:run=R-771;event=E-007@2026-07-16T10:11:00"
+        }
+      ],
+      "recommendation": "Escalate to a human adjudicator; a guardrail/approval override requires recorded human authority."
+    },
+    {
+      "finding_id": "F-006",
+      "type": "missing_approval",
+      "control_domain": "human-oversight",
+      "severity": "medium",
+      "description": "Tool 'notify_customer' performed a write operation (send) at event E-006 that required approval, but no matching approval event is recorded.",
+      "evidence": [
+        {
+          "event_id": "E-006",
+          "ref": "tool=notify_customer;op=send",
+          "citation": "trail:run=R-771;event=E-006@2026-07-16T10:13:00"
+        }
+      ],
+      "recommendation": "Route to the control owner to confirm whether the required approval occurred out-of-band."
+    },
+    {
+      "finding_id": "F-007",
+      "type": "retention_gap",
+      "control_domain": "records-retention",
+      "severity": "medium",
+      "description": "Required object 'tool_call' has no retention record marking it retained; the trail does not evidence that tool_call artifacts were preserved per policy.",
+      "evidence": [
+        {
+          "event_id": "retention",
+          "ref": "object=tool_call",
+          "citation": "trail:run=R-771#retention=tool_call@2026-07-17"
+        }
+      ],
+      "recommendation": "Route to records management to confirm the object is retained under the required class."
+    }
+  ],
+  "finding_counts": {
+    "high": 2,
+    "medium": 3,
+    "low": 2
+  },
+  "disposition": "Escalate",
+  "human_adjudication_required": true,
+  "disclaimer": "Control-review evidence only; not a control attestation or adjudication. No finding has been closed, filed, or written to a system of record; human adjudication is required.",
+  "narrative": "Review of run R-771 (AG-Underwriting-Copilot) against agent-audit-policy-2026.07 identified 7 findings: 2 high, 3 medium, 2 low. The trail shows a regulated decision (adverse_action) executed by an out-of-scope tool with no recorded human approval, a guardrail override by a non-human actor, a customer-facing write without approval, a missing tool_call retention record, an uncited retrieval, and a missing reproducibility field (seed). Suggested disposition: Escalate. These are evidenced observations for a human adjudicator to weigh; benign explanations (e.g., an approval logged out-of-band, a retention record captured in a separate system) should be checked before any conclusion. Control-review evidence only; not a control attestation or adjudication. No finding has been closed, filed, or written to a system of record; human adjudication is required.",
+  "notes": "Reviewer to confirm out-of-band approvals and cross-system retention before adjudicating."
+}

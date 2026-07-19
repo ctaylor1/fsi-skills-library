@@ -1,0 +1,39 @@
+{
+  "household_id": "HH-DEMO-4821",
+  "as_of": "2026-07-15",
+  "valuation_date": "2026-07-15",
+  "config_version": "retire-cfg-2026.07",
+  "currency": "USD",
+  "units": "nominal-dollars",
+  "current_age": 64,
+  "retirement_age": 65,
+  "horizon_age": 84,
+  "spending": {
+    "annual_need": {"value": 78000.0, "provenance": "planning-engine", "citation": "plan:household budget worksheet 2026-06"},
+    "inflation": {"value": 0.025, "provenance": "approved-assumption", "citation": "cfg:capital-market assumptions 2026.07 CPI"},
+    "guaranteed_income_tax_rate": {"value": 0.10, "provenance": "approved-tax-assumption", "citation": "cfg:approved effective tax table 2026.07 SS/pension"}
+  },
+  "accounts": [
+    {"id": "taxable", "type": "taxable", "balance": {"value": 320000.0, "provenance": "portfolio-accounting", "citation": "oms:custody position 2026-07-15"}, "expected_return": {"value": 0.045, "provenance": "approved-assumption", "citation": "cfg:CMA 2026.07 blended taxable"}, "effective_tax_rate": {"value": 0.15, "provenance": "approved-tax-assumption", "citation": "cfg:approved effective tax table 2026.07 LT cap-gains"}},
+    {"id": "tax_deferred", "type": "tax_deferred", "balance": {"value": 640000.0, "provenance": "portfolio-accounting", "citation": "oms:IRA position 2026-07-15"}, "expected_return": {"value": 0.05, "provenance": "approved-assumption", "citation": "cfg:CMA 2026.07 balanced"}, "effective_tax_rate": {"value": 0.22, "provenance": "approved-tax-assumption", "citation": "cfg:approved effective tax table 2026.07 ordinary"}},
+    {"id": "tax_free", "type": "tax_free", "balance": {"value": 160000.0, "provenance": "portfolio-accounting", "citation": "oms:Roth position 2026-07-15"}, "expected_return": {"value": 0.05, "provenance": "approved-assumption", "citation": "cfg:CMA 2026.07 balanced"}, "effective_tax_rate": {"value": 0.0, "provenance": "approved-tax-assumption", "citation": "cfg:approved effective tax table 2026.07 qualified Roth"}}
+  ],
+  "guaranteed_income": [
+    {"id": "social_security", "annual_amount": {"value": 32000.0, "provenance": "planning-engine", "citation": "plan:SSA statement estimate 2026-05"}, "start_age": 67, "cola": {"value": 0.025, "provenance": "approved-assumption", "citation": "cfg:CMA 2026.07 SS COLA proxy"}},
+    {"id": "pension", "annual_amount": {"value": 14000.0, "provenance": "planning-engine", "citation": "plan:employer pension election 2026-04"}, "start_age": 65, "cola": {"value": 0.0, "provenance": "planning-engine", "citation": "plan:pension no-COLA terms"}}
+  ],
+  "withdrawal": {
+    "strategy": "spending_gap",
+    "order": ["taxable", "tax_deferred", "tax_free"],
+    "fixed_pct": {"value": 0.04, "provenance": "approved-assumption", "citation": "cfg:default SWR band 2026.07"}
+  },
+  "scenario_adjustments": {
+    "favorable": {"return_delta": 0.02, "inflation_delta": -0.01},
+    "adverse": {"return_delta": -0.02, "inflation_delta": 0.01,
+      "return_sequence": {
+        "taxable": [-0.12, -0.08, -0.04, 0.02, 0.03],
+        "tax_deferred": [-0.15, -0.10, -0.05, 0.02, 0.03],
+        "tax_free": [-0.15, -0.10, -0.05, 0.02, 0.03]
+      }}
+  }
+}

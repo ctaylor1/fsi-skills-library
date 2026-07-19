@@ -1,0 +1,602 @@
+{
+  "config_version": "mktsurv-2026.07",
+  "cases": [
+    {
+      "alert_id": "AL-1001",
+      "case_id": "MKT-SURV-AL-1001",
+      "alert_type": "spoofing_layering",
+      "escalation": {
+        "from_skill": "surveillance-alert-triager",
+        "triage_case_id": "SURV-TRI-AL-1001",
+        "escalated_by": "analyst-07",
+        "reason": "Excessive cancellations around fills; triage could not clear."
+      },
+      "evidence_bundle": {
+        "case_id": "MKT-SURV-AL-1001",
+        "subject_party_id": "TRD-100",
+        "instrument": {
+          "symbol": "ABCD",
+          "asset_class": "equity",
+          "venue": "XNAS",
+          "currency": "USD"
+        },
+        "period": {
+          "from": "2026-07-15",
+          "to": "2026-07-15"
+        },
+        "parties": [
+          {
+            "party_id": "TRD-100",
+            "role": "trader",
+            "account_ref": "****3300",
+            "citations": [
+              "casemgmt:surv-case=AL-1001"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2026-07-15T09:30:00",
+            "type": "order",
+            "party_id": "TRD-100",
+            "summary": "sell order 12000 @ 100.12 [cancelled]",
+            "citation": "oms:order=O-100-1"
+          },
+          {
+            "ts": "2026-07-15T09:30:01",
+            "type": "order",
+            "party_id": "TRD-100",
+            "summary": "sell order 12000 @ 100.13 [cancelled]",
+            "citation": "oms:order=O-100-2"
+          },
+          {
+            "ts": "2026-07-15T09:30:02",
+            "type": "order",
+            "party_id": "TRD-100",
+            "summary": "sell order 12000 @ 100.14 [cancelled]",
+            "citation": "oms:order=O-100-3"
+          },
+          {
+            "ts": "2026-07-15T09:30:03",
+            "type": "order",
+            "party_id": "TRD-100",
+            "summary": "sell order 12000 @ 100.15 [cancelled]",
+            "citation": "oms:order=O-100-4"
+          },
+          {
+            "ts": "2026-07-15T09:30:05",
+            "type": "order",
+            "party_id": "TRD-100",
+            "summary": "buy order 2000 @ 100.05 [filled]",
+            "citation": "oms:order=O-100-5"
+          },
+          {
+            "ts": "2026-07-15T09:30:05",
+            "type": "trade",
+            "party_id": "TRD-100",
+            "summary": "buy 2000 @ 100.05",
+            "citation": "trades:trade=T-100-1"
+          }
+        ],
+        "amounts": {
+          "traded_qty": 2000.0,
+          "notional": 200100.0,
+          "currency": "USD"
+        },
+        "indicators": [
+          {
+            "name": "order_to_trade_ratio",
+            "value": 5.0,
+            "threshold": 4.0,
+            "breached": true,
+            "weight": 2,
+            "citations": [
+              "oms:order=O-100-1",
+              "oms:order=O-100-2",
+              "oms:order=O-100-3",
+              "oms:order=O-100-4",
+              "oms:order=O-100-5"
+            ]
+          },
+          {
+            "name": "cancel_rate",
+            "value": 0.8,
+            "threshold": 0.6,
+            "breached": true,
+            "weight": 2,
+            "citations": [
+              "oms:order=O-100-1",
+              "oms:order=O-100-2",
+              "oms:order=O-100-3",
+              "oms:order=O-100-4"
+            ]
+          },
+          {
+            "name": "opposite_side_cancel_cluster",
+            "value": 4,
+            "threshold": 3,
+            "breached": true,
+            "weight": 3,
+            "citations": [
+              "oms:order=O-100-1",
+              "oms:order=O-100-2",
+              "oms:order=O-100-3",
+              "oms:order=O-100-4"
+            ]
+          }
+        ],
+        "linked_cases": [],
+        "citations": [
+          "casemgmt:surv-case=AL-1001",
+          "oms:order=O-100-1",
+          "oms:order=O-100-2",
+          "oms:order=O-100-3",
+          "oms:order=O-100-4",
+          "oms:order=O-100-5",
+          "trades:trade=T-100-1"
+        ]
+      },
+      "evidence_strength_score": 7,
+      "evidence_strength_reason": "order_to_trade_ratio +2; cancel_rate +2; opposite_side_cancel_cluster +3",
+      "recommended_routing": [],
+      "needs": [],
+      "linked_case_id": null,
+      "disposition_recommendation": "recommend-refer-regulatory-consideration",
+      "rationale": "Evidence supports a recommendation to refer for regulatory consideration; a qualified supervisor/compliance officer must adjudicate whether a STOR/SAR or other action is warranted. Breached indicators: order_to_trade_ratio +2; cancel_rate +2; opposite_side_cancel_cluster +3."
+    },
+    {
+      "alert_id": "AL-1002",
+      "case_id": "MKT-SURV-AL-1002",
+      "alert_type": "insider_dealing",
+      "escalation": {
+        "from_skill": "surveillance-alert-triager",
+        "triage_case_id": "SURV-TRI-AL-1002",
+        "escalated_by": "analyst-07",
+        "reason": "Flagged chat preceding a directional trade near a corporate event."
+      },
+      "evidence_bundle": {
+        "case_id": "MKT-SURV-AL-1002",
+        "subject_party_id": "TRD-200",
+        "instrument": {
+          "symbol": "WXYZ",
+          "asset_class": "equity",
+          "venue": "XNYS",
+          "currency": "USD"
+        },
+        "period": {
+          "from": "2026-07-15",
+          "to": "2026-07-15"
+        },
+        "parties": [
+          {
+            "party_id": "TRD-200",
+            "role": "trader",
+            "account_ref": "****4200",
+            "citations": [
+              "casemgmt:surv-case=AL-1002"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2026-07-15T10:00:00",
+            "type": "message",
+            "party_id": "TRD-200",
+            "summary": "chat message flagged: heard the merger is signing tonight, load up before it prints",
+            "citation": "comms:msg=M-200-1"
+          },
+          {
+            "ts": "2026-07-15T10:05:00",
+            "type": "order",
+            "party_id": "TRD-200",
+            "summary": "buy order 5000 @ 50.0 [filled]",
+            "citation": "oms:order=O-200-1"
+          },
+          {
+            "ts": "2026-07-15T10:05:00",
+            "type": "trade",
+            "party_id": "TRD-200",
+            "summary": "buy 5000 @ 50.0",
+            "citation": "trades:trade=T-200-1"
+          }
+        ],
+        "amounts": {
+          "traded_qty": 5000.0,
+          "notional": 250000.0,
+          "currency": "USD"
+        },
+        "indicators": [
+          {
+            "name": "order_to_trade_ratio",
+            "value": 1.0,
+            "threshold": 4.0,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "oms:order=O-200-1"
+            ]
+          },
+          {
+            "name": "cancel_rate",
+            "value": 0.0,
+            "threshold": 0.6,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "casemgmt:surv-case=AL-1002"
+            ]
+          },
+          {
+            "name": "message_trade_proximity",
+            "value": 300.0,
+            "threshold": 3600,
+            "breached": true,
+            "weight": 3,
+            "citations": [
+              "comms:msg=M-200-1"
+            ]
+          },
+          {
+            "name": "flagged_prohibited_terms",
+            "value": 1,
+            "threshold": 1,
+            "breached": true,
+            "weight": 2,
+            "citations": [
+              "comms:msg=M-200-1"
+            ]
+          }
+        ],
+        "linked_cases": [],
+        "citations": [
+          "casemgmt:surv-case=AL-1002",
+          "comms:msg=M-200-1",
+          "oms:order=O-200-1",
+          "trades:trade=T-200-1"
+        ]
+      },
+      "evidence_strength_score": 5,
+      "evidence_strength_reason": "message_trade_proximity +3; flagged_prohibited_terms +2",
+      "recommended_routing": [
+        "communications-compliance-reviewer",
+        "adverse-media-investigator"
+      ],
+      "needs": [],
+      "linked_case_id": null,
+      "disposition_recommendation": "recommend-escalate-to-compliance-review",
+      "rationale": "Evidence supports a recommendation to escalate to compliance review for supervisory adjudication. Breached indicators: message_trade_proximity +3; flagged_prohibited_terms +2."
+    },
+    {
+      "alert_id": "AL-1003",
+      "case_id": "MKT-SURV-AL-1003",
+      "alert_type": "wash_trade",
+      "escalation": {
+        "from_skill": "surveillance-alert-triager",
+        "triage_case_id": "SURV-TRI-AL-1003",
+        "escalated_by": "analyst-12",
+        "reason": "Opposing trades flagged; triage requested review."
+      },
+      "evidence_bundle": {
+        "case_id": "MKT-SURV-AL-1003",
+        "subject_party_id": "TRD-300",
+        "instrument": {
+          "symbol": "LMNO",
+          "asset_class": "equity",
+          "venue": "XNAS",
+          "currency": "USD"
+        },
+        "period": {
+          "from": "2026-07-15",
+          "to": "2026-07-15"
+        },
+        "parties": [
+          {
+            "party_id": "TRD-300",
+            "role": "trader",
+            "account_ref": "****4300",
+            "citations": [
+              "casemgmt:surv-case=AL-1003"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2026-07-15T11:00:00",
+            "type": "order",
+            "party_id": "TRD-300",
+            "summary": "buy order 1000 @ 20.0 [filled]",
+            "citation": "oms:order=O-300-1"
+          },
+          {
+            "ts": "2026-07-15T11:00:00",
+            "type": "trade",
+            "party_id": "TRD-300",
+            "summary": "buy 1000 @ 20.0",
+            "citation": "trades:trade=T-300-1"
+          },
+          {
+            "ts": "2026-07-15T11:30:00",
+            "type": "order",
+            "party_id": "TRD-300",
+            "summary": "sell order 1000 @ 20.05 [filled]",
+            "citation": "oms:order=O-300-2"
+          },
+          {
+            "ts": "2026-07-15T11:30:00",
+            "type": "trade",
+            "party_id": "TRD-300",
+            "summary": "sell 1000 @ 20.05",
+            "citation": "trades:trade=T-300-2"
+          }
+        ],
+        "amounts": {
+          "traded_qty": 2000.0,
+          "notional": 40050.0,
+          "currency": "USD"
+        },
+        "indicators": [
+          {
+            "name": "order_to_trade_ratio",
+            "value": 1.0,
+            "threshold": 4.0,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "oms:order=O-300-1",
+              "oms:order=O-300-2"
+            ]
+          },
+          {
+            "name": "cancel_rate",
+            "value": 0.0,
+            "threshold": 0.6,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "casemgmt:surv-case=AL-1003"
+            ]
+          },
+          {
+            "name": "self_match",
+            "value": 0,
+            "threshold": 1,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "casemgmt:surv-case=AL-1003"
+            ]
+          }
+        ],
+        "linked_cases": [],
+        "citations": [
+          "casemgmt:surv-case=AL-1003",
+          "oms:order=O-300-1",
+          "oms:order=O-300-2",
+          "trades:trade=T-300-1",
+          "trades:trade=T-300-2"
+        ]
+      },
+      "evidence_strength_score": 0,
+      "evidence_strength_reason": "",
+      "recommended_routing": [],
+      "needs": [],
+      "linked_case_id": null,
+      "disposition_recommendation": "recommend-close-no-further-action",
+      "rationale": "Indicators are within documented thresholds; recommend a no-further-action disposition, subject to supervisor confirmation. No determination is made here."
+    },
+    {
+      "alert_id": "AL-1004",
+      "case_id": "MKT-SURV-AL-1004",
+      "alert_type": "marking_the_close",
+      "escalation": {
+        "from_skill": "surveillance-alert-triager",
+        "triage_case_id": "SURV-TRI-AL-1004",
+        "escalated_by": "analyst-12",
+        "reason": "Late-session selling; market data not attached at triage."
+      },
+      "evidence_bundle": {
+        "case_id": "MKT-SURV-AL-1004",
+        "subject_party_id": "TRD-400",
+        "instrument": {
+          "symbol": "PQRS",
+          "asset_class": "equity",
+          "venue": "XNAS",
+          "currency": "USD"
+        },
+        "period": {
+          "from": "2026-07-15",
+          "to": "2026-07-15"
+        },
+        "parties": [
+          {
+            "party_id": "TRD-400",
+            "role": "trader",
+            "account_ref": "****4400",
+            "citations": [
+              "casemgmt:surv-case=AL-1004"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2026-07-15T15:58:00",
+            "type": "order",
+            "party_id": "TRD-400",
+            "summary": "sell order 3000 @ 99.0 [filled]",
+            "citation": "oms:order=O-400-1"
+          },
+          {
+            "ts": "2026-07-15T15:58:00",
+            "type": "trade",
+            "party_id": "TRD-400",
+            "summary": "sell 3000 @ 99.0",
+            "citation": "trades:trade=T-400-1"
+          }
+        ],
+        "amounts": {
+          "traded_qty": 3000.0,
+          "notional": 297000.0,
+          "currency": "USD"
+        },
+        "indicators": [
+          {
+            "name": "order_to_trade_ratio",
+            "value": 1.0,
+            "threshold": 4.0,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "oms:order=O-400-1"
+            ]
+          },
+          {
+            "name": "cancel_rate",
+            "value": 0.0,
+            "threshold": 0.6,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "casemgmt:surv-case=AL-1004"
+            ]
+          }
+        ],
+        "linked_cases": [],
+        "citations": [
+          "casemgmt:surv-case=AL-1004",
+          "oms:order=O-400-1",
+          "trades:trade=T-400-1"
+        ]
+      },
+      "evidence_strength_score": 0,
+      "evidence_strength_reason": "",
+      "recommended_routing": [],
+      "needs": [
+        "market evidence stream"
+      ],
+      "linked_case_id": null,
+      "disposition_recommendation": "needs-data",
+      "rationale": "Required evidence stream(s) absent (market); needs-data. No strength-based recommendation is possible until provided."
+    },
+    {
+      "alert_id": "AL-1005",
+      "case_id": "MKT-SURV-AL-1005",
+      "alert_type": "spoofing_layering",
+      "escalation": {
+        "from_skill": "surveillance-alert-triager",
+        "triage_case_id": "SURV-TRI-AL-1005",
+        "escalated_by": "analyst-07",
+        "reason": "Same trader/pattern as a case already open."
+      },
+      "evidence_bundle": {
+        "case_id": "MKT-SURV-AL-1005",
+        "subject_party_id": "TRD-500",
+        "instrument": {
+          "symbol": "ABCD",
+          "asset_class": "equity",
+          "venue": "XNAS",
+          "currency": "USD"
+        },
+        "period": {
+          "from": "2026-07-10",
+          "to": "2026-07-11"
+        },
+        "parties": [
+          {
+            "party_id": "TRD-500",
+            "role": "trader",
+            "account_ref": "****4500",
+            "citations": [
+              "casemgmt:surv-case=AL-1005"
+            ]
+          }
+        ],
+        "chronology": [
+          {
+            "ts": "2026-07-10T14:00:00",
+            "type": "order",
+            "party_id": "TRD-500",
+            "summary": "sell order 8000 @ 100.2 [cancelled]",
+            "citation": "oms:order=O-500-1"
+          },
+          {
+            "ts": "2026-07-10T14:00:03",
+            "type": "order",
+            "party_id": "TRD-500",
+            "summary": "buy order 1500 @ 100.05 [filled]",
+            "citation": "oms:order=O-500-2"
+          },
+          {
+            "ts": "2026-07-10T14:00:03",
+            "type": "trade",
+            "party_id": "TRD-500",
+            "summary": "buy 1500 @ 100.05",
+            "citation": "trades:trade=T-500-1"
+          }
+        ],
+        "amounts": {
+          "traded_qty": 1500.0,
+          "notional": 150075.0,
+          "currency": "USD"
+        },
+        "indicators": [
+          {
+            "name": "order_to_trade_ratio",
+            "value": 2.0,
+            "threshold": 4.0,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "oms:order=O-500-1",
+              "oms:order=O-500-2"
+            ]
+          },
+          {
+            "name": "cancel_rate",
+            "value": 0.5,
+            "threshold": 0.6,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "oms:order=O-500-1"
+            ]
+          },
+          {
+            "name": "opposite_side_cancel_cluster",
+            "value": 1,
+            "threshold": 3,
+            "breached": false,
+            "weight": 0,
+            "citations": [
+              "oms:order=O-500-1"
+            ]
+          }
+        ],
+        "linked_cases": [
+          "MKT-SURV-AL-9000"
+        ],
+        "citations": [
+          "casemgmt:surv-case=AL-1005",
+          "oms:order=O-500-1",
+          "oms:order=O-500-2",
+          "trades:trade=T-500-1"
+        ]
+      },
+      "evidence_strength_score": 0,
+      "evidence_strength_reason": "",
+      "recommended_routing": [],
+      "needs": [],
+      "linked_case_id": "MKT-SURV-AL-9000",
+      "disposition_recommendation": "possible-duplicate",
+      "rationale": "Overlaps case MKT-SURV-AL-9000 for the same party and pattern; recommend linking as a possible duplicate for human confirmation rather than opening a parallel investigation."
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "recommend_refer_regulatory_consideration": 1,
+    "recommend_escalate_to_compliance_review": 1,
+    "recommend_close_no_further_action": 1,
+    "needs_data": 1,
+    "possible_duplicate": 1
+  },
+  "standing_note": "Investigation decision-support only; no case has been closed, no market-abuse determination has been made, and no regulatory report (e.g., STOR/SAR) has been filed. A qualified supervisor or compliance officer must adjudicate every disposition."
+}

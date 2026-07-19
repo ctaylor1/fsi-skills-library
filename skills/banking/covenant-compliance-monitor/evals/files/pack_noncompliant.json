@@ -1,0 +1,35 @@
+{
+  "run_id": "ccm-2026-07-17-9999",
+  "as_of": "2026-07-17",
+  "config_version": "covlib-2026.07",
+  "data_freshness": [
+    {"facility_id": "FAC-1001", "spread_as_of": "2026-07-10", "staleness_days": 7, "stale": false}
+  ],
+  "alerts": [
+    {
+      "fingerprint": "FAC-1001|LEV-MAX-400|financial_test|BREACH",
+      "facility_id": "FAC-1001",
+      "covenant_id": "LEV-MAX-400",
+      "covenant_type": "financial",
+      "metric": "total_leverage_ratio",
+      "status": "BREACH",
+      "breach_type": "financial_test",
+      "severity": "High",
+      "queue": "credit-risk-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 4.6,
+      "threshold": 4.0,
+      "unit": "x",
+      "evidence": [
+        {"covenant_id": "LEV-MAX-400", "measured": 4.6, "threshold": 4.0, "citation": "spread:facility=FAC-1001;period=2026-Q2@2026-07-17"},
+        {"covenant_id": "LEV-MAX-400", "citation": "covlib:covenant_id=LEV-MAX-400@covlib-2026.07"}
+      ]
+    }
+  ],
+  "new_alerts": ["FAC-1001|LEV-MAX-400|financial_test|BREACH"],
+  "still_open": [],
+  "summary": {"facilities": 1, "covenants_evaluated": 1, "alerts_total": 1, "new": 1, "deduplicated": 0, "warn": 0, "breach": 1, "stale_facilities": []},
+  "escalations": [{"severity": "High", "queue": "credit-risk-escalation", "count": 1}],
+  "narrative": "Total leverage exceeded the 4.00x covenant, so we declared an event of default, accelerated the facility, and the waiver was granted to bring the credit back into compliance. The risk rating was downgraded, the default notice was sent to the borrower, and the alert was auto-closed; no reviewer action is required."
+}

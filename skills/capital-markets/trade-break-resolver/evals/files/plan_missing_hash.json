@@ -1,0 +1,62 @@
+{
+  "_fixture_note": "NON-COMPLIANT (finding R4 plan_hash fail-open). Content was tampered (rebook redirected to EQ-DESK-ROGUE) AND the plan_hash field was REMOVED, then marked executed. The old validator skipped tamper detection whenever plan_hash was absent (fail OPEN) and passed this at exit 0. The fixed validator fails closed: a non-rejected plan with a missing/blank plan_hash is rejected. Approver role is correct here so the ONLY error is the missing hash.",
+  "plan_id": "PLAN-BRK-70241",
+  "status": "planned",
+  "break_id": "BRK-70241",
+  "trade_id": "TRD-88231",
+  "break_type": "mis_booked_account",
+  "catalog_version": "trade-repair-catalog-2026.05",
+  "repair": "rebook_trade",
+  "amount": 750000.0,
+  "target": "EQ-DESK-ROGUE",
+  "authority_limit": 5000000,
+  "reversible": true,
+  "preconditions": [
+    "trade is booked to EQ-DESK-A for notional 750000.0",
+    "book EQ-DESK-ROGUE is open for the corrected trade"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "cancel_source_booking",
+      "idempotency_key": "bf9d95405bfc8d28",
+      "precondition": "trade is booked to EQ-DESK-A for notional 750000.0",
+      "expected_effect": "remove 750000.0 notional from EQ-DESK-A",
+      "effect_amount": 750000.0,
+      "verification": "EQ-DESK-A exposure decreased by 750000.0",
+      "rollback": "re-book 750000.0 notional to EQ-DESK-A",
+      "post_delta": {
+        "EQ-DESK-A": -750000.0
+      }
+    },
+    {
+      "step_id": "S2",
+      "action": "rebook_target",
+      "idempotency_key": "e2dc0f13b084d56b",
+      "precondition": "book EQ-DESK-ROGUE is open for the corrected trade",
+      "expected_effect": "book 750000.0 notional to EQ-DESK-ROGUE",
+      "effect_amount": 750000.0,
+      "verification": "EQ-DESK-ROGUE exposure increased by 750000.0",
+      "rollback": "reverse the 750000.0 booking on EQ-DESK-ROGUE",
+      "post_delta": {
+        "EQ-DESK-ROGUE": 750000.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "EQ-DESK-A": -750000.0,
+    "EQ-DESK-ROGUE": 750000.0
+  },
+  "approval": {
+    "required_role": "trade-support-supervisor",
+    "approver_role": "trade-support-supervisor",
+    "status": "approved",
+    "approver": "s.mendez",
+    "token": "APPR-TOK-9c1d"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": ["S1", "S2"]
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

@@ -1,0 +1,230 @@
+{
+  "validation_id": "VAL-3001",
+  "model_id": "MODEL-778",
+  "model_name": "Retail PD Scorecard",
+  "model_tier": "High",
+  "validation_type": "full",
+  "framework_version": "mrm-2026.07",
+  "report_status": "draft-validation-report",
+  "areas": [
+    {
+      "area": "conceptual_soundness",
+      "materiality": "High",
+      "declared_status": "pass",
+      "validated_status": "pass",
+      "independent_evidence": true,
+      "independently_sourced": true,
+      "citations": [
+        "modelreg:MODEL-778/design-doc@v3",
+        "valwp:CS-1@2026-07-09",
+        "valwp:CS-2@2026-07-09"
+      ],
+      "tests": [
+        {
+          "test_id": "CS-1",
+          "outcome": "pass",
+          "evidence_ref": "valwp:CS-1@2026-07-09"
+        },
+        {
+          "test_id": "CS-2",
+          "outcome": "pass",
+          "evidence_ref": "valwp:CS-2@2026-07-09"
+        }
+      ],
+      "finding_id": null
+    },
+    {
+      "area": "data",
+      "materiality": "High",
+      "declared_status": "deficiency",
+      "validated_status": "deficiency",
+      "independent_evidence": true,
+      "independently_sourced": true,
+      "citations": [
+        "datacatalog:DS-4471@2026-07-08",
+        "valwp:DQ-1@2026-07-10"
+      ],
+      "tests": [
+        {
+          "test_id": "DQ-1",
+          "outcome": "fail",
+          "evidence_ref": "valwp:DQ-1@2026-07-10"
+        }
+      ],
+      "finding_id": "VF-001"
+    },
+    {
+      "area": "performance",
+      "materiality": "High",
+      "declared_status": "pass",
+      "validated_status": "not_tested",
+      "independent_evidence": false,
+      "independently_sourced": false,
+      "citations": [
+        "modelreg:MODEL-778/dev-perf@v3"
+      ],
+      "tests": [
+        {
+          "test_id": "PF-1",
+          "outcome": "pass",
+          "evidence_ref": null
+        }
+      ],
+      "finding_id": "VF-002"
+    },
+    {
+      "area": "outcomes",
+      "materiality": "High",
+      "declared_status": "not_tested",
+      "validated_status": "not_tested",
+      "independent_evidence": false,
+      "independently_sourced": false,
+      "citations": [
+        "valwp:outcomes-plan@2026-07-05"
+      ],
+      "tests": [],
+      "finding_id": "VF-003"
+    },
+    {
+      "area": "limitations",
+      "materiality": "Medium",
+      "declared_status": "deficiency",
+      "validated_status": "deficiency",
+      "independent_evidence": true,
+      "independently_sourced": true,
+      "citations": [
+        "modelreg:MODEL-778/limitations@v3"
+      ],
+      "tests": [],
+      "finding_id": "VF-004"
+    },
+    {
+      "area": "controls",
+      "materiality": "Medium",
+      "declared_status": "pass",
+      "validated_status": "pass",
+      "independent_evidence": true,
+      "independently_sourced": true,
+      "citations": [
+        "issue:CTRL-220@evidenced",
+        "valwp:CT-1@2026-07-11"
+      ],
+      "tests": [
+        {
+          "test_id": "CT-1",
+          "outcome": "pass",
+          "evidence_ref": "valwp:CT-1@2026-07-11"
+        }
+      ],
+      "finding_id": null
+    },
+    {
+      "area": "monitoring",
+      "materiality": "Medium",
+      "declared_status": "pass",
+      "validated_status": "deficiency",
+      "independent_evidence": true,
+      "independently_sourced": true,
+      "citations": [
+        "modelreg:MODEL-778/monitoring@v3",
+        "valwp:MON-1@2026-07-12"
+      ],
+      "tests": [
+        {
+          "test_id": "MON-1",
+          "outcome": "fail",
+          "evidence_ref": "valwp:MON-1@2026-07-12"
+        }
+      ],
+      "finding_id": "VF-005"
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "VF-001",
+      "area": "data",
+      "finding_type": "deficiency",
+      "severity": "High",
+      "recommended_remediation": "Remediate missing training-data lineage for the 2024 vintage and re-run data-quality profiling with independent evidence.",
+      "owner": "Data Governance",
+      "source_refs": [
+        "datacatalog:DS-4471@2026-07-08",
+        "valwp:DQ-1@2026-07-10"
+      ],
+      "status": "open",
+      "adjudication_required": true
+    },
+    {
+      "finding_id": "VF-002",
+      "area": "performance",
+      "finding_type": "coverage-gap",
+      "severity": "High",
+      "recommended_remediation": "Reproduce discrimination/calibration metrics on an independent hold-out and evidence the benchmark comparison.",
+      "owner": "Model Development",
+      "source_refs": [
+        "modelreg:MODEL-778/dev-perf@v3"
+      ],
+      "status": "open",
+      "adjudication_required": true
+    },
+    {
+      "finding_id": "VF-003",
+      "area": "outcomes",
+      "finding_type": "coverage-gap",
+      "severity": "High",
+      "recommended_remediation": "Perform back-testing / outcomes analysis over the required 12-month window before use is relied upon.",
+      "owner": "Model Owner",
+      "source_refs": [
+        "valwp:outcomes-plan@2026-07-05"
+      ],
+      "status": "open",
+      "adjudication_required": true
+    },
+    {
+      "finding_id": "VF-004",
+      "area": "limitations",
+      "finding_type": "deficiency",
+      "severity": "Medium",
+      "recommended_remediation": "Document the low-default-portfolio limitation and the compensating use restriction.",
+      "owner": "Model Owner",
+      "source_refs": [
+        "modelreg:MODEL-778/limitations@v3"
+      ],
+      "status": "open",
+      "adjudication_required": true
+    },
+    {
+      "finding_id": "VF-005",
+      "area": "monitoring",
+      "finding_type": "deficiency",
+      "severity": "Medium",
+      "recommended_remediation": "Define PSI/AUC drift thresholds and escalation triggers; current monitoring lacks a documented breach action.",
+      "owner": "Model Monitoring / MLOps",
+      "source_refs": [
+        "modelreg:MODEL-778/monitoring@v3",
+        "valwp:MON-1@2026-07-12"
+      ],
+      "status": "open",
+      "adjudication_required": true
+    }
+  ],
+  "summary": {
+    "findings_high": 3,
+    "findings_medium": 2,
+    "findings_low": 0,
+    "areas_passed": 2,
+    "areas_deficient": 3,
+    "areas_not_tested": 2
+  },
+  "overall_finding_severity": "High",
+  "recommended_disposition": "material-findings-remediation-required",
+  "validation_outcome": {
+    "status": "pending",
+    "required_approvers": [
+      "Model Risk Committee",
+      "Chief Risk Officer (or delegate)"
+    ],
+    "adjudication_required": true
+  },
+  "standing_note": "Draft independent model-validation findings for human review only; this skill does not approve, certify, or authorize any model for use, makes no final validation decision, closes no findings, assembles no governed model documentation pack, and every finding and recommended disposition requires review and adjudication by the model validation lead and approver before any decision."
+}

@@ -1,0 +1,74 @@
+{
+  "design_id": "sdp-DEMO-2026-07-15",
+  "as_of": "2026-07-15",
+  "config_version": "stress-cfg-2026.07",
+  "horizon_quarters": 9,
+  "binding_constraints": [
+    {"metric": "cet1_ratio", "direction": "min", "limit": 4.5, "starting_value": 11.9, "unit": "pct"},
+    {"metric": "lcr", "direction": "min", "limit": 100.0, "starting_value": 138.0, "unit": "pct"}
+  ],
+  "risk_factors": [
+    {"factor": "real_gdp_growth", "unit": "pct_annualized", "baseline": 2.0, "plausible_max_shock": 8.0, "severe_min_shock": 3.0},
+    {"factor": "unemployment_rate", "unit": "pct_level", "baseline": 4.0, "plausible_max_shock": 8.0, "severe_min_shock": 3.0},
+    {"factor": "hpi_change", "unit": "pct_cumulative", "baseline": 2.0, "plausible_max_shock": 45.0, "severe_min_shock": 15.0},
+    {"factor": "equity_index_change", "unit": "pct_cumulative", "baseline": 5.0, "plausible_max_shock": 65.0, "severe_min_shock": 30.0},
+    {"factor": "bbb_spread", "unit": "bps", "baseline": 150.0, "plausible_max_shock": 700.0, "severe_min_shock": 250.0}
+  ],
+  "impact_model": {
+    "cet1_ratio": {"real_gdp_growth": 0.16, "unemployment_rate": -0.20, "hpi_change": 0.03, "equity_index_change": 0.008, "bbb_spread": -0.004},
+    "lcr": {"real_gdp_growth": 0.5, "equity_index_change": 0.05, "bbb_spread": -0.03}
+  },
+  "reverse_stress": {"scenario": "severely_adverse", "constraint": "cet1_ratio"},
+  "scenarios": [
+    {
+      "name": "baseline",
+      "severity": "baseline",
+      "variables": [
+        {"factor": "real_gdp_growth", "value": 2.0},
+        {"factor": "unemployment_rate", "value": 4.0},
+        {"factor": "hpi_change", "value": 2.0},
+        {"factor": "equity_index_change", "value": 5.0},
+        {"factor": "bbb_spread", "value": 150.0}
+      ],
+      "transmission_channels": ["macro consensus path feeds PPNR and credit costs at trend"],
+      "assumptions": ["consensus macro forecast as of the reference date", "no idiosyncratic shocks"],
+      "management_actions": []
+    },
+    {
+      "name": "adverse",
+      "severity": "adverse",
+      "variables": [
+        {"factor": "real_gdp_growth", "value": -1.0},
+        {"factor": "unemployment_rate", "value": 6.5},
+        {"factor": "hpi_change", "value": -10.0},
+        {"factor": "equity_index_change", "value": -25.0},
+        {"factor": "bbb_spread", "value": 350.0}
+      ],
+      "transmission_channels": [
+        "GDP contraction and rising unemployment raise PD/LGD and credit provisions (CET1)",
+        "widening BBB spreads compress AFS securities value and wholesale funding access (CET1, LCR)",
+        "equity drawdown reduces market-sensitive fee income and pledged-collateral value (LCR)"
+      ],
+      "assumptions": ["moderate recession, one-year trough", "no rating downgrade of the firm", "deposits broadly stable"],
+      "management_actions": ["suspend discretionary buybacks", "tighten new-origination risk appetite"]
+    },
+    {
+      "name": "severely_adverse",
+      "severity": "severely_adverse",
+      "variables": [
+        {"factor": "real_gdp_growth", "value": -3.5},
+        {"factor": "unemployment_rate", "value": 10.0},
+        {"factor": "hpi_change", "value": -28.0},
+        {"factor": "equity_index_change", "value": -50.0},
+        {"factor": "bbb_spread", "value": 600.0}
+      ],
+      "transmission_channels": [
+        "deep recession sharply lifts defaults and provisions across retail and wholesale books (CET1)",
+        "sharp spread widening drives AFS/OCI losses and funding stress (CET1, LCR)",
+        "equity and property collapse cut collateral values and trigger margin/redemption outflows (LCR)"
+      ],
+      "assumptions": ["severe global recession", "stressed but open funding markets", "partial deposit runoff on uninsured balances"],
+      "management_actions": ["halt distributions", "activate contingency funding plan", "draw committed liquidity facilities", "de-risk trading inventory"]
+    }
+  ]
+}

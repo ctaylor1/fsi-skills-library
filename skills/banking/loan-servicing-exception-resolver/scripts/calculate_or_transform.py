@@ -97,7 +97,8 @@ def build_plan(doc: dict) -> dict:
         "preconditions": [s["precondition"] for s in steps],
         "steps": steps, "expected_post_state": post_state,
         "plan_hash": plan_hash,
-        "approval": {"required_role": cat["approver"], "status": "pending", "approver": None, "token": None},
+        "approval": {"required_role": cat["approver"], "status": "pending",
+                     "approver": None, "approver_role": None, "token": None},
         "execution": {"state": "blocked", "executed_steps": []},
         "standing_note": STANDING_NOTE,
     }

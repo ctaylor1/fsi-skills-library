@@ -4,9 +4,11 @@
 Run after planning AND before execution. Enforces the R4 approval-gated guardrails:
   1. Remedy is a catalog action within the authority limit; reversible.
   2. Every step is idempotent, precondition-guarded, verifiable, and reversible.
-  3. plan_hash matches the plan contents (tamper detection).
+  3. plan_hash is present (mandatory for non-rejected plans) and matches the plan
+     contents; a missing/blank hash fails closed (tamper detection).
   4. Pre-execution the plan is BLOCKED and approval is PENDING.
-  5. No step is executed without a valid approval token (status approved, role matches).
+  5. No step is executed without a valid approval token (status approved, approver
+     recorded, and approver_role equals the plan's required_role; missing role fails closed).
   6. Amounts tie to the remedy amount; standing note present.
 
 A REJECTED plan (out-of-catalog/over-limit) passes iff it stays blocked with no execution.
@@ -72,8 +74,11 @@ def validate(p: dict) -> list[str]:
     if amount is not None and not any(abs((ea or 0) - amount) < 1e-6 for ea in effect_amts):
         errors.append(f"no step effect ties to the remedy amount {amount}")
 
-    # tamper detection
-    if p.get("plan_hash") and _recompute_hash(p) != p["plan_hash"]:
+    # tamper detection — plan_hash is mandatory for any non-rejected plan; absence fails closed.
+    plan_hash = p.get("plan_hash")
+    if not plan_hash or not str(plan_hash).strip():
+        errors.append("plan_hash missing or blank — cannot verify plan integrity (fail closed)")
+    elif _recompute_hash(p) != plan_hash:
         errors.append("plan_hash does not match plan contents (tampered or edited after hashing)")
 
     # approval gate
@@ -86,13 +91,23 @@ def validate(p: dict) -> list[str]:
         if STANDING_NOTE.lower() not in str(p.get("standing_note", "")).lower():
             errors.append("missing standing note (pre-execution)")
     else:
-        # execution claimed -> require a valid approval token + matching role
+        # execution claimed -> require a valid approval token + matching approver role
         if appr.get("status") != "approved":
             errors.append("execution present but approval.status is not 'approved' — executed without approval")
         if not appr.get("token"):
             errors.append("execution present but no approval token — executed without a valid token")
         if not appr.get("approver"):
             errors.append("execution present but no approver recorded")
+        # Approver-role gate: the approving party must hold the plan's required role.
+        # Fail closed if either role is absent — an unverifiable role is not an approval.
+        required_role = appr.get("required_role")
+        approver_role = appr.get("approver_role")
+        if not required_role:
+            errors.append("execution present but plan has no required approver role — cannot verify authority (fail closed)")
+        if not approver_role:
+            errors.append("execution present but approver_role is missing — cannot verify the approver holds the required role (fail closed)")
+        elif required_role and approver_role != required_role:
+            errors.append(f"approver_role {approver_role!r} does not match required role {required_role!r} — executed by the wrong role")
     return errors
 
 

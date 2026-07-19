@@ -107,8 +107,9 @@ when other data invites outreach.
 Run `validate_input` before and [scripts/validate_output.py](scripts/validate_output.py) after.
 The output check confirms: `requires_human_adjudication` is true and the disclaimer is present;
 every eligible treatment is cited; `recommended_treatments` ties out exactly to the eligible
-set; no regulated-decision/closure/filing/reporting/commitment language and no threats are
-present; suppression is honored (no eligible channel when suppressed); and the call cap is
+set; no regulated-decision language — approval-side (closure/filing/reporting/commitment) or
+denial-side (denying/declining/rejecting a forbearance/modification/arrangement/request) — and
+no threats are present; suppression is honored (no eligible channel when suppressed); and the call cap is
 honored (`phone` only when eligible). **Fail closed on any miss.**
 
 ## Human approval

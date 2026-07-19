@@ -1,0 +1,50 @@
+{
+  "_scenario": "A plan that CERTIFIES a reconciliation while it still carries unresolved breaks (unresolved_breaks = 2). The plan is approved and claims the certification was executed. plan_hash is valid and matches contents, so the integrity check passes, and every other check passes too. Before the guardrail was added, validate_output had no unresolved-breaks screen on certify_reconciliation steps, so this exited 0 (bypass: it certified a recon with open breaks). It must now fail closed (exit 1).",
+  "plan_id": "PLAN-CLOSE-2026-06-BREAKCO",
+  "status": "planned",
+  "close_run_id": "CLOSE-2026-06-BREAKCO",
+  "entity": "BREAKCO",
+  "period": "2026-06",
+  "catalog_version": "close-action-catalog-2026.06",
+  "step_order": [
+    "S1"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "task_id": "T1",
+      "action": "certify_reconciliation",
+      "kind": "certify",
+      "target": "RECON:bank-1001-operating",
+      "idempotency_key": "2be87a9c0f9931db",
+      "precondition": "RECON:bank-1001-operating is complete with evidence attached",
+      "expected_effect": "record certification sign-off on RECON:bank-1001-operating",
+      "effect_amount": null,
+      "verification": "close system shows RECON:bank-1001-operating certified with actor and timestamp",
+      "rollback": "rescind the certification sign-off on RECON:bank-1001-operating",
+      "depends_on": [],
+      "post_delta": {
+        "RECON:bank-1001-operating": "certified"
+      },
+      "unresolved_breaks": 2,
+      "depends_on_steps": []
+    }
+  ],
+  "expected_post_state": {
+    "RECON:bank-1001-operating": "certified"
+  },
+  "plan_hash": "36210d0c1d89a6f3be68b51f40535b6df1f6e48b9908a6fb2377f179c15b7acf",
+  "approval": {
+    "required_role": "close-manager",
+    "status": "approved",
+    "approver": "close-manager:klee",
+    "token": "APPROVAL-TOKEN-2b7e44"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": [
+      "S1"
+    ]
+  },
+  "standing_note": "Plan only; no journal has been posted and no task, reconciliation, or period has been certified or locked. Execution requires human approval."
+}

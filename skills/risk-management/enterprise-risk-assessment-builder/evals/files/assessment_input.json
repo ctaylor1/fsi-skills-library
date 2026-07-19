@@ -1,0 +1,129 @@
+{
+  "template_version": "erm-tmpl-2026.1",
+  "config_version": "erm-scoring-2026.06",
+  "scope": {
+    "entity": "Retail & Commercial Bank - US",
+    "assessment_period": {"from": "2026-01-01", "to": "2026-06-30"},
+    "basis": "Semi-annual enterprise risk assessment (management self-assessment)"
+  },
+  "appetite": {
+    "Credit": "Moderate",
+    "Operational": "Moderate",
+    "Third Party": "Moderate",
+    "Compliance": "Low",
+    "Technology": "Moderate",
+    "default": "Moderate"
+  },
+  "risks": [
+    {
+      "risk_id": "R-001",
+      "title": "Commercial real-estate credit concentration",
+      "category": "Credit",
+      "owner": "Head of Credit Risk",
+      "inherent": {"likelihood": 4, "impact": 5},
+      "control_ids": ["C-101", "C-102"],
+      "indicator_ids": ["KRI-CRE-01"],
+      "loss_event_ids": ["LE-2210"],
+      "scenario_ids": ["SC-DOWNTURN"],
+      "treatment_action_ids": ["T-01"],
+      "source_ref": "riskreg:R-001@2026-06-30"
+    },
+    {
+      "risk_id": "R-002",
+      "title": "Manual payment-processing error",
+      "category": "Operational",
+      "owner": "Head of Payment Operations",
+      "inherent": {"likelihood": 3, "impact": 2},
+      "control_ids": ["C-201", "C-202"],
+      "indicator_ids": ["KRI-OPS-04"],
+      "loss_event_ids": [],
+      "scenario_ids": [],
+      "treatment_action_ids": [],
+      "source_ref": "riskreg:R-002@2026-06-30"
+    },
+    {
+      "risk_id": "R-003",
+      "title": "Critical core-banking vendor service failure",
+      "category": "Third Party",
+      "owner": "Head of Third-Party Risk Management",
+      "inherent": {"likelihood": 3, "impact": 4},
+      "control_ids": ["C-301"],
+      "indicator_ids": ["KRI-TPR-02"],
+      "loss_event_ids": [],
+      "scenario_ids": ["SC-VENDOR-OUTAGE"],
+      "treatment_action_ids": ["T-03"],
+      "source_ref": "riskreg:R-003@2026-06-30"
+    },
+    {
+      "risk_id": "R-004",
+      "title": "New consumer-lending disclosure requirement",
+      "category": "Compliance",
+      "owner": "Chief Compliance Officer",
+      "inherent": {"likelihood": 2, "impact": 3},
+      "control_ids": ["C-401"],
+      "indicator_ids": ["KRI-COMP-07"],
+      "loss_event_ids": [],
+      "scenario_ids": [],
+      "treatment_action_ids": [],
+      "source_ref": "riskreg:R-004@2026-06-30"
+    },
+    {
+      "risk_id": "R-005",
+      "title": "Legacy deposit-platform resilience gap",
+      "category": "Technology",
+      "owner": "Chief Technology Officer",
+      "inherent": {"likelihood": 4, "impact": 4},
+      "control_ids": ["C-501"],
+      "indicator_ids": ["KRI-TECH-03"],
+      "loss_event_ids": ["LE-2255"],
+      "scenario_ids": ["SC-OUTAGE-SEVERE"],
+      "treatment_action_ids": ["T-05"],
+      "source_ref": "riskreg:R-005@2026-06-30"
+    },
+    {
+      "risk_id": "R-006",
+      "title": "Customer data-quality degradation in the risk warehouse",
+      "category": "Operational",
+      "owner": "Head of Data Governance",
+      "inherent": {"likelihood": 3, "impact": 3},
+      "control_ids": ["C-601"],
+      "indicator_ids": ["KRI-OPS-11"],
+      "loss_event_ids": [],
+      "scenario_ids": [],
+      "treatment_action_ids": [],
+      "source_ref": "riskreg:R-006@2026-06-30"
+    }
+  ],
+  "controls": [
+    {"control_id": "C-101", "title": "Board-approved CRE concentration limits", "design": "Effective", "operating": "Partially Effective", "evidence_ref": "grc:C-101-test@2026-05", "owner": "Head of Credit Risk"},
+    {"control_id": "C-102", "title": "Quarterly CRE portfolio stress review", "design": "Effective", "operating": "Partially Effective", "evidence_ref": "grc:C-102-test@2026-05", "owner": "Credit Risk Analytics"},
+    {"control_id": "C-201", "title": "Four-eyes payment release approval", "design": "Effective", "operating": "Effective", "evidence_ref": "grc:C-201-test@2026-04", "owner": "Payment Operations"},
+    {"control_id": "C-202", "title": "Automated payment reconciliation exception queue", "design": "Effective", "operating": "Effective", "evidence_ref": "grc:C-202-test@2026-04", "owner": "Payment Operations"},
+    {"control_id": "C-301", "title": "Vendor resilience & exit plan attestation", "design": "Effective", "operating": "Not Tested", "evidence_ref": null, "owner": "Third-Party Risk Management"},
+    {"control_id": "C-401", "title": "Disclosure change-management workflow", "design": "Effective", "operating": "Effective", "evidence_ref": "grc:C-401-test@2026-06", "owner": "Compliance"},
+    {"control_id": "C-501", "title": "Legacy platform failover runbook", "design": "Partially Effective", "operating": "Ineffective", "evidence_ref": "grc:C-501-test@2026-03", "owner": "Technology Operations"},
+    {"control_id": "C-601", "title": "Automated data-quality validation gates", "design": "Effective", "operating": "Effective", "evidence_ref": "grc:C-601-test@2026-05", "owner": "Data Governance"}
+  ],
+  "indicators": [
+    {"indicator_id": "KRI-CRE-01", "title": "CRE exposure as % of Tier 1 capital", "status": "Amber", "threshold_breached": true, "source_ref": "kri:KRI-CRE-01@2026-06-30"},
+    {"indicator_id": "KRI-OPS-04", "title": "Payment exceptions per 10k transactions", "status": "Green", "threshold_breached": false, "source_ref": "kri:KRI-OPS-04@2026-06-30"},
+    {"indicator_id": "KRI-TPR-02", "title": "Critical vendors without tested exit plan", "status": "Red", "threshold_breached": true, "source_ref": "kri:KRI-TPR-02@2026-06-30"},
+    {"indicator_id": "KRI-COMP-07", "title": "Overdue regulatory-change actions", "status": "Green", "threshold_breached": false, "source_ref": "kri:KRI-COMP-07@2026-06-30"},
+    {"indicator_id": "KRI-TECH-03", "title": "Unplanned platform downtime minutes", "status": "Red", "threshold_breached": true, "source_ref": "kri:KRI-TECH-03@2026-06-30"},
+    {"indicator_id": "KRI-OPS-11", "title": "Risk-warehouse data-quality error rate", "status": "Amber", "threshold_breached": false, "source_ref": "kri:KRI-OPS-11@2026-06-30"}
+  ],
+  "loss_events": [
+    {"loss_event_id": "LE-2210", "title": "CRE covenant breach provisioning", "net_loss": 1200000, "source_ref": "loss:LE-2210@2026-03"},
+    {"loss_event_id": "LE-2255", "title": "Deposit-platform outage service credits", "net_loss": 340000, "source_ref": "loss:LE-2255@2026-05"}
+  ],
+  "scenarios": [
+    {"scenario_id": "SC-DOWNTURN", "title": "Severe CRE market downturn", "source_ref": "scen:SC-DOWNTURN@2026-02"},
+    {"scenario_id": "SC-VENDOR-OUTAGE", "title": "Prolonged core-banking vendor outage", "source_ref": "scen:SC-VENDOR-OUTAGE@2026-02"},
+    {"scenario_id": "SC-OUTAGE-SEVERE", "title": "Severe multi-day deposit-platform outage", "source_ref": "scen:SC-OUTAGE-SEVERE@2026-02"}
+  ],
+  "treatment_actions": [
+    {"action_id": "T-01", "title": "Reduce CRE single-name and sector limits by 10%", "owner": "Head of Credit Risk", "due": "2026-09-30", "status": "planned", "source_ref": "action:T-01@2026-06-30"},
+    {"action_id": "T-03", "title": "Complete vendor exit-plan test and evidence resilience", "owner": "Head of Third-Party Risk Management", "due": "2026-10-31", "status": "planned", "source_ref": "action:T-03@2026-06-30"},
+    {"action_id": "T-05", "title": "Accelerate deposit-platform failover remediation program", "owner": "Chief Technology Officer", "due": "2026-12-15", "status": "planned", "source_ref": "action:T-05@2026-06-30"}
+  ]
+}

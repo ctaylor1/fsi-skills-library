@@ -5,7 +5,9 @@ Validates the final monitor-run pack (calculate_or_transform core + a narrative)
 is queued/delivered. Enforces the scheduled, read-only, ALERT-ONLY posture. Checks:
   1. Every fired signal has >= 1 cited evidence row, and every evidence row is FRESH.
   2. Escalation band equals the deterministic mapping from each alert's fired-challenging set.
-  3. FRESHNESS handled: each alert carries a data_freshness block; no fired signal is stale.
+  3. FRESHNESS handled: each alert carries a data_freshness block, and no fired signal rests on
+     stale evidence — the age of every fired evidence row is re-derived from its citation's
+     observation date (vs as_of) rather than trusting the reported freshness fields.
   4. DEDUPLICATION applied: each alert has a boolean 'duplicate'; queue.new/deduplicated
      partition the alert keys, duplicates route to 'deduplicated', new to 'new', and every
      key appears in by_escalation under its own band.
@@ -19,6 +21,7 @@ Exit 0 if no errors, 1 otherwise.
 """
 from __future__ import annotations
 import json, re, sys
+from datetime import datetime
 from pathlib import Path
 
 ESCALATORS = {"stop_breach", "catalyst_missed"}
@@ -37,6 +40,33 @@ ACTION_PATTERNS = [
 ]
 
 
+def _parse_dt(s):
+    if not s:
+        return None
+    s = str(s)
+    for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(s, fmt)
+        except ValueError:
+            continue
+    try:
+        return datetime.strptime(s[:10], "%Y-%m-%d")
+    except ValueError:
+        return None
+
+
+def _citation_age_days(citation, as_of):
+    """Age (days) of the observation date embedded in a citation (system:ref@observed),
+    measured against as_of. None when either date is missing or unparseable."""
+    if not citation or "@" not in str(citation):
+        return None
+    observed = _parse_dt(str(citation).rsplit("@", 1)[-1])
+    ref = _parse_dt(as_of)
+    if observed is None or ref is None:
+        return None
+    return (ref - observed).days
+
+
 def _expected_escalation(fired_challenging, fired_confirming):
     if len(fired_challenging) >= 3 or (ESCALATORS & set(fired_challenging)):
         return "Elevated"
@@ -51,6 +81,7 @@ def validate(pack: dict) -> list[str]:
     errors: list[str] = []
     alerts = pack.get("alerts") or []
     queue = pack.get("queue") or {}
+    as_of = pack.get("as_of")
 
     if not pack.get("monitor_run_id"):
         errors.append("missing durable monitor_run_id")
@@ -76,17 +107,39 @@ def validate(pack: dict) -> list[str]:
                 if not (row.get("citation") or "").strip():
                     errors.append(f"alert {key}: fired signal {s['signal']} evidence row missing citation")
 
-        # 3. freshness block + no stale fired signal
+        # 3. freshness block + no stale fired signal. The gate is re-derived independently from
+        #    the observation date embedded in each fired evidence citation (against as_of), so a
+        #    fired signal resting on stale evidence is caught even when the reported is_stale /
+        #    stalest_fresh_evidence_age_days fields understate it (defense in depth).
         df = a.get("data_freshness")
         if not isinstance(df, dict) or "is_stale" not in df:
             errors.append(f"alert {key}: missing data_freshness block")
         else:
+            mx = df.get("max_staleness_days")
+            derived_age = None
+            for s in fired:
+                for row in (s.get("evidence") or []):
+                    ca = _citation_age_days(row.get("citation"), as_of)
+                    if ca is None:
+                        continue
+                    if derived_age is None or ca > derived_age:
+                        derived_age = ca
+                    if isinstance(mx, (int, float)) and ca > mx:
+                        errors.append(f"alert {key}: fired signal {s['signal']} cites stale evidence "
+                                      f"(observed age {ca}d > staleness gate {mx}d) — freshness gate violated")
             if df.get("is_stale") and fired:
                 errors.append(f"alert {key}: fired on stale data (is_stale=true) — freshness gate violated")
+            if (fired and derived_age is not None and isinstance(mx, (int, float))
+                    and derived_age > mx and not df.get("is_stale")):
+                errors.append(f"alert {key}: data_freshness.is_stale=false but fired evidence age "
+                              f"{derived_age}d exceeds staleness gate {mx}d — freshness gate violated")
             age = df.get("stalest_fresh_evidence_age_days")
-            mx = df.get("max_staleness_days")
             if fired and isinstance(age, (int, float)) and isinstance(mx, (int, float)) and age > mx:
                 errors.append(f"alert {key}: fired evidence age {age}d exceeds staleness gate {mx}d")
+            if (fired and derived_age is not None and isinstance(age, (int, float))
+                    and derived_age > age):
+                errors.append(f"alert {key}: reported stalest_fresh_evidence_age_days {age}d understates "
+                              f"true fired-evidence age {derived_age}d")
 
         # 2. deterministic escalation
         exp = _expected_escalation(fired_ch, fired_cf)

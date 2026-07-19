@@ -1,0 +1,38 @@
+{
+  "config_version": "rcsa-2026.07",
+  "entity": "Retail Payments Operations",
+  "assessment_period": {"from": "2026-01-01", "to": "2026-06-30"},
+  "as_of_date": "2026-07-15",
+  "risk_appetite": "Medium",
+  "risks": [
+    {
+      "risk_id": "R-ORD",
+      "statement": "Ordering regression: an unevidenced (Unsubstantiated) control is mapped ahead of a failing (Ineffective) control on the same low-inherent risk; the Ineffective control must still force remediation.",
+      "category": "Operational - Process Execution",
+      "inherent_impact": 2,
+      "inherent_likelihood": 2,
+      "controls": [
+        {
+          "control_id": "C-ORD-UNSUB",
+          "description": "Rated Effective on design and operating but carries no evidence, so it is downgraded to Unsubstantiated (zero reduction).",
+          "control_type": "Preventive",
+          "frequency": "Per transaction",
+          "design_rating": "Effective",
+          "operating_rating": "Effective",
+          "evidence": []
+        },
+        {
+          "control_id": "C-ORD-INEFF",
+          "description": "Secondary review control that failed testing; design is Ineffective.",
+          "control_type": "Detective",
+          "frequency": "Daily",
+          "design_rating": "Ineffective",
+          "operating_rating": "Effective",
+          "evidence": [
+            {"type": "control-test", "ref": "CT-2026-Q2-099", "date": "2026-06-28", "result": "9/20 sampled overrides had no secondary review; control not operating"}
+          ]
+        }
+      ]
+    }
+  ]
+}

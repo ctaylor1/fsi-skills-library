@@ -1,0 +1,37 @@
+{
+  "assessment_id": "mcia-MDL-00902-2026-07-17-0001",
+  "change_id": "MCR-2026-0087",
+  "model_id": "MDL-00902",
+  "as_of": "2026-07-17",
+  "config_version": "mcia-cfg-2026.07-tuned",
+  "config": {"band_high_min_dims": 4, "high_materiality_min_dims": 3},
+  "model_materiality": "high",
+  "regulated_use": true,
+  "is_agent": false,
+  "dimensions": [
+    {"dimension": "scope", "fired": false, "reason": "scope: no change declared", "risk_flags": [], "critical": false, "high_weight": true, "evidence": []},
+    {"dimension": "data", "fired": true, "reason": "data changed; risk flag(s) ['data_provenance_changed'] noted", "risk_flags": ["data_provenance_changed"], "critical": false, "high_weight": true,
+     "evidence": [{"field": "data", "before": "Vendor feed A (monthly refresh)", "after": "Vendor feed A (weekly refresh)", "citation": "registry:MDL-00902;field=training_data@2026-07-10"}]},
+    {"dimension": "tools", "fired": false, "reason": "tools: no change declared", "risk_flags": [], "critical": false, "high_weight": false, "evidence": []},
+    {"dimension": "behavior", "fired": false, "reason": "behavior: no change declared", "risk_flags": [], "critical": false, "high_weight": true, "evidence": []},
+    {"dimension": "controls", "fired": false, "reason": "controls: no change declared", "risk_flags": [], "critical": false, "high_weight": false, "evidence": []},
+    {"dimension": "testing", "fired": true, "reason": "testing changed; no critical risk flag", "risk_flags": [], "critical": false, "high_weight": false,
+     "evidence": [{"field": "testing", "before": "Backtest on 2023-2024 vintages", "after": "Backtest refreshed to 2024-2025 vintages", "citation": "eval:MDL-00902;suite=backtest@2026-07-12"}]},
+    {"dimension": "users", "fired": false, "reason": "users: no change declared", "risk_flags": [], "critical": false, "high_weight": false, "evidence": []},
+    {"dimension": "regulatory", "fired": false, "reason": "regulatory: no change declared", "risk_flags": [], "critical": false, "high_weight": true, "evidence": []}
+  ],
+  "fired_dimensions": ["data", "testing"],
+  "critical_flags_fired": [],
+  "impact_band": "High",
+  "recommended_revalidation_scope": "Targeted independent revalidation of affected components before deployment",
+  "recommended_governance_path": "Independent model-risk review and change-governance adjudication required before any deployment",
+  "not_evaluable": [],
+  "adjudicator_prompts": [
+    "Confirm the change is within the model's approved use; a net-new use case is an intake, not a change.",
+    "Verify independent validation coverage for each changed component before deployment.",
+    "Confirm data-lineage and provenance review for any changed data source.",
+    "Record the human adjudication decision and rationale in the change record."
+  ],
+  "narrative": "Change MCR-2026-0087 to high-materiality, regulated model MDL-00902 changes two high-weight-touching dimensions: data (same vendor feed moved to a weekly refresh) and testing (refreshed backtest vintages). No critical flags fired. Under the model owner's versioned banding config for this model (band_high_min_dims 4, high_materiality_min_dims 3), the deterministic impact band is High because the change touches a high-materiality model on a high-weight dimension. Recommended revalidation scope: Targeted independent revalidation of affected components before deployment. A human adjudicator must review the cited evidence and decide; this analysis does not itself clear the change. Impact assessment and revalidation recommendation only; not a change approval or deployment authorization. No model change has been approved, deployed, or attested.",
+  "disclaimer": "Impact assessment and revalidation recommendation only; not a change approval or deployment authorization. No model change has been approved, deployed, or attested."
+}

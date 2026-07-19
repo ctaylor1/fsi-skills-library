@@ -1,0 +1,27 @@
+{
+  "plan_id": "PLAN-CASE-00000",
+  "status": "planned",
+  "case_id": "CASE-00000",
+  "customer_id": "****0000",
+  "channels": ["phone"],
+  "actions": [
+    {"action_id": "A1", "type": "fee_adjustment", "action": "waive_fee",
+     "amount": 999999.00, "authority_limit": 250, "monetary": true, "reversible": true,
+     "target": "late_fee"}
+  ],
+  "total_monetary_exposure": 999999.00,
+  "plan_authority_cap": 1000,
+  "required_role": "case-supervisor",
+  "steps": [
+    {"step_id": "A1", "action_type": "fee_adjustment", "action": "waive_fee",
+     "idempotency_key": "abc123", "precondition": "fee assessed",
+     "expected_effect": "waive fee", "effect_amount": 999999.00,
+     "verification": "late_fee reduced"}
+  ],
+  "expected_post_state": {"late_fee": -999999.00},
+  "plan_hash": "deadbeefdeadbeefdeadbeefdeadbeef",
+  "approval": {"required_role": "case-supervisor", "status": "pending",
+               "approver": null, "approver_role": null, "token": null},
+  "execution": {"state": "executed", "executed_steps": ["A1"]},
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

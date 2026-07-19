@@ -1,0 +1,114 @@
+{
+  "plan_id": "PLAN-CASE-77310",
+  "status": "planned",
+  "case_id": "CASE-77310",
+  "customer_id": "****8842",
+  "channels": [
+    "phone",
+    "chat"
+  ],
+  "catalog_version": "cx-action-catalog-2026.05",
+  "actions": [
+    {
+      "action_id": "A1",
+      "type": "fee_adjustment",
+      "action": "waive_fee",
+      "amount": 39.0,
+      "authority_limit": 250,
+      "monetary": true,
+      "reversible": true,
+      "target": "late_fee"
+    },
+    {
+      "action_id": "A2",
+      "type": "goodwill_credit",
+      "action": "issue_goodwill_credit",
+      "amount": 25.0,
+      "authority_limit": 100,
+      "monetary": true,
+      "reversible": true,
+      "target": "goodwill_credit"
+    },
+    {
+      "action_id": "A3",
+      "type": "account_change",
+      "action": "update_contact_preference",
+      "amount": 0.0,
+      "authority_limit": 0,
+      "monetary": false,
+      "reversible": true,
+      "target": "contact_preference"
+    }
+  ],
+  "total_monetary_exposure": 64.0,
+  "plan_authority_cap": 1000,
+  "required_role": "case-supervisor",
+  "preconditions": [
+    "fee of 39.0 is currently assessed on late_fee",
+    "goodwill matrix permits 25.0 credit for the recorded reason code",
+    "identity is verified and the prior value of contact_preference is recorded"
+  ],
+  "steps": [
+    {
+      "step_id": "A1",
+      "action_type": "fee_adjustment",
+      "action": "waive_fee",
+      "idempotency_key": "c2d80f519d8d9eae",
+      "precondition": "fee of 39.0 is currently assessed on late_fee",
+      "expected_effect": "waive 39.0 fee on late_fee",
+      "effect_amount": 39.0,
+      "verification": "late_fee balance reduced by 39.0",
+      "rollback": "re-assess the 39.0 fee on late_fee",
+      "post_delta": {
+        "late_fee": -39.0
+      }
+    },
+    {
+      "step_id": "A2",
+      "action_type": "goodwill_credit",
+      "action": "issue_goodwill_credit",
+      "idempotency_key": "31c86c1eb1e0f690",
+      "precondition": "goodwill matrix permits 25.0 credit for the recorded reason code",
+      "expected_effect": "issue 25.0 goodwill credit to goodwill_credit",
+      "effect_amount": 25.0,
+      "verification": "goodwill_credit credited by 25.0",
+      "rollback": "reverse the 25.0 goodwill credit to goodwill_credit",
+      "post_delta": {
+        "goodwill_credit": 25.0
+      }
+    },
+    {
+      "step_id": "A3",
+      "action_type": "account_change",
+      "action": "update_contact_preference",
+      "idempotency_key": "be2bfbba6aa50aef",
+      "precondition": "identity is verified and the prior value of contact_preference is recorded",
+      "expected_effect": "set contact_preference to the requested value",
+      "effect_amount": 0,
+      "verification": "contact_preference equals the requested value",
+      "rollback": "restore contact_preference to the prior recorded value",
+      "post_delta": {
+        "contact_preference": "email"
+      }
+    }
+  ],
+  "expected_post_state": {
+    "late_fee": -39.0,
+    "goodwill_credit": 25.0,
+    "contact_preference": "email"
+  },
+  "plan_hash": "fc5968e992c6c5dc8e4fbdbe2c785e876899c67c848f953d8c5deca37a614734",
+  "approval": {
+    "required_role": "case-supervisor",
+    "status": "pending",
+    "approver": null,
+    "approver_role": null,
+    "token": null,
+    "plan_hash": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

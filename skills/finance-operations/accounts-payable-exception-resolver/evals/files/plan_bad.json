@@ -1,0 +1,22 @@
+{
+  "plan_id": "PLAN-EXC-AP-99999",
+  "status": "planned",
+  "exception_id": "EXC-AP-99999",
+  "invoice_id": "****0000",
+  "vendor_id": "****0000",
+  "remedy": "correct_tax_code",
+  "amount": 999999.00,
+  "target": "tax_payable",
+  "authority_limit": 2000,
+  "reversible": true,
+  "steps": [
+    {"step_id": "S1", "action": "adjust_tax", "idempotency_key": "abc123",
+     "precondition": "tax miscoded", "expected_effect": "correct tax", "effect_amount": 999999.00,
+     "verification": "tax_payable adjusted"}
+  ],
+  "expected_post_state": {"tax_payable": -999999.00},
+  "plan_hash": "deadbeefdeadbeef",
+  "approval": {"required_role": "tax-analyst", "status": "pending", "approver": null, "token": null},
+  "execution": {"state": "executed", "executed_steps": ["S1"]},
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

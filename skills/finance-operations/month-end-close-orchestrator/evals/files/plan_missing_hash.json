@@ -1,0 +1,46 @@
+{
+  "_scenario": "Post-approval tamper hidden by DROPPING the plan_hash field. The accrual amount was edited from the approved 48000.00 up to 90000.00 after approval, and the plan_hash field was removed so the recompute-and-compare could not run. Everything else is well-formed and the plan claims an approved, executed posting. Before the fail-closed fix, validate_output skipped the integrity check when plan_hash was absent and this exited 0 (bypass). It must now fail closed (exit 1) because plan_hash is missing.",
+  "plan_id": "PLAN-CLOSE-2026-06-TAMPERCO",
+  "status": "planned",
+  "close_run_id": "CLOSE-2026-06-TAMPERCO",
+  "entity": "TAMPERCO",
+  "period": "2026-06",
+  "catalog_version": "close-action-catalog-2026.06",
+  "step_order": ["S1"],
+  "steps": [
+    {
+      "step_id": "S1",
+      "task_id": "T1",
+      "action": "post_accrual_journal",
+      "kind": "journal",
+      "target": "GL:6100-accrued-expenses",
+      "idempotency_key": "80b1039ed4257f54",
+      "precondition": "period is open and GL:6100-accrued-expenses is postable",
+      "expected_effect": "post 90000.0 to GL:6100-accrued-expenses (offset GL:2100-accrued-liabilities)",
+      "effect_amount": 90000.0,
+      "verification": "GL shows journal for 90000.0 posted to GL:6100-accrued-expenses under this idempotency key",
+      "rollback": "post the reversing journal for 90000.0 against GL:6100-accrued-expenses",
+      "depends_on": [],
+      "post_delta": {
+        "GL:6100-accrued-expenses": 90000.0,
+        "GL:2100-accrued-liabilities": -90000.0
+      },
+      "depends_on_steps": []
+    }
+  ],
+  "expected_post_state": {
+    "GL:6100-accrued-expenses": 90000.0,
+    "GL:2100-accrued-liabilities": -90000.0
+  },
+  "approval": {
+    "required_role": "controller",
+    "status": "approved",
+    "approver": "controller:jsmith",
+    "token": "APPROVAL-TOKEN-9f3a1c"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": ["S1"]
+  },
+  "standing_note": "Plan only; no journal has been posted and no task, reconciliation, or period has been certified or locked. Execution requires human approval."
+}

@@ -1,0 +1,449 @@
+{
+  "analysis_id": "crpa-CRP-DEMO-01-2026-06-30-0001",
+  "portfolio_id": "CRP-DEMO-01",
+  "as_of": "2026-06-30",
+  "config_version": "credit-cfg-2026.Q2",
+  "currency": "USD",
+  "metrics": {
+    "total_ead": 9200000.0,
+    "exposure_count": 16,
+    "obligor_count": 15,
+    "weighted_avg_pd": 0.031576,
+    "weighted_avg_lgd": 0.434239,
+    "expected_loss": 144375.0,
+    "el_pct_ead": 0.015693,
+    "rating_distribution": {
+      "BBB": 0.4728,
+      "BB": 0.1902,
+      "A": 0.288,
+      "B": 0.0272,
+      "CCC": 0.0217
+    },
+    "delinquency": {
+      "current": {
+        "ead": 7050000.0,
+        "pct": 0.7663
+      },
+      "dpd_1_29": {
+        "ead": 650000.0,
+        "pct": 0.0707
+      },
+      "dpd_30_59": {
+        "ead": 1050000.0,
+        "pct": 0.1141
+      },
+      "dpd_60_89": {
+        "ead": 0.0,
+        "pct": 0.0
+      },
+      "dpd_90plus": {
+        "ead": 450000.0,
+        "pct": 0.0489
+      }
+    },
+    "dpd_90plus_pct": 0.0489,
+    "concentration": {
+      "single_name_hhi": 0.078214,
+      "sector_hhi": 0.22962,
+      "geography_hhi": 0.258211,
+      "top_obligor": {
+        "key": "OBL-BIG",
+        "pct": 0.1413
+      },
+      "top_sector": {
+        "key": "C&I",
+        "pct": 0.3315
+      },
+      "top_geography": {
+        "key": "US-Northeast",
+        "pct": 0.4022
+      }
+    },
+    "collateral": {
+      "secured_pct": 0.4728,
+      "unsecured_pct": 0.5272,
+      "weighted_ltv_secured": 0.87
+    },
+    "migration": {
+      "rated_pairs": 16,
+      "downgrade_rate": 0.5,
+      "net_notch_per_pair": 0.5
+    },
+    "vintage": [
+      {
+        "vintage": "2022-Q1",
+        "ead": 200000.0,
+        "dpd_90plus_pct": 1.0,
+        "el_pct": 0.13
+      },
+      {
+        "vintage": "2022-Q2",
+        "ead": 250000.0,
+        "dpd_90plus_pct": 1.0,
+        "el_pct": 0.072
+      },
+      {
+        "vintage": "2022-Q4",
+        "ead": 700000.0,
+        "dpd_90plus_pct": 0.0,
+        "el_pct": 0.025
+      },
+      {
+        "vintage": "2023-Q1",
+        "ead": 1250000.0,
+        "dpd_90plus_pct": 0.0,
+        "el_pct": 0.0137
+      },
+      {
+        "vintage": "2023-Q2",
+        "ead": 1400000.0,
+        "dpd_90plus_pct": 0.0,
+        "el_pct": 0.0206
+      },
+      {
+        "vintage": "2023-Q3",
+        "ead": 1000000.0,
+        "dpd_90plus_pct": 0.0,
+        "el_pct": 0.0107
+      },
+      {
+        "vintage": "2023-Q4",
+        "ead": 650000.0,
+        "dpd_90plus_pct": 0.0,
+        "el_pct": 0.008
+      },
+      {
+        "vintage": "2024-Q1",
+        "ead": 1100000.0,
+        "dpd_90plus_pct": 0.0,
+        "el_pct": 0.0105
+      },
+      {
+        "vintage": "2024-Q2",
+        "ead": 1450000.0,
+        "dpd_90plus_pct": 0.0,
+        "el_pct": 0.0038
+      },
+      {
+        "vintage": "2024-Q3",
+        "ead": 1200000.0,
+        "dpd_90plus_pct": 0.0,
+        "el_pct": 0.0033
+      }
+    ],
+    "scenario": {
+      "name": "Adverse-2026",
+      "pd_multiplier": 1.5,
+      "lgd_multiplier": 1.2,
+      "stressed_el": 259875.0,
+      "stressed_el_pct_ead": 0.0282,
+      "el_delta": 115500.0
+    }
+  },
+  "exceptions": [
+    {
+      "code": "single_name_concentration",
+      "severity": "critical",
+      "finding": "Obligor OBL-BIG share 14.13% exceeds single-name limit 10.00%.",
+      "metric": "single_name_pct",
+      "threshold": 0.1,
+      "observed": 0.141304,
+      "evidence": [
+        {
+          "exposure_id": "L-0001",
+          "obligor_id": "OBL-BIG",
+          "ead": 800000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0001@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0002",
+          "obligor_id": "OBL-BIG",
+          "ead": 500000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0002@2026-06-30"
+        }
+      ],
+      "recommended_review": "Route the single-name concentration exception to the credit risk committee for adjudication."
+    },
+    {
+      "code": "sector_concentration",
+      "severity": "critical",
+      "finding": "Sector 'C&I' share 33.15% exceeds sector limit 25.00%.",
+      "metric": "sector_pct",
+      "threshold": 0.25,
+      "observed": 0.331522,
+      "evidence": [
+        {
+          "exposure_id": "L-0005",
+          "sector": "C&I",
+          "ead": 900000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0005@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0006",
+          "sector": "C&I",
+          "ead": 800000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0006@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0009",
+          "sector": "C&I",
+          "ead": 700000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0009@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0010",
+          "sector": "C&I",
+          "ead": 650000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0010@2026-06-30"
+        }
+      ],
+      "recommended_review": "Escalate the sector concentration to the credit risk committee for adjudication."
+    },
+    {
+      "code": "sector_concentration",
+      "severity": "critical",
+      "finding": "Sector 'Commercial Real Estate' share 28.26% exceeds sector limit 25.00%.",
+      "metric": "sector_pct",
+      "threshold": 0.25,
+      "observed": 0.282609,
+      "evidence": [
+        {
+          "exposure_id": "L-0001",
+          "sector": "Commercial Real Estate",
+          "ead": 800000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0001@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0002",
+          "sector": "Commercial Real Estate",
+          "ead": 500000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0002@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0003",
+          "sector": "Commercial Real Estate",
+          "ead": 700000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0003@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0004",
+          "sector": "Commercial Real Estate",
+          "ead": 600000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0004@2026-06-30"
+        }
+      ],
+      "recommended_review": "Escalate the sector concentration to the credit risk committee for adjudication."
+    },
+    {
+      "code": "geography_concentration",
+      "severity": "high",
+      "finding": "Geography 'US-Northeast' share 40.22% exceeds geography limit 35.00%.",
+      "metric": "geography_pct",
+      "threshold": 0.35,
+      "observed": 0.402174,
+      "evidence": [
+        {
+          "exposure_id": "L-0001",
+          "geography": "US-Northeast",
+          "ead": 800000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0001@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0002",
+          "geography": "US-Northeast",
+          "ead": 500000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0002@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0003",
+          "geography": "US-Northeast",
+          "ead": 700000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0003@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0005",
+          "geography": "US-Northeast",
+          "ead": 900000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0005@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0006",
+          "geography": "US-Northeast",
+          "ead": 800000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0006@2026-06-30"
+        }
+      ],
+      "recommended_review": "Refer the geographic concentration to portfolio management for review."
+    },
+    {
+      "code": "delinquency_90plus",
+      "severity": "critical",
+      "finding": "90+ day delinquent balance 4.89% of EAD exceeds threshold 3.00%.",
+      "metric": "dpd_90plus_pct",
+      "threshold": 0.03,
+      "observed": 0.0489,
+      "evidence": [
+        {
+          "exposure_id": "L-0007",
+          "days_past_due": 120.0,
+          "ead": 250000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0007@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0008",
+          "days_past_due": 95.0,
+          "ead": 200000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0008@2026-06-30"
+        }
+      ],
+      "recommended_review": "Route delinquent exposures to workout / servicing review for human adjudication."
+    },
+    {
+      "code": "collateral_ltv",
+      "severity": "high",
+      "finding": "3 secured exposure(s) breach the maximum LTV limit 80.00%.",
+      "metric": "max_ltv",
+      "threshold": 0.8,
+      "observed": 1.5,
+      "evidence": [
+        {
+          "exposure_id": "L-0001",
+          "ltv": 0.8889,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0001@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0010",
+          "ltv": 1.3,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0010@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0011",
+          "ltv": 1.5,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0011@2026-06-30"
+        }
+      ],
+      "recommended_review": "Refer over-LTV exposures for collateral revaluation and human review."
+    },
+    {
+      "code": "el_budget",
+      "severity": "high",
+      "finding": "Portfolio expected loss 1.57% of EAD exceeds EL budget 1.50%.",
+      "metric": "el_pct_ead",
+      "threshold": 0.015,
+      "observed": 0.015693,
+      "evidence": [
+        {
+          "exposure_id": "L-0008",
+          "el": 26000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0008@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0007",
+          "el": 18000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0007@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0011",
+          "el": 18000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0011@2026-06-30"
+        }
+      ],
+      "recommended_review": "Provide the EL breakdown to risk management; reserve/allowance decisions remain human."
+    },
+    {
+      "code": "migration_downgrade",
+      "severity": "medium",
+      "finding": "Downgrade rate 50.00% exceeds threshold 15.00%.",
+      "metric": "downgrade_rate",
+      "threshold": 0.15,
+      "observed": 0.5,
+      "evidence": [
+        {
+          "exposure_id": "L-0001",
+          "prior_rating": "A",
+          "rating": "BBB",
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0001@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0003",
+          "prior_rating": "BBB",
+          "rating": "BB",
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0003@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0006",
+          "prior_rating": "A",
+          "rating": "BBB",
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0006@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0007",
+          "prior_rating": "BB",
+          "rating": "B",
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0007@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0008",
+          "prior_rating": "B",
+          "rating": "CCC",
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0008@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0011",
+          "prior_rating": "BBB",
+          "rating": "BB",
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0011@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0014",
+          "prior_rating": "A",
+          "rating": "BBB",
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0014@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0016",
+          "prior_rating": "AA",
+          "rating": "A",
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0016@2026-06-30"
+        }
+      ],
+      "recommended_review": "Summarize downgrade drift for the portfolio review meeting."
+    },
+    {
+      "code": "scenario_el",
+      "severity": "high",
+      "finding": "Stressed expected loss 2.82% of EAD under 'Adverse-2026' exceeds stress threshold 2.50%.",
+      "metric": "scenario_el_pct_ead",
+      "threshold": 0.025,
+      "observed": 0.0282,
+      "evidence": [
+        {
+          "exposure_id": "L-0008",
+          "el": 26000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0008@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0007",
+          "el": 18000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0007@2026-06-30"
+        },
+        {
+          "exposure_id": "L-0011",
+          "el": 18000.0,
+          "citation": "loan_tape:port=CRP-DEMO-01;exp=L-0011@2026-06-30"
+        }
+      ],
+      "recommended_review": "Provide the stressed-loss evidence to the stress-testing program; capital actions remain human."
+    }
+  ],
+  "not_evaluable": [],
+  "suggested_disposition": "Elevated",
+  "adjudication": "This analysis is decision-support only. A human credit-risk officer / credit risk committee must adjudicate each exception before any credit decision, reserve or allowance determination, limit action, filing, case closure, or system-of-record change.",
+  "recommended_routing": [
+    "Escalate every exception to a human credit-risk officer / credit risk committee for adjudication; this analysis decides nothing.",
+    "For ongoing tracking of a flagged concentration, a human may engage the concentration-risk-monitor or key-risk-indicator-monitor skills.",
+    "To document findings for committee, a human may route to the credit-memo-drafter (draft-only) skill."
+  ],
+  "disclaimer": "Decision-support analysis only; findings and evidence require human credit-risk adjudication. No credit decision, reserve or allowance determination, limit action, filing, or system-of-record change has been made.",
+  "narrative": "Credit-risk portfolio analysis of CRP-DEMO-01 as of 2026-06-30 covering 16 exposures across 15 obligors (total EAD 9,200,000 USD). Weighted-average PD 3.16%, weighted-average LGD 43.42%, portfolio expected loss 144,375 (1.57% of EAD). The analysis surfaced 9 limit/threshold exception(s): collateral_ltv, delinquency_90plus, el_budget, geography_concentration, migration_downgrade, scenario_el, sector_concentration, single_name_concentration. Top single-name concentration is obligor OBL-BIG at 14.13% of EAD; 90+ day delinquency is 4.89% of EAD; and under the Adverse-2026 stress the expected loss rises to 2.82% of EAD. Suggested review disposition: Elevated. These are findings and evidence for a human credit-risk officer / credit risk committee to weigh; consider mitigating context (recent paydowns, updated collateral appraisals, guarantees, or scheduled restructurings) alongside each exception. Decision-support analysis only; findings and evidence require human credit-risk adjudication. No credit decision, reserve or allowance determination, limit action, filing, or system-of-record change has been made."
+}

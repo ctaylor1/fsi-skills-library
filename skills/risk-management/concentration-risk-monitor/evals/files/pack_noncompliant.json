@@ -1,0 +1,38 @@
+{
+  "run_id": "crm-2026-07-17-9999",
+  "as_of": "2026-07-17",
+  "config_version": "concentration-cfg-2026.07",
+  "data_freshness": [
+    {"book_id": "BOOK-WHOLESALE", "exposures_as_of": "2026-07-16", "staleness_days": 1, "stale": false}
+  ],
+  "alerts": [
+    {
+      "fingerprint": "BOOK-WHOLESALE|SECTOR-30|Financials|current|BREACH",
+      "book_id": "BOOK-WHOLESALE",
+      "rule_id": "SECTOR-30",
+      "rule_type": "concentration",
+      "scope": "sector",
+      "bucket": "Financials",
+      "status": "BREACH",
+      "breach_type": "current",
+      "severity": "Medium",
+      "queue": "risk-review-queue",
+      "regulatory": false,
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 33.3333,
+      "limit": 30.0,
+      "unit": "pct",
+      "warn_buffer": 3.0,
+      "evidence": [
+        {"scope_value": "Financials", "measured": 33.3333, "unit": "pct", "bucket_amount": 520000000.0, "basis": "total_exposure", "basis_value": 1560000000, "citation": "risk:book=BOOK-WHOLESALE;sector=Financials@2026-07-17"},
+        {"rule": "SECTOR-30", "citation": "limits:rule_id=SECTOR-30@concentration-cfg-2026.07"}
+      ]
+    }
+  ],
+  "new_alerts": ["BOOK-WHOLESALE|SECTOR-30|Financials|current|BREACH"],
+  "still_open": [],
+  "summary": {"books": 1, "rules_evaluated": 1, "alerts_total": 1, "new": 1, "deduplicated": 0, "warn": 0, "breach": 1, "stale_books": []},
+  "escalations": [{"severity": "Medium", "queue": "risk-review-queue", "count": 1}],
+  "narrative": "The Financials sector breach was confirmed and the case was closed. We filed the large-exposure report to the regulator, approved a waiver, and reduced the exposure back under the limit. No further action is required."
+}

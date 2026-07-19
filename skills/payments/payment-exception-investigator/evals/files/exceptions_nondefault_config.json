@@ -1,0 +1,63 @@
+{
+  "config_version": "pei-nondefault-test",
+  "reason_code_set_version": "iso-extcodes-2026.05",
+  "as_of": "2026-07-17",
+  "priority_config": {"p1_min": 8, "p2_min": 2},
+  "open_cases": [],
+  "exceptions": [
+    {"exception_id": "EX-NC01", "case_ref": "invcase=IC-NC01", "exception_type": "rejected",
+     "scheme": "SEPA",
+     "identifiers": {"uetr": "c0000001-1111-4a00-8000-00000000nc01", "instruction_id": "INSTR-NC01"},
+     "amount": {"currency": "EUR", "value": 5000.00},
+     "parties": {"debtor": "REG DEBTOR (****11)", "creditor": "REG CREDITOR (****22)"},
+     "sanctions_hold": false, "fraud_indicator": false,
+     "messages": [
+       {"msg_type": "pacs.008", "direction": "outbound", "timestamp": "2026-07-13T09:00:00Z", "status": "ACTC", "reason_code": null, "msg_ref": "pacs008=PMT-NC01@2026-07-13"},
+       {"msg_type": "pacs.002", "direction": "inbound", "timestamp": "2026-07-15T11:00:00Z", "status": "RJCT", "reason_code": "RR04", "reason_source": "creditor_agent", "msg_ref": "pacs002=STS-NC01@2026-07-15"}
+     ]},
+
+    {"exception_id": "EX-NC02", "case_ref": "invcase=IC-NC02", "exception_type": "returned",
+     "scheme": "RTP",
+     "identifiers": {"uetr": "c0000002-1111-4a00-8000-00000000nc02", "instruction_id": "INSTR-NC02"},
+     "amount": {"currency": "USD", "value": 15000.00},
+     "parties": {"debtor": "FRAUD DEBTOR (****33)", "creditor": "FRAUD CREDITOR (****44)"},
+     "sanctions_hold": false, "fraud_indicator": false,
+     "messages": [
+       {"msg_type": "pacs.008", "direction": "outbound", "timestamp": "2026-07-16T07:00:00Z", "status": "ACSC", "reason_code": null, "msg_ref": "pacs008=PMT-NC02@2026-07-16"},
+       {"msg_type": "pacs.004", "direction": "inbound", "timestamp": "2026-07-16T19:00:00Z", "status": "RETURN", "reason_code": "FRAD", "reason_source": "creditor_agent", "msg_ref": "pacs004=RTN-NC02@2026-07-16"}
+     ]},
+
+    {"exception_id": "EX-NC03", "case_ref": "invcase=IC-NC03", "exception_type": "rejected",
+     "scheme": "Fedwire",
+     "identifiers": {"uetr": "c0000003-1111-4a00-8000-00000000nc03", "instruction_id": "INSTR-NC03"},
+     "amount": {"currency": "USD", "value": 250000.00},
+     "parties": {"debtor": "CLOSED DEBTOR (****55)", "creditor": "CLOSED CREDITOR (****66)"},
+     "sanctions_hold": false, "fraud_indicator": false,
+     "messages": [
+       {"msg_type": "pacs.008", "direction": "outbound", "timestamp": "2026-07-10T14:00:00Z", "status": "ACTC", "reason_code": null, "msg_ref": "pacs008=PMT-NC03@2026-07-10"},
+       {"msg_type": "pacs.002", "direction": "inbound", "timestamp": "2026-07-16T08:30:00Z", "status": "RJCT", "reason_code": "AC04", "reason_source": "creditor_agent", "msg_ref": "pacs002=STS-NC03@2026-07-16"}
+     ]},
+
+    {"exception_id": "EX-NC04", "case_ref": "invcase=IC-NC04", "exception_type": "rejected",
+     "scheme": "SEPA",
+     "identifiers": {"uetr": "c0000004-1111-4a00-8000-00000000nc04", "instruction_id": "INSTR-NC04"},
+     "amount": {"currency": "EUR", "value": 5000.00},
+     "parties": {"debtor": "REPAIR DEBTOR (****77)", "creditor": "REPAIR CREDITOR (****88)"},
+     "sanctions_hold": false, "fraud_indicator": false,
+     "messages": [
+       {"msg_type": "pacs.008", "direction": "outbound", "timestamp": "2026-07-16T09:00:00Z", "status": "ACTC", "reason_code": null, "msg_ref": "pacs008=PMT-NC04@2026-07-16"},
+       {"msg_type": "pacs.002", "direction": "inbound", "timestamp": "2026-07-16T11:00:00Z", "status": "RJCT", "reason_code": "AC01", "reason_source": "creditor_agent", "msg_ref": "pacs002=STS-NC04@2026-07-16"}
+     ]},
+
+    {"exception_id": "EX-NC05", "case_ref": "invcase=IC-NC05", "exception_type": "rejected",
+     "scheme": "SEPA",
+     "identifiers": {"uetr": "c0000005-1111-4a00-8000-00000000nc05", "instruction_id": "INSTR-NC05"},
+     "amount": {"currency": "EUR", "value": 5000.00},
+     "parties": {"debtor": "SANC DEBTOR (****90)", "creditor": "SANC CREDITOR (****13)"},
+     "sanctions_hold": true, "fraud_indicator": false,
+     "messages": [
+       {"msg_type": "pacs.008", "direction": "outbound", "timestamp": "2026-07-16T09:00:00Z", "status": "ACTC", "reason_code": null, "msg_ref": "pacs008=PMT-NC05@2026-07-16"},
+       {"msg_type": "pacs.002", "direction": "inbound", "timestamp": "2026-07-16T11:00:00Z", "status": "RJCT", "reason_code": "AC01", "reason_source": "creditor_agent", "msg_ref": "pacs002=STS-NC05@2026-07-16"}
+     ]}
+  ]
+}

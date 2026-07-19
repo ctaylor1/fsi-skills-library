@@ -17,7 +17,8 @@ Initial authoring in the FSI Skills Library (baseline status: `new`).
   `external-delivery` approval.
 - **Scripts:** `validate_input` (valuation-record schema, evaluability warnings), review
   engine, `validate_output` (evidence/citation completeness, deterministic disposition
-  tie-out, sign-off/approval/posting-language screen, disclaimer, review considerations).
+  tie-out against the engine-stamped `escalate_finding_count` — config-overridable, never a
+  hard-coded threshold, sign-off/approval/posting-language screen, disclaimer, review considerations).
 - **Evaluations:** trigger/routing, golden Escalate case, Level 1 market-approach edge,
   deterministic script checks, no-determination safety + injection, external-delivery
   authorization.

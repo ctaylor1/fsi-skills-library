@@ -1,0 +1,383 @@
+{
+  "config_version": "pei-nondefault-test",
+  "reason_code_set_version": "iso-extcodes-2026.05",
+  "priority_thresholds": {
+    "p1_min": 8,
+    "p2_min": 2
+  },
+  "investigations": [
+    {
+      "exception_id": "EX-NC01",
+      "case_id": "PEI-EX-NC01",
+      "priority_score": 3,
+      "priority_band": "P2 (Standard)",
+      "priority_reason": "scheme SEPA +1; aging 4d +1; severity rejected +1",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-NC01",
+        "pacs008=PMT-NC01@2026-07-13",
+        "pacs002=STS-NC01@2026-07-15"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-NC01",
+        "exception_id": "EX-NC01",
+        "scheme": "SEPA",
+        "identifiers": {
+          "uetr": "c0000001-1111-4a00-8000-00000000nc01",
+          "instruction_id": "INSTR-NC01"
+        },
+        "parties": {
+          "debtor": "REG DEBTOR (****11)",
+          "creditor": "REG CREDITOR (****22)"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": 5000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-13T09:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACTC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-NC01@2026-07-13"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-15T11:00:00Z",
+            "msg_type": "pacs.002",
+            "direction": "inbound",
+            "status": "RJCT",
+            "reason_code": "RR04",
+            "cite": "pacs002=STS-NC01@2026-07-15"
+          }
+        ],
+        "last_status": {
+          "status": "RJCT",
+          "reason_code": "RR04",
+          "reason_name": "RegulatoryReason",
+          "reason_source": "creditor_agent",
+          "cite": "pacs002=STS-NC01@2026-07-15"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-NC01",
+          "pacs008=PMT-NC01@2026-07-13",
+          "pacs002=STS-NC01@2026-07-15"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "route-specialist",
+        "rationale": "regulatory reason code (RR04); route to sanctions adjudication. No repair, return, or release recommended here.",
+        "recommended_next_action": "Refer the evidence bundle to sanctions adjudication for a match decision.",
+        "requires_approval": true,
+        "route_specialist": "sanctions-match-adjudicator"
+      },
+      "disposition": "route-specialist",
+      "route_specialist": "sanctions-match-adjudicator"
+    },
+    {
+      "exception_id": "EX-NC02",
+      "case_id": "PEI-EX-NC02",
+      "priority_score": 5,
+      "priority_band": "P2 (Standard)",
+      "priority_reason": "amount>=10000 +1; scheme RTP +2; severity returned +2",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-NC02",
+        "pacs008=PMT-NC02@2026-07-16",
+        "pacs004=RTN-NC02@2026-07-16"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-NC02",
+        "exception_id": "EX-NC02",
+        "scheme": "RTP",
+        "identifiers": {
+          "uetr": "c0000002-1111-4a00-8000-00000000nc02",
+          "instruction_id": "INSTR-NC02"
+        },
+        "parties": {
+          "debtor": "FRAUD DEBTOR (****33)",
+          "creditor": "FRAUD CREDITOR (****44)"
+        },
+        "amount": {
+          "currency": "USD",
+          "value": 15000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-16T07:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACSC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-NC02@2026-07-16"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-16T19:00:00Z",
+            "msg_type": "pacs.004",
+            "direction": "inbound",
+            "status": "RETURN",
+            "reason_code": "FRAD",
+            "cite": "pacs004=RTN-NC02@2026-07-16"
+          }
+        ],
+        "last_status": {
+          "status": "RETURN",
+          "reason_code": "FRAD",
+          "reason_name": "FraudulentOrigin",
+          "reason_source": "creditor_agent",
+          "cite": "pacs004=RTN-NC02@2026-07-16"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-NC02",
+          "pacs008=PMT-NC02@2026-07-16",
+          "pacs004=RTN-NC02@2026-07-16"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "route-specialist",
+        "rationale": "fraudulent-origin reason code; route to fraud investigation. No repair or return recommended here.",
+        "recommended_next_action": "Refer the evidence bundle to payment fraud investigation for adjudication.",
+        "requires_approval": true,
+        "route_specialist": "payment-fraud-case-investigator"
+      },
+      "disposition": "route-specialist",
+      "route_specialist": "payment-fraud-case-investigator"
+    },
+    {
+      "exception_id": "EX-NC03",
+      "case_id": "PEI-EX-NC03",
+      "priority_score": 7,
+      "priority_band": "P2 (Standard)",
+      "priority_reason": "amount>=100000 +2; scheme Fedwire +2; aging 7d +2; severity rejected +1",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-NC03",
+        "pacs008=PMT-NC03@2026-07-10",
+        "pacs002=STS-NC03@2026-07-16"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-NC03",
+        "exception_id": "EX-NC03",
+        "scheme": "Fedwire",
+        "identifiers": {
+          "uetr": "c0000003-1111-4a00-8000-00000000nc03",
+          "instruction_id": "INSTR-NC03"
+        },
+        "parties": {
+          "debtor": "CLOSED DEBTOR (****55)",
+          "creditor": "CLOSED CREDITOR (****66)"
+        },
+        "amount": {
+          "currency": "USD",
+          "value": 250000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-10T14:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACTC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-NC03@2026-07-10"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-16T08:30:00Z",
+            "msg_type": "pacs.002",
+            "direction": "inbound",
+            "status": "RJCT",
+            "reason_code": "AC04",
+            "cite": "pacs002=STS-NC03@2026-07-16"
+          }
+        ],
+        "last_status": {
+          "status": "RJCT",
+          "reason_code": "AC04",
+          "reason_name": "ClosedAccountNumber",
+          "reason_source": "creditor_agent",
+          "cite": "pacs002=STS-NC03@2026-07-16"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-NC03",
+          "pacs008=PMT-NC03@2026-07-10",
+          "pacs002=STS-NC03@2026-07-16"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "recommend-return-to-originator",
+        "rationale": "Last status RJCT with reason AC04 (ClosedAccountNumber); no repair is possible \u2014 recommend return to originator.",
+        "recommended_next_action": "Propose a return to originator; the return message is sent only after approval.",
+        "requires_approval": true
+      },
+      "disposition": "recommend-return-to-originator"
+    },
+    {
+      "exception_id": "EX-NC04",
+      "case_id": "PEI-EX-NC04",
+      "priority_score": 2,
+      "priority_band": "P2 (Standard)",
+      "priority_reason": "scheme SEPA +1; severity rejected +1",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-NC04",
+        "pacs008=PMT-NC04@2026-07-16",
+        "pacs002=STS-NC04@2026-07-16"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-NC04",
+        "exception_id": "EX-NC04",
+        "scheme": "SEPA",
+        "identifiers": {
+          "uetr": "c0000004-1111-4a00-8000-00000000nc04",
+          "instruction_id": "INSTR-NC04"
+        },
+        "parties": {
+          "debtor": "REPAIR DEBTOR (****77)",
+          "creditor": "REPAIR CREDITOR (****88)"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": 5000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-16T09:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACTC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-NC04@2026-07-16"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-16T11:00:00Z",
+            "msg_type": "pacs.002",
+            "direction": "inbound",
+            "status": "RJCT",
+            "reason_code": "AC01",
+            "cite": "pacs002=STS-NC04@2026-07-16"
+          }
+        ],
+        "last_status": {
+          "status": "RJCT",
+          "reason_code": "AC01",
+          "reason_name": "IncorrectAccountNumber",
+          "reason_source": "creditor_agent",
+          "cite": "pacs002=STS-NC04@2026-07-16"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-NC04",
+          "pacs008=PMT-NC04@2026-07-16",
+          "pacs002=STS-NC04@2026-07-16"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "recommend-repair-and-resubmit",
+        "rationale": "Last status RJCT with reason AC01 (IncorrectAccountNumber); the field is repairable \u2014 recommend correcting it and resubmitting.",
+        "recommended_next_action": "Propose the corrected field to payment-repair-assistant; repair executes only after approval.",
+        "requires_approval": true
+      },
+      "disposition": "recommend-repair-and-resubmit"
+    },
+    {
+      "exception_id": "EX-NC05",
+      "case_id": "PEI-EX-NC05",
+      "priority_score": 5,
+      "priority_band": "P3 (Low)",
+      "priority_reason": "scheme SEPA +1; severity rejected +1; fraud/sanctions signal +3",
+      "priority_risk_override": true,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-NC05",
+        "pacs008=PMT-NC05@2026-07-16",
+        "pacs002=STS-NC05@2026-07-16"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-NC05",
+        "exception_id": "EX-NC05",
+        "scheme": "SEPA",
+        "identifiers": {
+          "uetr": "c0000005-1111-4a00-8000-00000000nc05",
+          "instruction_id": "INSTR-NC05"
+        },
+        "parties": {
+          "debtor": "SANC DEBTOR (****90)",
+          "creditor": "SANC CREDITOR (****13)"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": 5000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-16T09:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACTC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-NC05@2026-07-16"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-16T11:00:00Z",
+            "msg_type": "pacs.002",
+            "direction": "inbound",
+            "status": "RJCT",
+            "reason_code": "AC01",
+            "cite": "pacs002=STS-NC05@2026-07-16"
+          }
+        ],
+        "last_status": {
+          "status": "RJCT",
+          "reason_code": "AC01",
+          "reason_name": "IncorrectAccountNumber",
+          "reason_source": "creditor_agent",
+          "cite": "pacs002=STS-NC05@2026-07-16"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-NC05",
+          "pacs008=PMT-NC05@2026-07-16",
+          "pacs002=STS-NC05@2026-07-16"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "route-specialist",
+        "rationale": "sanctions hold flag set; route to sanctions adjudication. No repair, return, or release recommended here.",
+        "recommended_next_action": "Refer the evidence bundle to sanctions adjudication for a match decision.",
+        "requires_approval": true,
+        "route_specialist": "sanctions-match-adjudicator"
+      },
+      "disposition": "route-specialist",
+      "route_specialist": "sanctions-match-adjudicator"
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "route-specialist": 3,
+    "recommend-return-to-originator": 1,
+    "recommend-repair-and-resubmit": 1
+  },
+  "standing_note": "Investigation evidence and recommendations only; no case has been closed, no determination made, no payment repaired, returned, or released, and no filing performed. Every next step requires human adjudication and approval."
+}

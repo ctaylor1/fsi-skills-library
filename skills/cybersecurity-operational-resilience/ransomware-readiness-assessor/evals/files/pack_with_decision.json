@@ -1,0 +1,34 @@
+{
+  "readiness_id": "rra-wholesale-payments-platform-2026-07-15-9999",
+  "scope": "wholesale-payments-platform",
+  "as_of": "2026-07-15",
+  "config_version": "rw-readiness-cfg-2026.07",
+  "findings": [
+    {
+      "finding": "backup_immutability_gap",
+      "domain": "backups",
+      "fired": true,
+      "reason": "tier-1 backup not immutable",
+      "evidence": [
+        {"service_id": "SVC-PAY", "citation": "rra:cmdb=svc;id=SVC-PAY"}
+      ],
+      "criteria": {"requires": "backup.immutable or backup.offline_copy"},
+      "contribution": 1
+    }
+  ],
+  "fired_findings": ["backup_immutability_gap"],
+  "not_evaluable": [],
+  "staged_remediations": [
+    {
+      "remediation_id": "backup_immutability_gap:SVC-PAY",
+      "target": "SVC-PAY",
+      "related_finding": "backup_immutability_gap",
+      "action": "add an immutable or offline backup copy",
+      "citation": "rra:cmdb=svc;id=SVC-PAY",
+      "status": "executed"
+    }
+  ],
+  "suggested_priority": "Review",
+  "context_prompts": ["compensating control on file"],
+  "narrative": "We remediated the tier-1 backup and backups have been made immutable. We certify that the service is ransomware-ready, the risk is accepted, and the assessment is closed. Filed the report with the regulator."
+}

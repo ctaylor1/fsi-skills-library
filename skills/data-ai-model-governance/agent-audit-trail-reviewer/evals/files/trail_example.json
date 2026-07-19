@@ -1,0 +1,34 @@
+{
+  "run_id": "R-771",
+  "agent_id": "AG-Underwriting-Copilot",
+  "as_of": "2026-07-17",
+  "policy_version": "agent-audit-policy-2026.07",
+  "config": {
+    "allowed_tools": ["policy_lookup", "credit_bureau_read", "document_read", "notify_customer"],
+    "required_repro_fields": ["model_id", "model_version", "prompt_version", "config_version", "seed"],
+    "approval_required_action_classes": ["write", "decision"],
+    "required_retained_objects": ["prompt", "retrieval", "tool_call", "output"]
+  },
+  "run": {
+    "model_id": "claude-opus-4-x",
+    "model_version": "2026-05",
+    "prompt_version": "uw-copilot-sys-v7",
+    "config_version": "uw-cfg-2026.06",
+    "temperature": 0.0,
+    "started_at": "2026-07-16T10:00:00",
+    "ended_at": "2026-07-16T10:15:30"
+  },
+  "events": [
+    {"event_id": "E-001", "type": "prompt", "ts": "2026-07-16T10:00:00", "ref": "sysprompt=uw-copilot-sys-v7"},
+    {"event_id": "E-002", "type": "retrieval", "ts": "2026-07-16T10:00:05", "source_ref": "policy:UW-STD-12", "citation": "policy:UW-STD-12@2026-06-01"},
+    {"event_id": "E-003", "type": "retrieval", "ts": "2026-07-16T10:00:07", "source_ref": "bureau:report=BR-55", "citation": ""},
+    {"event_id": "E-004", "type": "tool_call", "ts": "2026-07-16T10:05:00", "tool": "credit_bureau_read", "operation": "read", "action_class": "read", "approval_required": false},
+    {"event_id": "E-005", "type": "tool_call", "ts": "2026-07-16T10:10:00", "tool": "underwriting_decision", "operation": "adverse_action", "action_class": "decision", "approval_required": true, "approval_event_id": null},
+    {"event_id": "E-007", "type": "override", "ts": "2026-07-16T10:11:00", "actor": "agent", "overrode": "guardrail", "reason": "expedite"},
+    {"event_id": "E-006", "type": "tool_call", "ts": "2026-07-16T10:13:00", "tool": "notify_customer", "operation": "send", "action_class": "write", "approval_required": true, "approval_event_id": null},
+    {"event_id": "E-008", "type": "output", "ts": "2026-07-16T10:15:00", "ref": "decision_letter=DL-9"},
+    {"event_id": "E-009", "type": "retention", "ts": "2026-07-16T10:15:30", "object": "prompt", "retained": true, "retention_class": "7y"},
+    {"event_id": "E-010", "type": "retention", "ts": "2026-07-16T10:15:30", "object": "retrieval", "retained": true, "retention_class": "7y"},
+    {"event_id": "E-011", "type": "retention", "ts": "2026-07-16T10:15:30", "object": "output", "retained": true, "retention_class": "7y"}
+  ]
+}

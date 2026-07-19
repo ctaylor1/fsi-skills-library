@@ -123,7 +123,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
                           f"(declare as a driver or an earlier output)")
         defined.add(nm)  # later outputs may reference this one
 
-    known_all = driver_names | output_names
+    driver_names | output_names
 
     # analyses reference declared drivers / outputs -----------------------------------
     def _check_driver(name, where):

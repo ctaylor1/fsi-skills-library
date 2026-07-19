@@ -1,0 +1,582 @@
+{
+  "config_version": "phish-2026.07",
+  "investigations": [
+    {
+      "report_id": "PH-3001",
+      "case_id": "PHBEC-PH-3001",
+      "risk_score": 25,
+      "risk_band": "Critical",
+      "risk_reason": "SPF fail +2; DKIM fail +2; DMARC fail +3; lookalike sender domain +4; reply-to mismatch +2; display-name impersonation +2; payment request +3; beneficiary/vendor bank change +4; urgency +1; secrecy +1; first external contact +1",
+      "indicators": [
+        {
+          "type": "auth-spf-fail",
+          "detail": "SPF result = fail",
+          "citation": "soar:incident=PH-3001;headers.authentication-results"
+        },
+        {
+          "type": "auth-dkim-fail",
+          "detail": "DKIM result = fail",
+          "citation": "soar:incident=PH-3001;headers.authentication-results"
+        },
+        {
+          "type": "auth-dmarc-fail",
+          "detail": "DMARC result = fail",
+          "citation": "soar:incident=PH-3001;headers.authentication-results"
+        },
+        {
+          "type": "lookalike-domain",
+          "detail": "0urbank.com mimics ourbank.com",
+          "citation": "soar:incident=PH-3001;headers.from"
+        },
+        {
+          "type": "reply-to-mismatch",
+          "detail": "reply-to gmail.com != from 0urbank.com",
+          "citation": "soar:incident=PH-3001;headers.reply-to"
+        },
+        {
+          "type": "display-impersonation",
+          "detail": "display name invokes 'jane doe' from external domain 0urbank.com",
+          "citation": "soar:incident=PH-3001;headers.from-display"
+        },
+        {
+          "type": "payment-request",
+          "detail": "wire request 48500 USD to ****-99",
+          "citation": "soar:incident=PH-3001;body.payment-request"
+        },
+        {
+          "type": "vendor-bank-change",
+          "detail": "beneficiary ****-99 not in approved vendor bank registry",
+          "citation": "soar:incident=PH-3001;body.payment-request"
+        }
+      ],
+      "recommended_disposition": "recommend-bec-fraud",
+      "disposition_reason": "fraudulent payment request with beneficiary/vendor bank change and sender anomalies",
+      "evidence_bundle": {
+        "case_id": "PHBEC-PH-3001",
+        "chronology": [
+          {
+            "ts": "2026-07-15T09:12:00Z",
+            "event": "Message received by 1 recipient(s)",
+            "citation": "soar:incident=PH-3001;headers.date"
+          },
+          {
+            "ts": "2026-07-15T09:12:00Z",
+            "event": "wire request for 48500 USD to ****-99",
+            "citation": "soar:incident=PH-3001;body.payment-request"
+          },
+          {
+            "ts": "2026-07-15T09:12:00Z",
+            "event": "Linked related report PH-3008",
+            "citation": "soar:incident=PH-3001;related"
+          },
+          {
+            "ts": "2026-07-15T09:20:00Z",
+            "event": "Reported to SOC by a***@ourbank.com",
+            "citation": "soar:incident=PH-3001;report"
+          }
+        ],
+        "parties": {
+          "sender": "j***@0urbank.com",
+          "sender_display": "Jane Doe (CEO)",
+          "reply_to": "c***@gmail.com",
+          "recipient_count": 1,
+          "reported_by": "a***@ourbank.com"
+        },
+        "indicators": [
+          {
+            "type": "auth-spf-fail",
+            "detail": "SPF result = fail",
+            "citation": "soar:incident=PH-3001;headers.authentication-results"
+          },
+          {
+            "type": "auth-dkim-fail",
+            "detail": "DKIM result = fail",
+            "citation": "soar:incident=PH-3001;headers.authentication-results"
+          },
+          {
+            "type": "auth-dmarc-fail",
+            "detail": "DMARC result = fail",
+            "citation": "soar:incident=PH-3001;headers.authentication-results"
+          },
+          {
+            "type": "lookalike-domain",
+            "detail": "0urbank.com mimics ourbank.com",
+            "citation": "soar:incident=PH-3001;headers.from"
+          },
+          {
+            "type": "reply-to-mismatch",
+            "detail": "reply-to gmail.com != from 0urbank.com",
+            "citation": "soar:incident=PH-3001;headers.reply-to"
+          },
+          {
+            "type": "display-impersonation",
+            "detail": "display name invokes 'jane doe' from external domain 0urbank.com",
+            "citation": "soar:incident=PH-3001;headers.from-display"
+          },
+          {
+            "type": "payment-request",
+            "detail": "wire request 48500 USD to ****-99",
+            "citation": "soar:incident=PH-3001;body.payment-request"
+          },
+          {
+            "type": "vendor-bank-change",
+            "detail": "beneficiary ****-99 not in approved vendor bank registry",
+            "citation": "soar:incident=PH-3001;body.payment-request"
+          }
+        ],
+        "amounts": {
+          "amount": 48500,
+          "currency": "USD",
+          "beneficiary_account": "****-99",
+          "vendor": "Acme Supplies",
+          "citation": "soar:incident=PH-3001;body.payment-request"
+        },
+        "citations": [
+          "soar:incident=PH-3001;body.payment-request",
+          "soar:incident=PH-3001;headers.authentication-results",
+          "soar:incident=PH-3001;headers.from",
+          "soar:incident=PH-3001;headers.from-display",
+          "soar:incident=PH-3001;headers.reply-to",
+          "soar:incident=PH-3001;report"
+        ]
+      },
+      "recommended_containment": [
+        "Recommend quarantine of matching messages across mailboxes (requires approval)",
+        "Recommend sender/domain block-list addition (requires approval)"
+      ],
+      "recommended_fraud_coordination": [
+        "Recommend the payments team assess a beneficiary-bank recall/hold (requires approval)",
+        "Recommend out-of-band verification with the named vendor via a known-good contact (requires approval)"
+      ],
+      "route_specialist": "payment-fraud-case-investigator",
+      "needs": []
+    },
+    {
+      "report_id": "PH-3002",
+      "case_id": "PHBEC-PH-3002",
+      "risk_score": 11,
+      "risk_band": "High",
+      "risk_reason": "SPF softfail +1; DKIM none +1; DMARC fail +3; display-name impersonation +2; malicious link(s) +3; urgency +1",
+      "indicators": [
+        {
+          "type": "auth-spf-softfail",
+          "detail": "SPF result = softfail",
+          "citation": "soar:incident=PH-3002;headers.authentication-results"
+        },
+        {
+          "type": "auth-dkim-none",
+          "detail": "DKIM result = none",
+          "citation": "soar:incident=PH-3002;headers.authentication-results"
+        },
+        {
+          "type": "auth-dmarc-fail",
+          "detail": "DMARC result = fail",
+          "citation": "soar:incident=PH-3002;headers.authentication-results"
+        },
+        {
+          "type": "display-impersonation",
+          "detail": "display name invokes 'ourbank' from external domain mail-secure-alerts.com",
+          "citation": "soar:incident=PH-3002;headers.from-display"
+        },
+        {
+          "type": "malicious-link",
+          "detail": "link text shows ourbank-corp.com but points to ourbank-verify.ru",
+          "citation": "soar:incident=PH-3002;body.url"
+        }
+      ],
+      "recommended_disposition": "recommend-credential-phishing",
+      "disposition_reason": "credential-harvesting link with sender authentication anomalies",
+      "evidence_bundle": {
+        "case_id": "PHBEC-PH-3002",
+        "chronology": [
+          {
+            "ts": "2026-07-15T10:55:00Z",
+            "event": "Message received by 2 recipient(s)",
+            "citation": "soar:incident=PH-3002;headers.date"
+          },
+          {
+            "ts": "2026-07-15T11:02:00Z",
+            "event": "Reported to SOC by b***@ourbank.com",
+            "citation": "soar:incident=PH-3002;report"
+          }
+        ],
+        "parties": {
+          "sender": "i***@mail-secure-alerts.com",
+          "sender_display": "OurBank IT Security",
+          "reply_to": null,
+          "recipient_count": 2,
+          "reported_by": "b***@ourbank.com"
+        },
+        "indicators": [
+          {
+            "type": "auth-spf-softfail",
+            "detail": "SPF result = softfail",
+            "citation": "soar:incident=PH-3002;headers.authentication-results"
+          },
+          {
+            "type": "auth-dkim-none",
+            "detail": "DKIM result = none",
+            "citation": "soar:incident=PH-3002;headers.authentication-results"
+          },
+          {
+            "type": "auth-dmarc-fail",
+            "detail": "DMARC result = fail",
+            "citation": "soar:incident=PH-3002;headers.authentication-results"
+          },
+          {
+            "type": "display-impersonation",
+            "detail": "display name invokes 'ourbank' from external domain mail-secure-alerts.com",
+            "citation": "soar:incident=PH-3002;headers.from-display"
+          },
+          {
+            "type": "malicious-link",
+            "detail": "link text shows ourbank-corp.com but points to ourbank-verify.ru",
+            "citation": "soar:incident=PH-3002;body.url"
+          }
+        ],
+        "amounts": null,
+        "citations": [
+          "soar:incident=PH-3002;body.url",
+          "soar:incident=PH-3002;headers.authentication-results",
+          "soar:incident=PH-3002;headers.from-display",
+          "soar:incident=PH-3002;report"
+        ]
+      },
+      "recommended_containment": [
+        "Recommend quarantine of matching messages across mailboxes (requires approval)",
+        "Recommend forced credential reset for exposed recipients (requires approval)",
+        "Recommend URL/domain block at the secure web gateway (requires approval)"
+      ],
+      "recommended_fraud_coordination": [],
+      "route_specialist": "identity-access-reviewer",
+      "needs": []
+    },
+    {
+      "report_id": "PH-3003",
+      "case_id": "PHBEC-PH-3003",
+      "risk_score": 11,
+      "risk_band": "High",
+      "risk_reason": "SPF fail +2; DKIM fail +2; DMARC fail +3; suspicious attachment +3; first external contact +1",
+      "indicators": [
+        {
+          "type": "auth-spf-fail",
+          "detail": "SPF result = fail",
+          "citation": "soar:incident=PH-3003;headers.authentication-results"
+        },
+        {
+          "type": "auth-dkim-fail",
+          "detail": "DKIM result = fail",
+          "citation": "soar:incident=PH-3003;headers.authentication-results"
+        },
+        {
+          "type": "auth-dmarc-fail",
+          "detail": "DMARC result = fail",
+          "citation": "soar:incident=PH-3003;headers.authentication-results"
+        },
+        {
+          "type": "suspicious-attachment",
+          "detail": "attachment Invoice_88431.html (text/html)",
+          "citation": "soar:incident=PH-3003;body.attachment"
+        }
+      ],
+      "recommended_disposition": "recommend-malware-phishing",
+      "disposition_reason": "suspicious attachment with sender authentication anomalies",
+      "evidence_bundle": {
+        "case_id": "PHBEC-PH-3003",
+        "chronology": [
+          {
+            "ts": "2026-07-15T13:31:00Z",
+            "event": "Message received by 1 recipient(s)",
+            "citation": "soar:incident=PH-3003;headers.date"
+          },
+          {
+            "ts": "2026-07-15T13:40:00Z",
+            "event": "Reported to SOC by d***@ourbank.com",
+            "citation": "soar:incident=PH-3003;report"
+          }
+        ],
+        "parties": {
+          "sender": "a***@invoices-globex.net",
+          "sender_display": "Accounts Payable",
+          "reply_to": null,
+          "recipient_count": 1,
+          "reported_by": "d***@ourbank.com"
+        },
+        "indicators": [
+          {
+            "type": "auth-spf-fail",
+            "detail": "SPF result = fail",
+            "citation": "soar:incident=PH-3003;headers.authentication-results"
+          },
+          {
+            "type": "auth-dkim-fail",
+            "detail": "DKIM result = fail",
+            "citation": "soar:incident=PH-3003;headers.authentication-results"
+          },
+          {
+            "type": "auth-dmarc-fail",
+            "detail": "DMARC result = fail",
+            "citation": "soar:incident=PH-3003;headers.authentication-results"
+          },
+          {
+            "type": "suspicious-attachment",
+            "detail": "attachment Invoice_88431.html (text/html)",
+            "citation": "soar:incident=PH-3003;body.attachment"
+          }
+        ],
+        "amounts": null,
+        "citations": [
+          "soar:incident=PH-3003;body.attachment",
+          "soar:incident=PH-3003;headers.authentication-results",
+          "soar:incident=PH-3003;report"
+        ]
+      },
+      "recommended_containment": [
+        "Recommend quarantine of matching messages across mailboxes (requires approval)",
+        "Recommend endpoint sweep for the attachment hash (requires approval)"
+      ],
+      "recommended_fraud_coordination": [],
+      "route_specialist": "cyber-incident-response-coordinator",
+      "needs": []
+    },
+    {
+      "report_id": "PH-3004",
+      "case_id": "PHBEC-PH-3004",
+      "risk_score": 4,
+      "risk_band": "Medium",
+      "risk_reason": "SPF softfail +1; reply-to mismatch +2; urgency +1",
+      "indicators": [
+        {
+          "type": "auth-spf-softfail",
+          "detail": "SPF result = softfail",
+          "citation": "soar:incident=PH-3004;headers.authentication-results"
+        },
+        {
+          "type": "reply-to-mismatch",
+          "detail": "reply-to gmail.com != from ourbank.com",
+          "citation": "soar:incident=PH-3004;headers.reply-to"
+        }
+      ],
+      "recommended_disposition": "recommend-suspicious",
+      "disposition_reason": "sender/behavioral anomalies without a confirmed payload; analyst review",
+      "evidence_bundle": {
+        "case_id": "PHBEC-PH-3004",
+        "chronology": [
+          {
+            "ts": "2026-07-15T14:10:00Z",
+            "event": "Message received by 1 recipient(s)",
+            "citation": "soar:incident=PH-3004;headers.date"
+          },
+          {
+            "ts": "2026-07-15T14:18:00Z",
+            "event": "Reported to SOC by e***@ourbank.com",
+            "citation": "soar:incident=PH-3004;report"
+          }
+        ],
+        "parties": {
+          "sender": "j***@ourbank.com",
+          "sender_display": "Jane Doe",
+          "reply_to": "j***@gmail.com",
+          "recipient_count": 1,
+          "reported_by": "e***@ourbank.com"
+        },
+        "indicators": [
+          {
+            "type": "auth-spf-softfail",
+            "detail": "SPF result = softfail",
+            "citation": "soar:incident=PH-3004;headers.authentication-results"
+          },
+          {
+            "type": "reply-to-mismatch",
+            "detail": "reply-to gmail.com != from ourbank.com",
+            "citation": "soar:incident=PH-3004;headers.reply-to"
+          }
+        ],
+        "amounts": null,
+        "citations": [
+          "soar:incident=PH-3004;headers.authentication-results",
+          "soar:incident=PH-3004;headers.reply-to",
+          "soar:incident=PH-3004;report"
+        ]
+      },
+      "recommended_containment": [],
+      "recommended_fraud_coordination": [],
+      "route_specialist": null,
+      "needs": []
+    },
+    {
+      "report_id": "PH-3005",
+      "case_id": "PHBEC-PH-3005",
+      "risk_score": 0,
+      "risk_band": "Low",
+      "risk_reason": "no adverse indicators",
+      "indicators": [],
+      "recommended_disposition": "recommend-benign",
+      "disposition_reason": "authentication passes, known sender domain, no payload or payment request",
+      "evidence_bundle": {
+        "case_id": "PHBEC-PH-3005",
+        "chronology": [
+          {
+            "ts": "2026-07-15T15:00:00Z",
+            "event": "Message received by 1 recipient(s)",
+            "citation": "soar:incident=PH-3005;headers.date"
+          },
+          {
+            "ts": "2026-07-15T15:05:00Z",
+            "event": "Reported to SOC by f***@ourbank.com",
+            "citation": "soar:incident=PH-3005;report"
+          }
+        ],
+        "parties": {
+          "sender": "p***@ourbank.com",
+          "sender_display": "Payroll",
+          "reply_to": null,
+          "recipient_count": 1,
+          "reported_by": "f***@ourbank.com"
+        },
+        "indicators": [],
+        "amounts": null,
+        "citations": [
+          "soar:incident=PH-3005;report"
+        ]
+      },
+      "recommended_containment": [],
+      "recommended_fraud_coordination": [],
+      "route_specialist": null,
+      "needs": []
+    },
+    {
+      "report_id": "PH-3006",
+      "case_id": "PHBEC-PH-3006",
+      "risk_score": 0,
+      "risk_band": "Low",
+      "risk_reason": "",
+      "indicators": [
+        {
+          "type": "needs-data",
+          "detail": "email authentication results (SPF/DKIM/DMARC)",
+          "citation": "soar:incident=PH-3006;report"
+        }
+      ],
+      "recommended_disposition": "needs-data",
+      "disposition_reason": "insufficient header/authentication evidence to investigate",
+      "evidence_bundle": null,
+      "recommended_containment": [],
+      "recommended_fraud_coordination": [],
+      "route_specialist": null,
+      "needs": [
+        "email authentication results (SPF/DKIM/DMARC)"
+      ]
+    },
+    {
+      "report_id": "PH-3007",
+      "case_id": "PHBEC-PH-3007",
+      "risk_score": 14,
+      "risk_band": "Critical",
+      "risk_reason": "SPF fail +2; DKIM none +1; DMARC fail +3; lookalike sender domain +4; display-name impersonation +2; urgency +1; first external contact +1",
+      "indicators": [
+        {
+          "type": "auth-spf-fail",
+          "detail": "SPF result = fail",
+          "citation": "soar:incident=PH-3007;headers.authentication-results"
+        },
+        {
+          "type": "auth-dkim-none",
+          "detail": "DKIM result = none",
+          "citation": "soar:incident=PH-3007;headers.authentication-results"
+        },
+        {
+          "type": "auth-dmarc-fail",
+          "detail": "DMARC result = fail",
+          "citation": "soar:incident=PH-3007;headers.authentication-results"
+        },
+        {
+          "type": "lookalike-domain",
+          "detail": "0urbank.com mimics ourbank.com",
+          "citation": "soar:incident=PH-3007;headers.from"
+        },
+        {
+          "type": "display-impersonation",
+          "detail": "display name invokes 'payroll' from external domain 0urbank.com",
+          "citation": "soar:incident=PH-3007;headers.from-display"
+        }
+      ],
+      "recommended_disposition": "possible-duplicate",
+      "disposition_reason": "same sender+subject as open case PHBEC-PH-2900",
+      "evidence_bundle": {
+        "case_id": "PHBEC-PH-3007",
+        "chronology": [
+          {
+            "ts": "2026-07-15T16:58:00Z",
+            "event": "Message received by 1 recipient(s)",
+            "citation": "soar:incident=PH-3007;headers.date"
+          },
+          {
+            "ts": "2026-07-15T17:03:00Z",
+            "event": "Reported to SOC by h***@ourbank.com",
+            "citation": "soar:incident=PH-3007;report"
+          }
+        ],
+        "parties": {
+          "sender": "p***@0urbank.com",
+          "sender_display": "Payroll Department",
+          "reply_to": null,
+          "recipient_count": 1,
+          "reported_by": "h***@ourbank.com"
+        },
+        "indicators": [
+          {
+            "type": "auth-spf-fail",
+            "detail": "SPF result = fail",
+            "citation": "soar:incident=PH-3007;headers.authentication-results"
+          },
+          {
+            "type": "auth-dkim-none",
+            "detail": "DKIM result = none",
+            "citation": "soar:incident=PH-3007;headers.authentication-results"
+          },
+          {
+            "type": "auth-dmarc-fail",
+            "detail": "DMARC result = fail",
+            "citation": "soar:incident=PH-3007;headers.authentication-results"
+          },
+          {
+            "type": "lookalike-domain",
+            "detail": "0urbank.com mimics ourbank.com",
+            "citation": "soar:incident=PH-3007;headers.from"
+          },
+          {
+            "type": "display-impersonation",
+            "detail": "display name invokes 'payroll' from external domain 0urbank.com",
+            "citation": "soar:incident=PH-3007;headers.from-display"
+          }
+        ],
+        "amounts": null,
+        "citations": [
+          "soar:incident=PH-3007;headers.authentication-results",
+          "soar:incident=PH-3007;headers.from",
+          "soar:incident=PH-3007;headers.from-display",
+          "soar:incident=PH-3007;report"
+        ]
+      },
+      "recommended_containment": [],
+      "recommended_fraud_coordination": [],
+      "route_specialist": null,
+      "needs": [],
+      "linked_case_id": "PHBEC-PH-2900"
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "by_disposition": {
+      "recommend-bec-fraud": 1,
+      "recommend-credential-phishing": 1,
+      "recommend-malware-phishing": 1,
+      "recommend-suspicious": 1,
+      "recommend-benign": 1,
+      "needs-data": 1,
+      "possible-duplicate": 1
+    }
+  },
+  "standing_note": "Investigative recommendation only; no case has been closed, no determination is final, no message has been blocked or quarantined, no credential has been reset, and no payment has been recalled - every containment and fraud-coordination step requires human authorization."
+}

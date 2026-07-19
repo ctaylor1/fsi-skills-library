@@ -5,12 +5,14 @@ Enforces the R3 decision-support + Draft & package guardrails before a referral 
 presented:
   1. Only allowed recommendations are used (no fraud finding / denial / closure states).
   2. Every triggered indicator uses an APPROVED indicator id and carries evidence + citation.
-  3. score_band is consistent with indicator_score (+ prior-SIU override).
+  3. score_band is consistent with indicator_score (+ prior-SIU override), using the band
+     thresholds the engine recorded on the output (`indicator_config`), not hardcoded defaults.
   4. Each `refer-to-siu` referral carries a complete, cited referral_package AND a drafted
      referral_document containing all required template sections.
   5. Required human approvals are recorded as pending/required (never auto-approved).
-  6. No unsupported/unapproved-claim language: fraud finding, adverse decision, denial,
-     closure, or accusatory customer-facing text (defamation risk).
+  6. No unsupported/unapproved-claim language: an affirmative fraud finding (including plain
+     phrasings like "this is fraud" / "the claim is a fraud" / "is a fraudster"), adverse
+     decision, denial, closure, or accusatory customer-facing text (defamation risk).
   7. The standing note is present.
 
 Usage: python validate_output.py referral.json | --selftest
@@ -35,9 +37,17 @@ STANDING_NOTE = ("Draft fraud referral only; no fraud finding has been made, no 
 # Unsupported-claim / adverse-decision / closure language (fail closed).
 PROHIBITED_PATTERNS = [
     # affirmative fraud assertions only; the mandatory disclaimer language ("no fraud
-    # finding has been made", "not a determination of fraud") must be allowed to appear.
+    # finding has been made", "not a determination of fraud", "NOT a fraud finding") must be
+    # allowed to appear, so patterns target only affirmative findings, not negations.
     r"\bconfirmed fraud\b", r"\bfraud confirmed\b", r"\bis fraudulent\b",
     r"\bproven fraud\b", r"\bfound to have committed fraud\b", r"\bcommitted fraud\b",
+    # plain affirmative fraud findings (mirrors sibling claims skills); these are the
+    # unambiguous conclusions this draft-only skill must never state.
+    r"\bthis (claim )?is (a )?fraud\b", r"\b(the )?claim is (a )?fraud\b",
+    r"\bthis is (clearly|obviously|definitely) (a )?fraud\b",
+    r"\b(clearly|obviously|blatantly|plainly|definitely) (a )?fraud\b",
+    r"\b(clearly|obviously|blatantly|plainly) fraudulent\b",
+    r"\b(is|are) (a )?fraudsters?\b", r"\bfraud (finding|determination): (yes|confirmed|positive)\b",
     r"\bdeny (the )?claim\b", r"\bdenied the claim\b", r"\bclaim denied\b",
     r"\bclose (the )?claim\b", r"\bclaim closed\b", r"\bvoid the policy\b", r"\brescind\b",
     r"\bsiu accepted\b", r"\breferral accepted\b", r"\bno further action\b",
@@ -50,14 +60,31 @@ CUSTOMER_PATTERNS = [
 ]
 
 
+# Default band thresholds; MUST match calculate_or_transform.DEFAULT_CONFIG. Real outputs
+# carry the effective thresholds under `indicator_config`, so the band tie-out uses exactly
+# what the engine used (a non-default deployment config must not false-reject).
+DEFAULT_REFER_MIN = 6
+DEFAULT_MONITOR_MIN = 3
+
+
 def _expected_band(score, prior_siu, cfg):
     if score >= cfg["refer_min"] or prior_siu:
         return "Refer"
     return "Monitor" if score >= cfg["monitor_min"] else "Insufficient"
 
 
+def _resolve_cfg(doc: dict) -> dict:
+    """Read the effective band thresholds the engine recorded on the output (fall back to
+    the documented defaults when absent, e.g. legacy outputs with no indicator_config)."""
+    ic = doc.get("indicator_config") or {}
+    return {
+        "refer_min": int(ic.get("refer_min", DEFAULT_REFER_MIN)),
+        "monitor_min": int(ic.get("monitor_min", DEFAULT_MONITOR_MIN)),
+    }
+
+
 def validate(doc: dict, cfg=None) -> list[str]:
-    cfg = cfg or {"refer_min": 6, "monitor_min": 3}
+    cfg = cfg or _resolve_cfg(doc)
     errors: list[str] = []
     records = doc.get("referrals") or []
     if not records:

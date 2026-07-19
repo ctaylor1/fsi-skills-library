@@ -1,0 +1,102 @@
+{
+  "assessment_id": "tpr-V-5590-2026-07-15-9001",
+  "vendor_id": "V-5590",
+  "vendor_name": "LedgerBridge Payments (de-identified)",
+  "as_of": "2026-07-15",
+  "config_version": "tpr-cfg-2026.07-strict",
+  "framework_version": "tprm-framework-2026.2",
+  "config": {
+    "high_gap_count": 3,
+    "critical_control_domains": ["encryption", "access", "resilience"],
+    "high_dimension_count": 2
+  },
+  "dimensions": [
+    {
+      "dimension": "criticality",
+      "band": "High",
+      "severity": 2,
+      "fired": true,
+      "reason": "supports_critical_operation=True, substitutability=18d, annual_spend=1400000",
+      "evidence": [
+        {
+          "ref": "vendor=V-5590;profile=CRIT",
+          "citation": "tpr:vendor=V-5590;profile=CRIT@2026-07-15",
+          "value": {
+            "supports_critical_operation": true,
+            "substitutability_days": 18.0,
+            "annual_spend": 1400000.0
+          }
+        }
+      ],
+      "inputs": {
+        "substitutability_days": 18.0,
+        "annual_spend": 1400000.0
+      }
+    },
+    {
+      "dimension": "financial_condition",
+      "band": "High",
+      "severity": 2,
+      "fired": true,
+      "reason": "going_concern=False, credit_rating=BB, current_ratio=1.3, debt_to_equity=3.4, net_margin=-0.02",
+      "evidence": [
+        {
+          "ref": "vendor=V-5590;fin=FY2025",
+          "citation": "tpr:vendor=V-5590;fin=FY2025@2026-07-15",
+          "value": {
+            "going_concern_flag": false,
+            "credit_rating": "BB",
+            "current_ratio": 1.3,
+            "debt_to_equity": 3.4,
+            "net_margin": -0.02
+          }
+        }
+      ],
+      "inputs": {
+        "going_concern_flag": false,
+        "credit_rating": "BB",
+        "current_ratio": 1.3
+      }
+    },
+    {
+      "dimension": "concentration",
+      "band": "Low",
+      "severity": 0,
+      "fired": false,
+      "reason": "vendor_share_of_function=0.15, single_point_of_failure=False",
+      "evidence": [],
+      "inputs": {
+        "vendor_share_of_function": 0.15,
+        "single_point_of_failure": false
+      }
+    },
+    {
+      "dimension": "data",
+      "band": "Low",
+      "severity": 0,
+      "fired": false,
+      "reason": "classification=public, pii=False, records=0, cross_border=False",
+      "evidence": [],
+      "inputs": {
+        "classification": "public",
+        "pii": false,
+        "records_count": 0.0
+      }
+    }
+  ],
+  "material_findings": [
+    "criticality",
+    "financial_condition"
+  ],
+  "not_evaluable": [],
+  "evidence_gaps": [],
+  "suggested_risk_tier": "High",
+  "recommended_actions": [
+    "Confirm criticality tiering and substitutability with the business owner and reflect it in the vendor inventory.",
+    "Refresh the financial-condition review; route vendor financials to the financial-spreading-assistant. Factual solvency indicators only, not investment advice.",
+    "These are recommendations and evidence for the accountable third-party-risk committee to adjudicate; no vendor decision has been made."
+  ],
+  "disclaimer": "Assessment evidence and recommendations only; not an approval, rejection, or risk-acceptance decision. Human adjudication and sign-off are required before any onboarding, renewal, termination, or system-of-record change.",
+  "narrative": "Third-party risk assessment of vendor LedgerBridge Payments (V-5590) as of 2026-07-15. Two dimensions are High (criticality, financial condition). This pack was produced under a tightened config (high_dimension_count=2) but its suggested risk tier was left at High, understating the composite the configured threshold requires. This output presents evidence and recommendations; it does not decide vendor status.",
+  "notes": "Fail-closed fixture: the deployment config escalates to Critical at two High dimensions, so the deterministic tie-out must reject a suggested_risk_tier of High. Under the pre-fix validator (hard-coded high_dimension_count of 3) this understated tier tied out and passed."
+}

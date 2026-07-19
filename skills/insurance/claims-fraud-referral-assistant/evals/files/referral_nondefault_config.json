@@ -1,0 +1,125 @@
+{
+  "config_version": "claims-fraud-2026.06-deployX",
+  "indicator_config": {
+    "late_report_days": 30,
+    "early_loss_days": 60,
+    "post_increase_days": 30,
+    "claim_freq_min": 3,
+    "inconsistency_min": 2,
+    "weights": {
+      "FR-LATE-REPORT": 2,
+      "FR-EARLY-LOSS": 3,
+      "FR-POST-INCREASE": 3,
+      "FR-CLAIM-FREQ": 2,
+      "FR-NO-REPORT": 2,
+      "FR-DOC-GAP": 1,
+      "FR-INCONSISTENT": 2,
+      "FR-LAPSE-REINSTATE": 2,
+      "FR-PRIOR-SIU": 3
+    },
+    "refer_min": 4,
+    "monitor_min": 2
+  },
+  "referrals": [
+    {
+      "claim_id": "CLM-4001",
+      "referral_id": "FR-CLM-4001",
+      "citations": [
+        "claimsys:claim=CLM-4001"
+      ],
+      "indicators_triggered": [
+        {
+          "id": "FR-LATE-REPORT",
+          "weight": 2,
+          "evidence": "loss 2026-06-01 reported 2026-07-10 (39d > 30d)",
+          "citation": "claimsys:claim=CLM-4001"
+        },
+        {
+          "id": "FR-CLAIM-FREQ",
+          "weight": 2,
+          "evidence": "3 prior claims in 24m (>= 3)",
+          "citation": "claimsys:claim=CLM-4001"
+        }
+      ],
+      "indicator_score": 4,
+      "score_band": "Refer",
+      "referral_package": {
+        "referral_id": "FR-CLM-4001",
+        "claim_id": "CLM-4001",
+        "insured_masked": "*****1001",
+        "policy_ref": "POL-4001",
+        "peril": "theft",
+        "loss_date": "2026-06-01",
+        "report_date": "2026-07-10",
+        "chronology": [
+          {
+            "date": "2020-01-01",
+            "event": "Policy inception"
+          },
+          {
+            "date": "2026-06-01",
+            "event": "Date of loss"
+          },
+          {
+            "date": "2026-07-10",
+            "event": "Claim reported"
+          }
+        ],
+        "indicators": [
+          {
+            "id": "FR-LATE-REPORT",
+            "weight": 2,
+            "evidence": "loss 2026-06-01 reported 2026-07-10 (39d > 30d)",
+            "citation": "claimsys:claim=CLM-4001"
+          },
+          {
+            "id": "FR-CLAIM-FREQ",
+            "weight": 2,
+            "evidence": "3 prior claims in 24m (>= 3)",
+            "citation": "claimsys:claim=CLM-4001"
+          }
+        ],
+        "citations": [
+          "claimsys:claim=CLM-4001"
+        ],
+        "required_approvals": {
+          "adjuster_attestation": "pending",
+          "siu_intake_ack": "pending"
+        }
+      },
+      "referral_document": "# SIU Fraud Referral (DRAFT) \u2014 CLM-4001\n\nReferral ID: FR-CLM-4001  |  Referring adjuster: (to be recorded)  |  Status: DRAFT \u2014 pending human review\n\n## Claim Summary\n- Claim: CLM-4001\n- Insured (masked): *****1001\n- Policy: POL-4001\n- Peril: theft\n- Date of loss: 2026-06-01  |  Reported: 2026-07-10\n\n## Fraud Indicators Observed\nObserved indicators (red flags) only \u2014 not a determination of fraud.\n- **FR-LATE-REPORT** (weight 2): loss 2026-06-01 reported 2026-07-10 (39d > 30d)  \n  Source: `claimsys:claim=CLM-4001`\n- **FR-CLAIM-FREQ** (weight 2): 3 prior claims in 24m (>= 3)  \n  Source: `claimsys:claim=CLM-4001`\n\n## Chronology\n- 2020-01-01 \u2014 Policy inception\n- 2026-06-01 \u2014 Date of loss\n- 2026-07-10 \u2014 Claim reported\n\n## Supporting Evidence\nEvery indicator above is sourced to the claim system record cited inline. Primary record: `claimsys:claim=CLM-4001`.\n\n## Recommendation\nRouting recommendation: **refer-to-siu** (indicator score 4, band \"Refer\"). This is a routing\nrecommendation for SIU intake, NOT a fraud finding or a coverage/claim decision.\n\n## Required Human Approvals\n- Referring adjuster attestation: pending\n- SIU intake acknowledgment: pending\n\n## Limitations\nNo fraud finding has been made. No claim has been denied, closed, or otherwise decided, and no\nadverse customer action has been taken. SIU adjudication and any decision require human review.\n",
+      "needs": [],
+      "recommendation": "refer-to-siu",
+      "route": "Special Investigations Unit (human intake)"
+    },
+    {
+      "claim_id": "CLM-4002",
+      "referral_id": "FR-CLM-4002",
+      "citations": [
+        "claimsys:claim=CLM-4002"
+      ],
+      "indicators_triggered": [
+        {
+          "id": "FR-LATE-REPORT",
+          "weight": 2,
+          "evidence": "loss 2026-06-01 reported 2026-07-10 (39d > 30d)",
+          "citation": "claimsys:claim=CLM-4002"
+        }
+      ],
+      "indicator_score": 2,
+      "score_band": "Monitor",
+      "referral_package": null,
+      "referral_document": null,
+      "needs": [],
+      "recommendation": "monitor"
+    }
+  ],
+  "summary": {
+    "total": 2,
+    "refer_to_siu": 1,
+    "monitor": 1,
+    "insufficient": 0,
+    "needs_data": 0
+  },
+  "standing_note": "Draft fraud referral only; no fraud finding has been made, no claim has been denied or closed, and no adverse customer decision has been taken. SIU adjudication and any decision require human review."
+}

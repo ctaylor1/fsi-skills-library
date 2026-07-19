@@ -1,0 +1,40 @@
+{
+  "org_unit": "finance-erp",
+  "as_of": "2026-07-15",
+  "config_version": "iam-review-cfg-2026.07",
+  "config": {
+    "inactivity_days": 90,
+    "dormancy_days": 90,
+    "certification_interval_days": 365,
+    "max_entitlements": 15,
+    "sod_rules": [
+      ["ap_vendor_maintenance", "ap_payment_release"],
+      ["trade_execution", "trade_settlement"],
+      ["user_admin", "audit_log_admin"]
+    ]
+  },
+  "identities": [
+    {"user_id": "U-100", "display_name": "A. Rivera", "hr_status": "active", "department": "Finance"},
+    {"user_id": "U-101", "display_name": "B. Osei", "hr_status": "active", "department": "IT Security"},
+    {"user_id": "U-102", "display_name": "C. Nguyen", "hr_status": "terminated", "department": "Finance"},
+    {"user_id": "U-103", "display_name": "D. Fischer", "hr_status": "active", "department": "Sales"}
+  ],
+  "accounts": [
+    {"account_id": "A-1", "user_id": "U-100", "account_type": "human", "last_login": "2026-07-10", "mfa_enabled": true, "source_ref": "iam=erp;acct=A-1"},
+    {"account_id": "A-2", "user_id": "U-101", "account_type": "human", "last_login": "2026-07-12", "mfa_enabled": false, "source_ref": "iam=erp;acct=A-2"},
+    {"account_id": "A-3", "user_id": "U-102", "account_type": "human", "last_login": "2026-04-20", "mfa_enabled": true, "source_ref": "iam=erp;acct=A-3"},
+    {"account_id": "A-4", "user_id": "U-103", "account_type": "human", "last_login": "2026-01-05", "mfa_enabled": true, "source_ref": "iam=erp;acct=A-4"},
+    {"account_id": "A-5", "user_id": "U-999", "account_type": "service", "last_login": "2026-07-01", "mfa_enabled": false, "source_ref": "iam=erp;acct=A-5"},
+    {"account_id": "A-6", "user_id": "U-100", "account_type": "human", "last_login": "2026-02-01", "mfa_enabled": true, "source_ref": "iam=erp;acct=A-6"}
+  ],
+  "entitlements": [
+    {"grant_id": "G-1", "account_id": "A-1", "entitlement": "ap_vendor_maintenance", "privileged": true, "approval_ref": "AP-001", "last_certified": "2026-06-01", "source_ref": "iam=erp;grant=G-1"},
+    {"grant_id": "G-2", "account_id": "A-1", "entitlement": "ap_payment_release", "privileged": true, "approval_ref": "AP-002", "last_certified": "2026-06-01", "source_ref": "iam=erp;grant=G-2"},
+    {"grant_id": "G-3", "account_id": "A-2", "entitlement": "user_admin", "privileged": true, "approval_ref": "AP-010", "last_certified": "2026-06-15", "source_ref": "iam=erp;grant=G-3"},
+    {"grant_id": "G-4", "account_id": "A-3", "entitlement": "reporting_read", "privileged": false, "approval_ref": "AP-020", "last_certified": "2026-06-01", "source_ref": "iam=erp;grant=G-4"},
+    {"grant_id": "G-5", "account_id": "A-3", "entitlement": "db_admin", "privileged": true, "approval_ref": "AP-021", "last_certified": "2026-06-01", "source_ref": "iam=erp;grant=G-5"},
+    {"grant_id": "G-6", "account_id": "A-4", "entitlement": "crm_read", "privileged": false, "approval_ref": "AP-030", "last_certified": "2026-06-20", "source_ref": "iam=erp;grant=G-6"},
+    {"grant_id": "G-7", "account_id": "A-5", "entitlement": "batch_runner", "privileged": false, "approval_ref": "AP-040", "last_certified": "2024-01-01", "source_ref": "iam=erp;grant=G-7"},
+    {"grant_id": "G-8", "account_id": "A-6", "entitlement": "infra_admin", "privileged": true, "approval_ref": null, "last_certified": "2025-01-01", "source_ref": "iam=erp;grant=G-8"}
+  ]
+}

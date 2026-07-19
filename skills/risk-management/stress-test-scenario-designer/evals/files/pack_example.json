@@ -1,0 +1,178 @@
+{
+  "design_id": "sdp-DEMO-2026-07-15",
+  "as_of": "2026-07-15",
+  "config_version": "stress-cfg-2026.07",
+  "horizon_quarters": 9,
+  "binding_constraints": [
+    {
+      "metric": "cet1_ratio",
+      "direction": "min",
+      "limit": 4.5,
+      "starting_value": 11.9,
+      "unit": "pct"
+    },
+    {
+      "metric": "lcr",
+      "direction": "min",
+      "limit": 100.0,
+      "starting_value": 138.0,
+      "unit": "pct"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "baseline",
+      "severity": "baseline",
+      "severity_score": 0.0,
+      "shock_vector": {
+        "real_gdp_growth": 0.0,
+        "unemployment_rate": 0.0,
+        "hpi_change": 0.0,
+        "equity_index_change": 0.0,
+        "bbb_spread": 0.0
+      },
+      "impacts": [
+        {
+          "constraint": "cet1_ratio",
+          "impact_sum": 0.0,
+          "stressed_value": 11.9,
+          "limit": 4.5,
+          "direction": "min",
+          "distance_to_breach": 7.4,
+          "breached": false
+        },
+        {
+          "constraint": "lcr",
+          "impact_sum": 0.0,
+          "stressed_value": 138.0,
+          "limit": 100.0,
+          "direction": "min",
+          "distance_to_breach": 38.0,
+          "breached": false
+        }
+      ],
+      "transmission_channels": [
+        "macro consensus path feeds PPNR and credit costs at trend"
+      ],
+      "assumptions": [
+        "consensus macro forecast as of the reference date",
+        "no idiosyncratic shocks"
+      ],
+      "management_actions": [],
+      "coverage_gaps": [],
+      "plausibility_flags": [],
+      "components_missing": []
+    },
+    {
+      "name": "adverse",
+      "severity": "adverse",
+      "severity_score": 11.38,
+      "shock_vector": {
+        "real_gdp_growth": -3.0,
+        "unemployment_rate": 2.5,
+        "hpi_change": -12.0,
+        "equity_index_change": -30.0,
+        "bbb_spread": 200.0
+      },
+      "impacts": [
+        {
+          "constraint": "cet1_ratio",
+          "impact_sum": -2.38,
+          "stressed_value": 9.52,
+          "limit": 4.5,
+          "direction": "min",
+          "distance_to_breach": 5.02,
+          "breached": false
+        },
+        {
+          "constraint": "lcr",
+          "impact_sum": -9.0,
+          "stressed_value": 129.0,
+          "limit": 100.0,
+          "direction": "min",
+          "distance_to_breach": 29.0,
+          "breached": false
+        }
+      ],
+      "transmission_channels": [
+        "GDP contraction and rising unemployment raise PD/LGD and credit provisions (CET1)",
+        "widening BBB spreads compress AFS securities value and wholesale funding access (CET1, LCR)",
+        "equity drawdown reduces market-sensitive fee income and pledged-collateral value (LCR)"
+      ],
+      "assumptions": [
+        "moderate recession, one-year trough",
+        "no rating downgrade of the firm",
+        "deposits broadly stable"
+      ],
+      "management_actions": [
+        "suspend discretionary buybacks",
+        "tighten new-origination risk appetite"
+      ],
+      "coverage_gaps": [],
+      "plausibility_flags": [],
+      "components_missing": []
+    },
+    {
+      "name": "severely_adverse",
+      "severity": "severely_adverse",
+      "severity_score": 24.22,
+      "shock_vector": {
+        "real_gdp_growth": -5.5,
+        "unemployment_rate": 6.0,
+        "hpi_change": -30.0,
+        "equity_index_change": -55.0,
+        "bbb_spread": 450.0
+      },
+      "impacts": [
+        {
+          "constraint": "cet1_ratio",
+          "impact_sum": -5.22,
+          "stressed_value": 6.68,
+          "limit": 4.5,
+          "direction": "min",
+          "distance_to_breach": 2.18,
+          "breached": false
+        },
+        {
+          "constraint": "lcr",
+          "impact_sum": -19.0,
+          "stressed_value": 119.0,
+          "limit": 100.0,
+          "direction": "min",
+          "distance_to_breach": 19.0,
+          "breached": false
+        }
+      ],
+      "transmission_channels": [
+        "deep recession sharply lifts defaults and provisions across retail and wholesale books (CET1)",
+        "sharp spread widening drives AFS/OCI losses and funding stress (CET1, LCR)",
+        "equity and property collapse cut collateral values and trigger margin/redemption outflows (LCR)"
+      ],
+      "assumptions": [
+        "severe global recession",
+        "stressed but open funding markets",
+        "partial deposit runoff on uninsured balances"
+      ],
+      "management_actions": [
+        "halt distributions",
+        "activate contingency funding plan",
+        "draw committed liquidity facilities",
+        "de-risk trading inventory"
+      ],
+      "coverage_gaps": [],
+      "plausibility_flags": [],
+      "components_missing": []
+    }
+  ],
+  "severity_monotonic": true,
+  "reverse_stress": {
+    "scenario": "severely_adverse",
+    "constraint": "cet1_ratio",
+    "impact_sum": -5.22,
+    "scaling_multiple": 1.42,
+    "interpretation": "the severely_adverse shock vector would need to be amplified about 1.42x for cet1_ratio to reach its 4.5 limit"
+  },
+  "readiness_band": "Ready-for-review",
+  "disclaimer": "Scenario design evidence and recommendations only; not an approved stress scenario, a capital or liquidity decision, a set limit, or a regulatory submission. Human adjudication (risk committee / model risk / board) is required before adoption.",
+  "narrative": "Scenario design pack sdp-DEMO-2026-07-15 covers 3 scenarios (baseline, adverse, severely_adverse) over a 9-quarter horizon against 2 binding constraints (cet1_ratio, lcr). Impact-weighted severity increases monotonically across the ladder (0.00 -> 11.38 -> 24.22). Under severely_adverse, projected CET1 declines to 6.68% (distance to the 4.50% minimum: +2.18pp) and LCR to 119.0% (distance to the 100% minimum: +19.0pp); neither binding constraint is projected to be reached within full severity. Reverse stress on cet1_ratio produces a scaling multiple of 1.42x, i.e. the severely_adverse shock vector would need to be amplified about 1.42x for CET1 to reach its 4.50% minimum. Every shock lies within the documented plausibility bands and each scenario carries transmission channels, assumptions, and management actions, so the deterministic readiness band is Ready-for-review. These are design evidence and recommendations for the risk committee and model-risk function to challenge and adjudicate before any use."
+}

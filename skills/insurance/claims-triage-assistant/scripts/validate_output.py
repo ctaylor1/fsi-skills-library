@@ -5,7 +5,10 @@ Enforces the draft-and-package + R3 guardrails before a triage package is presen
 human review. It confirms the deliverable is a compliant DRAFT recommendation set, not a
 regulated decision:
   1. Allowed dispositions only (no decision / closure / assignment / filing states).
-  2. severity_band and urgency_band are consistent with their documented scores.
+  2. severity_band and urgency_band are consistent with their documented scores, tied out
+     against the SAME band cutoffs the engine used (pack defaults from calculate_or_transform's
+     DEFAULT_CONFIG, overridden by the effective triage_config recorded on the output — never
+     hardcoded, so the check tracks any config override the engine applied).
   3. Draft records carry every required template section, the DRAFT marker, and citations.
   4. Required human approvals are RECORDED (triage lead review + claims supervisor approval).
   5. No unsupported / unapproved claims: coverage determinations, claim approve/deny/pay/
@@ -52,16 +55,55 @@ SENT_PATTERNS = [
 ]
 
 
-def _expected_severity(score):
-    return "S1 (Complex)" if score >= 7 else "S2 (Moderate)" if score >= 3 else "S3 (Standard)"
+BAND_THRESHOLD_KEYS = ("s1_min", "s2_min", "u1_min", "u2_min")
 
 
-def _expected_urgency(score):
-    return "U1 (Immediate)" if score >= 5 else "U2 (Prompt)" if score >= 2 else "U3 (Routine)"
+def _pack_default_thresholds() -> dict:
+    """Band cutoffs from the engine's DEFAULT_CONFIG — the single source of truth.
+
+    Importing them (instead of duplicating 7/3, 5/2) guarantees the validator's expected
+    bands never drift from the engine when the pack's default config changes.
+    """
+    scripts_dir = str(Path(__file__).resolve().parent)
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    from calculate_or_transform import DEFAULT_CONFIG  # local import keeps module-top clean
+    return {k: DEFAULT_CONFIG[k] for k in BAND_THRESHOLD_KEYS}
+
+
+DEFAULT_THRESHOLDS = _pack_default_thresholds()
+
+
+def _effective_thresholds(doc: dict) -> dict:
+    """The band cutoffs the engine actually used for this output.
+
+    Start from the pack defaults, then apply the effective triage_config the engine records
+    on its output. Only well-formed integer overrides are honoured; a malformed/absent value
+    falls back to the default so a crafted output cannot silently disable the tie-out.
+    """
+    cfg = dict(DEFAULT_THRESHOLDS)
+    override = doc.get("triage_config")
+    if isinstance(override, dict):
+        for k in BAND_THRESHOLD_KEYS:
+            v = override.get(k)
+            if isinstance(v, int) and not isinstance(v, bool):
+                cfg[k] = v
+    return cfg
+
+
+def _expected_severity(score, cfg):
+    return ("S1 (Complex)" if score >= cfg["s1_min"]
+            else "S2 (Moderate)" if score >= cfg["s2_min"] else "S3 (Standard)")
+
+
+def _expected_urgency(score, cfg):
+    return ("U1 (Immediate)" if score >= cfg["u1_min"]
+            else "U2 (Prompt)" if score >= cfg["u2_min"] else "U3 (Routine)")
 
 
 def validate(doc: dict) -> list[str]:
     errors: list[str] = []
+    cfg = _effective_thresholds(doc)
     records = doc.get("triage") or []
     if not records:
         return ["triage output has no records"]
@@ -73,11 +115,11 @@ def validate(doc: dict) -> list[str]:
             errors.append(f"{cid}: disallowed disposition {disp!r} (decision/closure/assignment not permitted in triage)")
 
         ss = r.get("severity_score")
-        if ss is not None and r.get("severity_band") != _expected_severity(ss):
-            errors.append(f"{cid}: severity_band {r.get('severity_band')!r} != expected {_expected_severity(ss)!r} for score {ss}")
+        if ss is not None and r.get("severity_band") != _expected_severity(ss, cfg):
+            errors.append(f"{cid}: severity_band {r.get('severity_band')!r} != expected {_expected_severity(ss, cfg)!r} for score {ss}")
         us = r.get("urgency_score")
-        if us is not None and r.get("urgency_band") != _expected_urgency(us):
-            errors.append(f"{cid}: urgency_band {r.get('urgency_band')!r} != expected {_expected_urgency(us)!r} for score {us}")
+        if us is not None and r.get("urgency_band") != _expected_urgency(us, cfg):
+            errors.append(f"{cid}: urgency_band {r.get('urgency_band')!r} != expected {_expected_urgency(us, cfg)!r} for score {us}")
 
         if disp in ("draft-ready", "refer-specialist"):
             ds = r.get("draft_summary") or {}

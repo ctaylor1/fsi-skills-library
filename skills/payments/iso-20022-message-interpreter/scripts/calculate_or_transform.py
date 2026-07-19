@@ -149,7 +149,7 @@ def classify(mt: str) -> dict:
 def interpret(doc: dict) -> dict:
     mt = str(doc.get("message_type", ""))
     cls = classify(mt)
-    short = ".".join(mt.split(".")[:2])
+    ".".join(mt.split(".")[:2])
     gh = doc.get("group_header") or {}
     txs = doc.get("transactions") or []
 

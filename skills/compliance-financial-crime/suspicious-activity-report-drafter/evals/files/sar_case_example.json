@@ -1,0 +1,78 @@
+{
+  "config_version": "sar-2026.07",
+  "template_version": "sar-package-v1",
+  "jurisdiction": "US",
+  "case_id": "SAR-2026-0100",
+  "case_approved_for_sar": true,
+  "approving_investigation": "TM-CASE-5521",
+  "subject_masking": true,
+  "filing_context": {
+    "filing_type": "initial",
+    "prior_sar_ref": null,
+    "activity_detected_date": "2026-06-12",
+    "regulatory_deadline_days": 30
+  },
+  "subjects": [
+    {"subject_ref": "SUBJ-1", "role": "primary", "type": "individual",
+     "name_masked": "J**** D**", "identifiers_masked": ["SSN ***-**-1234", "DOB 19**-0*-**"],
+     "relationship": "accountholder"},
+    {"subject_ref": "SUBJ-2", "role": "counterparty", "type": "entity",
+     "name_masked": "A**** Trading LLC", "identifiers_masked": ["EIN **-***4471"],
+     "relationship": "wire beneficiary"}
+  ],
+  "accounts_instruments": [
+    {"account_ref": "****3300", "type": "personal-checking", "instruments": ["cash-deposit", "outbound-wire"]}
+  ],
+  "activity": {
+    "period": {"from": "2026-05-01", "to": "2026-06-10"},
+    "aggregate_amount": 486500,
+    "currency": "USD",
+    "transaction_count": 7
+  },
+  "transactions": [
+    {"txn_id": "T1", "date": "2026-05-01", "amount": 9800, "instrument": "cash-deposit",
+     "subject_ref": "SUBJ-1", "counterparty_ref": null, "source_ref": "txns:acct=****3300;txnid=T1@2026-05-01"},
+    {"txn_id": "T2", "date": "2026-05-03", "amount": 9700, "instrument": "cash-deposit",
+     "subject_ref": "SUBJ-1", "counterparty_ref": null, "source_ref": "txns:acct=****3300;txnid=T2@2026-05-03"},
+    {"txn_id": "T3", "date": "2026-05-08", "amount": 9900, "instrument": "cash-deposit",
+     "subject_ref": "SUBJ-1", "counterparty_ref": null, "source_ref": "txns:acct=****3300;txnid=T3@2026-05-08"},
+    {"txn_id": "T4", "date": "2026-05-15", "amount": 9600, "instrument": "cash-deposit",
+     "subject_ref": "SUBJ-1", "counterparty_ref": null, "source_ref": "txns:acct=****3300;txnid=T4@2026-05-15"},
+    {"txn_id": "T5", "date": "2026-05-22", "amount": 9500, "instrument": "cash-deposit",
+     "subject_ref": "SUBJ-1", "counterparty_ref": null, "source_ref": "txns:acct=****3300;txnid=T5@2026-05-22"},
+    {"txn_id": "T6", "date": "2026-06-01", "amount": 218000, "instrument": "outbound-wire",
+     "subject_ref": "SUBJ-1", "counterparty_ref": "SUBJ-2", "source_ref": "txns:acct=****3300;txnid=T6@2026-06-01"},
+    {"txn_id": "T7", "date": "2026-06-10", "amount": 220000, "instrument": "outbound-wire",
+     "subject_ref": "SUBJ-1", "counterparty_ref": "SUBJ-2", "source_ref": "txns:acct=****3300;txnid=T7@2026-06-10"}
+  ],
+  "typologies": [
+    {"code": "STRUCTURING", "observed_indicators": ["sub-threshold-cash", "rapid-succession"]},
+    {"code": "FUNNEL-ACCOUNT", "observed_indicators": ["multi-source-in", "single-out", "geographic-dispersion"]}
+  ],
+  "typology_library": {
+    "STRUCTURING": {"label": "Structuring / sub-threshold cash deposits",
+                    "required_indicators": ["sub-threshold-cash", "rapid-succession"]},
+    "FUNNEL-ACCOUNT": {"label": "Funnel account (aggregate-in, wire-out)",
+                       "required_indicators": ["multi-source-in", "single-out"]}
+  },
+  "narrative_inputs": {
+    "who": "The primary subject (SUBJ-1, masked), the personal-checking accountholder, and the wire beneficiary A**** Trading LLC (SUBJ-2, masked).",
+    "what": "Five sub-threshold cash deposits totaling USD 48,500 followed by two outbound wires totaling USD 438,000 to a single entity beneficiary, aggregating USD 486,500.",
+    "when": "Between 2026-05-01 and 2026-06-10.",
+    "where": "Personal-checking account ****3300 at the reporting institution; wires directed to A**** Trading LLC.",
+    "why": "The cash deposits are individually below the USD 10,000 CTR threshold and clustered in rapid succession, and the account aggregates deposits then wires the balance out to a single counterparty, consistent with structuring and funnel-account typologies.",
+    "how": "Cash was deposited in five amounts between USD 9,500 and USD 9,900 across 22 days, then moved out in two wires within 10 days, leaving a near-zero balance."
+  },
+  "evidence": [
+    {"fact": "Five cash deposits each between USD 9,500 and USD 9,900 within 22 days.", "citation": "txns:acct=****3300;deposits@2026-05"},
+    {"fact": "Two outbound wires of USD 218,000 and USD 220,000 to A**** Trading LLC.", "citation": "txns:acct=****3300;wires@2026-06"},
+    {"fact": "No CTR was triggered because each cash deposit was below USD 10,000.", "citation": "tmcase:TM-CASE-5521;ctr-check@2026-06-11"},
+    {"fact": "Beneficiary A**** Trading LLC has no prior relationship or expected activity on file.", "citation": "kyc:cust=SUBJ-1;expected-activity@2026-06-11"}
+  ],
+  "investigation_rationale": {
+    "summary": "The transaction-monitoring investigation (TM-CASE-5521) found sub-threshold cash deposits aggregated and wired out to an unrelated entity with no documented business purpose, inconsistent with the accountholder's expected activity. The pattern is consistent with structuring and funnel-account movement of funds.",
+    "citations": ["tmcase:TM-CASE-5521;findings@2026-06-12", "kyc:cust=SUBJ-1;profile@2026-06-11"]
+  },
+  "required_approvals": ["SAR quality reviewer", "MLRO / BSA Officer"],
+  "recorded_approvals": []
+}

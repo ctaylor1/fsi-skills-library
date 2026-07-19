@@ -4,7 +4,8 @@
 Validates the final review pack (the calculate_or_transform core + a narrative) before it is
 presented or delivered. Checks:
   1. Every fired finding has >= 1 cited evidence row.
-  2. suggested_disposition equals the deterministic mapping from the fired findings.
+  2. suggested_disposition equals the deterministic mapping from the fired findings, using the
+     SAME escalate_finding_count the engine used (stamped into the pack; engine default if absent).
   3. No valuation sign-off / override-approval / fair-value-determination / posting language
      (narrative + finding reasons + notes).
   4. The standing disclaimer is present.
@@ -18,7 +19,17 @@ from __future__ import annotations
 import json, re, sys
 from pathlib import Path
 
-ESCALATE_FINDING_COUNT = 4  # matches DEFAULT_CONFIG in calculate_or_transform.py
+# Single source of truth for the escalation threshold's DEFAULT: the engine's DEFAULT_CONFIG.
+# The engine (calculate_or_transform.compute) resolves escalate_finding_count from the record's
+# config and stamps the value it used into the pack; this validator reads that stamped value
+# (see _escalate_count) so the two never diverge. This default is only a fall-back for packs
+# that predate the stamp.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from calculate_or_transform import DEFAULT_CONFIG
+    DEFAULT_ESCALATE_FINDING_COUNT = int(DEFAULT_CONFIG["escalate_finding_count"])
+except Exception:  # pragma: no cover - defensive fallback if the engine module is unavailable
+    DEFAULT_ESCALATE_FINDING_COUNT = 4
 DISCLAIMER = ("Valuation review evidence only; not a valuation sign-off, override approval, "
               "or fair-value determination. No value has been posted or approved.")
 # Affirmative determination / approval / posting assertions that R2 must not make.
@@ -40,9 +51,24 @@ DETERMINATION_PATTERNS = [
 ]
 
 
-def _expected_disposition(findings: list[dict]) -> str:
+def _escalate_count(pack: dict) -> int:
+    """The escalation threshold the engine used, read from the pack.
+
+    Falls back to the engine default when the pack does not carry the stamp, and fails closed
+    to that default on a non-integer / non-positive value (a malformed or tampered threshold
+    must never silently relax escalation)."""
+    if "escalate_finding_count" not in pack:
+        return DEFAULT_ESCALATE_FINDING_COUNT
+    try:
+        n = int(pack["escalate_finding_count"])
+    except (TypeError, ValueError):
+        return DEFAULT_ESCALATE_FINDING_COUNT
+    return n if n >= 1 else DEFAULT_ESCALATE_FINDING_COUNT
+
+
+def _expected_disposition(findings: list[dict], escalate_count: int) -> str:
     fired = [f for f in findings if f.get("fired")]
-    if any((f.get("severity") == "high") for f in fired) or len(fired) >= ESCALATE_FINDING_COUNT:
+    if any((f.get("severity") == "high") for f in fired) or len(fired) >= escalate_count:
         return "Escalate"
     return "Findings raised" if fired else "Pass with observations"
 
@@ -60,7 +86,7 @@ def validate(pack: dict) -> list[str]:
                 if not (row.get("citation") or "").strip():
                     errors.append(f"fired finding {f.get('check')} evidence row missing citation")
 
-    exp = _expected_disposition(findings)
+    exp = _expected_disposition(findings, _escalate_count(pack))
     if pack.get("suggested_disposition") != exp:
         errors.append(f"suggested_disposition {pack.get('suggested_disposition')!r} != deterministic {exp!r}")
 

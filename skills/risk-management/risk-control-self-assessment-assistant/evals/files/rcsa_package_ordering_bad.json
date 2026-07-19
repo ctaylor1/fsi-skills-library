@@ -1,0 +1,79 @@
+{
+  "template_id": "RCSA-PKG-v1",
+  "config_version": "rcsa-2026.07",
+  "_note": "NON-COMPLIANT fixture: reproduces the order-dependent masking bypass. An Ineffective control (C-ORD-INEFF) is mapped after an Unsubstantiated control on a within-appetite risk, and remediation_required is left false with an empty remediation_plan. Every OTHER validate_output check passes, so before the fail-closed fix this validated (exit 0); after the fix it must be rejected (exit 1).",
+  "sections": {
+    "assessment_scope": {
+      "entity": "Retail Payments Operations",
+      "assessment_period": {"from": "2026-01-01", "to": "2026-06-30"},
+      "as_of_date": "2026-07-15",
+      "risk_appetite": "Medium",
+      "scoring_config_version": "rcsa-2026.07"
+    },
+    "risk_and_control_assessment": [
+      {
+        "risk_id": "R-ORD",
+        "statement": "Ordering regression: an unevidenced control is mapped ahead of a failing control on a low-inherent risk.",
+        "category": "Operational - Process Execution",
+        "inherent_impact": 2,
+        "inherent_likelihood": 2,
+        "inherent_score": 4,
+        "inherent_level": 1,
+        "inherent_band": "Low",
+        "controls": [
+          {
+            "control_id": "C-ORD-UNSUB",
+            "description": "Rated Effective but unevidenced, downgraded to Unsubstantiated.",
+            "control_type": "Preventive",
+            "design_rating": "Effective",
+            "operating_rating": "Effective",
+            "overall_effectiveness": "Unsubstantiated",
+            "evidence": []
+          },
+          {
+            "control_id": "C-ORD-INEFF",
+            "description": "Secondary review control that failed testing; design is Ineffective.",
+            "control_type": "Detective",
+            "design_rating": "Ineffective",
+            "operating_rating": "Effective",
+            "overall_effectiveness": "Ineffective",
+            "evidence": [
+              {"type": "control-test", "ref": "CT-2026-Q2-099", "date": "2026-06-28", "result": "9/20 sampled overrides had no secondary review; control not operating"}
+            ]
+          }
+        ],
+        "overall_control_effectiveness": "Unsubstantiated",
+        "control_effect_reduction": 0,
+        "residual_level": 1,
+        "residual_band": "Low",
+        "within_appetite": true,
+        "remediation_required": false,
+        "challenges": [
+          "C-ORD-UNSUB: rated but unevidenced -> not credited (evidence gap); confirm with a control test or attestation"
+        ],
+        "needs": ["evidence for C-ORD-UNSUB"]
+      }
+    ],
+    "residual_risk_summary": {
+      "total_risks": 1,
+      "by_residual_band": {"Low": 1, "Medium": 0, "High": 0, "Critical": 0},
+      "above_appetite": 0,
+      "remediation_items": 0,
+      "evidence_gaps": 1,
+      "risk_appetite": "Medium"
+    },
+    "evidence_map": [
+      {"risk_id": "R-ORD", "control_id": "C-ORD-INEFF", "type": "control-test", "ref": "CT-2026-Q2-099", "date": "2026-06-28", "result": "9/20 sampled overrides had no secondary review; control not operating"}
+    ],
+    "challenges_and_gaps": [
+      {"risk_id": "R-ORD", "challenge": "C-ORD-UNSUB: rated but unevidenced -> not credited (evidence gap); confirm with a control test or attestation"}
+    ],
+    "remediation_plan": [],
+    "approvals": [
+      {"role": "Control / process owner (accuracy attestation)", "status": "pending", "approver": null, "date": null},
+      {"role": "First-line business management (assessment sign-off)", "status": "pending", "approver": null, "date": null},
+      {"role": "Second-line operational risk (independent challenge / validation)", "status": "pending", "approver": null, "date": null}
+    ]
+  },
+  "standing_note": "DRAFT RCSA prepared for first-line and independent human review only. No assessment sign-off, independent challenge, control attestation, or risk-acceptance decision has been completed by this assistant, and nothing has been written to the GRC system of record."
+}

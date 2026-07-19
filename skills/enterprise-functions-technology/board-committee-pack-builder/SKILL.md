@@ -105,8 +105,10 @@ reconciled.
 Run `validate_input` before and [scripts/validate_output.py](scripts/validate_output.py)
 after. The output check enforces: all required sections present; `unsupported_claims` empty
 and every content item cited; every `requires_approval` decision recorded in the approvals
-register; no decision presented as approved without a named human approver; `status` is
-`draft` with no send/submit/distribute/finalize language; standing DRAFT note present.
+register; no decision presented as decided — any status other than a recognized non-decided
+state such as `proposed`/`pending` — without a named human approver (allowlist, fails closed
+on paraphrased wording); `status` is `draft` with no send/submit/distribute/finalize
+language; standing DRAFT note present.
 Fail closed on any miss.
 
 ## Human approval

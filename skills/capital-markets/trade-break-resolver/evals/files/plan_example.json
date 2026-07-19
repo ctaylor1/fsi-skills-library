@@ -1,0 +1,61 @@
+{
+  "plan_id": "PLAN-BRK-70241",
+  "status": "planned",
+  "break_id": "BRK-70241",
+  "trade_id": "TRD-88231",
+  "break_type": "mis_booked_account",
+  "catalog_version": "trade-repair-catalog-2026.05",
+  "repair": "rebook_trade",
+  "amount": 750000.0,
+  "target": "EQ-DESK-B",
+  "authority_limit": 5000000,
+  "reversible": true,
+  "preconditions": [
+    "trade is booked to EQ-DESK-A for notional 750000.0",
+    "book EQ-DESK-B is open for the corrected trade"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "cancel_source_booking",
+      "idempotency_key": "bf9d95405bfc8d28",
+      "precondition": "trade is booked to EQ-DESK-A for notional 750000.0",
+      "expected_effect": "remove 750000.0 notional from EQ-DESK-A",
+      "effect_amount": 750000.0,
+      "verification": "EQ-DESK-A exposure decreased by 750000.0",
+      "rollback": "re-book 750000.0 notional to EQ-DESK-A",
+      "post_delta": {
+        "EQ-DESK-A": -750000.0
+      }
+    },
+    {
+      "step_id": "S2",
+      "action": "rebook_target",
+      "idempotency_key": "e2dc0f13b084d56b",
+      "precondition": "book EQ-DESK-B is open for the corrected trade",
+      "expected_effect": "book 750000.0 notional to EQ-DESK-B",
+      "effect_amount": 750000.0,
+      "verification": "EQ-DESK-B exposure increased by 750000.0",
+      "rollback": "reverse the 750000.0 booking on EQ-DESK-B",
+      "post_delta": {
+        "EQ-DESK-B": 750000.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "EQ-DESK-A": -750000.0,
+    "EQ-DESK-B": 750000.0
+  },
+  "plan_hash": "2a9986bd3a3d7edfab6d1a7651319e6a6a8515a95c43327dc51faf2edd78995e",
+  "approval": {
+    "required_role": "trade-support-supervisor",
+    "status": "pending",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

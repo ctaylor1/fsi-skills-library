@@ -21,8 +21,10 @@
 ## Required output screens (`scripts/validate_output.py`)
 
 - `status` is `proposed`; `requires_adjudication` is `true`; an adjudication owner is named.
-- `computed_materiality_tier` equals the deterministic rubric applied to the recorded
-  `materiality_tie_out.factors`.
+- `computed_materiality_tier` equals the deterministic rubric — the effective thresholds the
+  compute step recorded in `materiality_tie_out.config` (strict defaults when none is echoed)
+  — applied to the recorded `materiality_tie_out.factors`. A configured, non-default rubric
+  ties out to itself, not to the hardcoded default.
 - Every finding has ≥1 cited evidence row (non-empty citation) — evidence traceability.
 - Every reconciliation break is typed from the taxonomy
   (`missing_in_inventory` / `missing_in_source` / `value_mismatch` / `stale`).

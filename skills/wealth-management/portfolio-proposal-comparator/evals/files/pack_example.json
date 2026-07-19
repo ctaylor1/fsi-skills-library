@@ -1,0 +1,267 @@
+{
+  "comparison_id": "ppc-4321-2026-07-15-0001",
+  "client_id": "****4321",
+  "as_of": "2026-07-15",
+  "config_version": "ppc-cfg-2026.07",
+  "stated_objective": "growth",
+  "assumptions": {
+    "config": {
+      "concentration_issuer_max": 0.25,
+      "concentration_sector_max": 0.4,
+      "illiquid_max_pct": 0.15,
+      "assumed_tax_rate": 0.2,
+      "assumed_gain_fraction": 0.5,
+      "cost_dispersion_bps": 20.0
+    },
+    "notes": [
+      "Tax-drag is an ESTIMATE = assumed_turnover x assumed_gain_fraction x assumed_tax_rate; it is not personalized tax advice.",
+      "Costs are shown gross of any account-level fee waivers or negotiated discounts.",
+      "Risk is represented by stated allocation and concentration, not a forward return or volatility forecast; no outcome is guaranteed.",
+      "Broad/diversified funds are excluded from single-issuer and single-sector limits (look-through diversification).",
+      "Comparison is even-handed: no proposal is scored, ranked, or selected."
+    ]
+  },
+  "proposals": [
+    {
+      "proposal_id": "P-A",
+      "label": "Proposal A - Core Index",
+      "objective": "growth",
+      "source_ref": "oms=orion;proposal=P-A",
+      "metrics": {
+        "weight_sum": 1.0,
+        "expense_weighted_bps": 4.1,
+        "advisory_fee_bps": 50.0,
+        "total_cost_bps": 54.1,
+        "tax_cost_estimate_bps": 50.0,
+        "allocation": {
+          "equity": 0.7,
+          "fixed_income": 0.3
+        },
+        "max_issuer": "",
+        "max_issuer_weight": 0.0,
+        "max_sector": "",
+        "max_sector_weight": 0.0,
+        "illiquid_pct": 0,
+        "proprietary_pct": 0,
+        "revenue_sharing": false,
+        "surrender_period_months": 0
+      }
+    },
+    {
+      "proposal_id": "P-B",
+      "label": "Proposal B - Concentrated Growth + Alts",
+      "objective": "growth",
+      "source_ref": "oms=orion;proposal=P-B",
+      "metrics": {
+        "weight_sum": 1.0,
+        "expense_weighted_bps": 46.25,
+        "advisory_fee_bps": 90.0,
+        "total_cost_bps": 136.25,
+        "tax_cost_estimate_bps": 350.0,
+        "allocation": {
+          "equity": 0.55,
+          "alternatives": 0.2,
+          "fixed_income": 0.25
+        },
+        "max_issuer": "MegaTech Inc",
+        "max_issuer_weight": 0.3,
+        "max_sector": "technology",
+        "max_sector_weight": 0.55,
+        "illiquid_pct": 0.2,
+        "proprietary_pct": 0.25,
+        "revenue_sharing": true,
+        "surrender_period_months": 84.0
+      }
+    }
+  ],
+  "matrix": {
+    "total_cost_bps": {
+      "P-A": 54.1,
+      "P-B": 136.25
+    },
+    "expense_weighted_bps": {
+      "P-A": 4.1,
+      "P-B": 46.25
+    },
+    "advisory_fee_bps": {
+      "P-A": 50.0,
+      "P-B": 90.0
+    },
+    "tax_cost_estimate_bps": {
+      "P-A": 50.0,
+      "P-B": 350.0
+    },
+    "max_issuer_weight": {
+      "P-A": 0.0,
+      "P-B": 0.3
+    },
+    "max_sector_weight": {
+      "P-A": 0.0,
+      "P-B": 0.55
+    },
+    "illiquid_pct": {
+      "P-A": 0,
+      "P-B": 0.2
+    },
+    "proprietary_pct": {
+      "P-A": 0,
+      "P-B": 0.25
+    },
+    "revenue_sharing": {
+      "P-A": false,
+      "P-B": true
+    },
+    "surrender_period_months": {
+      "P-A": 0,
+      "P-B": 84.0
+    },
+    "objective": {
+      "P-A": "growth",
+      "P-B": "growth"
+    },
+    "alloc_alternatives": {
+      "P-A": 0.0,
+      "P-B": 0.2
+    },
+    "alloc_equity": {
+      "P-A": 0.7,
+      "P-B": 0.55
+    },
+    "alloc_fixed_income": {
+      "P-A": 0.3,
+      "P-B": 0.25
+    }
+  },
+  "flags": [
+    {
+      "flag": "concentration_issuer",
+      "dimension": "concentration",
+      "proposal_id": "P-B",
+      "reason": "single-issuer weight 30.00% in MegaTech Inc exceeds limit 25.00%",
+      "evidence": [
+        {
+          "holding_id": "H-B1",
+          "name": "MegaTech Inc Common Stock",
+          "weight": 0.3,
+          "issuer": "MegaTech Inc",
+          "sector": "technology",
+          "citation": "proposal:P-B;holdingid=H-B1"
+        }
+      ]
+    },
+    {
+      "flag": "concentration_sector",
+      "dimension": "concentration",
+      "proposal_id": "P-B",
+      "reason": "single-sector weight 55.00% in technology exceeds limit 40.00%",
+      "evidence": [
+        {
+          "holding_id": "H-B1",
+          "name": "MegaTech Inc Common Stock",
+          "weight": 0.3,
+          "issuer": "MegaTech Inc",
+          "sector": "technology",
+          "citation": "proposal:P-B;holdingid=H-B1"
+        },
+        {
+          "holding_id": "H-B2",
+          "name": "House Proprietary Growth Fund (A shares)",
+          "weight": 0.25,
+          "issuer": "House Asset Mgmt",
+          "sector": "technology",
+          "citation": "proposal:P-B;holdingid=H-B2"
+        }
+      ]
+    },
+    {
+      "flag": "liquidity",
+      "dimension": "liquidity",
+      "proposal_id": "P-B",
+      "reason": "illiquid weight 20.00% exceeds limit 15.00%",
+      "evidence": [
+        {
+          "holding_id": "H-B3",
+          "name": "Private Real Estate Interval Fund",
+          "weight": 0.2,
+          "issuer": "Private REIT LLC",
+          "sector": "real_estate",
+          "citation": "proposal:P-B;holdingid=H-B3"
+        }
+      ]
+    },
+    {
+      "flag": "conflict_proprietary",
+      "dimension": "conflicts",
+      "proposal_id": "P-B",
+      "reason": "proprietary product weight 25.00% present (potential conflict of interest for advisor review)",
+      "evidence": [
+        {
+          "holding_id": "H-B2",
+          "name": "House Proprietary Growth Fund (A shares)",
+          "weight": 0.25,
+          "issuer": "House Asset Mgmt",
+          "sector": "technology",
+          "citation": "proposal:P-B;holdingid=H-B2"
+        }
+      ]
+    },
+    {
+      "flag": "conflict_revenue_sharing",
+      "dimension": "conflicts",
+      "proposal_id": "P-B",
+      "reason": "proposal carries revenue-sharing arrangements (disclose and adjudicate)",
+      "evidence": [
+        {
+          "proposal_id": "P-B",
+          "label": "Proposal B - Concentrated Growth + Alts",
+          "revenue_sharing": true,
+          "citation": "proposal:P-B;oms=orion;proposal=P-B"
+        }
+      ]
+    },
+    {
+      "flag": "conflict_share_class",
+      "dimension": "conflicts",
+      "proposal_id": "P-B",
+      "reason": "holding(s) use a costlier share class when a cheaper one is available",
+      "evidence": [
+        {
+          "holding_id": "H-B2",
+          "name": "House Proprietary Growth Fund (A shares)",
+          "weight": 0.25,
+          "issuer": "House Asset Mgmt",
+          "sector": "technology",
+          "citation": "proposal:P-B;holdingid=H-B2"
+        }
+      ]
+    },
+    {
+      "flag": "cost_dispersion",
+      "dimension": "costs",
+      "proposal_id": "P-B",
+      "reason": "total cost 136.25 bps exceeds cheapest proposal P-A (54.10 bps) by more than 20 bps",
+      "evidence": [
+        {
+          "proposal_id": "P-B",
+          "total_cost_bps": 136.25,
+          "cheapest_proposal_id": "P-A",
+          "cheapest_total_cost_bps": 54.1,
+          "citation": "proposal:P-B;cost-comparison"
+        }
+      ]
+    }
+  ],
+  "not_evaluable": [],
+  "adjudication_items": [
+    "P-B: concentration_issuer \u2014 single-issuer weight 30.00% in MegaTech Inc exceeds limit 25.00%",
+    "P-B: concentration_sector \u2014 single-sector weight 55.00% in technology exceeds limit 40.00%",
+    "P-B: liquidity \u2014 illiquid weight 20.00% exceeds limit 15.00%",
+    "P-B: conflict_proprietary \u2014 proprietary product weight 25.00% present (potential conflict of interest for advisor review)",
+    "P-B: conflict_revenue_sharing \u2014 proposal carries revenue-sharing arrangements (disclose and adjudicate)",
+    "P-B: conflict_share_class \u2014 holding(s) use a costlier share class when a cheaper one is available",
+    "P-B: cost_dispersion \u2014 total cost 136.25 bps exceeds cheapest proposal P-A (54.10 bps) by more than 20 bps"
+  ],
+  "adjudication_required": true,
+  "disclaimer": "Comparison and evidence only; not investment, tax, or suitability advice and not a recommendation to select any proposal. A licensed human must review before any client discussion or action; no trade has been placed and no system of record has been updated.",
+  "narrative": "Comparison ppc-4321-2026-07-15-0001 places Proposal A (Core Index) and Proposal B (Concentrated Growth + Alts) side by side for the client stated growth objective, as of 2026-07-15, using config ppc-cfg-2026.07. On cost, Proposal A totals 54.10 bps versus 136.25 bps for Proposal B; estimated tax drag is 50 bps versus 350 bps under the stated approved assumptions. Proposal B surfaces seven items for advisor adjudication: single-issuer concentration (MegaTech Inc 30%), technology-sector concentration (55%), illiquid weight (20%), a proprietary holding (25%), revenue-sharing, a costlier share class where a cheaper one exists, and materially higher total cost. Proposal A surfaces none against the configured thresholds. These are differences and flags for a licensed human to weigh against the full client profile; the trade-offs, for example the role of the private real estate sleeve or the concentrated equity position, are for that reviewer to judge. Comparison and evidence only; not investment, tax, or suitability advice and not a recommendation to select any proposal. A licensed human must review before any client discussion or action; no trade has been placed and no system of record has been updated."
+}

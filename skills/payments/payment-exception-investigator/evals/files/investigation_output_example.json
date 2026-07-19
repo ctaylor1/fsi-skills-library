@@ -1,0 +1,656 @@
+{
+  "config_version": "pei-2026.07",
+  "reason_code_set_version": "iso-extcodes-2026.05",
+  "priority_thresholds": {
+    "p1_min": 6,
+    "p2_min": 3
+  },
+  "investigations": [
+    {
+      "exception_id": "EX-3001",
+      "case_id": "PEI-EX-3001",
+      "priority_score": 4,
+      "priority_band": "P2 (Standard)",
+      "priority_reason": "amount>=10000 +1; scheme SEPA +1; aging 3d +1; severity rejected +1",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-70011",
+        "pacs008=PMT-3001@2026-07-14",
+        "pacs002=STS-3001@2026-07-15"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-3001",
+        "exception_id": "EX-3001",
+        "scheme": "SEPA",
+        "identifiers": {
+          "uetr": "a0000001-1111-4a00-8000-000000003001",
+          "instruction_id": "INSTR-3001",
+          "end_to_end_id": "E2E-3001",
+          "transaction_id": "TX-3001"
+        },
+        "parties": {
+          "debtor": "ACME OY (****11)",
+          "creditor": "BETA SARL (****22)",
+          "debtor_agent": "BANKFIHH",
+          "creditor_agent": "BANKFRPP"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": 24500.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-14T09:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACTC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-3001@2026-07-14"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-15T11:00:00Z",
+            "msg_type": "pacs.002",
+            "direction": "inbound",
+            "status": "RJCT",
+            "reason_code": "AC01",
+            "cite": "pacs002=STS-3001@2026-07-15"
+          }
+        ],
+        "last_status": {
+          "status": "RJCT",
+          "reason_code": "AC01",
+          "reason_name": "IncorrectAccountNumber",
+          "reason_source": "creditor_agent",
+          "cite": "pacs002=STS-3001@2026-07-15"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-70011",
+          "pacs008=PMT-3001@2026-07-14",
+          "pacs002=STS-3001@2026-07-15"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "recommend-repair-and-resubmit",
+        "rationale": "Last status RJCT with reason AC01 (IncorrectAccountNumber); the field is repairable \u2014 recommend correcting it and resubmitting.",
+        "recommended_next_action": "Propose the corrected field to payment-repair-assistant; repair executes only after approval.",
+        "requires_approval": true
+      },
+      "disposition": "recommend-repair-and-resubmit"
+    },
+    {
+      "exception_id": "EX-3002",
+      "case_id": "PEI-EX-3002",
+      "priority_score": 6,
+      "priority_band": "P1 (Critical)",
+      "priority_reason": "amount>=100000 +2; scheme Fedwire +2; aging 4d +1; severity rejected +1",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-70012",
+        "pacs008=PMT-3002@2026-07-13",
+        "pacs002=STS-3002@2026-07-16"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-3002",
+        "exception_id": "EX-3002",
+        "scheme": "Fedwire",
+        "identifiers": {
+          "uetr": "a0000002-1111-4a00-8000-000000003002",
+          "instruction_id": "INSTR-3002",
+          "end_to_end_id": "E2E-3002",
+          "transaction_id": "TX-3002"
+        },
+        "parties": {
+          "debtor": "GAMMA INC (****33)",
+          "creditor": "DELTA LLC (****44)",
+          "debtor_agent": "BANKUS33",
+          "creditor_agent": "BANKUS44"
+        },
+        "amount": {
+          "currency": "USD",
+          "value": 250000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-13T14:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACTC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-3002@2026-07-13"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-16T08:30:00Z",
+            "msg_type": "pacs.002",
+            "direction": "inbound",
+            "status": "RJCT",
+            "reason_code": "AC04",
+            "cite": "pacs002=STS-3002@2026-07-16"
+          }
+        ],
+        "last_status": {
+          "status": "RJCT",
+          "reason_code": "AC04",
+          "reason_name": "ClosedAccountNumber",
+          "reason_source": "creditor_agent",
+          "cite": "pacs002=STS-3002@2026-07-16"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-70012",
+          "pacs008=PMT-3002@2026-07-13",
+          "pacs002=STS-3002@2026-07-16"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "recommend-return-to-originator",
+        "rationale": "Last status RJCT with reason AC04 (ClosedAccountNumber); no repair is possible \u2014 recommend return to originator.",
+        "recommended_next_action": "Propose a return to originator; the return message is sent only after approval.",
+        "requires_approval": true
+      },
+      "disposition": "recommend-return-to-originator"
+    },
+    {
+      "exception_id": "EX-3003",
+      "case_id": "PEI-EX-3003",
+      "priority_score": 8,
+      "priority_band": "P1 (Critical)",
+      "priority_reason": "amount>=100000 +2; scheme TARGET2 +2; aging 7d +2; severity recall_requested +2",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-70013",
+        "pacs008=PMT-3003@2026-07-10",
+        "camt056=RCL-3003@2026-07-12"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-3003",
+        "exception_id": "EX-3003",
+        "scheme": "TARGET2",
+        "identifiers": {
+          "uetr": "a0000003-1111-4a00-8000-000000003003",
+          "instruction_id": "INSTR-3003",
+          "end_to_end_id": "E2E-3003",
+          "transaction_id": "TX-3003"
+        },
+        "parties": {
+          "debtor": "EPSILON GMBH (****55)",
+          "creditor": "ZETA SPA (****66)",
+          "debtor_agent": "BANKDEFF",
+          "creditor_agent": "BANKITRR"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": 500000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-10T10:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACSC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-3003@2026-07-10"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-12T09:15:00Z",
+            "msg_type": "camt.056",
+            "direction": "inbound",
+            "status": "RECALL",
+            "reason_code": "DUPL",
+            "cite": "camt056=RCL-3003@2026-07-12"
+          }
+        ],
+        "last_status": {
+          "status": "RECALL",
+          "reason_code": "DUPL",
+          "reason_name": "DuplicatePayment",
+          "reason_source": "debtor_agent",
+          "cite": "camt056=RCL-3003@2026-07-12"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-70013",
+          "pacs008=PMT-3003@2026-07-10",
+          "camt056=RCL-3003@2026-07-12"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "recommend-honor-recall",
+        "rationale": "Recall reason DUPL (DuplicatePayment); recommend honoring the recall request. A camt.029 response is a decision reserved for a human approver.",
+        "recommended_next_action": "Send the recommendation to the payments approver; the camt.029 response is issued only after approval.",
+        "requires_approval": true
+      },
+      "disposition": "recommend-honor-recall"
+    },
+    {
+      "exception_id": "EX-3004",
+      "case_id": "PEI-EX-3004",
+      "priority_score": 6,
+      "priority_band": "P1 (Critical)",
+      "priority_reason": "scheme Fedwire +2; aging 6d +2; severity recall_requested +2",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-70014",
+        "pacs008=PMT-3004@2026-07-11",
+        "camt056=RCL-3004@2026-07-15"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-3004",
+        "exception_id": "EX-3004",
+        "scheme": "Fedwire",
+        "identifiers": {
+          "uetr": "a0000004-1111-4a00-8000-000000003004",
+          "instruction_id": "INSTR-3004",
+          "end_to_end_id": "E2E-3004",
+          "transaction_id": "TX-3004"
+        },
+        "parties": {
+          "debtor": "ETA CORP (****77)",
+          "creditor": "THETA LTD (****88)",
+          "debtor_agent": "BANKUS33",
+          "creditor_agent": "BANKUS55"
+        },
+        "amount": {
+          "currency": "USD",
+          "value": 8000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-11T13:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACSC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-3004@2026-07-11"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-15T16:45:00Z",
+            "msg_type": "camt.056",
+            "direction": "inbound",
+            "status": "RECALL",
+            "reason_code": "CUST",
+            "cite": "camt056=RCL-3004@2026-07-15"
+          }
+        ],
+        "last_status": {
+          "status": "RECALL",
+          "reason_code": "CUST",
+          "reason_name": "RequestedByCustomer",
+          "reason_source": "debtor_agent",
+          "cite": "camt056=RCL-3004@2026-07-15"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-70014",
+          "pacs008=PMT-3004@2026-07-11",
+          "camt056=RCL-3004@2026-07-15"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "recommend-reject-recall",
+        "rationale": "Recall reason CUST (RequestedByCustomer); recommend rejecting the recall request. A camt.029 response is a decision reserved for a human approver.",
+        "recommended_next_action": "Send the recommendation to the payments approver; the camt.029 response is issued only after approval.",
+        "requires_approval": true
+      },
+      "disposition": "recommend-reject-recall"
+    },
+    {
+      "exception_id": "EX-3005",
+      "case_id": "PEI-EX-3005",
+      "priority_score": 10,
+      "priority_band": "P1 (Critical)",
+      "priority_reason": "amount>=1000000 +3; scheme CHIPS +2; aging 3d +1; severity rejected +1; fraud/sanctions signal +3",
+      "priority_risk_override": true,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-70015",
+        "pacs008=PMT-3005@2026-07-14",
+        "pacs002=STS-3005@2026-07-15"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-3005",
+        "exception_id": "EX-3005",
+        "scheme": "CHIPS",
+        "identifiers": {
+          "uetr": "a0000005-1111-4a00-8000-000000003005",
+          "instruction_id": "INSTR-3005",
+          "end_to_end_id": "E2E-3005",
+          "transaction_id": "TX-3005"
+        },
+        "parties": {
+          "debtor": "IOTA SA (****99)",
+          "creditor": "KAPPA JSC (****00)",
+          "debtor_agent": "BANKUS33",
+          "creditor_agent": "BANKXXYY"
+        },
+        "amount": {
+          "currency": "USD",
+          "value": 1200000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-14T12:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACTC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-3005@2026-07-14"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-15T10:00:00Z",
+            "msg_type": "pacs.002",
+            "direction": "inbound",
+            "status": "RJCT",
+            "reason_code": "RR04",
+            "cite": "pacs002=STS-3005@2026-07-15"
+          }
+        ],
+        "last_status": {
+          "status": "RJCT",
+          "reason_code": "RR04",
+          "reason_name": "RegulatoryReason",
+          "reason_source": "creditor_agent",
+          "cite": "pacs002=STS-3005@2026-07-15"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-70015",
+          "pacs008=PMT-3005@2026-07-14",
+          "pacs002=STS-3005@2026-07-15"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "route-specialist",
+        "rationale": "sanctions hold flag set; route to sanctions adjudication. No repair, return, or release recommended here.",
+        "recommended_next_action": "Refer the evidence bundle to sanctions adjudication for a match decision.",
+        "requires_approval": true,
+        "route_specialist": "sanctions-match-adjudicator"
+      },
+      "disposition": "route-specialist",
+      "route_specialist": "sanctions-match-adjudicator"
+    },
+    {
+      "exception_id": "EX-3006",
+      "case_id": "PEI-EX-3006",
+      "priority_score": 8,
+      "priority_band": "P1 (Critical)",
+      "priority_reason": "amount>=10000 +1; scheme RTP +2; severity returned +2; fraud/sanctions signal +3",
+      "priority_risk_override": true,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-70016",
+        "pacs008=PMT-3006@2026-07-16",
+        "pacs004=RTN-3006@2026-07-16"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-3006",
+        "exception_id": "EX-3006",
+        "scheme": "RTP",
+        "identifiers": {
+          "uetr": "a0000006-1111-4a00-8000-000000003006",
+          "instruction_id": "INSTR-3006",
+          "end_to_end_id": "E2E-3006",
+          "transaction_id": "TX-3006"
+        },
+        "parties": {
+          "debtor": "LAMBDA INC (****12)",
+          "creditor": "MU LLC (****34)",
+          "debtor_agent": "BANKUS33",
+          "creditor_agent": "BANKUS66"
+        },
+        "amount": {
+          "currency": "USD",
+          "value": 15000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-16T07:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACSC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-3006@2026-07-16"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-16T19:00:00Z",
+            "msg_type": "pacs.004",
+            "direction": "inbound",
+            "status": "RETURN",
+            "reason_code": "FOCR",
+            "cite": "pacs004=RTN-3006@2026-07-16"
+          }
+        ],
+        "last_status": {
+          "status": "RETURN",
+          "reason_code": "FOCR",
+          "reason_name": "FollowingCancellationRequest",
+          "reason_source": "creditor_agent",
+          "cite": "pacs004=RTN-3006@2026-07-16"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-70016",
+          "pacs008=PMT-3006@2026-07-16",
+          "pacs004=RTN-3006@2026-07-16"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "route-specialist",
+        "rationale": "fraud indicator present; route to fraud investigation. No repair or return recommended here.",
+        "recommended_next_action": "Refer the evidence bundle to payment fraud investigation for adjudication.",
+        "requires_approval": true,
+        "route_specialist": "payment-fraud-case-investigator"
+      },
+      "disposition": "route-specialist",
+      "route_specialist": "payment-fraud-case-investigator"
+    },
+    {
+      "exception_id": "EX-3007",
+      "case_id": "PEI-EX-3007",
+      "priority_score": 2,
+      "priority_band": "P3 (Low)",
+      "priority_reason": "scheme SEPA +1; severity rejected +1",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [
+        "payment messages (no pacs/camt chronology available)",
+        "a payment identifier (uetr / instruction_id / end_to_end_id)"
+      ],
+      "citations": [
+        "invcase=IC-70017"
+      ],
+      "evidence_bundle": null,
+      "disposition_recommendation": null,
+      "disposition": "needs-data"
+    },
+    {
+      "exception_id": "EX-3008",
+      "case_id": "PEI-EX-3008",
+      "priority_score": 3,
+      "priority_band": "P2 (Standard)",
+      "priority_reason": "scheme ACH +1; aging 2d +1; severity rejected +1",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-70018",
+        "pacs008=PMT-3008@2026-07-15",
+        "pacs002=STS-3008@2026-07-16"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-3008",
+        "exception_id": "EX-3008",
+        "scheme": "ACH",
+        "identifiers": {
+          "uetr": "e1f2a3b4-0000-4a00-8000-0000000029ac",
+          "instruction_id": "INSTR-3008",
+          "end_to_end_id": "E2E-3008",
+          "transaction_id": "TX-3008"
+        },
+        "parties": {
+          "debtor": "OMICRON CO (****90)",
+          "creditor": "PI LLC (****13)",
+          "debtor_agent": "BANKUS33",
+          "creditor_agent": "BANKUS77"
+        },
+        "amount": {
+          "currency": "USD",
+          "value": 3000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-15T09:30:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACTC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-3008@2026-07-15"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-16T10:15:00Z",
+            "msg_type": "pacs.002",
+            "direction": "inbound",
+            "status": "RJCT",
+            "reason_code": "AC01",
+            "cite": "pacs002=STS-3008@2026-07-16"
+          }
+        ],
+        "last_status": {
+          "status": "RJCT",
+          "reason_code": "AC01",
+          "reason_name": "IncorrectAccountNumber",
+          "reason_source": "creditor_agent",
+          "cite": "pacs002=STS-3008@2026-07-16"
+        },
+        "linked_cases": [
+          "PEI-EX-2900"
+        ],
+        "citations": [
+          "invcase=IC-70018",
+          "pacs008=PMT-3008@2026-07-15",
+          "pacs002=STS-3008@2026-07-16"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "possible-duplicate",
+        "rationale": "Matches open case PEI-EX-2900 on payment identifier; link for human confirmation.",
+        "recommended_next_action": "Confirm the link with the owning investigator; do not merge automatically.",
+        "requires_approval": true
+      },
+      "linked_case_id": "PEI-EX-2900",
+      "disposition": "possible-duplicate"
+    },
+    {
+      "exception_id": "EX-3009",
+      "case_id": "PEI-EX-3009",
+      "priority_score": 5,
+      "priority_band": "P2 (Standard)",
+      "priority_reason": "amount>=10000 +1; scheme SEPA +1; aging 4d +1; severity returned +2",
+      "priority_risk_override": false,
+      "decision_authority": "human-adjudication-required",
+      "needs": [],
+      "citations": [
+        "invcase=IC-70019",
+        "pacs008=PMT-3009@2026-07-13",
+        "pacs004=RTN-3009@2026-07-16"
+      ],
+      "evidence_bundle": {
+        "case_id": "PEI-EX-3009",
+        "exception_id": "EX-3009",
+        "scheme": "SEPA",
+        "identifiers": {
+          "uetr": "a0000009-1111-4a00-8000-000000003009",
+          "instruction_id": "INSTR-3009",
+          "end_to_end_id": "E2E-3009",
+          "transaction_id": "TX-3009"
+        },
+        "parties": {
+          "debtor": "RHO GMBH (****24)",
+          "creditor": "SIGMA SPA (****68)",
+          "debtor_agent": "BANKDEFF",
+          "creditor_agent": "BANKITRR"
+        },
+        "amount": {
+          "currency": "EUR",
+          "value": 45000.0
+        },
+        "chronology": [
+          {
+            "seq": 1,
+            "timestamp": "2026-07-13T11:00:00Z",
+            "msg_type": "pacs.008",
+            "direction": "outbound",
+            "status": "ACSC",
+            "reason_code": null,
+            "cite": "pacs008=PMT-3009@2026-07-13"
+          },
+          {
+            "seq": 2,
+            "timestamp": "2026-07-16T12:00:00Z",
+            "msg_type": "pacs.004",
+            "direction": "inbound",
+            "status": "RETURN",
+            "reason_code": "BE01",
+            "cite": "pacs004=RTN-3009@2026-07-16"
+          }
+        ],
+        "last_status": {
+          "status": "RETURN",
+          "reason_code": "BE01",
+          "reason_name": "InconsistentWithEndCustomer",
+          "reason_source": "creditor_agent",
+          "cite": "pacs004=RTN-3009@2026-07-16"
+        },
+        "linked_cases": [],
+        "citations": [
+          "invcase=IC-70019",
+          "pacs008=PMT-3009@2026-07-13",
+          "pacs004=RTN-3009@2026-07-16"
+        ]
+      },
+      "disposition_recommendation": {
+        "disposition": "recommend-request-information",
+        "rationale": "Last status RETURN with reason BE01 (InconsistentWithEndCustomer); recommend requesting information before any repair.",
+        "recommended_next_action": "Draft an information request to the counterparty; send only after approval.",
+        "requires_approval": true
+      },
+      "disposition": "recommend-request-information"
+    }
+  ],
+  "summary": {
+    "total": 9,
+    "recommend-repair-and-resubmit": 1,
+    "recommend-return-to-originator": 1,
+    "recommend-honor-recall": 1,
+    "recommend-reject-recall": 1,
+    "route-specialist": 2,
+    "needs-data": 1,
+    "possible-duplicate": 1,
+    "recommend-request-information": 1
+  },
+  "standing_note": "Investigation evidence and recommendations only; no case has been closed, no determination made, no payment repaired, returned, or released, and no filing performed. Every next step requires human adjudication and approval."
+}

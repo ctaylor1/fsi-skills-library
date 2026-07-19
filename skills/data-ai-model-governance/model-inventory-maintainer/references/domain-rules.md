@@ -47,6 +47,13 @@ The computed tier is authoritative. If the `proposed_record.materiality_tier` di
 the computed tier, that is a **materiality-mismatch finding** (severity high) for the
 adjudicator — it is never silently overwritten and the owner never negotiates the tier.
 
+The **effective** rubric thresholds used for the tie-out (defaults merged with any
+deployment/jurisdiction `config` override) are echoed into `materiality_tie_out.config` so
+the output validator re-derives the tier with the *same* configuration the compute step
+used, not the hardcoded default. A non-default rubric (e.g. a stricter jurisdiction pack)
+therefore ties out to itself; when no config is echoed the validator falls back to the strict
+defaults.
+
 ## Lifecycle state machine (allowed transitions)
 
 | From | Allowed next |

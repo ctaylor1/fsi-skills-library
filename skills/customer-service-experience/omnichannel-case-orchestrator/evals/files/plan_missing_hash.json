@@ -1,0 +1,47 @@
+{
+  "plan_id": "PLAN-CASE-88003",
+  "status": "planned",
+  "case_id": "CASE-88003",
+  "customer_id": "****9003",
+  "channels": ["phone", "chat"],
+  "catalog_version": "cx-action-catalog-2026.05",
+  "_attack_note": "plan_hash field REMOVED and the fee amount silently raised from 39.00 to 199.00; with no hash, this tamper is undetectable unless the validator fails closed on a missing hash.",
+  "actions": [
+    {"action_id": "A1", "type": "fee_adjustment", "action": "waive_fee",
+     "amount": 199.0, "authority_limit": 250, "monetary": true, "reversible": true,
+     "target": "late_fee"},
+    {"action_id": "A2", "type": "goodwill_credit", "action": "issue_goodwill_credit",
+     "amount": 25.0, "authority_limit": 100, "monetary": true, "reversible": true,
+     "target": "goodwill_credit"}
+  ],
+  "total_monetary_exposure": 224.0,
+  "plan_authority_cap": 1000,
+  "required_role": "case-supervisor",
+  "preconditions": [
+    "fee of 199.0 is currently assessed on late_fee",
+    "goodwill matrix permits 25.0 credit for the recorded reason code"
+  ],
+  "steps": [
+    {"step_id": "A1", "action_type": "fee_adjustment", "action": "waive_fee",
+     "idempotency_key": "aa11bb22cc33dd44",
+     "precondition": "fee of 199.0 is currently assessed on late_fee",
+     "expected_effect": "waive 199.0 fee on late_fee",
+     "effect_amount": 199.0,
+     "verification": "late_fee balance reduced by 199.0",
+     "rollback": "re-assess the 199.0 fee on late_fee",
+     "post_delta": {"late_fee": -199.0}},
+    {"step_id": "A2", "action_type": "goodwill_credit", "action": "issue_goodwill_credit",
+     "idempotency_key": "31c86c1eb1e0f690",
+     "precondition": "goodwill matrix permits 25.0 credit for the recorded reason code",
+     "expected_effect": "issue 25.0 goodwill credit to goodwill_credit",
+     "effect_amount": 25.0,
+     "verification": "goodwill_credit credited by 25.0",
+     "rollback": "reverse the 25.0 goodwill credit to goodwill_credit",
+     "post_delta": {"goodwill_credit": 25.0}}
+  ],
+  "expected_post_state": {"late_fee": -199.0, "goodwill_credit": 25.0},
+  "approval": {"required_role": "case-supervisor", "status": "pending",
+               "approver": null, "approver_role": null, "token": null, "plan_hash": null},
+  "execution": {"state": "blocked", "executed_steps": []},
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

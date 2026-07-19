@@ -1,0 +1,117 @@
+{
+  "review_id": "valr-EQ-LISTED-101-2026-07-15-0001",
+  "instrument_id": "EQ-LISTED-101",
+  "as_of": "2026-07-15",
+  "config_version": "valuation-cfg-2026.07-desk-eqty",
+  "asset_class": "Listed equity (large cap)",
+  "method": "market",
+  "fair_value_level": "1",
+  "reported_value": 5000000.0,
+  "currency": "USD",
+  "escalate_finding_count": 2,
+  "findings": [
+    {
+      "check": "hierarchy_consistency",
+      "fired": false,
+      "severity": "high",
+      "reason": "declared Level 1 consistent with input observability",
+      "evidence": [],
+      "context": {
+        "declared_level": "1",
+        "implied_min_level": null
+      }
+    },
+    {
+      "check": "input_staleness",
+      "fired": true,
+      "severity": "medium",
+      "reason": "1 input(s) older than 10d before as-of",
+      "evidence": [
+        {
+          "input": "last_price",
+          "source_date": "2026-05-01",
+          "age_days": 75,
+          "citation": "val:mkt:XNAS:ABC@2026-05-01"
+        }
+      ],
+      "context": {
+        "max_staleness_days": 10
+      }
+    },
+    {
+      "check": "input_source_missing",
+      "fired": false,
+      "severity": "medium",
+      "reason": "all inputs sourced",
+      "evidence": [],
+      "context": {
+        "inputs_total": 2
+      }
+    },
+    {
+      "check": "unexplained_adjustment",
+      "fired": false,
+      "severity": "medium",
+      "reason": "adjustments explained and sourced",
+      "evidence": [],
+      "context": {
+        "materiality_pct": 5.0
+      }
+    },
+    {
+      "check": "comparable_sufficiency",
+      "fired": true,
+      "severity": "medium",
+      "reason": "only 1 comparable(s) (< 3) for a market-approach mark",
+      "evidence": [
+        {
+          "comparables_count": 1,
+          "citation": "val:instrument=EQ-LISTED-101;market_approach_comparables@2026-07-15"
+        }
+      ],
+      "context": {
+        "min_comparables": 3,
+        "count": 1
+      }
+    },
+    {
+      "check": "override_unapproved",
+      "fired": false,
+      "severity": "high",
+      "reason": "no manual overrides present",
+      "evidence": [],
+      "context": {
+        "overrides_total": 0
+      }
+    }
+  ],
+  "fired_findings": [
+    "input_staleness",
+    "comparable_sufficiency"
+  ],
+  "not_evaluable": [
+    {
+      "check": "ipv_missing",
+      "why": "IPV not required for Level 1"
+    },
+    {
+      "check": "ipv_breach",
+      "why": "no independent value to compare"
+    },
+    {
+      "check": "uncertainty_missing",
+      "why": "uncertainty range only required for Level 3 (declared 1)"
+    }
+  ],
+  "suggested_disposition": "Escalate",
+  "review_considerations": [
+    "a documented, approved methodology/policy exception may be on file",
+    "a thin- or inactive-market instrument where comparables are legitimately scarce",
+    "an adjustment magnitude that is immaterial to the position and portfolio",
+    "an input refreshed after this extract — confirm the latest source date",
+    "an IPV variance within an approved tolerance band for this asset class",
+    "an override pre-approved under a standing delegated authority"
+  ],
+  "disclaimer": "Valuation review evidence only; not a valuation sign-off, override approval, or fair-value determination. No value has been posted or approved.",
+  "narrative": "Valuation review of instrument EQ-LISTED-101 (Level 1, market approach) for as-of 2026-07-15 raised 2 findings, both medium severity: one stale input (last_price sourced 75 days before as-of) and only 1 comparable against the configured minimum of 3. This deployment runs a tightened config for the equity desk (escalate_finding_count = 2), so two fired findings meet the escalation threshold. Suggested disposition: Escalate to the responsible product-control reviewer. Every finding cites the specific valuation-record evidence behind it. This output is valuation-review evidence only; it is not a valuation sign-off, override approval, or fair-value determination, and no value has been posted or approved. Weigh the review considerations before reaching any conclusion."
+}

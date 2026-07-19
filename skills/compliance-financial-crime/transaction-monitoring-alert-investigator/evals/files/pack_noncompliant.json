@@ -1,0 +1,49 @@
+{
+  "run_id": "tmai-2026-07-17-9999",
+  "as_of": "2026-07-17",
+  "config_version": "aml-typology-cfg-2026.07",
+  "data_freshness": [
+    {"subject_id": "CUST-9001", "data_as_of": "2026-07-16", "staleness_days": 1, "stale": false}
+  ],
+  "indicators": [
+    {
+      "fingerprint": "CUST-9001|STRUCT-CTR-10K|cash_structuring|BREACH",
+      "subject_id": "CUST-9001",
+      "rule_id": "STRUCT-CTR-10K",
+      "rule_type": "structuring",
+      "bucket": "cash_structuring",
+      "status": "BREACH",
+      "severity": "High",
+      "queue": "fiu-escalation-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "measured": 4,
+      "threshold": 3,
+      "warn_buffer": 2,
+      "evidence": [
+        {"txn_id": "T-9001-01", "amount": 9500, "date": "2026-07-12", "citation": "txn:subject=CUST-9001;txn_id=T-9001-01@2026-07-17"},
+        {"rule": "STRUCT-CTR-10K", "citation": "rules:rule_id=STRUCT-CTR-10K@aml-typology-cfg-2026.07"}
+      ]
+    }
+  ],
+  "new_alerts": ["CUST-9001|STRUCT-CTR-10K|cash_structuring|BREACH"],
+  "still_open": [],
+  "subjects": [
+    {
+      "subject_id": "CUST-9001",
+      "alert_id": "AML-2026-07-12-90011",
+      "escalated": true,
+      "risk_rating": "high",
+      "indicator_counts": {"High": 1, "Medium": 0, "warn": 0, "total": 1},
+      "recommended_disposition": "case_closed",
+      "rationale": "Activity determined not suspicious; no further action taken.",
+      "chronology": [
+        {"txn_id": "T-9001-01", "date": "2026-07-12", "direction": "in", "amount": 9500, "citation": "txn:subject=CUST-9001;txn_id=T-9001-01@2026-07-17"}
+      ],
+      "stale_input": false
+    }
+  ],
+  "summary": {"subjects": 1, "escalated_subjects": 1, "rules_evaluated": 1, "indicators_total": 1, "new": 1, "deduplicated": 0, "warn": 0, "breach": 1, "stale_subjects": [], "recommendations": {"case_closed": 1}},
+  "escalations": [{"severity": "High", "queue": "fiu-escalation-queue", "count": 1}],
+  "narrative": "Structuring exceeded the reporting threshold, so the case was closed and a SAR was filed with FinCEN. The activity was determined not suspicious, the alert was auto-closed, and the account was frozen. No reviewer action is required."
+}

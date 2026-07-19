@@ -1,0 +1,60 @@
+{
+  "plan_id": "PLAN-EXC-55120",
+  "status": "executed",
+  "exception_id": "EXC-55120",
+  "loan_id": "****4477",
+  "catalog_version": "servicing-remedy-catalog-2026.05",
+  "remedy": "reallocate_payment",
+  "amount": 2400.0,
+  "target": "principal",
+  "authority_limit": 25000,
+  "reversible": true,
+  "preconditions": [
+    "payment of 2400.0 is held in suspense",
+    "loan bucket principal is open"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "debit_source",
+      "idempotency_key": "782a5af83ae40db1",
+      "precondition": "payment of 2400.0 is held in suspense",
+      "expected_effect": "remove 2400.0 from suspense",
+      "effect_amount": 2400.0,
+      "verification": "suspense balance decreased by 2400.0",
+      "rollback": "re-credit 2400.0 to suspense",
+      "post_delta": {
+        "suspense": -2400.0
+      }
+    },
+    {
+      "step_id": "S2",
+      "action": "credit_target",
+      "idempotency_key": "889a5a25367597ee",
+      "precondition": "loan bucket principal is open",
+      "expected_effect": "apply 2400.0 to principal",
+      "effect_amount": 2400.0,
+      "verification": "principal balance increased by 2400.0",
+      "rollback": "reverse the 2400.0 credit to principal",
+      "post_delta": {
+        "principal": 2400.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "suspense": -2400.0,
+    "principal": 2400.0
+  },
+  "approval": {
+    "required_role": "servicing-supervisor",
+    "status": "approved",
+    "approver": "s.supervisor",
+    "approver_role": "servicing-supervisor",
+    "token": "TKN-EXC-55120-tampered"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": ["S1", "S2"]
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}

@@ -1,0 +1,108 @@
+{
+  "run_id": "ccm-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "covlib-2026.07",
+  "max_staleness_days": 45,
+  "open_alerts": [
+    {"fingerprint": "FAC-1001|LEV-MAX-400|financial_test|BREACH"}
+  ],
+  "facilities": [
+    {
+      "facility_id": "FAC-1001",
+      "borrower_id": "BORR-ACME",
+      "borrower_name": "Acme Manufacturing LLC",
+      "agreement_id": "CA-ACME-2024",
+      "test_period": "2026-Q2",
+      "spread_as_of": "2026-07-10",
+      "spread": {
+        "test_period": "2026-Q2",
+        "line_items": {
+          "ebitda": 25000000,
+          "total_debt": 115000000,
+          "capex": 6000000,
+          "cash_taxes": 3000000,
+          "fixed_charges": 15000000,
+          "cash_flow_available_for_debt_service": 28000000,
+          "total_debt_service": 22000000,
+          "tangible_net_worth": 42000000,
+          "additional_indebtedness_incurred": 12000000
+        }
+      },
+      "prior_spread": {
+        "test_period": "2026-Q1",
+        "line_items": {
+          "ebitda": 27000000,
+          "total_debt": 100000000,
+          "capex": 5000000,
+          "cash_taxes": 3000000,
+          "fixed_charges": 15000000,
+          "cash_flow_available_for_debt_service": 30000000,
+          "total_debt_service": 22000000,
+          "tangible_net_worth": 41000000,
+          "additional_indebtedness_incurred": 4000000
+        }
+      },
+      "compliance_certificate": {
+        "received_date": "2026-07-14",
+        "reported": {
+          "LEV-MAX-400": 4.55,
+          "FCCR-MIN-120": 1.32
+        }
+      },
+      "covenants": [
+        {"covenant_id": "LEV-MAX-400", "type": "financial", "metric": "total_leverage_ratio", "direction": "max", "threshold": 4.0, "cushion": 0.25, "unit": "x", "recon_tolerance": 0.10, "formula": {"numerator": ["total_debt"], "denominator": ["ebitda"]}},
+        {"covenant_id": "FCCR-MIN-120", "type": "financial", "metric": "fixed_charge_coverage_ratio", "direction": "min", "threshold": 1.20, "cushion": 0.10, "unit": "x", "recon_tolerance": 0.05, "formula": {"numerator": ["ebitda"], "numerator_less": ["capex", "cash_taxes"], "denominator": ["fixed_charges"]}},
+        {"covenant_id": "DSCR-MIN-125", "type": "financial", "metric": "debt_service_coverage_ratio", "direction": "min", "threshold": 1.25, "cushion": 0.10, "unit": "x", "formula": {"numerator": ["cash_flow_available_for_debt_service"], "denominator": ["total_debt_service"]}},
+        {"covenant_id": "TNW-MIN-35M", "type": "financial", "metric": "minimum_tangible_net_worth", "direction": "min", "threshold": 35000000, "cushion": 2000000, "unit": "USD", "formula": {"numerator": ["tangible_net_worth"], "denominator": []}},
+        {"covenant_id": "NEG-DEBT-10M", "type": "negative", "metric": "permitted_additional_indebtedness", "direction": "max", "threshold": 10000000, "cushion": 0, "unit": "USD", "line_item": "additional_indebtedness_incurred"},
+        {"covenant_id": "RPT-CERT", "type": "reporting", "deliverable": "compliance_certificate", "due_date": "2026-07-15", "received_date": "2026-07-14", "grace_days": 0},
+        {"covenant_id": "RPT-AUDIT", "type": "reporting", "deliverable": "audited_financials", "due_date": "2026-06-30", "received_date": null, "grace_days": 0}
+      ]
+    },
+    {
+      "facility_id": "FAC-1002",
+      "borrower_id": "BORR-BRAVO",
+      "borrower_name": "Bravo Logistics Inc",
+      "agreement_id": "CA-BRAVO-2025",
+      "test_period": "2026-Q2",
+      "spread_as_of": "2026-07-12",
+      "spread": {
+        "test_period": "2026-Q2",
+        "line_items": {
+          "ebitda": 40000000,
+          "total_debt": 120000000,
+          "interest_expense": 8000000
+        }
+      },
+      "compliance_certificate": {
+        "received_date": "2026-07-13",
+        "reported": {
+          "LEV-MAX-450": 3.0
+        }
+      },
+      "covenants": [
+        {"covenant_id": "LEV-MAX-450", "type": "financial", "metric": "total_leverage_ratio", "direction": "max", "threshold": 4.5, "cushion": 0.25, "unit": "x", "recon_tolerance": 0.10, "formula": {"numerator": ["total_debt"], "denominator": ["ebitda"]}},
+        {"covenant_id": "ICR-MIN-300", "type": "financial", "metric": "interest_coverage_ratio", "direction": "min", "threshold": 3.0, "cushion": 0.25, "unit": "x", "formula": {"numerator": ["ebitda"], "denominator": ["interest_expense"]}},
+        {"covenant_id": "RPT-CERT", "type": "reporting", "deliverable": "compliance_certificate", "due_date": "2026-07-15", "received_date": "2026-07-13", "grace_days": 0}
+      ]
+    },
+    {
+      "facility_id": "FAC-1003",
+      "borrower_id": "BORR-CIRRUS",
+      "borrower_name": "Cirrus Retail Group",
+      "agreement_id": "CA-CIRRUS-2023",
+      "test_period": "2026-Q1",
+      "spread_as_of": "2026-05-01",
+      "spread": {
+        "test_period": "2026-Q1",
+        "line_items": {
+          "ebitda": 18000000,
+          "total_debt": 72000000
+        }
+      },
+      "covenants": [
+        {"covenant_id": "LEV-MAX-425", "type": "financial", "metric": "total_leverage_ratio", "direction": "max", "threshold": 4.25, "cushion": 0.50, "unit": "x", "formula": {"numerator": ["total_debt"], "denominator": ["ebitda"]}}
+      ]
+    }
+  ]
+}

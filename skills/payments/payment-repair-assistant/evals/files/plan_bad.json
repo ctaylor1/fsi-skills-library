@@ -1,0 +1,32 @@
+{
+  "plan_id": "PLAN-CASE-DUP",
+  "status": "planned",
+  "case_id": "CASE-00000",
+  "payment_id": "****0000",
+  "repair": "repair_and_resubmit",
+  "amount": 250000.00,
+  "currency": "USD",
+  "target": "beneficiary",
+  "field": "beneficiary_bic",
+  "rail": "FEDWIRE",
+  "end_to_end_id": "E2E-BAD-0001",
+  "authority_limit": 100000,
+  "reversible": true,
+  "screening_required": true,
+  "screening": {"status": "hit"},
+  "steps": [
+    {"step_id": "S1", "action": "apply_repair", "idempotency_key": "abc123",
+     "precondition": "beneficiary_bic invalid", "expected_effect": "correct beneficiary_bic",
+     "effect_amount": 250000.00, "verification": "message re-validates"},
+    {"step_id": "S2", "action": "resubmit_payment", "idempotency_key": "def456",
+     "precondition": "repair applied", "expected_effect": "resubmit payment",
+     "effect_amount": 250000.00, "verification": "payment accepted",
+     "rollback": "recall/return request (camt.056)"}
+  ],
+  "expected_post_state": {"resubmitted_amount": 250000.00},
+  "expected_status": "resubmitted",
+  "plan_hash": "deadbeefdeadbeefdeadbeefdeadbeef",
+  "approval": {"required_role": "payments-repair-supervisor", "status": "pending", "approver": null, "token": null},
+  "execution": {"state": "executed", "executed_steps": ["S1", "S2"]},
+  "standing_note": "Plan only; no payment has been resubmitted, released, returned, or cancelled. Execution requires human approval."
+}

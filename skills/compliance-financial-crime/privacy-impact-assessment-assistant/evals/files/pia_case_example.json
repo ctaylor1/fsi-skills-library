@@ -1,0 +1,102 @@
+{
+  "config_version": "pia-2026.07",
+  "template_version": "pia-dpia-v1",
+  "jurisdiction": "US",
+  "assessment_id": "PIA-2026-0031",
+  "processing": {
+    "processing_id": "PROC-4471",
+    "processing_ref": "****4471",
+    "name": "AI-assisted customer churn and next-best-action model",
+    "business_owner_role": "Head of Retail Marketing",
+    "dpia_trigger": ["large-scale-profiling", "novel-technology-ai", "systematic-monitoring"]
+  },
+  "required_approvals": [
+    "Privacy officer / DPIA author",
+    "Data Protection Officer (DPO)",
+    "Business process owner",
+    "Information security (CISO delegate)"
+  ],
+  "recorded_approvals": [],
+  "risk_factors": {
+    "special_category_data": true,
+    "criminal_offence_data": false,
+    "children_or_vulnerable_subjects": false,
+    "large_scale_processing": true,
+    "systematic_monitoring": true,
+    "automated_decision_making_legal_effect": false,
+    "novel_technology": true,
+    "international_transfer_high_risk": ["us-to-third-country-analytics-vendor"],
+    "data_matching_combining": false,
+    "retention_exceeds_policy": false,
+    "has_processors": true,
+    "no_lawful_basis": false,
+    "special_category_no_condition": false,
+    "international_transfer_no_mechanism": false
+  },
+  "evidence": {
+    "processing_purpose": {
+      "present": true,
+      "items": [
+        "Purpose: rank customers by predicted churn and recommend a retention offer via the marketing platform",
+        "Data controller: the bank; processing operated by Retail Marketing with a model vendor as processor"
+      ],
+      "citations": ["ropa:proc=PROC-4471@2026-07-09", "docint:project-charter=CHT-2210@2026-07-08"]
+    },
+    "data_inventory": {
+      "present": true,
+      "items": [
+        "Personal data: customer identifiers, product holdings, transaction aggregates, channel engagement",
+        "Special-category proxy: inferred financial-vulnerability indicator flagged as sensitive; volume ~2.1m data subjects"
+      ],
+      "citations": ["datainv:model-features=FEAT-8890@2026-07-10", "datalineage:flow=FL-3321@2026-07-10"]
+    },
+    "legal_basis": {
+      "present": true,
+      "items": [
+        "Lawful basis: legitimate interests for churn scoring, with a documented balancing test; opt-out honored",
+        "Necessity/proportionality: feature set minimized; sensitive proxy gated behind an Article 9 substantial-public-interest / consent condition"
+      ],
+      "citations": ["privacyreg:lia=LIA-4471@2026-07-11", "regcorpus:gdpr-art6-art9@2026-06"]
+    },
+    "data_sharing": {
+      "present": true,
+      "items": [
+        "Recipients: analytics vendor (processor) under a data-processing agreement; no onward sale",
+        "International transfer to a third-country vendor covered by standard contractual clauses + transfer risk assessment"
+      ],
+      "citations": ["contracts:dpa=DPA-771@2026-05", "privacyreg:tia=TIA-4471@2026-07-11"]
+    },
+    "retention": {
+      "present": true,
+      "items": [
+        "Scores retained 13 months then deleted; training data pseudonymized after model refresh",
+        "Retention aligned to the records-retention schedule; deletion routine tested"
+      ],
+      "citations": ["recordsarchive:retention-schedule=RS-09@2026-01", "privacyreg:retention-note=RN-4471@2026-07-10"]
+    },
+    "security": {
+      "present": true,
+      "items": [
+        "Encryption in transit and at rest; role-based access; vendor SOC 2 Type II reviewed",
+        "Pseudonymization of training data; access logging and monitoring in place"
+      ],
+      "citations": ["infosec:control-set=SEC-1180@2026-07-09", "tprm:vendor-soc2=SOC2-771@2026-06"]
+    },
+    "data_subject_rights": {
+      "present": true,
+      "items": [
+        "Transparency: privacy notice updated to describe scoring and the retention offer; no solely-automated decision with legal effect",
+        "Rights: access, rectification, erasure, objection to profiling, and opt-out supported operationally"
+      ],
+      "citations": ["privacyreg:notice=PN-2026-04@2026-07-01", "privacyreg:rights-runbook=DSR-12@2026-06"]
+    },
+    "mitigations": {
+      "present": true,
+      "items": [
+        "Sensitive proxy access restricted and separately approved; human review before any adverse retention action",
+        "Bias/fairness evaluation scheduled; opt-out suppression enforced at scoring time"
+      ],
+      "citations": ["privacyreg:mitigation-plan=MP-4471@2026-07-12", "modelgov:eval-plan=EVP-4471@2026-07-12"]
+    }
+  }
+}

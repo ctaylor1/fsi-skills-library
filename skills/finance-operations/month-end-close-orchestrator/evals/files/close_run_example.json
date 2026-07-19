@@ -1,0 +1,41 @@
+{
+  "close_run_id": "CLOSE-2026-06-ACME-US",
+  "entity": "ACME-US",
+  "period": "2026-06",
+  "catalog_version": "close-action-catalog-2026.06",
+  "tasks": [
+    {
+      "task_id": "T1",
+      "action": "post_accrual_journal",
+      "description": "Accrue June professional-services invoices received after cutoff.",
+      "amount": 48000.00,
+      "target": "GL:6100-accrued-expenses",
+      "offset": "GL:2100-accrued-liabilities",
+      "depends_on": [],
+      "evidence": {
+        "support_schedule": "acc=AP-JUN-2026;lines=7;total=48000.00;source=vendor-invoices"
+      }
+    },
+    {
+      "task_id": "T2",
+      "action": "certify_reconciliation",
+      "description": "Certify the operating-cash bank reconciliation for June.",
+      "target": "RECON:bank-1001-operating",
+      "depends_on": ["T1"],
+      "evidence": {
+        "reconciliation_ref": "recon=BANK-1001;period=2026-06;prepared_by=analyst-42",
+        "unresolved_breaks": 0
+      }
+    },
+    {
+      "task_id": "T3",
+      "action": "close_period",
+      "description": "Lock the June accounting period once accruals and reconciliations are certified.",
+      "target": "PERIOD:2026-06",
+      "depends_on": ["T1", "T2"],
+      "evidence": {
+        "period_checklist": "checklist=MEC-2026-06;mandatory_tasks_complete=true"
+      }
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "run_id": "nrct-2026-07-18-0001",
+  "as_of": "2026-07-18",
+  "config_version": "network-rules-cfg-2026.07",
+  "feed_as_of": "2026-07-17",
+  "max_feed_staleness_days": 3,
+  "min_lead_days": 60,
+  "readiness_bands": {"critical": 30, "high": 60, "medium": 120},
+  "networks": ["Visa", "Mastercard", "Nacha", "RTP"],
+  "owners": ["payments-product", "payments-operations", "payments-compliance", "card-tech"],
+  "inventories": {
+    "products": ["CREDIT-CONSUMER", "DEBIT-CONSUMER", "COMMERCIAL-CARD"],
+    "processes": ["DISPUTE-INTAKE", "AUTH-DECISIONING", "CLEARING-SETTLEMENT"],
+    "controls": ["CTRL-CHARGEBACK-1", "CTRL-3DS-AUTH", "CTRL-PIN-SEC"],
+    "contracts": ["VISA-MEMBER-AGREEMENT", "MC-MEMBER-AGREEMENT", "MERCHANT-AGREEMENT"],
+    "systems": ["AUTH-SWITCH", "DISPUTE-MGR", "SETTLEMENT-ENGINE"]
+  },
+  "open_alerts": [
+    {"fingerprint": "VISA-BUL-2026-014|OBL-1|readiness|critical"}
+  ],
+  "bulletins": [
+    {
+      "bulletin_id": "VISA-BUL-2026-014",
+      "network": "Visa",
+      "title": "3-D Secure step-up requirements for consumer credit authorizations",
+      "published_date": "2026-05-01",
+      "source_ref": "visa:AI-Bulletin/2026-014",
+      "signature_verified": true,
+      "version": "1.2",
+      "supersedes": "VISA-BUL-2025-009",
+      "effective_date": "2026-08-10",
+      "change_type": "security",
+      "obligations": [
+        {
+          "obligation_id": "OBL-1",
+          "summary": "Apply 3-D Secure step-up to flagged consumer credit authorizations.",
+          "domains": ["control", "process"],
+          "impacts": {"controls": ["CTRL-3DS-AUTH"], "processes": ["AUTH-DECISIONING"]},
+          "owner": "card-tech",
+          "required_lead_days": 90,
+          "implementation": {"status": "in_progress", "tracker_ref": "jira:NRCT-101", "target_date": "2026-08-05"}
+        }
+      ]
+    },
+    {
+      "bulletin_id": "MC-BUL-2026-221",
+      "network": "Mastercard",
+      "title": "Dispute evidence and merchant contract addendum",
+      "published_date": "2026-06-01",
+      "source_ref": "mastercard:AN/2026-221",
+      "signature_verified": true,
+      "version": "3.0",
+      "effective_date": "2026-09-10",
+      "change_type": "operational",
+      "obligations": [
+        {
+          "obligation_id": "OBL-1",
+          "summary": "Update dispute evidence handling and add merchant contract addendum.",
+          "domains": ["product", "system", "contract"],
+          "impacts": {"products": ["CREDIT-CONSUMER"], "systems": [], "contracts": ["MERCHANT-AGREEMENT", "NONEXISTENT-CONTRACT"]},
+          "owner": "merchant-ops",
+          "required_lead_days": 60,
+          "implementation": {"status": "not_started", "tracker_ref": null, "target_date": null}
+        }
+      ]
+    },
+    {
+      "bulletin_id": "NACHA-BUL-2026-007",
+      "network": "Nacha",
+      "title": "Same-day ACH settlement window operational change",
+      "published_date": "2026-03-01",
+      "source_ref": "nacha:OG/2026-007",
+      "signature_verified": true,
+      "version": "2026.1",
+      "effective_date": "2026-07-01",
+      "change_type": "operational",
+      "obligations": [
+        {
+          "obligation_id": "OBL-1",
+          "summary": "Adopt the expanded same-day ACH settlement window.",
+          "domains": ["process", "control"],
+          "impacts": {"processes": ["CLEARING-SETTLEMENT"], "controls": ["CTRL-PIN-SEC"]},
+          "owner": "",
+          "required_lead_days": 90,
+          "implementation": {"status": "in_progress", "tracker_ref": "jira:NRCT-140", "target_date": "2026-06-25"}
+        }
+      ]
+    },
+    {
+      "bulletin_id": "RTP-BUL-2026-033",
+      "network": "RTP",
+      "title": "Real-time payment request-for-payment message update",
+      "published_date": "2026-06-20",
+      "source_ref": "rtp:TCH/2026-033",
+      "signature_verified": false,
+      "version": "1.0",
+      "effective_date": "2026-08-05",
+      "change_type": "reporting",
+      "obligations": [
+        {
+          "obligation_id": "OBL-1",
+          "summary": "Support the updated request-for-payment message fields.",
+          "domains": ["system"],
+          "impacts": {"systems": ["SETTLEMENT-ENGINE"]},
+          "owner": "payments-operations",
+          "required_lead_days": 60,
+          "implementation": {"status": "not_started", "tracker_ref": "jira:NRCT-155", "target_date": "2026-07-30"}
+        }
+      ]
+    },
+    {
+      "bulletin_id": "MC-BUL-2026-230",
+      "network": "Mastercard",
+      "title": "Interchange reporting field additions",
+      "published_date": "2026-07-05",
+      "source_ref": "mastercard:AN/2026-230",
+      "signature_verified": true,
+      "version": "1.1",
+      "effective_date": "2026-11-05",
+      "change_type": "reporting",
+      "obligations": [
+        {
+          "obligation_id": "OBL-1",
+          "summary": "Add new interchange reporting fields to clearing output.",
+          "domains": ["process"],
+          "impacts": {"processes": ["CLEARING-SETTLEMENT"]},
+          "owner": "payments-operations",
+          "required_lead_days": 60,
+          "implementation": {"status": "not_started", "tracker_ref": "jira:NRCT-160", "target_date": "2026-10-01"}
+        }
+      ]
+    },
+    {
+      "bulletin_id": "VISA-BUL-2026-020",
+      "network": "Visa",
+      "title": "Debit routing disclosure clarification",
+      "published_date": "2026-04-15",
+      "source_ref": "visa:AI-Bulletin/2026-020",
+      "signature_verified": true,
+      "version": "1.0",
+      "effective_date": "2027-01-15",
+      "change_type": "operational",
+      "obligations": [
+        {
+          "obligation_id": "OBL-1",
+          "summary": "Update debit routing disclosure language.",
+          "domains": ["product"],
+          "impacts": {"products": ["DEBIT-CONSUMER"]},
+          "owner": "payments-product",
+          "required_lead_days": 60,
+          "implementation": {"status": "complete", "tracker_ref": "jira:NRCT-095", "target_date": "2026-06-01"}
+        }
+      ]
+    }
+  ]
+}

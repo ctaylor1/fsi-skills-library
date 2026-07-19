@@ -1,0 +1,102 @@
+{
+  "plan_id": "PLAN-PCR-40218",
+  "status": "planned",
+  "request_id": "PCR-40218",
+  "employee_id": "EMP-****3391",
+  "policy_version": "personal-trading-policy-2026.06",
+  "instrument": {
+    "symbol": "GLDX",
+    "issuer": "Global Index Trust ETF",
+    "asset_class": "broad_market_etf"
+  },
+  "side": "buy",
+  "quantity": 300,
+  "notional_usd": 21000.0,
+  "decision": "approve",
+  "hard_blocks": [],
+  "watch_list_hit": false,
+  "conditions": [
+    "min_holding_lock:30d"
+  ],
+  "authority_limit": 100000,
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "record_decision",
+      "idempotency_key": "44faea3d72b3aa30",
+      "precondition": "no prior open preclearance decision exists for PCR-40218",
+      "expected_effect": "record decision 'approve' for PCR-40218 in the preclearance register",
+      "verification": "preclearance register shows decision 'approve' for PCR-40218 with matching plan_hash",
+      "rollback": "void/withdraw the recorded decision for PCR-40218",
+      "post_state": {
+        "register:PCR-40218:decision": "approve"
+      }
+    },
+    {
+      "step_id": "S2",
+      "action": "issue_clearance_window",
+      "idempotency_key": "86f18ae301d32a69",
+      "precondition": "decision 'approve' recorded for PCR-40218",
+      "expected_effect": "issue clearance window 2026-07-17..2026-07-18 authorizing up to 21000.0 notional",
+      "verification": "active, unexpired clearance window present for PCR-40218",
+      "rollback": "revoke the clearance window for PCR-40218",
+      "post_state": {
+        "register:PCR-40218:clearance_state": "cleared"
+      },
+      "cleared_notional": 21000.0,
+      "clearance_window": {
+        "valid_from": "2026-07-17",
+        "valid_to": "2026-07-18",
+        "horizon": "close of the next trading day"
+      }
+    },
+    {
+      "step_id": "S3",
+      "action": "apply_conditions",
+      "idempotency_key": "8553cd74e5cef907",
+      "precondition": "active clearance window for PCR-40218",
+      "expected_effect": "apply conditions ['min_holding_lock:30d'] to the clearance for PCR-40218",
+      "verification": "conditions ['min_holding_lock:30d'] recorded against PCR-40218",
+      "rollback": "remove conditions ['min_holding_lock:30d'] from PCR-40218",
+      "post_state": {
+        "register:PCR-40218:conditions": "min_holding_lock:30d"
+      }
+    },
+    {
+      "step_id": "S4",
+      "action": "append_audit",
+      "idempotency_key": "ef459ed5e734e722",
+      "precondition": "decision 'approve' recorded for PCR-40218",
+      "expected_effect": "append the preclearance decision event for PCR-40218 to the compliance audit log",
+      "verification": "audit log contains an immutable entry for PCR-40218 carrying the plan_hash",
+      "rollback": "audit log is append-only; a compensating annotation records any reversal for PCR-40218",
+      "post_state": {
+        "audit:PCR-40218": "appended"
+      }
+    }
+  ],
+  "expected_post_state": {
+    "register:PCR-40218:decision": "approve",
+    "register:PCR-40218:clearance_state": "cleared",
+    "register:PCR-40218:conditions": "min_holding_lock:30d",
+    "audit:PCR-40218": "appended"
+  },
+  "plan_hash": "09c62b25a2d0d0ff028661968e381f5bf75583aae6094b1309bdfbe86840ed85",
+  "approval": {
+    "required_role": "compliance-preclearance-analyst",
+    "status": "approved",
+    "approver": "c.officer",
+    "approver_role": "junior-clerk",
+    "token": "TOK-EMP-1"
+  },
+  "execution": {
+    "state": "executed",
+    "executed_steps": [
+      "S1",
+      "S2",
+      "S3",
+      "S4"
+    ]
+  },
+  "standing_note": "Decision plan only; no preclearance decision has been recorded and no clearance has been issued. Execution requires compliance approval."
+}

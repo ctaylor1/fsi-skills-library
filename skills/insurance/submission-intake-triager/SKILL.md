@@ -141,8 +141,8 @@ such action itself.
 ## Output contract
 1. **Summary** — submission (masked as needed), line of business, received date, routing
    recommendation band, count of fired appetite flags and open gaps.
-2. **Reconciliation** — per field: canonical value + source, match/mismatch/single-source,
-   and every source value with citation.
+2. **Reconciliation** — per field: canonical value + source,
+   match/mismatch/single-source/unparseable, and every source value with citation.
 3. **Gaps & follow-ups** — each missing field with severity + a drafted broker request.
 4. **Appetite findings** — per rule: status, plain-language reason, cited evidence, and the
    config used.

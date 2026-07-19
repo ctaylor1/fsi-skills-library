@@ -26,6 +26,7 @@ loss ratio, ACORD for application data). Status:
 | `single_source` | Only one document reported the field |
 | `match` | Multiple documents agree (within `reconcile_tolerance`) |
 | `mismatch` | Documents disagree — **all** sources cited; the underwriter resolves it |
+| `unparseable` | Multiple documents reported a numeric field but none carried a parseable value; the field cannot be reconciled and seeds a gap/follow-up |
 
 ## Gap detection & follow-ups
 

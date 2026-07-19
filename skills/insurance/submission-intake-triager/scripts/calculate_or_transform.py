@@ -18,7 +18,7 @@ Usage:
 Prints the triage JSON to stdout.
 """
 from __future__ import annotations
-import json, re, sys
+import json, sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -136,8 +136,18 @@ def compute(doc: dict) -> dict:
             status = "single_source"
         elif field in NUMERIC_FIELDS:
             nums = [v for v in norm_values if isinstance(v, (int, float))]
-            hi, lo = max(nums), min(nums)
-            status = "mismatch" if (hi - lo) > tol * max(abs(hi), 1.0) else "match"
+            if not nums:
+                # 2+ documents reported the field but none carried a parseable
+                # numeric value — cannot reconcile numerically. Surface as
+                # unparseable instead of crashing on max()/min() of an empty list.
+                status = "unparseable"
+            elif len(nums) < len(norm_values):
+                # Some documents parsed to a number and at least one did not;
+                # the sources disagree, so surface the discrepancy.
+                status = "mismatch"
+            else:
+                hi, lo = max(nums), min(nums)
+                status = "mismatch" if (hi - lo) > tol * max(abs(hi), 1.0) else "match"
         else:
             status = "match" if len({str(v) for v in norm_values}) == 1 else "mismatch"
         reconciliation.append({

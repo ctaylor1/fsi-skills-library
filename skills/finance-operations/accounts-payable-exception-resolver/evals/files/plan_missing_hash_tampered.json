@@ -1,0 +1,61 @@
+{
+  "plan_id": "PLAN-EXC-AP-88002",
+  "_fixture_note": "NON-COMPLIANT: amount was silently raised from 480.0 to 4800.0 after the plan was hashed, then the plan_hash field was DELETED to slip past the old `if p.get('plan_hash')` guard. There is no plan_hash key here; the validator must fail closed on the missing hash.",
+  "status": "planned",
+  "exception_id": "EXC-AP-88002",
+  "invoice_id": "****9911",
+  "vendor_id": "****3310",
+  "catalog_version": "ap-remedy-catalog-2026.05",
+  "remedy": "adjust_invoice_price",
+  "amount": 4800.0,
+  "target": "price_variance",
+  "authority_limit": 5000,
+  "reversible": true,
+  "preconditions": [
+    "AP liability holds the 4800.0 price variance for ****9911",
+    "price-variance account price_variance is open"
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "debit_ap_liability",
+      "idempotency_key": "1122334455667788",
+      "precondition": "AP liability holds the 4800.0 price variance for ****9911",
+      "expected_effect": "reduce AP liability by 4800.0",
+      "effect_amount": 4800.0,
+      "verification": "AP liability decreased by 4800.0",
+      "rollback": "restore 4800.0 to AP liability",
+      "post_delta": {
+        "ap_liability": -4800.0
+      }
+    },
+    {
+      "step_id": "S2",
+      "action": "credit_price_variance",
+      "idempotency_key": "8877665544332211",
+      "precondition": "price-variance account price_variance is open",
+      "expected_effect": "post 4800.0 price variance to price_variance",
+      "effect_amount": 4800.0,
+      "verification": "price_variance increased by 4800.0",
+      "rollback": "reverse the 4800.0 posting to price_variance",
+      "post_delta": {
+        "price_variance": 4800.0
+      }
+    }
+  ],
+  "expected_post_state": {
+    "ap_liability": -4800.0,
+    "price_variance": 4800.0
+  },
+  "approval": {
+    "required_role": "ap-supervisor",
+    "status": "pending",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "standing_note": "Plan only; no system-of-record change has been executed. Execution requires human approval."
+}
