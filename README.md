@@ -106,6 +106,10 @@ frontmatter validity, one-level-deep file references) plus this library's metada
 contract. For the official reference validator, see
 [`skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref).
 
+## Disclaimer
+
+Everything in this repo is provided as open source software to accelerate agent development and FSI adoption of agents. It is offered "as-is" without warranties or service level agreements. Users are responsible for conducting their own security reviews, dependency audits, and testing before deploying in production, and for keeping installations up-to-date. Breaking changes may occur between releases. While community contributions are welcome, there is no guarantee of support response times, and long-term roadmap decisions remain with the maintainers. Organizations with strict compliance or regulatory requirements should evaluate whether the project's licensing and governance model align with their internal policies.
+
 ## License
 
 MIT — see [LICENSE](LICENSE). Individual skills declare `license: MIT` in their
