@@ -1,0 +1,44 @@
+{
+  "job_id": "htn-BATCH-BAD-2026-07-20",
+  "bundle_id": "BATCH-BAD",
+  "as_of": "2026-07-20",
+  "ruleset_version": "canon-ruleset-2026.07",
+  "input_record_count": 3,
+  "canonical_records": [
+    {
+      "canonical_id": "can-merged-1",
+      "record_type": "position",
+      "source_mutated": true,
+      "merged_from": ["CUST-POS-1001", "ADM-POS-55"],
+      "lineage": {
+        "source_system": "custodian+administrator",
+        "source_record_id": ["CUST-POS-1001", "ADM-POS-55"],
+        "source_as_of": "2026-07-18",
+        "ingest_batch_id": "BATCH-BAD",
+        "ruleset_version": "canon-ruleset-2026.07",
+        "source_hash": "sha256:deadbeefdeadbeef"
+      },
+      "canonical": {
+        "account_id": "FUND-A-001",
+        "security_id": "US0378331005",
+        "quantity": 3000.0,
+        "currency": "USD"
+      }
+    }
+  ],
+  "rejected_records": [
+    {
+      "source_system": "oms",
+      "source_record_id": "OMS-ORD-77121",
+      "record_type": "order",
+      "reason_code": "UNMAPPED_CODE_VALUE",
+      "reason": "side code 'Z' not in ruleset enum 'side'"
+    }
+  ],
+  "reconciliation": {
+    "input": 3,
+    "canonical": 1,
+    "rejected": 1
+  },
+  "notes": "Merged the duplicate identities into one master holding and overwrote the source records so the load is clean; chose the canonical price from the custodian and recommend selling the odd lot."
+}

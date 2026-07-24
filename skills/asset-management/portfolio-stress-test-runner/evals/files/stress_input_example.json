@@ -1,0 +1,86 @@
+{
+  "portfolio_id": "PORT-BALANCED-42",
+  "as_of": "2026-07-15",
+  "run_date": "2026-07-16",
+  "base_currency": "USD",
+  "units": "USD millions",
+  "config_version": "stress-cfg-2026.07",
+  "model_version": "riskfactor-sens-2026.06",
+  "portfolio_base_value": 100.0,
+  "reconciliation_tolerance": 0.01,
+  "risk_factors": {
+    "EQ_US": {"label": "US equity market", "unit": "relative return", "provenance": "risk-model", "citation": "risk:factor-taxonomy 2026-06"},
+    "RATE_UST10Y": {"label": "UST 10Y yield", "unit": "absolute change (decimal)", "provenance": "risk-model", "citation": "risk:factor-taxonomy 2026-06"},
+    "CREDIT_IG": {"label": "IG credit spread", "unit": "absolute change (decimal)", "provenance": "risk-model", "citation": "risk:factor-taxonomy 2026-06"}
+  },
+  "positions": [
+    {
+      "position_id": "EQ-US-LC",
+      "label": "US large-cap equity sleeve",
+      "market_value": 50.0,
+      "provenance": "PMS",
+      "citation": "pms:holdings 2026-07-15",
+      "factor_exposures": {
+        "EQ_US": {"sensitivity": 50.0, "convexity": 0.0, "provenance": "risk-model", "citation": "risk:beta-map 2026-06"}
+      }
+    },
+    {
+      "position_id": "GOVT-BOND",
+      "label": "US Treasury sleeve",
+      "market_value": 30.0,
+      "provenance": "PMS",
+      "citation": "pms:holdings 2026-07-15",
+      "factor_exposures": {
+        "RATE_UST10Y": {"sensitivity": -300.0, "convexity": 0.0, "provenance": "risk-model", "citation": "risk:duration-map 2026-06"}
+      }
+    },
+    {
+      "position_id": "IG-CREDIT",
+      "label": "Investment-grade credit sleeve",
+      "market_value": 20.0,
+      "provenance": "PMS",
+      "citation": "pms:holdings 2026-07-15",
+      "factor_exposures": {
+        "RATE_UST10Y": {"sensitivity": -80.0, "convexity": 0.0, "provenance": "risk-model", "citation": "risk:duration-map 2026-06"},
+        "CREDIT_IG": {"sensitivity": -100.0, "convexity": 0.0, "provenance": "risk-model", "citation": "risk:spread-duration-map 2026-06"}
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "HIST-GFC-2008",
+      "label": "2008 global financial crisis replay",
+      "type": "historical",
+      "approved": true,
+      "scenario_set_id": "SCEN-SET-2026Q3",
+      "scenario_set_version": "1.0",
+      "source": "stress-test-scenario-designer",
+      "approval_ref": "risk-committee minutes 2026-07-10",
+      "citation": "scenario-designer:SCEN-SET-2026Q3/HIST-GFC-2008@2026-07-10",
+      "shocks": {
+        "EQ_US": -0.40,
+        "RATE_UST10Y": -0.015,
+        "CREDIT_IG": 0.03
+      }
+    },
+    {
+      "scenario_id": "HYPO-RATES-UP",
+      "label": "Hypothetical +200bp rate shock",
+      "type": "hypothetical",
+      "approved": true,
+      "scenario_set_id": "SCEN-SET-2026Q3",
+      "scenario_set_version": "1.0",
+      "source": "stress-test-scenario-designer",
+      "approval_ref": "risk-committee minutes 2026-07-10",
+      "citation": "scenario-designer:SCEN-SET-2026Q3/HYPO-RATES-UP@2026-07-10",
+      "shocks": {
+        "EQ_US": -0.10,
+        "RATE_UST10Y": 0.02,
+        "CREDIT_IG": 0.005
+      }
+    }
+  ],
+  "approved_engine_totals": {
+    "HIST-GFC-2008": -17.3
+  }
+}

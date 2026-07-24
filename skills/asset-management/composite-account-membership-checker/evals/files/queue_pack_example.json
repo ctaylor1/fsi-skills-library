@@ -1,0 +1,80 @@
+{
+  "review_id": "camc-AMX-2026-06-30-0001",
+  "firm_id": "AMX",
+  "as_of": "2026-06-30",
+  "ruleset_version": "gips-composite-policy-2026.1",
+  "ruleset_effective_date": "2026-01-01",
+  "portfolios_evaluated": 8,
+  "exceptions": [
+    {
+      "case_ref": "camc-AMX-2026-06-30-0001-E001",
+      "portfolio_id": "P-1002", "composite_id": "COMP-GEQ",
+      "exception_type": "improper_inclusion", "severity": "high",
+      "reason": "Assigned to COMP-GEQ but market value 3000000.0 is below the composite minimum 5000000; flagged as a potential improper inclusion for analyst adjudication.",
+      "expected_membership": "excluded", "asserted_membership": "assigned", "status": "for_review",
+      "rule": {"rule_id": "R-INCL-GEQ", "rule_version": "2026.1", "effective_date": "2026-01-01"},
+      "evidence": [{"field": "market_value", "value": 3000000.0, "citation": "pms:portfolio=P-1002;field=market_value@as_of"}]
+    },
+    {
+      "case_ref": "camc-AMX-2026-06-30-0001-E002",
+      "portfolio_id": "P-1003", "composite_id": "COMP-GEQ",
+      "exception_type": "stale_inclusion", "severity": "high",
+      "reason": "Terminated 2026-03-15 yet still assigned to COMP-GEQ after its last full measurement period (2026-03); flagged as a potential stale inclusion for analyst adjudication.",
+      "expected_membership": "excluded", "asserted_membership": "assigned", "status": "for_review",
+      "rule": {"rule_id": "R-INCL-GEQ", "rule_version": "2026.1", "effective_date": "2026-01-01"},
+      "evidence": [{"field": "termination_date", "value": "2026-03-15", "citation": "pms:portfolio=P-1003;field=termination_date@as_of"}]
+    },
+    {
+      "case_ref": "camc-AMX-2026-06-30-0001-E003",
+      "portfolio_id": "P-1004", "composite_id": "COMP-FI",
+      "exception_type": "missing_inclusion", "severity": "medium",
+      "reason": "Meets all COMP-FI inclusion criteria (strategy, discretion, value >= 10000000, past inclusion lag) but is not assigned to it; flagged as a potential missing inclusion for analyst adjudication.",
+      "expected_membership": "included", "asserted_membership": "not assigned", "status": "for_review",
+      "rule": {"rule_id": "R-INCL-FI", "rule_version": "2026.1", "effective_date": "2026-01-01"},
+      "evidence": [
+        {"field": "strategy", "value": "core-fixed-income", "citation": "pms:portfolio=P-1004;field=strategy@as_of"},
+        {"field": "market_value", "value": 15000000.0, "citation": "pms:portfolio=P-1004;field=market_value@as_of"}
+      ]
+    },
+    {
+      "case_ref": "camc-AMX-2026-06-30-0001-E004",
+      "portfolio_id": "P-1005", "composite_id": "COMP-FI",
+      "exception_type": "improper_inclusion", "severity": "high",
+      "reason": "Assigned to COMP-FI but the portfolio is non-discretionary while the composite requires discretionary mandates; flagged as a potential improper inclusion for analyst adjudication.",
+      "expected_membership": "excluded", "asserted_membership": "assigned", "status": "for_review",
+      "rule": {"rule_id": "R-INCL-FI", "rule_version": "2026.1", "effective_date": "2026-01-01"},
+      "evidence": [{"field": "discretionary", "value": false, "citation": "pms:portfolio=P-1005;field=discretionary@as_of"}]
+    },
+    {
+      "case_ref": "camc-AMX-2026-06-30-0001-E005",
+      "portfolio_id": "P-1006", "composite_id": null,
+      "exception_type": "unassigned_discretionary", "severity": "high",
+      "reason": "Discretionary fee-paying portfolio with strategy 'emerging-markets-equity' matches no defined composite and is assigned to none; every discretionary fee-paying portfolio must belong to a composite, so flagged as a composite-coverage gap for analyst adjudication.",
+      "expected_membership": "member of >= 1 composite", "asserted_membership": "not assigned", "status": "for_review",
+      "rule": {"rule_id": "R-COMPLETENESS", "rule_version": "gips-composite-policy-2026.1", "effective_date": "2026-01-01"},
+      "evidence": [
+        {"field": "strategy", "value": "emerging-markets-equity", "citation": "pms:portfolio=P-1006;field=strategy@as_of"},
+        {"field": "fee_paying", "value": true, "citation": "pms:portfolio=P-1006;field=fee_paying@as_of"}
+      ]
+    },
+    {
+      "case_ref": "camc-AMX-2026-06-30-0001-E006",
+      "portfolio_id": "P-1008", "composite_id": "COMP-GEQ",
+      "exception_type": "significant_cash_flow_review", "severity": "low",
+      "reason": "Significant external cash flow of 40% meets the COMP-GEQ significant-cash-flow policy threshold (25%); flagged for analyst review of the temporary-removal policy.",
+      "expected_membership": "temporary-removal review", "asserted_membership": "assigned", "status": "for_review",
+      "rule": {"rule_id": "R-INCL-GEQ", "rule_version": "2026.1", "effective_date": "2026-01-01"},
+      "evidence": [{"field": "significant_cash_flow_pct", "value": 0.4, "citation": "pms:portfolio=P-1008;field=significant_cash_flow_pct@as_of"}]
+    }
+  ],
+  "exception_types": ["improper_inclusion", "stale_inclusion", "missing_inclusion", "improper_inclusion", "unassigned_discretionary", "significant_cash_flow_review"],
+  "informational": [
+    {"portfolio_id": "P-1001", "state": "compliant", "detail": "assigned exactly to expected ['COMP-GEQ']"},
+    {"portfolio_id": "P-1007", "state": "pending_inclusion", "detail": "within inclusion lag for ['COMP-GEQ']"}
+  ],
+  "queue_priority": "Elevated",
+  "human_adjudication_required": true,
+  "narrative": "Membership check camc-AMX-2026-06-30-0001 for firm AMX as of 2026-06-30 evaluated 8 portfolios under ruleset gips-composite-policy-2026.1 and queued 6 exceptions for analyst adjudication (queue priority: Elevated). Three high-severity items concern composite completeness and accuracy: P-1002 is held in COMP-GEQ below the composite minimum, P-1005 is a non-discretionary account held in a discretionary-only composite, and P-1003 remains in COMP-GEQ after its last full period post-termination. P-1004 appears eligible for COMP-FI but is not assigned, P-1006 is a discretionary fee-paying account matching no composite, and P-1008 breached the significant-cash-flow threshold. Each item cites the rule and version applied and is staged for the analyst to adjudicate; nothing has been altered. Composite-membership exceptions are evidence for analyst adjudication only; this skill does not modify composites, methodology, or reported performance.",
+  "notes": "All exceptions require human adjudication by a performance analyst. Return or performance-attribution work is out of scope and routes to performance-attribution-builder.",
+  "disclaimer": "Composite-membership exceptions are evidence for analyst adjudication only; this skill does not modify composites, methodology, or reported performance."
+}

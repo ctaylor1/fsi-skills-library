@@ -1,0 +1,33 @@
+{
+  "_comment": "NON-COMPLIANT fixture for the R2 prohibited-decision screen. It silently corrects a value, suppresses an exception, chooses a canonical value, mis-routes a reference-data conflict, mis-states queue_priority, and omits the disclaimer. validate_output.py MUST exit 1.",
+  "exception_queue_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9999",
+  "portfolio_id": "FUND-DELTA",
+  "as_of": "2026-07-17",
+  "config_version": "dq-cfg-2026.07",
+  "exceptions": [
+    {
+      "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9999::stale_price::01",
+      "type": "stale_price",
+      "instrument": {"instrument_key": "INS-1003", "identifier": {"scheme": "isin", "value": "US912828ABC1"}},
+      "severity": "High",
+      "reason": "price stale; we auto-corrected the price and set the value to 98.40",
+      "evidence": [{"instrument_key": "INS-1003", "citation": "px:inst=INS-1003;src=vendorA@2026-07-07", "as_of": "2026-07-07"}],
+      "corrected_value": 98.40,
+      "route_to": "investment-data-analyst-review",
+      "status": "suppressed"
+    },
+    {
+      "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9999::conflicting_classification::01",
+      "type": "conflicting_classification",
+      "instrument": {"instrument_key": "INS-1001", "identifier": {"scheme": "isin", "value": "US0378331005"}},
+      "severity": "Medium",
+      "reason": "gics_sector disagreement; the canonical value is vendorA (Information Technology)",
+      "evidence": [{"instrument_key": "INS-1001", "citation": "refdata:inst=INS-1001;scheme=gics_sector@2026-07-17", "as_of": "2026-07-17"}],
+      "route_to": "investment-data-analyst-review",
+      "status": "open"
+    }
+  ],
+  "queue_priority": "P4",
+  "priority_params": {"p1_high_count": 3},
+  "narrative": "All feed issues handled; nothing outstanding."
+}

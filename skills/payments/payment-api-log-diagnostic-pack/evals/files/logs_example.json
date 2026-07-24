@@ -1,0 +1,23 @@
+{
+  "integration": {"integration_id": "INT-77", "merchant": "ExampleShop", "gateway": "acme-pay",
+                  "window": "2026-07-18T00:00Z/2026-07-18T06:00Z"},
+  "taxonomy": {
+    "code_map": {"invalid_api_key": "auth", "expired_token": "auth", "missing_field": "validation",
+                 "rate_limited": "rate_limit", "gateway_timeout": "network", "issuer_unavailable": "downstream"},
+    "next_checks": {
+      "auth": ["Verify API key validity and rotation status with a human", "Check token expiry and client clock skew"],
+      "validation": ["Review request schema against the API version", "Check required-field mapping"],
+      "rate_limit": ["Review request volume against plan limits", "Check backoff/retry configuration"],
+      "network": ["Check egress connectivity and timeout settings", "Review DNS/TLS path to the gateway"],
+      "downstream": ["Check the gateway/issuer status page", "Confirm failover configuration"],
+      "unclassified": ["Manually review the raw entries and extend the taxonomy"]},
+    "config_version": "error_taxonomy@v2026.05"},
+  "log_entries": [
+    {"ts": "2026-07-18T01:02:03Z", "endpoint": "/v1/charges", "http_status": 401, "error_code": "invalid_api_key", "message": "auth failed for card 4111111111111111", "request_id": "req_a1"},
+    {"ts": "2026-07-18T01:05:10Z", "endpoint": "/v1/charges", "http_status": 401, "error_code": "expired_token", "message": "token expired", "request_id": "req_a2"},
+    {"ts": "2026-07-18T02:11:00Z", "endpoint": "/v1/charges", "http_status": 504, "error_code": "gateway_timeout", "message": "upstream timeout", "request_id": "req_a3"},
+    {"ts": "2026-07-18T02:20:41Z", "endpoint": "/v1/refunds", "http_status": 429, "error_code": "rate_limited", "message": "too many requests", "request_id": "req_a4"},
+    {"ts": "2026-07-18T03:00:00Z", "endpoint": "/v1/charges", "http_status": 503, "error_code": "issuer_unavailable", "message": "issuer down", "request_id": "req_a5"},
+    {"ts": "2026-07-18T03:30:00Z", "endpoint": "/v1/charges", "http_status": 400, "error_code": "weird_unknown_code", "message": "unexpected error", "request_id": "req_a6"}
+  ]
+}

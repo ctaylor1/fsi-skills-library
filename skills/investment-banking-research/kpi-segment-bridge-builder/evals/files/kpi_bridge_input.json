@@ -1,0 +1,76 @@
+{
+  "company_id": "PROJECT-HELIOS",
+  "as_of": "2026-07-16",
+  "prior_period": {"label": "FY2024", "end": "2024-12-31"},
+  "current_period": {"label": "FY2025", "end": "2025-12-31"},
+  "currency": "USD",
+  "units": "millions",
+  "config_version": "kpi-bridge-cfg-2026.07",
+  "mapping_version": "seg-map-2026.07",
+  "job_id": "job-HELIOS-FY2025-kpi",
+  "reported_totals": {
+    "prior_revenue": {"value": 1000.0, "source_type": "reported", "provenance": "filing", "citation": "filing:FY2024 10-K consolidated income statement"},
+    "current_revenue": {"value": 1150.0, "source_type": "reported", "provenance": "filing", "citation": "filing:FY2025 10-K consolidated income statement"}
+  },
+  "approved_mappings": [
+    {"mapping_id": "map-fx-constant-currency", "status": "approved", "effective_date": "2026-01-01", "description": "Constant-currency FX translation effect per disclosed average rates (10-K MD&A)"},
+    {"mapping_id": "map-scope-inorganic", "status": "approved", "effective_date": "2026-01-01", "description": "Inorganic/scope carve-out for acquisitions closed in-period, per disclosed contribution"},
+    {"mapping_id": "map-segment-2025-recast", "status": "approved", "effective_date": "2026-01-01", "description": "FY2025 disclosed segment realignment mapping (reportable-segment note)"}
+  ],
+  "bridges": [
+    {
+      "id": "revenue-walk",
+      "type": "walk",
+      "metric": "revenue",
+      "unit": "currency",
+      "reconcile_to": {"beginning_key": "prior_revenue", "ending_key": "current_revenue"},
+      "beginning": {"value": 1000.0, "source_type": "reported", "provenance": "filing", "citation": "filing:FY2024 10-K income statement"},
+      "ending": {"value": 1150.0, "source_type": "reported", "provenance": "filing", "citation": "filing:FY2025 10-K income statement"},
+      "components": [
+        {"id": "organic-volume", "label": "Organic volume", "amount": 90.0, "derivation": "disclosed", "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K MD&A revenue analysis"},
+        {"id": "price", "label": "Price/rate", "amount": 40.0, "derivation": "disclosed", "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K MD&A revenue analysis"},
+        {"id": "fx", "label": "FX translation", "amount": -20.0, "derivation": "mapping", "mapping_id": "map-fx-constant-currency", "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K MD&A constant-currency table"},
+        {"id": "scope", "label": "M&A / scope", "amount": 40.0, "derivation": "mapping", "mapping_id": "map-scope-inorganic", "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K note 3 business combinations"}
+      ]
+    },
+    {
+      "id": "segment-revenue",
+      "type": "walk",
+      "metric": "revenue",
+      "unit": "currency",
+      "reconcile_to": {"beginning_key": "prior_revenue", "ending_key": "current_revenue"},
+      "beginning": {"value": 1000.0, "source_type": "reported", "provenance": "filing", "citation": "filing:FY2024 10-K segment note"},
+      "ending": {"value": 1150.0, "source_type": "reported", "provenance": "filing", "citation": "filing:FY2025 10-K segment note"},
+      "components": [
+        {"id": "seg-cloud", "label": "Cloud", "amount": 120.0, "derivation": "mapping", "mapping_id": "map-segment-2025-recast", "source_type": "reported", "provenance": "filing", "citation": "filing:FY2025 10-K segment note (recast)"},
+        {"id": "seg-hardware", "label": "Hardware", "amount": 10.0, "derivation": "mapping", "mapping_id": "map-segment-2025-recast", "source_type": "reported", "provenance": "filing", "citation": "filing:FY2025 10-K segment note (recast)"},
+        {"id": "seg-services", "label": "Services", "amount": 20.0, "derivation": "mapping", "mapping_id": "map-segment-2025-recast", "source_type": "reported", "provenance": "filing", "citation": "filing:FY2025 10-K segment note (recast)"}
+      ]
+    },
+    {
+      "id": "ebit-margin-walk",
+      "type": "walk",
+      "metric": "ebit_margin",
+      "unit": "pct_points",
+      "beginning": {"value": 20.0, "source_type": "reported", "provenance": "filing", "citation": "filing:FY2024 10-K income statement"},
+      "ending": {"value": 22.5, "source_type": "reported", "provenance": "filing", "citation": "filing:FY2025 10-K income statement"},
+      "components": [
+        {"id": "gross-margin", "label": "Gross-margin mix", "amount": 1.5, "derivation": "disclosed", "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K MD&A margin bridge"},
+        {"id": "opex-leverage", "label": "Operating leverage", "amount": 1.5, "derivation": "disclosed", "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K MD&A margin bridge"},
+        {"id": "fx", "label": "FX", "amount": -0.5, "derivation": "mapping", "mapping_id": "map-fx-constant-currency", "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K MD&A constant-currency table"}
+      ]
+    },
+    {
+      "id": "cloud-volume-price",
+      "type": "volume_price",
+      "metric": "revenue",
+      "unit": "currency",
+      "factors": {
+        "prior_units": {"value": 100.0, "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2024 10-K KPI supplement (units)"},
+        "prior_price": {"value": 5.0, "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2024 10-K KPI supplement (ARPU)"},
+        "current_units": {"value": 110.0, "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K KPI supplement (units)"},
+        "current_price": {"value": 5.2, "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K KPI supplement (ARPU)"}
+      }
+    }
+  ]
+}

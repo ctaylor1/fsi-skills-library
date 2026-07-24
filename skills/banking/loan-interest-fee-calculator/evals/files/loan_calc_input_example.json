@@ -1,0 +1,76 @@
+{
+  "case_id": "CASE-LSV-88213",
+  "loan_id": "LN-DEMO-2001",
+  "as_of": "2026-07-15",
+  "calc_date": "2026-07-15",
+  "config_version": "loan-calc-cfg-2026.07",
+  "rate_table_version": "rt-2026.06",
+  "currency": "USD",
+  "day_count_default": "30/360",
+  "thresholds": {"materiality": 25.0},
+  "interest_accruals": [
+    {
+      "id": "int-2026-06",
+      "principal": {"value": 100000.0, "provenance": "servicing-ledger", "citation": "svc:principal balance 2026-06-01"},
+      "annual_rate": {"value": 0.06, "provenance": "rate-table", "citation": "rt-2026.06:note-rate LN-DEMO-2001"},
+      "start": "2026-06-01",
+      "end": "2026-07-01",
+      "day_count": "30/360",
+      "book_amount": {"value": 500.0, "provenance": "servicing-ledger", "citation": "svc:interest posting 2026-07-01"}
+    },
+    {
+      "id": "int-2026-07",
+      "principal": {"value": 100000.0, "provenance": "servicing-ledger", "citation": "svc:principal balance 2026-07-01"},
+      "annual_rate": {"value": 0.06, "provenance": "rate-table", "citation": "rt-2026.06:note-rate LN-DEMO-2001"},
+      "start": "2026-07-01",
+      "end": "2026-07-16",
+      "day_count": "actual/365",
+      "book_amount": {"value": 250.0, "provenance": "servicing-ledger", "citation": "svc:interest accrual 2026-07-16"}
+    }
+  ],
+  "fees": [
+    {
+      "id": "fee-late",
+      "type": "late_fee",
+      "basis": "flat",
+      "amount": {"value": 35.0, "provenance": "agreement", "citation": "agmt:LN-DEMO-2001 sec 4.2 late fee"},
+      "book_amount": {"value": 35.0, "provenance": "servicing-ledger", "citation": "svc:fee posting 2026-07-05"}
+    },
+    {
+      "id": "fee-servicing",
+      "type": "servicing_fee",
+      "basis": "pct_balance",
+      "base": {"value": 100000.0, "provenance": "servicing-ledger", "citation": "svc:principal balance 2026-07-01"},
+      "rate": {"value": 0.0025, "provenance": "rate-table", "citation": "rt-2026.06:servicing-fee schedule"},
+      "book_amount": {"value": 200.0, "provenance": "servicing-ledger", "citation": "svc:fee posting 2026-07-01"}
+    }
+  ],
+  "amortization": {
+    "principal": {"value": 12000.0, "provenance": "agreement", "citation": "agmt:LN-DEMO-2001 sched A note amount"},
+    "annual_rate": {"value": 0.12, "provenance": "rate-table", "citation": "rt-2026.06:note-rate LN-DEMO-2001 installment"},
+    "term_periods": 12,
+    "periods_per_year": 12,
+    "method": "level_payment"
+  },
+  "settlement": {
+    "payoff_date": "2026-07-16",
+    "principal_outstanding": {"value": 100000.0, "provenance": "servicing-ledger", "citation": "svc:principal balance 2026-07-16"},
+    "accrued_interest": {"value": 246.58, "provenance": "deterministic-computation", "citation": "calc:int-2026-07 recompute"},
+    "fees_due": {"value": 285.0, "provenance": "servicing-ledger", "citation": "svc:open fees 2026-07-16"},
+    "unapplied_funds": {"value": 500.0, "provenance": "servicing-ledger", "citation": "svc:suspense balance 2026-07-16"},
+    "book_amount": {"value": 100031.58, "provenance": "servicing-ledger", "citation": "svc:quoted payoff 2026-07-16"}
+  },
+  "participations": {
+    "total_amount": {"value": 1000.0, "provenance": "deterministic-computation", "citation": "calc:period shared interest"},
+    "participants": [
+      {"id": "lead-bank", "share_pct": {"value": 0.3334, "provenance": "agreement", "citation": "agmt:participation cert sec 2 lead"}, "book_amount": {"value": 333.4, "provenance": "servicing-ledger", "citation": "svc:participant remittance lead"}},
+      {"id": "participant-a", "share_pct": {"value": 0.3333, "provenance": "agreement", "citation": "agmt:participation cert sec 2 A"}, "book_amount": {"value": 333.3, "provenance": "servicing-ledger", "citation": "svc:participant remittance A"}},
+      {"id": "participant-b", "share_pct": {"value": 0.3333, "provenance": "agreement", "citation": "agmt:participation cert sec 2 B"}, "book_amount": {"value": 333.3, "provenance": "servicing-ledger", "citation": "svc:participant remittance B"}}
+    ]
+  },
+  "approved_engine_totals": {
+    "interest_total": {"value": 746.58, "provenance": "approved-calc-engine", "citation": "eng:AmortEngine v9 run 2026-07-16"},
+    "fee_total": {"value": 285.0, "provenance": "approved-calc-engine", "citation": "eng:AmortEngine v9 run 2026-07-16"},
+    "settlement_payoff": {"value": 100031.58, "provenance": "approved-calc-engine", "citation": "eng:AmortEngine v9 payoff 2026-07-16"}
+  }
+}
