@@ -1,0 +1,83 @@
+{
+  "reconciliation_id": "pcr-MAPLE-FUND-LP-2026-06-30-aaaaaaaa",
+  "entity": "MAPLE-FUND-LP",
+  "as_of": "2026-06-30",
+  "base_currency": "USD",
+  "config_version": "pcr-cfg-2026.06",
+  "input_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "tie_out": {
+    "groups": [
+      {
+        "match_key": "CUST-A|ISIN-BBB",
+        "record_type": "position",
+        "account": "CUST-A",
+        "source_system": "custodian",
+        "unit": "units",
+        "internal_total": 5000.0,
+        "external_total": 4650.0,
+        "difference": 350.0,
+        "breaks_total": 200.0,
+        "residual": 150.0,
+        "corrected_internal_total": 4800.0,
+        "documented_or_routed_total": 0.0,
+        "ties_out": true
+      }
+    ],
+    "all_ties_out": true,
+    "status": "reconciled_with_breaks"
+  },
+  "matched_count": 0,
+  "breaks": [
+    {
+      "break_id": "BRK-0001",
+      "type": "quantity_break",
+      "match_key": "CUST-A|ISIN-BBB",
+      "record_type": "position",
+      "account": "CUST-A",
+      "source_system": "custodian",
+      "unit": "units",
+      "currency": null,
+      "break_amount": 200.0,
+      "base_impact": null,
+      "material": true,
+      "internal": {"record_id": "INT-P2", "value": 5000.0, "settle_date": "2026-06-26", "citation": "internal:books;pos;acct=CUST-A;sec=ISIN-BBB@2026-06-26"},
+      "external": {"record_id": "EXT-P2", "value": 4800.0, "settle_date": "2026-06-26", "citation": "external:custodian;stmt=JUN;acct=CUST-A;sec=ISIN-BBB@2026-06-26"},
+      "lineage": ["internal:books;pos;acct=CUST-A;sec=ISIN-BBB@2026-06-26", "external:custodian;stmt=JUN;acct=CUST-A;sec=ISIN-BBB@2026-06-26"],
+      "note": "internal 5000.00 vs custodian 4800.00 (units)",
+      "requires_correction": true,
+      "routing": null,
+      "proposed_item": {
+        "proposed_item_id": "PITM-0001",
+        "break_id": "BRK-0001",
+        "status": "APPLIED",
+        "adjustment_amount": -200.0,
+        "unit": "units",
+        "currency": null,
+        "action": "Adjusted the internal book by -200.00 units to agree to the custodian record for CUST-A|ISIN-BBB."
+      }
+    }
+  ],
+  "proposed_items": [
+    {
+      "proposed_item_id": "PITM-0001",
+      "break_id": "BRK-0001",
+      "status": "APPLIED",
+      "adjustment_amount": -200.0,
+      "unit": "units",
+      "currency": null,
+      "action": "Adjusted the internal book by -200.00 units to agree to the custodian record for CUST-A|ISIN-BBB."
+    }
+  ],
+  "routed_breaks": [],
+  "summary": {
+    "total_breaks": 1,
+    "by_type": {"quantity_break": 1},
+    "material_breaks": 1,
+    "proposed_items": 1,
+    "documented_pending": 0,
+    "routed_to_trade_break_resolver": 0,
+    "material_base_impact": 0.0
+  },
+  "disclaimer": "",
+  "narrative": "Reconciliation complete. The positions have been repaired and the cash has been moved to agree to the custodian, and the account now ties. We recommend increasing the ISIN-EEE position next month."
+}

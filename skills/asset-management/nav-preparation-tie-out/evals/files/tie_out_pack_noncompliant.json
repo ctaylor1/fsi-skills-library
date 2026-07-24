@@ -1,0 +1,572 @@
+{
+  "tie_out_id": "npt-LOTUS-CORE-FUND-INST-2026-06-30-1c80392a",
+  "fund": "LOTUS-CORE-FUND",
+  "share_class": "INST",
+  "as_of": "2026-06-30",
+  "base_currency": "USD",
+  "config_version": "nav-tieout-cfg-2026.06",
+  "input_fingerprint": "1c80392ab755dc473407d92d5789ed9e61f677da736b0fd5c658b06fef95307e",
+  "tie_out": {
+    "control_totals": [
+      {
+        "component": "accrual",
+        "currency": "USD",
+        "book_total": 15500.0,
+        "verifier_total": 15450.0,
+        "difference": 50.0,
+        "breaks_impact_sum": 50.0,
+        "ties_out": true
+      },
+      {
+        "component": "cash",
+        "currency": "EUR",
+        "book_total": 300000.0,
+        "verifier_total": 299750.0,
+        "difference": 250.0,
+        "breaks_impact_sum": 250.0,
+        "ties_out": true
+      },
+      {
+        "component": "cash",
+        "currency": "GBP",
+        "book_total": 40000.0,
+        "verifier_total": 0.0,
+        "difference": 40000.0,
+        "breaks_impact_sum": 40000.0,
+        "ties_out": true
+      },
+      {
+        "component": "cash",
+        "currency": "JPY",
+        "book_total": 5000000.0,
+        "verifier_total": 5000000.0,
+        "difference": 0.0,
+        "breaks_impact_sum": 0.0,
+        "ties_out": true
+      },
+      {
+        "component": "cash",
+        "currency": "USD",
+        "book_total": 1250000.0,
+        "verifier_total": 1250000.0,
+        "difference": 0.0,
+        "breaks_impact_sum": 0.0,
+        "ties_out": true
+      },
+      {
+        "component": "expense",
+        "currency": "USD",
+        "book_total": 7450.0,
+        "verifier_total": 7250.0,
+        "difference": 200.0,
+        "breaks_impact_sum": 200.0,
+        "ties_out": true
+      },
+      {
+        "component": "income",
+        "currency": "USD",
+        "book_total": 8000.0,
+        "verifier_total": 8900.0,
+        "difference": -900.0,
+        "breaks_impact_sum": -800.0,
+        "ties_out": false
+      },
+      {
+        "component": "shares",
+        "currency": "USD",
+        "book_total": 1000000.0,
+        "verifier_total": 999000.0,
+        "difference": 1000.0,
+        "breaks_impact_sum": 1000.0,
+        "ties_out": true
+      }
+    ],
+    "residual": -100.0,
+    "out_of_tolerance_count": 8,
+    "captured_break_count": 8,
+    "components_reconciled": [
+      "accrual",
+      "cash",
+      "expense",
+      "income",
+      "position",
+      "price",
+      "shares"
+    ],
+    "all_control_totals_tie": false,
+    "ties_out": false,
+    "status": "reconciled_with_breaks"
+  },
+  "matched_count": 5,
+  "breaks": [
+    {
+      "break_id": "BRK-0001",
+      "type": "quantity_break",
+      "component": "position",
+      "key": "SEC-BBB",
+      "currency": "USD",
+      "verifier_source": "custodian",
+      "impact": 500.0,
+      "unit": "quantity",
+      "material": true,
+      "book": {
+        "line_id": "BK-POS-BBB",
+        "value": 5000.0,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;pos;acct=LOTUS;sec=SEC-BBB@2026-06-30"
+      },
+      "verifier": {
+        "line_id": "CU-POS-BBB",
+        "value": 4500.0,
+        "as_of": "2026-06-30",
+        "citation": "custodian:custodian;holdings;sec=SEC-BBB@2026-06-30"
+      },
+      "lineage": [
+        "book:abor;pos;acct=LOTUS;sec=SEC-BBB@2026-06-30",
+        "custodian:custodian;holdings;sec=SEC-BBB@2026-06-30"
+      ],
+      "note": "book 5000.0000 vs custodian 4500.0000 (tolerance 0.0001)",
+      "requires_resolution": true,
+      "proposed_resolution": {
+        "resolution_id": "PRS-0001",
+        "break_id": "BRK-0001",
+        "status": "POSTED",
+        "disposition": "investigate_and_adjust_in_source",
+        "route_to": null,
+        "recommended_action": "Investigate the quantity break on SEC-BBB between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+        "chooses_value": true,
+        "strikes_nav": true,
+        "posts_entry": true,
+        "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+      }
+    },
+    {
+      "break_id": "BRK-0002",
+      "type": "price_break",
+      "component": "price",
+      "key": "SEC-BBB",
+      "currency": "USD",
+      "verifier_source": "pricing",
+      "impact": -0.25,
+      "unit": "price",
+      "material": true,
+      "book": {
+        "line_id": "BK-PRC-BBB",
+        "value": 98.75,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;price;sec=SEC-BBB@2026-06-30"
+      },
+      "verifier": {
+        "line_id": "PX-PRC-BBB",
+        "value": 99.0,
+        "as_of": "2026-06-30",
+        "citation": "pricing:pricing;approved;vendorA;sec=SEC-BBB@2026-06-30"
+      },
+      "lineage": [
+        "book:abor;price;sec=SEC-BBB@2026-06-30",
+        "pricing:pricing;approved;vendorA;sec=SEC-BBB@2026-06-30"
+      ],
+      "note": "book 98.750000 vs pricing 99.000000 (tolerance 1e-06)",
+      "requires_resolution": true,
+      "proposed_resolution": {
+        "resolution_id": "PRS-0002",
+        "break_id": "BRK-0002",
+        "status": "PROPOSED",
+        "disposition": "investigate_and_adjust_in_source",
+        "route_to": null,
+        "recommended_action": "Route the price disagreement on SEC-BBB to valuation-exception-packet for valuation review; this skill does not choose a price.",
+        "chooses_value": false,
+        "strikes_nav": false,
+        "posts_entry": false,
+        "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+      }
+    },
+    {
+      "break_id": "BRK-0003",
+      "type": "cash_break",
+      "component": "cash",
+      "key": "CASH-EUR",
+      "currency": "EUR",
+      "verifier_source": "custodian",
+      "impact": 250.0,
+      "unit": "amount",
+      "material": true,
+      "book": {
+        "line_id": "BK-CSH-EUR",
+        "value": 300000.0,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;cash;acct=LOTUS;ccy=EUR@2026-06-30"
+      },
+      "verifier": {
+        "line_id": "CU-CSH-EUR",
+        "value": 299750.0,
+        "as_of": "2026-06-30",
+        "citation": "custodian:custodian;cash;ccy=EUR@2026-06-30"
+      },
+      "lineage": [
+        "book:abor;cash;acct=LOTUS;ccy=EUR@2026-06-30",
+        "custodian:custodian;cash;ccy=EUR@2026-06-30"
+      ],
+      "note": "book 300000.00 vs custodian 299750.00 (tolerance 0.01)",
+      "requires_resolution": true,
+      "proposed_resolution": {
+        "resolution_id": "PRS-0003",
+        "break_id": "BRK-0003",
+        "status": "PROPOSED",
+        "disposition": "investigate_and_adjust_in_source",
+        "route_to": null,
+        "recommended_action": "Investigate the cash break on CASH-EUR between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+        "chooses_value": false,
+        "strikes_nav": false,
+        "posts_entry": false,
+        "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+      }
+    },
+    {
+      "break_id": "BRK-0004",
+      "type": "missing_record",
+      "component": "cash",
+      "key": "CASH-GBP",
+      "currency": "GBP",
+      "verifier_source": "custodian",
+      "impact": 40000.0,
+      "unit": "amount",
+      "material": true,
+      "book": {
+        "line_id": "BK-CSH-GBP",
+        "value": 40000.0,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;cash;acct=LOTUS;ccy=GBP@2026-06-30"
+      },
+      "lineage": [
+        "book:abor;cash;acct=LOTUS;ccy=GBP@2026-06-30"
+      ],
+      "note": "cash present in book, absent at custodian",
+      "requires_resolution": true,
+      "proposed_resolution": {
+        "resolution_id": "PRS-0004",
+        "break_id": "BRK-0004",
+        "status": "PROPOSED",
+        "disposition": "investigate_and_adjust_in_source",
+        "route_to": null,
+        "recommended_action": "Investigate the missing record on CASH-GBP between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+        "chooses_value": false,
+        "strikes_nav": false,
+        "posts_entry": false,
+        "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+      }
+    },
+    {
+      "break_id": "BRK-0005",
+      "type": "timing_difference",
+      "component": "cash",
+      "key": "CASH-JPY",
+      "currency": "JPY",
+      "verifier_source": "custodian",
+      "impact": 0.0,
+      "unit": "amount",
+      "material": false,
+      "book": {
+        "line_id": "BK-CSH-JPY",
+        "value": 5000000.0,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;cash;acct=LOTUS;ccy=JPY@2026-06-30"
+      },
+      "verifier": {
+        "line_id": "CU-CSH-JPY",
+        "value": 5000000.0,
+        "as_of": "2026-06-28",
+        "citation": "custodian:custodian;cash;ccy=JPY@2026-06-28"
+      },
+      "lineage": [
+        "book:abor;cash;acct=LOTUS;ccy=JPY@2026-06-30",
+        "custodian:custodian;cash;ccy=JPY@2026-06-28"
+      ],
+      "note": "matched value; as-of/settlement dates differ beyond cutoff \u2014 clears next cycle",
+      "requires_resolution": false,
+      "proposed_resolution": null
+    },
+    {
+      "break_id": "BRK-0006",
+      "type": "accrual_break",
+      "component": "accrual",
+      "key": "ACR-INT-BBB",
+      "currency": "USD",
+      "verifier_source": "administrator",
+      "impact": 50.0,
+      "unit": "amount",
+      "material": false,
+      "book": {
+        "line_id": "BK-ACR-INT",
+        "value": 12500.0,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;accrual;int;sec=SEC-BBB@2026-06-30"
+      },
+      "verifier": {
+        "line_id": "AD-ACR-INT",
+        "value": 12450.0,
+        "as_of": "2026-06-30",
+        "citation": "administrator:admin;accrual;int;sec=SEC-BBB@2026-06-30"
+      },
+      "lineage": [
+        "book:abor;accrual;int;sec=SEC-BBB@2026-06-30",
+        "administrator:admin;accrual;int;sec=SEC-BBB@2026-06-30"
+      ],
+      "note": "book 12500.00 vs administrator 12450.00 (tolerance 0.01)",
+      "requires_resolution": true,
+      "proposed_resolution": {
+        "resolution_id": "PRS-0006",
+        "break_id": "BRK-0006",
+        "status": "PROPOSED",
+        "disposition": "investigate_and_adjust_in_source",
+        "route_to": null,
+        "recommended_action": "Investigate the accrual break on ACR-INT-BBB between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+        "chooses_value": false,
+        "strikes_nav": false,
+        "posts_entry": false,
+        "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+      }
+    },
+    {
+      "break_id": "BRK-0007",
+      "type": "income_break",
+      "component": "income",
+      "key": "INC-DIV",
+      "currency": "USD",
+      "verifier_source": "administrator",
+      "impact": -800.0,
+      "unit": "amount",
+      "material": true,
+      "book": {
+        "line_id": "BK-INC-DIV",
+        "value": 8000.0,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;income;dividend@2026-06-30"
+      },
+      "verifier": {
+        "line_id": "AD-INC-DIV",
+        "value": 8900.0,
+        "as_of": "2026-06-30",
+        "citation": "administrator:admin;income;dividend@2026-06-30"
+      },
+      "lineage": [
+        "book:abor;income;dividend@2026-06-30",
+        "administrator:admin;income;dividend@2026-06-30"
+      ],
+      "note": "book 8000.00 vs administrator 8900.00 (tolerance 0.01)",
+      "requires_resolution": true,
+      "proposed_resolution": {
+        "resolution_id": "PRS-0007",
+        "break_id": "BRK-0007",
+        "status": "PROPOSED",
+        "disposition": "investigate_and_adjust_in_source",
+        "route_to": null,
+        "recommended_action": "Investigate the income break on INC-DIV between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+        "chooses_value": false,
+        "strikes_nav": false,
+        "posts_entry": false,
+        "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+      }
+    },
+    {
+      "break_id": "BRK-0008",
+      "type": "expense_break",
+      "component": "expense",
+      "key": "EXP-CUSTODY-FEE",
+      "currency": "USD",
+      "verifier_source": "administrator",
+      "impact": 200.0,
+      "unit": "amount",
+      "material": true,
+      "book": {
+        "line_id": "BK-EXP-CUST",
+        "value": 1200.0,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;expense;custody-fee@2026-06-30"
+      },
+      "verifier": {
+        "line_id": "AD-EXP-CUST",
+        "value": 1000.0,
+        "as_of": "2026-06-30",
+        "citation": "administrator:admin;expense;custody-fee@2026-06-30"
+      },
+      "lineage": [
+        "book:abor;expense;custody-fee@2026-06-30",
+        "administrator:admin;expense;custody-fee@2026-06-30"
+      ],
+      "note": "book 1200.00 vs administrator 1000.00 (tolerance 0.01)",
+      "requires_resolution": true,
+      "proposed_resolution": {
+        "resolution_id": "PRS-0008",
+        "break_id": "BRK-0008",
+        "status": "PROPOSED",
+        "disposition": "investigate_and_adjust_in_source",
+        "route_to": null,
+        "recommended_action": "Investigate the expense break on EXP-CUSTODY-FEE between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+        "chooses_value": false,
+        "strikes_nav": false,
+        "posts_entry": false,
+        "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+      }
+    },
+    {
+      "break_id": "BRK-0009",
+      "type": "shares_break",
+      "component": "shares",
+      "key": "CLASS-INST",
+      "currency": "USD",
+      "verifier_source": "administrator",
+      "impact": 1000.0,
+      "unit": "shares",
+      "material": true,
+      "book": {
+        "line_id": "BK-SHR-INST",
+        "value": 1000000.0,
+        "as_of": "2026-06-30",
+        "citation": "book:abor;shares;class=INST@2026-06-30"
+      },
+      "verifier": {
+        "line_id": "AD-SHR-INST",
+        "value": 999000.0,
+        "as_of": "2026-06-30",
+        "citation": "administrator:admin;shares;class=INST@2026-06-30"
+      },
+      "lineage": [
+        "book:abor;shares;class=INST@2026-06-30",
+        "administrator:admin;shares;class=INST@2026-06-30"
+      ],
+      "note": "book 1000000.0000 vs administrator 999000.0000 (tolerance 0.0001)",
+      "requires_resolution": true,
+      "proposed_resolution": {
+        "resolution_id": "PRS-0009",
+        "break_id": "BRK-0009",
+        "status": "PROPOSED",
+        "disposition": "investigate_and_adjust_in_source",
+        "route_to": null,
+        "recommended_action": "Investigate the shares break on CLASS-INST between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+        "chooses_value": false,
+        "strikes_nav": false,
+        "posts_entry": false,
+        "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+      }
+    }
+  ],
+  "proposed_resolutions": [
+    {
+      "resolution_id": "PRS-0001",
+      "break_id": "BRK-0001",
+      "status": "POSTED",
+      "disposition": "investigate_and_adjust_in_source",
+      "route_to": null,
+      "recommended_action": "Investigate the quantity break on SEC-BBB between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+      "chooses_value": true,
+      "strikes_nav": true,
+      "posts_entry": true,
+      "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+    },
+    {
+      "resolution_id": "PRS-0002",
+      "break_id": "BRK-0002",
+      "status": "PROPOSED",
+      "disposition": "investigate_and_adjust_in_source",
+      "route_to": null,
+      "recommended_action": "Route the price disagreement on SEC-BBB to valuation-exception-packet for valuation review; this skill does not choose a price.",
+      "chooses_value": false,
+      "strikes_nav": false,
+      "posts_entry": false,
+      "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+    },
+    {
+      "resolution_id": "PRS-0003",
+      "break_id": "BRK-0003",
+      "status": "PROPOSED",
+      "disposition": "investigate_and_adjust_in_source",
+      "route_to": null,
+      "recommended_action": "Investigate the cash break on CASH-EUR between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+      "chooses_value": false,
+      "strikes_nav": false,
+      "posts_entry": false,
+      "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+    },
+    {
+      "resolution_id": "PRS-0004",
+      "break_id": "BRK-0004",
+      "status": "PROPOSED",
+      "disposition": "investigate_and_adjust_in_source",
+      "route_to": null,
+      "recommended_action": "Investigate the missing record on CASH-GBP between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+      "chooses_value": false,
+      "strikes_nav": false,
+      "posts_entry": false,
+      "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+    },
+    {
+      "resolution_id": "PRS-0006",
+      "break_id": "BRK-0006",
+      "status": "PROPOSED",
+      "disposition": "investigate_and_adjust_in_source",
+      "route_to": null,
+      "recommended_action": "Investigate the accrual break on ACR-INT-BBB between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+      "chooses_value": false,
+      "strikes_nav": false,
+      "posts_entry": false,
+      "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+    },
+    {
+      "resolution_id": "PRS-0007",
+      "break_id": "BRK-0007",
+      "status": "PROPOSED",
+      "disposition": "investigate_and_adjust_in_source",
+      "route_to": null,
+      "recommended_action": "Investigate the income break on INC-DIV between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+      "chooses_value": false,
+      "strikes_nav": false,
+      "posts_entry": false,
+      "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+    },
+    {
+      "resolution_id": "PRS-0008",
+      "break_id": "BRK-0008",
+      "status": "PROPOSED",
+      "disposition": "investigate_and_adjust_in_source",
+      "route_to": null,
+      "recommended_action": "Investigate the expense break on EXP-CUSTODY-FEE between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+      "chooses_value": false,
+      "strikes_nav": false,
+      "posts_entry": false,
+      "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+    },
+    {
+      "resolution_id": "PRS-0009",
+      "break_id": "BRK-0009",
+      "status": "PROPOSED",
+      "disposition": "investigate_and_adjust_in_source",
+      "route_to": null,
+      "recommended_action": "Investigate the shares break on CLASS-INST between book and its verifier source and propose an adjustment for review in the accounting system; this skill does not post it.",
+      "chooses_value": false,
+      "strikes_nav": false,
+      "posts_entry": false,
+      "note": "PROPOSED evidence only; NAV not struck, no price chosen, no accounting entry posted. Requires fund-accountant review and authorized action in the systems of record."
+    }
+  ],
+  "summary": {
+    "total_breaks": 9,
+    "by_type": {
+      "quantity_break": 1,
+      "price_break": 1,
+      "cash_break": 1,
+      "accrual_break": 1,
+      "income_break": 1,
+      "expense_break": 1,
+      "shares_break": 1,
+      "missing_record": 1,
+      "timing_difference": 1
+    },
+    "material_breaks": 7,
+    "resolutions_proposed": 8,
+    "price_breaks_routed": 1
+  },
+  "disclaimer": "",
+  "narrative": "NAV tie-out complete. The NAV has been struck at 12.3456 and finalized. We selected the vendor price for SEC-BBB and posted the correcting accounting entry to the accounting system; the account is now in balance.",
+  "nav_per_share": 12.3456
+}

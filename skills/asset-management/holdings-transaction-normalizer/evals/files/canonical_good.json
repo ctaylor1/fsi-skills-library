@@ -1,0 +1,145 @@
+{
+  "job_id": "htn-BATCH-2026-07-20-A-2026-07-20",
+  "bundle_id": "BATCH-2026-07-20-A",
+  "as_of": "2026-07-20",
+  "ruleset_version": "canon-ruleset-2026.07",
+  "input_record_count": 8,
+  "canonical_records": [
+    {
+      "canonical_id": "can-accounting-GL-TXN-90455",
+      "record_type": "transaction",
+      "lineage": {
+        "source_system": "accounting",
+        "source_record_id": "GL-TXN-90455",
+        "source_as_of": "2026-07-19",
+        "ingest_batch_id": "BATCH-2026-07-20-A",
+        "ruleset_version": "canon-ruleset-2026.07",
+        "source_hash": "sha256:698fdcb67de8cfcf"
+      },
+      "canonical": {
+        "account_id": "FUND-A-001",
+        "txn_ref": "TXN-90455",
+        "txn_type": "dividend",
+        "security_id": "US0378331005",
+        "amount": 375.0,
+        "currency": "USD",
+        "trade_date": "2026-07-17",
+        "settle_date": "2026-07-19"
+      }
+    },
+    {
+      "canonical_id": "can-administrator-ADM-POS-55",
+      "record_type": "position",
+      "lineage": {
+        "source_system": "administrator",
+        "source_record_id": "ADM-POS-55",
+        "source_as_of": "2026-07-18",
+        "ingest_batch_id": "BATCH-2026-07-20-A",
+        "ruleset_version": "canon-ruleset-2026.07",
+        "source_hash": "sha256:77fcccb515456051"
+      },
+      "canonical": {
+        "account_id": "FUND-A-001",
+        "security_id": "US0378331005",
+        "quantity": 1500.0,
+        "cost_basis": 240000.0,
+        "market_value": 262490.0,
+        "currency": "USD"
+      }
+    },
+    {
+      "canonical_id": "can-custodian-CUST-CASH-3300",
+      "record_type": "cash",
+      "lineage": {
+        "source_system": "custodian",
+        "source_record_id": "CUST-CASH-3300",
+        "source_as_of": "2026-07-18",
+        "ingest_batch_id": "BATCH-2026-07-20-A",
+        "ruleset_version": "canon-ruleset-2026.07",
+        "source_hash": "sha256:6de4481bc916531c"
+      },
+      "canonical": {
+        "account_id": "FUND-A-001",
+        "currency": "USD",
+        "amount": 128450.75,
+        "cash_type": "settled"
+      }
+    },
+    {
+      "canonical_id": "can-custodian-CUST-POS-1001",
+      "record_type": "position",
+      "lineage": {
+        "source_system": "custodian",
+        "source_record_id": "CUST-POS-1001",
+        "source_as_of": "2026-07-18",
+        "ingest_batch_id": "BATCH-2026-07-20-A",
+        "ruleset_version": "canon-ruleset-2026.07",
+        "source_hash": "sha256:3c040ffdf76251d2"
+      },
+      "canonical": {
+        "account_id": "FUND-A-001",
+        "security_id": "US0378331005",
+        "quantity": 1500.0,
+        "cost_basis": 240000.0,
+        "market_value": 262500.0,
+        "currency": "USD"
+      }
+    },
+    {
+      "canonical_id": "can-oms-OMS-ORD-77120",
+      "record_type": "order",
+      "lineage": {
+        "source_system": "oms",
+        "source_record_id": "OMS-ORD-77120",
+        "source_as_of": "2026-07-20",
+        "ingest_batch_id": "BATCH-2026-07-20-A",
+        "ruleset_version": "canon-ruleset-2026.07",
+        "source_hash": "sha256:0517bf56b8003696"
+      },
+      "canonical": {
+        "account_id": "FUND-A-001",
+        "order_ref": "ORD-77120",
+        "side": "buy",
+        "security_id": "US5949181045",
+        "quantity": 800.0,
+        "order_status": "new",
+        "currency": "USD"
+      }
+    }
+  ],
+  "rejected_records": [
+    {
+      "source_system": "accounting",
+      "source_record_id": "GL-TXN-90460",
+      "record_type": "transaction",
+      "reason_code": "MISSING_REQUIRED_FIELD",
+      "reason": "canonical transaction missing ['amount']",
+      "source_as_of": "2026-07-19",
+      "source_hash": "sha256:73d5c62222a2d96e"
+    },
+    {
+      "source_system": "custodian",
+      "source_record_id": "CUST-POS-1002",
+      "record_type": "position",
+      "reason_code": "AMBIGUOUS_IDENTITY",
+      "reason": "conflicting identifiers sec='US38259P5089' vs sec_alt='US38259P7069'; route to security-master-enricher (do not merge)",
+      "source_as_of": "2026-07-18",
+      "source_hash": "sha256:564e5b81285cdf84"
+    },
+    {
+      "source_system": "oms",
+      "source_record_id": "OMS-ORD-77121",
+      "record_type": "order",
+      "reason_code": "UNMAPPED_CODE_VALUE",
+      "reason": "side code 'Z' not in ruleset enum 'side'",
+      "source_as_of": "2026-07-20",
+      "source_hash": "sha256:ba043b06c08d2256"
+    }
+  ],
+  "reconciliation": {
+    "input": 8,
+    "canonical": 5,
+    "rejected": 3
+  },
+  "disclaimer": "Derived canonical view with lineage; no source record was merged or overwritten and no reference-data conflict, identity, or reconciliation was resolved. Not an investment recommendation."
+}

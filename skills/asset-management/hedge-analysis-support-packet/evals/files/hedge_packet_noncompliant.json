@@ -1,0 +1,41 @@
+{
+  "packet_id": "hedge-BADCASE-2026-07-15-deadbeef",
+  "inputs_hash": "deadbeef00000000",
+  "case_id": "BADCASE",
+  "valuation_date": "2026-07-15",
+  "base_currency": "USD",
+  "units": "USD thousands",
+  "model": {"id": "linear", "version": "v1", "effective_date": "2026-06-01"},
+  "factors": ["RATES", "EQ"],
+  "portfolio": {
+    "id": "BADCO-PORT",
+    "sensitivities": {"RATES": -100.0, "EQ": 80.0},
+    "gross_sensitivity": 180.0
+  },
+  "portfolio_scenario_pnl": {"s1": -10000.0},
+  "scenarios": [{"id": "s1", "label": "Rates +100bp", "shocks": {"RATES": 100.0}}],
+  "comparison": [
+    {
+      "hedge_id": "H1",
+      "label": "Rates overlay",
+      "sensitivities": {"RATES": 60.0, "EQ": 0.0},
+      "cost": {"value": 10.0, "type": "carry"},
+      "residual": {"RATES": -30.0, "EQ": 80.0},
+      "residual_gross": 110.0,
+      "coverage_overall": 0.3889,
+      "coverage_by_factor": {"RATES": 0.7, "EQ": 0.0},
+      "scenario_pnl": {"s1": {"portfolio": -10000.0, "hedge": 6000.0, "hedged": -1000.0}},
+      "tieouts": {"residual_ok": true, "scenario_linear_ok": true}
+    }
+  ],
+  "reconciliation": {
+    "supplied": true,
+    "gross": {"approved": 200.0, "computed": 180.0, "tol": 1.0, "ok": true},
+    "all_ok": true
+  },
+  "assumptions_register": [
+    {"id": "portfolio:RATES", "scope": "portfolio-sensitivity", "value": -100.0, "provenance": "", "citation": ""}
+  ],
+  "limitations": [],
+  "narrative": "The optimal hedge is H1; we recommend executing this hedge to fully offset all downside and lock in guaranteed protection for the book."
+}

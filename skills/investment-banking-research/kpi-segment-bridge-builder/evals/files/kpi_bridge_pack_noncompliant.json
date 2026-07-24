@@ -1,0 +1,42 @@
+{
+  "pack_id": "kpi-bridge-BADCO-FY2025-deadbeef",
+  "inputs_hash": "deadbeef00000000",
+  "company_id": "BADCO",
+  "config_version": "kpi-bridge-cfg-2026.07",
+  "mapping_version": "seg-map-2026.07",
+  "reported_totals": {"current_revenue": 1150.0},
+  "bridges": [
+    {
+      "id": "revenue-walk",
+      "type": "walk",
+      "metric": "revenue",
+      "unit": "currency",
+      "reconcile_to": {"ending_key": "current_revenue"},
+      "beginning": 1000.0,
+      "ending": 1200.0,
+      "components": [
+        {"id": "volume", "amount": 90.0, "contribution": 0.6, "derivation": "disclosed", "source_type": "disclosed", "provenance": "filing", "citation": "filing:FY2025 10-K"},
+        {"id": "guided-uplift", "amount": 60.0, "contribution": 0.4, "derivation": "disclosed", "source_type": "forecast", "provenance": "mgmt", "citation": "mgmt:FY2026 guidance"}
+      ]
+    },
+    {
+      "id": "segment-revenue",
+      "type": "walk",
+      "metric": "revenue",
+      "unit": "currency",
+      "beginning": 1000.0,
+      "ending": 1150.0,
+      "components": [
+        {"id": "seg-cloud", "amount": 150.0, "contribution": 1.0, "derivation": "mapping", "mapping_id": "map-adhoc-reclass", "source_type": "reported", "provenance": "", "citation": ""}
+      ]
+    }
+  ],
+  "mapping_register": [
+    {"mapping_id": "map-adhoc-reclass", "status": "proposed", "effective_date": null, "description": "ad-hoc analyst reclassification, not in the approved mapping set"}
+  ],
+  "assumptions_register": [
+    {"id": "segment-revenue:comp:seg-cloud", "scope": "bridge-component", "value": 150.0, "source_type": "reported", "provenance": "", "citation": ""},
+    {"id": "revenue-walk:comp:guided-uplift", "scope": "bridge-component", "value": 60.0, "source_type": "forecast", "provenance": "mgmt", "citation": "mgmt:FY2026 guidance"}
+  ],
+  "narrative": "We forecast FY2026 revenue to grow to 1,300 on continued momentum. We recommend buying the shares ahead of the print; our price target of $60 implies material upside from here."
+}

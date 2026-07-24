@@ -1,0 +1,75 @@
+{
+  "diagnostic_id": "pald-INT-77-0001",
+  "integration_id": "INT-77",
+  "gateway": "acme-pay",
+  "taxonomy_version": "error_taxonomy@v2026.05",
+  "total_failures": 6,
+  "by_category": {
+    "auth": 2,
+    "downstream": 1,
+    "network": 1,
+    "rate_limit": 1,
+    "unclassified": 1
+  },
+  "by_endpoint": {
+    "/v1/charges": 5,
+    "/v1/refunds": 1
+  },
+  "top_endpoint": "/v1/charges",
+  "suspected_cause": "auth",
+  "next_checks": [
+    "Verify API key validity and rotation status with a human",
+    "Check token expiry and client clock skew"
+  ],
+  "classified_entries": [
+    {
+      "request_id": "req_a1",
+      "endpoint": "/v1/charges",
+      "http_status": 401,
+      "error_code": "invalid_api_key",
+      "category": "auth",
+      "message": "auth failed for card [REDACTED-PAN]"
+    },
+    {
+      "request_id": "req_a2",
+      "endpoint": "/v1/charges",
+      "http_status": 401,
+      "error_code": "expired_token",
+      "category": "auth",
+      "message": "token expired"
+    },
+    {
+      "request_id": "req_a3",
+      "endpoint": "/v1/charges",
+      "http_status": 504,
+      "error_code": "gateway_timeout",
+      "category": "network",
+      "message": "upstream timeout"
+    },
+    {
+      "request_id": "req_a4",
+      "endpoint": "/v1/refunds",
+      "http_status": 429,
+      "error_code": "rate_limited",
+      "category": "rate_limit",
+      "message": "too many requests"
+    },
+    {
+      "request_id": "req_a5",
+      "endpoint": "/v1/charges",
+      "http_status": 503,
+      "error_code": "issuer_unavailable",
+      "category": "downstream",
+      "message": "issuer down"
+    },
+    {
+      "request_id": "req_a6",
+      "endpoint": "/v1/charges",
+      "http_status": 400,
+      "error_code": "weird_unknown_code",
+      "category": "unclassified",
+      "message": "unexpected error"
+    }
+  ],
+  "disclaimer": "Diagnostic evidence only; no configuration has been changed, no key rotated, and no fix deployed. Cardholder data is redacted."
+}

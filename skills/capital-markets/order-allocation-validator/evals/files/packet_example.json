@@ -1,0 +1,52 @@
+{
+  "validation_id": "oav-ORD-8841-0001",
+  "order_id": "ORD-8841",
+  "policy_version": "allocation@v2026.05",
+  "executed_qty": 10000.0,
+  "allocated_qty": 10000.0,
+  "quantity_break": false,
+  "checks_run": [
+    "quantity_tie",
+    "pro_rata",
+    "eligibility",
+    "timestamp",
+    "deviation_documented"
+  ],
+  "exceptions": [
+    {
+      "account_id": "****2222",
+      "rule": "pro_rata",
+      "expected": 3000.0,
+      "proposed": 3200.0,
+      "reason": "deviation 200.0000 > tolerance 15.0000",
+      "citation": "oms:order=ORD-8841;alloc-line=****2222"
+    },
+    {
+      "account_id": "****3333",
+      "rule": "pro_rata",
+      "expected": 2000.0,
+      "proposed": 1800.0,
+      "reason": "deviation 200.0000 > tolerance 10.0000",
+      "citation": "oms:order=ORD-8841;alloc-line=****3333"
+    },
+    {
+      "account_id": "****3333",
+      "rule": "deviation_documented",
+      "expected": "documented reason",
+      "proposed": "none",
+      "reason": "pro-rata deviation without a documented reason",
+      "citation": "oms:order=ORD-8841;alloc-line=****3333"
+    },
+    {
+      "account_id": "****3333",
+      "rule": "eligibility",
+      "expected": "eligible/entitled",
+      "proposed": "ineligible",
+      "reason": "account flagged ineligible/restricted for this instrument",
+      "citation": "oms:order=ORD-8841;alloc-line=****3333"
+    }
+  ],
+  "suggested_disposition": "exceptions-for-review",
+  "route": null,
+  "disclaimer": "Allocation-exception evidence only; not an allocation decision, amendment, or compliance certification. No order has been allocated or booked."
+}

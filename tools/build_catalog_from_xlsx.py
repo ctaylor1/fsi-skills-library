@@ -40,6 +40,11 @@ SKILL_TYPE_OVERRIDES = {
     "security-alert-triage-assistant": "System-interaction or operational skills",
     "cyber-incident-response-coordinator": "System-interaction or operational skills",
     "omnichannel-case-orchestrator": "System-interaction or operational skills",
+    # Utility: 2026 industry-expansion transformers/extractors/ingesters
+    "holdings-transaction-normalizer": "Utility skills",
+    "investment-source-ingester": "Utility skills",
+    "credit-terms-covenant-extractor": "Utility skills",
+    "fnol-normalizer": "Utility skills",
 }
 
 
@@ -107,6 +112,19 @@ def main() -> int:
     skills = build(args.source)
     out_dir = REPO / "catalog"
     out_dir.mkdir(exist_ok=True)
+
+    # Merge provisional additions (skills approved from a brief but not yet in the workbook).
+    # These carry "provisional": true and survive a workbook regen until the workbook catches up.
+    prov_path = out_dir / "provisional-additions.json"
+    n_prov = 0
+    if prov_path.exists():
+        have = {s["name"] for s in skills}
+        for e in json.loads(prov_path.read_text(encoding="utf-8")):
+            if e["name"] not in have:
+                skills.append(e)
+                have.add(e["name"])
+                n_prov += 1
+
     (out_dir / "skills-catalog.json").write_text(
         json.dumps(
             {"portfolio": "Amazon Quick Desktop — 2026 FSI Skill Portfolio v2",
@@ -115,11 +133,13 @@ def main() -> int:
         ),
         encoding="utf-8",
     )
+    fieldnames = list(dict.fromkeys(k for s in skills for k in s))  # union, stable order
     with (out_dir / "skills-catalog.csv").open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(skills[0].keys()))
+        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         w.writeheader()
         w.writerows(skills)
-    print(f"Wrote {len(skills)} skills to catalog/skills-catalog.json and .csv")
+    print(f"Wrote {len(skills)} skills to catalog/skills-catalog.json and .csv "
+          f"({len(skills) - n_prov} from workbook + {n_prov} provisional)")
     return 0
 
 

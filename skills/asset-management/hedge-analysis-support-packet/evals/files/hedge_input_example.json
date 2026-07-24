@@ -1,0 +1,78 @@
+{
+  "case_id": "HRISK-2026-0142",
+  "as_of": "2026-07-15",
+  "valuation_date": "2026-07-15",
+  "config_version": "hedge-cfg-2026.07",
+  "base_currency": "USD",
+  "units": "USD thousands",
+  "model": {
+    "id": "linear-first-order-sensitivities",
+    "version": "v3.2",
+    "effective_date": "2026-06-01",
+    "provenance": "model-governance",
+    "citation": "model-registry:MR-0421 approved 2026-06-01"
+  },
+  "risk_factors": {
+    "USD_RATES_10Y": {"unit": "+1bp", "provenance": "config", "citation": "cfg:factor-defs hedge-cfg-2026.07"},
+    "EQ_SPX": {"unit": "+1pct", "provenance": "config", "citation": "cfg:factor-defs hedge-cfg-2026.07"},
+    "CREDIT_IG": {"unit": "+1bp", "provenance": "config", "citation": "cfg:factor-defs hedge-cfg-2026.07"},
+    "FX_EURUSD": {"unit": "+1pct", "provenance": "config", "citation": "cfg:factor-defs hedge-cfg-2026.07"}
+  },
+  "portfolio": {
+    "id": "FUND-ATLAS-CORE",
+    "sensitivities": {
+      "USD_RATES_10Y": {"value": -85.0, "provenance": "risk-engine", "citation": "exposure:portfolio-exposure-analyzer run 2026-07-15"},
+      "EQ_SPX": {"value": 120.0, "provenance": "risk-engine", "citation": "exposure:portfolio-exposure-analyzer run 2026-07-15"},
+      "CREDIT_IG": {"value": -30.0, "provenance": "risk-engine", "citation": "exposure:portfolio-exposure-analyzer run 2026-07-15"},
+      "FX_EURUSD": {"value": 15.0, "provenance": "risk-engine", "citation": "exposure:portfolio-exposure-analyzer run 2026-07-15"}
+    },
+    "approved_engine_totals": {
+      "gross_sensitivity": 250.0,
+      "scenarios": {"rates_up_100bp": -8500.0, "risk_off": -1995.0}
+    }
+  },
+  "candidate_hedges": [
+    {
+      "id": "H1",
+      "label": "10Y bond-future duration overlay",
+      "sensitivities": {
+        "USD_RATES_10Y": {"value": 70.0, "provenance": "risk-engine", "citation": "hedge-spec:10Y-fut DV01 2026-07-15"}
+      },
+      "cost": {"value": 12.0, "type": "annualized carry (bp of NAV)", "provenance": "desk-indication", "citation": "desk:rates carry 2026-07-14"}
+    },
+    {
+      "id": "H2",
+      "label": "S&P index put-spread (linear delta proxy)",
+      "sensitivities": {
+        "EQ_SPX": {"value": -100.0, "provenance": "risk-engine", "citation": "hedge-spec:put-spread delta 2026-07-15"}
+      },
+      "cost": {"value": 25.0, "type": "premium (bp of NAV)", "provenance": "desk-indication", "citation": "desk:equity vol 2026-07-14"}
+    },
+    {
+      "id": "H3",
+      "label": "Cross-asset macro overlay",
+      "sensitivities": {
+        "USD_RATES_10Y": {"value": 50.0, "provenance": "risk-engine", "citation": "hedge-spec:macro-overlay 2026-07-15"},
+        "EQ_SPX": {"value": -60.0, "provenance": "risk-engine", "citation": "hedge-spec:macro-overlay 2026-07-15"},
+        "FX_EURUSD": {"value": -15.0, "provenance": "risk-engine", "citation": "hedge-spec:macro-overlay 2026-07-15"}
+      },
+      "cost": {"value": 18.0, "type": "annualized carry (bp of NAV)", "provenance": "desk-indication", "citation": "desk:macro overlay 2026-07-14"}
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "rates_up_100bp",
+      "label": "Parallel rates +100bp",
+      "shocks": {"USD_RATES_10Y": 100.0},
+      "provenance": "stress-library",
+      "citation": "scn:stress-test-scenario-designer 2026-Q3 approved"
+    },
+    {
+      "id": "risk_off",
+      "label": "Risk-off (equity -10pct, IG +25bp, EURUSD -3pct)",
+      "shocks": {"EQ_SPX": -10.0, "CREDIT_IG": 25.0, "FX_EURUSD": -3.0},
+      "provenance": "stress-library",
+      "citation": "scn:stress-test-scenario-designer 2026-Q3 approved"
+    }
+  ]
+}
