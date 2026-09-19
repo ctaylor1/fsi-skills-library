@@ -1,0 +1,210 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "REQ-TRANSITION-1-UPSTREAM",
+  "household_id": "HH-INVEST-DEMO",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "FACTS",
+      "reference": "fixture:controlled-investment-facts",
+      "owner": "test-fixture-only",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-10-16"
+    },
+    {
+      "source_id": "POLICY",
+      "reference": "fixture:synthetic-policy-not-production-approval",
+      "owner": "test-governance",
+      "as_of": "2026-09-01",
+      "valid_until": "2026-10-16"
+    }
+  ],
+  "account": {
+    "account_id": "ACCT-DEMO",
+    "currency": "USD",
+    "taxable": true,
+    "source_ids": [
+      "FACTS"
+    ]
+  },
+  "portfolio": {
+    "cash": 10000,
+    "reported_total_value": 160000,
+    "positions_complete": true,
+    "positions": [
+      {
+        "security_id": "A",
+        "quantity": 1000,
+        "reported_market_value": 100000,
+        "reported_cost_basis": 92000,
+        "lots": [
+          {
+            "lot_id": "A1",
+            "quantity": 600,
+            "cost_basis": 48000,
+            "acquired_on": "2020-01-02",
+            "source_ids": [
+              "FACTS"
+            ]
+          },
+          {
+            "lot_id": "A2",
+            "quantity": 400,
+            "cost_basis": 44000,
+            "acquired_on": "2026-01-02",
+            "source_ids": [
+              "FACTS"
+            ]
+          }
+        ],
+        "source_ids": [
+          "FACTS"
+        ]
+      },
+      {
+        "security_id": "B",
+        "quantity": 500,
+        "reported_market_value": 50000,
+        "reported_cost_basis": 50000,
+        "lots": [
+          {
+            "lot_id": "B1",
+            "quantity": 500,
+            "cost_basis": 50000,
+            "acquired_on": "2024-01-02",
+            "source_ids": [
+              "FACTS"
+            ]
+          }
+        ],
+        "source_ids": [
+          "FACTS"
+        ]
+      }
+    ],
+    "source_ids": [
+      "FACTS"
+    ]
+  },
+  "universe": [
+    {
+      "security_id": "A",
+      "currency": "USD",
+      "price": 100,
+      "quote_on": "2026-09-16",
+      "quantity_increment": 1,
+      "fee_bps": 0,
+      "fixed_fee": 0,
+      "settles_on": "2026-09-17",
+      "tax_identity_group": "A",
+      "source_ids": [
+        "FACTS"
+      ]
+    },
+    {
+      "security_id": "B",
+      "currency": "USD",
+      "price": 100,
+      "quote_on": "2026-09-16",
+      "quantity_increment": 1,
+      "fee_bps": 0,
+      "fixed_fee": 0,
+      "settles_on": "2026-09-17",
+      "tax_identity_group": "B",
+      "source_ids": [
+        "FACTS"
+      ]
+    }
+  ],
+  "target": {
+    "target_id": "TARGET-1",
+    "version": "1",
+    "selection_reference": "fixture:human-selected-target",
+    "cash_weight": 0.0625,
+    "allocations": [
+      {
+        "security_id": "A",
+        "weight": 0.5,
+        "source_ids": [
+          "FACTS"
+        ]
+      },
+      {
+        "security_id": "B",
+        "weight": 0.4375,
+        "source_ids": [
+          "FACTS"
+        ]
+      }
+    ],
+    "source_ids": [
+      "FACTS"
+    ]
+  },
+  "policy": {
+    "policy_id": "SYNTHETIC-TEST",
+    "version": "1",
+    "owner": "test-governance",
+    "source_ids": [
+      "POLICY"
+    ],
+    "max_order_notional": 50000,
+    "max_sell_turnover": 0.3,
+    "minimum_cash": 1000,
+    "max_position_weight": 0.6,
+    "drift_tolerance_weight": 0.005,
+    "restrictions": [
+      {
+        "security_id": "A",
+        "buy_allowed": true,
+        "sell_allowed": true,
+        "source_ids": [
+          "FACTS"
+        ]
+      },
+      {
+        "security_id": "B",
+        "buy_allowed": true,
+        "sell_allowed": true,
+        "source_ids": [
+          "FACTS"
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "mode": "generate",
+    "reason": "Restore explicitly selected target weights",
+    "trade_date": "2026-09-16",
+    "lot_selection": "oldest-first",
+    "settlement_policy": "same-day-netting",
+    "transaction_cost_budget": 0,
+    "source_ids": [
+      "FACTS"
+    ]
+  },
+  "upstream_issues": [
+    {
+      "artifact_id": "synthetic-ownership-review-HH-INVEST-DEMO",
+      "code": "ownership-conflict",
+      "message": "Supplied ownership records remain contradictory; professional review required",
+      "status": "unresolved",
+      "source_ids": [
+        "FACTS"
+      ]
+    },
+    {
+      "artifact_id": "synthetic-risk-review-HH-INVEST-DEMO",
+      "code": "risk-capacity-conflict",
+      "message": "Stated willingness exceeds assessed loss capacity; reconciliation remains open",
+      "status": "unresolved",
+      "source_ids": [
+        "FACTS"
+      ]
+    }
+  ]
+}

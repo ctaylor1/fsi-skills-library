@@ -1,0 +1,530 @@
+[
+  {
+    "name": "s1-authorized-no-clearing-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-lifecycle-diagnoser/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s1-authorized-no-clearing-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s1-authorized-no-clearing-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-lifecycle-diagnoser/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s1-authorized-no-clearing-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"diagnosis_id\": \"pld-5c9a9f409f4521d90d8f\",\n  \"source_trace\": {\n    \"payment_id\": \"****F001\",\n    \"as_of\": \"2026-09-17\",\n    \"rail\": \"card\",\n    \"codeset_version\": \"synthetic-test-v1\",\n    \"config_version\": \"forward-v1\",\n    \"amount\": \"100.00\",\n    \"currency\": \"USD\",\n    \"legs\": [\n      {\n        \"seq\": 1,\n        \"stage\": \"authorization\",\n        \"status\": \"APPROVED\",\n        \"reason_code\": \"00\",\n        \"timestamp\": \"2026-09-17T10:00:00Z\",\n        \"source_ref\": \"synthetic:authorization:F001\"\n      }\n    ]\n  },\n  \"source_hash\": \"5c9a9f409f4521d90d8fc34e7054d703121cfb6b7263da700c60c794f24b438b\",\n  \"interpretation_scope\": \"bundled representative codes; no live scheme validation\",\n  \"resolved_codeset\": \"representative-v1\",\n  \"payment_id\": \"****F001\",\n  \"as_of\": \"2026-09-17\",\n  \"rail\": \"card\",\n  \"amount\": \"100.00\",\n  \"currency\": \"USD\",\n  \"codeset_version\": \"synthetic-test-v1\",\n  \"config_version\": \"forward-v1\",\n  \"halt_stage\": \"authorization\",\n  \"terminal_status\": \"APPROVED\",\n  \"trace\": [\n    {\n      \"seq\": 1,\n      \"stage\": \"authorization\",\n      \"status\": \"APPROVED\",\n      \"reason_code\": \"00\",\n      \"meaning\": \"Authorization approved; this does not establish clearing or settlement\",\n      \"category\": \"authorized\",\n      \"citation\": \"scheme:synthetic:authorization:F001@2026-09-17T10:00:00Z\"\n    }\n  ],\n  \"trace_complete\": false,\n  \"root_cause\": {\n    \"category\": \"authorized\",\n    \"reason_code\": \"00\",\n    \"meaning\": \"Authorization approved; this does not establish clearing or settlement\",\n    \"evidence\": [\n      {\n        \"seq\": 1,\n        \"citation\": \"scheme:synthetic:authorization:F001@2026-09-17T10:00:00Z\"\n      }\n    ]\n  },\n  \"suggested_route\": \"none\",\n  \"retry_eligible\": false,\n  \"retry_rationale\": \"Not retry-eligible as diagnosed; route to the suggested workflow.\",\n  \"cautions\": [],\n  \"unknown_codes\": [],\n  \"disclaimer\": \"Diagnostic assessment only; not a payment instruction, repair, or fraud/sanctions determination. No payment has been modified, resubmitted, reversed, or released.\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "name": "s1-authorized-no-clearing-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-lifecycle-diagnoser/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s1-authorized-no-clearing-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-scoped-repair-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s2-scoped-repair-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "WARN Policy and screening are supplied evidence, not authenticated live authority; no execution is possible.\ninput validation: 0 error(s), 1 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-scoped-repair-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s2-scoped-repair-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "see s2-scoped-repair-calculate.stdout",
+    "stderr": ""
+  },
+  {
+    "name": "s2-scoped-repair-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s2-scoped-repair-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-changed-value-stale-screening-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s2-changed-value-stale-screening-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "WARN Policy and screening are supplied evidence, not authenticated live authority; no execution is possible.\nERROR screening repair_binding does not bind the exact proposed instruction\ninput validation: 1 error(s), 1 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-changed-value-stale-screening-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s2-changed-value-stale-screening-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "{\n  \"schema_version\": \"repair-plan-v1\",\n  \"source_request\": {\n    \"case_id\": \"CASE-77310\",\n    \"payment_id\": \"****8842\",\n    \"type\": \"invalid_beneficiary_detail\",\n    \"as_of\": \"2026-07-16T15:00:00Z\",\n    \"catalog_version\": \"offline-field-repair-v1\",\n    \"exception_confirmation\": {\n      \"case_id\": \"CASE-77310\",\n      \"status\": \"confirmed\",\n      \"source_ref\": \"case-system:CASE-77310#defect-review\"\n    },\n    \"payment_snapshot\": {\n      \"payment_id\": \"****8842\",\n      \"end_to_end_id\": \"E2E-88231-7788\",\n      \"entity_id\": \"BANK-US-1\",\n      \"rail\": \"SWIFT\",\n      \"currency\": \"USD\",\n      \"amount\": \"12500.00\",\n      \"state\": \"rejected\",\n      \"source_ref\": \"payment-store:M-88231:v2\",\n      \"as_of\": \"2026-07-16T14:20:00Z\",\n      \"fields\": {\n        \"beneficiary_bic\": \"DEUTDEF\",\n        \"beneficiary_account\": \"****5566\",\n        \"remittance_info\": \"Invoice 77310\"\n      }\n    },\n    \"policy\": {\n      \"policy_id\": \"repair-policy-us\",\n      \"version\": \"2026.07\",\n      \"source_ref\": \"policy-register:repair-policy-us:2026.07\",\n      \"entity_id\": \"BANK-US-1\",\n      \"rails\": [\n        \"SWIFT\"\n      ],\n      \"currency\": \"USD\",\n      \"max_amount\": \"100000.00\",\n      \"allowed_fields\": [\n        \"beneficiary_bic\"\n      ],\n      \"allowed_exception_types\": [\n        \"invalid_beneficiary_detail\"\n      ],\n      \"required_approver_role\": \"payments-repair-supervisor\",\n      \"effective_at\": \"2026-07-01T00:00:00Z\",\n      \"expires_at\": \"2026-08-01T00:00:00Z\"\n    },\n    \"screening\": {\n      \"status\": \"clear\",\n      \"disposition_id\": \"SCR-4471\",\n      \"source_ref\": \"screening:SCR-4471\",\n      \"payment_id\": \"****8842\",\n      \"screened_at\": \"2026-07-16T14:22:00Z\",\n      \"repair_binding\": \"c87bd76e50f2e1534bc3c58afd391db0c79f9b52e7952629050b68b9a7161555\"\n    },\n    \"evidence\": {\n      \"verification_source\": \"beneficiary-bank directory 2026.06; BIC DEUTDEFF confirmed by authorized analyst\"\n    },\n    \"proposed_repair\": {\n      \"action\": \"repair_and_resubmit\",\n      \"amount\": \"12500.00\",\n      \"currency\": \"USD\",\n      \"field\": \"beneficiary_bic\",\n      \"old_value\": \"DEUTDEF\",\n      \"new_value\": \"COBADEFF\"\n    }\n  },\n  \"source_hash\": \"e72402c9acecd57bc4c747ba0df3de12bef2aca6dd4d7b107de009cbb4526530\",\n  \"plan_id\": \"PLAN-e72402c9acecd57bc4c7\",\n  \"status\": \"rejected\",\n  \"reasons\": [\n    \"screening repair_binding does not bind the exact proposed instruction\"\n  ],\n  \"approval\": {\n    \"status\": \"pending\",\n    \"required_role\": \"payments-repair-supervisor\",\n    \"approver\": null,\n    \"token\": null\n  },\n  \"execution\": {\n    \"state\": \"blocked\",\n    \"executed_steps\": []\n  },\n  \"execution_supported\": false,\n  \"authority_evidence\": \"supplied-not-authenticated\",\n  \"steps\": [],\n  \"limitations\": [\n    \"Policy and screening are supplied evidence, not authenticated live authority; no execution is possible.\"\n  ],\n  \"standing_note\": \"Offline repair proposal only. No approval has been granted or authenticated and no payment has been changed or submitted. A hash is an integrity identifier, not authorization. Settlement cannot be rolled back; a recall or compensation may fail.\",\n  \"plan_hash\": \"432d06d9a5229d4fe8ed90e15a0cc1716fbcce81d77fa930697c0cb255c79e38\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-changed-value-stale-screening-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s2-changed-value-stale-screening-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-output-tamper-validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s2-output-tampered.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR plan_hash does not match complete plan contents\nERROR steps differs from source-bound offline plan\nERROR exact_change differs from source-bound offline plan\noutput validation: 3 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-output-rehashed-validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s2-output-rehashed.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR steps differs from source-bound offline plan\nERROR exact_change differs from source-bound offline plan\nERROR plan_hash differs from source-bound offline plan\noutput validation: 3 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s3-payout-mismatch-no-bank-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-settlement-reconciler/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s3-payout-mismatch-no-bank-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s3-payout-mismatch-no-bank-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-settlement-reconciler/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s3-payout-mismatch-no-bank-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"1.0\",\n  \"skill\": \"payment-settlement-reconciler\",\n  \"input_hash\": \"6267dc8b77eef1bd2874a6c71417418df64edb35e6022edfff0f2f604b81705f\",\n  \"source_snapshot\": {\n    \"mode\": \"explain-payout\",\n    \"report_id\": \"SYNTH-PAYOUT-001\",\n    \"merchant_id\": \"****0101\",\n    \"as_of_date\": \"2026-09-17\",\n    \"config_version\": \"forward-v1\",\n    \"legal_entity_id\": \"merchant-synthetic\",\n    \"account_id\": \"****0101\",\n    \"currency\": \"USD\",\n    \"settlement_cycle\": \"2026-09-16\",\n    \"lines\": [\n      {\n        \"line_id\": \"gross\",\n        \"category\": \"gross_sales\",\n        \"description\": \"Gross card sales\",\n        \"gross_amount\": \"1000.00\",\n        \"source\": {\n          \"system\": \"processor-report\",\n          \"ref\": \"synthetic:report:001:row1\"\n        }\n      },\n      {\n        \"line_id\": \"fee\",\n        \"category\": \"processor_fees\",\n        \"description\": \"Processor fees\",\n        \"fee_amount\": \"30.00\",\n        \"source\": {\n          \"system\": \"processor-report\",\n          \"ref\": \"synthetic:report:001:row2\"\n        }\n      },\n      {\n        \"line_id\": \"net\",\n        \"category\": \"net_settlement\",\n        \"description\": \"Reported payout\",\n        \"net_amount\": \"950.00\",\n        \"source\": {\n          \"system\": \"processor-report\",\n          \"ref\": \"synthetic:report:001:row3\"\n        }\n      }\n    ]\n  },\n  \"config_version\": \"forward-v1\",\n  \"warnings\": [],\n  \"mode\": \"explain-payout\",\n  \"as_of_date\": \"2026-09-17\",\n  \"report_id\": \"SYNTH-PAYOUT-001\",\n  \"merchant_id\": \"****0101\",\n  \"partitions\": [\n    {\n      \"partition\": {\n        \"legal_entity_id\": \"merchant-synthetic\",\n        \"account_id\": \"****0101\",\n        \"currency\": \"USD\",\n        \"settlement_cycle\": \"2026-09-16\"\n      },\n      \"categories\": [\n        {\n          \"line_id\": \"fee\",\n          \"category\": \"processor_fees\",\n          \"amount\": \"-30.00\",\n          \"basis\": \"negative fee_amount\",\n          \"source_ref\": \"processor-report:synthetic:report:001:row2@2026-09-17\",\n          \"evidence_status\": \"supplied\"\n        },\n        {\n          \"line_id\": \"gross\",\n          \"category\": \"gross_sales\",\n          \"amount\": \"1000.00\",\n          \"basis\": \"signed gross_amount\",\n          \"source_ref\": \"processor-report:synthetic:report:001:row1@2026-09-17\",\n          \"evidence_status\": \"supplied\"\n        }\n      ],\n      \"reported_net_lines\": [\n        {\n          \"line_id\": \"net\",\n          \"category\": \"net_settlement\",\n          \"amount\": \"950.00\",\n          \"basis\": \"net_amount\",\n          \"source_ref\": \"processor-report:synthetic:report:001:row3@2026-09-17\",\n          \"evidence_status\": \"supplied\"\n        }\n      ],\n      \"known_line_subtotal\": \"970.00\",\n      \"calculated_net\": \"970.00\",\n      \"reported_net\": \"950.00\",\n      \"funding_expected_net\": null,\n      \"funding_source_ref\": null,\n      \"gross_sales\": \"1000.00\",\n      \"total_fees\": \"30.00\",\n      \"effective_fee_rate_pct\": \"3.000000\",\n      \"checks\": [\n        {\n          \"type\": \"calculated_vs_reported\",\n          \"right_minus_left\": \"-20.00\",\n          \"status\": \"mismatch\"\n        },\n        {\n          \"type\": \"calculated_vs_funding\",\n          \"right_minus_left\": null,\n          \"status\": \"not_evaluable\"\n        },\n        {\n          \"type\": \"reported_vs_funding\",\n          \"right_minus_left\": null,\n          \"status\": \"not_evaluable\"\n        }\n      ],\n      \"data_gaps\": [],\n      \"issues\": [],\n      \"status\": \"discrepancy\"\n    }\n  ],\n  \"summary\": {\n    \"partition_count\": 1,\n    \"bank_cash_confirmed\": false,\n    \"ledger_reconciled\": false,\n    \"discrepancy_count\": 1\n  },\n  \"disclaimer\": \"Informational payout explanation only; not fee advice, bank-cash confirmation, or ledger reconciliation.\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "name": "s3-payout-mismatch-no-bank-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-settlement-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s3-payout-mismatch-no-bank-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s3-payout-mismatch-no-bank-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-processor-mismatch-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s4-processor-mismatch-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-processor-mismatch-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s4-processor-mismatch-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "see s4-processor-mismatch-calculate.stdout",
+    "stderr": ""
+  },
+  {
+    "name": "s4-processor-mismatch-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-processor-mismatch-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-processor-mismatch-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-duplicate-processor-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s4-duplicate-processor-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-duplicate-processor-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s4-duplicate-processor-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "see s4-duplicate-processor-calculate.stdout",
+    "stderr": ""
+  },
+  {
+    "name": "s4-duplicate-processor-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-duplicate-processor-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-duplicate-processor-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-currency-partition-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s4-currency-partition-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-currency-partition-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s4-currency-partition-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "see s4-currency-partition-calculate.stdout",
+    "stderr": ""
+  },
+  {
+    "name": "s4-currency-partition-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-currency-partition-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-currency-partition-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-reused-source-identity-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s4-reused-source-identity-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-reused-source-identity-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s4-reused-source-identity-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "see s4-reused-source-identity-calculate.stdout",
+    "stderr": ""
+  },
+  {
+    "name": "s4-reused-source-identity-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-reused-source-identity-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-reused-source-identity-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-reused-identity-all-equal-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s4-reused-identity-all-equal-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-reused-identity-all-equal-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s4-reused-identity-all-equal-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "see s4-reused-identity-all-equal-calculate.stdout",
+    "stderr": ""
+  },
+  {
+    "name": "s4-reused-identity-all-equal-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-reused-identity-all-equal-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-reused-identity-all-equal-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-new-value-fresh-scope-validate-input",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_input.py",
+      "/tmp/payments-forward-money/s2-new-value-fresh-scope-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "WARN Policy and screening are supplied evidence, not authenticated live authority; no execution is possible.\ninput validation: 0 error(s), 1 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-new-value-fresh-scope-calculate",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-money/s2-new-value-fresh-scope-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "see s2-new-value-fresh-scope-calculate.stdout",
+    "stderr": ""
+  },
+  {
+    "name": "s2-new-value-fresh-scope-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s2-new-value-fresh-scope-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s1-authorized-no-clearing-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-lifecycle-diagnoser/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s1-authorized-no-clearing-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-changed-value-stale-screening-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s2-changed-value-stale-screening-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-new-value-fresh-scope-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s2-new-value-fresh-scope-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s2-scoped-repair-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-repair-planner/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s2-scoped-repair-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s3-payout-mismatch-no-bank-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-settlement-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s3-payout-mismatch-no-bank-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s3-payout-mismatch-no-bank-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-currency-partition-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-currency-partition-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-currency-partition-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-duplicate-processor-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-duplicate-processor-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-duplicate-processor-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-processor-mismatch-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-processor-mismatch-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-processor-mismatch-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-reused-identity-all-equal-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-reused-identity-all-equal-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-reused-identity-all-equal-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "name": "s4-reused-source-identity-final-validate-output",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/payment-transaction-reconciler/scripts/validate_output.py",
+      "/tmp/payments-forward-money/s4-reused-source-identity-output.json",
+      "--input",
+      "/tmp/payments-forward-money/s4-reused-source-identity-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  }
+]

@@ -51,6 +51,8 @@ def _expected_priority(fired: list[str]) -> str:
 
 def validate(pack: dict) -> list[str]:
     errors: list[str] = []
+    from insurance_contract import validate_artifact
+    errors.extend(validate_artifact(pack.get("artifact"), input_doc=pack.get("calculation_inputs"), output=pack))
     gaps = pack.get("gaps") or []
     fired = [g["gap_type"] for g in gaps if g.get("fired")]
 
@@ -84,6 +86,14 @@ def validate(pack: dict) -> list[str]:
     if fired and not pack.get("review_prompts"):
         errors.append("gaps fired but no review_prompts included")
 
+    try:
+        from calculate_or_transform import compute
+        expected = compute(pack["calculation_inputs"])
+        for key in ('gaps', 'fired_gaps', 'not_evaluable', 'review_priority'):
+            if pack.get(key) != expected[key]:
+                errors.append(f"{key} does not reproduce calculation_inputs")
+    except (KeyError, ValueError, TypeError) as exc:
+        errors.append(f"missing or invalid calculation_inputs: {exc}")
     return errors
 
 

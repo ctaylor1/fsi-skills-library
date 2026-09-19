@@ -1,0 +1,168 @@
+{
+  "schema_version": "repair-plan-v1",
+  "source_request": {
+    "case_id": "CASE-77310",
+    "payment_id": "****8842",
+    "type": "invalid_beneficiary_detail",
+    "as_of": "2026-07-16T15:00:00Z",
+    "catalog_version": "offline-field-repair-v1",
+    "exception_confirmation": {
+      "case_id": "CASE-77310",
+      "status": "confirmed",
+      "source_ref": "case-system:CASE-77310#defect-review"
+    },
+    "payment_snapshot": {
+      "payment_id": "****8842",
+      "end_to_end_id": "E2E-88231-7788",
+      "entity_id": "BANK-US-1",
+      "rail": "SWIFT",
+      "currency": "USD",
+      "amount": "12500.00",
+      "state": "rejected",
+      "source_ref": "payment-store:M-88231:v2",
+      "as_of": "2026-07-16T14:20:00Z",
+      "fields": {
+        "beneficiary_bic": "DEUTDEF",
+        "beneficiary_account": "****5566",
+        "remittance_info": "Invoice 77310"
+      }
+    },
+    "policy": {
+      "policy_id": "repair-policy-us",
+      "version": "2026.07",
+      "source_ref": "policy-register:repair-policy-us:2026.07",
+      "entity_id": "BANK-US-1",
+      "rails": [
+        "SWIFT"
+      ],
+      "currency": "USD",
+      "max_amount": "100000.00",
+      "allowed_fields": [
+        "beneficiary_bic"
+      ],
+      "allowed_exception_types": [
+        "invalid_beneficiary_detail"
+      ],
+      "required_approver_role": "payments-repair-supervisor",
+      "effective_at": "2026-07-01T00:00:00Z",
+      "expires_at": "2026-08-01T00:00:00Z"
+    },
+    "screening": {
+      "status": "clear",
+      "disposition_id": "SYNTH-SCR-4472",
+      "source_ref": "synthetic:screening:SYNTH-SCR-4472",
+      "payment_id": "****8842",
+      "screened_at": "2026-07-16T14:50:00Z",
+      "repair_binding": "1b23f1ddd729a7a0c815b673a6dbfa23f5be47378888afbb641ecdfcf8e892a4"
+    },
+    "evidence": {
+      "verification_source": "synthetic:authorized-analyst-verification:new-beneficiary-BIC-COBADEFF"
+    },
+    "proposed_repair": {
+      "action": "repair_and_resubmit",
+      "amount": "12500.00",
+      "currency": "USD",
+      "field": "beneficiary_bic",
+      "old_value": "DEUTDEF",
+      "new_value": "COBADEFF"
+    }
+  },
+  "source_hash": "661098763b1e227931d3533ad0c6063a4422ec98ec6c9b6b47d130467c8e6bf1",
+  "plan_id": "PLAN-661098763b1e227931d3",
+  "status": "planned",
+  "reasons": [],
+  "approval": {
+    "status": "pending",
+    "required_role": "payments-repair-supervisor",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "execution_supported": false,
+  "authority_evidence": "supplied-not-authenticated",
+  "steps": [
+    {
+      "step_id": "S1",
+      "action": "apply_repair",
+      "exact_change": {
+        "field": "beneficiary_bic",
+        "before": "DEUTDEF",
+        "after": "COBADEFF"
+      },
+      "payment_id": "****8842",
+      "end_to_end_id": "E2E-88231-7788",
+      "idempotency_scope": "284294aa919f671e87a2d6fb361955a8242a6e5484b4537c3fa413b66855ab80",
+      "precondition": "Authorized operator rechecks current state, screening, exact approval scope, prior attempts, and policy before acting.",
+      "expected_effect": "Only the exact field change is proposed.",
+      "verification": "Compare full before/after instruction and obtain authoritative outcome; unknown outcome remains blocked for investigation.",
+      "failure_handling": "Stop and investigate. No automatic retry, recall, or guaranteed rollback.",
+      "execution_state": "not_executed"
+    },
+    {
+      "step_id": "S2",
+      "action": "resubmit_payment",
+      "exact_change": null,
+      "payment_id": "****8842",
+      "end_to_end_id": "E2E-88231-7788",
+      "idempotency_scope": "ce15ea95fc2a7e7d18d89ddf3001eccac8ff33abbc6f93ca19e0713b0a5be853",
+      "precondition": "Authorized operator rechecks current state, screening, exact approval scope, prior attempts, and policy before acting.",
+      "expected_effect": "A single submission may be accepted; settlement is not guaranteed.",
+      "verification": "Compare full before/after instruction and obtain authoritative outcome; unknown outcome remains blocked for investigation.",
+      "failure_handling": "Stop and investigate. No automatic retry, recall, or guaranteed rollback.",
+      "execution_state": "not_executed"
+    }
+  ],
+  "limitations": [
+    "Policy and screening are supplied evidence, not authenticated live authority; no execution is possible."
+  ],
+  "standing_note": "Offline repair proposal only. No approval has been granted or authenticated and no payment has been changed or submitted. A hash is an integrity identifier, not authorization. Settlement cannot be rolled back; a recall or compensation may fail.",
+  "case_id": "CASE-77310",
+  "payment_id": "****8842",
+  "end_to_end_id": "E2E-88231-7788",
+  "entity_id": "BANK-US-1",
+  "rail": "SWIFT",
+  "currency": "USD",
+  "amount": "12500.00",
+  "catalog_version": "offline-field-repair-v1",
+  "policy": {
+    "policy_id": "repair-policy-us",
+    "version": "2026.07",
+    "source_ref": "policy-register:repair-policy-us:2026.07",
+    "entity_id": "BANK-US-1",
+    "rails": [
+      "SWIFT"
+    ],
+    "currency": "USD",
+    "max_amount": "100000.00",
+    "allowed_fields": [
+      "beneficiary_bic"
+    ],
+    "allowed_exception_types": [
+      "invalid_beneficiary_detail"
+    ],
+    "required_approver_role": "payments-repair-supervisor",
+    "effective_at": "2026-07-01T00:00:00Z",
+    "expires_at": "2026-08-01T00:00:00Z"
+  },
+  "screening": {
+    "status": "clear",
+    "disposition_id": "SYNTH-SCR-4472",
+    "source_ref": "synthetic:screening:SYNTH-SCR-4472",
+    "payment_id": "****8842",
+    "screened_at": "2026-07-16T14:50:00Z",
+    "repair_binding": "1b23f1ddd729a7a0c815b673a6dbfa23f5be47378888afbb641ecdfcf8e892a4"
+  },
+  "repair": "repair_and_resubmit",
+  "field": "beneficiary_bic",
+  "exact_change": {
+    "field": "beneficiary_bic",
+    "before": "DEUTDEF",
+    "after": "COBADEFF"
+  },
+  "unchanged_fields_hash": "61f6b112a6dcfa2dbdcf22f524a055988d42786013b3fbbf97f6babe952c784b",
+  "expected_status": "proposal_only",
+  "plan_hash": "1867aa62dabccd2749b69ececc039d3860dd45b1745840fef2b5ecaa138f98e2"
+}

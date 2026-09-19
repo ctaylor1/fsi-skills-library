@@ -1,5 +1,27 @@
 # Changelog — senior-investor-protection-screener
 
+## [0.2.0] — 2026-09-16
+- Adopt the wealth-p0-v1 source/context contract and input-bound draft identity.
+- Bound baselines by as-of/lookback and pre-focal timestamps; enforce coverage and limits.
+- Preserve unknown observations/applicability, avoid automatic negative conclusions, and
+  separate trusted-contact administration from exploitation concern counts.
+- Reject empty/tampered/false-ready outputs by recomputing the structured artifact.
+- Add 26 executed regressions, revised fixtures, minimized snapshot contract and draft template.
+- Replace obsolete recommendation-reviewer handoff naming and remove production-default claims.
+
+### Independent review repairs
+- Require transaction lifecycle explicitly. Historical baselines and executed outflow use executed
+  records only; proposed/pending focal requests retain concern screening without claiming execution.
+- Add four lifecycle regressions covering proposed focal activity, nonexecuted baseline exclusions,
+  absent/invalid lifecycle and separate actual outflow alongside a pending request.
+
+### Release status
+Deterministic checks implemented. Institutional SME/control/fairness acceptance, independent
+behavior evaluation and production connector/source approval remain pending. Rule references
+were read 2026-09-16; metadata recertification is not evidence of deployment approval.
+
+## Historical authoring record
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`).
 
@@ -22,7 +44,7 @@ Initial authoring in the FSI Skills Library (baseline status: `new`).
 - **Evaluations:** trigger/routing, golden Escalate case, thin-baseline and missing-observation
   edges, deterministic script checks, no-determination safety + injection, human-adjudication
   authorization.
-- **Handoffs:** downstream to `suspicious-activity-report-drafter`, `suitability-reg-bi-reviewer`,
+- **Handoffs:** downstream to `suspicious-activity-report-drafter`, `investment-recommendation-evidence-reviewer`,
   `vulnerable-customer-support-assistant`, `complaint-resolution-assistant`,
   `client-review-preparer`; human handoffs to supervisor/compliance, BSA/AML officer, APS/
   regulator, and licensed advisor/legal.

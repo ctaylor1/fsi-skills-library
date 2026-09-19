@@ -1,0 +1,377 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-capital-solvency-analyzer",
+  "case_id": "FWD-ACT-CAPITAL",
+  "as_of": "2026-06-30",
+  "context": {
+    "capacity": "insurance controller",
+    "represented_party": "Fictional Cedar Assurance",
+    "object_id": "CEDAR-ENTITY-01",
+    "jurisdiction": "SYNTHETIC-INTERNAL",
+    "line_of_business": "life"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "available-capital-control-break",
+      "message": "Approved signed components do not tie to the supplied available-capital control; arithmetic remains visible but no capital conclusion is supported.",
+      "severity": "review",
+      "source_refs": [
+        "CONTROL"
+      ]
+    },
+    {
+      "code": "stress-control-break",
+      "message": "Stress bridge differs from supplied stressed capital or requirement.",
+      "severity": "review",
+      "source_refs": [
+        "STRESS"
+      ]
+    }
+  ],
+  "results": {
+    "component_bridge": [
+      {
+        "component_id": "PaidIn",
+        "signed_amount": "120",
+        "source_refs": [
+          "COMPONENTS"
+        ]
+      },
+      {
+        "component_id": "Retained",
+        "signed_amount": "80",
+        "source_refs": [
+          "COMPONENTS"
+        ]
+      },
+      {
+        "component_id": "Deduction",
+        "signed_amount": "-30",
+        "source_refs": [
+          "COMPONENTS"
+        ]
+      }
+    ],
+    "available_capital": "170",
+    "available_control_difference": "-5",
+    "required_capital": "100",
+    "denominator_name": "Internal economic requirement",
+    "ratio_pct": "170.0",
+    "threshold_comparisons": [
+      {
+        "threshold_id": "target",
+        "ratio_pct": "150",
+        "comparison": "at-or-above"
+      },
+      {
+        "threshold_id": "floor",
+        "ratio_pct": "100",
+        "comparison": "at-or-above"
+      }
+    ],
+    "stress_bridges": [
+      {
+        "scenario_id": "adverse",
+        "horizon": "one year",
+        "available_capital": "110",
+        "required_capital": "120",
+        "available_control_difference": "-5",
+        "requirement_control_difference": "0",
+        "ratio_pct": "91.66666666666666666666666667",
+        "threshold_comparisons": [
+          {
+            "threshold_id": "target",
+            "ratio_pct": "150",
+            "comparison": "below"
+          },
+          {
+            "threshold_id": "floor",
+            "ratio_pct": "100",
+            "comparison": "below"
+          }
+        ]
+      }
+    ],
+    "basis": "INTERNAL-MGMT-CLOSE",
+    "currency": "USD",
+    "regulatory_action_determined": false,
+    "solvency_certified": false,
+    "statutory_capital_engine": false
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "Finance controls of 175 and 115 conflict with additive bridges; explanation is missing.",
+    "Approved signed components do not tie to the supplied available-capital control; arithmetic remains visible but no capital conclusion is supported.",
+    "Stress bridge differs from supplied stressed capital or requirement."
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "FWD-ACT-CAPITAL",
+    "as_of": "2026-06-30",
+    "context": {
+      "capacity": "insurance controller",
+      "represented_party": "Fictional Cedar Assurance",
+      "object_id": "CEDAR-ENTITY-01",
+      "jurisdiction": "SYNTHETIC-INTERNAL",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "PROFILE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#PROFILE",
+        "extraction_text": "Synthetic approved internal method approved-capital-control-ratio-v1; approved-additive-components only, components PaidIn, Retained, Deduction. Basis INTERNAL-MGMT-CLOSE, USD, CEDAR-ENTITY-01, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Committee assertion only. Denominator Internal economic requirement. Internal target 150%; monitoring floor 100%, neither is a legal trigger."
+      },
+      {
+        "source_ref": "COMPONENTS",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "COMPONENTS synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#COMPONENTS",
+        "extraction_text": "Complete reviewed signed eligible inventory: PaidIn +120, Retained +80, Deduction -30. Reviewed by Synthetic Capital Committee; upstream eligibility assumed reviewed and not rederived."
+      },
+      {
+        "source_ref": "CONTROL",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "CONTROL synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#CONTROL",
+        "extraction_text": "Finance available capital control=175 at 2026-06-30. Difference from components has no supplied explanation."
+      },
+      {
+        "source_ref": "REQUIREMENT",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "REQUIREMENT synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#REQUIREMENT",
+        "extraction_text": "Reviewed Internal economic requirement=100 at 2026-06-30. Reviewer Synthetic Capital Committee."
+      },
+      {
+        "source_ref": "STRESS",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "STRESS synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#STRESS",
+        "extraction_text": "Adverse scenario, horizon one year, approved upstream bridge: available delta -60, requirement delta +20; reported stressed available=115 and requirement=120. Reviewed by Synthetic Capital Committee. No nonlinear capital formula supplied."
+      }
+    ],
+    "unresolved_issues": [
+      "Finance controls of 175 and 115 conflict with additive bridges; explanation is missing."
+    ],
+    "data": {
+      "method": "approved-capital-control-ratio-v1",
+      "object_id": "CEDAR-ENTITY-01",
+      "basis": "INTERNAL-MGMT-CLOSE",
+      "currency": "USD",
+      "valuation_date": "2026-06-30",
+      "profile": {
+        "profile_id": "PROFILE-capital",
+        "version": "fresh-synthetic-v1",
+        "source_refs": [
+          "PROFILE"
+        ],
+        "jurisdictions": [
+          "SYNTHETIC-INTERNAL"
+        ],
+        "lines_of_business": [
+          "life"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2027-12-31",
+        "method": "approved-capital-control-ratio-v1",
+        "basis": "INTERNAL-MGMT-CLOSE",
+        "approved_by": "Synthetic committee assertion only",
+        "legal_basis_kind": "internal-methodology",
+        "aggregation_method": "approved-additive-components",
+        "component_ids": [
+          "PaidIn",
+          "Retained",
+          "Deduction"
+        ],
+        "denominator_name": "Internal economic requirement",
+        "thresholds": [
+          {
+            "threshold_id": "target",
+            "ratio_pct": 150,
+            "purpose": "internal target",
+            "source_refs": [
+              "PROFILE"
+            ]
+          },
+          {
+            "threshold_id": "floor",
+            "ratio_pct": 100,
+            "purpose": "internal monitoring floor",
+            "source_refs": [
+              "PROFILE"
+            ]
+          }
+        ]
+      },
+      "components_complete": true,
+      "components": [
+        {
+          "object_id": "CEDAR-ENTITY-01",
+          "basis": "INTERNAL-MGMT-CLOSE",
+          "currency": "USD",
+          "valuation_date": "2026-06-30",
+          "source_refs": [
+            "COMPONENTS"
+          ],
+          "component_id": "PaidIn",
+          "amount": 120,
+          "reviewed_by": "Synthetic Capital Committee"
+        },
+        {
+          "object_id": "CEDAR-ENTITY-01",
+          "basis": "INTERNAL-MGMT-CLOSE",
+          "currency": "USD",
+          "valuation_date": "2026-06-30",
+          "source_refs": [
+            "COMPONENTS"
+          ],
+          "component_id": "Retained",
+          "amount": 80,
+          "reviewed_by": "Synthetic Capital Committee"
+        },
+        {
+          "object_id": "CEDAR-ENTITY-01",
+          "basis": "INTERNAL-MGMT-CLOSE",
+          "currency": "USD",
+          "valuation_date": "2026-06-30",
+          "source_refs": [
+            "COMPONENTS"
+          ],
+          "component_id": "Deduction",
+          "amount": -30,
+          "reviewed_by": "Synthetic Capital Committee"
+        }
+      ],
+      "available_control": {
+        "object_id": "CEDAR-ENTITY-01",
+        "basis": "INTERNAL-MGMT-CLOSE",
+        "currency": "USD",
+        "valuation_date": "2026-06-30",
+        "source_refs": [
+          "CONTROL"
+        ],
+        "amount": 175
+      },
+      "requirement": {
+        "object_id": "CEDAR-ENTITY-01",
+        "basis": "INTERNAL-MGMT-CLOSE",
+        "currency": "USD",
+        "valuation_date": "2026-06-30",
+        "source_refs": [
+          "REQUIREMENT"
+        ],
+        "amount": 100,
+        "denominator_name": "Internal economic requirement",
+        "reviewed_by": "Synthetic Capital Committee"
+      },
+      "stresses": [
+        {
+          "object_id": "CEDAR-ENTITY-01",
+          "basis": "INTERNAL-MGMT-CLOSE",
+          "currency": "USD",
+          "valuation_date": "2026-06-30",
+          "source_refs": [
+            "STRESS"
+          ],
+          "scenario_id": "adverse",
+          "horizon": "one year",
+          "reviewed_by": "Synthetic Capital Committee",
+          "available_delta": -60,
+          "requirement_delta": 20,
+          "reported_available": 115,
+          "reported_requirement": 120
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-capital-solvency-analyzer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-06-30",
+    "context": {
+      "capacity": "insurance controller",
+      "represented_party": "Fictional Cedar Assurance",
+      "object_id": "CEDAR-ENTITY-01",
+      "jurisdiction": "SYNTHETIC-INTERNAL",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "PROFILE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#PROFILE",
+        "extraction_text": "Synthetic approved internal method approved-capital-control-ratio-v1; approved-additive-components only, components PaidIn, Retained, Deduction. Basis INTERNAL-MGMT-CLOSE, USD, CEDAR-ENTITY-01, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Committee assertion only. Denominator Internal economic requirement. Internal target 150%; monitoring floor 100%, neither is a legal trigger."
+      },
+      {
+        "source_ref": "COMPONENTS",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "COMPONENTS synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#COMPONENTS",
+        "extraction_text": "Complete reviewed signed eligible inventory: PaidIn +120, Retained +80, Deduction -30. Reviewed by Synthetic Capital Committee; upstream eligibility assumed reviewed and not rederived."
+      },
+      {
+        "source_ref": "CONTROL",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "CONTROL synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#CONTROL",
+        "extraction_text": "Finance available capital control=175 at 2026-06-30. Difference from components has no supplied explanation."
+      },
+      {
+        "source_ref": "REQUIREMENT",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "REQUIREMENT synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#REQUIREMENT",
+        "extraction_text": "Reviewed Internal economic requirement=100 at 2026-06-30. Reviewer Synthetic Capital Committee."
+      },
+      {
+        "source_ref": "STRESS",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "STRESS synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/capital/raw_sources.json#STRESS",
+        "extraction_text": "Adverse scenario, horizon one year, approved upstream bridge: available delta -60, requirement delta +20; reported stressed available=115 and requirement=120. Reviewed by Synthetic Capital Committee. No nonlinear capital formula supplied."
+      }
+    ],
+    "input_hash": "3f47fe41f3d01166f75c12f6b4d42f5184cae7bb06511486d2ab1e727e560dce",
+    "output_hash": "8ccdddd0242e668ed2ca267d69587c148287720891e171aebd56806c28b08b77",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "Finance controls of 175 and 115 conflict with additive bridges; explanation is missing.",
+      "Approved signed components do not tie to the supplied available-capital control; arithmetic remains visible but no capital conclusion is supported.",
+      "Stress bridge differs from supplied stressed capital or requirement."
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "06b944d37429e515079f2b932fbfc7de5334d6715254d5b1a793f4709a618a83"
+  }
+}

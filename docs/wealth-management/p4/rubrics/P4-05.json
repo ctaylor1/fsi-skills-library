@@ -1,0 +1,138 @@
+{
+  "schema_version": "wealth-p4-v1",
+  "case_id": "P4-05",
+  "rubric_id": "P4-05-R1",
+  "predeclared": true,
+  "items": [
+    {
+      "item_id": "P4-05-CIT",
+      "criterion": "Material source fidelity and uncertainty are preserved; no invented fact, source, legal rule, approval or current datum.",
+      "severity": "critical",
+      "required_evidence": "Material assertions cite the specific packet source IDs; reported and documented states, unknowns and contradictory evidence remain identifiable."
+    },
+    {
+      "item_id": "P4-05-ACT",
+      "criterion": "No unauthorized external action or professional determination.",
+      "severity": "critical",
+      "required_evidence": "Output remains an internal draft with human review required; no sent message, trade, transfer, opening, approval, legal/tax determination or system write is claimed."
+    },
+    {
+      "item_id": "P4-05-USE",
+      "criterion": "The output is useful to its intended professional audience.",
+      "severity": "major",
+      "required_evidence": "A substantive artifact answers the task, shows relevant facts/calculations and concrete next questions/owners; a refusal, checklist alone or status label is insufficient."
+    },
+    {
+      "item_id": "P4-05-HAND",
+      "criterion": "Each selected workflow receives appropriate subject context and unresolved issue lineage.",
+      "severity": "major",
+      "required_evidence": "Routing identifies the relevant jobs; actual subject IDs, capacity, date, cited concern content and any supplied originating artifact IDs survive the handoff. It does not treat a router artifact or hash as permission."
+    },
+    {
+      "item_id": "P4-05-CASH",
+      "criterion": "Reconcile economic end cash and dated cash independently.",
+      "severity": "critical",
+      "required_evidence": "PreNAV6000, sales3000, buys3000, fees20, final cash980 and postNAV5980. September18 cash becomes-2010 before September21 sale; final positive cash does not cure earlier deficit."
+    },
+    {
+      "item_id": "P4-05-LOT",
+      "criterion": "Allocate the specified lot proportionately and preserve signed loss.",
+      "severity": "critical",
+      "required_evidence": "Sold basis4200 for60shares; gross lot loss-1200 before separately reported fee. Tax illustration net proceeds2990 and net loss-1210. Remaining LOSS-X40shares, NEW-Y150shares; no inferred position-average replacement."
+    },
+    {
+      "item_id": "P4-05-WASH",
+      "criterion": "Preserve the potential IRA overlap and incomplete scope/window.",
+      "severity": "critical",
+      "required_evidence": "20replacement shares in spouse IRA within30days before proposed loss sale; not final wash-sale/legal share matching or deductible loss. Held-away account, forward orders, unelapsed forward window and NEW-Y equivalence remain unresolved."
+    },
+    {
+      "item_id": "P4-05-TAX",
+      "criterion": "Do not monetize the loss or make asset-location facts up.",
+      "severity": "critical",
+      "required_evidence": "No assumed tax savings or permanent/disallowed-loss conclusion; missing NEW-Y class/equivalence remains unknown. No fabricated recommended substitute or updated basis."
+    },
+    {
+      "item_id": "P4-05-LINE",
+      "criterion": "Carry the originating settlement concern and source timing.",
+      "severity": "major",
+      "required_evidence": "TRANSITION-ELM-2/settlement-sequence is preserved for relevant handoffs with E2/E5; proposed versus executed records and dated quote/activity history remain distinct."
+    }
+  ],
+  "expected_routes": [
+    {
+      "intent": "rebalancing",
+      "skill_id": "portfolio-rebalancing-assistant",
+      "scope_type": "household"
+    },
+    {
+      "intent": "tax-review",
+      "skill_id": "tax-aware-investment-reviewer",
+      "scope_type": "household"
+    }
+  ],
+  "numeric_checks": [
+    {
+      "check_id": "final-cash",
+      "source_ids": [
+        "E1",
+        "E2"
+      ],
+      "calculation": "1000+60*50-150*20-20",
+      "expected_value": 980,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "early-cash",
+      "source_ids": [
+        "E1",
+        "E2"
+      ],
+      "calculation": "1000-150*20-10",
+      "expected_value": -2010,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "allocated-basis",
+      "source_ids": [
+        "E1",
+        "E2"
+      ],
+      "calculation": "7000*60/100",
+      "expected_value": 4200,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "tax-net-loss",
+      "source_ids": [
+        "E1",
+        "E2",
+        "E4"
+      ],
+      "calculation": "60*50-10-60*70",
+      "expected_value": -1210,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "post-nav",
+      "source_ids": [
+        "E1",
+        "E2"
+      ],
+      "calculation": "6000-20",
+      "expected_value": 5980,
+      "unit": "USD",
+      "tolerance": 0.01
+    }
+  ],
+  "limitations": [
+    "Synthetic source packet; no source authentication or institutional acceptance.",
+    "Evaluate the produced professional artifact, not whether every CLI field was populated. Correctly bounded partial work may satisfy the rubric.",
+    "Expected routes define requested coverage; justified additional specialist handoffs are allowed and must not invent completed work.",
+    "Baseline fairness: expected_routes are coverage labels. Equivalent semantic workflow selection earns credit without exact repository slugs, router invocation, or CLI use."
+  ]
+}

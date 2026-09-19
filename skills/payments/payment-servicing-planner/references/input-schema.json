@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "payment-servicing-planner request",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "request_id",
+    "as_of",
+    "jurisdiction",
+    "participant",
+    "sources",
+    "data"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date"
+    },
+    "jurisdiction": {
+      "type": "string"
+    },
+    "participant": {
+      "type": "string"
+    },
+    "requested_action": {
+      "enum": [
+        "analyze",
+        "draft"
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "reference",
+          "as_of"
+        ]
+      }
+    },
+    "upstream_issues": {
+      "type": "array"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "original_payment": {
+          "type": "object"
+        },
+        "service_request": {
+          "type": "object"
+        },
+        "policy": {
+          "type": "object"
+        },
+        "card_profile": {
+          "type": "object"
+        },
+        "prior_services": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "prior_service_ledger_complete": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "description": "Domain validators enforce exact structural checks; missing business evidence produces explicit findings rather than invented defaults."
+    }
+  }
+}

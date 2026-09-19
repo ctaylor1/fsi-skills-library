@@ -10,7 +10,7 @@
   to invest/buy/subscribe/redeem, or characterize the offering as good/bad, cheap/expensive,
   safe/risky, or "worth it".
 - No **suitability / Reg BI / best-interest** judgment (that is advice; route to
-  `suitability-reg-bi-reviewer`).
+  `investment-recommendation-evidence-reviewer`).
 - No **offer or solicitation** of the security, and no restatement of past performance or
   forward-looking statements as an expectation or projection of your own.
 - No **fabrication** of a disclosure the document does not make; no **softening** of risk

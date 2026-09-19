@@ -53,6 +53,8 @@ def _argmin_quote(normalized: list[dict]) -> str | None:
 
 def validate(pack: dict) -> list[str]:
     errors: list[str] = []
+    from insurance_contract import validate_artifact
+    errors.extend(validate_artifact(pack.get("artifact"), input_doc=pack.get("calculation_inputs"), output=pack))
     normalized = pack.get("normalized_quotes") or []
     if not normalized:
         errors.append("normalized_quotes is empty — nothing to compare")
@@ -64,10 +66,24 @@ def validate(pack: dict) -> list[str]:
             errors.append(f"normalized quote {n.get('quote_id')} missing annualized_total_cost")
 
     exp = _argmin_quote(normalized)
-    if normalized and pack.get("lowest_annualized_total_cost_quote_id") != exp:
+    if pack.get("cost_comparison_status") == "comparable" and normalized and pack.get("lowest_annualized_total_cost_quote_id") != exp:
         errors.append(
             f"lowest_annualized_total_cost_quote_id {pack.get('lowest_annualized_total_cost_quote_id')!r} "
             f"!= deterministic argmin {exp!r}")
+
+    if pack.get("cost_comparison_status") != "comparable":
+        if pack.get("lowest_annualized_total_cost_quote_id") is not None or pack.get("cost_spread") is not None:
+            errors.append("noncomparable quotes must not have overall cost ranking or spread")
+    elif pack.get("comparability_flags"):
+        errors.append("quotes with material comparability flags cannot be ranked")
+    try:
+        from calculate_or_transform import compute
+        expected = compute(pack["calculation_inputs"])
+        for key in ("normalized_quotes", "coverage_matrix", "differences", "comparability_flags", "cost_comparison_status", "cost_spread", "lowest_annualized_total_cost_quote_id"):
+            if pack.get(key) != expected[key]:
+                errors.append(f"{key} does not reproduce source calculation_inputs")
+    except (KeyError, ValueError, TypeError) as exc:
+        errors.append(f"missing or invalid calculation_inputs: {exc}")
 
     # scan author-controlled free text only (narrative + notes + flag details); never the disclaimer.
     text = " ".join(

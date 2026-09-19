@@ -1,45 +1,22 @@
-# Source Map — subrogation-opportunity-screener
+# Source map — Subrogation Opportunity Screening
 
-## Source hierarchy (highest first)
+## Native input
+claim_id, as_of, config_version, line_of_business, financial amounts/source/currency, supplied liable-party shares and collectibility facts, limitation date/source, evidence inventory, explicit waiver_of_subrogation boolean, prior_recovery.status and recovery_status_source_ref. Configuration defines floors, costs and scenario factors.
 
-| Rank | Source (MCP integration) | Used for | Access |
-| ---- | ------------------------ | -------- | ------ |
-| 1 | **Claims system** (system of record) | Claim financials (paid, reserve, deductible), status, loss facts, party roster | Read-only |
-| 2 | **Policy administration** | Line of business, coverage, waiver-of-subrogation endorsements, made-whole/anti-subrogation conditions | Read-only |
-| 3 | **Liability & correspondence** | Loss-cause narrative, adverse-insurer admissions, police/expert reports, negotiation history | Read-only |
-| 4 | **Payments & recovery ledger** | Amounts paid to date, deductible reimbursed, prior recovery/salvage credits | Read-only |
-| 5 | **Limitation-rules pack** (versioned) + **limitation calendar** | Controlling statute-of-limitation / notice period by jurisdiction and claim type; the diaried date | Read-only |
-| 6 | **Party / external records** | Responsible-party resolution, insurer identity, collectibility (assets/coverage known) | Read-only |
-| 7 | Recovery-strategy **config** (versioned) | Referral floor, liability-share floor, collectibility factors, limitation buffers | Read-only |
+## Provenance
+Prefer the supplied claim/plan/policy system record and the current, approved configuration for
+this represented party, jurisdiction and task. The scripts read JSON only; they do not fetch,
+authenticate or determine completeness of a remote system. Record top-level as_of, context and
+sources as described in [insurance-contract.md](insurance-contract.md). A missing source or
+configuration is a gap, not permission to invent a citation or substitute another role’s file.
 
-Never substitute a claim handler's assertion for the recorded claim financials or the diaried
-limitation date. If the limitation-rules pack and the diaried date conflict, cite both and flag
-for the recovery specialist — do not silently pick one.
+## Identity and dates
+Keep notification, claim, member, policy, document, transaction and revision IDs distinct.
+Explicitly document cross-system/skill mappings and retain the source and target identities.
+Calendar dates use YYYY-MM-DD; receipt timestamps carry an explicit timezone. No identifier,
+hash, document type or supplied signature flag establishes authenticity by itself.
 
-## Citation format
-
-`{system}:{ref}@{date}` — e.g. `claims:claim=CLM-556677;party=TP-1@2026-07-15`. Every fired
-signal cites the specific evidence rows (party, financial line, evidence document, limitation
-entry) behind it.
-
-## Freshness / effective dates
-
-- The **limitation date** is time-critical and jurisdiction-specific; the output records the
-  diaried date, days remaining, and the config version so the screen is reproducible. A missing
-  limitation date makes `limitation_window_open` **not evaluable** — resolve before reliance.
-- Config (floors, factors, buffers) is a **versioned contract**; the output records the config
-  version used so a screening is reproducible.
-- Recovery economics use amounts **as of** the screening date; late payments change the base.
-
-## Least-privilege operations (deployment)
-
-- `claims.read(claim_id)` → financials, status, loss facts, party roster.
-- `policy.read(policy_id)` → LOB, waiver/anti-subrogation endorsements, made-whole conditions.
-- `recovery.ledger(claim_id)` → paid, deductible, prior recovery/salvage.
-- `limitation.resolve(jurisdiction, claim_type)` + `limitation.calendar(claim_id)` → controlling
-  date + diaried date.
-- `party.resolve(party_id)` → insurer identity, collectibility indicators.
-- `config.get('subrogation', version)` → floors, factors, buffers.
-
-All read-only, deterministic, durable `screening_id`, below the fixed timeout; page a large
-book of claims as resumable stages.
+## Synthetic evaluation material
+Files under evals/files are synthetic regression records. Their sources and version labels are
+not legal authorities, production connector IDs or deployment approvals. Existing legacy input
+fields are retained only where the current domain rules document their interpretation.

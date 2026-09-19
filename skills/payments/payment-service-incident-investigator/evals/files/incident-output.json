@@ -1,0 +1,426 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-service-incident-investigator",
+  "request_id": "synthetic-phase3-operations-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "payment-operations",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-phase3-operations-001",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "payment-operations",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "s1",
+        "reference": "synthetic://operating-records/v1",
+        "as_of": "2026-09-18",
+        "review_due": "2026-12-31"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "window": {
+        "start": "2026-09-01T00:00:00Z",
+        "end": "2026-09-18T00:00:00Z",
+        "population_complete": true,
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "coverage": {
+        "complete": true,
+        "expected_unique_payments": 3,
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "payments": [
+        {
+          "payment_id": "p1",
+          "legal_entity_id": "bank-us",
+          "currency": "USD",
+          "amount": "100",
+          "outcome": "succeeded",
+          "outcome_authority": "ledger-confirmation",
+          "lifecycle_state": "settled",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "payment_id": "p2",
+          "legal_entity_id": "bank-us",
+          "currency": "USD",
+          "amount": "75",
+          "outcome": "unknown",
+          "outcome_authority": "ledger-status-pending",
+          "lifecycle_state": "unknown",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "payment_id": "p3",
+          "legal_entity_id": "bank-uk",
+          "currency": "GBP",
+          "amount": "30",
+          "outcome": "failed",
+          "outcome_authority": "processor-no-effect",
+          "lifecycle_state": "rejected",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "attempts": [
+        {
+          "attempt_id": "a1",
+          "payment_id": "p1",
+          "at": "2026-09-02T12:00:00Z",
+          "status": "failed",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "attempt_id": "a2",
+          "payment_id": "p1",
+          "at": "2026-09-02T12:00:01Z",
+          "status": "succeeded",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "attempt_id": "a3",
+          "payment_id": "p2",
+          "at": "2026-09-02T12:00:02Z",
+          "status": "unknown",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "attempt_id": "a4",
+          "payment_id": "p3",
+          "at": "2026-09-02T12:00:03Z",
+          "status": "failed",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "event_id": "r1",
+          "kind": "release",
+          "at": "2026-09-02T11:55:00Z",
+          "release_version": "service-v2",
+          "observation": "New status adapter deployed by supplied change record",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "event_id": "t1",
+          "kind": "trace",
+          "at": "2026-09-02T12:00:02Z",
+          "observation": "p2 status lookup timed out",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "event_id": "s1",
+          "kind": "provider-status",
+          "at": "2026-09-02T12:02:00Z",
+          "observation": "Provider reported elevated latency",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesis_id": "h1",
+          "statement": "Adapter or provider latency may explain timeouts",
+          "supporting_event_ids": [
+            "t1",
+            "s1"
+          ],
+          "discriminating_test": "Compare trace spans before and after version boundary controlling provider latency",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "containment": {
+        "strategy": "status-and-reconcile",
+        "owner": "incident-commander",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "recovery": {
+        "owner": "recon-lead",
+        "support_handoff": "synthetic://support/case",
+        "financial_reconciliation_ref": "synthetic://reconciliation/partitioned",
+        "matched_payment_ids": [
+          "p1",
+          "p3"
+        ],
+        "unresolved_payment_ids": [
+          "p2"
+        ],
+        "source_ids": [
+          "s1"
+        ]
+      }
+    }
+  },
+  "input_hash": "3590c0cd085b687b9b4c227b358393a4de74490aca651237f7b699537f900d28",
+  "findings": [],
+  "result": {
+    "incident_id": "synthetic-phase3-operations-001",
+    "window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-18T00:00:00Z",
+      "population_complete": true,
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "impact": {
+      "unique_payments": 3,
+      "attempts": 4,
+      "retry_attempts": 1,
+      "payment_outcomes": {
+        "failed": 1,
+        "succeeded": 1,
+        "unknown": 1
+      },
+      "attempt_outcomes": {
+        "failed": 2,
+        "succeeded": 1,
+        "unknown": 1
+      },
+      "population_coverage_verified_from_supplied_record": true,
+      "confirmed_success_rate": "0.3333333333333333333333333333",
+      "eventual_success_rate": null,
+      "payment_rows_deduplicated": 0,
+      "attempt_rows_deduplicated": 0,
+      "quarantined_payment_ids": [],
+      "quarantined_attempt_ids": [],
+      "monetary_partitions": [
+        {
+          "legal_entity_id": "bank-uk",
+          "currency": "GBP",
+          "confirmed_success_amount": "0",
+          "failed_payment_amount": "30",
+          "unknown_outcome_amount": "0",
+          "actual_loss": null
+        },
+        {
+          "legal_entity_id": "bank-us",
+          "currency": "USD",
+          "confirmed_success_amount": "100",
+          "failed_payment_amount": "0",
+          "unknown_outcome_amount": "75",
+          "actual_loss": null
+        }
+      ]
+    },
+    "retry_chains": [
+      {
+        "payment_id": "p1",
+        "outcome": "succeeded",
+        "attempts": [
+          {
+            "attempt_id": "a1",
+            "payment_id": "p1",
+            "at": "2026-09-02T12:00:00Z",
+            "status": "failed",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "attempt_id": "a2",
+            "payment_id": "p1",
+            "at": "2026-09-02T12:00:01Z",
+            "status": "succeeded",
+            "source_ids": [
+              "s1"
+            ]
+          }
+        ]
+      },
+      {
+        "payment_id": "p2",
+        "outcome": "unknown",
+        "attempts": [
+          {
+            "attempt_id": "a3",
+            "payment_id": "p2",
+            "at": "2026-09-02T12:00:02Z",
+            "status": "unknown",
+            "source_ids": [
+              "s1"
+            ]
+          }
+        ]
+      },
+      {
+        "payment_id": "p3",
+        "outcome": "failed",
+        "attempts": [
+          {
+            "attempt_id": "a4",
+            "payment_id": "p3",
+            "at": "2026-09-02T12:00:03Z",
+            "status": "failed",
+            "source_ids": [
+              "s1"
+            ]
+          }
+        ]
+      }
+    ],
+    "timeline": [
+      {
+        "event_id": "r1",
+        "kind": "release",
+        "at": "2026-09-02T11:55:00Z",
+        "release_version": "service-v2",
+        "observation": "New status adapter deployed by supplied change record",
+        "source_ids": [
+          "s1"
+        ],
+        "causal_status": "observation only"
+      },
+      {
+        "event_id": "t1",
+        "kind": "trace",
+        "at": "2026-09-02T12:00:02Z",
+        "observation": "p2 status lookup timed out",
+        "source_ids": [
+          "s1"
+        ],
+        "causal_status": "observation only"
+      },
+      {
+        "event_id": "s1",
+        "kind": "provider-status",
+        "at": "2026-09-02T12:02:00Z",
+        "observation": "Provider reported elevated latency",
+        "source_ids": [
+          "s1"
+        ],
+        "causal_status": "observation only"
+      }
+    ],
+    "hypotheses": [
+      {
+        "hypothesis_id": "h1",
+        "statement": "Adapter or provider latency may explain timeouts",
+        "supporting_event_ids": [
+          "t1",
+          "s1"
+        ],
+        "discriminating_test": "Compare trace spans before and after version boundary controlling provider latency",
+        "source_ids": [
+          "s1"
+        ],
+        "causality": "unproven hypothesis",
+        "causal_conclusion": false
+      }
+    ],
+    "containment_plan": {
+      "strategy": "status-and-reconcile",
+      "owner": "incident-commander",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "replay_assessment": "not proposed",
+    "recovery_plan": {
+      "owner": "recon-lead",
+      "support_handoff": "synthetic://support/case",
+      "financial_reconciliation_ref": "synthetic://reconciliation/partitioned",
+      "matched_payment_ids": [
+        "p1",
+        "p3"
+      ],
+      "unresolved_payment_ids": [
+        "p2"
+      ],
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "incident_closed": false,
+    "root_cause_confirmed": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-integration-readiness-reviewer",
+      "reason": "Review recovery and regression evidence before a release decision.",
+      "required_inputs": [
+        "incident timeline and affected versions",
+        "negative-path test artifacts",
+        "reconciliation and unresolved payment inventory"
+      ],
+      "handoff_id": "855418ac92920b10023b050d4866244bf9446e99d7d26a8cb61f5e4faf9ad769",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-service-incident-investigator",
+      "case_id": "synthetic-phase3-operations-001",
+      "lead_owner": "payment-operations",
+      "requested_output": "Review recovery and regression evidence before a release decision.",
+      "source_refs": [
+        "synthetic://operating-records/v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-repair-planner",
+      "reason": "Assess individual unresolved money outcomes under the separate repair gate.",
+      "required_inputs": [
+        "original payment identities",
+        "authoritative outcome evidence",
+        "exact proposed repair and authority"
+      ],
+      "handoff_id": "2a57a52f50b6a41ef280e88feaeea5a036f392655ce67fdbd5b97d012440134a",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-service-incident-investigator",
+      "case_id": "synthetic-phase3-operations-001",
+      "lead_owner": "payment-operations",
+      "requested_output": "Assess individual unresolved money outcomes under the separate repair gate.",
+      "source_refs": [
+        "synthetic://operating-records/v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Inline source records are inspected as supplied, not authenticated. Failed/unknown payment amounts are exposure categories, not realized losses. Frequency and release coincidence do not establish cause."
+  ]
+}

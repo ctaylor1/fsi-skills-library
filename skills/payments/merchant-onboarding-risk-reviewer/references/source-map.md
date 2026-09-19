@@ -45,3 +45,9 @@ application field) behind it.
 All read-only, deterministic, durable `review_id`, below the fixed timeout; page long
 ownership trees or screening batches as resumable stages. No write, board, decline, or
 filing operation is bound by this skill.
+
+## Phase 1 implementation boundary
+
+Phase 1: pending/hit screening is unresolved and routes to the sanctions specialist, not Recommend-Decline. Default risk lists and ownership/volume thresholds are synthetic examples, not legal requirements or current sanctions lists. Production requires an institution-owned current policy and separate entity/owner screening coverage. Initial onboarding only; periodic/event underwriting is later work.
+
+Policy input: policy_profile must follow payment-contract.md, cover acquirer and merchant country, and match config_version. Supply all institution risk-config fields; absent policy cannot be replaced with synthetic defaults. screening.covered_subject_refs must explicitly include the entity case_id and each owner source_ref; an aggregate clear result does not prove owner coverage. These declarations remain unauthenticated until deployment review. Policy uncertainty overrides recommendation bands and escalates.

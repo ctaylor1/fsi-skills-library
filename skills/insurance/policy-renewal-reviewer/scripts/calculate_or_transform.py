@@ -17,6 +17,7 @@ Prints the review JSON to stdout.
 """
 from __future__ import annotations
 import json, sys
+from datetime import date, timedelta
 from pathlib import Path
 
 DEFAULT_CONFIG = {
@@ -74,10 +75,18 @@ def _forms_map(term: dict) -> dict:
 
 
 def compute(doc: dict) -> dict:
+    from validate_input import validate
+    errors, _ = validate(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
     as_of = str(doc["as_of"])
     exp, prop = doc["expiring"], doc["proposed"]
-    claims = doc.get("claims") or []
+    window_end = date.fromisoformat(as_of)
+    window_start = window_end - timedelta(days=int(doc.get("review_window_days", 1095)))
+    supplied_claims = doc.get("claims")
+    claims_complete = isinstance(supplied_claims, list) and doc.get("claims_complete") is True
+    claims = [c for c in (supplied_claims or []) if window_start <= date.fromisoformat(c["date_of_loss"]) <= window_end]
     findings, not_evaluable = [], []
 
     def add(name, fired, reason, evidence, basis, contribution):
@@ -179,28 +188,28 @@ def compute(doc: dict) -> dict:
     else:
         not_evaluable.append({"finding": "form_endorsement_change", "why": "no forms listed on either term"})
 
-    # loss_ratio_flag (ESCALATOR) -------------------------------------------------
-    if claims and ep is not None and ep > 0:
-        window_days = _num(doc.get("review_window_days")) or 365.0
-        years = max(cfg["min_years"], round(window_days / 365.0)) or 1
-        earned = ep * years
-        total_incurred = sum(_num(c.get("incurred")) or 0.0 for c in claims)
-        lr = total_incurred / earned if earned else 0.0
+    # Loss ratio: actual earned premium for the identical inclusive loss window.
+    earned_record = doc.get("earned_premium") or {}
+    earned = _num(earned_record.get("amount"))
+    basis_matches = (earned is not None and earned > 0
+                     and earned_record.get("period_start") == window_start.isoformat()
+                     and earned_record.get("period_end") == window_end.isoformat()
+                     and earned_record.get("source_ref")
+                     and earned_record.get("currency") == doc.get("currency")
+                     and bool(doc.get("currency")))
+    if claims_complete and basis_matches and all(_num(c.get("incurred")) is not None for c in claims):
+        total_incurred = sum(_num(c["incurred"]) for c in claims)
+        lr = total_incurred / earned
         fired = lr >= cfg["loss_ratio_threshold"]
-        add("loss_ratio_flag", fired,
-            f"incurred {total_incurred:.2f} / (premium {ep:.2f} x {years}y) = loss ratio {lr:.2f} "
-            f">= {cfg['loss_ratio_threshold']}" if fired
-            else f"loss ratio {lr:.2f} below {cfg['loss_ratio_threshold']}",
-            [{"claim_id": c.get("claim_id"), "incurred": _num(c.get("incurred")),
-              "status": c.get("status"), "citation": _claim_cite(c)} for c in claims],
-            {"loss_ratio": round(lr, 4), "earned_basis": round(earned, 2), "years": years,
-             "threshold": cfg["loss_ratio_threshold"]},
-            1 if fired else 0)
+        evidence = [{"claim_id": c["claim_id"], "incurred": _num(c["incurred"]), "citation": _claim_cite(c)} for c in claims]
+        evidence.append({"earned_premium": earned, "citation": f"premium:{earned_record['source_ref']}@{as_of}"})
+        add("loss_ratio_flag", fired, f"incurred {total_incurred:.2f} / sourced earned premium {earned:.2f} = {lr:.4f}", evidence,
+            {"loss_ratio": round(lr,4), "earned_basis": earned, "period_start": window_start.isoformat(), "period_end": window_end.isoformat(), "threshold": cfg["loss_ratio_threshold"]}, int(fired))
     else:
-        not_evaluable.append({"finding": "loss_ratio_flag", "why": "no claims or no expiring premium"})
+        not_evaluable.append({"finding": "loss_ratio_flag", "why": "complete claims and sourced earned premium for the identical period/currency are required"})
 
     # large_open_claim ------------------------------------------------------------
-    if claims:
+    if claims_complete and all(_num(c.get("incurred")) is not None and c.get("status") in {"open", "closed"} for c in claims):
         big = [c for c in claims if (_num(c.get("incurred")) or 0.0) >= cfg["large_claim_incurred"]
                or str(c.get("status", "")).lower() == "open"]
         add("large_open_claim", bool(big),
@@ -229,6 +238,20 @@ def compute(doc: dict) -> dict:
         not_evaluable.append({"finding": "rate_exposure_divergence",
                               "why": f"premium or primary exposure basis '{pb}' not evaluable on both terms"})
 
+    incomplete_checks = set()
+    for section, names in (("coverages", {"limit_reduced", "deductible_increased", "coverage_removed", "coverage_added"}),
+                           ("forms", {"form_endorsement_change"})):
+        if not all(isinstance(term.get(section), list) and (term[section] or term.get(section + "_complete") is True) for term in (exp, prop)):
+            incomplete_checks.update(names)
+    if any(_num(c.get("limit")) is None for term in (exp,prop) for c in term.get("coverages", [])):
+        incomplete_checks.add("limit_reduced")
+    if any(_num(c.get("deductible")) is None for term in (exp,prop) for c in term.get("coverages", [])):
+        incomplete_checks.add("deductible_increased")
+    findings = [f for f in findings if f["finding"] not in incomplete_checks]
+    for name in sorted(incomplete_checks):
+        if not any(x["finding"] == name for x in not_evaluable):
+            not_evaluable.append({"finding": name, "why": "source section or comparable values incomplete; absence is not removal"})
+
     fired_names = [f["finding"] for f in findings if f["fired"]]
 
     # deterministic disposition mapping (see references/domain-rules.md)
@@ -237,13 +260,16 @@ def compute(doc: dict) -> dict:
     elif fired_names:
         disposition = "Review"
     else:
-        disposition = "Routine"
+        disposition = "Incomplete" if not_evaluable else "Routine"
 
     questions = _renewal_questions(findings)
     context = _context_prompts() if fired_names else []
 
     pid_digits = "".join(ch for ch in str(doc["policy_id"]) if ch.isdigit()) or "policy"
     return {
+        "calculation_inputs": doc,
+        "review_status": "partial" if not_evaluable else "complete",
+        "loss_window": {"start": window_start.isoformat(), "end": window_end.isoformat(), "excluded_claim_count": len(supplied_claims or []) - len(claims)},
         "review_id": f"prr-{pid_digits}-{as_of}-0001",
         "policy_id": doc["policy_id"],
         "line_of_business": doc.get("line_of_business"),
@@ -286,6 +312,36 @@ def _context_prompts() -> list:
         "A loss ratio should be read with loss development, large-loss treatment, and credibility in mind.",
         "An exposure basis change may be a data correction rather than real growth or contraction.",
     ]
+
+
+
+# Bind native result and source snapshot to the portable insurance evidence contract.
+_native_compute = compute
+def compute(doc):
+    from insurance_contract import build_artifact, stable_hash
+    result = _native_compute(doc)
+    output = result[0] if isinstance(result, tuple) else result
+    issues = []
+    for field in ("not_evaluable", "data_gaps"):
+        for item in output.get(field, []):
+            issues.append(str(item))
+    if output.get("cost_comparison_status") == "not_comparable":
+        issues.append("quotes are not directly comparable; aggregate ranking suppressed")
+    for item in output.get("segments", []):
+        if not item.get("packageable"):
+            issues.append(f"segment {item.get('segment_id')}: {item.get('status')}")
+    for item in output.get("profiles", []):
+        if item.get("recommended_disposition") == "needs-data":
+            issues.append(f"submission {item.get('submission_id')} requires data")
+    for item in output.get("reconciliation", []):
+        if item.get("status") in {"mismatch", "unparseable"}:
+            issues.append(f"unresolved source conflict: {item.get('field')}")
+    for key in ("comparison_id", "analysis_id", "review_id", "packet_id", "worksheet_id", "triage_id", "interpretation_id"):
+        if key in output:
+            output[key] = "renewal_review-" + stable_hash(doc)[:24]
+    output["artifact"] = build_artifact(doc, output, producer="policy-renewal-reviewer", artifact_type="renewal_review",
+        completeness="partial" if issues else "complete", evaluability="partial" if issues else "evaluable", issues=issues)
+    return result
 
 
 def main(argv):

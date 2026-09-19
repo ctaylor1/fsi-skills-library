@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0",
+  "request_id": "forward-provider-issuer",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "issuer",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "issuer-requirements",
+      "reference": "/tmp/payments-phase2-forward-commercial/source-issuer-requirements.json",
+      "as_of": "2026-09-15",
+      "review_due": "2026-12-15"
+    },
+    {
+      "source_id": "processor-a-tests",
+      "reference": "/tmp/payments-phase2-forward-commercial/source-processor-a-tests.json",
+      "as_of": "2026-09-15",
+      "review_due": "2026-12-15"
+    },
+    {
+      "source_id": "processor-b-tests",
+      "reference": "/tmp/payments-phase2-forward-commercial/source-processor-b-tests.json",
+      "as_of": "2026-09-15",
+      "review_due": "2026-12-15"
+    },
+    {
+      "source_id": "processor-quotes",
+      "reference": "/tmp/payments-phase2-forward-commercial/source-processor-quotes.json",
+      "as_of": "2026-09-15",
+      "review_due": "2026-12-15"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "requirements": [
+      {
+        "requirement_id": "disputes",
+        "description": "Supported issuer dispute workflow with traceable lifecycle and case handoff",
+        "mandatory": true,
+        "weight": "20",
+        "source_ids": [
+          "issuer-requirements"
+        ]
+      },
+      {
+        "requirement_id": "data_export",
+        "description": "Complete transaction/dispute data export for migration and retention",
+        "mandatory": true,
+        "weight": "20",
+        "source_ids": [
+          "issuer-requirements"
+        ]
+      },
+      {
+        "requirement_id": "analytics",
+        "description": "Advanced real-time operational dashboards",
+        "mandatory": false,
+        "weight": "60",
+        "source_ids": [
+          "issuer-requirements"
+        ]
+      }
+    ],
+    "providers": [
+      {
+        "provider_id": "A",
+        "role": "issuer_processor",
+        "evidence": [
+          {
+            "requirement_id": "analytics",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-a-tests"
+            ]
+          }
+        ],
+        "prices": [
+          {
+            "price_id": "core-rate",
+            "amount": "0.04",
+            "currency": "GBP",
+            "unit": "per_attempt",
+            "scope": "core issuer processing; ancillary charges excluded",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-quotes"
+            ]
+          }
+        ]
+      },
+      {
+        "provider_id": "B",
+        "role": "issuer_processor",
+        "evidence": [
+          {
+            "requirement_id": "disputes",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-b-tests"
+            ]
+          },
+          {
+            "requirement_id": "data_export",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-b-tests"
+            ]
+          },
+          {
+            "requirement_id": "analytics",
+            "status": "unsupported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-b-tests"
+            ]
+          }
+        ],
+        "prices": [
+          {
+            "price_id": "core-rate",
+            "amount": "0.08",
+            "currency": "GBP",
+            "unit": "per_success",
+            "scope": "core issuer processing; ancillary charges excluded",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-quotes"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

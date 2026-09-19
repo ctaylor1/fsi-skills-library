@@ -1,0 +1,160 @@
+{
+  "case_id": "insurance-market-conduct-reviewer-forward-01",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "Market conduct quality reviewer",
+    "represented_party": "Harbor Mutual (synthetic)",
+    "object_id": "ACK-QUALITY",
+    "jurisdiction": "SYNTHETIC-STATE",
+    "line_of_business": "commercial-package"
+  },
+  "sources": [
+    {
+      "source_ref": "profile",
+      "version": "v1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "sample",
+      "version": "v1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "metrics",
+      "version": "v1",
+      "as_of": "2026-09-18"
+    }
+  ],
+  "unresolved_issues": [
+    "R4 acknowledgement completion/pending status is unrecorded; obtain source-event evidence."
+  ],
+  "data": {
+    "profile": {
+      "profile_id": "insurance-market-conduct-reviewer-local-study",
+      "version": "study-1",
+      "effective_from": "2025-01-01",
+      "effective_to": "2027-12-31",
+      "jurisdictions": [
+        "SYNTHETIC-STATE"
+      ],
+      "lines_of_business": [
+        "commercial-package"
+      ],
+      "reviewed_by": "Synthetic reviewer Morgan Vale",
+      "source_refs": [
+        "profile"
+      ],
+      "rules": [
+        {
+          "rule_id": "ACK5",
+          "activity": "claims",
+          "operator": "max_calendar_days",
+          "value": 5,
+          "start_field": "received",
+          "end_field": "acknowledged",
+          "day_basis": "elapsed_calendar_excluding_start",
+          "source_refs": [
+            "profile"
+          ]
+        }
+      ]
+    },
+    "sampling": {
+      "method": "purposive",
+      "population_count": 150,
+      "source_refs": [
+        "sample"
+      ]
+    },
+    "cases": [
+      {
+        "record_id": "R1",
+        "activity": "claims",
+        "dates": {
+          "received": "2026-06-02",
+          "acknowledged": "2026-06-07"
+        },
+        "pending_events": [],
+        "values": {},
+        "source_refs": [
+          "sample"
+        ]
+      },
+      {
+        "record_id": "R2",
+        "activity": "claims",
+        "dates": {
+          "received": "2026-06-03",
+          "acknowledged": "2026-06-10"
+        },
+        "pending_events": [],
+        "values": {},
+        "source_refs": [
+          "sample"
+        ]
+      },
+      {
+        "record_id": "R3",
+        "activity": "claims",
+        "dates": {
+          "received": "2026-09-10",
+          "acknowledged": null
+        },
+        "pending_events": [
+          "acknowledged"
+        ],
+        "values": {},
+        "source_refs": [
+          "sample"
+        ]
+      },
+      {
+        "record_id": "R4",
+        "activity": "claims",
+        "dates": {
+          "received": "2026-09-12",
+          "acknowledged": null
+        },
+        "pending_events": [],
+        "values": {},
+        "source_refs": [
+          "sample"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "row_id": "North",
+        "metric_id": "late-ack",
+        "partition_id": "North",
+        "definition_id": "ACK-D1",
+        "definition_version": "2026.1",
+        "period": "2026-H1",
+        "unit": "claims",
+        "scope_id": "HALF-YEAR",
+        "numerator": 8,
+        "denominator": 100,
+        "inventory_complete": true,
+        "source_refs": [
+          "metrics"
+        ]
+      },
+      {
+        "row_id": "South",
+        "metric_id": "late-ack",
+        "partition_id": "South",
+        "definition_id": "ACK-D1",
+        "definition_version": "2026.1",
+        "period": "2026-H1",
+        "unit": "claims",
+        "scope_id": "HALF-YEAR",
+        "numerator": 2,
+        "denominator": 50,
+        "inventory_complete": true,
+        "source_refs": [
+          "metrics"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "phase": "Payments Phase 1",
+  "authorized_by": "User request: implement phase 1 now, 2026-09-17",
+  "aliases": {
+    "payment-failure-diagnoser": {
+      "target": "payment-lifecycle-diagnoser",
+      "action": "rename"
+    },
+    "payment-exception-investigator": {
+      "target": "bank-payment-exception-investigator",
+      "action": "rename"
+    },
+    "payment-repair-assistant": {
+      "target": "payment-repair-planner",
+      "action": "rename"
+    },
+    "transaction-reconciliation-helper": {
+      "target": "payment-transaction-reconciler",
+      "action": "rename"
+    },
+    "settlement-break-reconciler": {
+      "target": "payment-settlement-reconciler",
+      "action": "rename"
+    },
+    "settlement-report-summarizer": {
+      "target": "payment-settlement-reconciler",
+      "action": "merge",
+      "mode": "explain-payout",
+      "evidence_contract": "One supplied payout report; no bank or ledger prerequisite; no reconciliation assurance"
+    },
+    "chargeback-dispute-packager": {
+      "target": "merchant-chargeback-response-packager",
+      "action": "rename"
+    },
+    "dispute-operations-assistant": {
+      "target": "issuer-payment-dispute-reviewer",
+      "action": "split",
+      "participant_routes": {
+        "issuer": "issuer-payment-dispute-reviewer",
+        "bank": "issuer-payment-dispute-reviewer",
+        "merchant": "merchant-chargeback-response-packager",
+        "acquirer": "merchant-chargeback-response-packager"
+      },
+      "compatibility": "Not an unconditional issuer redirect; role must be established"
+    },
+    "payment-fraud-case-investigator": {
+      "target": "payment-fraud-and-scam-investigator",
+      "action": "rename"
+    },
+    "real-time-payment-risk-monitor": {
+      "target": "instant-payment-risk-monitor",
+      "action": "rename"
+    },
+    "merchant-fee-optimizer": {
+      "target": "merchant-payment-cost-analyzer",
+      "action": "rename"
+    },
+    "network-rules-change-tracker": {
+      "target": "payment-scheme-change-tracker",
+      "action": "rename"
+    },
+    "payment-integration-readiness-pack": {
+      "target": "payment-integration-readiness-reviewer",
+      "action": "rename"
+    }
+  },
+  "moves": {
+    "pci-dss-evidence-assistant": {
+      "from": "payments",
+      "to": "cybersecurity-operational-resilience"
+    }
+  },
+  "deferred_names": {
+    "iso-20022-message-interpreter": "Retain until non-ISO adapters exist",
+    "merchant-onboarding-risk-reviewer": "Retain until periodic/event underwriting exists",
+    "payment-api-log-diagnostic-pack": "Retain until service-incident investigation exists",
+    "payment-fraud-rule-impact-analyzer": "Retain until control strategy/evaluation exists",
+    "stablecoin-payment-controls-reviewer": "Retain until settlement-use assessment exists"
+  }
+}

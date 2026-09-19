@@ -19,14 +19,24 @@ regulated decision:
 Usage: python validate_output.py triage.json | --selftest
 Exit 0 if no errors, 1 otherwise.
 """
+
 from __future__ import annotations
-import json, re, sys
+
+import json
+import re
+import sys
 from pathlib import Path
+
+from insurance_contract import validate_artifact
 
 ALLOWED_DISPOSITIONS = {"draft-ready", "refer-specialist", "needs-data", "needs-review"}
 REQUIRED_SECTIONS = [
-    "Claim summary", "Severity and complexity", "Urgency and service level",
-    "Coverage questions to resolve", "Recommended routing", "Human adjudication required",
+    "Claim summary",
+    "Severity and complexity",
+    "Urgency and service level",
+    "Coverage questions to resolve",
+    "Recommended routing",
+    "Human adjudication required",
 ]
 REQUIRED_APPROVALS = ("triage_lead_review", "claims_supervisor_approval")
 STANDING_NOTE = "Draft claims triage only"
@@ -37,20 +47,32 @@ UNSUPPORTED_PATTERNS = [
     r"\bcoverage is (confirmed|denied|declined|granted)\b",
     r"\bclaim is (covered|not covered|denied|approved|payable)\b",
     r"\bwe (deny|approve|confirm|decline|grant) coverage\b",
-    r"\bnot covered under\b", r"\bcoverage (applies|does not apply)\b",
+    r"\bnot covered under\b",
+    r"\bcoverage (applies|does not apply)\b",
     r"\bclaim (approved|denied|closed|settled)\b",
     r"\b(approve|deny|pay|close|settle) the claim\b",
-    r"\bset the reserve\b", r"\breserve set to\b", r"\breserve of \$",
-    r"\bconfirmed fraud\b", r"\bthis is fraud\b", r"\bfraud (is )?(established|confirmed|proven)\b",
-    r"\b(we are|insured is|claimant is) liable\b", r"\bliability is (established|admitted)\b",
-    r"\bwe guarantee\b", r"\bguaranteed\b",
+    r"\bset the reserve\b",
+    r"\breserve set to\b",
+    r"\breserve of \$",
+    r"\bconfirmed fraud\b",
+    r"\bthis is fraud\b",
+    r"\bfraud (is )?(established|confirmed|proven)\b",
+    r"\b(triage|we) concludes? (that )?no fraud\b",
+    r"\bat[- ]fault third party\b",
+    r"\b(we are|insured is|claimant is) liable\b",
+    r"\bliability is (established|admitted)\b",
+    r"\bwe guarantee\b",
+    r"\bguaranteed\b",
 ]
 # Draft-only: none of these executed / delivery / closure states may appear.
 SENT_PATTERNS = [
     r"\bhas been (sent|submitted|filed|assigned|paid|settled|closed)\b",
     r"\bwe have (sent|submitted|filed|assigned|paid|closed)\b",
-    r"\bassigned to (the )?adjuster\b", r"\bpayment (has been )?issued\b",
-    r"\bpayment made\b", r"\bclaim closed\b", r"\bcase closed\b",
+    r"\bassigned to (the )?adjuster\b",
+    r"\bpayment (has been )?issued\b",
+    r"\bpayment made\b",
+    r"\bclaim closed\b",
+    r"\bcase closed\b",
     r"\bfiled (with|the)\b",
 ]
 
@@ -68,6 +90,7 @@ def _pack_default_thresholds() -> dict:
     if scripts_dir not in sys.path:
         sys.path.insert(0, scripts_dir)
     from calculate_or_transform import DEFAULT_CONFIG  # local import keeps module-top clean
+
     return {k: DEFAULT_CONFIG[k] for k in BAND_THRESHOLD_KEYS}
 
 
@@ -92,16 +115,14 @@ def _effective_thresholds(doc: dict) -> dict:
 
 
 def _expected_severity(score, cfg):
-    return ("S1 (Complex)" if score >= cfg["s1_min"]
-            else "S2 (Moderate)" if score >= cfg["s2_min"] else "S3 (Standard)")
+    return "S1 (Complex)" if score >= cfg["s1_min"] else "S2 (Moderate)" if score >= cfg["s2_min"] else "S3 (Standard)"
 
 
 def _expected_urgency(score, cfg):
-    return ("U1 (Immediate)" if score >= cfg["u1_min"]
-            else "U2 (Prompt)" if score >= cfg["u2_min"] else "U3 (Routine)")
+    return "U1 (Immediate)" if score >= cfg["u1_min"] else "U2 (Prompt)" if score >= cfg["u2_min"] else "U3 (Routine)"
 
 
-def validate(doc: dict) -> list[str]:
+def _validate(doc: dict) -> list[str]:
     errors: list[str] = []
     cfg = _effective_thresholds(doc)
     records = doc.get("triage") or []
@@ -110,16 +131,26 @@ def validate(doc: dict) -> list[str]:
 
     for r in records:
         cid = r.get("claim_id", "?")
+        if r.get("as_of") != doc.get("as_of") or not doc.get("as_of"):
+            errors.append(f"{cid}: missing or inconsistent as_of clock")
+        if r.get("human_adjudication_required") is not True:
+            errors.append(f"{cid}: all routing remains a human recommendation")
         disp = r.get("disposition")
         if disp not in ALLOWED_DISPOSITIONS:
-            errors.append(f"{cid}: disallowed disposition {disp!r} (decision/closure/assignment not permitted in triage)")
+            errors.append(
+                f"{cid}: disallowed disposition {disp!r} (decision/closure/assignment not permitted in triage)"
+            )
 
         ss = r.get("severity_score")
         if ss is not None and r.get("severity_band") != _expected_severity(ss, cfg):
-            errors.append(f"{cid}: severity_band {r.get('severity_band')!r} != expected {_expected_severity(ss, cfg)!r} for score {ss}")
+            errors.append(
+                f"{cid}: severity_band {r.get('severity_band')!r} != expected {_expected_severity(ss, cfg)!r} for score {ss}"
+            )
         us = r.get("urgency_score")
         if us is not None and r.get("urgency_band") != _expected_urgency(us, cfg):
-            errors.append(f"{cid}: urgency_band {r.get('urgency_band')!r} != expected {_expected_urgency(us, cfg)!r} for score {us}")
+            errors.append(
+                f"{cid}: urgency_band {r.get('urgency_band')!r} != expected {_expected_urgency(us, cfg)!r} for score {us}"
+            )
 
         if disp in ("draft-ready", "refer-specialist"):
             ds = r.get("draft_summary") or {}
@@ -153,6 +184,16 @@ def validate(doc: dict) -> list[str]:
     if STANDING_NOTE.lower() not in str(doc.get("standing_note", "")).lower():
         errors.append("missing standing note")
     return errors
+
+
+def validate(doc: dict, *args, **kwargs) -> list[str]:
+    if not isinstance(doc, dict):
+        return ["output must be an object"]
+    try:
+        errors = _validate(doc, *args, **kwargs)
+    except (KeyError, TypeError, ValueError, AttributeError, OverflowError) as exc:
+        errors = ["malformed output: " + str(exc)]
+    return errors + validate_artifact(doc.get("artifact"), output=doc)
 
 
 def main(argv):

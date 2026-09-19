@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0",
+  "request_id": "synthetic-phase2-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "CA",
+  "participant": "issuer",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "s1",
+      "reference": "synthetic://approved-design-brief",
+      "as_of": "2026-09-17",
+      "review_due": "2026-12-31"
+    },
+    {
+      "source_id": "s2",
+      "reference": "synthetic://operating-evidence",
+      "as_of": "2026-09-18",
+      "review_due": "2026-12-31"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "account": {
+      "account_id": "acct-1",
+      "state": "open",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "cards": [
+      {
+        "card_id": "card-1",
+        "account_id": "acct-1",
+        "state": "active",
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "token_id": "token-1",
+        "card_id": "card-1",
+        "state": "active",
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "profile": {
+      "profile_id": "synthetic-card-ops",
+      "version": "1",
+      "source_ref": "synthetic://issuer-policy",
+      "authority": "synthetic-issuer",
+      "review_owner": "Card operations owner",
+      "status": "active",
+      "effective_from": "2026-01-01",
+      "review_due": "2026-12-31",
+      "participants": [
+        "issuer"
+      ],
+      "jurisdictions": [
+        "US"
+      ],
+      "multiple_presentments": true,
+      "release_hold_on_presentment": true,
+      "source_authorities": {
+        "settlement": [
+          "network-file"
+        ],
+        "clearing": [
+          "network-file"
+        ],
+        "posting": [
+          "issuer-ledger"
+        ],
+        "funding": [
+          "bank-cash"
+        ]
+      },
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "transactions": [
+      {
+        "transaction_id": "txn-1",
+        "account_id": "acct-1",
+        "card_id": "card-1",
+        "currency": "USD",
+        "events": [
+          {
+            "event_id": "auth-1",
+            "kind": "authorization",
+            "amount": "100.00",
+            "currency": "USD",
+            "timestamp": "2026-09-18T10:00:00Z",
+            "source_system": "processor",
+            "source_record_id": "record-auth-1",
+            "source_ids": [
+              "s2"
+            ],
+            "outcome": "approved"
+          },
+          {
+            "event_id": "hold-1",
+            "kind": "hold",
+            "amount": "100.00",
+            "currency": "USD",
+            "timestamp": "2026-09-18T10:00:00Z",
+            "source_system": "processor",
+            "source_record_id": "record-hold-1",
+            "source_ids": [
+              "s2"
+            ],
+            "authorization_id": "auth-1"
+          },
+          {
+            "event_id": "present-1",
+            "kind": "presentment",
+            "amount": "40.00",
+            "currency": "USD",
+            "timestamp": "2026-09-18T10:00:00Z",
+            "source_system": "processor",
+            "source_record_id": "record-present-1",
+            "source_ids": [
+              "s2"
+            ],
+            "authorization_id": "auth-1"
+          },
+          {
+            "event_id": "present-2",
+            "kind": "presentment",
+            "amount": "35.00",
+            "currency": "USD",
+            "timestamp": "2026-09-18T10:00:00Z",
+            "source_system": "processor",
+            "source_record_id": "record-present-2",
+            "source_ids": [
+              "s2"
+            ],
+            "authorization_id": "auth-1"
+          }
+        ],
+        "source_ids": [
+          "s2"
+        ]
+      }
+    ]
+  }
+}

@@ -1,78 +1,31 @@
-# Domain Rules — catastrophe-exposure-monitor
+# Catastrophe exposure monitoring rules
 
-Deterministic accumulation, threshold, freshness, and deduplication rules and how they map
-to a **severity band** and a **suggested response priority**. Thresholds are configuration
-(versioned, owned by the cat-risk / actuarial team), not hard-coded judgments, and are never
-tuned to a single account or event to make a breach disappear. Orientation references: the
-firm's catastrophe risk-appetite standard and the model vendor's event methodology take
-precedence.
+These are configurable monitoring conventions, not legal solvency tests or licensed catastrophe-model methodology. The script processes supplied JSON; it does not run a catastrophe model or create a scheduled job.
 
-## Exposure metrics (per event)
+## Input and financial basis
 
-An event has a `peril` and a set of `footprint_zones`. A location is **exposed** to the
-event when its `zone` is in the footprint AND the event `peril` is in its `peril_exposed`
-list. Only **geocoded** exposed locations enter accumulation and modeled-loss aggregation;
-ungeocoded exposed locations are reported as data gaps, not silently dropped.
+Use a timezone-aware `as_of`, `config_version`, `exposure_snapshot_id`, context/versioned sources from [insurance-contract.md](insurance-contract.md), `data_coverage` declarations for events/exposures/models, `events[]`, `locations[]`, `prior_alerts[]` and threshold `config`. Missing feeds or coverage are explicit partial/unknown states.
 
-| Metric | Definition | Threshold (versioned config) |
-| ------ | ---------- | ---------------------------- |
-| `zone_accumulation` | Aggregate exposed **limit** across geocoded locations in a footprint zone (TIV reported alongside) | `zone_accum_limit[zone]` (per-zone, else `default`) |
-| `single_location` | A single exposed location's **limit** | `single_location_max` |
-| `modeled_loss` | Event **tail** (high) modeled loss = sum of exposed geocoded `modeled_loss.high`; low/mid/high all reported | `modeled_loss_appetite` |
+`financial_context` requires currency, `unit: currency`, `financial_basis: gross|net|ceded`, and `limit_grain: location`. Thresholds use that same basis. Each location has unique `location_id`, unique allocated `limit_id`, `zone`, `peril_exposed[]`, finite nonnegative `limit` and `tiv`, boolean `geocoded`, `valuation_date`, `source_ref` and `modeled_losses[]`. Row-level financial overrides must match the run. Shared policy limits require an upstream documented allocation; duplicate limit IDs are excluded and reported so one policy limit is not counted repeatedly. No implicit FX or financial-basis conversion occurs.
 
-## Severity banding (deterministic)
+Events require `event_id`, `peril`, `footprint_zones[]`, `footprint_version`, `footprint_as_of`, and `source_ref`. Feed references/versions must match the supplied `event_feed` source. `exposure_snapshot_id` must match the `policy_admin` source version.
 
-Each breach carries an `exceedance_ratio = metric / threshold`. The band is a pure function
-of that ratio (identical logic in `scripts/calculate_or_transform.py` and
-`scripts/validate_output.py`):
+## Modeled loss binding
 
-| Band | Rule (ratio `r`) | Suggested priority |
-| ---- | ---------------- | ------------------ |
-| **Critical** | `r >= 1.5` | P1 |
-| **Elevated** | `1.25 <= r < 1.5` | P2 |
-| **Watch** | `1.0 <= r < 1.25` | P3 |
-| **Informational** | `approaching_ratio <= r < 1.0` (default 0.9; early warning, not a breach) | P4 |
-| _(no alert)_ | `r < approaching_ratio` | — |
+Each location model row requires `event_id`, `peril`, `footprint_version`, `exposure_snapshot_id`, `model_version`, `model_run_id`, currency/unit/financial basis, `statistic: scenario_range`, `scenario_set_id`, `scenario_ids: {low,mid,high}` and finite ordered `low <= mid <= high` amounts. Three distinct scenario IDs must identify the same named scenarios across all contributing locations. `model_version`/`model_run_id` match the cat-model source version/reference.
 
-`suggested_response_priority` sets human triage urgency in the queue. It is a triage
-suggestion, **not** an underwriting, reinsurance, or reserving decision, and it never
-triggers an action.
+Only fully bound results for every location identified as exposed to that event may form an event model total. The names low/mid/high describe supplied aligned scenarios; they are not marginal percentiles. Different events, perils, footprints, exposure versions, model runs, scenario sets/IDs, currencies, or gross/net bases are not mixed. Marginal quantiles, AAL, PML and return-period estimates are not additively combined by this helper. A source-provided portfolio model result needs a separately defined input method; do not disguise it as a location sum.
 
-## Freshness rules
+## Metrics and bands
 
-Each source's age = run `as_of` − source `as_of`, compared to
-`max_source_staleness_hours[source]` (per-source, else `default`). A source with no `as_of`
-or age over its limit is **stale**. Any stale source sets run `confidence: degraded`; the
-alert package still lists breaches but flags reduced confidence. A stale **event feed** is
-the most material — do not treat an old footprint as current.
+Zone accumulation sums unique allocated geocoded location limits; TIV is separate. Single-location metrics use those same limits. Incomplete locations remain explicit data gaps; an observed subtotal is not a full-portfolio loss estimate. A zero-location observation requires a nonempty, complete exposure snapshot with fresh bound source evidence and no location gaps; unavailable or incomplete exposure data produces no numeric zero observation. A complete portfolio entirely outside the footprint can establish zero exposure. Model totals are withheld on incomplete/incompatible event evidence.
 
-## Deduplication rules
+For `ratio = metric / threshold`, Critical starts at 1.5 (P1), Elevated at 1.25 (P2), Watch at 1.0 (P3), and Informational at configured `approaching_ratio` (default 0.9, P4). Values below the approaching level produce no new alert. These priorities are review suggestions only. Defaults are illustrative and must be replaced/configured by the risk owner before production use.
 
-Each breach has a stable `alert_key = event_id:zone:peril:breach_type[:location_id]`.
-Against the prior run's `prior_alerts`:
+## Freshness and prior alerts
 
-- key present last run and still breaching → **ongoing** (carried, not re-raised as new);
-- key breaching for the first time → **new**;
-- key present last run but not breaching now → **cleared** (metric fell below threshold or
-  exposure was removed). Cleared is **not** a disposition or closure.
+The required source roles are policy_admin, event_feed and cat_model. Each has a timestamp, version and reference. Compare age to configured staleness hours. Missing/invalid time is `unknown`; negative age is `future`; excessive age is `stale`. All degrade the run.
 
-The `dedup` summary (`new` / `ongoing` / `cleared` counts) must tie to the alerts.
+New and ongoing breaches retain stable keys. A prior alert is `cleared` only when the same metric is explicitly measured below threshold using complete current evidence. An absent event, deleted location, missing/stale feed, incomplete coverage, incompatible model or unknown metric produces `unknown` and retains the prior alert. An empty snapshot is not an all-clear. Clearing is an observation, never closure of a case or action in a queue.
 
-## Data-gap handling (surfaced, never silent)
-
-| Gap | Trigger | Effect |
-| --- | ------- | ------ |
-| `ungeocoded_excluded` | Exposed location with `geocoded: false` | Excluded from accumulation; reported |
-| `stale_valuation` | `valuation_date` older than `stale_valuation_years` (default 3) | Reported; TIV may understate exposure |
-| `unmodeled` | Geocoded exposed location with no `modeled_loss` | Excluded from modeled-loss range; reported |
-
-## Hard boundaries (fail closed)
-
-- Never bind/decline coverage, change limits or capacity, buy/cede reinsurance, book/adjust
-  reserves, issue/cancel endorsements, or non-renew — describe the exposure and route to the
-  human queue and the named downstream skills.
-- Never close, suppress, or snooze an alert outside the dedup rule above.
-- Never tune a threshold, appetite, or footprint inside a run; those are versioned config
-  changes owned by the cat-risk / actuarial team.
-- Never present accumulation or modeled loss as certain; always carry the range and the
-  confidence flag.
+The output retains every evaluated metric, four dedup counts, source states, gaps, unresolved issues, and a content-bound artifact. `current_evidence` records the current snapshot's completeness and issues before prior-alert reconciliation. An otherwise complete snapshot can support a measured zone clear while a different, unobserved prior metric remains unknown. Every retained unknown alert becomes an unresolved issue and makes the overall run partial with degraded confidence; without an observed breach its overall severity is Unknown. A no-exposure run does not invent a zero modeled-loss result to clear an old model alert. The monitor never writes, binds, settles, buys reinsurance or changes capacity/reserves.

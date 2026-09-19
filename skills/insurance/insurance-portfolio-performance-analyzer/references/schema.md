@@ -1,0 +1,7 @@
+# Native schema
+
+Top level: case_id, calendar as_of, context{capacity,represented_party,object_id,jurisdiction,line_of_business}, sources[{source_ref,version,as_of?}], explicit unresolved_issues[], optional upstream_artifacts/context_mappings and data. data.profile requires profile_id/version/source_refs/effective_from/effective_to/jurisdictions[]/lines_of_business[] matching the actual case.
+
+scope{currency,risk_basis:gross_direct|net_retained,loss_basis:incurred_including_lae,period_basis:calendar,exposure_unit,expense_denominator:earned_premium|written_premium,source_refs}. Exactly two ordered periods[{period_id,start,end,source_refs}] are equal-length/nonoverlapping and end by as_of. segments[{row_id,period_id,segment_id,earned_premium,written_premium,incurred_loss_lae,underwriting_expense,claim_count integer,earned_exposure,...scope fields,source_refs}], unique period/segment; segment_inventory_complete boolean. Only incurred_loss_lae may be signed. Missing or incomparable segment data prevents complete totals/bridge.
+
+All evidence rows identify supplied source_refs. Financial numbers accept finite numeric strings/numbers; null is unknown, never zero. Unknown business evidence may be structurally valid but prevents complete readiness. Literal explicit empty inventories are retained as assertions for review. Duplicate IDs reject. Output retains source_document, native results/findings, status/completeness/evaluability, unresolved_issues and content-bound artifact. validate_output recomputes rather than trusting a fresh hash.

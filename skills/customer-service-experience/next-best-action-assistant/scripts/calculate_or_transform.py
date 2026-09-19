@@ -30,14 +30,14 @@ PROHIBITED_BINDING = {
 SALES_PRESSURE_TYPES = {"retention", "cross-sell"}
 SPECIALIST_ROUTES = {
     "licensed_mortgage_lending": "loan-affordability-precheck / licensed mortgage lending specialist",
-    "licensed_investment_advice": "suitability-reg-bi-reviewer / licensed investment adviser",
+    "licensed_investment_advice": "investment-recommendation-evidence-reviewer / licensed investment adviser",
     "licensed_claims": "licensed claims adjuster",
 }
 BINDING_ROUTES = {
     "credit_decision": "loan-affordability-precheck / licensed lending specialist",
     "claim_decision": "licensed claims adjuster",
-    "investment_advice": "suitability-reg-bi-reviewer / licensed investment adviser",
-    "suitability_determination": "suitability-reg-bi-reviewer / licensed investment adviser",
+    "investment_advice": "investment-recommendation-evidence-reviewer / licensed investment adviser",
+    "suitability_determination": "investment-recommendation-evidence-reviewer / licensed investment adviser",
 }
 STANDING_NOTE = (
     "Draft recommendations only. No action here is a binding credit, claims, or investment "

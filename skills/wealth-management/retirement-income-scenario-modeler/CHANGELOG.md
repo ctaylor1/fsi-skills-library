@@ -1,5 +1,19 @@
 # Changelog — retirement-income-scenario-modeler
 
+## [0.2.0] — 2026-09-16
+
+Independent review correction: require and preserve the upstream issue inventory with origin/status/citations; unresolved concerns remain findings, and external resolution requires cited dated evidence. Added executed carry-forward regressions.
+
+Rebuilt for Wave 7 wealth management P1 with the shared `wealth-p0-v1` evidence envelope,
+versioned/cited assumptions, full input-bound reconstruction, explicit unknowns and substantive
+planning outputs. Preserves the distinct workflow job and draft-only human-review boundary.
+
+Replaced ambiguous depletion flag with separate shortfall/depletion measures, annual cent-level reconciliations and complete assumption snapshots. Explicit current-date start, benefit COLA timing, effective-tax proxies and model exclusions replace implicit assumptions. The 0.1 schema is intentionally replaced.
+
+Executed domain/arithmetic regressions and contract tests accompany the package. SME/compliance review, source authentication, deployment connectors and real-agent acceptance remain separate release work. Historical notes below describe prior behavior and are not the current contract.
+
+## Historical package notes
+
 ## [0.1.0] — 2026-07-18
 Initial authoring in the FSI Skills Library (baseline status: `new`).
 

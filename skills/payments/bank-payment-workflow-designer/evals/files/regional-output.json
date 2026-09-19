@@ -1,0 +1,188 @@
+{
+  "schema_version": "1.0",
+  "skill": "bank-payment-workflow-designer",
+  "request_id": "phase4-synthetic-corridor",
+  "as_of": "2026-09-18",
+  "jurisdiction": "BR",
+  "participant": "payment-design-owner",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "phase4-synthetic-corridor",
+    "as_of": "2026-09-18",
+    "jurisdiction": "BR",
+    "participant": "payment-design-owner",
+    "sources": [
+      {
+        "source_id": "case",
+        "reference": "synthetic://reviewed-case-snapshot-v1",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "proposals": [
+        {
+          "proposal_id": "domestic-BR",
+          "profile_id": "BR-PIX",
+          "use_case": "domestic-business-credit",
+          "payer_entity": "payer-BR",
+          "payer_account_ref": "payer-account-BR",
+          "payee_entity": "payee-BR",
+          "payee_account_ref": "payee-account-BR",
+          "amount": "250",
+          "currency": "BRL",
+          "accountable_reviewer": "named-BR-reviewer",
+          "intent_ref": "scoped-payer-intent",
+          "participant_review": {
+            "access_ref": "case-access_ref",
+            "payer_reach_ref": "case-payer_reach_ref",
+            "payee_reach_ref": "case-payee_reach_ref",
+            "funding_arrangement_ref": "case-funding_arrangement_ref",
+            "limits_review_ref": "case-limits_review_ref",
+            "fees_review_ref": "case-fees_review_ref",
+            "operational_support_ref": "case-operational_support_ref"
+          },
+          "rule_review": {
+            "reviewer": "named-local-specialist-BR",
+            "reference": "case-rule-review-BR",
+            "rule_version": "case-licensed-current-2026-09",
+            "activity_scope_ref": "domestic-business-credit-case",
+            "profile_id": "BR-PIX",
+            "jurisdiction": "BR",
+            "use_case": "domestic-business-credit",
+            "reviewed_on": "2026-09-18",
+            "review_due": "2026-10-18"
+          },
+          "source_ids": [
+            "case"
+          ],
+          "beneficiary_review": {
+            "binding": {
+              "payer_entity": "payer-BR",
+              "payer_account_ref": "payer-account-BR",
+              "payee_entity": "payee-BR",
+              "payee_account_ref": "payee-account-BR",
+              "amount": "250",
+              "currency": "BRL"
+            },
+            "verification_ref": "verified-case-beneficiary",
+            "alias_resolution_ref": "verified-case-alias",
+            "match_status": "matched",
+            "reviewed_on": "2026-09-18",
+            "review_due": "2026-10-18"
+          }
+        }
+      ]
+    }
+  },
+  "input_hash": "e1396ca1256ed5dab2997b593e2b6e15e23bb951b9cc31f83d458da52d0f8eff",
+  "findings": [],
+  "result": {
+    "module": "regional-design",
+    "proposals": [
+      {
+        "proposal_id": "domestic-BR",
+        "profile": {
+          "profile_id": "BR-PIX",
+          "jurisdiction": "BR",
+          "currency": "BRL",
+          "version": "2026-09-18.1",
+          "reviewed_on": "2026-09-18",
+          "review_due": "2026-10-18",
+          "supported_use_cases": [
+            "domestic-consumer-credit",
+            "domestic-business-credit"
+          ],
+          "accountable_owner_role": "Brazil payment product and local compliance reviewer",
+          "required_case_reviewer": "Named individual or institution-accountable reviewer reference supplied in each request; no professional acceptance inferred.",
+          "source_basis": [
+            {
+              "title": "BCB Pix overview",
+              "url": "https://www.bcb.gov.br/estabilidadefinanceira/pix-sobre",
+              "observed_on": "2026-09-18",
+              "version": "public page or indexed public document; binding current rules require case review"
+            },
+            {
+              "title": "BCB SPI",
+              "url": "https://bcb.gov.br/en/financialstability/spi_en",
+              "observed_on": "2026-09-18",
+              "version": "public page or indexed public document; binding current rules require case review"
+            },
+            {
+              "title": "BCB participants and rulebook index",
+              "url": "https://www.bcb.gov.br/en/financialstability/pixparticipants",
+              "observed_on": "2026-09-18",
+              "version": "public page or indexed public document; binding current rules require case review"
+            }
+          ],
+          "distinctions": [
+            "Pix scheme, DICT alias directory and SPI interparticipant settlement are separate concepts.",
+            "SPI direct-participant settlement uses dedicated BCB accounts; indirect access requires its actual arrangement.",
+            "A user alias or payment confirmation does not establish that a particular transaction settled in SPI."
+          ],
+          "limits": [
+            "No raw network adapter, actual alias lookup, participant certification, rule compliance determination or execution.",
+            "No universal fee, value limit, cutoff, fraud reimbursement, finality or return deadline is supplied."
+          ]
+        },
+        "exact_binding": {
+          "payer_entity": "payer-BR",
+          "payer_account_ref": "payer-account-BR",
+          "payee_entity": "payee-BR",
+          "payee_account_ref": "payee-account-BR",
+          "amount": "250",
+          "currency": "BRL"
+        },
+        "accountable_reviewer": "named-BR-reviewer",
+        "next_step": "prepare-separate-local-initiation-adapter-review",
+        "gaps": [],
+        "source_ids": [
+          "case"
+        ],
+        "source_truth_authenticated": false,
+        "scheme_approval_granted": false,
+        "payment_submitted": false,
+        "settlement_inferred": false
+      }
+    ]
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Preserve local gaps and require a separately supported native initiation adapter; the current core US/EA/UK reviewer must not relabel BR/IN/CA instructions.",
+      "required_inputs": [
+        "exact local instruction and binding",
+        "current scoped specialist and participant evidence",
+        "supported downstream adapter or explicit unsupported result"
+      ],
+      "handoff_id": "b86023b67afd82ddaf0e12a692707abb808f1803a4deaa9eedc32fa5b0ec6e15",
+      "contract_version": "1.0.0",
+      "source_skill": "bank-payment-workflow-designer",
+      "case_id": "phase4-synthetic-corridor",
+      "lead_owner": "payment-design-owner",
+      "requested_output": "Preserve local gaps and require a separately supported native initiation adapter; the current core US/EA/UK reviewer must not relabel BR/IN/CA instructions.",
+      "source_refs": [
+        "synthetic://reviewed-case-snapshot-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Normalized domestic credit-push planning only. No Pix automatic debit, UPI collect/mandate/international link or Interac international-transfer adapter.",
+    "Aliases and recipient displays do not prove authority; no DICT, UPI, Interac, QR, cryptographic or raw network validation.",
+    "Public method availability does not establish participant access, finality of this payment, rule compliance, limits or fees."
+  ]
+}

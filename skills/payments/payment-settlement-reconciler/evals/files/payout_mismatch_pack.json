@@ -1,0 +1,290 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-settlement-reconciler",
+  "input_hash": "59f4aca03f51c9a6bcd16fe4db35711267c9df06bfa5859cb9c5aebb2fde4034",
+  "source_snapshot": {
+    "merchant_id": "****7788",
+    "report_id": "STL-2026-06-0042",
+    "processor": "ExampleAcquirer",
+    "as_of_date": "2026-06-30",
+    "period": {
+      "start": "2026-06-01",
+      "end": "2026-06-30"
+    },
+    "settlement_currency": "USD",
+    "funding": {
+      "expected_net": "90000.00",
+      "funding_date": "2026-07-02",
+      "bank_account": "****4321",
+      "currency": "USD",
+      "source_ref": "funding-advice:STL-2026-06-0042@2026-07-02"
+    },
+    "lines": [
+      {
+        "line_id": "SALE-VISA",
+        "category": "gross_sales",
+        "description": "Card sales - Visa",
+        "card_brand": "Visa",
+        "count": 1450,
+        "gross_amount": "60000.0",
+        "net_amount": "60000.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=sales;brand=VI"
+        }
+      },
+      {
+        "line_id": "SALE-MC",
+        "category": "gross_sales",
+        "description": "Card sales - Mastercard",
+        "card_brand": "Mastercard",
+        "count": 720,
+        "gross_amount": "30000.0",
+        "net_amount": "30000.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=sales;brand=MC"
+        }
+      },
+      {
+        "line_id": "SALE-AMEX",
+        "category": "gross_sales",
+        "description": "Card sales - Amex",
+        "card_brand": "Amex",
+        "count": 210,
+        "gross_amount": "10000.0",
+        "net_amount": "10000.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=sales;brand=AX"
+        }
+      },
+      {
+        "line_id": "REFUNDS",
+        "category": "refunds",
+        "description": "Customer refunds",
+        "count": 63,
+        "gross_amount": "-3500.0",
+        "net_amount": "-3500.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=refunds"
+        }
+      },
+      {
+        "line_id": "CHARGEBACKS",
+        "category": "chargebacks",
+        "description": "Chargebacks debited",
+        "count": 4,
+        "net_amount": "-1200.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=chargebacks"
+        }
+      },
+      {
+        "line_id": "INTERCHANGE",
+        "category": "interchange_fees",
+        "description": "Interchange fees",
+        "fee_amount": "1650.0",
+        "net_amount": "-1650.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=fees;type=interchange"
+        }
+      },
+      {
+        "line_id": "SCHEME",
+        "category": "scheme_fees",
+        "description": "Network/scheme fees",
+        "fee_amount": "300.0",
+        "net_amount": "-300.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=fees;type=scheme"
+        }
+      },
+      {
+        "line_id": "PROCESSOR",
+        "category": "processor_fees",
+        "description": "Processor/acquirer markup",
+        "fee_amount": "900.0",
+        "net_amount": "-900.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=fees;type=processor"
+        }
+      },
+      {
+        "line_id": "ADJ-2026-05",
+        "category": "adjustments",
+        "description": "Prior-period interchange correction",
+        "net_amount": "50.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=adjustments;ref=ADJ-2026-05"
+        }
+      },
+      {
+        "line_id": "RESERVE",
+        "category": "reserve_held",
+        "description": "Rolling reserve withheld",
+        "net_amount": "-2000.0",
+        "currency": "USD",
+        "source": {
+          "system": "settlement",
+          "ref": "report=STL-2026-06-0042;section=reserve"
+        }
+      }
+    ],
+    "mode": "explain-payout",
+    "config_version": "payout-explanation-2026.09",
+    "legal_entity_id": "merchant42",
+    "account_id": "settlement-account-4321",
+    "settlement_cycle": "STL-2026-06-0042",
+    "currency": "USD"
+  },
+  "config_version": "payout-explanation-2026.09",
+  "warnings": [],
+  "mode": "explain-payout",
+  "as_of_date": "2026-06-30",
+  "report_id": "STL-2026-06-0042",
+  "merchant_id": "****7788",
+  "partitions": [
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "STL-2026-06-0042"
+      },
+      "categories": [
+        {
+          "line_id": "ADJ-2026-05",
+          "category": "adjustments",
+          "amount": "50.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=adjustments;ref=ADJ-2026-05@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "CHARGEBACKS",
+          "category": "chargebacks",
+          "amount": "-1200.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=chargebacks@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "INTERCHANGE",
+          "category": "interchange_fees",
+          "amount": "-1650.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=fees;type=interchange@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "PROCESSOR",
+          "category": "processor_fees",
+          "amount": "-900.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=fees;type=processor@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "REFUNDS",
+          "category": "refunds",
+          "amount": "-3500.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=refunds@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "RESERVE",
+          "category": "reserve_held",
+          "amount": "-2000.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=reserve@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "SALE-AMEX",
+          "category": "gross_sales",
+          "amount": "10000.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=sales;brand=AX@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "SALE-MC",
+          "category": "gross_sales",
+          "amount": "30000.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=sales;brand=MC@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "SALE-VISA",
+          "category": "gross_sales",
+          "amount": "60000.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=sales;brand=VI@2026-06-30",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "SCHEME",
+          "category": "scheme_fees",
+          "amount": "-300.0",
+          "basis": "net_amount",
+          "source_ref": "settlement:report=STL-2026-06-0042;section=fees;type=scheme@2026-06-30",
+          "evidence_status": "supplied"
+        }
+      ],
+      "reported_net_lines": [],
+      "known_line_subtotal": "90500.0",
+      "calculated_net": "90500.0",
+      "reported_net": null,
+      "funding_expected_net": "90000.00",
+      "funding_source_ref": "funding-advice:STL-2026-06-0042@2026-07-02",
+      "gross_sales": "100000.0",
+      "total_fees": "2850.0",
+      "effective_fee_rate_pct": "2.850000",
+      "checks": [
+        {
+          "type": "calculated_vs_reported",
+          "right_minus_left": null,
+          "status": "not_evaluable"
+        },
+        {
+          "type": "calculated_vs_funding",
+          "right_minus_left": "-500.00",
+          "status": "mismatch"
+        },
+        {
+          "type": "reported_vs_funding",
+          "right_minus_left": null,
+          "status": "not_evaluable"
+        }
+      ],
+      "data_gaps": [],
+      "issues": [],
+      "status": "discrepancy"
+    }
+  ],
+  "summary": {
+    "partition_count": 1,
+    "bank_cash_confirmed": false,
+    "ledger_reconciled": false,
+    "discrepancy_count": 1
+  },
+  "disclaimer": "Informational payout explanation only; not fee advice, bank-cash confirmation, or ledger reconciliation."
+}

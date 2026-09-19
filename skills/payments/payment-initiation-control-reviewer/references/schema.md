@@ -1,0 +1,18 @@
+# Exact initiation contract
+
+The envelope follows [input-schema.json](input-schema.json). All identifiers are opaque references. Every evidence record carries registered `source_ids`. Amounts are positive decimal strings; currency partitions are never combined. The complete synthetic example is `evals/files/normal.json`.
+
+`data.instructions` is a list of proposed records with `instruction_id`, `payer_account_ref`, `payee_ref`, `payee_account_ref`, `amount`, `currency`, `rail_profile_id`, `execution_date` (ISO date), `direction`, `principal_ref`, `submitter_ref`, `intent_id`, optional `mandate_id`, and sources. The exact `binding` carries instruction ID, payer/payee/account, amount/currency, rail, execution date, direction and principal ref, plus mandate ID or card family/network/product when present. Money binding is literal: a differently formatted amount requires a refreshed binding as well as a changed value.
+
+- `intents`: unique intent/instruction ID, `principal_ref`, `authorized: true`, exact `binding`, `effective_from`, `effective_until`, `revoked: false`, sources. It must cover the review and execution dates.
+- `mandates`: mandate ID, exact payer account/payee/account/currency/rail, `max_amount`, `frequency` (`recurring` or `one-off`), dates, `revoked: false`, `revocation_check_current: true`, sources. One-off adds `permitted_instruction_id` and `prior_use_count: 0`. Debit collection requires a mandate; it does not replace exact intent review in this conservative adapter.
+- `delegations`: exact principal and delegate refs, exact `binding`, explicit applicability dates/revocation and sources when submitter differs from principal. Delegation must cover both review and execution dates.
+- `screenings`: one instruction ID, exact binding, `status: clear`, active dates/revocation and sources. Its explicitly supplied effective interval must cover both review and execution dates. Pending/unknown/hit is a gap, never an automated sanctions decision.
+- `account_verifications`: one instruction ID, exact payer account/payee/payee account, `status: matched`, active dates/revocation and sources. The record declares reviewed ownership/access and beneficiary binding and an explicit applicability interval covering review and execution; no live verification is performed. No fixed freshness interval is invented for observations.
+- `policy`: jurisdiction, participants, permitted `profile_ids`, `authorized_submitter_refs`, `approval_roles`, dates/revocation covering review and execution and sources; `currency_limits` rows carry currency, `max_instruction_amount`, `max_batch_amount`.
+- `prior_instruction_ids` and `prior_instruction_bindings`: both required for a complete declared prior-submission history, together with `prior_instruction_ledger_complete: true`. Identical proposed details with a new ID are still detected from bindings.
+- `batch_controls`: independently sourced count and `totals_by_currency` map. Empty, duplicate, mismatched or over-limit batches remain gaps.
+
+For bank instructions the rail ID must resolve to a currently reviewed native profile for the jurisdiction/currency. For cards add instruction `rail_family: card`, `network`, `product`, a matching policy network/product and `card_profile`: profile ID, network/product, jurisdiction, participants, `actions` including `initiate`, active dates/revocation, `source_version`, `reviewed_on`, `review_due`, sources. This is supplied provider/scheme evidence, not a generic current card rulebook.
+
+Output: per-instruction bindings and control findings, currency totals, aggregate review, approval roles and `submission_authorized: false`. A review-ready result does not authenticate evidence or confer authority.

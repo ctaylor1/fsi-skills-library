@@ -1,5 +1,28 @@
 # Changelog — investment-policy-statement-builder
 
+## [0.2.1] — 2026-09-17
+
+P4 live-model evaluation exposed invented priority ranks cited to sources that did
+not supply them. Add a field-level source-to-input check, explicit null priority
+and account-membership instructions, and preservation of missing-evidence
+findings. Regression checks verify the existing script's null handling; no
+calculation or schema behavior is changed. Initial failing model outputs remain
+retained in the P4 evidence record; a fresh follow-up is reported separately.
+
+## [0.2.0] — 2026-09-16
+
+Independent review correction: require and preserve the upstream issue inventory with origin/status/citations; unresolved concerns remain findings, and external resolution requires cited dated evidence. Added executed carry-forward regressions. Also require approval party/role links to governance and consistent revision lineage; unknown parties and missing refresh lineage cannot produce review-ready.
+
+Rebuilt for Wave 7 wealth management P1 with the shared `wealth-p0-v1` evidence envelope,
+versioned/cited assumptions, full input-bound reconstruction, explicit unknowns and substantive
+planning outputs. Preserves the distinct workflow job and draft-only human-review boundary.
+
+Replaced section presence booleans with actual source-bound mandate content and readable draft. Preserves separate risk dimensions and human governing constraints; removes unsupported automatic most-conservative scoring. Pending approvals and account-scope checks are explicit. The 0.1 schema is intentionally replaced.
+
+Executed domain/arithmetic regressions and contract tests accompany the package. SME/compliance review, source authentication, deployment connectors and real-agent acceptance remain separate release work. Historical notes below describe prior behavior and are not the current contract.
+
+## Historical package notes
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`). Created to assemble a
 source-mapped **draft** Investment Policy Statement from documented inputs, separating drafting

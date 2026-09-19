@@ -51,65 +51,29 @@ DISCLAIMER_RE = re.compile(
     r"(repair authorization|compliance/fraud determination|determination)", re.I | re.S)
 
 
-def _num(v):
-    try:
-        return float(v)
-    except (TypeError, ValueError):
-        return None
-
-
-def validate(s: dict) -> list[str]:
-    errors: list[str] = []
-    if not isinstance(s, dict):
-        return ["interpretation must be a JSON object"]
-    for k in REQUIRED:
-        if k not in s or s[k] in (None, "", []):
-            errors.append(f"missing required field '{k}'")
-    txs = s.get("transactions") or []
-    if not txs:
-        errors.append("interpretation has no transactions")
-
-    # Control totals
-    summary = s.get("summary") or {}
-    nb = summary.get("nb_of_txs")
-    if nb is not None and _num(nb) is not None and int(_num(nb)) != len(txs):
-        errors.append(f"summary.nb_of_txs {nb} != transactions listed {len(txs)}")
-    ta = _num(summary.get("total_amount"))
-    if ta is not None:
-        summed = sum(_num((t.get('amount') or {}).get('value')) or 0.0 for t in txs)
-        if abs(summed - ta) > max(AMOUNT_TOL, abs(ta) * 0.0001):
-            errors.append(f"summary.total_amount {ta} != summed transaction amounts {summed:.2f}")
-
-    # Citation coverage
-    for t in txs:
-        if not (t.get("citation") or "").strip():
-            errors.append(f"transaction {t.get('end_to_end_id', '?')}: missing citation")
-        si = t.get("status_interpretation") or {}
-        cat = str(si.get("category", ""))
-        if cat in ("rejected", "returned"):
-            has_reason = bool(si.get("reason_code") or si.get("reason_plain") or si.get("reason_text"))
-            has_finding = any(f.get("code") in ("REJECT_NO_REASON",) for f in s.get("findings", []))
-            if not has_reason and not has_finding:
-                errors.append(f"transaction {t.get('end_to_end_id', '?')}: rejected status with no "
-                              "reason and no explicit missing-reason finding (fail closed)")
-    for f in s.get("findings", []):
-        if not (f.get("citation") or "").strip():
-            errors.append(f"finding {f.get('code', '?')}: missing citation")
-
-    # No-advice / prohibited-claim screen
+def validate(s):
+    if not isinstance(s, dict): return ["interpretation must be an object"]
+    errors = []
+    source = s.get("source_message")
+    if not isinstance(source, dict):
+        errors.append("source_message required for family-aware recomputation")
+    else:
+        from calculate_or_transform import interpret
+        try:
+            expected = interpret(source)
+            for key in expected:
+                if s.get(key) != expected[key]: errors.append(f"{key} differs from source-derived interpretation")
+        except (ValueError, TypeError, KeyError) as exc:
+            errors.append(f"invalid source_message: {exc}")
+    if s.get("schema_validated") is not False or s.get("scheme_validated") is not False:
+        errors.append("offline interpreter cannot claim XSD or scheme validation")
     scanned = " ".join([str(s.get("narrative", "")), str(s.get("notes", ""))]
                        + [str(f.get("message", "")) for f in s.get("findings", [])])
     for pat in PROHIBITED:
-        m = re.search(pat, scanned, re.I)
-        if m:
-            errors.append(f"prohibited action/determination language detected: {m.group(0)!r} "
-                          "(R2 interpreter is explanatory only; route action to the appropriate skill)")
-
-    # Standing disclaimer
-    if not DISCLAIMER_RE.search(str(s.get("disclaimer", "")) + " " + str(s.get("narrative", ""))):
-        errors.append("missing standing disclaimer: 'Interpretation and explanation only; not a "
-                      "payment instruction, repair authorization, or compliance/fraud determination.'")
-
+        match = re.search(pat, scanned, re.I)
+        if match: errors.append(f"prohibited action/determination language detected: {match.group(0)!r}")
+    if not DISCLAIMER_RE.search(str(s.get("disclaimer", ""))):
+        errors.append("missing standing disclaimer")
     return errors
 
 

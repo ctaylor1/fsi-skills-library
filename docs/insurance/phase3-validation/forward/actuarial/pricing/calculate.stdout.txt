@@ -1,0 +1,243 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "life-annuity-pricing-modeler",
+  "case_id": "FWD-ACT-PRICING",
+  "as_of": "2026-06-30",
+  "context": {
+    "capacity": "actuarial analyst",
+    "represented_party": "Fictional Cedar Assurance",
+    "object_id": "ENDOWMENT-MP-100",
+    "jurisdiction": "SYNTHETIC-INTERNAL",
+    "line_of_business": "life"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "negative_net_cashflow",
+      "message": "Supplied cashflows have negative discounted net cashflow before omitted capital, tax and reserve effects",
+      "source_refs": [
+        "APPROVED-SCHEDULE"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "method": "annual_mutually_exclusive_decrement_cashflow",
+    "projection": [
+      {
+        "year": 1,
+        "opening_policies": "100",
+        "expected_deaths": "2.00",
+        "expected_lapses": "8.00",
+        "closing_policies": "90.00",
+        "boy_premium": "10000",
+        "boy_expense": "1000",
+        "eoy_benefits": "2400.00",
+        "eoy_terminal_benefit": "0",
+        "discount_boy": "1",
+        "discount_eoy": "0.9523809523809523809523809524",
+        "pv_net_cashflow": "6714.285714285714285714285714",
+        "source_refs": [
+          "APPROVED-SCHEDULE"
+        ]
+      },
+      {
+        "year": 2,
+        "opening_policies": "90.00",
+        "expected_deaths": "2.7000",
+        "expected_lapses": "6.3000",
+        "closing_policies": "81.0000",
+        "boy_premium": "9900.00",
+        "boy_expense": "1080.00",
+        "eoy_benefits": "4761.0000",
+        "eoy_terminal_benefit": "24300.0000",
+        "discount_boy": "0.9523809523809523809523809524",
+        "discount_eoy": "0.9157509157509157509157509158",
+        "pv_net_cashflow": "-18212.63736263736263736263736",
+        "source_refs": [
+          "APPROVED-SCHEDULE"
+        ]
+      }
+    ],
+    "pv_premiums": "19428.57142857142857142857143",
+    "pv_expenses": "2028.571428571428571428571429",
+    "pv_benefits": "28898.35164835164835164835165",
+    "pv_net_cashflow": "-11498.35164835164835164835165",
+    "net_cashflow_margin": "-0.5918269230769230769230769231",
+    "price_approved": false,
+    "capital_tax_and_reserves_modeled": false
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "Unsigned terminal-benefit amendment proposes 320 instead of the reviewed 300; no authority to adopt it.",
+    "Supplied cashflows have negative discounted net cashflow before omitted capital, tax and reserve effects"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "FWD-ACT-PRICING",
+    "as_of": "2026-06-30",
+    "context": {
+      "capacity": "actuarial analyst",
+      "represented_party": "Fictional Cedar Assurance",
+      "object_id": "ENDOWMENT-MP-100",
+      "jurisdiction": "SYNTHETIC-INTERNAL",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "PROFILE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#PROFILE",
+        "extraction_text": "Internal deterministic annual projection, BOY premium/expense, EOY benefits, mutually exclusive unconditional death/lapse probabilities. ENDOWMENT-MP-100, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Exactly two years, 100 opening policies. No capital, taxes or reserve earnings."
+      },
+      {
+        "source_ref": "APPROVED-SCHEDULE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "APPROVED-SCHEDULE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#APPROVED-SCHEDULE",
+        "extraction_text": "Year 1: q=.02, lapse=.08, premium=100, expense=10, death=1000, surrender=50, survival=0, annual forward rate=.05. Year 2: q=.03, lapse=.07, premium=110, expense=12, death=1000, surrender=70, survival=20, annual forward rate=.04. Additional terminal benefit per final survivor=300; separate from year-2 survival benefit."
+      },
+      {
+        "source_ref": "AMENDMENT",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "AMENDMENT synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#AMENDMENT",
+        "extraction_text": "Unsigned proposed amendment would increase additional terminal benefit from 300 to 320. No effective approval evidence supplied; retain approved-schedule 300 as conditional arithmetic and flag unresolved proposal."
+      }
+    ],
+    "unresolved_issues": [
+      "Unsigned terminal-benefit amendment proposes 320 instead of the reviewed 300; no authority to adopt it."
+    ],
+    "data": {
+      "scope": {
+        "object_id": "ENDOWMENT-MP-100",
+        "currency": "USD",
+        "basis": "annual_mutually_exclusive_decrement_cashflow",
+        "valuation_date": "2026-06-30"
+      },
+      "profile": {
+        "profile_id": "PROFILE-pricing",
+        "version": "fresh-synthetic-v1",
+        "source_refs": [
+          "PROFILE"
+        ],
+        "jurisdictions": [
+          "SYNTHETIC-INTERNAL"
+        ],
+        "lines_of_business": [
+          "life"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2027-12-31",
+        "object_ids": [
+          "ENDOWMENT-MP-100"
+        ],
+        "currencies": [
+          "USD"
+        ],
+        "method": "annual_mutually_exclusive_decrement_cashflow"
+      },
+      "initial_policies": 100,
+      "projection_end_year": 2,
+      "years": [
+        {
+          "object_id": "ENDOWMENT-MP-100",
+          "currency": "USD",
+          "basis": "annual_mutually_exclusive_decrement_cashflow",
+          "source_ref": "APPROVED-SCHEDULE",
+          "year": 1,
+          "mortality_probability": ".02",
+          "lapse_probability": ".08",
+          "premium": 100,
+          "expense_boy": 10,
+          "death_benefit": 1000,
+          "surrender_benefit": 50,
+          "survival_benefit": 0,
+          "discount_rate": ".05"
+        },
+        {
+          "object_id": "ENDOWMENT-MP-100",
+          "currency": "USD",
+          "basis": "annual_mutually_exclusive_decrement_cashflow",
+          "source_ref": "APPROVED-SCHEDULE",
+          "year": 2,
+          "mortality_probability": ".03",
+          "lapse_probability": ".07",
+          "premium": 110,
+          "expense_boy": 12,
+          "death_benefit": 1000,
+          "surrender_benefit": 70,
+          "survival_benefit": 20,
+          "discount_rate": ".04"
+        }
+      ],
+      "terminal_benefit_per_survivor": 300,
+      "terminal_source_ref": "APPROVED-SCHEDULE"
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "life-annuity-pricing-modeler",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-06-30",
+    "context": {
+      "capacity": "actuarial analyst",
+      "represented_party": "Fictional Cedar Assurance",
+      "object_id": "ENDOWMENT-MP-100",
+      "jurisdiction": "SYNTHETIC-INTERNAL",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "PROFILE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#PROFILE",
+        "extraction_text": "Internal deterministic annual projection, BOY premium/expense, EOY benefits, mutually exclusive unconditional death/lapse probabilities. ENDOWMENT-MP-100, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Exactly two years, 100 opening policies. No capital, taxes or reserve earnings."
+      },
+      {
+        "source_ref": "APPROVED-SCHEDULE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "APPROVED-SCHEDULE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#APPROVED-SCHEDULE",
+        "extraction_text": "Year 1: q=.02, lapse=.08, premium=100, expense=10, death=1000, surrender=50, survival=0, annual forward rate=.05. Year 2: q=.03, lapse=.07, premium=110, expense=12, death=1000, surrender=70, survival=20, annual forward rate=.04. Additional terminal benefit per final survivor=300; separate from year-2 survival benefit."
+      },
+      {
+        "source_ref": "AMENDMENT",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "AMENDMENT synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#AMENDMENT",
+        "extraction_text": "Unsigned proposed amendment would increase additional terminal benefit from 300 to 320. No effective approval evidence supplied; retain approved-schedule 300 as conditional arithmetic and flag unresolved proposal."
+      }
+    ],
+    "input_hash": "978b7d8f97078aff12bcd1ff441cad68e81c6465f1d251137adebfe279e0360c",
+    "output_hash": "33b24b0ec80eafd7bb1d2a8731b1fb51082e3de2353f2e8314aff4ecef7bcffc",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "Unsigned terminal-benefit amendment proposes 320 instead of the reviewed 300; no authority to adopt it.",
+      "Supplied cashflows have negative discounted net cashflow before omitted capital, tax and reserve effects"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "766844f88bcb2439206b38a0b438803aed5c75c0b5b730156eff19ebf53b2099"
+  }
+}

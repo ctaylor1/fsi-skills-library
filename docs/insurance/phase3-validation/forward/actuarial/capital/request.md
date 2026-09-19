@@ -1,0 +1,1 @@
+Review the approved additive capital bridge and one stress for Cedar. Compare to the separate finance controls and internal thresholds; state the denominator explicitly and do not infer a regulatory intervention or certify solvency.

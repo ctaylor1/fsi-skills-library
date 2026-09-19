@@ -1,89 +1,67 @@
-# Investment Policy Statement (DRAFT) — {{ips_id}}
+# Draft Investment Policy Statement — {{result.ips_id}}
 
-> Draft status: **{{draft_status}}** · Delivery status: **{{delivery_status}}**
-> Template version: `{{template_version}}` · Tax-assumptions version: `{{tax_version}}`
-> Prepared: {{prepared_date}} by {{author_id}}
->
-> **Standing note:** Draft IPS for human review only; no allocation approved as suitable, no
-> suitability determination made, and nothing finalized, filed, delivered, or traded.
+Artifact {{artifact_id}} · Revision {{result.revision}} · Prior artifact {{result.supersedes_artifact_id}}
+As of {{as_of}} · Capacity {{engagement.capacity}} · Template {{result.template.template_id}} / {{result.template.version}}
+Human review required · Draft only · Effective date pending · Not delivered
 
-Complete all 13 sections. Every material figure and every allocation line carries a citation in the
-form `{system}:{ref}@{date/version}`. Do not remove, reorder, or rename sections — the output
-validator checks each required section by title.
-
----
+Use `result.draft_markdown` as the substantive starting draft. Preserve every section's actual
+content and source IDs. Do not replace content with a “present” indicator or a reference to a
+missing document. Each material assertion must be traceable to the attached source registry.
 
 ## 1. Purpose and Scope
-Purpose of this IPS, accounts/portfolios in scope, and its role as the governing document.
-_Citations:_ {{purpose_citations}}
+{{purpose.text}}; {{purpose.account_ids}}; {{purpose.source_ids}}
 
 ## 2. Governance and Roles
-Parties (client/household, advisor, custodian, other fiduciaries), decision authority, and the
-applicable standard of care. Identifiers masked to what the draft requires.
-_Citations:_ {{governance_citations}}
+{{governance.parties}}; {{governance.decision_authority}}; {{governance.capacity_basis}}
 
 ## 3. Investment Objectives
-Primary goal(s), return objective, and spending need — as documented, not inferred.
-_Citations:_ {{objectives_citations}}
+{{objectives.items}}; {{objectives.return_objective}}; {{objectives.spending_objective}}
 
-## 4. Risk Tolerance
-Ability, willingness, and capacity, and the governing **overall** tolerance (the most conservative of
-the three). Record any ability/willingness conflict for advisor discussion.
-_Citations:_ {{risk_citations}}
+## 4. Risk Profile and Governing Constraints
+{{risk_profile.profile_artifact_id}}; all six {{risk_profile.dimensions}};
+{{risk_profile.governing_constraint}} and attributed reviewer/reference;
+all {{risk_profile.unresolved_findings}}. Do not infer an overall rating.
 
 ## 5. Time Horizon
-Horizon in years and life stage.
-_Citations:_ {{horizon_citations}}
+{{time_horizon.months}}; {{time_horizon.stage}}; source IDs.
 
 ## 6. Liquidity Requirements
-Reserve amount, expected annual distributions, and any near-term liquidity events.
-_Citations:_ {{liquidity_citations}}
+{{liquidity.reserve_amount}}; {{liquidity.annual_distribution}}; dated {{liquidity.events}}.
 
 ## 7. Tax Considerations
-Marginal rate and account-type treatment drawn from the **approved** tax-assumptions set (version
-recorded above). No tax advice beyond the approved set.
-_Citations:_ {{tax_citations}}
+{{tax.account_treatments}} for each scoped account; {{tax.assumptions_version}}; {{tax.limitations}}.
 
 ## 8. Constraints and Restrictions
-Legal/regulatory constraints and client restrictions (prohibited securities, concentration limits,
-ESG or other mandates).
-_Citations:_ {{constraints_citations}}
+{{constraints.items}} and explicit {{constraints.none_identified}} declaration with sources.
 
 ## 9. Strategic Asset Allocation
-| Asset class | Target % | Min % | Max % | Benchmark | Citation |
-| ----------- | -------- | ----- | ----- | --------- | -------- |
-| {{class}} | {{target}} | {{min}} | {{max}} | {{benchmark}} | {{citation}} |
-| **Total** | **{{target_sum}}** | | | | |
 
-Consistency check: targets sum to 100% (± 0.1) and each target sits within its min/max band —
-`{{allocation_check}}`.
+| Asset class | Target % | Minimum % | Maximum % | Benchmark | Source IDs |
+| --- | --- | --- | --- | --- | --- |
+| {{asset_class}} | {{target_pct}} | {{min_pct}} | {{max_pct}} | {{benchmark}} | {{source_ids}} |
+
+Show {{result.allocation_checks}}; never adjust inconsistent targets to make the draft pass.
 
 ## 10. Rebalancing Policy
-Method (calendar/threshold/hybrid), threshold %, and review frequency; tax/cost sensitivity noted.
-_Citations:_ {{rebalancing_citations}}
+{{rebalancing.method}}; threshold in percentage points where applicable; frequency;
+tax/cost constraints; exception owner; source IDs. No orders are created here.
 
 ## 11. Benchmarks and Monitoring
-Portfolio and per-class benchmarks and the monitoring/review cadence.
-_Citations:_ {{monitoring_citations}}
+{{monitoring.portfolio_benchmark}}; frequency; review triggers; responsible owner; sources.
 
 ## 12. Approvals and Effective Date
-Recorded as **pending** — completed by humans out-of-band. This draft is not effective until signed.
-
-| Role | Name (masked) | Status | Date |
-| ---- | ------------- | ------ | ---- |
-| Advisor | {{advisor}} | pending | — |
-| Compliance / Supervisor | {{compliance}} | pending | — |
-| Client | {{client}} | pending | — |
+Advisor, supervisor and client role assignments: **pending**. Effective date: **pending**.
+No status in this draft grants authority, signature, recommendation approval or implementation.
 
 ## 13. Disclosures
-Standard firm disclosures from the controlled template (fees/costs, conflicts, that projections are
-not guarantees, and that this IPS is not a contract or a guarantee of performance).
-_Citations:_ {{disclosures_citations}}
+{{disclosures.text}} with version and source IDs; do not substitute an uncited boilerplate reference.
 
----
+## Evidence gaps and review record
+List every unresolved finding, needed evidence and responsible human. Attach the complete
+source registry and input snapshot. A complete draft remains subject to professional review.
 
-### Source map
-{{section_key}} → {{citations}} …
+## Upstream evidence concerns
 
-### Data gaps (needs-data)
-{{gaps}}
+Show every `result.upstream_issues` record with its originating artifact, original code/message,
+status and source IDs. Include attributed external resolution evidence where supplied. An absent
+inventory is unknown, and an unresolved issue prevents review-ready regardless of arithmetic.

@@ -1,0 +1,3 @@
+# SYNTHETIC SOURCE — invented for independent forward evaluation
+
+Reviewed prospective assumptions for CP-NY-2025. All monetary inputs USD per location-year except historical totals. On-level factor 1.075; premium trend factor 1.025; loss trend factor 1.09. Credibility 0.65. Prospective complementary loss+LAE: 875. Fixed expense: 128. Catastrophe provision: 62. Reinsurance net cost after expected recoveries: 41. Variable expense ratio 0.235. Underwriting profit ratio 0.045. Historical ultimate losses exclude catastrophe. Complement, catastrophe, and reinsurance selections have been reviewed for aligned bases and no double-counting. This is a supplied arithmetic exercise, not selection of the assumptions.

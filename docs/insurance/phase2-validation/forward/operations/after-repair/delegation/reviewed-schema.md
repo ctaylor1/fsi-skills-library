@@ -1,0 +1,17 @@
+# Input and output contract
+
+Use finite JSON with `case_id`, calendar `as_of`, `context` containing capacity, represented_party, object_id, jurisdiction and line_of_business; `sources` with unique source_ref, version and optional as_of; explicit `unresolved_issues` list; optional `upstream_artifacts`; and native `data`.
+
+Every `data.profile` has profile_id, version, source_refs, reviewed_by, effective_from, effective_to, jurisdictions and lines_of_business. Freshness intervals are configured institution controls. Profiles and examples are not shipped jurisdiction law. The synthetic `US-TEST` fixture cannot establish any real state's requirements.
+
+Malformed types, dates and financial values fail input validation. Missing business evidence usually remains a structured gap so a review packet can still be prepared. Amounts use finite nonnegative decimals; explicit zero differs from null. Results keep currency and amount definitions.
+
+`data.agreement`: `agreement_id`, `version`, `source_ref`, `execution_status`, `insurer_id`, `delegate_id`, `effective_from`, `effective_to`, `jurisdictions`, `lines_of_business`, `actions`, `currency`, `amount_basis`, `per_risk_limit`, `aggregate_limit`. `data.request`: `transaction_id`, parties, `jurisdiction`, `line_of_business`, `action`, `transaction_date`, `amount`, `currency`, `amount_basis`.
+
+`data.aggregate_ledger`: `agreement_id`, `agreement_version`, `source_ref`, `as_of`, `used_amount`, `currency`, `amount_basis`, `complete` boolean and `includes_request` boolean. Only explicit false for the latter supports addition. The ledger date must equal the requested transaction date; forecast or older capacity needs a separately reviewed method.
+
+`data.bordereaux`: `report_id`, `source_ref`, `period_end`, `due_date`, `received_date`, `complete`, `currency`, `amount_basis`, `expected_total`, `reported_total`. The common report currency, amount basis and period end explicitly apply to both control totals. They need not equal the authority-limit currency or amount basis: a written-premium report may accompany an insured-limit authority ledger. If supplied, `expected_currency`, `reported_currency`, `expected_amount_basis`, `reported_amount_basis`, `expected_period_end` and `reported_period_end` must match the common report scope; a mismatch withholds the difference. `period_start` is optional and cannot follow `period_end`; the period must end on or before the review date.
+
+Reports are scoped to the enclosing agreement. Optional `agreement_id`, `agreement_version`, `insurer_id` and `delegate_id` must match that parent when present. Source, completeness and control-scope gaps remain unresolved. The output's `reported_minus_expected` retains its own `currency`, `amount_basis` and `period_end`; it is never added to the authority ledger. `data.exceptions`: description and source_ref objects. An explicit empty reporting schedule differs from one not supplied. Output has authority_checks, aggregate amounts and bordereaux_checks; `authority_granted` is always false.
+
+The output preserves source_document and a content-bound artifact, separate completeness/evaluability, findings and unresolved issues. Human review is always required; approval is not_requested and execution is not_performed. Output validation recomputes the native result. Editable reviewer narrative belongs in a separate draft memo linked to this immutable calculation record. Hashes detect changes, not source authenticity.

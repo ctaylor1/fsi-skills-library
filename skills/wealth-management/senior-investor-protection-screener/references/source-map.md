@@ -1,44 +1,34 @@
-# Source Map — senior-investor-protection-screener
+# Input and source contract
 
-## Source hierarchy (highest first)
+The common `wealth-p0-v1` envelope requires nonempty `request_id`, `household_id`, ISO-date
+`as_of`, `engagement` with capacity advisory/brokerage/private-bank/trust and jurisdiction US,
+and `sources[]` with source_id, reference, owner, as_of and valid_until. Source observations
+cannot postdate the request or expire before it. Registry metadata is user-supplied evidence,
+not independently authenticated approval. Unknown item source IDs create needs-data.
 
-| Rank | Source (MCP integration) | Used for | Access |
-| ---- | ------------------------ | -------- | ------ |
-| 1 | Portfolio accounting / OMS **transactions** (position of record) | Focal disbursement + baseline history | Read-only |
-| 2 | **CRM** client context | Age/DOB, trusted-contact status, beneficiary/registration/address changes, structured observation notes, known payees | Read-only |
-| 3 | **Planning engine / product data** | Whether a disbursement matches a documented plan (RMD, withdrawal strategy, gifting) | Read-only |
-| 4 | **Reference data** | Payee/counterparty resolution, channel taxonomy | Read-only |
-| 5 | Senior-protection **config** (versioned) | Signal thresholds and disposition mapping | Read-only |
+Domain records (each material record includes `source_ids[]`):
+- `client`: integer age 0–125 when known; human-recorded boolean impairment_flag when known.
+- `history_coverage`: start/end ISO dates establishing requested history coverage.
+- `transactions[]`: unique txn_id, ISO date/timestamp, finite nonnegative amount, debit/credit,
+  normalized counterparty, explicit lifecycle executed/proposed/pending/cancelled, source_ids.
+  For executed rows, date is the execution timestamp; for proposed/pending rows, date is the
+  request/observation timestamp, not a claimed future execution. `focal_txn_ids[]` must resolve
+  uniquely to executed/proposed/pending activity. Cancelled rows may be supporting history.
+  Missing lifecycle is rejected; adapters must never assume a proposed request executed.
+- `lookback_days`: integer requested history length; window-only mode is unsupported.
+- `config`: version, owner, engagement-matching capacity/jurisdiction, numeric parameters in
+  domain-rules and source_ids. No synthetic fixture value is a production default.
+- `trusted_contact`: on_file boolean; last_confirmed when present; collection_status
+  declined/requested/not-requested when absent. Missing data is not a breach determination.
+- `recent_changes[]`: type beneficiary/registration/address, date and source_ids. Empty list
+  declares no changes in the supplied coverage; omitted list means unknown.
+- `observations`: observed_by (trained-human reference), source_ids; nullable booleans for
+  third_party_present, new_caregiver_or_poa, confusion_observed, cannot_recall_transaction,
+  repeated_questions, unusual_urgency, requests_secrecy, refuses_family_involvement,
+  scam_narrative_flag. Unknown and false are different values.
 
-Never substitute a client assertion, a caregiver's statement, or a third party's request for
-the transaction/CRM record. If a record and a note conflict, cite both and flag for the
-reviewer. Observation flags (third-party present, urgency, confusion, etc.) are **structured
-inputs supplied by a trained human**, not conclusions the skill infers on its own.
-
-## Citation format
-
-`{system}:{ref}@{date}` — e.g. `txns:acct=****4521;txnid=D-90001@2026-07-14T09:40:00`,
-`crm:crm=****4521;chg=C-3301@2026-07-01`, `crm:crm=****4521;note=N-5567`. Every fired signal
-cites the specific evidence rows (transactions, change records, observation refs) it rests on.
-
-## Freshness / effective dates
-
-- Config (thresholds, disposition mapping) is a **versioned contract**; the output records the
-  config version used so a screening is reproducible.
-- Baseline lookback default 365 days; state the exact window in the output.
-- The specified-adult age threshold (default 65) and the "specified adult" impairment
-  criterion are jurisdiction/config-driven (FINRA Rule 2165 / NASAA Model Act); configure per
-  deployment. US is the default jurisdiction pack.
-
-## Least-privilege operations (deployment)
-
-- `txns.read(account_id, from, to)` → bounded, paged transaction rows.
-- `crm.context(client_id)` → age, trusted-contact status, recent changes, structured
-  observation flags (no free-text PII beyond what evidences a signal).
-- `planning.get(client_id)` → documented plan events (RMD, gifting, withdrawal schedule).
-- `refdata.resolve(counterparty|channel)` → normalized values.
-- `config.get('senior-protection', version)` → thresholds + disposition mapping.
-
-All read-only, deterministic, durable `screening_id`, below the fixed timeout; page long
-histories as resumable stages. No write, hold, notification, filing, or case-closure operation
-is bound to this skill.
+The source hierarchy is transaction record, sourced CRM observation/context, and reviewed
+policy configuration. Keep conflicting facts visible; do not substitute an agent inference.
+Connectors, permission checks, actual completeness and policy approval are deployment work.
+The output's digest covers the entire input snapshot; it is an identity check, not a signature
+or authorization token. Keep snapshot access no broader than source access.

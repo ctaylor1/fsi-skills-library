@@ -51,7 +51,7 @@ are deliberately out of scope and routed onward.
 ## Do not use
 - **Binding credit decisions** (approve/decline, limit increase, adverse action) → refer to
   `loan-affordability-precheck` / `credit-application-packager` and a licensed lending specialist.
-- **Investment advice / suitability** ("how should they reallocate?") → `suitability-reg-bi-reviewer`
+- **Investment advice / suitability** ("how should they reallocate?") → `investment-recommendation-evidence-reviewer`
   and a licensed adviser; older-investor concerns → `senior-investor-protection-screener`.
 - **Claim coverage/denial decisions** → a licensed claims specialist.
 - **Complaint handling** → `complaint-resolution-assistant`; **service failure remediation** →

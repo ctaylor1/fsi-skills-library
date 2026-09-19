@@ -1,0 +1,194 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "INDEPENDENT-service",
+  "household_id": "HH-CASE-42",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "source_ids": [
+      "records"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "records",
+      "reference": "synthetic:independent-case-42-records",
+      "owner": "Independent fixture author",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "policy",
+      "reference": "synthetic:independent-case-42-policy",
+      "owner": "Independent fixture policy owner",
+      "as_of": "2026-09-01",
+      "valid_until": "2027-09-01"
+    }
+  ],
+  "policy": {
+    "version": "forward-1",
+    "owner": "Independent fixture reviewer",
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "effective_date": "2026-09-01",
+    "valid_until": "2027-09-01",
+    "source_ids": [
+      "policy"
+    ],
+    "service_requirements": {
+      "transfer": [
+        "instruction",
+        "authority",
+        "destination"
+      ],
+      "distribution": [
+        "instruction",
+        "authority",
+        "destination"
+      ],
+      "authority": [
+        "instruction",
+        "authority",
+        "destination"
+      ],
+      "beneficiary": [
+        "instruction",
+        "authority",
+        "destination"
+      ]
+    }
+  },
+  "upstream_issues": [],
+  "parties": [
+    {
+      "party_id": "CLIENT",
+      "display_name": "Masked CLIENT",
+      "role": "client",
+      "source_ids": [
+        "records"
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "account_id": "CASH",
+      "currency": "USD",
+      "registration": "individual",
+      "owner_party_ids": [
+        "CLIENT"
+      ],
+      "available_cash": 70000,
+      "positions": [],
+      "source_ids": [
+        "records"
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "service_request_id": "TRANSFER",
+      "type": "transfer",
+      "account_id": "CASH",
+      "requested_by_party_id": "CLIENT",
+      "requested_date": "2026-09-15",
+      "details": {
+        "method": "cash",
+        "transfer_scope": "partial",
+        "destination_ref_masked": "External account 7777",
+        "destination_owner_party_ids": [
+          "CLIENT"
+        ],
+        "amount": 40000,
+        "source_ids": [
+          "records"
+        ]
+      },
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "service_request_id": "DISTRIBUTION",
+      "type": "distribution",
+      "account_id": "CASH",
+      "requested_by_party_id": "CLIENT",
+      "requested_date": "2026-09-15",
+      "details": {
+        "currency": "USD",
+        "payee_ref_masked": "Client linked bank 7777",
+        "purpose": "Supplied spending request",
+        "amount": 35000,
+        "tax_instruction_ref": "synthetic:tax-instruction42",
+        "source_ids": [
+          "records"
+        ]
+      },
+      "source_ids": [
+        "records"
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "condition_id": "TRANSFER-instruction",
+      "service_request_id": "TRANSFER",
+      "requirement": "instruction",
+      "description": "Recorded instruction; not authenticated authority",
+      "status": "received",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "TRANSFER-authority",
+      "service_request_id": "TRANSFER",
+      "requirement": "authority",
+      "description": "Recorded authority; not authenticated authority",
+      "status": "received",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "TRANSFER-destination",
+      "service_request_id": "TRANSFER",
+      "requirement": "destination",
+      "description": "Recorded destination; not authenticated authority",
+      "status": "received",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "DISTRIBUTION-instruction",
+      "service_request_id": "DISTRIBUTION",
+      "requirement": "instruction",
+      "description": "Recorded instruction; not authenticated authority",
+      "status": "received",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "DISTRIBUTION-authority",
+      "service_request_id": "DISTRIBUTION",
+      "requirement": "authority",
+      "description": "Recorded authority; not authenticated authority",
+      "status": "received",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "DISTRIBUTION-destination",
+      "service_request_id": "DISTRIBUTION",
+      "requirement": "destination",
+      "description": "Recorded destination; not authenticated authority",
+      "status": "received",
+      "source_ids": [
+        "records"
+      ]
+    }
+  ]
+}

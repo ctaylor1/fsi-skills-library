@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0",
+  "request_id": "forward-acceptance-explicit-unsupported",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "merchant",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "merchant-brief",
+      "reference": "/tmp/payments-phase2-forward-commercial/source-merchant-brief.json",
+      "as_of": "2026-09-15",
+      "review_due": "2026-12-15"
+    },
+    {
+      "source_id": "gateway-deck",
+      "reference": "/tmp/payments-phase2-forward-commercial/source-gateway-deck.json",
+      "as_of": "2026-09-15",
+      "review_due": "2026-12-15"
+    },
+    {
+      "source_id": "card-test",
+      "reference": "/tmp/payments-phase2-forward-commercial/source-card-test.json",
+      "as_of": "2026-09-15",
+      "review_due": "2026-12-15"
+    },
+    {
+      "source_id": "bank-annex",
+      "reference": "/tmp/payments-phase2-forward-commercial/source-bank-annex.json",
+      "as_of": "2026-09-15",
+      "review_due": "2026-12-15"
+    }
+  ],
+  "upstream_issues": [
+    {
+      "code": "deck-contract-conflict",
+      "message": "Generic recurring support in the deck conflicts with the one-off-only bank contract annex.",
+      "source_ids": [
+        "gateway-deck",
+        "bank-annex"
+      ]
+    }
+  ],
+  "data": {
+    "segments": [
+      {
+        "segment_id": "desktop-recurring",
+        "market": "UK",
+        "channel": "desktop web",
+        "customer_type": "existing recurring subscriber",
+        "use_case": "recurring",
+        "currency": "GBP",
+        "required_methods": [
+          "card",
+          "pay-by-bank"
+        ],
+        "source_ids": [
+          "merchant-brief"
+        ]
+      },
+      {
+        "segment_id": "mobile-recurring",
+        "market": "UK",
+        "channel": "mobile web",
+        "customer_type": "existing recurring subscriber",
+        "use_case": "recurring",
+        "currency": "GBP",
+        "required_methods": [
+          "card",
+          "pay-by-bank"
+        ],
+        "source_ids": [
+          "merchant-brief"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "option_id": "extend-pine",
+        "operating_model": "Retain current gateway and direct card-acquirer contract; proposed separate pay-by-bank service remains uncontracted.",
+        "merchant_entity": "Harbour Goods Ltd (synthetic)",
+        "gateway": "Gateway Pine (synthetic)",
+        "acquirer": "Card Acquirer Oak (synthetic)",
+        "psp": "Pay-by-bank PSP appointment unresolved",
+        "responsibilities": {
+          "checkout": "Harbour checkout team",
+          "authentication": "Acquirer Oak for card; pay-by-bank owner unresolved",
+          "screening": "Harbour compliance",
+          "settlement": "Acquirer Oak for cards; pay-by-bank owner unresolved",
+          "reconciliation": "Harbour finance",
+          "refunds": "Harbour support; PSP workflow untested",
+          "disputes": "Harbour card dispute team; bank-payment servicing unresolved"
+        },
+        "coverage": [
+          {
+            "segment_id": "desktop-recurring",
+            "method": "card",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "card-test"
+            ],
+            "presentment_currencies": [
+              "GBP"
+            ],
+            "settlement_currencies": [
+              "GBP"
+            ],
+            "entity_eligible": true,
+            "recurring_supported": true
+          },
+          {
+            "segment_id": "desktop-recurring",
+            "method": "pay-by-bank",
+            "status": "unsupported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "bank-annex"
+            ],
+            "presentment_currencies": [
+              "GBP"
+            ],
+            "settlement_currencies": [
+              "GBP"
+            ],
+            "entity_eligible": null,
+            "recurring_supported": false
+          },
+          {
+            "segment_id": "mobile-recurring",
+            "method": "card",
+            "status": "supported",
+            "evidence_kind": "proposal",
+            "source_ids": [
+              "gateway-deck"
+            ],
+            "presentment_currencies": [
+              "GBP"
+            ],
+            "settlement_currencies": [
+              "GBP"
+            ],
+            "entity_eligible": null,
+            "recurring_supported": null
+          },
+          {
+            "segment_id": "mobile-recurring",
+            "method": "pay-by-bank",
+            "status": "unsupported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "bank-annex"
+            ],
+            "presentment_currencies": [
+              "GBP"
+            ],
+            "settlement_currencies": [
+              "GBP"
+            ],
+            "entity_eligible": null,
+            "recurring_supported": false
+          }
+        ],
+        "constraints": [
+          {
+            "constraint_id": "pay-by-bank-contract",
+            "description": "Contract must cover UK entity and recurring customer authorization for both channels",
+            "mandatory": true,
+            "status": "unknown",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "bank-annex"
+            ]
+          }
+        ]
+      }
+    ],
+    "orchestration": {
+      "objective": "Evaluate customer choice without duplicate payments",
+      "success_metric": "Completed paid orders / unique eligible checkout attempts, segmented by channel and assigned method",
+      "guardrails": "No retry while prior attempt status remains unknown; retain refund, fraud and customer complaint counters",
+      "fallback_policy": "Offer cards only after lifecycle state is definitively known and fresh customer consent",
+      "experiment": "No rollout until contracted scope and inspection gaps close; then separately randomized channel cohorts"
+    }
+  }
+}

@@ -1,175 +1,128 @@
 #!/usr/bin/env python3
-"""Deterministic output validation for catastrophe-exposure-monitor.
-
-Validates the alert-queue package (the calculate_or_transform core + a narrative) before it
-is queued or delivered. A Monitor & alert skill only ALERTS and QUEUES; this check fails
-closed if the package looks like it acted, decided, or closed something. Checks:
-
-  1. Freshness handling — every declared source carries a freshness status (fresh|stale);
-     if any source is stale the package must record confidence == "degraded".
-  2. Deduplication — every alert has a stable alert_key and a status in
-     {new, ongoing, cleared}; no duplicate alert_keys; the dedup summary ties to the alerts.
-  3. Escalation / queue packaging — every active (new|ongoing) alert has a queue target,
-     >= 1 cited evidence row, and a severity + suggested_response_priority that equal the
-     deterministic mapping from its exceedance_ratio (banded on the same configurable
-     approaching_ratio the engine used, carried on the package).
-  4. NO autonomous action — no bind/decline/cede/cancel/endorse/reserve/limit-change/
-     alert-closure language anywhere in the free text; the standing disclaimer is present.
-
-Usage:
-  python validate_output.py alert_package.json | --selftest
-Exit 0 if no errors, 1 otherwise.
-"""
+"""Check CAT arithmetic, no-false-clear states, binding and read-only boundaries."""
 from __future__ import annotations
-import json, re, sys
+import json
+import re
+import sys
 from pathlib import Path
+from insurance_contract import amount, stable_hash, validate_artifact
+from calculate_or_transform import DISCLAIMER, PRIORITY, band_for_ratio
 
-DISCLAIMER = ("Monitoring alert only; exposure and modeled-loss figures are estimates for "
-              "human review. No underwriting, reinsurance, capacity, reserving, or "
-              "system-of-record action has been taken.")
-PRIORITY = {"Critical": "P1", "Elevated": "P2", "Watch": "P3", "Informational": "P4"}
-VALID_STATUS = {"new", "ongoing", "cleared"}
-# Approaching-band default; mirrors DEFAULT_CONFIG["approaching_ratio"] in
-# calculate_or_transform.py. The engine reads this from versioned config and now carries the
-# resolved value on the package, so this validator bands on the SAME threshold the engine used
-# instead of assuming the default under a non-default config.
-DEFAULT_APPROACHING_RATIO = 0.9
-
-# Autonomous-action / decision / closure language a read-only alert-only monitor must never
-# use. The monitor observes and queues; humans and downstream skills act.
-ACTION_PATTERNS = [
-    r"\bbound (the |additional )?(coverage|reinsurance|capacity)", r"\bwe (have )?bound\b",
-    r"\bpurchased reinsurance\b", r"\bceded\b", r"\bplaced (the )?reinsurance\b",
-    r"\b(reduced|increased|adjusted|changed) the limit\b", r"\bmoved capacity\b",
-    r"\bcancel(l)?ed the policy\b", r"\bnon-renew(ed)?\b", r"\bdeclined the (risk|submission)\b",
-    r"\bissued (an )?endorsement\b", r"\bbooked (the )?reserve\b", r"\badjusted (the )?reserve",
-    r"\bclosed the alert\b", r"\bsuppressed the alert\b", r"\bwrote (it )?to (the )?system of record\b",
-    r"\bbind (additional |more )?(coverage|reinsurance|capacity)\b",
-]
+ACTION_PATTERNS = [r"\bbound (the |additional )?(coverage|reinsurance|capacity)", r"\bwe (have )?bound\b",
+                  r"\bpurchased reinsurance\b", r"\bplaced (the )?reinsurance\b", r"\bmoved capacity\b",
+                  r"\b(reduced|increased|adjusted|changed) the limit\b", r"\bcancel(l)?ed the policy\b",
+                  r"\bdeclined the (risk|submission)\b", r"\bissued (an )?endorsement\b",
+                  r"\b(booked|adjusted) (the )?reserve\b", r"\b(closed|suppressed) the alert\b",
+                  r"\bwrote (it )?to (the )?system of record\b", r"\bbind (additional |more )?(coverage|reinsurance|capacity)\b"]
 
 
-def band_for_ratio(r: float, approaching: float = DEFAULT_APPROACHING_RATIO) -> str | None:
-    if r >= 1.5:
-        return "Critical"
-    if r >= 1.25:
-        return "Elevated"
-    if r >= 1.0:
-        return "Watch"
-    if r >= approaching:
-        return "Informational"
-    return None
-
-
-def _approaching_ratio(pack: dict) -> float:
-    """Approaching-band threshold the engine used, carried on the package.
-
-    Reads the resolved ``approaching_ratio`` the engine emits (falling back to a nested
-    ``config`` echo, then the documented default) so banding here matches the engine under a
-    non-default config. A package that predates the field still validates against the same
-    0.9 the engine defaults to.
-    """
-    raw = pack.get("approaching_ratio")
-    if raw is None:
-        cfg = pack.get("config")
-        if isinstance(cfg, dict):
-            raw = cfg.get("approaching_ratio")
-    try:
-        return float(raw)
-    except (TypeError, ValueError):
-        return DEFAULT_APPROACHING_RATIO
-
-
-def validate(pack: dict) -> list[str]:
-    errors: list[str] = []
-
-    # 1. freshness handling
-    sources = pack.get("sources")
-    if not isinstance(sources, list) or not sources:
-        errors.append("no sources[] freshness report present")
-        sources = []
-    any_stale = False
-    for s in sources:
-        fr = s.get("freshness")
-        if fr not in ("fresh", "stale"):
-            errors.append(f"source {s.get('source','?')} missing freshness status")
-        if fr == "stale":
-            any_stale = True
-    if any_stale and pack.get("confidence") != "degraded":
-        errors.append("a source is stale but confidence != 'degraded' (freshness not handled)")
-
-    # 2. deduplication
-    alerts = pack.get("alerts")
-    if not isinstance(alerts, list):
-        errors.append("alerts[] missing")
-        alerts = []
+def validate(pack, input_doc=None):
+    if not isinstance(pack, dict):
+        return ["output must be an object"]
+    errors = validate_artifact(pack.get("artifact"), input_doc=input_doc, output=pack)
+    sources, alerts = pack.get("sources"), pack.get("alerts")
+    if not isinstance(sources, list) or not all(isinstance(s, dict) for s in sources):
+        return errors + ["sources freshness report must contain objects"]
+    if not isinstance(alerts, list) or not all(isinstance(a, dict) for a in alerts):
+        return errors + ["alerts must contain objects"]
+    roles = [s.get("source") for s in sources]
+    if any(roles.count(role) != 1 for role in ("policy_admin", "event_feed", "cat_model")):
+        errors.append("required source freshness not handled")
+    unknown_alerts = [a for a in alerts if a.get("status") == "unknown"]
+    current_evidence = pack.get("current_evidence", {})
+    if not isinstance(current_evidence, dict):
+        return errors + ["current_evidence must be an object"]
+    current_degraded = (any(s.get("freshness") != "fresh" for s in sources)
+                        or bool(pack.get("data_gaps"))
+                        or current_evidence.get("completeness") != "complete"
+                        or bool(current_evidence.get("unresolved_issues")))
+    degraded = current_degraded or bool(pack.get("unresolved_issues")) or bool(unknown_alerts)
+    for alert in unknown_alerts:
+        if f"prior alert {alert.get('alert_key')} remains unknown" not in pack.get("unresolved_issues", []):
+            errors.append("unknown prior alert must remain an unresolved issue")
+    if degraded and pack.get("confidence") != "degraded":
+        errors.append("freshness not handled: incomplete/stale sources require degraded confidence")
+    if degraded and (pack.get("completeness") == "complete" or pack.get("evaluability") == "evaluable"):
+        errors.append("incomplete or stale evidence cannot claim complete evaluability")
+    policy_source = next((s for s in sources if s.get("source") == "policy_admin"), {})
+    for metric in pack.get("evaluated_metrics", []):
+        zero_evidence = [e for e in metric.get("evidence", []) if e.get("zero_observed_locations")]
+        if zero_evidence and (policy_source.get("freshness") != "fresh"
+                              or not policy_source.get("source_ref")
+                              or policy_source.get("version") != pack.get("exposure_snapshot_id")
+                              or any(e.get("citation") != policy_source.get("source_ref") for e in zero_evidence)):
+            errors.append("zero exposure observation requires available fresh exposure-source evidence")
     seen = set()
-    for a in alerts:
-        key = a.get("alert_key")
-        if not key:
-            errors.append("alert missing alert_key (dedup key)")
+    for alert in alerts:
+        key, state = alert.get("alert_key"), alert.get("status")
+        if not isinstance(key, str) or not key:
+            errors.append("alert_key required")
         elif key in seen:
-            errors.append(f"duplicate alert_key {key!r} (deduplication failed)")
+            errors.append(f"duplicate alert_key {key}")
         else:
             seen.add(key)
-        if a.get("status") not in VALID_STATUS:
-            errors.append(f"alert {key!r} status {a.get('status')!r} not in {sorted(VALID_STATUS)}")
-
-    active = [a for a in alerts if a.get("status") in ("new", "ongoing")]
-    dd = pack.get("dedup") or {}
-    for st, cnt in (("new", sum(1 for a in active if a.get("status") == "new")),
-                    ("ongoing", sum(1 for a in active if a.get("status") == "ongoing")),
-                    ("cleared", sum(1 for a in alerts if a.get("status") == "cleared"))):
-        if dd.get(st) != cnt:
-            errors.append(f"dedup summary {st}={dd.get(st)!r} does not tie to alerts ({cnt})")
-
-    # 3. escalation / queue packaging (deterministic tie-out on active alerts)
-    approaching = _approaching_ratio(pack)
-    for a in active:
-        key = a.get("alert_key", "?")
-        if not a.get("queue"):
-            errors.append(f"alert {key} missing queue target")
-        ev = a.get("evidence") or []
-        if not ev:
-            errors.append(f"active alert {key} has no evidence")
-        for row in ev:
-            if not str(row.get("citation") or "").strip():
-                errors.append(f"active alert {key} evidence row missing citation")
-        ratio = a.get("exceedance_ratio")
-        if not isinstance(ratio, (int, float)):
-            errors.append(f"active alert {key} missing numeric exceedance_ratio")
+        if state not in ("new", "ongoing", "cleared", "unknown"):
+            errors.append(f"invalid alert status {state}")
+        if state == "cleared":
+            if current_degraded or not isinstance(alert.get("evaluation"), dict):
+                errors.append("clearing requires complete current measured evidence")
+            else:
+                try:
+                    row = alert["evaluation"]
+                    if row.get("alert_key") != key or band_for_ratio(amount(row["metric"]) / amount(row["threshold"]), pack["approaching_ratio"]) is not None:
+                        errors.append("cleared alert is not demonstrably below threshold")
+                except (KeyError, ValueError, ArithmeticError):
+                    errors.append("cleared alert has invalid measured evidence")
+        if state not in ("new", "ongoing"):
             continue
-        exp_band = band_for_ratio(float(ratio), approaching)
-        if a.get("severity") != exp_band:
-            errors.append(f"alert {key} severity {a.get('severity')!r} != deterministic {exp_band!r} for ratio {ratio}")
-        if a.get("suggested_response_priority") != PRIORITY.get(exp_band):
-            errors.append(f"alert {key} priority {a.get('suggested_response_priority')!r} != mapping {PRIORITY.get(exp_band)!r}")
-
-    # 4. no autonomous action + disclaimer present
-    text = " ".join([str(pack.get("narrative", "")), str(pack.get("notes", ""))]
-                    + [str(a.get("reason", "")) for a in alerts])
-    for pat in ACTION_PATTERNS:
-        m = re.search(pat, text, re.I)
-        if m:
-            errors.append(f"autonomous-action language detected: {m.group(0)!r} (monitor alerts and queues only)")
-    if DISCLAIMER.lower() not in (str(pack.get("narrative", "")) + " " + str(pack.get("disclaimer", ""))).lower():
-        errors.append("missing standing disclaimer text")
-
+        evidence = alert.get("evidence")
+        if not alert.get("queue") or not isinstance(evidence, list) or not evidence or not all(isinstance(e, dict) and e.get("citation") for e in evidence):
+            errors.append(f"active alert {key} needs queue and cited evidence")
+        try:
+            threshold, metric = amount(alert.get("threshold")), amount(alert.get("metric"))
+            if threshold <= 0 or metric < 0:
+                raise ValueError()
+            ratio = metric / threshold
+            if amount(alert.get("exceedance_ratio")) != ratio:
+                errors.append(f"alert {key} ratio differs from metric/threshold")
+            band = band_for_ratio(ratio, pack.get("approaching_ratio"))
+            if alert.get("severity") != band or alert.get("suggested_response_priority") != PRIORITY.get(band):
+                errors.append(f"alert {key} severity/priority does not match configured ratio")
+            if alert.get("breach_type") == "modeled_loss":
+                vals = [amount(alert.get("modeled_range", {}).get(k)) for k in ("low", "mid", "high")]
+                if not 0 <= vals[0] <= vals[1] <= vals[2] or vals[2] != metric or alert.get("statistic") != "scenario_range" or not alert.get("scenario_set_id"):
+                    errors.append(f"alert {key} incompatible modeled range")
+        except (ValueError, TypeError, ArithmeticError):
+            errors.append(f"alert {key} invalid finite monetary values")
+    dd = pack.get("dedup")
+    if not isinstance(dd, dict) or any(dd.get(state) != sum(a.get("status") == state for a in alerts) for state in ("new", "ongoing", "cleared", "unknown")):
+        errors.append("dedup summary does not reconcile")
+    if pack.get("overall_severity") == "None" and (degraded or pack.get("completeness") != "complete"):
+        errors.append("unknown/incomplete monitoring cannot report all-clear severity")
+    text = " ".join([str(pack.get("narrative", "")), str(pack.get("notes", ""))] + [str(a.get("reason", "")) for a in alerts])
+    for pattern in ACTION_PATTERNS:
+        match = re.search(pattern, text, re.I)
+        if match:
+            errors.append(f"autonomous-action language detected: {match.group(0)}")
+    if DISCLAIMER.lower() not in str(pack.get("disclaimer", "")).lower():
+        errors.append("missing standing disclaimer")
+    if input_doc is not None:
+        from calculate_or_transform import compute
+        try:
+            if stable_hash(compute(input_doc)) != stable_hash(pack):
+                errors.append("output differs from recomputed CAT snapshot")
+        except (TypeError, ValueError) as exc:
+            errors.append(f"input cannot be recomputed: {exc}")
     return errors
 
 
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "alert_package.json"
-        pack = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        pack = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        pack = json.loads(sys.stdin.read())
-    errors = validate(pack)
-    for e in errors:
-        print("ERROR", e)
+    path = Path(__file__).resolve().parents[1] / "evals/files/alert_package.json" if "--selftest" in argv else Path(argv[0]) if argv else None
+    errors = validate(json.loads(path.read_text() if path else sys.stdin.read()))
+    for error in errors:
+        print("ERROR", error)
     print(f"output validation: {len(errors)} error(s)")
-    return 1 if errors else 0
+    return bool(errors)
 
 
 if __name__ == "__main__":

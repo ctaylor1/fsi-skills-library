@@ -1,38 +1,34 @@
 ---
 name: coverage-gap-analyzer
-description: >-
-  Compare a policyholder's stated needs and exposures against their policy's coverages,
-  limits, sublimits, deductibles, exclusions, and endorsements; surface explainable coverage
-  gaps with dual (needs + policy) citations, and suggest a review priority for a licensed
-  professional. Use when a policyholder, agent, or broker asks "where am I underinsured",
-  "does my policy cover this exposure", "check my coverage against my needs", "analyze my
-  homeowners/commercial policy for gaps", or wants a review-ready gap list before a renewal
-  or client meeting. This skill evidences gaps and suggests a review priority only; it NEVER
-  determines whether a claim is or would be covered, decides eligibility, gives insurance or
-  legal advice, or recommends buying/dropping/switching a specific policy — those are
-  licensed-professional decisions.
+description: "Compare a policyholder's stated needs and exposures against their policy's coverages, limits, sublimits, deductibles, exclusions, and endorsements; surface explainable coverage gaps with dual (needs + policy) citations, and suggest a review priority for a licensed professional. Use when a policyholder, agent, or broker asks \"where am I underinsured\", \"does my policy cover this exposure\", \"check my coverage against my needs\", \"analyze my homeowners/commercial policy for gaps\", or wants a review-ready gap list before a renewal or client meeting. This skill evidences gaps and suggests a review priority only; it NEVER determines whether a claim is or would be covered, decides eligibility, gives insurance or legal advice, or recommends buying/dropping/switching a specific policy — those are licensed-professional decisions."
 license: MIT
-compatibility: Amazon Quick Desktop; requires policy-administration, document-intelligence, producer/needs-analysis, actuarial/catastrophe reference-data, and approved-config MCP integrations (all read-only).
+compatibility: Python 3.10+; offline structured inputs and supplied source evidence. Expected source systems are not bundled production connectors.
 metadata:
   aws-fsi-category: "Insurance"
   aws-fsi-skill-type: "Analysis and evaluation skills"
   aws-fsi-risk-tier: "R2"
   aws-fsi-archetype: "Analyze & review"
   aws-fsi-agent-pattern: "Interactive decision-support copilot"
-  aws-fsi-delivery-wave: "Wave 1 - stabilize existing"
+  aws-fsi-delivery-wave: "Insurance Phase 1"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
   aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (customer NPI/PII)"
-  aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
-  aws-fsi-owner: "Insurance underwriting & claims"
+  aws-fsi-jurisdictions: "Reviewed target-specific jurisdiction/product profiles required; fixture coverage is not global applicability"
+  aws-fsi-owner: "Insurance distribution and coverage review"
   aws-fsi-primary-user: "Policyholder / agent or broker"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-18"
 ---
 
 # Coverage Gap Analyzer
+
+## Implemented scope and evidence contract
+
+The implemented numeric rules are prospective P&C/property needs comparisons; replacement-value coinsurance is not health cost sharing, life-needs analysis, or a claim coverage decision. Preserve policy facts and stated needs separately. Missing schedules are unknown. An endorsement label does not automatically remove an exclusion: keep the exclusion match and request wording/applicability review. Shared document extraction must retain conditional wording and cited source excerpts.
+
+All output artifacts include the portable insurance evidence contract and source snapshot. Missing actor, versioned source, date or upstream context remains explicitly partial. Content hashes detect changes; they do not authenticate sources or grant approval. After authoring narrative, rebuild `artifact` with `build_artifact` from `scripts/insurance_contract.py` before running output validation. A common envelope does not replace the receiver's native input validator.
 
 ## Purpose and outcome
 Given a policyholder's **stated needs and exposures** and their **policy of record**,
@@ -59,8 +55,8 @@ advice remain with the licensed professional.
 - **Form/endorsement wording** vs. an approved/filed form (clause-level, R3) → `policy-wording-comparator`.
 - Comparing **priced quotes/options** across carriers → `premium-quote-comparator`.
 - **Renewal** term-change comparison and customer questions → `policy-renewal-reviewer`.
-- An **actual loss/claim** (readiness or a denial appeal) → `claim-readiness-checker` or
-  `claim-denial-appeal-helper`.
+- An **actual loss/claim** (readiness or a denial appeal) → `claim-intake-preparer` or
+  `health-benefit-appeal-packager`.
 
 ## Adjacent-skill handoffs
 See [references/handoffs.md](references/handoffs.md). This skill emits a gap analysis with a
@@ -154,3 +150,9 @@ policy; log the read and any external-delivery approval. Never exfiltrate custom
   not from guessing what "should" be adequate for this customer.
 - **No adequacy verdict and no purchase steer.** Report the measured gap factually; do not
   conclude the policy is sufficient/insufficient or recommend buying, dropping, or switching.
+
+## Evidence and handoff contract
+
+Read [the insurance evidence contract](references/insurance-contract.md) for source
+versioning, explicit unknowns, financial/date bases and receiver validation. A
+content hash is not source authentication, professional approval or execution authority.

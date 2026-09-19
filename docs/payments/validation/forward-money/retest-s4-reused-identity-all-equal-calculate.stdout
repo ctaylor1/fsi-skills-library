@@ -1,0 +1,664 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-transaction-reconciler",
+  "mode": "reconcile-transactions",
+  "input_hash": "788d8642bb7a92fd80d56068c66a5c08361d36a993e3586fd858a65547d1c544",
+  "source_snapshot": {
+    "as_of": "2026-09-17",
+    "config_version": "forward-v1",
+    "config": {
+      "amount_tolerance": "0.01",
+      "expected_sources": [
+        "bank",
+        "ledger",
+        "processor"
+      ]
+    },
+    "records": [
+      {
+        "record_id": "bank-SYNTH-TXN-001",
+        "txn_ref": "SYNTH-TXN-001",
+        "source": "bank",
+        "level": "transaction",
+        "date": "2026-09-16",
+        "amount": "100.00",
+        "currency": "USD",
+        "source_ref": "synthetic:bank:SYNTH-TXN-001",
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "settlement_cycle": "2026-09-16"
+      },
+      {
+        "record_id": "ledger-SYNTH-TXN-001",
+        "txn_ref": "SYNTH-TXN-001",
+        "source": "ledger",
+        "level": "transaction",
+        "date": "2026-09-16",
+        "amount": "100.00",
+        "currency": "USD",
+        "source_ref": "synthetic:ledger:SYNTH-TXN-001",
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "settlement_cycle": "2026-09-16"
+      },
+      {
+        "record_id": "processor-SYNTH-TXN-001",
+        "txn_ref": "SYNTH-TXN-001",
+        "source": "processor",
+        "level": "transaction",
+        "date": "2026-09-16",
+        "amount": "100.00",
+        "currency": "USD",
+        "source_ref": "synthetic:processor:SYNTH-TXN-001",
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "settlement_cycle": "2026-09-16"
+      },
+      {
+        "record_id": "bank-SYNTH-TXN-001",
+        "txn_ref": "SYNTH-TXN-002",
+        "source": "bank",
+        "level": "transaction",
+        "date": "2026-09-16",
+        "amount": "100.00",
+        "currency": "USD",
+        "source_ref": "synthetic:bank:SYNTH-TXN-001",
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "settlement_cycle": "2026-09-16"
+      },
+      {
+        "record_id": "ledger-SYNTH-TXN-001",
+        "txn_ref": "SYNTH-TXN-002",
+        "source": "ledger",
+        "level": "transaction",
+        "date": "2026-09-16",
+        "amount": "100.00",
+        "currency": "USD",
+        "source_ref": "synthetic:ledger:SYNTH-TXN-001",
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "settlement_cycle": "2026-09-16"
+      },
+      {
+        "record_id": "processor-SYNTH-TXN-001",
+        "txn_ref": "SYNTH-TXN-002",
+        "source": "processor",
+        "level": "transaction",
+        "date": "2026-09-16",
+        "amount": "100.00",
+        "currency": "USD",
+        "source_ref": "synthetic:processor:SYNTH-TXN-001",
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "settlement_cycle": "2026-09-16"
+      }
+    ]
+  },
+  "as_of": "2026-09-17",
+  "config_version": "forward-v1",
+  "amount_tolerance": "0.01",
+  "groups": [
+    {
+      "partition": {
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "currency": "USD",
+        "settlement_cycle": "2026-09-16"
+      },
+      "txn_ref": "SYNTH-TXN-001",
+      "level": "transaction",
+      "group_id": "43a9258d8c841d174ded6ece0a1288fc70ef418a8158a1918a5c7dedd0086754",
+      "status": "quarantined",
+      "source_amounts": {
+        "bank": null,
+        "ledger": null,
+        "processor": null
+      },
+      "comparisons": [],
+      "cash_ledger_check": {
+        "authority": "bank",
+        "ledger_minus_bank": null,
+        "status": "not_evaluable"
+      },
+      "issues": [
+        {
+          "type": "AMBIGUOUS_DUPLICATE",
+          "sources": [],
+          "record_ids": [],
+          "difference": null,
+          "reused_source_identities": [
+            {
+              "source": "bank",
+              "identity_field": "record_id",
+              "identity_value": "bank-SYNTH-TXN-001",
+              "source_namespace": [
+                "merchant-synthetic",
+                "****0101"
+              ],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "ledger",
+              "identity_field": "record_id",
+              "identity_value": "ledger-SYNTH-TXN-001",
+              "source_namespace": [
+                "merchant-synthetic",
+                "****0101"
+              ],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "processor",
+              "identity_field": "record_id",
+              "identity_value": "processor-SYNTH-TXN-001",
+              "source_namespace": [
+                "merchant-synthetic",
+                "****0101"
+              ],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "bank",
+              "identity_field": "source_ref",
+              "identity_value": "synthetic:bank:SYNTH-TXN-001",
+              "source_namespace": [],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "ledger",
+              "identity_field": "source_ref",
+              "identity_value": "synthetic:ledger:SYNTH-TXN-001",
+              "source_namespace": [],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "processor",
+              "identity_field": "source_ref",
+              "identity_value": "synthetic:processor:SYNTH-TXN-001",
+              "source_namespace": [],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            }
+          ],
+          "issue_id": "7c906ee27de996df931b026fef9d6b2339d2a344a4e1f58085b14abb3d962d5c"
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "bank-SYNTH-TXN-001",
+          "source": "bank",
+          "status": "supplied",
+          "source_ref": "bank:synthetic:bank:SYNTH-TXN-001@2026-09-16"
+        },
+        {
+          "evidence_id": "ledger-SYNTH-TXN-001",
+          "source": "ledger",
+          "status": "supplied",
+          "source_ref": "ledger:synthetic:ledger:SYNTH-TXN-001@2026-09-16"
+        },
+        {
+          "evidence_id": "processor-SYNTH-TXN-001",
+          "source": "processor",
+          "status": "supplied",
+          "source_ref": "processor:synthetic:processor:SYNTH-TXN-001@2026-09-16"
+        }
+      ]
+    },
+    {
+      "partition": {
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "currency": "USD",
+        "settlement_cycle": "2026-09-16"
+      },
+      "txn_ref": "SYNTH-TXN-002",
+      "level": "transaction",
+      "group_id": "659213355dfee940bff308a201ab4fe4384f93e9d17f111fbc7d46b3d230292a",
+      "status": "quarantined",
+      "source_amounts": {
+        "bank": null,
+        "ledger": null,
+        "processor": null
+      },
+      "comparisons": [],
+      "cash_ledger_check": {
+        "authority": "bank",
+        "ledger_minus_bank": null,
+        "status": "not_evaluable"
+      },
+      "issues": [
+        {
+          "type": "AMBIGUOUS_DUPLICATE",
+          "sources": [],
+          "record_ids": [],
+          "difference": null,
+          "reused_source_identities": [
+            {
+              "source": "bank",
+              "identity_field": "record_id",
+              "identity_value": "bank-SYNTH-TXN-001",
+              "source_namespace": [
+                "merchant-synthetic",
+                "****0101"
+              ],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "ledger",
+              "identity_field": "record_id",
+              "identity_value": "ledger-SYNTH-TXN-001",
+              "source_namespace": [
+                "merchant-synthetic",
+                "****0101"
+              ],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "processor",
+              "identity_field": "record_id",
+              "identity_value": "processor-SYNTH-TXN-001",
+              "source_namespace": [
+                "merchant-synthetic",
+                "****0101"
+              ],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "bank",
+              "identity_field": "source_ref",
+              "identity_value": "synthetic:bank:SYNTH-TXN-001",
+              "source_namespace": [],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "ledger",
+              "identity_field": "source_ref",
+              "identity_value": "synthetic:ledger:SYNTH-TXN-001",
+              "source_namespace": [],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            },
+            {
+              "source": "processor",
+              "identity_field": "source_ref",
+              "identity_value": "synthetic:processor:SYNTH-TXN-001",
+              "source_namespace": [],
+              "references": [
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-001"
+                },
+                {
+                  "partition": {
+                    "legal_entity_id": "merchant-synthetic",
+                    "account_id": "****0101",
+                    "currency": "USD",
+                    "settlement_cycle": "2026-09-16"
+                  },
+                  "level": "transaction",
+                  "txn_ref": "SYNTH-TXN-002"
+                }
+              ]
+            }
+          ],
+          "issue_id": "cba87eced7f615e2e5c640fc410dded42b2d4d42e06e750d93b57df5d13ce2e7"
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "bank-SYNTH-TXN-001",
+          "source": "bank",
+          "status": "supplied",
+          "source_ref": "bank:synthetic:bank:SYNTH-TXN-001@2026-09-16"
+        },
+        {
+          "evidence_id": "ledger-SYNTH-TXN-001",
+          "source": "ledger",
+          "status": "supplied",
+          "source_ref": "ledger:synthetic:ledger:SYNTH-TXN-001@2026-09-16"
+        },
+        {
+          "evidence_id": "processor-SYNTH-TXN-001",
+          "source": "processor",
+          "status": "supplied",
+          "source_ref": "processor:synthetic:processor:SYNTH-TXN-001@2026-09-16"
+        }
+      ]
+    }
+  ],
+  "partition_totals": [
+    {
+      "partition": {
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "currency": "USD",
+        "settlement_cycle": "2026-09-16"
+      },
+      "source_totals": {
+        "bank": {
+          "total": null,
+          "known_subtotal": null,
+          "known_groups": 0,
+          "missing_or_quarantined_groups": 2
+        },
+        "ledger": {
+          "total": null,
+          "known_subtotal": null,
+          "known_groups": 0,
+          "missing_or_quarantined_groups": 2
+        },
+        "processor": {
+          "total": null,
+          "known_subtotal": null,
+          "known_groups": 0,
+          "missing_or_quarantined_groups": 2
+        }
+      }
+    }
+  ],
+  "routed_groups": [],
+  "investigation_handoffs": [
+    {
+      "contract_version": "1.0.0",
+      "handoff_id": "6a915162736161766051f63a97c34e65e8d1c90ce393a597de97c5a29a9422ce",
+      "source_skill": "payment-transaction-reconciler",
+      "target_skill": "bank-payment-exception-investigator",
+      "case_id": "caea1d5d033145db349a818f1f2525d3aa8b4eb79e1b4f7bf899484a7a66b543",
+      "lead_owner": "payments-operations",
+      "requested_output": "Investigate source evidence; no accounting instruction",
+      "action_mode": "read-only",
+      "source_refs": [
+        "bank:synthetic:bank:SYNTH-TXN-001@2026-09-16",
+        "ledger:synthetic:ledger:SYNTH-TXN-001@2026-09-16",
+        "processor:synthetic:processor:SYNTH-TXN-001@2026-09-16"
+      ],
+      "unresolved_issues": [
+        "7c906ee27de996df931b026fef9d6b2339d2a344a4e1f58085b14abb3d962d5c"
+      ],
+      "target_input": {
+        "partition": {
+          "legal_entity_id": "merchant-synthetic",
+          "account_id": "****0101",
+          "currency": "USD",
+          "settlement_cycle": "2026-09-16"
+        },
+        "txn_ref": "SYNTH-TXN-001"
+      },
+      "target_validation": "required",
+      "authority_granted": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "handoff_id": "2f8c4b04b88d9432274fcd5be510a31d352962fbb6dab96492b2bb35d2700589",
+      "source_skill": "payment-transaction-reconciler",
+      "target_skill": "bank-payment-exception-investigator",
+      "case_id": "bad1bd72a927c8ce52113e777a7189139bedaea641cbb16a4eb3095fb25bb955",
+      "lead_owner": "payments-operations",
+      "requested_output": "Investigate source evidence; no accounting instruction",
+      "action_mode": "read-only",
+      "source_refs": [
+        "bank:synthetic:bank:SYNTH-TXN-001@2026-09-16",
+        "ledger:synthetic:ledger:SYNTH-TXN-001@2026-09-16",
+        "processor:synthetic:processor:SYNTH-TXN-001@2026-09-16"
+      ],
+      "unresolved_issues": [
+        "cba87eced7f615e2e5c640fc410dded42b2d4d42e06e750d93b57df5d13ce2e7"
+      ],
+      "target_input": {
+        "partition": {
+          "legal_entity_id": "merchant-synthetic",
+          "account_id": "****0101",
+          "currency": "USD",
+          "settlement_cycle": "2026-09-16"
+        },
+        "txn_ref": "SYNTH-TXN-002"
+      },
+      "target_validation": "required",
+      "authority_granted": false
+    }
+  ],
+  "summary": {
+    "group_count": 2,
+    "issue_count": 2,
+    "routed_count": 0,
+    "fully_evaluated_and_matched": false
+  },
+  "warnings": [],
+  "disclaimer": "Read-only evidence comparison; no journal, payment repair, or system-of-record change is proposed or executed."
+}

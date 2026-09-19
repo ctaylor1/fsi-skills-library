@@ -1,0 +1,451 @@
+{
+  "schema_version": "1.0",
+  "skill": "cross-border-payment-designer",
+  "request_id": "phase4-synthetic-corridor",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "payment-design-owner",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "phase4-synthetic-corridor",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "payment-design-owner",
+    "sources": [
+      {
+        "source_id": "case",
+        "reference": "synthetic://reviewed-case-snapshot-v1",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "use_case": "consumer-remittance",
+      "principal": "1000",
+      "evaluate_at": "2026-09-18T14:00:00Z",
+      "accountable_reviewer": "named-corridor-owner",
+      "payer": {
+        "entity_id": "us-sender",
+        "account_ref": "sender-usd",
+        "jurisdiction": "US",
+        "currency": "USD"
+      },
+      "payee": {
+        "entity_id": "br-beneficiary",
+        "account_ref": "beneficiary-brl",
+        "jurisdiction": "BR",
+        "currency": "BRL"
+      },
+      "options": [
+        {
+          "option_id": "us-br-pix",
+          "charge_convention": "SHA",
+          "charge_convention_review_ref": "contract-SHA-review",
+          "fees_complete": true,
+          "expected_delivery_review_ref": "delivery-window-case-review",
+          "fx_quote": {
+            "base_currency": "USD",
+            "quote_currency": "BRL",
+            "rate": "5",
+            "quoted_at": "2026-09-18T12:00:00Z",
+            "expires_at": "2026-09-18T15:00:00Z",
+            "kind": "firm",
+            "quote_ref": "case-firm-fx-1"
+          },
+          "fees": [
+            {
+              "fee_id": "sender",
+              "kind": "fee",
+              "charging_entity": "us-provider",
+              "jurisdiction": "US",
+              "currency": "USD",
+              "amount": "10",
+              "side": "payer-addition"
+            },
+            {
+              "fee_id": "payout",
+              "kind": "fee",
+              "charging_entity": "br-provider",
+              "jurisdiction": "BR",
+              "currency": "BRL",
+              "amount": "5",
+              "side": "recipient-deduction"
+            }
+          ],
+          "legs": [
+            {
+              "leg_id": "collection",
+              "economic_id": "economic-collection",
+              "purpose": "customer-collection",
+              "from_entity": "us-sender",
+              "from_account_ref": "sender-usd",
+              "to_entity": "us-provider",
+              "to_account_ref": "collection-usd",
+              "jurisdiction": "US",
+              "currency": "USD",
+              "amount": "1010",
+              "method": "supplied-bank-collection",
+              "obligation_ref": "obligation-review-collection",
+              "access_review_ref": "access-collection",
+              "funding_review_ref": "funding-collection",
+              "timing_review_ref": "timing-collection",
+              "source_ids": [
+                "case"
+              ]
+            },
+            {
+              "leg_id": "correspondent",
+              "economic_id": "economic-correspondent",
+              "purpose": "correspondent-delivery",
+              "from_entity": "us-provider",
+              "from_account_ref": "nostro-usd",
+              "to_entity": "br-provider",
+              "to_account_ref": "correspondent-usd",
+              "jurisdiction": "US",
+              "currency": "USD",
+              "amount": "1000",
+              "method": "supplied-correspondent",
+              "obligation_ref": "obligation-review-correspondent",
+              "access_review_ref": "access-correspondent",
+              "funding_review_ref": "funding-correspondent",
+              "timing_review_ref": "timing-correspondent",
+              "source_ids": [
+                "case"
+              ],
+              "previous_leg_id": "collection",
+              "account_transition_review_ref": "review-us-collection-to-nostro"
+            },
+            {
+              "leg_id": "funding",
+              "economic_id": "economic-funding",
+              "purpose": "nostro-funding",
+              "from_entity": "us-provider",
+              "from_account_ref": "funding-usd",
+              "to_entity": "br-provider",
+              "to_account_ref": "liquidity-brl",
+              "jurisdiction": "BR",
+              "currency": "BRL",
+              "amount": "5000",
+              "method": "supplied-fx-funding",
+              "obligation_ref": "obligation-review-funding",
+              "access_review_ref": "access-funding",
+              "funding_review_ref": "funding-funding",
+              "timing_review_ref": "timing-funding",
+              "source_ids": [
+                "case"
+              ]
+            },
+            {
+              "leg_id": "payout",
+              "economic_id": "economic-payout",
+              "purpose": "local-payout",
+              "from_entity": "br-provider",
+              "from_account_ref": "liquidity-brl",
+              "to_entity": "br-beneficiary",
+              "to_account_ref": "beneficiary-brl",
+              "jurisdiction": "BR",
+              "currency": "BRL",
+              "amount": "4995",
+              "method": "BR-PIX",
+              "obligation_ref": "obligation-review-payout",
+              "access_review_ref": "access-payout",
+              "funding_review_ref": "funding-payout",
+              "timing_review_ref": "timing-payout",
+              "source_ids": [
+                "case"
+              ],
+              "previous_leg_id": "correspondent",
+              "account_transition_review_ref": "review-br-correspondent-to-payout"
+            }
+          ],
+          "regulatory_reviews": [
+            {
+              "jurisdiction": "US",
+              "use_case": "consumer-remittance",
+              "reviewer": "named-local-reviewer-US",
+              "reference": "institution-review-US",
+              "rule_version": "institution-reviewed-2026-09",
+              "activity_scope_ref": "provider-role-scope-US",
+              "entity_ids": [
+                "us-sender",
+                "br-beneficiary",
+                "us-provider",
+                "br-provider"
+              ],
+              "valid_from": "2026-09-18T00:00:00Z",
+              "valid_until": "2026-09-19T00:00:00Z"
+            },
+            {
+              "jurisdiction": "BR",
+              "use_case": "consumer-remittance",
+              "reviewer": "named-local-reviewer-BR",
+              "reference": "institution-review-BR",
+              "rule_version": "institution-reviewed-2026-09",
+              "activity_scope_ref": "provider-role-scope-BR",
+              "entity_ids": [
+                "us-sender",
+                "br-beneficiary",
+                "us-provider",
+                "br-provider"
+              ],
+              "valid_from": "2026-09-18T00:00:00Z",
+              "valid_until": "2026-09-19T00:00:00Z"
+            }
+          ],
+          "sanctions_review": {
+            "entity_ids": [
+              "us-sender",
+              "br-beneficiary",
+              "us-provider",
+              "br-provider"
+            ],
+            "jurisdictions": [
+              "US",
+              "BR"
+            ],
+            "reference": "full-scope-screening-case",
+            "reviewer": "named-screening-reviewer",
+            "policy_version": "case-policy-v1",
+            "valid_from": "2026-09-18T00:00:00Z",
+            "valid_until": "2026-09-19T00:00:00Z"
+          },
+          "source_ids": [
+            "case"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "fec9f399d5c40432220d5802e7a3e440041cd07f33f2b3a79a7a5341890baf59",
+  "findings": [],
+  "result": {
+    "module": "corridor-design",
+    "use_case": "consumer-remittance",
+    "payer": {
+      "entity_id": "us-sender",
+      "account_ref": "sender-usd",
+      "jurisdiction": "US",
+      "currency": "USD"
+    },
+    "payee": {
+      "entity_id": "br-beneficiary",
+      "account_ref": "beneficiary-brl",
+      "jurisdiction": "BR",
+      "currency": "BRL"
+    },
+    "accountable_reviewer": "named-corridor-owner",
+    "options": [
+      {
+        "option_id": "us-br-pix",
+        "payer_total_debit": {
+          "amount": "1010",
+          "currency": "USD"
+        },
+        "recipient_expected_receipt": {
+          "amount": "4995",
+          "currency": "BRL"
+        },
+        "fx_quote": {
+          "base_currency": "USD",
+          "quote_currency": "BRL",
+          "rate": "5",
+          "quoted_at": "2026-09-18T12:00:00Z",
+          "expires_at": "2026-09-18T15:00:00Z",
+          "kind": "firm",
+          "quote_ref": "case-firm-fx-1"
+        },
+        "applied_recipient_units_per_payer_unit": "5",
+        "fees": [
+          {
+            "fee_id": "sender",
+            "kind": "fee",
+            "charging_entity": "us-provider",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "amount": "10",
+            "side": "payer-addition"
+          },
+          {
+            "fee_id": "payout",
+            "kind": "fee",
+            "charging_entity": "br-provider",
+            "jurisdiction": "BR",
+            "currency": "BRL",
+            "amount": "5",
+            "side": "recipient-deduction"
+          }
+        ],
+        "charge_convention": "SHA",
+        "customer_delivery_legs": [
+          {
+            "leg_id": "collection",
+            "economic_id": "economic-collection",
+            "purpose": "customer-collection",
+            "from_entity": "us-sender",
+            "from_account_ref": "sender-usd",
+            "to_entity": "us-provider",
+            "to_account_ref": "collection-usd",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "amount": "1010",
+            "method": "supplied-bank-collection",
+            "obligation_ref": "obligation-review-collection",
+            "access_review_ref": "access-collection",
+            "funding_review_ref": "funding-collection",
+            "timing_review_ref": "timing-collection",
+            "source_ids": [
+              "case"
+            ]
+          },
+          {
+            "leg_id": "correspondent",
+            "economic_id": "economic-correspondent",
+            "purpose": "correspondent-delivery",
+            "from_entity": "us-provider",
+            "from_account_ref": "nostro-usd",
+            "to_entity": "br-provider",
+            "to_account_ref": "correspondent-usd",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "amount": "1000",
+            "method": "supplied-correspondent",
+            "obligation_ref": "obligation-review-correspondent",
+            "access_review_ref": "access-correspondent",
+            "funding_review_ref": "funding-correspondent",
+            "timing_review_ref": "timing-correspondent",
+            "source_ids": [
+              "case"
+            ],
+            "previous_leg_id": "collection",
+            "account_transition_review_ref": "review-us-collection-to-nostro"
+          },
+          {
+            "leg_id": "payout",
+            "economic_id": "economic-payout",
+            "purpose": "local-payout",
+            "from_entity": "br-provider",
+            "from_account_ref": "liquidity-brl",
+            "to_entity": "br-beneficiary",
+            "to_account_ref": "beneficiary-brl",
+            "jurisdiction": "BR",
+            "currency": "BRL",
+            "amount": "4995",
+            "method": "BR-PIX",
+            "obligation_ref": "obligation-review-payout",
+            "access_review_ref": "access-payout",
+            "funding_review_ref": "funding-payout",
+            "timing_review_ref": "timing-payout",
+            "source_ids": [
+              "case"
+            ],
+            "previous_leg_id": "correspondent",
+            "account_transition_review_ref": "review-br-correspondent-to-payout"
+          }
+        ],
+        "intermediary_reconciliation": [
+          {
+            "leg_id": "correspondent",
+            "currency": "USD",
+            "expected_transfer_principal": "1000",
+            "declared_amount": "1000",
+            "difference": "0"
+          }
+        ],
+        "separate_nostro_funding_obligations": [
+          {
+            "leg_id": "funding",
+            "economic_id": "economic-funding",
+            "purpose": "nostro-funding",
+            "from_entity": "us-provider",
+            "from_account_ref": "funding-usd",
+            "to_entity": "br-provider",
+            "to_account_ref": "liquidity-brl",
+            "jurisdiction": "BR",
+            "currency": "BRL",
+            "amount": "5000",
+            "method": "supplied-fx-funding",
+            "obligation_ref": "obligation-review-funding",
+            "access_review_ref": "access-funding",
+            "funding_review_ref": "funding-funding",
+            "timing_review_ref": "timing-funding",
+            "source_ids": [
+              "case"
+            ]
+          }
+        ],
+        "comparison_ready": true,
+        "gaps": [],
+        "source_ids": [
+          "case"
+        ],
+        "compliance_determined": false,
+        "receipt_guaranteed": false
+      }
+    ],
+    "unlike_currency_totals_aggregated": false,
+    "selection_made": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-liquidity-and-funding-analyzer",
+      "reason": "Analyze each corridor funding obligation in the native corridor module by legal entity, account, currency and time; quoted FX does not create liquidity.",
+      "required_inputs": [
+        "corridor native accounts, obligations and separately evidenced funding events",
+        "source snapshot",
+        "unresolved corridor issues"
+      ],
+      "handoff_id": "57c2f83a4106b4f0c119f31ebf17adf2c66dcfb3f91e2380b4bd9041c08bfbf1",
+      "contract_version": "1.0.0",
+      "source_skill": "cross-border-payment-designer",
+      "case_id": "phase4-synthetic-corridor",
+      "lead_owner": "payment-design-owner",
+      "requested_output": "Analyze each corridor funding obligation in the native corridor module by legal entity, account, currency and time; quoted FX does not create liquidity.",
+      "source_refs": [
+        "synthetic://reviewed-case-snapshot-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Prepare separate exact instructions only under a supported native jurisdiction adapter; retain unsupported regional and legal gaps.",
+      "required_inputs": [
+        "one exact instruction per economically distinct leg",
+        "access, consent and scoped legal/screening reviews",
+        "unresolved corridor findings"
+      ],
+      "handoff_id": "f4e6fae6e094e275d4990943bb2644f9a153026138033dc542770165132bac67",
+      "contract_version": "1.0.0",
+      "source_skill": "cross-border-payment-designer",
+      "case_id": "phase4-synthetic-corridor",
+      "lead_owner": "payment-design-owner",
+      "requested_output": "Prepare separate exact instructions only under a supported native jurisdiction adapter; retain unsupported regional and legal gaps.",
+      "source_refs": [
+        "synthetic://reviewed-case-snapshot-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Planning arithmetic is unrounded decimal scenario output, not a legally compliant customer disclosure, quote guarantee or payment instruction.",
+    "Only USD/US, EUR/euro-area, GBP/UK, BRL/Brazil, INR/India and CAD/Canada source-oriented corridors are modeled; intermediary access is always supplied evidence.",
+    "OUR/SHA/BEN are supplied contractual charging conventions and never establish which option a scheme permits or the amount actually delivered.",
+    "Normalized leg obligations do not implement SWIFT MT/ISO messages, funds-transfer execution, sanctions screening or local regulatory determination."
+  ]
+}

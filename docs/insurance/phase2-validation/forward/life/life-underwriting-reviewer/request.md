@@ -1,0 +1,1 @@
+I am the carrier's life underwriting case manager for synthetic applicant SYN-A71. Please reconcile the pending requirements for application APP-71, show the financial coverage multiple and identify the evidence and specialist follow-up still needed. Do not assign a risk class.

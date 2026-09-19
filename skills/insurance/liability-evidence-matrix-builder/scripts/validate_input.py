@@ -7,12 +7,15 @@ evidence[{evidence_id,type,source_ref,supports[],contradicts[]}].
 Usage: python validate_input.py claim.json | --selftest
 Exit 0 if no errors (warnings allowed), 1 otherwise.
 """
+
 from __future__ import annotations
-import json, sys
+
+import json
+import sys
 from pathlib import Path
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in ("claim", "facts", "evidence"):
         if k not in doc:
@@ -29,7 +32,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
             if f.get("fact_id") in (None, ""):
                 errors.append(f"facts[{i}]: missing 'fact_id'")
             if not (f.get("statement") or "").strip():
-                warnings.append(f"facts[{i}] ({f.get('fact_id','?')}): empty statement")
+                warnings.append(f"facts[{i}] ({f.get('fact_id', '?')}): empty statement")
     ev = doc.get("evidence")
     if not isinstance(ev, list):
         errors.append("evidence must be a list")
@@ -38,10 +41,20 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         if e.get("evidence_id") in (None, ""):
             errors.append(f"evidence[{i}]: missing 'evidence_id'")
         if not (e.get("source_ref") or "").strip():
-            warnings.append(f"evidence[{i}] ({e.get('evidence_id','?')}): missing source_ref")
+            warnings.append(f"evidence[{i}] ({e.get('evidence_id', '?')}): missing source_ref")
         for key in ("supports", "contradicts"):
             if key in e and not isinstance(e.get(key), list):
                 errors.append(f"evidence[{i}]: '{key}' must be a list of fact_ids")
+    return errors, warnings
+
+
+def validate(doc: dict) -> tuple[list[str], list[str]]:
+    if not isinstance(doc, dict):
+        return ["input must be an object"], []
+    try:
+        errors, warnings = _validate(doc)
+    except (KeyError, TypeError, ValueError, AttributeError, OverflowError) as exc:
+        return ["malformed input: " + str(exc)], []
     return errors, warnings
 
 

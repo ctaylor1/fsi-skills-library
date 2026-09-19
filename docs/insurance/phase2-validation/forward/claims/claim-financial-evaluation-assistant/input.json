@@ -1,0 +1,92 @@
+{
+  "case_id": "FWD-claim-financial-evaluation-assistant",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "internal insurer analyst preparing draft for authorized reviewer",
+    "represented_party": "Fictional Harbor Mutual Insurance",
+    "object_id": "CLM-WATER-731",
+    "jurisdiction": "US-NY",
+    "line_of_business": "commercial_property"
+  },
+  "sources": [
+    {
+      "source_ref": "LEDGER",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "path": "/tmp/insurance-p2-forward-claims/claim-financial-evaluation-assistant/raw_sources/LEDGER.md",
+      "sha256": "1d78cb6582d2a3f5620350f05dceb2335273331c834eb884cfd48f3decc6929d"
+    },
+    {
+      "source_ref": "ESTIMATE",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "path": "/tmp/insurance-p2-forward-claims/claim-financial-evaluation-assistant/raw_sources/ESTIMATE.md",
+      "sha256": "5d46cd318759ee7657c9958c54b7738d0ac489116bf17278ecc09a9101b26388"
+    },
+    {
+      "source_ref": "REVIEW-PROFILE",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "path": "/tmp/insurance-p2-forward-claims/claim-financial-evaluation-assistant/raw_sources/REVIEW-PROFILE.md",
+      "sha256": "5fcbbfc298178f79579c4b519198b580c6980579560848892cb69dd0ad2da4aa"
+    }
+  ],
+  "unresolved_issues": [],
+  "rule_profile": {
+    "profile_id": "SYNTHETIC-REVIEW-claim-financial-evaluation-assistant",
+    "version": "1",
+    "source_refs": [
+      "REVIEW-PROFILE"
+    ],
+    "effective_from": "2026-01-01",
+    "effective_to": "2026-12-31",
+    "jurisdictions": [
+      "US-NY"
+    ],
+    "lines_of_business": [
+      "commercial_property"
+    ]
+  },
+  "data": {
+    "position": {
+      "currency": "USD",
+      "valuation_date": "2026-09-17",
+      "basis": "gross_direct",
+      "paid_indemnity": "18450.75",
+      "paid_expense": "2175.25",
+      "case_outstanding_indemnity": "41800.00",
+      "case_outstanding_expense": "6400.00",
+      "source_refs": [
+        "LEDGER"
+      ]
+    },
+    "scenarios": [
+      {
+        "scenario_id": "REPAIR",
+        "currency": "USD",
+        "basis": "additional_unpaid",
+        "future_indemnity": "36920.50",
+        "future_expense": "5150.00",
+        "expected_recovery": "4500.00",
+        "recovery_basis": "separate_not_offset",
+        "assumption": "Insured accepts repair scope; expenses outside indemnity scope.",
+        "source_refs": [
+          "ESTIMATE"
+        ]
+      },
+      {
+        "scenario_id": "CONTESTED",
+        "currency": "USD",
+        "basis": "additional_unpaid",
+        "future_indemnity": "52600.00",
+        "future_expense": "11200.00",
+        "expected_recovery": null,
+        "recovery_basis": "separate_not_offset",
+        "assumption": "Concealed damage accepted following expert inspection with further expert/legal expense.",
+        "source_refs": [
+          "ESTIMATE"
+        ]
+      }
+    ]
+  }
+}

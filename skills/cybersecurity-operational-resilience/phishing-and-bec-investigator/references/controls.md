@@ -39,7 +39,7 @@
 Investigation (this skill) is distinct from triage (`security-alert-triage-assistant`),
 from executing containment (`cyber-incident-response-coordinator`), from access remediation
 (`identity-access-reviewer`), and from payment-fraud recovery
-(`payment-fraud-case-investigator`). The recommender must not also be the approver/executor.
+(`payment-fraud-and-scam-investigator`). The recommender must not also be the approver/executor.
 
 ## Data classification, privacy, records
 

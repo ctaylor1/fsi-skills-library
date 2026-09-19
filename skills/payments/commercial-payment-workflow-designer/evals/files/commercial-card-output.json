@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0",
+  "skill": "commercial-payment-workflow-designer",
+  "request_id": "synthetic-phase4-program",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "program-design-owner",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-phase4-program",
+    "as_of": "2026-09-18",
+    "jurisdiction": "UK",
+    "participant": "program-design-owner",
+    "sources": [
+      {
+        "source_id": "evidence",
+        "reference": "synthetic://reviewed-ledger-and-contract-pack",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "program_type": "virtual",
+      "history_complete": true,
+      "buyer_entity_id": "buyer",
+      "issuer_ref": "issuer-contract-ref",
+      "program_contract_ref": "corporate-agreement-ref",
+      "provider_control_review_ref": "native-provider-controls-review",
+      "credentials": [
+        {
+          "credential_id": "limited-credential",
+          "owner_entity_id": "buyer",
+          "supplier_ref": "supplier-A",
+          "currency": "GBP",
+          "valid_from": "2026-09-01T00:00:00Z",
+          "valid_until": "2026-10-01T00:00:00Z",
+          "usage_mode": "limited",
+          "max_uses": 4,
+          "transaction_limit": "500",
+          "total_limit": "1000",
+          "allowed_mccs": [
+            "5045"
+          ],
+          "provider_enforcement_ref": "issuer-controls-evidence",
+          "source_ids": [
+            "evidence"
+          ]
+        }
+      ],
+      "invoices": [
+        {
+          "invoice_id": "invoice-1",
+          "invoice_identity_ref": "buyer-supplierA-invoice-1",
+          "buyer_entity_id": "buyer",
+          "supplier_ref": "supplier-A",
+          "currency": "GBP",
+          "remittance_ref": "remit-invoice-1",
+          "open_amount": "1000",
+          "source_ids": [
+            "evidence"
+          ]
+        }
+      ],
+      "attempts": [
+        {
+          "payment_id": "paid-1",
+          "economic_id": "economic-paid-1",
+          "credential_id": "limited-credential",
+          "invoice_id": "invoice-1",
+          "supplier_ref": "supplier-A",
+          "currency": "GBP",
+          "mcc": "5045",
+          "occurred_at": "2026-09-17T10:00:00Z",
+          "state": "settled",
+          "remittance_ref": "remit-invoice-1",
+          "amount": "300",
+          "settlement_ref": "settlement-evidence-1",
+          "purchase_order_ref": "po-1",
+          "source_ids": [
+            "evidence"
+          ]
+        },
+        {
+          "payment_id": "hold-1",
+          "economic_id": "economic-hold-1",
+          "credential_id": "limited-credential",
+          "invoice_id": "invoice-1",
+          "supplier_ref": "supplier-A",
+          "currency": "GBP",
+          "mcc": "5045",
+          "occurred_at": "2026-09-18T10:00:00Z",
+          "state": "authorization-held",
+          "remittance_ref": "remit-invoice-1",
+          "amount": "200",
+          "purchase_order_ref": "po-1",
+          "source_ids": [
+            "evidence"
+          ]
+        },
+        {
+          "payment_id": "proposed-1",
+          "economic_id": "economic-proposed-1",
+          "credential_id": "limited-credential",
+          "invoice_id": "invoice-1",
+          "supplier_ref": "supplier-A",
+          "currency": "GBP",
+          "mcc": "5045",
+          "occurred_at": "2026-09-18T12:00:00Z",
+          "state": "proposed",
+          "remittance_ref": "remit-invoice-1",
+          "amount": "400",
+          "purchase_order_ref": "po-1",
+          "source_ids": [
+            "evidence"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "d830ee451aa9ca64ab06931a2a6de1298c4ef5747ee82c5465790aee0c0495ba",
+  "findings": [],
+  "result": {
+    "mode": "commercial-card",
+    "program_type": "virtual",
+    "attempt_reviews": [
+      {
+        "payment_id": "paid-1",
+        "state": "settled",
+        "local_binding": "matches-supplied-controls",
+        "payment_authorized": false,
+        "counts_as_settled_payment": true
+      },
+      {
+        "payment_id": "hold-1",
+        "state": "authorization-held",
+        "local_binding": "matches-supplied-controls",
+        "payment_authorized": false,
+        "counts_as_settled_payment": false
+      },
+      {
+        "payment_id": "proposed-1",
+        "state": "proposed",
+        "local_binding": "matches-supplied-controls",
+        "payment_authorized": false,
+        "counts_as_settled_payment": false
+      }
+    ],
+    "credential_budgets": [
+      {
+        "credential_id": "limited-credential",
+        "observed_and_proposed_uses": 3,
+        "maximum_uses": 4,
+        "committed_or_held": "500",
+        "proposed": "400",
+        "remaining_before_proposed": "500"
+      }
+    ],
+    "invoice_positions": [
+      {
+        "invoice_id": "invoice-1",
+        "supplier_ref": "supplier-A",
+        "currency": "GBP",
+        "settled_paid": "300",
+        "held_or_pending_not_paid": "200",
+        "uncommitted_before_proposed": "500"
+      }
+    ],
+    "credential_issued": false,
+    "payment_submitted": false,
+    "credit_or_rewards_decision": "not-performed"
+  },
+  "handoffs": [
+    {
+      "target_skill": "card-program-designer",
+      "reason": "Review issuer, sponsor, commercial product and liability arrangement.",
+      "required_inputs": [
+        "program contract",
+        "buyer and issuer roles",
+        "controls evidence"
+      ],
+      "handoff_id": "038168c9b6bed77e67cf17ce7cc50e0c690707cb442ed789e666296dfeeee522",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "synthetic-phase4-program",
+      "lead_owner": "program-design-owner",
+      "requested_output": "Review issuer, sponsor, commercial product and liability arrangement.",
+      "source_refs": [
+        "synthetic://reviewed-ledger-and-contract-pack"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-credential-authentication-reviewer",
+      "reason": "Review opaque credential lifecycle, authentication and payment intent.",
+      "required_inputs": [
+        "credential references",
+        "supplier and scope",
+        "intent"
+      ],
+      "handoff_id": "e4993b178b5baa381d11230876171548b406f713225eaca52de2638727822dad",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "synthetic-phase4-program",
+      "lead_owner": "program-design-owner",
+      "requested_output": "Review opaque credential lifecycle, authentication and payment intent.",
+      "source_refs": [
+        "synthetic://reviewed-ledger-and-contract-pack"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Validate any exact eventual supplier instruction separately.",
+      "required_inputs": [
+        "invoice and remittance",
+        "amount and supplier",
+        "authority",
+        "held and unknown outcomes"
+      ],
+      "handoff_id": "aca56e4305e265542f270b7054089a52af2746c614e48c9e37f87b512d92c8d3",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "synthetic-phase4-program",
+      "lead_owner": "program-design-owner",
+      "requested_output": "Validate any exact eventual supplier instruction separately.",
+      "source_refs": [
+        "synthetic://reviewed-ledger-and-contract-pack"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

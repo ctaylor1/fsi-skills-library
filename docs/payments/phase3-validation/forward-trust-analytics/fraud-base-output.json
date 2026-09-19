@@ -1,0 +1,773 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-fraud-control-evaluator",
+  "request_id": "fraud-fresh",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "independent-payment-team",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "fraud-fresh",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "independent-payment-team",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "extract",
+        "reference": "synthetic://independent-raw-source/fraud-fresh",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-15"
+      },
+      {
+        "source_id": "policy",
+        "reference": "synthetic://independent-reviewed-policy/fraud-fresh",
+        "as_of": "2026-09-17",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "mode": "portfolio",
+      "rules": [
+        {
+          "rule_id": "risk",
+          "version": "reviewed-v1",
+          "field": "risk",
+          "op": ">=",
+          "threshold": "7",
+          "action": "block",
+          "source_ids": [
+            "policy"
+          ]
+        },
+        {
+          "rule_id": "velocity",
+          "version": "candidate-v2",
+          "field": "velocity",
+          "op": ">=",
+          "threshold": "7",
+          "action": "review",
+          "source_ids": [
+            "policy"
+          ]
+        }
+      ],
+      "portfolios": {
+        "baseline": [
+          "risk"
+        ],
+        "proposed": [
+          "risk",
+          "velocity"
+        ]
+      },
+      "transactions": [
+        {
+          "transaction_id": "f1",
+          "currency": "USD",
+          "amount": "100",
+          "occurred_on": "2026-08-01",
+          "features_observed_on": "2026-08-01",
+          "features": {
+            "risk": 9,
+            "velocity": 9
+          },
+          "label": "fraud",
+          "label_observed_on": "2026-09-10",
+          "maturity_due": "2026-09-01",
+          "observed_net_fraud_loss": "80",
+          "source_ids": [
+            "extract"
+          ]
+        },
+        {
+          "transaction_id": "l1",
+          "currency": "USD",
+          "amount": "100",
+          "occurred_on": "2026-08-02",
+          "features_observed_on": "2026-08-02",
+          "features": {
+            "risk": 3,
+            "velocity": 9
+          },
+          "label": "legit",
+          "label_observed_on": "2026-09-15",
+          "maturity_due": "2026-09-01",
+          "observed_net_fraud_loss": "0",
+          "source_ids": [
+            "extract"
+          ]
+        },
+        {
+          "transaction_id": "p1",
+          "currency": "USD",
+          "amount": "100",
+          "occurred_on": "2026-09-16",
+          "features_observed_on": "2026-09-16",
+          "features": {
+            "risk": 9,
+            "velocity": 9
+          },
+          "label": "pending",
+          "label_observed_on": "2026-09-18",
+          "maturity_due": "2026-10-16",
+          "observed_net_fraud_loss": null,
+          "source_ids": [
+            "extract"
+          ]
+        },
+        {
+          "transaction_id": "m1",
+          "currency": "USD",
+          "amount": "100",
+          "occurred_on": "2026-08-02",
+          "features_observed_on": "2026-08-02",
+          "features": {
+            "risk": null,
+            "velocity": 1
+          },
+          "label": "legit",
+          "label_observed_on": "2026-09-15",
+          "maturity_due": "2026-09-01",
+          "observed_net_fraud_loss": "0",
+          "source_ids": [
+            "extract"
+          ]
+        },
+        {
+          "transaction_id": "g1",
+          "currency": "GBP",
+          "amount": "100",
+          "occurred_on": "2026-08-02",
+          "features_observed_on": "2026-08-02",
+          "features": {
+            "risk": 8,
+            "velocity": 2
+          },
+          "label": "fraud",
+          "label_observed_on": "2026-09-15",
+          "maturity_due": "2026-09-01",
+          "observed_net_fraud_loss": "20",
+          "source_ids": [
+            "extract"
+          ]
+        },
+        {
+          "transaction_id": "g2",
+          "currency": "GBP",
+          "amount": "100",
+          "occurred_on": "2026-08-02",
+          "features_observed_on": "2026-08-02",
+          "features": {
+            "risk": 1,
+            "velocity": 9
+          },
+          "label": "legit",
+          "label_observed_on": "2026-09-15",
+          "maturity_due": "2026-09-01",
+          "observed_net_fraud_loss": "0",
+          "source_ids": [
+            "extract"
+          ]
+        }
+      ],
+      "sample_source_ids": [
+        "extract"
+      ],
+      "maturity_policy_source_ids": [
+        "policy"
+      ],
+      "risk_appetite": {
+        "owner": "payments-fraud",
+        "rationale": "Capacity and customer service tolerance for bounded pilot",
+        "max_review_rate": "0.3",
+        "max_legitimate_block_rate": "0.05",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      "friction_costs": [
+        {
+          "currency": "USD",
+          "per_review": "5",
+          "per_legitimate_block": "25",
+          "source_ids": [
+            "policy"
+          ]
+        },
+        {
+          "currency": "GBP",
+          "per_review": "8",
+          "per_legitimate_block": "30",
+          "source_ids": [
+            "policy"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "ae906564e7c158affb6b02ba8890e31eeb647b802ce54066cdad8d6840c111c5",
+  "findings": [
+    {
+      "code": "immature-labels",
+      "message": "Pending, unknown and not-yet-mature labels remain outside confusion/value metrics; no label is imputed.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "missing-rule-feature",
+      "message": "baseline has indeterminate replay rows; never default missing features to allow.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "missing-rule-feature",
+      "message": "proposed has indeterminate replay rows; never default missing features to allow.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "appetite-review-required",
+      "message": "proposed/GBP/max_review_rate: outside-supplied-appetite",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "appetite-review-required",
+      "message": "proposed/USD/max_review_rate: unknown",
+      "source_ids": [],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "mode": "portfolio",
+    "strategy_coverage": [],
+    "control_options": [],
+    "portfolio_replay": [
+      {
+        "portfolio": "baseline",
+        "rule_ids": [
+          "risk"
+        ],
+        "rows": [
+          {
+            "transaction_id": "f1",
+            "matched_rule_ids": [
+              "risk"
+            ],
+            "unavailable_rule_ids": [],
+            "replayed_action": "block",
+            "mature_label_eligible": true
+          },
+          {
+            "transaction_id": "l1",
+            "matched_rule_ids": [],
+            "unavailable_rule_ids": [],
+            "replayed_action": "allow",
+            "mature_label_eligible": true
+          },
+          {
+            "transaction_id": "p1",
+            "matched_rule_ids": [
+              "risk"
+            ],
+            "unavailable_rule_ids": [],
+            "replayed_action": "block",
+            "mature_label_eligible": false
+          },
+          {
+            "transaction_id": "m1",
+            "matched_rule_ids": [],
+            "unavailable_rule_ids": [
+              "risk"
+            ],
+            "replayed_action": "unknown",
+            "mature_label_eligible": true
+          },
+          {
+            "transaction_id": "g1",
+            "matched_rule_ids": [
+              "risk"
+            ],
+            "unavailable_rule_ids": [],
+            "replayed_action": "block",
+            "mature_label_eligible": true
+          },
+          {
+            "transaction_id": "g2",
+            "matched_rule_ids": [],
+            "unavailable_rule_ids": [],
+            "replayed_action": "allow",
+            "mature_label_eligible": true
+          }
+        ],
+        "currency_metrics": [
+          {
+            "currency": "GBP",
+            "sample_size": 2,
+            "mature_evaluable_size": 2,
+            "excluded_immature_or_unknown_feature_size": 0,
+            "sample_face_value": "200",
+            "excluded_immature_or_unknown_feature_face_value": "0",
+            "action_counts": {
+              "allow": 1,
+              "block": 1
+            },
+            "confusion_by_mature_label": {
+              "fraud": {
+                "block": 1,
+                "review": 0,
+                "allow": 0
+              },
+              "legit": {
+                "block": 0,
+                "review": 0,
+                "allow": 1
+              }
+            },
+            "observed_mature_fraud_value_by_replayed_action": {
+              "block": "100",
+              "review": "0",
+              "allow": "0"
+            },
+            "observed_net_fraud_loss_by_replayed_action": {
+              "block": "20",
+              "review": "0",
+              "allow": "0"
+            },
+            "review_rate_all_sample": "0",
+            "review_rate_upper_bound": "0",
+            "legitimate_block_rate_mature": "0",
+            "modeled_review_cost": "0",
+            "modeled_mature_legitimate_block_friction_cost": "0",
+            "guardrails": [
+              {
+                "metric": "max_review_rate",
+                "supplied_limit": "0.3",
+                "observed": "0",
+                "state": "within-supplied-appetite"
+              },
+              {
+                "metric": "max_legitimate_block_rate",
+                "supplied_limit": "0.05",
+                "observed": "0",
+                "state": "within-supplied-appetite"
+              }
+            ]
+          },
+          {
+            "currency": "USD",
+            "sample_size": 4,
+            "mature_evaluable_size": 2,
+            "excluded_immature_or_unknown_feature_size": 2,
+            "sample_face_value": "400",
+            "excluded_immature_or_unknown_feature_face_value": "200",
+            "action_counts": {
+              "allow": 1,
+              "block": 2,
+              "unknown": 1
+            },
+            "confusion_by_mature_label": {
+              "fraud": {
+                "block": 1,
+                "review": 0,
+                "allow": 0
+              },
+              "legit": {
+                "block": 0,
+                "review": 0,
+                "allow": 1
+              }
+            },
+            "observed_mature_fraud_value_by_replayed_action": {
+              "block": "100",
+              "review": "0",
+              "allow": "0"
+            },
+            "observed_net_fraud_loss_by_replayed_action": {
+              "block": "80",
+              "review": "0",
+              "allow": "0"
+            },
+            "review_rate_all_sample": "0",
+            "review_rate_upper_bound": "0.25",
+            "legitimate_block_rate_mature": "0",
+            "modeled_review_cost": "0",
+            "modeled_mature_legitimate_block_friction_cost": "0",
+            "guardrails": [
+              {
+                "metric": "max_review_rate",
+                "supplied_limit": "0.3",
+                "observed": "0",
+                "state": "within-supplied-appetite"
+              },
+              {
+                "metric": "max_legitimate_block_rate",
+                "supplied_limit": "0.05",
+                "observed": "0",
+                "state": "within-supplied-appetite"
+              }
+            ]
+          }
+        ],
+        "rule_trigger_counts": {
+          "risk": 3
+        },
+        "exclusive_trigger_counts": {
+          "risk": 3
+        },
+        "pairwise_overlaps": []
+      },
+      {
+        "portfolio": "proposed",
+        "rule_ids": [
+          "risk",
+          "velocity"
+        ],
+        "rows": [
+          {
+            "transaction_id": "f1",
+            "matched_rule_ids": [
+              "risk",
+              "velocity"
+            ],
+            "unavailable_rule_ids": [],
+            "replayed_action": "block",
+            "mature_label_eligible": true
+          },
+          {
+            "transaction_id": "l1",
+            "matched_rule_ids": [
+              "velocity"
+            ],
+            "unavailable_rule_ids": [],
+            "replayed_action": "review",
+            "mature_label_eligible": true
+          },
+          {
+            "transaction_id": "p1",
+            "matched_rule_ids": [
+              "risk",
+              "velocity"
+            ],
+            "unavailable_rule_ids": [],
+            "replayed_action": "block",
+            "mature_label_eligible": false
+          },
+          {
+            "transaction_id": "m1",
+            "matched_rule_ids": [],
+            "unavailable_rule_ids": [
+              "risk"
+            ],
+            "replayed_action": "unknown",
+            "mature_label_eligible": true
+          },
+          {
+            "transaction_id": "g1",
+            "matched_rule_ids": [
+              "risk"
+            ],
+            "unavailable_rule_ids": [],
+            "replayed_action": "block",
+            "mature_label_eligible": true
+          },
+          {
+            "transaction_id": "g2",
+            "matched_rule_ids": [
+              "velocity"
+            ],
+            "unavailable_rule_ids": [],
+            "replayed_action": "review",
+            "mature_label_eligible": true
+          }
+        ],
+        "currency_metrics": [
+          {
+            "currency": "GBP",
+            "sample_size": 2,
+            "mature_evaluable_size": 2,
+            "excluded_immature_or_unknown_feature_size": 0,
+            "sample_face_value": "200",
+            "excluded_immature_or_unknown_feature_face_value": "0",
+            "action_counts": {
+              "block": 1,
+              "review": 1
+            },
+            "confusion_by_mature_label": {
+              "fraud": {
+                "block": 1,
+                "review": 0,
+                "allow": 0
+              },
+              "legit": {
+                "block": 0,
+                "review": 1,
+                "allow": 0
+              }
+            },
+            "observed_mature_fraud_value_by_replayed_action": {
+              "block": "100",
+              "review": "0",
+              "allow": "0"
+            },
+            "observed_net_fraud_loss_by_replayed_action": {
+              "block": "20",
+              "review": "0",
+              "allow": "0"
+            },
+            "review_rate_all_sample": "0.5",
+            "review_rate_upper_bound": "0.5",
+            "legitimate_block_rate_mature": "0",
+            "modeled_review_cost": "8",
+            "modeled_mature_legitimate_block_friction_cost": "0",
+            "guardrails": [
+              {
+                "metric": "max_review_rate",
+                "supplied_limit": "0.3",
+                "observed": "0.5",
+                "state": "outside-supplied-appetite"
+              },
+              {
+                "metric": "max_legitimate_block_rate",
+                "supplied_limit": "0.05",
+                "observed": "0",
+                "state": "within-supplied-appetite"
+              }
+            ]
+          },
+          {
+            "currency": "USD",
+            "sample_size": 4,
+            "mature_evaluable_size": 2,
+            "excluded_immature_or_unknown_feature_size": 2,
+            "sample_face_value": "400",
+            "excluded_immature_or_unknown_feature_face_value": "200",
+            "action_counts": {
+              "block": 2,
+              "review": 1,
+              "unknown": 1
+            },
+            "confusion_by_mature_label": {
+              "fraud": {
+                "block": 1,
+                "review": 0,
+                "allow": 0
+              },
+              "legit": {
+                "block": 0,
+                "review": 1,
+                "allow": 0
+              }
+            },
+            "observed_mature_fraud_value_by_replayed_action": {
+              "block": "100",
+              "review": "0",
+              "allow": "0"
+            },
+            "observed_net_fraud_loss_by_replayed_action": {
+              "block": "80",
+              "review": "0",
+              "allow": "0"
+            },
+            "review_rate_all_sample": "0.25",
+            "review_rate_upper_bound": "0.5",
+            "legitimate_block_rate_mature": "0",
+            "modeled_review_cost": "5",
+            "modeled_mature_legitimate_block_friction_cost": "0",
+            "guardrails": [
+              {
+                "metric": "max_review_rate",
+                "supplied_limit": "0.3",
+                "observed": "0.25",
+                "state": "unknown"
+              },
+              {
+                "metric": "max_legitimate_block_rate",
+                "supplied_limit": "0.05",
+                "observed": "0",
+                "state": "within-supplied-appetite"
+              }
+            ]
+          }
+        ],
+        "rule_trigger_counts": {
+          "risk": 3,
+          "velocity": 4
+        },
+        "exclusive_trigger_counts": {
+          "risk": 1,
+          "velocity": 2
+        },
+        "pairwise_overlaps": [
+          {
+            "rule_ids": [
+              "risk",
+              "velocity"
+            ],
+            "transactions": 2
+          }
+        ]
+      }
+    ],
+    "causal_avoided_loss": null,
+    "deployment_recommendation": "Human control, legal, model-risk and change owners review; no deployment or live decision is authorized.",
+    "action_transitions": [
+      {
+        "transaction_id": "f1",
+        "baseline": "block",
+        "proposed": "block"
+      },
+      {
+        "transaction_id": "l1",
+        "baseline": "allow",
+        "proposed": "review"
+      },
+      {
+        "transaction_id": "p1",
+        "baseline": "block",
+        "proposed": "block"
+      },
+      {
+        "transaction_id": "m1",
+        "baseline": "unknown",
+        "proposed": "unknown"
+      },
+      {
+        "transaction_id": "g1",
+        "baseline": "block",
+        "proposed": "block"
+      },
+      {
+        "transaction_id": "g2",
+        "baseline": "allow",
+        "proposed": "review"
+      }
+    ],
+    "replay_quarantined": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Check payee, intent, delegation and authorization controls for covered payment journeys.",
+      "required_inputs": [
+        "threat and journey IDs",
+        "intent and delegation artifacts",
+        "control owners and unresolved issues"
+      ],
+      "handoff_id": "35b3827a21d299f67d1cea447a5624ca7dbf35d49eae2f28fa450f3153f71124",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-fraud-control-evaluator",
+      "case_id": "fraud-fresh",
+      "lead_owner": "independent-payment-team",
+      "requested_output": "Check payee, intent, delegation and authorization controls for covered payment journeys.",
+      "source_refs": [
+        "synthetic://independent-raw-source/fraud-fresh",
+        "synthetic://independent-reviewed-policy/fraud-fresh"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "immature-labels",
+          "message": "Pending, unknown and not-yet-mature labels remain outside confusion/value metrics; no label is imputed.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "missing-rule-feature",
+          "message": "baseline has indeterminate replay rows; never default missing features to allow.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "missing-rule-feature",
+          "message": "proposed has indeterminate replay rows; never default missing features to allow.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "appetite-review-required",
+          "message": "proposed/GBP/max_review_rate: outside-supplied-appetite",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "appetite-review-required",
+          "message": "proposed/USD/max_review_rate: unknown",
+          "source_ids": [],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-acceptance-performance-analyzer",
+      "reason": "Inspect observed acceptance and customer friction cohorts around proposed controls.",
+      "required_inputs": [
+        "unique order and attempt population",
+        "control version dates",
+        "mature outcome and source evidence"
+      ],
+      "handoff_id": "884a20d777ee6e20ebd6bb68743ac46295884a178554441c960e016ee599683a",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-fraud-control-evaluator",
+      "case_id": "fraud-fresh",
+      "lead_owner": "independent-payment-team",
+      "requested_output": "Inspect observed acceptance and customer friction cohorts around proposed controls.",
+      "source_refs": [
+        "synthetic://independent-raw-source/fraud-fresh",
+        "synthetic://independent-reviewed-policy/fraud-fresh"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "immature-labels",
+          "message": "Pending, unknown and not-yet-mature labels remain outside confusion/value metrics; no label is imputed.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "missing-rule-feature",
+          "message": "baseline has indeterminate replay rows; never default missing features to allow.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "missing-rule-feature",
+          "message": "proposed has indeterminate replay rows; never default missing features to allow.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "appetite-review-required",
+          "message": "proposed/GBP/max_review_rate: outside-supplied-appetite",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "appetite-review-required",
+          "message": "proposed/USD/max_review_rate: unknown",
+          "source_ids": [],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Retrospective labels and feature provenance are supplied, not authenticated. Blocks/reviews are simulated categories, not live decisions. Selection bias, suppressed outcomes, changing attack patterns, label error and nonrandom samples prevent causal avoided-loss claims. No statistical confidence interval or population extrapolation is supplied; mature counts and excluded counts bound interpretation. Fraud face value, observed net loss and modeled friction costs are distinct and must not be summed into net savings."
+  ]
+}

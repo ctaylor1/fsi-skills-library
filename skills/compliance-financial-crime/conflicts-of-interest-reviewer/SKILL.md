@@ -63,7 +63,7 @@ closure, or filing decision remains a qualified human's.
   blackout windows with compliance authorization → `employee-trading-preclearance-assistant`
   (that skill is the gated-action owner; this skill only flags the conflict indicator).
 - **Reviewing a recommendation** for best-interest/Reg BI conflicts, costs, and disclosures →
-  `suitability-reg-bi-reviewer`.
+  `investment-recommendation-evidence-reviewer`.
 - Suspected **insider dealing / MNPI misuse or information-barrier breach** needing trade and
   e-comms surveillance evidence → `surveillance-alert-triager` then
   `market-surveillance-alert-investigator`.

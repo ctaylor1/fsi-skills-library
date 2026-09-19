@@ -1,0 +1,256 @@
+{
+  "schema_version": "1.0",
+  "skill": "commercial-payment-workflow-designer",
+  "request_id": "independent-phase4-US",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "independent-payment-review",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": true,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "independent-phase4-US",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "independent-payment-review",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "independent",
+        "reference": "synthetic://independent-phase4-program-case-2026-09-18",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "program_type": "virtual",
+      "history_complete": true,
+      "buyer_entity_id": "buyer",
+      "issuer_ref": "licensed-issuer-case",
+      "program_contract_ref": "program-contract-case",
+      "provider_control_review_ref": "provider-controls-case",
+      "credentials": [
+        {
+          "credential_id": "opaque-virtual-1",
+          "owner_entity_id": "buyer",
+          "supplier_ref": "supplier",
+          "currency": "USD",
+          "valid_from": "2026-09-18T00:00:00Z",
+          "valid_until": "2026-09-20T00:00:00Z",
+          "usage_mode": "limited",
+          "max_uses": 3,
+          "transaction_limit": "800",
+          "total_limit": "1500",
+          "allowed_mccs": [
+            "5045"
+          ],
+          "provider_enforcement_ref": "issuer-enforced-control-review",
+          "source_ids": [
+            "independent"
+          ]
+        }
+      ],
+      "invoices": [
+        {
+          "invoice_id": "invoice-1",
+          "invoice_identity_ref": "supplier-invoice-economic-1",
+          "buyer_entity_id": "buyer",
+          "supplier_ref": "supplier",
+          "currency": "USD",
+          "remittance_ref": "invoice-remittance",
+          "open_amount": "1000",
+          "source_ids": [
+            "independent"
+          ]
+        }
+      ],
+      "attempts": [
+        {
+          "payment_id": "prior-paid",
+          "economic_id": "economic-prior-paid",
+          "credential_id": "opaque-virtual-1",
+          "invoice_id": "invoice-1",
+          "supplier_ref": "supplier",
+          "currency": "USD",
+          "mcc": "5045",
+          "occurred_at": "2026-09-18T10:00:00Z",
+          "state": "settled",
+          "remittance_ref": "invoice-remittance",
+          "amount": "200",
+          "purchase_order_ref": "po-approved-1",
+          "settlement_ref": "clearing-evidence-1",
+          "source_ids": [
+            "independent"
+          ]
+        },
+        {
+          "payment_id": "held",
+          "economic_id": "economic-held",
+          "credential_id": "opaque-virtual-1",
+          "invoice_id": "invoice-1",
+          "supplier_ref": "supplier",
+          "currency": "USD",
+          "mcc": "5045",
+          "occurred_at": "2026-09-18T11:00:00Z",
+          "state": "authorization-held",
+          "remittance_ref": "invoice-remittance",
+          "amount": "300",
+          "purchase_order_ref": "po-approved-1",
+          "source_ids": [
+            "independent"
+          ]
+        },
+        {
+          "payment_id": "proposed",
+          "economic_id": "economic-proposed",
+          "credential_id": "opaque-virtual-1",
+          "invoice_id": "invoice-1",
+          "supplier_ref": "supplier",
+          "currency": "USD",
+          "mcc": "5045",
+          "occurred_at": "2026-09-18T15:00:00Z",
+          "state": "proposed",
+          "remittance_ref": "invoice-remittance",
+          "amount": "500",
+          "purchase_order_ref": "po-approved-1",
+          "source_ids": [
+            "independent"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "83000c716710d434c4d5aafbf8d2e309c2e5e143f5a9d2fbfe3008255b032bf5",
+  "findings": [],
+  "result": {
+    "mode": "commercial-card",
+    "program_type": "virtual",
+    "attempt_reviews": [
+      {
+        "payment_id": "prior-paid",
+        "state": "settled",
+        "local_binding": "matches-supplied-controls",
+        "payment_authorized": false,
+        "counts_as_settled_payment": true
+      },
+      {
+        "payment_id": "held",
+        "state": "authorization-held",
+        "local_binding": "matches-supplied-controls",
+        "payment_authorized": false,
+        "counts_as_settled_payment": false
+      },
+      {
+        "payment_id": "proposed",
+        "state": "proposed",
+        "local_binding": "matches-supplied-controls",
+        "payment_authorized": false,
+        "counts_as_settled_payment": false
+      }
+    ],
+    "credential_budgets": [
+      {
+        "credential_id": "opaque-virtual-1",
+        "observed_and_proposed_uses": 3,
+        "maximum_uses": 3,
+        "committed_or_held": "500",
+        "proposed": "500",
+        "remaining_before_proposed": "1000"
+      }
+    ],
+    "invoice_positions": [
+      {
+        "invoice_id": "invoice-1",
+        "supplier_ref": "supplier",
+        "currency": "USD",
+        "settled_paid": "200",
+        "held_or_pending_not_paid": "300",
+        "uncommitted_before_proposed": "500"
+      }
+    ],
+    "credential_issued": false,
+    "payment_submitted": false,
+    "credit_or_rewards_decision": "not-performed"
+  },
+  "handoffs": [
+    {
+      "target_skill": "card-program-designer",
+      "reason": "Review issuer, sponsor, commercial product and liability arrangement.",
+      "required_inputs": [
+        "program contract",
+        "buyer and issuer roles",
+        "controls evidence"
+      ],
+      "handoff_id": "10558ff2f4bb2f174d902c606bb4443a2f5fcd3bb9bfcf69f0705ab178e8d6de",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "independent-phase4-US",
+      "lead_owner": "independent-payment-review",
+      "requested_output": "Review issuer, sponsor, commercial product and liability arrangement.",
+      "source_refs": [
+        "synthetic://independent-phase4-program-case-2026-09-18"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-credential-authentication-reviewer",
+      "reason": "Review opaque credential lifecycle, authentication and payment intent.",
+      "required_inputs": [
+        "credential references",
+        "supplier and scope",
+        "intent"
+      ],
+      "handoff_id": "2cfc1cb41f9e1d54502595a0e36ca235e09f7182827fc41a0f0fdba27ff6f1ec",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "independent-phase4-US",
+      "lead_owner": "independent-payment-review",
+      "requested_output": "Review opaque credential lifecycle, authentication and payment intent.",
+      "source_refs": [
+        "synthetic://independent-phase4-program-case-2026-09-18"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Validate any exact eventual supplier instruction separately.",
+      "required_inputs": [
+        "invoice and remittance",
+        "amount and supplier",
+        "authority",
+        "held and unknown outcomes"
+      ],
+      "handoff_id": "c5a1b66a945fd9cbb410be7581732d73a962c9193afc9d865fa600e5af15acab",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "independent-phase4-US",
+      "lead_owner": "independent-payment-review",
+      "requested_output": "Validate any exact eventual supplier instruction separately.",
+      "source_refs": [
+        "synthetic://independent-phase4-program-case-2026-09-18"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

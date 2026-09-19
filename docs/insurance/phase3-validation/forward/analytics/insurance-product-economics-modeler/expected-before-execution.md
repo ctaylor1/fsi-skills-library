@@ -1,0 +1,1 @@
+BASE underwriting378000; pretax423000; period ROC70.5%; gross LR57.5%; expense ratio552000/2600000; net EP2040000, net loss1200000. MGA revenue465000,cost310000,result155000. Unknown sensitivity must not generate a complete monetary result or choose recovery0. Overall partial despite calculable alternatives.

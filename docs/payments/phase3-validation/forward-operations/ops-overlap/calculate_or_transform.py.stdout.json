@@ -1,0 +1,419 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-operations-improvement-analyzer",
+  "request_id": "ops-overlap",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "Synthetic Community Bank",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "ops-overlap",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "Synthetic Community Bank",
+    "sources": [
+      {
+        "source_id": "independent-bank-packet",
+        "reference": "synthetic://independently-authored-bank-packet-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "window": {
+        "start": "2026-09-15T00:00:00Z",
+        "end": "2026-09-18T00:00:00Z",
+        "population_complete": true,
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      "cases": [
+        {
+          "case_id": "q1",
+          "task": "return-investigation",
+          "legal_entity_id": "bank-us",
+          "team": "payment-ops",
+          "currency": "USD",
+          "created_at": "2026-09-15T10:00:00Z",
+          "status": "completed",
+          "completed_at": "2026-09-16T10:00:00Z",
+          "handling_minutes": "30",
+          "rework_minutes": "5",
+          "automated": false,
+          "stp_eligible": true,
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "case_id": "q2",
+          "task": "return-investigation",
+          "legal_entity_id": "bank-us",
+          "team": "payment-ops",
+          "currency": "USD",
+          "created_at": "2026-09-15T10:00:00Z",
+          "status": "completed",
+          "completed_at": "2026-09-16T10:00:00Z",
+          "handling_minutes": "40",
+          "rework_minutes": "5",
+          "automated": true,
+          "stp_eligible": true,
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "case_id": "q3",
+          "task": "return-investigation",
+          "legal_entity_id": "bank-us",
+          "team": "payment-ops",
+          "currency": "USD",
+          "created_at": "2026-09-15T10:00:00Z",
+          "status": "completed",
+          "completed_at": "2026-09-16T10:00:00Z",
+          "handling_minutes": "20",
+          "rework_minutes": "0",
+          "automated": false,
+          "stp_eligible": false,
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "case_id": "q-old",
+          "task": "return-investigation",
+          "legal_entity_id": "bank-us",
+          "team": "payment-ops",
+          "currency": "USD",
+          "created_at": "2026-09-01T10:00:00Z",
+          "status": "open",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "case_id": "q1",
+          "task": "return-investigation",
+          "legal_entity_id": "bank-us",
+          "team": "payment-ops",
+          "currency": "USD",
+          "created_at": "2026-09-15T10:00:00Z",
+          "status": "completed",
+          "completed_at": "2026-09-16T10:00:00Z",
+          "handling_minutes": "30",
+          "rework_minutes": "5",
+          "automated": false,
+          "stp_eligible": true,
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        }
+      ],
+      "staffing": {
+        "window": {
+          "start": "2026-09-15T00:00:00Z",
+          "end": "2026-09-18T00:00:00Z"
+        },
+        "legal_entity_id": "bank-us",
+        "team": "payment-ops",
+        "currency": "USD",
+        "cost_per_hour": "60",
+        "available_hours": "12",
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      "opportunities": [
+        {
+          "opportunity_id": "summary-ai",
+          "task": "return-investigation",
+          "owner": "Ops manager",
+          "case_ids": [
+            "q1",
+            "q2"
+          ],
+          "automation_fraction": "0.75",
+          "realization_fraction": "0.25",
+          "error_rate": "0.1",
+          "review_minutes_per_case": "5",
+          "error_minutes_per_case": "10",
+          "error_cost_per_case": "10",
+          "technology_cost": "10",
+          "implementation_cost": "15",
+          "cash_reduction_cap": "20",
+          "uses_ai": true,
+          "ai_controls": {
+            "task_definition": "Summarize return evidence for human review",
+            "evaluation_dataset_ref": "synthetic-labelled-holdout-v3",
+            "label_maturity": "90-day reviewed final disposition",
+            "false_positive_cost": "wrong summary requires rework",
+            "false_negative_cost": "missed conflict requires escalation",
+            "quality_threshold": "zero unauthorized release; reviewer assessment rubric",
+            "human_review_scope": "Every proposed summary",
+            "escalation_owner": "Ops controller",
+            "pilot_scope": "Ten synthetic cases, offline",
+            "stop_conditions": "Any lost evidence or authority claim",
+            "model_version": "synthetic-model-v1",
+            "source_ids": [
+              "independent-bank-packet"
+            ]
+          },
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "opportunity_id": "summary-rpa",
+          "task": "return-investigation",
+          "owner": "Ops manager",
+          "case_ids": [
+            "q1",
+            "q2"
+          ],
+          "automation_fraction": "0.75",
+          "realization_fraction": "0.25",
+          "error_rate": "0.1",
+          "review_minutes_per_case": "5",
+          "error_minutes_per_case": "10",
+          "error_cost_per_case": "10",
+          "technology_cost": "10",
+          "implementation_cost": "15",
+          "cash_reduction_cap": "20",
+          "uses_ai": true,
+          "ai_controls": {
+            "task_definition": "Summarize return evidence for human review",
+            "evaluation_dataset_ref": "synthetic-labelled-holdout-v3",
+            "label_maturity": "90-day reviewed final disposition",
+            "false_positive_cost": "wrong summary requires rework",
+            "false_negative_cost": "missed conflict requires escalation",
+            "quality_threshold": "zero unauthorized release; reviewer assessment rubric",
+            "human_review_scope": "Every proposed summary",
+            "escalation_owner": "Ops controller",
+            "pilot_scope": "Ten synthetic cases, offline",
+            "stop_conditions": "Any lost evidence or authority claim",
+            "model_version": "synthetic-model-v1",
+            "source_ids": [
+              "independent-bank-packet"
+            ]
+          },
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "cec0dc266d2fc530d5e3d239f0d3c85bb2a0998f807158425dc2a2e7b94ffb8f",
+  "findings": [
+    {
+      "code": "opportunity-evidence-gap",
+      "message": "summary-rpa: overlaps another opportunity; models are alternatives and cannot be added",
+      "source_ids": [
+        "independent-bank-packet"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "metrics": {
+      "window": {
+        "start": "2026-09-15T00:00:00Z",
+        "end": "2026-09-18T00:00:00Z",
+        "population_complete": true,
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      "cohort_basis": "completed_at within [start,end); backlog at end; deduplicated case identities",
+      "unique_cases_supplied": 4,
+      "exact_duplicate_rows_removed": 1,
+      "quarantined_case_ids": [],
+      "arrivals": 3,
+      "completed_cases": 3,
+      "open_cases": 1,
+      "unknown_status_cases": 0,
+      "stp_eligible_completed": 2,
+      "stp_completed": 1,
+      "stp_rate": "0.5",
+      "rework_case_rate": "0.6666666666666666666666666667",
+      "workload_partitions": [
+        {
+          "legal_entity_id": "bank-us",
+          "team": "payment-ops",
+          "currency": "USD",
+          "completed_cases": 3,
+          "open_cases": 1,
+          "oldest_open_age_days": 16.5833,
+          "handling_minutes": "90",
+          "rework_minutes": "10"
+        }
+      ]
+    },
+    "opportunity_models": [
+      {
+        "opportunity_id": "summary-ai",
+        "task": "return-investigation",
+        "case_ids": [
+          "q1",
+          "q2"
+        ],
+        "period": {
+          "start": "2026-09-15T00:00:00Z",
+          "end": "2026-09-18T00:00:00Z",
+          "population_complete": true,
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        "ai_controls": {
+          "task_definition": "Summarize return evidence for human review",
+          "evaluation_dataset_ref": "synthetic-labelled-holdout-v3",
+          "label_maturity": "90-day reviewed final disposition",
+          "false_positive_cost": "wrong summary requires rework",
+          "false_negative_cost": "missed conflict requires escalation",
+          "quality_threshold": "zero unauthorized release; reviewer assessment rubric",
+          "human_review_scope": "Every proposed summary",
+          "escalation_owner": "Ops controller",
+          "pilot_scope": "Ten synthetic cases, offline",
+          "stop_conditions": "Any lost evidence or authority claim",
+          "model_version": "synthetic-model-v1",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        "cash_savings": "12.0000",
+        "capacity_hours": "0.80",
+        "net_economic_value": "-15.0000",
+        "aggregation": "standalone scenario; never sum overlapping opportunities",
+        "issues": [],
+        "baseline_effort_minutes": "80",
+        "gross_minutes_avoided": "60.00",
+        "oversight_and_error_minutes": "12.0",
+        "capacity_value": "48.00",
+        "expected_error_cost": "2.0",
+        "period_cost": "27.0",
+        "cash_realization_is_supplied_assumption": true
+      },
+      {
+        "opportunity_id": "summary-rpa",
+        "task": "return-investigation",
+        "case_ids": [
+          "q1",
+          "q2"
+        ],
+        "period": {
+          "start": "2026-09-15T00:00:00Z",
+          "end": "2026-09-18T00:00:00Z",
+          "population_complete": true,
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        "ai_controls": {
+          "task_definition": "Summarize return evidence for human review",
+          "evaluation_dataset_ref": "synthetic-labelled-holdout-v3",
+          "label_maturity": "90-day reviewed final disposition",
+          "false_positive_cost": "wrong summary requires rework",
+          "false_negative_cost": "missed conflict requires escalation",
+          "quality_threshold": "zero unauthorized release; reviewer assessment rubric",
+          "human_review_scope": "Every proposed summary",
+          "escalation_owner": "Ops controller",
+          "pilot_scope": "Ten synthetic cases, offline",
+          "stop_conditions": "Any lost evidence or authority claim",
+          "model_version": "synthetic-model-v1",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        "cash_savings": null,
+        "capacity_hours": null,
+        "net_economic_value": null,
+        "aggregation": "standalone scenario; never sum overlapping opportunities",
+        "issues": [
+          "overlaps another opportunity; models are alternatives and cannot be added"
+        ]
+      }
+    ],
+    "combined_savings": null,
+    "production_automation_approved": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "ai-evaluation-benchmark-builder",
+      "reason": "Design task-specific evaluation for proposed payment automation.",
+      "required_inputs": [
+        "task cohort and label maturity",
+        "error/friction costs",
+        "pilot and stop gates"
+      ],
+      "handoff_id": "b81051b497e65572ee2aec803447ecb5f57ca9eb4401dc6dddc917fbf8fb5343",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-operations-improvement-analyzer",
+      "case_id": "ops-overlap",
+      "lead_owner": "Synthetic Community Bank",
+      "requested_output": "Design task-specific evaluation for proposed payment automation.",
+      "source_refs": [
+        "synthetic://independently-authored-bank-packet-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "opportunity-evidence-gap",
+          "message": "summary-rpa: overlaps another opportunity; models are alternatives and cannot be added",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "model-risk-documenter",
+      "reason": "Review human oversight and model governance for the proposed operation.",
+      "required_inputs": [
+        "model version and task scope",
+        "evaluation evidence",
+        "accountable control owners"
+      ],
+      "handoff_id": "e527a9c494424ae61b9ba79f6952ce6136b352636a1e4acd868fc832c2dca4ad",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-operations-improvement-analyzer",
+      "case_id": "ops-overlap",
+      "lead_owner": "Synthetic Community Bank",
+      "requested_output": "Review human oversight and model governance for the proposed operation.",
+      "source_refs": [
+        "synthetic://independently-authored-bank-packet-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "opportunity-evidence-gap",
+          "message": "summary-rpa: overlaps another opportunity; models are alternatives and cannot be added",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Queue records and cost assumptions are supplied evidence. Capacity value is not cash savings; no annualization or combined benefit is inferred."
+  ]
+}

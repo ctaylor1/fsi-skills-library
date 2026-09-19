@@ -1,0 +1,137 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "synthetic-plan-2026-09-16",
+  "household_id": "HH-SYNTHETIC",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "client",
+      "reference": "synthetic:client-discovery@v1",
+      "owner": "Synthetic household",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "model",
+      "reference": "synthetic:planning-methods@v1",
+      "owner": "Synthetic model owner; not firm approval",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "custody",
+      "reference": "synthetic:account-balances@v1",
+      "owner": "Synthetic custodian",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "currency": "USD",
+  "projection": {
+    "start_age": 65,
+    "end_age": 67,
+    "opening_balance_basis": "current-at-as-of",
+    "opening_balance_date": "2026-09-16",
+    "source_ids": [
+      "client"
+    ]
+  },
+  "spending": {
+    "annual_net_amount": 100,
+    "annual_inflation": 0,
+    "source_ids": [
+      "client"
+    ]
+  },
+  "model": {
+    "version": "synthetic-retirement-v1",
+    "tax_method": "effective-withdrawal-rate-proxy",
+    "benefit_method": "supplied-income-schedules-no-entitlement-calculation",
+    "source_ids": [
+      "model"
+    ],
+    "limitations": [
+      {
+        "topic": "rmd",
+        "description": "No required-minimum-distribution calculation; external professional review required.",
+        "source_ids": [
+          "model"
+        ],
+        "treatment": "not-modeled"
+      },
+      {
+        "topic": "tax-brackets-and-capital-gains",
+        "description": "Flat effective withdrawal tax proxy; no brackets, basis lots, statutory capital-gain tax or Social Security tax calculation.",
+        "source_ids": [
+          "model"
+        ],
+        "treatment": "not-modeled"
+      },
+      {
+        "topic": "benefit-entitlement",
+        "description": "Income schedules are supplied assumptions; no Social Security or pension entitlement calculation.",
+        "source_ids": [
+          "model"
+        ],
+        "treatment": "not-modeled"
+      },
+      {
+        "topic": "survivor-and-household-changes",
+        "description": "One age axis and fixed household; no survivor transition or mortality probabilities.",
+        "source_ids": [
+          "model"
+        ],
+        "treatment": "not-modeled"
+      },
+      {
+        "topic": "healthcare-and-long-term-care",
+        "description": "Healthcare must be included in supplied spending; no insurance or long-term-care shock estimation.",
+        "source_ids": [
+          "model"
+        ],
+        "treatment": "included-only-in-supplied-spending"
+      }
+    ]
+  },
+  "accounts": [
+    {
+      "account_id": "A1",
+      "type": "tax-deferred",
+      "balance": 1000,
+      "annual_return": 0,
+      "effective_withdrawal_tax_rate": 0.2,
+      "source_ids": [
+        "custody",
+        "model"
+      ]
+    }
+  ],
+  "income": [],
+  "withdrawal_policy": {
+    "strategy": "fixed-percentage",
+    "account_order": [
+      "A1"
+    ],
+    "source_ids": [
+      "client"
+    ],
+    "annual_percentage": 0.001
+  },
+  "scenarios": [
+    {
+      "scenario_id": "base",
+      "label": "Base illustrative assumptions",
+      "return_adjustment": 0,
+      "inflation_adjustment": 0,
+      "return_sequences": [],
+      "source_ids": [
+        "model"
+      ]
+    }
+  ],
+  "upstream_issues": []
+}

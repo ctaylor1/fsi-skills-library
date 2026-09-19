@@ -1,0 +1,687 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-integration-readiness-reviewer",
+  "request_id": "synthetic-phase3-operations-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "payment-operations",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-phase3-operations-001",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "payment-operations",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "s1",
+        "reference": "synthetic://operating-records/v1",
+        "as_of": "2026-09-18",
+        "review_due": "2026-12-31"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "design": {
+        "mode": "active-active",
+        "release_version": "hub-v3",
+        "component_scope": [
+          "gateway",
+          "instruction-store",
+          "ledger"
+        ],
+        "business_flow": "Bank instant transfer posting with fenced regional ownership",
+        "owner": "payments-architecture",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "controls": {
+        "financial_owner": "ledger-owner",
+        "writer_fence": "monotonic ownership epoch at commit",
+        "fence_authority": "consensus instruction store",
+        "idempotency_scope": "entity/instruction/operation",
+        "key_retention": "supplied maximum reconciliation and replay horizon",
+        "atomic_commit_boundary": "ledger unique-key and result transaction",
+        "status_authority": "ledger",
+        "reconciliation_owner": "bank-finance",
+        "ledger_invariant": "balanced entity/account/currency journal",
+        "payload_conflict_behavior": "reject-conflict",
+        "uncertain_outcome_strategy": "status-then-reconcile",
+        "fenced_financial_writes": true,
+        "partition_policy": "fence-isolated-writer",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "migration": {
+        "inflight_inventory_ref": "synthetic://inflight/snapshot",
+        "cutover_owner": "platform-owner",
+        "entry_gate": "inspected negative paths and tied control totals",
+        "exit_gate": "owned in-flight inventory with no unexplained financial breaks",
+        "rollback_boundary": "already posted ledger entries remain; pending ownership retained",
+        "reconciliation_scope": "entity/account/currency/instruction",
+        "support_owner": "payments-ops",
+        "rollback_mode": "reroute-new-intake-preserve-effects",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "test_artifacts": [
+        {
+          "artifact_id": "test-duplicate-event",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "duplicate-event",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject duplicate-event in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/duplicate-event"
+            }
+          ],
+          "observations": {
+            "financial_effect_count": 1,
+            "payload_conflict_rejected": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/duplicate-event",
+            "scope_hash": "65ad01964eba980f92ee424f8dc45c68ecd85cac03be0448e80c63fbd34a5cb1"
+          }
+        },
+        {
+          "artifact_id": "test-lost-event",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "lost-event",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject lost-event in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/lost-event"
+            }
+          ],
+          "observations": {
+            "missing_event_detected": true,
+            "reconciliation_break_opened": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/lost-event",
+            "scope_hash": "a4b6aae6d3e495ce191431f6bd76c12b328df0311a4a04591e4080383d211aac"
+          }
+        },
+        {
+          "artifact_id": "test-delayed-event",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "delayed-event",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject delayed-event in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/delayed-event"
+            }
+          ],
+          "observations": {
+            "late_event_retained": true,
+            "original_identity_preserved": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/delayed-event",
+            "scope_hash": "cc38dd7ecd52b0ab02df260b845240905d030e8971187b80994a41e697818168"
+          }
+        },
+        {
+          "artifact_id": "test-out-of-order",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "out-of-order",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject out-of-order in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/out-of-order"
+            }
+          ],
+          "observations": {
+            "state_regression_blocked": true,
+            "ledger_balance_preserved": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/out-of-order",
+            "scope_hash": "a23c7c63fabf05fce616901e27ac9e3a24b4da040a4f7b15b552d0447c945e5b"
+          }
+        },
+        {
+          "artifact_id": "test-crash-after-commit",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "crash-after-commit",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject crash-after-commit in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/crash-after-commit"
+            }
+          ],
+          "observations": {
+            "financial_effect_count": 1,
+            "durable_result_recovered": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/crash-after-commit",
+            "scope_hash": "3fda3680325c7c216f65b7f39dfe668921651a3f8763509b72d784cbe4122621"
+          }
+        },
+        {
+          "artifact_id": "test-network-partition",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "network-partition",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject network-partition in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/network-partition"
+            }
+          ],
+          "observations": {
+            "isolated_writer_fenced": true,
+            "financial_effect_count": 1
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/network-partition",
+            "scope_hash": "31e346995071e39466cf7d98b5de4cf8a88a73986a00ce368d82de96c9db47c0"
+          }
+        },
+        {
+          "artifact_id": "test-uncertain-money",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "uncertain-money",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject uncertain-money in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/uncertain-money"
+            }
+          ],
+          "observations": {
+            "status_checked": true,
+            "reconciliation_performed": true,
+            "blind_resends": 0,
+            "unresolved_outcomes_retained": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/uncertain-money",
+            "scope_hash": "20752012469cc991a6d3c114d927fd1cd6e14387b98884c40359ad2cb78b0d77"
+          }
+        },
+        {
+          "artifact_id": "test-cutover-inflight",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "cutover-inflight",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject cutover-inflight in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/cutover-inflight"
+            }
+          ],
+          "observations": {
+            "exactly_one_financial_owner": true,
+            "inflight_inventory_tied_out": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/cutover-inflight",
+            "scope_hash": "526c2bfe938c542b224eb8f596ddafc05ce4da8dbc0d3f34a084513d28da2668"
+          }
+        },
+        {
+          "artifact_id": "test-rollback",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "rollback",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject rollback in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/rollback"
+            }
+          ],
+          "observations": {
+            "settled_entries_preserved": true,
+            "new_intake_rerouted_only": true,
+            "outstanding_ownership_preserved": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/rollback",
+            "scope_hash": "0edca6e0f3005f4f1c7731923637a4142d477d2aad4169cb3216eb172510b1fe"
+          }
+        },
+        {
+          "artifact_id": "test-recovery-support",
+          "release_version": "hub-v3",
+          "mode": "active-active",
+          "scenario": "recovery-support",
+          "component_scope": [
+            "gateway",
+            "instruction-store",
+            "ledger"
+          ],
+          "steps": [
+            {
+              "step_id": "inject",
+              "action": "Inject recovery-support in isolated supplied simulation",
+              "observed": "Captured scenario record and invariant measurements",
+              "evidence_ref": "synthetic://test/recovery-support"
+            }
+          ],
+          "observations": {
+            "reconciliation_breaks_owned": true,
+            "support_handoff_exercised": true,
+            "monitoring_alert_observed": true
+          },
+          "source_ids": [
+            "s1"
+          ],
+          "claimed_result": "pass",
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "synthetic-reviewer",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic://review/recovery-support",
+            "scope_hash": "1365d2823e51e42441cf1b2cf047d802c0eec114140be0d51169b9418d4101c8"
+          }
+        }
+      ]
+    }
+  },
+  "input_hash": "eb2262b962d95a44bf074d62dc1c79067eb9b824cf2985015c764dd0da38ca50",
+  "findings": [],
+  "result": {
+    "module": "active-active",
+    "release_version": "hub-v3",
+    "design": {
+      "mode": "active-active",
+      "release_version": "hub-v3",
+      "component_scope": [
+        "gateway",
+        "instruction-store",
+        "ledger"
+      ],
+      "business_flow": "Bank instant transfer posting with fenced regional ownership",
+      "owner": "payments-architecture",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "control_assessment": {
+      "financial_owner": "ledger-owner",
+      "writer_fence": "monotonic ownership epoch at commit",
+      "fence_authority": "consensus instruction store",
+      "idempotency_scope": "entity/instruction/operation",
+      "key_retention": "supplied maximum reconciliation and replay horizon",
+      "atomic_commit_boundary": "ledger unique-key and result transaction",
+      "status_authority": "ledger",
+      "reconciliation_owner": "bank-finance",
+      "ledger_invariant": "balanced entity/account/currency journal",
+      "payload_conflict_behavior": "reject-conflict",
+      "uncertain_outcome_strategy": "status-then-reconcile",
+      "fenced_financial_writes": true,
+      "partition_policy": "fence-isolated-writer",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "migration_assessment": {
+      "inflight_inventory_ref": "synthetic://inflight/snapshot",
+      "cutover_owner": "platform-owner",
+      "entry_gate": "inspected negative paths and tied control totals",
+      "exit_gate": "owned in-flight inventory with no unexplained financial breaks",
+      "rollback_boundary": "already posted ledger entries remain; pending ownership retained",
+      "reconciliation_scope": "entity/account/currency/instruction",
+      "support_owner": "payments-ops",
+      "rollback_mode": "reroute-new-intake-preserve-effects",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "artifact_assessments": [
+      {
+        "artifact_id": "test-duplicate-event",
+        "scenario": "duplicate-event",
+        "scope_hash": "65ad01964eba980f92ee424f8dc45c68ecd85cac03be0448e80c63fbd34a5cb1",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "financial_effect_count": 1,
+          "payload_conflict_rejected": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-lost-event",
+        "scenario": "lost-event",
+        "scope_hash": "a4b6aae6d3e495ce191431f6bd76c12b328df0311a4a04591e4080383d211aac",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "missing_event_detected": true,
+          "reconciliation_break_opened": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-delayed-event",
+        "scenario": "delayed-event",
+        "scope_hash": "cc38dd7ecd52b0ab02df260b845240905d030e8971187b80994a41e697818168",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "late_event_retained": true,
+          "original_identity_preserved": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-out-of-order",
+        "scenario": "out-of-order",
+        "scope_hash": "a23c7c63fabf05fce616901e27ac9e3a24b4da040a4f7b15b552d0447c945e5b",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "state_regression_blocked": true,
+          "ledger_balance_preserved": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-crash-after-commit",
+        "scenario": "crash-after-commit",
+        "scope_hash": "3fda3680325c7c216f65b7f39dfe668921651a3f8763509b72d784cbe4122621",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "financial_effect_count": 1,
+          "durable_result_recovered": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-network-partition",
+        "scenario": "network-partition",
+        "scope_hash": "31e346995071e39466cf7d98b5de4cf8a88a73986a00ce368d82de96c9db47c0",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "isolated_writer_fenced": true,
+          "financial_effect_count": 1
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-uncertain-money",
+        "scenario": "uncertain-money",
+        "scope_hash": "20752012469cc991a6d3c114d927fd1cd6e14387b98884c40359ad2cb78b0d77",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "status_checked": true,
+          "reconciliation_performed": true,
+          "blind_resends": 0,
+          "unresolved_outcomes_retained": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-cutover-inflight",
+        "scenario": "cutover-inflight",
+        "scope_hash": "526c2bfe938c542b224eb8f596ddafc05ce4da8dbc0d3f34a084513d28da2668",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "exactly_one_financial_owner": true,
+          "inflight_inventory_tied_out": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-rollback",
+        "scenario": "rollback",
+        "scope_hash": "0edca6e0f3005f4f1c7731923637a4142d477d2aad4169cb3216eb172510b1fe",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "settled_entries_preserved": true,
+          "new_intake_rerouted_only": true,
+          "outstanding_ownership_preserved": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "test-recovery-support",
+        "scenario": "recovery-support",
+        "scope_hash": "1365d2823e51e42441cf1b2cf047d802c0eec114140be0d51169b9418d4101c8",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "reconciliation_breaks_owned": true,
+          "support_handoff_exercised": true,
+          "monitoring_alert_observed": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      }
+    ],
+    "negative_path_coverage": [
+      {
+        "scenario": "duplicate-event",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "lost-event",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "delayed-event",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "out-of-order",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "crash-after-commit",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "network-partition",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "uncertain-money",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "cutover-inflight",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "rollback",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "recovery-support",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      }
+    ],
+    "evidence_basis": "inline records inspected against explicit invariants; source identity and test execution not authenticated",
+    "go_live_authorized": false,
+    "resilience_certified": false,
+    "deployment_executed": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-service-incident-investigator",
+      "reason": "Investigate operational failures and uncertain payment outcomes before closing readiness gaps.",
+      "required_inputs": [
+        "version-bound test failures and incident timeline",
+        "unique payment outcome inventory",
+        "reconciliation evidence"
+      ],
+      "handoff_id": "9b712882c6ec7deca4704445a020de90c54efa35fa6eb18746b6695325405823",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-integration-readiness-reviewer",
+      "case_id": "synthetic-phase3-operations-001",
+      "lead_owner": "payment-operations",
+      "requested_output": "Investigate operational failures and uncertain payment outcomes before closing readiness gaps.",
+      "source_refs": [
+        "synthetic://operating-records/v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "This is a scoped offline artifact review, not a chaos test runner, production certification or independent source authentication. Baseline scenarios are library review criteria and cannot establish scheme or regulatory compliance."
+  ]
+}

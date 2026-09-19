@@ -15,7 +15,7 @@ Usage:
 Prints the analysis JSON to stdout.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, math
 from pathlib import Path
 
 DEFAULT_CONFIG = {
@@ -31,7 +31,7 @@ ESCALATORS = {"missing_coverage", "exclusion_match"}
 
 def _num(v):
     try:
-        return float(v)
+        return float(v) if not isinstance(v, bool) and math.isfinite(float(v)) else None
     except (TypeError, ValueError):
         return None
 
@@ -54,7 +54,7 @@ def compute(doc: dict) -> dict:
     for c in coverages:
         cov_by_type.setdefault(str(c.get("type", "")).lower(), c)
     excluded = {str(x.get("peril", "")).lower(): x for x in (policy.get("exclusions") or [])}
-    bought_back = {str(en.get("adds", "")).lower() for en in (policy.get("endorsements") or [])}
+    bought_back = set()  # presence alone never proves an exclusion was removed for this exposure
     present_endorsements = {str(en.get("adds", "")).lower() for en in (policy.get("endorsements") or [])}
     schedule_cite = _pol_cite(f"{policy.get('policy_number', '?')}#coverage-schedule")
 
@@ -214,6 +214,15 @@ def compute(doc: dict) -> dict:
     else:
         not_evaluable.append({"gap_type": "endorsement_gap", "why": "no exposure declares a recommended_endorsement"})
 
+    if not isinstance(policy.get("coverages"), list) or not policy["coverages"]:
+        gaps = [g for g in gaps if g["gap_type"] != "missing_coverage"]
+        not_evaluable.append({"gap_type": "missing_coverage", "why": "complete coverage schedule required; missing document is not absent coverage"})
+    for check, key in (("limit_shortfall", "limit"), ("deductible_burden", "deductible")):
+        if any(_num(c.get(key)) is None for c in coverages) or not coverages:
+            gaps = [g for g in gaps if g["gap_type"] != check]
+            not_evaluable.append({"gap_type": check, "why": "comparable numeric policy values are incomplete"})
+    if policy.get("endorsements"):
+        not_evaluable.append({"gap_type": "endorsement_effect", "why": "endorsement conditions and exposure applicability require wording review; presence does not automatically remove exclusions"})
     fired_names = [g["gap_type"] for g in gaps if g["fired"]]
     # deterministic priority mapping (see references/domain-rules.md)
     if len(fired_names) >= 3 or (ESCALATORS & set(fired_names)):
@@ -234,6 +243,7 @@ def compute(doc: dict) -> dict:
         ]
 
     return {
+        "calculation_inputs": doc,
         "analysis_id": f"cga-{str(doc['profile_id']).replace('*', '')}-{as_of}-0001",
         "profile_id": doc["profile_id"],
         "as_of": as_of,
@@ -247,6 +257,36 @@ def compute(doc: dict) -> dict:
         "review_prompts": review_prompts,
         "disclaimer": DISCLAIMER,
     }
+
+
+
+# Bind native result and source snapshot to the portable insurance evidence contract.
+_native_compute = compute
+def compute(doc):
+    from insurance_contract import build_artifact, stable_hash
+    result = _native_compute(doc)
+    output = result[0] if isinstance(result, tuple) else result
+    issues = []
+    for field in ("not_evaluable", "data_gaps"):
+        for item in output.get(field, []):
+            issues.append(str(item))
+    if output.get("cost_comparison_status") == "not_comparable":
+        issues.append("quotes are not directly comparable; aggregate ranking suppressed")
+    for item in output.get("segments", []):
+        if not item.get("packageable"):
+            issues.append(f"segment {item.get('segment_id')}: {item.get('status')}")
+    for item in output.get("profiles", []):
+        if item.get("recommended_disposition") == "needs-data":
+            issues.append(f"submission {item.get('submission_id')} requires data")
+    for item in output.get("reconciliation", []):
+        if item.get("status") in {"mismatch", "unparseable"}:
+            issues.append(f"unresolved source conflict: {item.get('field')}")
+    for key in ("comparison_id", "analysis_id", "review_id", "packet_id", "worksheet_id", "triage_id", "interpretation_id"):
+        if key in output:
+            output[key] = "coverage_needs_review-" + stable_hash(doc)[:24]
+    output["artifact"] = build_artifact(doc, output, producer="coverage-gap-analyzer", artifact_type="coverage_needs_review",
+        completeness="partial" if issues else "complete", evaluability="partial" if issues else "evaluable", issues=issues)
+    return result
 
 
 def main(argv):

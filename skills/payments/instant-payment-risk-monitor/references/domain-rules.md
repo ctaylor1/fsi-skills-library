@@ -1,0 +1,5 @@
+# Domain rules
+
+Active rules are velocity (count/amount), per-transaction limit and aggregate outbound/inbound ratio with beneficiary count. The latter is a descriptive screening indicator, not fund tracing, temporal pass-through proof or a mule determination. Configured thresholds are firm policy examples, not rail ceilings or reporting law. No cross-currency sums or unknown-status fallback. Legacy structuring/watchlist/liquidity rules are explicitly not evaluated. FedNow settlement uses a Federal Reserve master or correspondent account and does not require RTP-style prefunding. Do not assign one funding model to both rails.
+
+Explicit offset-aware `as_of`, `window_minutes`, `max_staleness_minutes`, versioned rules and accounts. Each account declares legal entity, account ID, currency, scheme, feed timestamp and source reference; each payment carries ID, currency, scheme, status, direction, amount and timestamp. Known legacy financial-crime/liquidity rules and funding positions can be supplied only to surface unresolved handoffs. Screening outputs are cited upstream references, not locally adjudicated matches.

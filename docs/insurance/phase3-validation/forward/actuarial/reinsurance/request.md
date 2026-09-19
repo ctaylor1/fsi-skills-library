@@ -1,0 +1,1 @@
+As assumed underwriter for Cedar, review this no-reinstatement occurrence layer at a 25% signed share. Check annual aggregate exhaustion and period/peril exclusions, calculate scenario economics and expected loss ratio, and retain the unresolved wording issue. Do not bind.

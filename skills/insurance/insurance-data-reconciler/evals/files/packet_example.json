@@ -1,0 +1,228 @@
+{
+  "lineage_id": "idr-ae6061e90de7147a",
+  "as_of": "2026-01-15",
+  "config_version": "lineage@v2026.03",
+  "records_checked": 5,
+  "prior_records_checked": 3,
+  "checks": {
+    "duplicates": "evaluable",
+    "missing_periods": "evaluable",
+    "prior_reconciliation": "evaluable",
+    "movement": "partial",
+    "definition_check": "evaluable"
+  },
+  "break_counts": {
+    "duplicate": 1,
+    "missing_period": 4,
+    "definition_shift": 1,
+    "new_series": 1,
+    "unexplained_movement": 1
+  },
+  "breaks": [
+    {
+      "type": "duplicate",
+      "key": "LOB-AUTO",
+      "metric": "incurred_loss",
+      "period": "2025Q4",
+      "detail": "2 current rows share key/metric/period; comparisons withheld",
+      "source_refs": [
+        "dataset=loss;LOB-AUTO;2025Q4;a",
+        "dataset=loss;LOB-AUTO;2025Q4;b"
+      ],
+      "citation": "dataset=loss;LOB-AUTO;2025Q4;a | dataset=loss;LOB-AUTO;2025Q4;b",
+      "observations": [
+        {
+          "side": "current",
+          "source_ref": "dataset=loss;LOB-AUTO;2025Q4;a",
+          "value": "1200000",
+          "basis": {
+            "definition_version": "def-v3",
+            "currency": "USD",
+            "unit": "currency",
+            "financial_basis": "gross",
+            "date_basis": "accident-quarter",
+            "valuation_date": "2025-12-31"
+          }
+        },
+        {
+          "side": "current",
+          "source_ref": "dataset=loss;LOB-AUTO;2025Q4;b",
+          "value": "1200000",
+          "basis": {
+            "definition_version": "def-v3",
+            "currency": "USD",
+            "unit": "currency",
+            "financial_basis": "gross",
+            "date_basis": "accident-quarter",
+            "valuation_date": "2025-12-31"
+          }
+        }
+      ]
+    },
+    {
+      "type": "missing_period",
+      "key": "LOB-AUTO",
+      "metric": "incurred_loss",
+      "period": "2025Q3",
+      "detail": "expected current period is absent",
+      "source_refs": [
+        "declared-expectation"
+      ],
+      "citation": "declared-expectation"
+    },
+    {
+      "type": "missing_period",
+      "key": "LOB-CYBER",
+      "metric": "incurred_loss",
+      "period": "2025Q3",
+      "detail": "expected current period is absent",
+      "source_refs": [
+        "declared-expectation"
+      ],
+      "citation": "declared-expectation"
+    },
+    {
+      "type": "missing_period",
+      "key": "LOB-HOME",
+      "metric": "earned_premium",
+      "period": "2025Q3",
+      "detail": "expected current period is absent",
+      "source_refs": [
+        "declared-expectation"
+      ],
+      "citation": "declared-expectation"
+    },
+    {
+      "type": "missing_period",
+      "key": "LOB-LIABILITY",
+      "metric": "incurred_loss",
+      "period": "2025Q3",
+      "detail": "expected current period is absent",
+      "source_refs": [
+        "declared-expectation"
+      ],
+      "citation": "declared-expectation"
+    },
+    {
+      "type": "definition_shift",
+      "key": "LOB-HOME",
+      "metric": "earned_premium",
+      "period": "2025Q4",
+      "detail": "definition def-v2 differs from configured def-v3",
+      "source_refs": [
+        "dataset=prem;LOB-HOME;2025Q4"
+      ],
+      "citation": "dataset=prem;LOB-HOME;2025Q4"
+    },
+    {
+      "type": "new_series",
+      "key": "LOB-CYBER",
+      "metric": "incurred_loss",
+      "period": "2025Q4",
+      "detail": "no matching prior observation; movement not evaluable",
+      "source_refs": [
+        "dataset=loss;LOB-CYBER;2025Q4"
+      ],
+      "citation": "dataset=loss;LOB-CYBER;2025Q4"
+    },
+    {
+      "type": "unexplained_movement",
+      "key": "LOB-LIABILITY",
+      "metric": "incurred_loss",
+      "period": "2025Q4",
+      "detail": "movement 50.0% exceeds threshold 20.0% without explanation",
+      "source_refs": [
+        "current;LOB-LIABILITY",
+        "prior;LOB-LIABILITY"
+      ],
+      "citation": "current;LOB-LIABILITY | prior;LOB-LIABILITY"
+    }
+  ],
+  "comparisons": [
+    {
+      "key": "LOB-HOME",
+      "metric": "earned_premium",
+      "period": "2025Q4",
+      "prior": "490000",
+      "current": "500000",
+      "absolute_change": "10000",
+      "movement_pct": "2.040816326530612244897959184",
+      "basis": {
+        "definition_version": "def-v2",
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "date_basis": "accident-quarter",
+        "valuation_date": "2025-12-31"
+      },
+      "source_refs": [
+        "prior;LOB-HOME",
+        "dataset=prem;LOB-HOME;2025Q4"
+      ]
+    },
+    {
+      "key": "LOB-LIABILITY",
+      "metric": "incurred_loss",
+      "period": "2025Q4",
+      "prior": "600000",
+      "current": "900000",
+      "absolute_change": "300000",
+      "movement_pct": "50.0",
+      "basis": {
+        "definition_version": "def-v3",
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "date_basis": "accident-quarter",
+        "valuation_date": "2025-12-31"
+      },
+      "source_refs": [
+        "prior;LOB-LIABILITY",
+        "current;LOB-LIABILITY"
+      ]
+    }
+  ],
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "ambiguous current duplicate: LOB-AUTO/incurred_loss/2025Q4"
+  ],
+  "suggested_disposition": "breaks-for-review",
+  "disclaimer": "Data-lineage and break evidence only; no source data has been altered, no actuarial assumption selected, and no reserve data certified.",
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-data-reconciler",
+    "artifact_type": "insurance-data-reconciliation",
+    "as_of": "2026-01-15",
+    "context": {
+      "capacity": "carrier data analyst",
+      "represented_party": "synthetic-carrier",
+      "object_id": "portfolio-synthetic",
+      "jurisdiction": "US",
+      "line_of_business": "P&C"
+    },
+    "sources": [
+      {
+        "source_ref": "current-dataset",
+        "version": "snapshot-2",
+        "as_of": "2026-01-15"
+      },
+      {
+        "source_ref": "prior-dataset",
+        "version": "snapshot-1",
+        "as_of": "2026-01-15"
+      }
+    ],
+    "input_hash": "ae6061e90de7147a6431d925c9a548eeab390ee04b51d6b9f2796422a662f50d",
+    "output_hash": "94b745bc3196727043f35cc2a1e252ea36b2e7c912589b6c5dab57252d65be3c",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "ambiguous current duplicate: LOB-AUTO/incurred_loss/2025Q4"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "330b503dafbbffdcfc624c7d51b5d39b9dd04892f79ade73474697f77d212bc9"
+  }
+}

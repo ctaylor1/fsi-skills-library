@@ -1,0 +1,1 @@
+As experience analyst for Cedar Assurance, prepare a first-half mortality count study for LIFE-COHORT-349. Check delayed entry, a segment transfer and deaths, compare the supplied central intensities, and state whether this is enough to reset mortality assumptions.

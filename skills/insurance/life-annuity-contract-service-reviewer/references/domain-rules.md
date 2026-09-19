@@ -1,0 +1,7 @@
+# Domain rules and bounded method
+
+The bounded bridge assumes gross withdrawal reduces account value and listed deductions are within that gross amount, except the signed market value adjustment. This is a supplied scenario convention; other debit mechanics require specialist adaptation and are not silently modeled. Surrender uses the supplied current account value as gross. Every deduction needs an explicit amount, including zero. A withdrawal cannot exceed account value. Benefit-base consequences require supplied before/after values; the code never infers them from cash proceeds. Beneficiary status does not establish service authority. Assignee and profile-specified consents require contract/request-specific evidence. Contradictory/revoked consent evidence remains unresolved even when a received consent exists. No tax computation, suitability/best-interest recommendation, ownership adjudication, transaction execution or customer delivery is performed.
+
+These implementation rules are engineering constraints. Applicable contracts and reviewed jurisdiction/product profiles control professional interpretation; public primers do not establish universal legal requirements.
+
+Withdrawal/surrender scenarios require the original `contract.value_date` to equal review `as_of` exactly. Prior-day, future and missing snapshots stay unevaluated with a specific date finding and the supplied date preserved. Same-day freshness is a bounded method choice; no stale-value tolerance or universal legal requirement is inferred.

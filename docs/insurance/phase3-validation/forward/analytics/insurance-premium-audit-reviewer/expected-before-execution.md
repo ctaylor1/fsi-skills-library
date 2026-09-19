@@ -1,0 +1,1 @@
+WARE625000.25/100*1.37*.92=7877.503151; OFFICE123456.78/100*.19*.92=215.80245144. Sum8093.30560244 +37.5 =8130.80560244 exceeds8000, half-up8130.81. Less deposit7900 =230.81. Recomputed-minus-reported=.01; known exception, not license to bill.

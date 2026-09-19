@@ -1,0 +1,291 @@
+{
+  "experience": {
+    "exits": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [],
+    "results": {
+      "method": "constant_intensity_act365_count",
+      "segments": [
+        {
+          "segment_id": "A",
+          "exposure_days": "288",
+          "exposure_years": "0.7890410958904109589041095890",
+          "observed_events": "1",
+          "expected_events": "0.07890410958904109589041095890",
+          "central_observed_rate": "1.267361111111111111111111111",
+          "actual_to_expected": "12.67361111111111111111111111",
+          "right_censored_intervals": 2,
+          "source_refs": [
+            "ADMIN",
+            "ASSUMPTIONS"
+          ]
+        },
+        {
+          "segment_id": "B",
+          "exposure_days": "61",
+          "exposure_years": "0.1671232876712328767123287671",
+          "observed_events": "1",
+          "expected_events": "0.03342465753424657534246575342",
+          "central_observed_rate": "5.983606557377049180327868853",
+          "actual_to_expected": "29.91803278688524590163934427",
+          "right_censored_intervals": 0,
+          "source_refs": [
+            "ADMIN",
+            "ASSUMPTIONS"
+          ]
+        }
+      ],
+      "risk_sets": [
+        {
+          "event_date": "2026-02-01",
+          "at_risk_before_event": 3,
+          "events": 1,
+          "life_ids": [
+            "X1",
+            "X2",
+            "X3"
+          ]
+        },
+        {
+          "event_date": "2026-06-01",
+          "at_risk_before_event": 2,
+          "events": 1,
+          "life_ids": [
+            "X2",
+            "X3"
+          ]
+        }
+      ],
+      "rows": [
+        {
+          "record_id": "R1",
+          "life_id": "X1",
+          "segment_id": "A",
+          "risk_start": "2026-01-01",
+          "risk_end": "2026-02-01",
+          "exposure_days": 31,
+          "observed_event": true,
+          "source_ref": "ADMIN"
+        },
+        {
+          "record_id": "R2",
+          "life_id": "X2",
+          "segment_id": "A",
+          "risk_start": "2026-01-15",
+          "risk_end": "2026-07-01",
+          "exposure_days": 167,
+          "observed_event": false,
+          "source_ref": "ADMIN"
+        },
+        {
+          "record_id": "R3",
+          "life_id": "X3",
+          "segment_id": "A",
+          "risk_start": "2026-01-01",
+          "risk_end": "2026-04-01",
+          "exposure_days": 90,
+          "observed_event": false,
+          "source_ref": "ADMIN"
+        },
+        {
+          "record_id": "R4",
+          "life_id": "X3",
+          "segment_id": "B",
+          "risk_start": "2026-04-01",
+          "risk_end": "2026-06-01",
+          "exposure_days": 61,
+          "observed_event": true,
+          "source_ref": "ADMIN"
+        }
+      ],
+      "credibility_assessed": false
+    }
+  },
+  "reinsurance": {
+    "exits": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [
+      {
+        "code": "wording_exception",
+        "message": "Hours clause: Event aggregation wording under negotiation; scenario grouping conditional.",
+        "source_refs": [
+          "WORDING"
+        ],
+        "severity": "review"
+      },
+      {
+        "code": "out_of_scope_event",
+        "message": "active/D: peril not in supplied covered set",
+        "source_refs": [
+          "SCENARIOS",
+          "TERMS"
+        ],
+        "severity": "review"
+      },
+      {
+        "code": "out_of_scope_event",
+        "message": "active/C: outside losses-occurring period [start,end)",
+        "source_refs": [
+          "SCENARIOS",
+          "TERMS"
+        ],
+        "severity": "review"
+      }
+    ],
+    "results": {
+      "method": "assumed_occurrence_xol_no_reinstatement",
+      "scenarios": [
+        {
+          "scenario_id": "quiet",
+          "probability": ".4",
+          "events": [],
+          "signed_loss": "0",
+          "net_underwriting_cashflow": "46.0000",
+          "aggregate_exhausted": false
+        },
+        {
+          "scenario_id": "active",
+          "probability": ".6",
+          "events": [
+            {
+              "event_id": "A",
+              "coverage_exceptions": [],
+              "occurrence_layer_loss": "200",
+              "after_annual_aggregate": "200",
+              "signed_loss": "50.00",
+              "aggregate_remaining": "100",
+              "source_refs": [
+                "SCENARIOS",
+                "TERMS"
+              ]
+            },
+            {
+              "event_id": "B",
+              "coverage_exceptions": [],
+              "occurrence_layer_loss": "200",
+              "after_annual_aggregate": "100",
+              "signed_loss": "25.00",
+              "aggregate_remaining": "0",
+              "source_refs": [
+                "SCENARIOS",
+                "TERMS"
+              ]
+            },
+            {
+              "event_id": "D",
+              "coverage_exceptions": [
+                "peril not in supplied covered set"
+              ],
+              "occurrence_layer_loss": "0",
+              "after_annual_aggregate": "0",
+              "signed_loss": "0.00",
+              "aggregate_remaining": "0",
+              "source_refs": [
+                "SCENARIOS",
+                "TERMS"
+              ]
+            },
+            {
+              "event_id": "C",
+              "coverage_exceptions": [
+                "outside losses-occurring period [start,end)"
+              ],
+              "occurrence_layer_loss": "0",
+              "after_annual_aggregate": "0",
+              "signed_loss": "0.00",
+              "aggregate_remaining": "0",
+              "source_refs": [
+                "SCENARIOS",
+                "TERMS"
+              ]
+            }
+          ],
+          "signed_loss": "75.00",
+          "net_underwriting_cashflow": "-29.0000",
+          "aggregate_exhausted": true
+        }
+      ],
+      "expected_signed_loss": "45.000",
+      "expected_net_underwriting_cashflow": "1.00000",
+      "probability_negative_underwriting_cashflow": "0.6",
+      "risk_transfer_or_price_adequacy_determined": false,
+      "bind_authority_granted": false,
+      "signed_premium": "60.00",
+      "signed_expenses": "14.0000",
+      "expected_loss_ratio": "0.75"
+    }
+  },
+  "close": {
+    "exits": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [
+      {
+        "code": "close-control-break",
+        "message": "AR: current difference 20; proposed pro forma difference 5. Review the original break and any residual.",
+        "severity": "review",
+        "source_refs": [
+          "ACCOUNTS"
+        ]
+      },
+      {
+        "code": "close-control-break",
+        "message": "PAY: current difference -20; proposed pro forma difference -5. Review the original break and any residual.",
+        "severity": "review",
+        "source_refs": [
+          "ACCOUNTS"
+        ]
+      }
+    ],
+    "results": {
+      "account_reconciliations": [
+        {
+          "account_id": "AR",
+          "subledger_balance": "120",
+          "gl_balance": "100",
+          "difference_before": "20",
+          "proposed_gl_delta": "15",
+          "pro_forma_gl_balance": "115",
+          "difference_after_proposal": "5"
+        },
+        {
+          "account_id": "PAY",
+          "subledger_balance": "-120",
+          "gl_balance": "-100",
+          "difference_before": "-20",
+          "proposed_gl_delta": "-15",
+          "pro_forma_gl_balance": "-115",
+          "difference_after_proposal": "-5"
+        }
+      ],
+      "journal_checks": [
+        {
+          "journal_id": "J-15",
+          "signed_sum": "0",
+          "posted": false
+        }
+      ],
+      "basis": "INTERNAL-MGMT-CLOSE",
+      "currency": "USD",
+      "period": {
+        "start": "2026-06-01",
+        "end": "2026-06-30"
+      },
+      "sign_convention": "debit-positive",
+      "close_certified": false,
+      "journal_posting_authorized": false,
+      "measurement_and_recognition_decisions": "outside-method; approved supplied basis required"
+    }
+  }
+}

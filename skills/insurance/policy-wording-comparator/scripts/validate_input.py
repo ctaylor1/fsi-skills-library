@@ -23,7 +23,7 @@ DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 REQUIRED_TOP = ("as_of", "config_version", "subject_form", "baseline_form")
 REQUIRED_FORM = ("form_id", "form_name", "filing_status", "clauses")
 REQUIRED_CLAUSE = ("clause_id", "clause_type", "text", "source_ref")
-FILING_STATUS = {"filed", "approved", "draft", "manuscript", "proposed"}
+FILING_STATUS = {"filed", "approved", "draft", "manuscript", "proposed", "executed"}
 OF_RECORD = {"filed", "approved"}
 
 
@@ -72,6 +72,8 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     if not DATE_RE.match(str(doc["as_of"])):
         errors.append(f"as_of must start YYYY-MM-DD, got {doc['as_of']!r}")
 
+    if doc.get("contract_type", "policy") not in {"policy", "reinsurance"}:
+        errors.append("contract_type must be policy or reinsurance")
     _validate_form(doc, "subject_form", errors, warnings)
     _validate_form(doc, "baseline_form", errors, warnings)
 

@@ -18,7 +18,8 @@ Usage:
 Exit 0 if no errors (warnings allowed), 1 otherwise.
 """
 from __future__ import annotations
-import json, re, sys
+import json, re, sys, math
+from datetime import date
 from pathlib import Path
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
@@ -29,7 +30,7 @@ FREQUENCIES = {"annual", "semiannual", "quarterly", "monthly"}
 
 def _num(v):
     try:
-        return float(v)
+        return float(v) if not isinstance(v, bool) and math.isfinite(float(v)) else None
     except (TypeError, ValueError):
         return None
 
@@ -59,6 +60,13 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         for k in REQUIRED_QUOTE:
             if k not in q or q[k] in (None, ""):
                 errors.append(f"{tag}: missing '{k}'")
+        if q.get("as_of"):
+            try:
+                date.fromisoformat(str(q["as_of"]))
+            except ValueError:
+                errors.append(f"{tag}: invalid source as_of date")
+        else:
+            warnings.append(f"{tag}: source as_of missing; comparison is not comparable")
         qid = q.get("quote_id")
         if qid in ids:
             errors.append(f"{tag}: duplicate quote_id")
@@ -68,7 +76,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         if not isinstance(prem, dict):
             errors.append(f"{tag}: premium must be an object with amount + frequency")
         else:
-            if _num(prem.get("amount")) is None:
+            if _num(prem.get("amount")) is None or _num(prem.get("amount")) < 0:
                 errors.append(f"{tag}: premium.amount not numeric")
             if prem.get("frequency") not in FREQUENCIES:
                 errors.append(f"{tag}: premium.frequency must be one of {sorted(FREQUENCIES)}")
@@ -90,8 +98,8 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
                     errors.append(f"{tag}: coverages[{j}] missing 'code'")
                 if c.get("deductible") is not None and _num(c.get("deductible")) is None:
                     errors.append(f"{tag}: coverages[{j}] ({c.get('code','?')}) deductible not numeric")
-                if c.get("limit") in (None, "") and c.get("deductible") in (None, ""):
-                    warnings.append(f"{tag}: coverage {c.get('code','?')} has neither limit nor deductible — not comparable")
+                if c.get("limit") in (None, "") or c.get("deductible") in (None, ""):
+                    warnings.append(f"{tag}: coverage {c.get('code','?')} has an unknown limit or deductible — not comparable")
 
         for f in q.get("fees") or []:
             if _num(f.get("amount")) is None:

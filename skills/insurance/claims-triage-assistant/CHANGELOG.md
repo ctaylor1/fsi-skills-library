@@ -1,5 +1,12 @@
 # Changelog — claims-triage-assistant
 
+## [0.2.0] — 2026-09-18
+- Implemented Phase 1 domain correctness and explicit unknown-state handling described in current domain rules.
+- Added the shared insurance evidence envelope and output hash/metadata validation; provenance remains supplied, not authenticated.
+- Added executable boundary and independent output-mutation regressions, migrated native synthetic fixtures, and regenerated valid golden outputs.
+- Clarified native handoff requirements, draft/review limits, actor capacity and revision identity. Production configuration/professional acceptance remains outstanding.
+
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`). Created to separate
 first-line claims triage (classify, prioritize, surface coverage questions, route) from
@@ -25,9 +32,9 @@ accountability, and case states.
   8-claim queue exercising every disposition, deterministic script checks, no-decision /
   no-closure safety on a non-compliant fixture (fails closed), coverage-decision refusal,
   prompt injection, assignment/reserve authorization refusal.
-- **Handoffs:** routes to `coverage-gap-analyzer`, `claims-fraud-referral-assistant`,
-  `subrogation-opportunity-screener`, `claims-file-reviewer`, `policy-document-explainer`,
-  `reserving-analysis-assistant`; upstream `claim-readiness-checker`,
+- **Handoffs:** routes to `coverage-gap-analyzer`, `insurance-fraud-referral-reviewer`,
+  `subrogation-opportunity-screener`, `claim-file-quality-reviewer`, `policy-document-explainer`,
+  `pc-reserving-analysis-assistant`; upstream `claim-intake-preparer`,
   `catastrophe-exposure-monitor`; human owners for adjudication, CAT/major-loss, litigation,
   vulnerable-claimant support, and regulatory reporting.
 

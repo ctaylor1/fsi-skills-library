@@ -12,11 +12,11 @@ a single policy in depth, or evaluate policy wording against a standard.
 | `policy-wording-comparator` | The user needs clause/endorsement wording compared against approved forms/standard | quote/form references |
 | `policy-document-explainer` | The user wants one policy or quote document explained in plain language | the specific document |
 | `policy-renewal-reviewer` | The comparison is expiring-vs-proposed renewal terms for an in-force policy | expiring + proposed terms |
-| `submission-intake-triager` | Raw broker emails/ACORD/PDFs must first be ingested and structured before comparison | source documents |
+| `insurance-submission-preparer` | Raw broker emails/ACORD/PDFs must first be ingested and structured before comparison | source documents |
 
 ## Upstream (may call this skill)
 
-`submission-intake-triager` or a producer workbench may hand structured quotes to this skill
+`insurance-submission-preparer` or a producer workbench may hand structured quotes to this skill
 for a normalized side-by-side. A scheduled monitor is **not** used here (this skill is
 interactive, `aws-fsi-scheduled-agent: no`).
 

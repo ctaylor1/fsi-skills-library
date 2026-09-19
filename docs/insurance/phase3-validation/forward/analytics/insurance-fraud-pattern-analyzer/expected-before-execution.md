@@ -1,0 +1,1 @@
+B-7 linksC1,C2,C4, E-2 linksC2,C4. R-COMMON excluded. Union3 flagged claims amount5000, not signal amounts summed8000. Mature flagged labels confirmed1,cleared1,pending1; confirmed share1/2=50%. May all3/1000=.003 flagged2/1000=.002; June all3/1200=.0025 flagged1/1200=.0008333333. Claims/day May3/31 June3/30. Not historical precision, fraud loss or proof.

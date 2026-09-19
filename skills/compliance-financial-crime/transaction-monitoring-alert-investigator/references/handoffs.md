@@ -24,7 +24,7 @@ specific subject.
 | `sanctions-match-adjudicator` | An indicator turns on a potential sanctions match on the subject or a counterparty that needs adjudication | subject/counterparty + screening context |
 | `kyc-customer-due-diligence-screener` | The activity reveals a KYC/CDD gap, stale profile, or beneficial-ownership question that must be refreshed | `subject_id` + identified gap |
 | `adverse-media-investigator` | A party needs credible adverse-media assessment to weigh relevance and source quality | subject/counterparty identity |
-| `payment-fraud-case-investigator` | The pattern is better explained as payment fraud (device/identity/beneficiary) than AML typology | `alert_id` + transaction scope |
+| `payment-fraud-and-scam-investigator` | The pattern is better explained as payment fraud (device/identity/beneficiary) than AML typology | `alert_id` + transaction scope |
 
 Disposition itself — closing the case, deciding and filing a SAR, clearing the alert, or taking an
 account/customer action — is performed by the **FIU investigator and their authorized reviewers**

@@ -34,7 +34,7 @@ happen outside it.
 - **General-ledger control-account reconciliation** (GL vs subledger/source system) →
   `gl-reconciler` (Finance & Operations), not fund position/cash reconciliation.
 - **Payment / settlement-file reconciliation** (network/acquirer/processor settlement to bank cash)
-  → `settlement-break-reconciler` (Payments).
+  → `payment-settlement-reconciler` (Payments).
 - **Order/trade break resolution and repair** → `trade-break-resolver`; this skill only classifies
   and routes such breaks.
 

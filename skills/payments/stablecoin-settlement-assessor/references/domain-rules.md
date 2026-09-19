@@ -1,0 +1,7 @@
+# Settlement decision rules
+
+A usable case identifies participant, use case, corridor, token, chain and fiat benchmark. Reject missing structural identities; retain absent evidence as gaps. Require separate owner review for the issuer's reserve/redemption promise, custody/key operation, payment user's economic exposure and intermediary duties. An asset name or reserve attestation does not establish that this holder can redeem, at what price, into which bank account or when.
+
+Fiat alternatives may have cutoff, correspondent, FX and beneficiary-deduction constraints. Stablecoin alternatives may have on/offramp spreads, network costs, freezes, bridge exposure, fork/reorg behavior, redemption queues and fiat access windows. Both need provider/counterparty, legal, financial-crime, availability and failure recovery evidence. Costs are disjoint explicit same-basis amounts; convert externally with evidence. A binding mismatch or unknown fee suppresses total. Unequal beneficiary value suppresses a saving comparison. No risk score reduces all conditions to price.
+
+Only date-covered, actor/corridor-matched applicability reviews qualify as covered input; the helper still makes no legal conclusion. Supplied production status is not independently authenticated. Pilot and research cases remain unsuitable as proof of production access. Additional digital-money instruments remain reference-only.

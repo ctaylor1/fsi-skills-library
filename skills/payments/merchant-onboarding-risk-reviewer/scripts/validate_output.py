@@ -26,8 +26,8 @@ from pathlib import Path
 
 # Fixed severity contract — mirrors scripts/calculate_or_transform.py (kept local so this
 # screen is self-contained and can validate any pack, however produced).
-BLOCKING = {"sanctions_screening", "prohibited_business_model"}
-INCOMPLETE = {"evidence_incomplete"}
+BLOCKING = {"prohibited_business_model"}
+INCOMPLETE = {"evidence_incomplete", "sanctions_screening", "policy_applicability_unknown", "screening_coverage_unknown"}
 ELEVATED = {
     "restricted_business_model", "adverse_media", "beneficial_ownership_gap",
     "high_risk_geography", "pep_ownership", "expected_activity_outsized",
@@ -63,6 +63,8 @@ DECISION_PATTERNS = [
 
 
 def _recommendation(fired: set) -> str:
+    if "policy_applicability_unknown" in fired:
+        return "Escalate-Insufficient-Evidence"
     if BLOCKING & fired:
         return "Recommend-Decline"
     if INCOMPLETE & fired:
@@ -74,6 +76,14 @@ def _recommendation(fired: set) -> str:
 
 def validate(pack: dict) -> list[str]:
     errors: list[str] = []
+    try:
+        from calculate_or_transform import compute
+        expected_core = compute(pack["source_snapshot"])
+        if any(pack.get(k) != v for k,v in expected_core.items()):
+            errors.append("core output differs from source snapshot")
+    except (KeyError, TypeError, ValueError) as exc:
+        errors.append("missing or invalid source snapshot: " + str(exc))
+
     findings = pack.get("findings") or []
 
     fired_from_findings = {f["finding"] for f in findings if f.get("fired")}

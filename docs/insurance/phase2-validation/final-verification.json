@@ -1,0 +1,105 @@
+{
+  "date": "2026-09-18",
+  "checks": [
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/validate_skills.py"
+      ],
+      "exit": 0,
+      "stdout": "\nValidated 271 skill(s): 0 error(s), 0 warning(s).\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/check_handoffs.py"
+      ],
+      "exit": 0,
+      "stdout": "\n0 dangling adjacent-skill reference(s) across 271 skill(s).\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/check_insurance_handoffs.py"
+      ],
+      "exit": 0,
+      "stdout": "Insurance route/migration checks: 0 error(s)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/sync_insurance_contract.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "Insurance contract verified: 40 references, 40 helpers\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/sync_insurance_foundation.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "Insurance foundation: 17 expected bundles; 0 missing/drifted\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/ruff",
+        "check",
+        "--select",
+        "E9,F",
+        "shared/insurance",
+        "skills/insurance",
+        "tools/test_insurance_contract.py",
+        "tools/test_insurance_foundation.py",
+        "tools/test_insurance_phase1.py",
+        "tools/test_insurance_phase2.py",
+        "tools/check_insurance_handoffs.py",
+        "tools/sync_insurance_contract.py",
+        "tools/sync_insurance_foundation.py",
+        "tools/run_insurance_phase2_forward.py"
+      ],
+      "exit": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "skills/insurance",
+        "shared/insurance",
+        "docs/insurance",
+        "tools/test_insurance_phase2.py",
+        "tools/test_insurance_foundation.py",
+        "tools/run_insurance_phase2_forward.py",
+        "tools/sync_insurance_foundation.py",
+        "README.md",
+        "STATUS.md",
+        "docs/SOURCES.md"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "insurance_packages": 40,
+  "new_insurance_packages": 17,
+  "catalog_packages": 271,
+  "frozen_forward_inputs": 20,
+  "retained_original_artifact_files_verified": 477,
+  "source_files_hashed": 759,
+  "final_replay_matches_independent_results": true,
+  "evidence_readback": "passed",
+  "limitations": "Bounded synthetic software/agent evaluation; not professional acceptance or deployment approval.",
+  "artifact_files_hashed": 633,
+  "artifact_manifest_sha256": "d6a02925f64146442d6e3fd3f255946a194dc6644dd8a72ebf2d458f68434a02"
+}

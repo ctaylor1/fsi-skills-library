@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-credential-authentication-reviewer",
+  "request_id": "SYNTH-CREDENTIAL-1",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "merchant",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": true,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "SYNTH-CREDENTIAL-1",
+    "as_of": "2026-09-18",
+    "jurisdiction": "UK",
+    "participant": "merchant",
+    "sources": [
+      {
+        "source_id": "S1",
+        "reference": "synthetic://credential-ledger",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "credentials": [
+        {
+          "credential_id": "opaque-C1",
+          "kind": "network-token",
+          "state": "active",
+          "scope": {
+            "merchant_ref": "M-1",
+            "token_requestor_ref": "TR-1"
+          },
+          "valid_from": "2026-01-01",
+          "valid_until": "2026-12-31",
+          "provisioning": {
+            "identity_review_ref": "review-id",
+            "consent_ref": "consent1",
+            "account_binding_ref": "account-link"
+          },
+          "source_ids": [
+            "S1"
+          ]
+        }
+      ],
+      "authentications": [
+        {
+          "authentication_id": "A1",
+          "protocol": "3ds",
+          "result": "authenticated",
+          "binding": {
+            "instruction_id": "I-1",
+            "payer_ref": "P-1",
+            "payee_ref": "M-1",
+            "currency": "GBP",
+            "amount": "40.00"
+          },
+          "source_ids": [
+            "S1"
+          ],
+          "credential_id": "opaque-C1",
+          "valid_from": "2026-09-18",
+          "valid_until": "2026-09-18"
+        }
+      ],
+      "requests": [
+        {
+          "operation_id": "USE1",
+          "credential_id": "opaque-C1",
+          "action": "use",
+          "scope": {
+            "merchant_ref": "M-1",
+            "token_requestor_ref": "TR-1"
+          },
+          "binding": {
+            "instruction_id": "I-1",
+            "payer_ref": "P-1",
+            "payee_ref": "M-1",
+            "currency": "GBP",
+            "amount": "40.00"
+          },
+          "authentication_id": "A1",
+          "payment_intent_ref": "intent1",
+          "authentication_applicability_review_ref": "scope-review",
+          "source_ids": [
+            "S1"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "2fd5193347ee192edc8087b8c40c11ca26a9c5838ece300edea13b979e96fcd4",
+  "findings": [],
+  "result": {
+    "operations": [
+      {
+        "operation_id": "USE1",
+        "credential_id": "opaque-C1",
+        "action": "use",
+        "assessment": "supplied-evidence-for-review",
+        "source_ids": [
+          "S1"
+        ],
+        "credential_scope": {
+          "merchant_ref": "M-1",
+          "token_requestor_ref": "TR-1"
+        },
+        "authentication_result": "authenticated",
+        "gaps": [],
+        "credential_changed": false,
+        "payment_authorized": false,
+        "sca_or_liability_shift_determined": false
+      }
+    ],
+    "cryptographic_verification_performed": false,
+    "lifecycle_actions_executed": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Review exact payment intent and instruction controls separately from credential/authentication evidence.",
+      "required_inputs": [
+        "exact native instruction",
+        "payer intent and scoped policy",
+        "unresolved credential/authentication findings"
+      ],
+      "handoff_id": "0e0ded936ec39496bd6b1bbe770ea7fdca63cbdcc55b594e193313f4ee4532cf",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-credential-authentication-reviewer",
+      "case_id": "SYNTH-CREDENTIAL-1",
+      "lead_owner": "merchant",
+      "requested_output": "Review exact payment intent and instruction controls separately from credential/authentication evidence.",
+      "source_refs": [
+        "synthetic://credential-ledger"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-platform-architecture-reviewer",
+      "reason": "Review token/provider/event propagation, revocation and idempotency design.",
+      "required_inputs": [
+        "credential operation assessment",
+        "source-linked system flows",
+        "revocation and recovery design"
+      ],
+      "handoff_id": "a2a273ee4da11e9b4a89302306ac2f230a2edfb877fe9684a70471426e2132b5",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-credential-authentication-reviewer",
+      "case_id": "SYNTH-CREDENTIAL-1",
+      "lead_owner": "merchant",
+      "requested_output": "Review token/provider/event propagation, revocation and idempotency design.",
+      "source_refs": [
+        "synthetic://credential-ledger"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Opaque credential references only. No token value, PAN, authentication secret, cryptographic assertion or biometric material is processed.",
+    "Declared authentication, credential scope and review references are not verified identity, payment authority, regulatory compliance or network liability-shift determinations."
+  ]
+}

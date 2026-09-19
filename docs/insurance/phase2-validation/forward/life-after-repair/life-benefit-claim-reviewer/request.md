@@ -1,0 +1,1 @@
+I am the carrier's life claims reviewer for claim LC-91. Please reconcile the documents, the competing beneficiary records and the supplied benefit arithmetic. Explain what prevents allocation and what needs specialist review. Do not decide entitlement or issue payment.

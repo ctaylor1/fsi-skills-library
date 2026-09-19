@@ -1,0 +1,243 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-market-conduct-reviewer",
+  "case_id": "P3-SYNTHETIC-001",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "carrier",
+    "represented_party": "Example Mutual",
+    "object_id": "BOOK-1",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "status": "needs-review",
+  "findings": [
+    {
+      "code": "control-exception",
+      "message": "R2/ACK: supplied control exception; obtain owner/root-cause/remediation review",
+      "severity": "review",
+      "source_refs": [
+        "SRC"
+      ]
+    }
+  ],
+  "results": {
+    "sample_design": {
+      "method": "purposive",
+      "population_count": 100,
+      "source_refs": [
+        "SRC"
+      ]
+    },
+    "control_observations": [
+      {
+        "record_id": "R1",
+        "rule_id": "ACK",
+        "observed": "3",
+        "expected": 5,
+        "assessment": "observed_within_target",
+        "source_refs": [
+          "SRC"
+        ],
+        "rule_source_refs": [
+          "SRC"
+        ]
+      },
+      {
+        "record_id": "R2",
+        "rule_id": "ACK",
+        "observed": "8",
+        "expected": 5,
+        "assessment": "observed_exception",
+        "source_refs": [
+          "SRC"
+        ],
+        "rule_source_refs": [
+          "SRC"
+        ]
+      }
+    ],
+    "population_metrics": [
+      {
+        "metric_id": "complaints-per-policy",
+        "definition": [
+          "INTERNAL-C1",
+          "1",
+          "2026-08",
+          "complaints/policy",
+          "BOOK-1"
+        ],
+        "numerator": "6",
+        "denominator": "100",
+        "ratio": "0.06",
+        "source_rows": [
+          "M1",
+          "M2"
+        ]
+      }
+    ],
+    "sample_extrapolation": "not_performed",
+    "compliance_opinion": "not_made",
+    "filing_submitted": false,
+    "review_scope": "Supplied control tests and metric definitions, not a full examination or certified MCAS return"
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [
+    "R2/ACK: supplied control exception; obtain owner/root-cause/remediation review"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "P3-SYNTHETIC-001",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "carrier",
+      "represented_party": "Example Mutual",
+      "object_id": "BOOK-1",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "SRC",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "SYNTHETIC-P3",
+        "version": "1",
+        "source_refs": [
+          "SRC"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "pc"
+        ],
+        "rules": [
+          {
+            "rule_id": "ACK",
+            "activity": "claim_acknowledgement",
+            "operator": "max_calendar_days",
+            "start_field": "received",
+            "end_field": "acknowledged",
+            "day_basis": "elapsed_calendar_excluding_start",
+            "value": 5,
+            "source_refs": [
+              "SRC"
+            ]
+          }
+        ]
+      },
+      "sampling": {
+        "method": "purposive",
+        "population_count": 100,
+        "source_refs": [
+          "SRC"
+        ]
+      },
+      "cases": [
+        {
+          "record_id": "R1",
+          "activity": "claim_acknowledgement",
+          "dates": {
+            "received": "2026-09-01",
+            "acknowledged": "2026-09-04"
+          },
+          "pending_events": [],
+          "source_refs": [
+            "SRC"
+          ]
+        },
+        {
+          "record_id": "R2",
+          "activity": "claim_acknowledgement",
+          "dates": {
+            "received": "2026-09-10",
+            "acknowledged": null
+          },
+          "pending_events": [
+            "acknowledged"
+          ],
+          "source_refs": [
+            "SRC"
+          ]
+        }
+      ],
+      "metrics": [
+        {
+          "row_id": "M1",
+          "metric_id": "complaints-per-policy",
+          "partition_id": "A",
+          "definition_id": "INTERNAL-C1",
+          "definition_version": "1",
+          "period": "2026-08",
+          "unit": "complaints/policy",
+          "scope_id": "BOOK-1",
+          "numerator": 2,
+          "denominator": 10,
+          "inventory_complete": true,
+          "source_refs": [
+            "SRC"
+          ]
+        },
+        {
+          "row_id": "M2",
+          "metric_id": "complaints-per-policy",
+          "partition_id": "B",
+          "definition_id": "INTERNAL-C1",
+          "definition_version": "1",
+          "period": "2026-08",
+          "unit": "complaints/policy",
+          "scope_id": "BOOK-1",
+          "numerator": 4,
+          "denominator": 90,
+          "inventory_complete": true,
+          "source_refs": [
+            "SRC"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-market-conduct-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "carrier",
+      "represented_party": "Example Mutual",
+      "object_id": "BOOK-1",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "SRC",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "cac46bd9bafb33bb856fbaec1e3ac34e08ac4c754b94ffb5aea242ae43649f3f",
+    "output_hash": "551bbff03f3933cb1ae7ed6cd892dc7dde3b13e77097933f941c9f42cf6fa24d",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [
+      "R2/ACK: supplied control exception; obtain owner/root-cause/remediation review"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "d14f3a721152a2702ac52cd5ca7c3f2e4c73be57a30155c1fde4d671f8ace797"
+  }
+}

@@ -1,0 +1,269 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "wealth-account-service-packager-demo",
+  "household_id": "HH-SYNTH-001",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "source_ids": [
+      "records"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "records",
+      "reference": "synthetic://case-records/v1",
+      "owner": "Synthetic case owner",
+      "as_of": "2026-09-10",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "policy",
+      "reference": "synthetic://firm-policy/v1",
+      "owner": "Synthetic policy owner",
+      "as_of": "2026-09-01",
+      "valid_until": "2027-09-01"
+    }
+  ],
+  "policy": {
+    "version": "demo-1.0",
+    "owner": "Synthetic specialist review owner",
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "effective_date": "2026-09-01",
+    "valid_until": "2027-09-01",
+    "source_ids": [
+      "policy"
+    ],
+    "service_requirements": {
+      "transfer": [
+        "client-instruction",
+        "authority-evidence"
+      ],
+      "distribution": [
+        "client-instruction",
+        "authority-evidence"
+      ],
+      "authority": [
+        "client-instruction",
+        "authority-evidence"
+      ],
+      "beneficiary": [
+        "client-instruction",
+        "authority-evidence"
+      ]
+    }
+  },
+  "upstream_issues": [],
+  "parties": [
+    {
+      "party_id": "P1",
+      "display_name": "Client A",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "party_id": "P2",
+      "display_name": "Spouse B",
+      "source_ids": [
+        "records"
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "account_id": "AC1",
+      "registration": "individual",
+      "currency": "USD",
+      "owner_party_ids": [
+        "P1"
+      ],
+      "available_cash": 10000,
+      "positions": [
+        {
+          "security_id": "SEC1",
+          "quantity": 100,
+          "source_ids": [
+            "records"
+          ]
+        }
+      ],
+      "source_ids": [
+        "records"
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "service_request_id": "Q1",
+      "type": "transfer",
+      "account_id": "AC1",
+      "requested_by_party_id": "P1",
+      "requested_date": "2026-09-15",
+      "source_ids": [
+        "records"
+      ],
+      "details": {
+        "method": "cash",
+        "transfer_scope": "partial",
+        "destination_ref_masked": "custody destination ending 2222",
+        "destination_owner_party_ids": [
+          "P1"
+        ],
+        "amount": 5000,
+        "positions": [],
+        "source_ids": [
+          "records"
+        ]
+      }
+    },
+    {
+      "service_request_id": "Q2",
+      "type": "distribution",
+      "account_id": "AC1",
+      "requested_by_party_id": "P1",
+      "requested_date": "2026-09-15",
+      "source_ids": [
+        "records"
+      ],
+      "details": {
+        "amount": 2500,
+        "currency": "USD",
+        "payee_ref_masked": "bank account ending 3333",
+        "purpose": "Client-requested household expense",
+        "tax_instruction_ref": "synthetic://signed-tax-instruction/1",
+        "source_ids": [
+          "records"
+        ]
+      }
+    },
+    {
+      "service_request_id": "Q3",
+      "type": "authority",
+      "account_id": "AC1",
+      "requested_by_party_id": "P1",
+      "requested_date": "2026-09-15",
+      "source_ids": [
+        "records"
+      ],
+      "details": {
+        "subject_party_id": "P2",
+        "change": "add",
+        "authority_scope": "View statements as requested; no transaction authority inferred",
+        "source_ids": [
+          "records"
+        ]
+      }
+    },
+    {
+      "service_request_id": "Q4",
+      "type": "beneficiary",
+      "account_id": "AC1",
+      "requested_by_party_id": "P1",
+      "requested_date": "2026-09-15",
+      "source_ids": [
+        "records"
+      ],
+      "details": {
+        "change": "replace",
+        "beneficiaries": [
+          {
+            "party_id": "P2",
+            "tier": "primary",
+            "share": 1,
+            "source_ids": [
+              "records"
+            ]
+          }
+        ],
+        "source_ids": [
+          "records"
+        ]
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "condition_id": "Q1-client-instruction",
+      "service_request_id": "Q1",
+      "requirement": "client-instruction",
+      "status": "received",
+      "description": "Evidence recorded for operations review; authenticity and authorization not decided",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "Q1-authority-evidence",
+      "service_request_id": "Q1",
+      "requirement": "authority-evidence",
+      "status": "received",
+      "description": "Evidence recorded for operations review; authenticity and authorization not decided",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "Q2-client-instruction",
+      "service_request_id": "Q2",
+      "requirement": "client-instruction",
+      "status": "received",
+      "description": "Evidence recorded for operations review; authenticity and authorization not decided",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "Q2-authority-evidence",
+      "service_request_id": "Q2",
+      "requirement": "authority-evidence",
+      "status": "received",
+      "description": "Evidence recorded for operations review; authenticity and authorization not decided",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "Q3-client-instruction",
+      "service_request_id": "Q3",
+      "requirement": "client-instruction",
+      "status": "received",
+      "description": "Evidence recorded for operations review; authenticity and authorization not decided",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "Q3-authority-evidence",
+      "service_request_id": "Q3",
+      "requirement": "authority-evidence",
+      "status": "received",
+      "description": "Evidence recorded for operations review; authenticity and authorization not decided",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "Q4-client-instruction",
+      "service_request_id": "Q4",
+      "requirement": "client-instruction",
+      "status": "received",
+      "description": "Evidence recorded for operations review; authenticity and authorization not decided",
+      "source_ids": [
+        "records"
+      ]
+    },
+    {
+      "condition_id": "Q4-authority-evidence",
+      "service_request_id": "Q4",
+      "requirement": "authority-evidence",
+      "status": "received",
+      "description": "Evidence recorded for operations review; authenticity and authorization not decided",
+      "source_ids": [
+        "records"
+      ]
+    }
+  ]
+}

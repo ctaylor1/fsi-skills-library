@@ -16,7 +16,7 @@ rate/rule takes precedence over these defaults.
 | `coverage_removed` **(escalator)** | A coverage on the expiring term is **absent** from the proposed term | Removed coverage + expiring limit |
 | `coverage_added` | A coverage on the proposed term is **not** on the expiring term | Added coverage + proposed limit |
 | `form_endorsement_change` | A `form_id` is added, removed, or its `edition` changed | The changed/added/removed forms |
-| `loss_ratio_flag` **(escalator)** | `incurred / (expiring premium x years) >= loss_ratio_threshold` (default 0.70) | Claim rows + computed basis |
+| `loss_ratio_flag` **(escalator)** | `window-filtered incurred / sourced earned premium for the identical period and currency >= loss_ratio_threshold` (default 0.70) | Claim rows + computed basis |
 | `large_open_claim` | A claim's `incurred >= large_claim_incurred` (default 100,000) **or** `status == open` | The large/open claim rows |
 | `rate_exposure_divergence` | `abs(premium % - primary-exposure %) >= rate_exposure_tolerance_pct` (default 5pt) | Premium % + primary-exposure % + divergence |
 
@@ -28,7 +28,8 @@ exposures, no forms) the finding is reported as `not_evaluable`, not as "no chan
 
 | Suggested band | Rule |
 | -------------- | ---- |
-| **Routine** | 0 findings fired |
+| **Routine** | 0 findings fired and all checks evaluable |
+| **Incomplete** | 0 findings fired and any check not evaluable |
 | **Review** | 1–2 findings fired, none of them an escalator |
 | **Escalated** | ≥ 3 findings fired, OR any escalator (`coverage_removed`, `loss_ratio_flag`) fired |
 

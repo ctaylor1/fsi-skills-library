@@ -1,0 +1,297 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-alm-scenario-analyzer",
+  "case_id": "SYNTH-P3-ALM",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "insurer_actuarial_review",
+    "represented_party": "synthetic-insurer",
+    "object_id": "BLOCK-1",
+    "jurisdiction": "synthetic-US",
+    "line_of_business": "life"
+  },
+  "status": "needs-review",
+  "findings": [
+    {
+      "code": "liquidity_deficit",
+      "message": "base: negative cumulative nominal cash without borrowing or asset sales",
+      "source_refs": [
+        "DATA"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "liquidity_deficit",
+      "message": "rate-up: negative cumulative nominal cash without borrowing or asset sales",
+      "source_refs": [
+        "DATA"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "method": "static_cashflow_alm_act365",
+    "scenarios": [
+      {
+        "scenario_id": "base",
+        "asset_cashflow_pv": "100",
+        "liability_cashflow_pv": "80",
+        "opening_cash": "5",
+        "pv_surplus": "25",
+        "asset_pv_weighted_time": "2",
+        "liability_pv_weighted_time": "1",
+        "minimum_cumulative_cash": "-75",
+        "funding_gap": "75",
+        "cashflow_rows": [
+          {
+            "cashflow_id": "A1",
+            "side": "asset",
+            "payment_date": "2028-09-17",
+            "shocked_amount": "100",
+            "shocked_spot_rate": "0",
+            "present_value": "100",
+            "source_refs": [
+              "DATA"
+            ]
+          },
+          {
+            "cashflow_id": "L1",
+            "side": "liability",
+            "payment_date": "2027-09-18",
+            "shocked_amount": "80",
+            "shocked_spot_rate": "0",
+            "present_value": "80",
+            "source_refs": [
+              "DATA"
+            ]
+          }
+        ],
+        "liquidity_ladder": [
+          {
+            "payment_date": "2027-09-18",
+            "asset_receipts": "0",
+            "liability_payments": "80",
+            "net_cashflow": "-80",
+            "cumulative_cash": "-75"
+          },
+          {
+            "payment_date": "2028-09-17",
+            "asset_receipts": "100",
+            "liability_payments": "0",
+            "net_cashflow": "100",
+            "cumulative_cash": "25"
+          }
+        ],
+        "surplus_change_from_base": "0"
+      },
+      {
+        "scenario_id": "rate-up",
+        "asset_cashflow_pv": "82.64462809917355371900826446",
+        "liability_cashflow_pv": "72.72727272727272727272727273",
+        "opening_cash": "5",
+        "pv_surplus": "14.91735537190082644628099173",
+        "asset_pv_weighted_time": "2.000000000000000000000000000",
+        "liability_pv_weighted_time": "1",
+        "minimum_cumulative_cash": "-75",
+        "funding_gap": "75",
+        "cashflow_rows": [
+          {
+            "cashflow_id": "A1",
+            "side": "asset",
+            "payment_date": "2028-09-17",
+            "shocked_amount": "100",
+            "shocked_spot_rate": "0.1",
+            "present_value": "82.64462809917355371900826446280992",
+            "source_refs": [
+              "DATA"
+            ]
+          },
+          {
+            "cashflow_id": "L1",
+            "side": "liability",
+            "payment_date": "2027-09-18",
+            "shocked_amount": "80",
+            "shocked_spot_rate": "0.1",
+            "present_value": "72.72727272727272727272727272727273",
+            "source_refs": [
+              "DATA"
+            ]
+          }
+        ],
+        "liquidity_ladder": [
+          {
+            "payment_date": "2027-09-18",
+            "asset_receipts": "0",
+            "liability_payments": "80",
+            "net_cashflow": "-80",
+            "cumulative_cash": "-75"
+          },
+          {
+            "payment_date": "2028-09-17",
+            "asset_receipts": "100",
+            "liability_payments": "0",
+            "net_cashflow": "100",
+            "cumulative_cash": "25"
+          }
+        ],
+        "surplus_change_from_base": "-10.08264462809917355371900827"
+      }
+    ],
+    "asset_adequacy_opinion": false,
+    "reinvestment_or_option_response_modeled": false
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [
+    "base: negative cumulative nominal cash without borrowing or asset sales",
+    "rate-up: negative cumulative nominal cash without borrowing or asset sales"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "SYNTH-P3-ALM",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "insurer_actuarial_review",
+      "represented_party": "synthetic-insurer",
+      "object_id": "BLOCK-1",
+      "jurisdiction": "synthetic-US",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "DATA",
+        "version": "synthetic-1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "PROFILE",
+        "version": "synthetic-1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "scope": {
+        "object_id": "BLOCK-1",
+        "currency": "USD",
+        "basis": "static_cashflow_alm_act365",
+        "valuation_date": "2026-09-18"
+      },
+      "profile": {
+        "profile_id": "SYNTHETIC-ONLY",
+        "version": "1",
+        "source_refs": [
+          "PROFILE"
+        ],
+        "jurisdictions": [
+          "synthetic-US"
+        ],
+        "lines_of_business": [
+          "life"
+        ],
+        "effective_from": "2025-01-01",
+        "effective_to": "2027-12-31",
+        "object_ids": [
+          "BLOCK-1"
+        ],
+        "currencies": [
+          "USD"
+        ],
+        "method": "static_cashflow_alm_act365"
+      },
+      "horizon_end": "2028-09-17",
+      "opening_cash": 5,
+      "cash_source_ref": "DATA",
+      "cashflows": [
+        {
+          "object_id": "BLOCK-1",
+          "currency": "USD",
+          "basis": "static_cashflow_alm_act365",
+          "source_ref": "DATA",
+          "cashflow_id": "A1",
+          "side": "asset",
+          "payment_date": "2028-09-17",
+          "amount": 100
+        },
+        {
+          "object_id": "BLOCK-1",
+          "currency": "USD",
+          "basis": "static_cashflow_alm_act365",
+          "source_ref": "DATA",
+          "cashflow_id": "L1",
+          "side": "liability",
+          "payment_date": "2027-09-18",
+          "amount": 80
+        }
+      ],
+      "curve": [
+        {
+          "payment_date": "2027-09-18",
+          "spot_rate": 0,
+          "source_ref": "DATA"
+        },
+        {
+          "payment_date": "2028-09-17",
+          "spot_rate": 0,
+          "source_ref": "DATA"
+        }
+      ],
+      "scenarios": [
+        {
+          "scenario_id": "base",
+          "parallel_rate_shift": 0,
+          "asset_receipt_multiplier": 1,
+          "liability_payment_multiplier": 1,
+          "source_ref": "DATA"
+        },
+        {
+          "scenario_id": "rate-up",
+          "parallel_rate_shift": "0.1",
+          "asset_receipt_multiplier": 1,
+          "liability_payment_multiplier": 1,
+          "source_ref": "DATA"
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-alm-scenario-analyzer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "insurer_actuarial_review",
+      "represented_party": "synthetic-insurer",
+      "object_id": "BLOCK-1",
+      "jurisdiction": "synthetic-US",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "DATA",
+        "version": "synthetic-1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "PROFILE",
+        "version": "synthetic-1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "4dcc7ee5d7e9880ff09f8f70b58a0ad64baba9ea3f9ebd7e4041dea3d1cc7da2",
+    "output_hash": "558e4bce78f7a21db2b2ec24865e08ff35af27ff91431437c3d876b9d31083c4",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [
+      "base: negative cumulative nominal cash without borrowing or asset sales",
+      "rate-up: negative cumulative nominal cash without borrowing or asset sales"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "00bd0b3c26cfb86f0558066c8c051c49a2eb41e20c6b7c65ceb31546e09173dd"
+  }
+}

@@ -1,0 +1,405 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-premium-billing-reconciler",
+  "case_id": "FWD-OPS-BILLING",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "billing-analyst",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "AC-72",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "status": "needs-review",
+  "findings": [
+    {
+      "code": "closing-balance-break",
+      "message": "Calculated and reported closing balances differ.",
+      "severity": "review",
+      "source_refs": [
+        "CTL"
+      ]
+    },
+    {
+      "code": "unapplied-cash-credit",
+      "message": "Unapplied cash/credits are separate from invoice aging; allocate only with linked evidence.",
+      "severity": "review",
+      "source_refs": []
+    }
+  ],
+  "results": {
+    "account_id": "AC-72",
+    "currency": "USD",
+    "basis": "gross-premium-receivable",
+    "period": {
+      "start": "2026-08-01",
+      "end": "2026-08-31"
+    },
+    "movement_register": [
+      {
+        "entry_id": "I-1",
+        "kind": "invoice",
+        "amount": "600.00",
+        "currency": "USD",
+        "policy_id": "P-72",
+        "account_id": "AC-72",
+        "signed_receivable_effect": "600.00",
+        "source_refs": [
+          "LEDGER"
+        ]
+      },
+      {
+        "entry_id": "R-1",
+        "kind": "receipt",
+        "amount": "700.00",
+        "currency": "USD",
+        "policy_id": "P-72",
+        "account_id": "AC-72",
+        "signed_receivable_effect": "-700.00",
+        "source_refs": [
+          "LEDGER"
+        ]
+      },
+      {
+        "entry_id": "C-1",
+        "kind": "credit-adjustment",
+        "amount": "100.00",
+        "currency": "USD",
+        "policy_id": "P-72",
+        "account_id": "AC-72",
+        "signed_receivable_effect": "-100.00",
+        "source_refs": [
+          "LEDGER"
+        ]
+      },
+      {
+        "entry_id": "R-2",
+        "kind": "receipt",
+        "amount": "200.00",
+        "currency": "USD",
+        "policy_id": "P-72",
+        "account_id": "AC-72",
+        "signed_receivable_effect": "-200.00",
+        "source_refs": [
+          "LEDGER"
+        ]
+      },
+      {
+        "entry_id": "V-2",
+        "kind": "reversal",
+        "amount": "200.00",
+        "currency": "USD",
+        "policy_id": "P-72",
+        "account_id": "AC-72",
+        "signed_receivable_effect": "200.00",
+        "source_refs": [
+          "LEDGER"
+        ]
+      },
+      {
+        "entry_id": "R-3",
+        "kind": "receipt",
+        "amount": "650.00",
+        "currency": "USD",
+        "policy_id": "P-72",
+        "account_id": "AC-72",
+        "signed_receivable_effect": "-650.00",
+        "source_refs": [
+          "LEDGER"
+        ]
+      }
+    ],
+    "movement_total": "-850.00",
+    "calculated_closing_balance": "150.00",
+    "reported_closing_balance": "420.00",
+    "difference": "-270.00",
+    "excluded_entry_ids": [],
+    "invoice_aging": [
+      {
+        "invoice_id": "OLD-1",
+        "policy_id": "P-72",
+        "outstanding": "200.00",
+        "days_past_due": 47,
+        "source_refs": [
+          "OPEN"
+        ]
+      },
+      {
+        "invoice_id": "NEW-1",
+        "policy_id": "P-72",
+        "outstanding": "0.00",
+        "days_past_due": 11,
+        "source_refs": [
+          "LEDGER"
+        ]
+      }
+    ],
+    "aging_buckets": {
+      "not_due": "0",
+      "1_30": "0.00",
+      "31_60": "200.00",
+      "61_plus": "0"
+    },
+    "unapplied_cash_credits": {
+      "R-1": "0.00",
+      "C-1": "0.00",
+      "R-3": "50.00"
+    },
+    "policy_coverage_state": "not-determined",
+    "collection_or_cancellation_authorized": false
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [
+    "Calculated and reported closing balances differ.",
+    "Unapplied cash/credits are separate from invoice aging; allocate only with linked evidence."
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "FWD-OPS-BILLING",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "billing-analyst",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "AC-72",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "CTL",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#CTL",
+        "source_excerpt": "Account AC-72, policy P-72, USD gross-premium-receivable. Period 2026-08-01 to 2026-08-31. Prior close 2026-07-31: 1000.00; reported close 2026-08-31: 420.00. Complete period ledger and opening invoice inventory supplied."
+      },
+      {
+        "source_ref": "OPEN",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#OPEN",
+        "source_excerpt": "Opening invoice OLD-1, P-72, USD remaining 1000.00, due 2026-07-15."
+      },
+      {
+        "source_ref": "LEDGER",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#LEDGER",
+        "source_excerpt": "2026-08-02 I-1 invoice NEW-1 USD 600.00 due 2026-08-20; 2026-08-05 R-1 receipt USD 700.00; 2026-08-06 C-1 credit-adjustment USD 100.00; 2026-08-10 R-2 receipt USD 200.00; 2026-08-11 V-2 reversal of R-2 USD 200.00; 2026-08-15 R-3 receipt USD 650.00. All account AC-72 policy P-72."
+      },
+      {
+        "source_ref": "ALLOC",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#ALLOC",
+        "source_excerpt": "A-1 applies R-1 700.00 to OLD-1. A-2 applies C-1 100.00 to OLD-1. A-3 applies R-3 600.00 to NEW-1. The remaining 50.00 of R-3 is unapplied. No allocation of reversed receipt R-2."
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "account_id": "AC-72",
+      "currency": "USD",
+      "basis": "gross-premium-receivable",
+      "policy_ids": [
+        "P-72"
+      ],
+      "period": {
+        "start": "2026-08-01",
+        "end": "2026-08-31"
+      },
+      "ledger_complete": true,
+      "opening_balance": {
+        "account_id": "AC-72",
+        "amount": "1000.00",
+        "currency": "USD",
+        "basis": "gross-premium-receivable",
+        "as_of": "2026-07-31",
+        "source_refs": [
+          "CTL"
+        ]
+      },
+      "closing_balance": {
+        "account_id": "AC-72",
+        "amount": "420.00",
+        "currency": "USD",
+        "basis": "gross-premium-receivable",
+        "as_of": "2026-08-31",
+        "source_refs": [
+          "CTL"
+        ]
+      },
+      "entries": [
+        {
+          "entry_id": "I-1",
+          "kind": "invoice",
+          "amount": "600.00",
+          "date": "2026-08-02",
+          "account_id": "AC-72",
+          "policy_id": "P-72",
+          "currency": "USD",
+          "source_refs": [
+            "LEDGER"
+          ],
+          "invoice_id": "NEW-1",
+          "due_date": "2026-08-20"
+        },
+        {
+          "entry_id": "R-1",
+          "kind": "receipt",
+          "amount": "700.00",
+          "date": "2026-08-05",
+          "account_id": "AC-72",
+          "policy_id": "P-72",
+          "currency": "USD",
+          "source_refs": [
+            "LEDGER"
+          ]
+        },
+        {
+          "entry_id": "C-1",
+          "kind": "credit-adjustment",
+          "amount": "100.00",
+          "date": "2026-08-06",
+          "account_id": "AC-72",
+          "policy_id": "P-72",
+          "currency": "USD",
+          "source_refs": [
+            "LEDGER"
+          ]
+        },
+        {
+          "entry_id": "R-2",
+          "kind": "receipt",
+          "amount": "200.00",
+          "date": "2026-08-10",
+          "account_id": "AC-72",
+          "policy_id": "P-72",
+          "currency": "USD",
+          "source_refs": [
+            "LEDGER"
+          ]
+        },
+        {
+          "entry_id": "V-2",
+          "kind": "reversal",
+          "amount": "200.00",
+          "date": "2026-08-11",
+          "account_id": "AC-72",
+          "policy_id": "P-72",
+          "currency": "USD",
+          "source_refs": [
+            "LEDGER"
+          ],
+          "reverses_id": "R-2"
+        },
+        {
+          "entry_id": "R-3",
+          "kind": "receipt",
+          "amount": "650.00",
+          "date": "2026-08-15",
+          "account_id": "AC-72",
+          "policy_id": "P-72",
+          "currency": "USD",
+          "source_refs": [
+            "LEDGER"
+          ]
+        }
+      ],
+      "invoice_inventory_complete": true,
+      "opening_invoices": [
+        {
+          "invoice_id": "OLD-1",
+          "policy_id": "P-72",
+          "currency": "USD",
+          "remaining_amount": "1000.00",
+          "due_date": "2026-07-15",
+          "source_refs": [
+            "OPEN"
+          ]
+        }
+      ],
+      "allocations": [
+        {
+          "allocation_id": "A-1",
+          "entry_id": "R-1",
+          "invoice_id": "OLD-1",
+          "amount": "700.00",
+          "currency": "USD",
+          "source_refs": [
+            "ALLOC"
+          ]
+        },
+        {
+          "allocation_id": "A-2",
+          "entry_id": "C-1",
+          "invoice_id": "OLD-1",
+          "amount": "100.00",
+          "currency": "USD",
+          "source_refs": [
+            "ALLOC"
+          ]
+        },
+        {
+          "allocation_id": "A-3",
+          "entry_id": "R-3",
+          "invoice_id": "NEW-1",
+          "amount": "600.00",
+          "currency": "USD",
+          "source_refs": [
+            "ALLOC"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-premium-billing-reconciler",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "billing-analyst",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "AC-72",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "CTL",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#CTL",
+        "source_excerpt": "Account AC-72, policy P-72, USD gross-premium-receivable. Period 2026-08-01 to 2026-08-31. Prior close 2026-07-31: 1000.00; reported close 2026-08-31: 420.00. Complete period ledger and opening invoice inventory supplied."
+      },
+      {
+        "source_ref": "OPEN",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#OPEN",
+        "source_excerpt": "Opening invoice OLD-1, P-72, USD remaining 1000.00, due 2026-07-15."
+      },
+      {
+        "source_ref": "LEDGER",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#LEDGER",
+        "source_excerpt": "2026-08-02 I-1 invoice NEW-1 USD 600.00 due 2026-08-20; 2026-08-05 R-1 receipt USD 700.00; 2026-08-06 C-1 credit-adjustment USD 100.00; 2026-08-10 R-2 receipt USD 200.00; 2026-08-11 V-2 reversal of R-2 USD 200.00; 2026-08-15 R-3 receipt USD 650.00. All account AC-72 policy P-72."
+      },
+      {
+        "source_ref": "ALLOC",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#ALLOC",
+        "source_excerpt": "A-1 applies R-1 700.00 to OLD-1. A-2 applies C-1 100.00 to OLD-1. A-3 applies R-3 600.00 to NEW-1. The remaining 50.00 of R-3 is unapplied. No allocation of reversed receipt R-2."
+      }
+    ],
+    "input_hash": "46b3c1d3d5db3ef4784577dacec7e8b5c85651aa5625b71ca72f048b60572929",
+    "output_hash": "86f08ec4962707f410b4ef1044683eea237b099d13f64647ccce15cc30a72d8b",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [
+      "Calculated and reported closing balances differ.",
+      "Unapplied cash/credits are separate from invoice aging; allocate only with linked evidence."
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "f42639c3f586445ba104a7d36c7ba88305e88c09ee15bab1ab9adb65aaded8a3"
+  }
+}

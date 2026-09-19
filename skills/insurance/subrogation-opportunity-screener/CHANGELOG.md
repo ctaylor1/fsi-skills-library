@@ -1,5 +1,12 @@
 # Changelog — subrogation-opportunity-screener
 
+## [0.2.0] — 2026-09-18
+- Implemented Phase 1 domain correctness and explicit unknown-state handling described in current domain rules.
+- Added the shared insurance evidence envelope and output hash/metadata validation; provenance remains supplied, not authenticated.
+- Added executable boundary and independent output-mutation regressions, migrated native synthetic fixtures, and regenerated valid golden outputs.
+- Clarified native handoff requirements, draft/review limits, actor capacity and revision identity. Production configuration/professional acceptance remains outstanding.
+
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`).
 
@@ -21,9 +28,9 @@ Initial authoring in the FSI Skills Library (baseline status: `new`).
   deterministic band tie-out, determination/action-language screen, disclaimer, counter-considerations).
 - **Evaluations:** trigger/routing, golden Refer case, missing-limitation and waived-recovery edges,
   deterministic script checks, no-determination safety + injection, external-delivery authorization.
-- **Handoffs:** downstream to `claims-fraud-referral-assistant`, `reserving-analysis-assistant`,
-  `claims-file-reviewer`, `reinsurance-treaty-interpreter`; upstream from `claims-triage-assistant`
-  and `claims-file-reviewer`; the subrogation decision itself routes to a licensed recovery
+- **Handoffs:** downstream to `insurance-fraud-referral-reviewer`, `pc-reserving-analysis-assistant`,
+  `claim-file-quality-reviewer`, `reinsurance-contract-reviewer`; upstream from `claims-triage-assistant`
+  and `claim-file-quality-reviewer`; the subrogation decision itself routes to a licensed recovery
   specialist / counsel.
 
 ### Pending before release

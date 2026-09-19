@@ -1,0 +1,137 @@
+{
+  "case_id": "reinsurance-program-analyzer-case-1",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "carrier-analyst",
+    "represented_party": "Example carrier",
+    "object_id": "PORT1",
+    "jurisdiction": "US-test",
+    "line_of_business": "pc"
+  },
+  "sources": [
+    {
+      "source_ref": "event1",
+      "version": "1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "event2",
+      "version": "1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "program",
+      "version": "1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "qs",
+      "version": "1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "scenario",
+      "version": "1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "terms",
+      "version": "1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "xol",
+      "version": "1",
+      "as_of": "2026-09-18"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "program_terms": {
+      "profile_id": "reviewed-fixture-profile",
+      "version": "2026.09",
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "jurisdictions": [
+        "US-test"
+      ],
+      "lines_of_business": [
+        "pc"
+      ],
+      "source_refs": [
+        "terms"
+      ],
+      "source_ref": "terms"
+    },
+    "programs": [
+      {
+        "currency": "USD",
+        "loss_basis": "ground_up_occurrence_loss",
+        "period_start": "2026-01-01",
+        "period_end": "2026-12-31",
+        "program_id": "PROGRAM-A",
+        "layers": [
+          {
+            "layer_id": "QS",
+            "type": "quota_share",
+            "inuring_basis": "remaining_loss",
+            "attachment": "0",
+            "limit": "100000000",
+            "share": "0.2",
+            "aggregate_limit": "100000000",
+            "prior_erosion": "0",
+            "source_ref": "qs"
+          },
+          {
+            "layer_id": "XOL",
+            "type": "occurrence_xol",
+            "inuring_basis": "remaining_loss",
+            "attachment": "5000000",
+            "limit": "10000000",
+            "share": "1",
+            "aggregate_limit": "15000000",
+            "prior_erosion": "2000000",
+            "source_ref": "xol"
+          }
+        ],
+        "fixed_premium": "1000000",
+        "scenario_additional_premiums": {
+          "S1": "200000"
+        },
+        "source_ref": "program"
+      }
+    ],
+    "scenarios": [
+      {
+        "currency": "USD",
+        "loss_basis": "ground_up_occurrence_loss",
+        "period_start": "2026-01-01",
+        "period_end": "2026-12-31",
+        "scenario_id": "S1",
+        "events": [
+          {
+            "event_id": "EV1",
+            "event_date": "2026-05-01",
+            "gross_loss": "20000000",
+            "eligible_layer_ids": [
+              "QS",
+              "XOL"
+            ],
+            "source_ref": "event1"
+          },
+          {
+            "event_id": "EV2",
+            "event_date": "2026-06-01",
+            "gross_loss": "10000000",
+            "eligible_layer_ids": [
+              "QS",
+              "XOL"
+            ],
+            "source_ref": "event2"
+          }
+        ],
+        "source_ref": "scenario"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+Replay the same closure review with this one documented reopening-evidence variation. All other raw source facts remain unchanged. Expected closure readiness independently judged from the documented ownership requirement: blocked.

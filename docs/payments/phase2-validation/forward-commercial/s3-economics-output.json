@@ -1,0 +1,950 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-economics-modeler",
+  "request_id": "forward-economics-pbb",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "merchant",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "forward-economics-pbb",
+    "as_of": "2026-09-18",
+    "jurisdiction": "UK",
+    "participant": "merchant",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "merchant-economics",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-merchant-economics.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      },
+      {
+        "source_id": "economics-ratecard",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-economics-ratecard.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "perspective": "merchant",
+      "currency": "GBP",
+      "period": "monthly",
+      "attempts": "10000",
+      "assumptions": [
+        {
+          "assumption_id": "demand",
+          "statement": "10000 unique monthly order attempts at GBP40; payment completion indicates successful paid order, not authorization alone; no retries counted as fresh demand. Card completion 95%, pay-by-bank90%.",
+          "source_ids": [
+            "merchant-economics"
+          ]
+        },
+        {
+          "assumption_id": "rates",
+          "statement": "Use declared disjoint GBP monthly rates. Net merchandise margin is 30% after expected refund merchandise effect. Refund handling adds 3% x GBP2 = GBP0.06 per successful order; excludes principal reversal to avoid double counting. Funding supplied as normalized successful-value fraction; domestic GBP FX zero; card incentives zero because none offered. Retain card fixed contract fees even after adoption.",
+          "source_ids": [
+            "economics-ratecard"
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "method_id": "card",
+          "success_rate": "0.95",
+          "average_value": "40",
+          "assumption_id": "demand",
+          "source_ids": [
+            "merchant-economics"
+          ],
+          "components": [
+            {
+              "component_id": "proc-value",
+              "category": "processing",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.018",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "proc-value"
+              ]
+            },
+            {
+              "component_id": "proc-attempt",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "0.20",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "proc-attempt"
+              ]
+            },
+            {
+              "component_id": "proc-fixed",
+              "category": "processing",
+              "side": "cost",
+              "basis": "period_fixed",
+              "rate": "100",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "proc-fixed"
+              ]
+            },
+            {
+              "component_id": "fraud",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.002",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "fraud"
+              ]
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.0002",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "funding"
+              ]
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "fx"
+              ]
+            },
+            {
+              "component_id": "support",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.08",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "support"
+              ]
+            },
+            {
+              "component_id": "refund-handling",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.06",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "refund-handling"
+              ]
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "incentive"
+              ]
+            },
+            {
+              "component_id": "net-margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.30",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "net-margin"
+              ]
+            }
+          ]
+        },
+        {
+          "method_id": "pay-by-bank",
+          "success_rate": "0.90",
+          "average_value": "40",
+          "assumption_id": "demand",
+          "source_ids": [
+            "merchant-economics"
+          ],
+          "components": [
+            {
+              "component_id": "proc-value",
+              "category": "processing",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.002",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "proc-value"
+              ]
+            },
+            {
+              "component_id": "proc-attempt",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "0.05",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "proc-attempt"
+              ]
+            },
+            {
+              "component_id": "proc-fixed",
+              "category": "processing",
+              "side": "cost",
+              "basis": "period_fixed",
+              "rate": "500",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "proc-fixed"
+              ]
+            },
+            {
+              "component_id": "fraud",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.0003",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "fraud"
+              ]
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.0001",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "funding"
+              ]
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "fx"
+              ]
+            },
+            {
+              "component_id": "support",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.12",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "support"
+              ]
+            },
+            {
+              "component_id": "refund-handling",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.06",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "refund-handling"
+              ]
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.10",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "incentive"
+              ]
+            },
+            {
+              "component_id": "net-margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.30",
+              "currency": "GBP",
+              "period": "monthly",
+              "assumption_id": "rates",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "coverage_keys": [
+                "net-margin"
+              ]
+            }
+          ]
+        }
+      ],
+      "baseline_mix": [
+        {
+          "method_id": "card",
+          "share": "1"
+        }
+      ],
+      "scenario": {
+        "new_method_id": "pay-by-bank",
+        "adoption_rate": "0.30",
+        "displacement": [
+          {
+            "method_id": "card",
+            "share": "1"
+          }
+        ]
+      },
+      "sensitivity_adoption_rates": [
+        "0",
+        "0.10",
+        "0.30",
+        "0.50",
+        "1"
+      ]
+    }
+  },
+  "input_hash": "5b09e768bd3aa207321734815cbc3995486569d8793c95844ac01d9d25bba56a",
+  "findings": [],
+  "result": {
+    "perspective": "merchant",
+    "currency": "GBP",
+    "period": "monthly",
+    "assumptions": [
+      {
+        "assumption_id": "demand",
+        "statement": "10000 unique monthly order attempts at GBP40; payment completion indicates successful paid order, not authorization alone; no retries counted as fresh demand. Card completion 95%, pay-by-bank90%.",
+        "source_ids": [
+          "merchant-economics"
+        ]
+      },
+      {
+        "assumption_id": "rates",
+        "statement": "Use declared disjoint GBP monthly rates. Net merchandise margin is 30% after expected refund merchandise effect. Refund handling adds 3% x GBP2 = GBP0.06 per successful order; excludes principal reversal to avoid double counting. Funding supplied as normalized successful-value fraction; domestic GBP FX zero; card incentives zero because none offered. Retain card fixed contract fees even after adoption.",
+        "source_ids": [
+          "economics-ratecard"
+        ]
+      }
+    ],
+    "baseline": {
+      "method_economics": [
+        {
+          "method_id": "card",
+          "attempt_share": "1",
+          "attempts": "10000",
+          "expected_successes": "9500.00",
+          "expected_success_value": "380000.00",
+          "components": [
+            {
+              "component_id": "proc-value",
+              "category": "processing",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.018",
+              "amount": "6840.00000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "proc-attempt",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "0.20",
+              "amount": "2000.00",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "proc-fixed",
+              "category": "processing",
+              "side": "cost",
+              "basis": "period_fixed",
+              "rate": "100",
+              "amount": "100",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "fraud",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.002",
+              "amount": "760.00000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.0002",
+              "amount": "76.000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.00",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "support",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.08",
+              "amount": "760.0000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "refund-handling",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.06",
+              "amount": "570.0000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0",
+              "amount": "0.00",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "net-margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.30",
+              "amount": "114000.0000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            }
+          ],
+          "cost": "11106.000000",
+          "revenue": "114000.0000",
+          "contribution": "102894.000000"
+        }
+      ],
+      "attempts": "10000",
+      "expected_successes": "9500.00",
+      "cost": "11106.000000",
+      "revenue": "114000.0000",
+      "contribution": "102894.000000",
+      "cost_per_attempt": "1.110600",
+      "cost_per_success": "1.169052631578947368421052631578947368421"
+    },
+    "scenario": {
+      "method_economics": [
+        {
+          "method_id": "card",
+          "attempt_share": "0.70",
+          "attempts": "7000.00",
+          "expected_successes": "6650.0000",
+          "expected_success_value": "266000.0000",
+          "components": [
+            {
+              "component_id": "proc-value",
+              "category": "processing",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.018",
+              "amount": "4788.0000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "proc-attempt",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "0.20",
+              "amount": "1400.0000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "proc-fixed",
+              "category": "processing",
+              "side": "cost",
+              "basis": "period_fixed",
+              "rate": "100",
+              "amount": "100",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "fraud",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.002",
+              "amount": "532.0000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.0002",
+              "amount": "53.20000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.0000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "support",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.08",
+              "amount": "532.000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "refund-handling",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.06",
+              "amount": "399.000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0",
+              "amount": "0.0000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "net-margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.30",
+              "amount": "79800.000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            }
+          ],
+          "cost": "7804.20000000",
+          "revenue": "79800.000000",
+          "contribution": "71995.80000000"
+        },
+        {
+          "method_id": "pay-by-bank",
+          "attempt_share": "0.30",
+          "attempts": "3000.00",
+          "expected_successes": "2700.0000",
+          "expected_success_value": "108000.0000",
+          "components": [
+            {
+              "component_id": "proc-value",
+              "category": "processing",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.002",
+              "amount": "216.0000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "proc-attempt",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "0.05",
+              "amount": "150.0000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "proc-fixed",
+              "category": "processing",
+              "side": "cost",
+              "basis": "period_fixed",
+              "rate": "500",
+              "amount": "500",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "fraud",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.0003",
+              "amount": "32.40000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.0001",
+              "amount": "10.80000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.0000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "support",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.12",
+              "amount": "324.000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "refund-handling",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.06",
+              "amount": "162.000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.10",
+              "amount": "270.000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            },
+            {
+              "component_id": "net-margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.30",
+              "amount": "32400.000000",
+              "source_ids": [
+                "economics-ratecard"
+              ],
+              "assumption_id": "rates"
+            }
+          ],
+          "cost": "1665.20000000",
+          "revenue": "32400.000000",
+          "contribution": "30734.80000000"
+        }
+      ],
+      "attempts": "10000",
+      "expected_successes": "9350.0000",
+      "cost": "9469.40000000",
+      "revenue": "112200.000000",
+      "contribution": "102730.60000000",
+      "cost_per_attempt": "0.94694000",
+      "cost_per_success": "1.012770053475935828877005347593582887701"
+    },
+    "adoption_rate": "0.30",
+    "displacement": [
+      {
+        "method_id": "card",
+        "share": "1"
+      }
+    ],
+    "incremental_contribution": "-163.40000000",
+    "sensitivity": [
+      {
+        "adoption_rate": "0",
+        "state": "modeled-assumption",
+        "incremental_contribution": "-500.000000",
+        "expected_successes": "9500.00",
+        "cost_per_success": "1.221684210526315789473684210526315789474"
+      },
+      {
+        "adoption_rate": "0.10",
+        "state": "modeled-assumption",
+        "incremental_contribution": "-387.80000000",
+        "expected_successes": "9450.0000",
+        "cost_per_success": "1.152783068783068783068783068783068783069"
+      },
+      {
+        "adoption_rate": "0.30",
+        "state": "modeled-assumption",
+        "incremental_contribution": "-163.40000000",
+        "expected_successes": "9350.0000",
+        "cost_per_success": "1.012770053475935828877005347593582887701"
+      },
+      {
+        "adoption_rate": "0.50",
+        "state": "modeled-assumption",
+        "incremental_contribution": "61.00000000",
+        "expected_successes": "9250.0000",
+        "cost_per_success": "0.8697297297297297297297297297297297297297"
+      },
+      {
+        "adoption_rate": "1",
+        "state": "modeled-assumption",
+        "incremental_contribution": "622.000000",
+        "expected_successes": "9000.00",
+        "cost_per_success": "0.4982222222222222222222222222222222222222"
+      }
+    ],
+    "break_even": {
+      "adoption_rate": "0.4456327985739750445632798573975044563280",
+      "max_feasible_adoption": "1",
+      "state": "within-feasible-range",
+      "incremental_fixed_contribution": "-500.000000",
+      "contribution_per_unit_adoption": "1122.000000"
+    },
+    "interpretation": "Expected outcomes from supplied assumptions; no guaranteed savings. Baseline contracts remain active and fixed charges remain incurred; adding the new method incurs its fixed charges even at zero adoption. Fixed volume, no automatic retries or customer-growth effects, no discounting, tax or currency conversion."
+  },
+  "handoffs": [
+    {
+      "target_skill": "merchant-payment-cost-analyzer",
+      "reason": "Validate incurred merchant fees separately from modeled scenarios.",
+      "required_inputs": [
+        "statement period",
+        "settled-sale transactions",
+        "fee and fixed-charge evidence"
+      ],
+      "handoff_id": "d908cacd60a5da6251eff95a4ee339365a4de2571380a59ce8addeb73f11b2c8",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-economics-modeler",
+      "case_id": "forward-economics-pbb",
+      "lead_owner": "merchant",
+      "requested_output": "Validate incurred merchant fees separately from modeled scenarios.",
+      "source_refs": [
+        "/tmp/payments-phase2-forward-commercial/source-merchant-economics.json",
+        "/tmp/payments-phase2-forward-commercial/source-economics-ratecard.json"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

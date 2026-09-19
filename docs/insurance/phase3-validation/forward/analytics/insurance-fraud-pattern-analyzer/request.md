@@ -1,0 +1,1 @@
+Screen the supplied May/June claims retrospectively for shared identifiers; prevent double-counted exposure, retain the common-repairer explanation, and compare window rates and mature outcomes. Produce human triage observations, not adverse actions.

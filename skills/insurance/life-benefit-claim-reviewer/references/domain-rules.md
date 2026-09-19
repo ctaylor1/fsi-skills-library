@@ -1,0 +1,5 @@
+# Domain rules and bounded method
+
+No universal two-year contestability period, deadline, interest rate or required document list is encoded. Dates and requirements must come from the applicable reviewed policy/jurisdiction profile. Death within a supplied contestability window is an investigation referral, not automatic denial. A beneficiary record requires policy identity, version, date at/before death and active status. Conflicting active/disputed/invalid records prevent allocation; newest filename does not win. Shares must identify unique beneficiaries and total one. The amount bridge has no coverage/entitlement determination; explicit missing offsets stay unknown. The skill supports death-benefit review, not living-benefit disability/LTC claims, health payer appeals, estate law or payment.
+
+These implementation rules are engineering constraints. Applicable contracts and reviewed jurisdiction/product profiles control professional interpretation; public primers do not establish universal legal requirements.

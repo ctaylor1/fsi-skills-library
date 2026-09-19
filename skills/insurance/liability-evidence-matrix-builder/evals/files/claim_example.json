@@ -1,14 +1,102 @@
 {
-  "claim": {"claim_id": "CLM-6602", "claim_type": "auto_liability"},
+  "claim": {
+    "claim_id": "CLM-6602",
+    "claim_type": "auto_liability"
+  },
   "facts": [
-    {"fact_id": "F1", "statement": "Insured vehicle entered the intersection on a green light.", "party": "insured"},
-    {"fact_id": "F2", "statement": "Third party was traveling above the posted speed limit.", "party": "third_party"},
-    {"fact_id": "F3", "statement": "Road surface was wet at the time of loss.", "party": "environment"}
+    {
+      "fact_id": "F1",
+      "statement": "Insured vehicle entered the intersection on a green light.",
+      "party": "insured"
+    },
+    {
+      "fact_id": "F2",
+      "statement": "Third party was traveling above the posted speed limit.",
+      "party": "third_party"
+    },
+    {
+      "fact_id": "F3",
+      "statement": "Road surface was wet at the time of loss.",
+      "party": "environment"
+    }
   ],
   "evidence": [
-    {"evidence_id": "EV1", "type": "traffic_cam", "source_ref": "claim=CLM-6602;evidence=EV1", "supports": ["F1"], "contradicts": []},
-    {"evidence_id": "EV2", "type": "witness_statement", "source_ref": "claim=CLM-6602;evidence=EV2", "supports": ["F2"], "contradicts": []},
-    {"evidence_id": "EV3", "type": "ecu_download", "source_ref": "claim=CLM-6602;evidence=EV3", "supports": [], "contradicts": ["F2"]},
-    {"evidence_id": "EV4", "type": "police_report", "source_ref": "claim=CLM-6602;evidence=EV4", "supports": ["F1"], "contradicts": ["F9"]}
+    {
+      "evidence_id": "EV1",
+      "type": "traffic_cam",
+      "source_ref": "claim=CLM-6602;evidence=EV1",
+      "version": "1",
+      "relations": [
+        {
+          "fact_id": "F1",
+          "role": "supports",
+          "source_quote": "Signal facing insured vehicle is green in frame 120.",
+          "relation_basis": "Synthetic supplied observation mapped to the alleged proposition."
+        }
+      ]
+    },
+    {
+      "evidence_id": "EV2",
+      "type": "witness_statement",
+      "source_ref": "claim=CLM-6602;evidence=EV2",
+      "version": "1",
+      "relations": [
+        {
+          "fact_id": "F2",
+          "role": "supports",
+          "source_quote": "I estimate the third party was speeding.",
+          "relation_basis": "Synthetic supplied observation mapped to the alleged proposition."
+        }
+      ]
+    },
+    {
+      "evidence_id": "EV3",
+      "type": "ecu_download",
+      "source_ref": "claim=CLM-6602;evidence=EV3",
+      "version": "1",
+      "relations": [
+        {
+          "fact_id": "F2",
+          "role": "contradicts",
+          "source_quote": "Recorded speed 25 mph; posted limit 30 mph.",
+          "relation_basis": "Synthetic supplied observation mapped to the alleged proposition."
+        }
+      ]
+    },
+    {
+      "evidence_id": "EV4",
+      "type": "police_report",
+      "source_ref": "claim=CLM-6602;evidence=EV4",
+      "version": "1",
+      "relations": [
+        {
+          "fact_id": "F1",
+          "role": "supports",
+          "source_quote": "Witness states insured-facing signal was green.",
+          "relation_basis": "Synthetic supplied observation mapped to the alleged proposition."
+        },
+        {
+          "fact_id": "F9",
+          "role": "contradicts",
+          "source_quote": "Witness states insured-facing signal was green.",
+          "relation_basis": "Synthetic supplied observation mapped to the alleged proposition."
+        }
+      ]
+    }
+  ],
+  "as_of": "2026-07-15",
+  "context": {
+    "capacity": "carrier_claims_review",
+    "represented_party": "synthetic-carrier",
+    "object_id": "CLM-6602",
+    "jurisdiction": "US-CA",
+    "line_of_business": "property_casualty"
+  },
+  "sources": [
+    {
+      "source_ref": "synthetic-fixture:liability-evidence-matrix-builder/claim_example.json",
+      "version": "phase1-1",
+      "as_of": "2026-07-15"
+    }
   ]
 }

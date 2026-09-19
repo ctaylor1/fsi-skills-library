@@ -1,0 +1,4 @@
+# Synthetic product finance worksheet v1
+§1. Carrier BASE, 2027 USD: earned premium $2,400,000; written premium $2,600,000; incurred loss including LAE $1,380,000; acquisition $312,000; administration $180,000; fixed $60,000; ceded premium $360,000; ceded recoveries $180,000; ceding commission $90,000; investment income $45,000; allocated capital $600,000. Gross-direct loss basis; expense ratio denominator written premium. All assumptions reviewed.
+§2. Non-risk-bearing MGA option, same forecast currency/period: written premium $2,600,000; commission 15%; service fees $35,000; profit commission $40,000; producer compensation $175,000; operating $110,000; fixed $25,000. Bears no underwriting risk. All assumptions reviewed.
+§3. Carrier REINSURANCE-UNCERTAIN: same BASE fields except ceded recoveries are unknown pending treaty wording confirmation, explicitly not zero. Finance reviewed this incomplete sensitivity. No expected recovery is selected.

@@ -62,7 +62,7 @@ per FINRA Rule 2210) approves.
 | Role | Name (masked) | Status | Date |
 | ---- | ------------- | ------ | ---- |
 | Advisor | {{advisor}} | pending | — |
-| Supervisory Principal | {{principal}} | pending | — |
+| Additional configured policy role(s) | {{required_reviewers}} | pending | — |
 
 _Delivery status:_ **not-delivered** · _CRM write status:_ **not-written**
 
@@ -76,3 +76,6 @@ _Delivery status:_ **not-delivered** · _CRM write status:_ **not-written**
 
 ### Data gaps (needs-data)
 {{gaps}}
+
+### Identity and evidence lineage
+Record household_id, meeting_id, attendees, request_id, artifact_id, input_hash and prior_artifact_id. Preserve actual communication text and every material item citation; section labels alone are not a completed package.

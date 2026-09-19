@@ -23,9 +23,10 @@ Usage: python calculate_or_transform.py reviews.json | --selftest
 Prints the review-pack assembly JSON to stdout.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, hashlib, copy
 from datetime import date
 from pathlib import Path
+from validate_input import validate as validate_input
 
 STANDING_NOTE = (
     "Client-review preparation draft for internal advisor use only; this skill does not make "
@@ -61,7 +62,7 @@ CONTENT_SPEC = [
 APPROVALS_REQUIRED = [
     "Advisor review and sign-off",
     "Supervisory / principal review before the pack is used in a client meeting",
-    "Suitability / Reg BI review (required if any recommendation is contemplated) — routed to suitability-reg-bi-reviewer",
+    "Suitability / Reg BI review (required if any recommendation is contemplated) — routed to investment-recommendation-evidence-reviewer",
 ]
 
 
@@ -141,7 +142,7 @@ def _portfolio_summary(r, sources):
 
 
 def prep_review(r, doc, as_of, freshness, critical_freshness, disclosure_config):
-    rec = {"client_id": r.get("client_id"), "household_name": r.get("household_name"),
+    rec = {"review_id": r.get("review_id"), "client_id": r.get("client_id"), "household_name": r.get("household_name"),
            "review_type": r.get("review_type")}
 
     # 1. needs-data: required inputs present (do not guess a relationship)
@@ -265,7 +266,7 @@ def prep_review(r, doc, as_of, freshness, critical_freshness, disclosure_config)
     routing = []
     if flags.get("recommendation_contemplated"):
         routing.append({"reason": "a product or allocation change is contemplated for this meeting",
-                        "route": "suitability-reg-bi-reviewer before any recommendation is made; advisor + supervisory approval"})
+                        "route": "investment-recommendation-evidence-reviewer before any recommendation is made; advisor + supervisory approval"})
     if flags.get("drift_flag"):
         routing.append({"reason": "allocation drift indicated (surfaced, not adjudicated)",
                         "route": "portfolio-rebalancing-assistant — any trade requires advisor and client authorization"})
@@ -274,7 +275,7 @@ def prep_review(r, doc, as_of, freshness, critical_freshness, disclosure_config)
                         "route": "senior-investor-protection-screener for trained human review"})
     if life_events:
         routing.append({"reason": "life event(s) surfaced that may change goals or plan assumptions",
-                        "route": "financial-goal-progress-analyzer to re-check goal progress"})
+                        "route": "household-financial-planning-assistant to re-check goal progress"})
 
     disclosures = [{"disclosure_id": d.get("disclosure_id"), "citation": _c(d)}
                    for d in r.get("disclosures") or []]
@@ -284,6 +285,7 @@ def prep_review(r, doc, as_of, freshness, critical_freshness, disclosure_config)
     rec.update(status="draft-review", packageable=True)
     rec["review_pack"] = {
         "client_id": r.get("client_id"),
+        "review_id": r.get("review_id"),
         "household_name": r.get("household_name"),
         "advisor": r.get("advisor"),
         "review_type": r.get("review_type"),
@@ -312,16 +314,34 @@ def prep_review(r, doc, as_of, freshness, critical_freshness, disclosure_config)
         "routing": routing,
         "citations": citations,
         "reviewer_signoff_required": True,
-        "approvals": {"required": list(APPROVALS_REQUIRED), "recorded": False},
+        "approvals": {"required": list(doc["disclosure_config"]["required_roles"]), "recorded": False},
     }
+    pack = rec["review_pack"]
+    pack["brief"] = {
+        "household_name": pack["household_name"], "review_id": pack["review_id"],
+        "as_of_date": pack["as_of_date"], "portfolio_value": summary["total_value"],
+        "goals": copy.deepcopy(pack["goals"]),
+        "overdue_actions": [copy.deepcopy(a) for a in open_actions if a["overdue"]],
+        "discussion_questions": copy.deepcopy(discussion_agenda), "citations": list(citations),
+    }
+    pack["deck_outline"] = [
+        {"title": "Household portfolio", "content": copy.deepcopy(summary)},
+        {"title": "Reported performance", "content": copy.deepcopy(pack["performance"])},
+        {"title": "Documented goals and planning items", "content": {"goals": copy.deepcopy(pack["goals"]), "plan_items": copy.deepcopy(pack["plan_items"])}},
+        {"title": "Discussion and open actions", "content": {"questions": copy.deepcopy(discussion_agenda), "actions": copy.deepcopy(open_actions)}},
+        {"title": "Disclosures and reviewer handoffs", "content": {"disclosures": copy.deepcopy(disclosures), "routing": copy.deepcopy(routing)}},
+    ]
     return rec
 
 
 def build(doc: dict) -> dict:
+    errors, _warnings = validate_input(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
     as_of = _as_of(doc)
     freshness = int(doc.get("freshness_days") or DEFAULT_FRESHNESS_DAYS)
     critical_freshness = int(doc.get("critical_freshness_days") or DEFAULT_CRITICAL_FRESHNESS_DAYS)
-    disclosure_config = {**DEFAULT_DISCLOSURE_CONFIG, **(doc.get("disclosure_config") or {})}
+    disclosure_config = doc["disclosure_config"]["by_review_type"]
     reviews = [prep_review(r, doc, as_of, freshness, critical_freshness, disclosure_config)
                for r in doc["reviews"]]
 
@@ -339,7 +359,13 @@ def build(doc: dict) -> dict:
         "tieout_break": _count("tieout-break"),
         "disclosure_gap": _count("disclosure-gap"),
     }
-    return {"config_version": doc.get("config_version"), "as_of_date": as_of.isoformat(),
+    digest = hashlib.sha256(json.dumps(doc, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    return {"request_id": doc["request_id"], "artifact_id": f"client-review-preparer:{doc['request_id']}:{digest[:16]}",
+            "input_hash": digest, "input_snapshot": copy.deepcopy(doc),
+            "prior_artifact_id": doc.get("prior_artifact_id"), "template_version": doc["template_version"],
+            "engagement": copy.deepcopy(doc["engagement"]), "author_id": doc["author_id"],
+            "human_review_required": True, "action_taken": False, "delivery_status": "not-delivered",
+            "config_version": doc.get("config_version"), "as_of_date": as_of.isoformat(),
             "freshness_days": freshness, "critical_freshness_days": critical_freshness,
             "reviews": reviews, "summary": summary, "standing_note": STANDING_NOTE}
 
@@ -352,7 +378,12 @@ def main(argv):
         doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
     else:
         doc = json.loads(sys.stdin.read())
-    print(json.dumps(build(doc), indent=2))
+    try:
+        result = build(doc)
+    except (ValueError, TypeError, KeyError) as exc:
+        print(json.dumps({"status": "needs-data", "errors": [str(exc)], "action_taken": False}))
+        return 1
+    print(json.dumps(result, indent=2, allow_nan=False))
     return 0
 
 

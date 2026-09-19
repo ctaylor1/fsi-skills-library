@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "request_id": "funding-execution-denied",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "forward-reviewer",
+  "requested_action": "execute",
+  "sources": [
+    {
+      "source_id": "forward-evidence",
+      "reference": "synthetic://independently-authored-payment-contract-and-ledger",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-01"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "window_start": "2026-09-18T09:00:00Z",
+    "window_end": "2026-09-18T18:00:00Z",
+    "history_complete": true,
+    "accountable_reviewer": "cross-currency-treasury",
+    "accounts": [
+      {
+        "account_id": "usd-source",
+        "entity_id": "provider",
+        "jurisdiction": "US",
+        "currency": "USD",
+        "account_role": "source-funding",
+        "snapshot_at": "2026-09-18T09:00:00Z",
+        "opening_balance": "3000",
+        "held": "0",
+        "ownership_review_ref": "exact-legal-account-review",
+        "funding_model_review_ref": "funding-model-reviewed",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      },
+      {
+        "account_id": "eur-payout",
+        "entity_id": "provider",
+        "jurisdiction": "EA",
+        "currency": "EUR",
+        "account_role": "local-payout",
+        "snapshot_at": "2026-09-18T09:00:00Z",
+        "opening_balance": "0",
+        "held": "0",
+        "ownership_review_ref": "exact-legal-account-review",
+        "funding_model_review_ref": "funding-model-reviewed",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ],
+    "obligations": [
+      {
+        "economic_id": "recipient-obligation-1",
+        "account_id": "eur-payout",
+        "entity_id": "provider",
+        "currency": "EUR",
+        "purpose": "customer-payout",
+        "amount": "800",
+        "due_at": "2026-09-18T12:00:00Z",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ],
+    "funding_transfers": [
+      {
+        "transfer_id": "fx-funding-1",
+        "economic_id": "funding-economic-1",
+        "source_account": "usd-source",
+        "destination_account": "eur-payout",
+        "source_entity_id": "provider",
+        "destination_entity_id": "provider",
+        "source_currency": "USD",
+        "destination_currency": "EUR",
+        "source_amount": "1000",
+        "destination_amount": "900",
+        "debit_at": "2026-09-18T10:00:00Z",
+        "credit_at": "2026-09-18T11:00:00Z",
+        "certainty": "firm",
+        "funding_contract_ref": "reviewed-fx-funding-contract",
+        "access_review_ref": "access-reviewed",
+        "limit_review_ref": "limits-reviewed",
+        "debit_window": {
+          "opens_at": "2026-09-18T09:00:00Z",
+          "closes_at": "2026-09-18T18:00:00Z",
+          "availability_review_ref": "source-window-review"
+        },
+        "credit_window": {
+          "opens_at": "2026-09-18T09:00:00Z",
+          "closes_at": "2026-09-18T18:00:00Z",
+          "availability_review_ref": "destination-window-review"
+        },
+        "fx_quote": {
+          "base_currency": "USD",
+          "quote_currency": "EUR",
+          "rate": "0.9",
+          "quoted_at": "2026-09-18T09:00:00Z",
+          "expires_at": "2026-09-18T10:30:00Z",
+          "kind": "firm",
+          "quote_ref": "firm-fx-evidence"
+        },
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ],
+    "stress_scenarios": [
+      {
+        "scenario_id": "funding-unavailable",
+        "rationale": "Correspondent funding unavailable",
+        "remove_transfer_ids": [
+          "fx-funding-1"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "schema_version": "1.0",
+  "request_id": "fraud-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "fraud-strategy",
+  "requested_action": "execute",
+  "sources": [
+    {
+      "source_id": "S1",
+      "reference": "synthetic:reviewed-sample-and-policy-v1",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "mode": "strategy-and-portfolio",
+    "sample_source_ids": [
+      "S1"
+    ],
+    "maturity_policy_source_ids": [
+      "S1"
+    ],
+    "journeys": [
+      {
+        "journey_id": "J1",
+        "description": "Instant payment from saved payee",
+        "stages": [
+          "intent",
+          "authorization",
+          "post-payment"
+        ],
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "threats": [
+      {
+        "threat_id": "T1",
+        "journey_id": "J1",
+        "stage": "intent",
+        "scenario": "Social-engineering changes payment beneficiary",
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "controls": [
+      {
+        "control_id": "C1",
+        "kind": "preventive",
+        "threat_ids": [
+          "T1"
+        ],
+        "owner": "owner-1",
+        "signal": "Recorded change of beneficiary",
+        "response": "Reviewed escalation procedure",
+        "failure_mode": "Customer manipulation bypasses known signals",
+        "evidence_metric": "Reviewed alert disposition and cohort friction",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "control_id": "C2",
+        "kind": "detective",
+        "threat_ids": [
+          "T1"
+        ],
+        "owner": "owner-2",
+        "signal": "Recorded change of beneficiary",
+        "response": "Reviewed escalation procedure",
+        "failure_mode": "Customer manipulation bypasses known signals",
+        "evidence_metric": "Reviewed alert disposition and cohort friction",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "control_id": "C3",
+        "kind": "responsive",
+        "threat_ids": [
+          "T1"
+        ],
+        "owner": "owner-3",
+        "signal": "Recorded change of beneficiary",
+        "response": "Reviewed escalation procedure",
+        "failure_mode": "Customer manipulation bypasses known signals",
+        "evidence_metric": "Reviewed alert disposition and cohort friction",
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "risk_appetite": {
+      "owner": "Fraud committee",
+      "rationale": "Synthetic illustration, not production limits",
+      "max_review_rate": "0.5",
+      "max_legitimate_block_rate": "0.2",
+      "source_ids": [
+        "S1"
+      ]
+    },
+    "rules": [
+      {
+        "rule_id": "R1",
+        "version": "baseline-1",
+        "field": "risk",
+        "op": ">=",
+        "threshold": "90",
+        "action": "block",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "rule_id": "R2",
+        "version": "proposal-1",
+        "field": "risk",
+        "op": ">=",
+        "threshold": "80",
+        "action": "block",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "rule_id": "R3",
+        "version": "proposal-1",
+        "field": "velocity",
+        "op": ">=",
+        "threshold": "3",
+        "action": "review",
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "portfolios": {
+      "baseline": [
+        "R1"
+      ],
+      "proposed": [
+        "R2",
+        "R3"
+      ]
+    },
+    "transactions": [
+      {
+        "transaction_id": "TX1",
+        "currency": "GBP",
+        "amount": "500",
+        "occurred_on": "2026-07-10",
+        "features_observed_on": "2026-07-10",
+        "features": {
+          "risk": 95,
+          "velocity": 1
+        },
+        "label": "fraud",
+        "label_observed_on": "2026-09-18",
+        "maturity_due": "2026-09-01",
+        "observed_net_fraud_loss": "500",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "transaction_id": "TX2",
+        "currency": "GBP",
+        "amount": "100",
+        "occurred_on": "2026-07-10",
+        "features_observed_on": "2026-07-10",
+        "features": {
+          "risk": 85,
+          "velocity": 4
+        },
+        "label": "fraud",
+        "label_observed_on": "2026-09-18",
+        "maturity_due": "2026-09-01",
+        "observed_net_fraud_loss": "100",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "transaction_id": "TX3",
+        "currency": "GBP",
+        "amount": "50",
+        "occurred_on": "2026-07-10",
+        "features_observed_on": "2026-07-10",
+        "features": {
+          "risk": 82,
+          "velocity": 1
+        },
+        "label": "legit",
+        "label_observed_on": "2026-09-18",
+        "maturity_due": "2026-09-01",
+        "observed_net_fraud_loss": "0",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "transaction_id": "TX4",
+        "currency": "GBP",
+        "amount": "25",
+        "occurred_on": "2026-07-10",
+        "features_observed_on": "2026-07-10",
+        "features": {
+          "risk": 30,
+          "velocity": 4
+        },
+        "label": "legit",
+        "label_observed_on": "2026-09-18",
+        "maturity_due": "2026-09-01",
+        "observed_net_fraud_loss": "0",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "transaction_id": "TX5",
+        "currency": "GBP",
+        "amount": "10",
+        "occurred_on": "2026-07-10",
+        "features_observed_on": "2026-07-10",
+        "features": {
+          "risk": 10,
+          "velocity": 1
+        },
+        "label": "legit",
+        "label_observed_on": "2026-09-18",
+        "maturity_due": "2026-09-01",
+        "observed_net_fraud_loss": "0",
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "friction_costs": [
+      {
+        "currency": "GBP",
+        "per_review": "2",
+        "per_legitimate_block": "5",
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ]
+  }
+}

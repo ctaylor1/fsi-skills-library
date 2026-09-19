@@ -1,0 +1,57 @@
+[
+  {
+    "case_id": "01-urgent-unknown-liability",
+    "package": "claims-triage-assistant",
+    "request": "I am the carrier claims triage lead. This commercial-auto notice reports a fatality and injuries after a storm, litigation and a counsel-supplied diary date that passed yesterday. Fault and exposure have not been established. Prepare immediate review priorities and specialist recommendations while preserving those unknowns; do not decide fault, coverage, payment or assignment.",
+    "pre_run_acceptance_criteria": {
+      "urgency": "Immediate despite liability and exposure unknown",
+      "deadline_days": -1,
+      "specialist_routes": [
+        "investigation",
+        "CAT",
+        "litigation",
+        "fraud",
+        "subrogation",
+        "vulnerable claimant"
+      ],
+      "classification": "partial"
+    }
+  },
+  {
+    "case_id": "02-quoted-contrary-evidence",
+    "package": "liability-evidence-matrix-builder",
+    "request": "For this disputed collision, build an evidence matrix from the supplied passages. Keep the witness's exact words 'The insured is liable' as a quotation. The camera reviewer contradicts that account. Distinguish contested, contradicted and unsupported allegations and do not turn any statement into your own fault finding.",
+    "pre_run_acceptance_criteria": {
+      "F1": "contested",
+      "F2": "contradicted",
+      "F3": "unsupported",
+      "quote": "preserved",
+      "assistant_assertion": "must be rejected"
+    }
+  },
+  {
+    "case_id": "03-unknown-waiver-economics",
+    "package": "subrogation-opportunity-screener",
+    "request": "I am preparing a recovery specialist review for a burst pipe claim. A draft engineering report alleges a contractor contribution and counsel supplied an October 3 diary date. Paid amount is 18,400 USD, but the deductible and financial source record are missing, and nobody has checked policy waiver or prior recovery. Screen only what is supportable; do not assume no waiver, no prior recovery, or zero deductible.",
+    "pre_run_acceptance_criteria": {
+      "availability": "unknown",
+      "band": "Review",
+      "economics": "not_evaluable; null base/gross/net/share",
+      "time_critical": true,
+      "recovery_not_waived": false
+    }
+  },
+  {
+    "case_id": "04-receipt-incomplete-package",
+    "package": "claim-intake-preparer",
+    "request": "The notice arrived in our mailbox at 09:12 Eastern today. It lacks the inventory, signed notice form and amount claimed. The reviewed internal record separately maps FNOL-SYN-077 to CLM-SYN-077. Prepare the intake review and identify gaps while retaining documented receipt. Do not treat missing support as a refusal of notice or open, transmit or route a claim.",
+    "pre_run_acceptance_criteria": {
+      "receipt": "recorded",
+      "normalization": "complete",
+      "completeness": "gaps",
+      "timeliness": "checked",
+      "notice_receipt_blocked": false,
+      "disposition": "exceptions-for-review"
+    }
+  }
+]

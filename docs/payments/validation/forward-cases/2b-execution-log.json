@@ -1,0 +1,35 @@
+[
+  {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/issuer-payment-dispute-reviewer/scripts/validate_input.py",
+      "/tmp/payments-forward-cases/2b-issuer-deadline-only-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "WARN SYNTH-D1: legal profile missing; statutory review unresolved\ninput validation: 0 error(s), 1 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/issuer-payment-dispute-reviewer/scripts/calculate_or_transform.py",
+      "/tmp/payments-forward-cases/2b-issuer-deadline-only-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"processing_date\": \"2026-09-17\",\n  \"input_snapshot_hash\": \"f7bebfb54b4467a634989c16d84ac1bd2b80cd35f4d3febf57d156b6e393972d\",\n  \"execution_mode\": \"offline-draft-only\",\n  \"cases\": [\n    {\n      \"case_id\": \"SYNTH-D1\",\n      \"role\": \"issuer\",\n      \"case_owner\": \"issuer-payment-dispute-reviewer\",\n      \"jurisdiction\": \"US\",\n      \"rail\": \"card\",\n      \"product\": \"consumer-debit\",\n      \"needs\": [\n        \"rule profile required\",\n        \"statutory profile does not cover product\",\n        \"statutory profile does not cover rail\",\n        \"named legal regime and reviewed applicability rationale required\",\n        \"profile must identify required statutory clocks\",\n        \"business-day clock requires the named calendar/cutoff reference\"\n      ],\n      \"citations\": [\n        \"synthetic:customer-report\",\n        \"synthetic:intake-clock\"\n      ],\n      \"draft_response\": null,\n      \"statutory_review\": {\n        \"status\": \"unresolved\",\n        \"profile\": {},\n        \"clocks\": [\n          {\n            \"name\": \"review-supplied-business-day-clock\",\n            \"source_ref\": \"synthetic:intake-clock\",\n            \"trigger_event\": \"customer-notice\",\n            \"trigger_date\": \"2026-09-16\",\n            \"trigger_source_ref\": \"synthetic:customer-report\",\n            \"due_date\": \"2026-09-30\",\n            \"day_basis\": \"business-days\",\n            \"status\": \"unresolved\",\n            \"calendar_days_remaining\": 13,\n            \"issues\": [\n              \"business-day clock requires the named calendar/cutoff reference\"\n            ],\n            \"calculation_basis\": \"reviewer-supplied due date; no statutory period inferred\"\n          }\n        ],\n        \"applicability_verified_by_agent\": false\n      },\n      \"scheme_review\": {\n        \"status\": \"not-assessed\"\n      },\n      \"consultations\": [],\n      \"disposition\": \"legal-profile-unresolved\",\n      \"recommended_action\": \"obtain-approved-legal-profile-and-clocks\"\n    }\n  ],\n  \"summary\": {\n    \"total\": 1,\n    \"deadline-review-required\": 0,\n    \"draft-ready-for-review\": 0,\n    \"legal-profile-unresolved\": 1,\n    \"needs-data\": 0,\n    \"route-specialist\": 0\n  },\n  \"standing_note\": \"Draft decision-support only. This skill does not decide any dispute, accept or deny a chargeback, issue provisional or final credit, assign liability, submit or file a response, or close a case; no account is debited or credited. An authorized issuer reviewer determines applicable duties and performs any action.\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/payments/issuer-payment-dispute-reviewer/scripts/validate_output.py",
+      "/tmp/payments-forward-cases/2b-issuer-deadline-only-output.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,7 @@
+# Native schema
+
+Top level: case_id, calendar as_of, context{capacity,represented_party,object_id,jurisdiction,line_of_business}, sources[{source_ref,version,as_of?}], explicit unresolved_issues[], optional upstream_artifacts/context_mappings and data. data.profile requires profile_id/version/source_refs/effective_from/effective_to/jurisdictions[]/lines_of_business[] matching the actual case.
+
+profile adds minimum_shared_claims integer>=2 and entity_types[] of permitted exact identifier types. data currency; exactly two ordered nonoverlapping windows[{window_id,start,end,exposure>0,exposure_unit,inventory_complete,source_refs}]; common_entities[{entity_type,entity_id,reason,source_refs}] explicit list. claims[{claim_id,window_id,reported_date,claimed_amount,currency,entities[{entity_type,entity_id}],outcome:confirmed|cleared|pending|unknown,outcome_as_of,outcome_source_refs[],source_refs}]. Dates within observed window. Typed identifiers should be de-identified tokens; no raw bank account details needed.
+
+All evidence rows identify supplied source_refs. Financial numbers accept finite numeric strings/numbers; null is unknown, never zero. Unknown business evidence may be structurally valid but prevents complete readiness. Literal explicit empty inventories are retained as assertions for review. Duplicate IDs reject. Output retains source_document, native results/findings, status/completeness/evaluability, unresolved_issues and content-bound artifact. validate_output recomputes rather than trusting a fresh hash.

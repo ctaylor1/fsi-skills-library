@@ -1,0 +1,413 @@
+{
+  "schema_version": "1.0",
+  "request_id": "FORWARD-HUB",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "entity-doc",
+      "reference": "synthetic:entity-doc",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-10"
+    },
+    {
+      "source_id": "product-doc",
+      "reference": "synthetic:product-doc",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-10"
+    },
+    {
+      "source_id": "funds-doc",
+      "reference": "synthetic:funds-doc",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-10"
+    },
+    {
+      "source_id": "architecture-doc",
+      "reference": "synthetic:architecture-doc",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-10"
+    },
+    {
+      "source_id": "control-doc",
+      "reference": "synthetic:control-doc",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-10"
+    },
+    {
+      "source_id": "migration-doc",
+      "reference": "synthetic:migration-doc",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-10"
+    },
+    {
+      "source_id": "specialist-doc",
+      "reference": "synthetic:specialist-doc",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-10"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "context": {
+      "business_flow": "Bank outbound USD instant credit transfers through hub into rail with operational journal and independent network status.",
+      "current_constraint": "Current API retries on timeout, sometimes with a new attempt ID; network outcome can be unknown.",
+      "target_outcome": "Reduce uncertain duplicate attempts while preserving traceable rail and ledger outcomes.",
+      "module": "hub",
+      "source_ids": [
+        "architecture-doc"
+      ]
+    },
+    "components": [
+      {
+        "component_id": "api",
+        "role": "Accept client requests and correlate attempts",
+        "owner": "Channels",
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "component_id": "hub",
+        "role": "Own instruction lifecycle and enforce one financial writer",
+        "owner": "Payments Engineering",
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "component_id": "ledger",
+        "role": "Operational double-entry journal; does not establish rail finality",
+        "owner": "Finance Operations",
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "component_id": "network",
+        "role": "Authoritative network status feed for rail acceptance and settlement",
+        "owner": "Network Operations",
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "component_id": "legacy",
+        "role": "Existing legacy hub financial executor during migration",
+        "owner": "Payments Engineering",
+        "source_ids": [
+          "architecture-doc"
+        ]
+      }
+    ],
+    "data_models": [
+      {
+        "entity": "instruction",
+        "identifier_fields": [
+          "instruction_id",
+          "legal_entity_id",
+          "account_id"
+        ],
+        "authoritative_component": "hub",
+        "state_values": [
+          "received",
+          "submitted",
+          "uncertain",
+          "confirmed",
+          "rejected"
+        ],
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "entity": "attempt",
+        "identifier_fields": [
+          "attempt_id",
+          "instruction_id"
+        ],
+        "authoritative_component": "api",
+        "state_values": [
+          "sent",
+          "timed-out",
+          "responded"
+        ],
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "entity": "network-payment",
+        "identifier_fields": [
+          "network_payment_id",
+          "instruction_id"
+        ],
+        "authoritative_component": "network",
+        "state_values": [
+          "accepted",
+          "settled",
+          "rejected"
+        ],
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "entity": "ledger-entry",
+        "identifier_fields": [
+          "entry_id",
+          "instruction_id",
+          "currency"
+        ],
+        "authoritative_component": "ledger",
+        "state_values": [
+          "pending",
+          "posted",
+          "linked-reversal"
+        ],
+        "source_ids": [
+          "architecture-doc"
+        ]
+      }
+    ],
+    "flows": [
+      {
+        "flow_id": "accept",
+        "stage": "initiation",
+        "from_component": "api",
+        "to_component": "hub",
+        "state_entity": "instruction",
+        "mutates_money": false,
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "flow_id": "submit",
+        "stage": "settlement",
+        "from_component": "hub",
+        "to_component": "network",
+        "state_entity": "network-payment",
+        "mutates_money": true,
+        "source_ids": [
+          "architecture-doc"
+        ],
+        "idempotency": {
+          "key_fields": [
+            "legal_entity_id",
+            "instruction_id"
+          ],
+          "scope": "same legal entity and instruction across every retry/attempt",
+          "retention": "30 days and until all uncertain attempts resolve",
+          "atomic_enforcement": "Persist key+request digest atomically before dispatch; unique constraint on entity+instruction",
+          "payload_conflict_behavior": "reject-conflict",
+          "source_ids": [
+            "control-doc"
+          ]
+        },
+        "uncertain_outcome": {
+          "strategy": "status-then-reconcile",
+          "status_authority": "network",
+          "source_ids": [
+            "control-doc"
+          ]
+        },
+        "reconciliation": {
+          "source_component": "network",
+          "target_component": "hub",
+          "partition_fields": [
+            "legal_entity_id",
+            "account_id",
+            "currency"
+          ],
+          "match_keys": [
+            "instruction_id",
+            "network_payment_id"
+          ],
+          "owner": "Payments Operations",
+          "exception_queue": "SYNTH-hub-unresolved",
+          "source_ids": [
+            "control-doc"
+          ]
+        }
+      },
+      {
+        "flow_id": "book",
+        "stage": "posting",
+        "from_component": "hub",
+        "to_component": "ledger",
+        "state_entity": "ledger-entry",
+        "mutates_money": true,
+        "source_ids": [
+          "architecture-doc"
+        ],
+        "ledger_invariant": "Sum debit and credit per entity/currency = 0; corrections are linked compensating entries, no mutation of original posted rows.",
+        "idempotency": {
+          "key_fields": [
+            "legal_entity_id",
+            "instruction_id"
+          ],
+          "scope": "same legal entity and instruction across every retry/attempt",
+          "retention": "30 days and until all uncertain attempts resolve",
+          "atomic_enforcement": "Persist key+request digest atomically before dispatch; unique constraint on entity+instruction",
+          "payload_conflict_behavior": "reject-conflict",
+          "source_ids": [
+            "control-doc"
+          ]
+        },
+        "uncertain_outcome": {
+          "strategy": "status-then-reconcile",
+          "status_authority": "network",
+          "source_ids": [
+            "control-doc"
+          ]
+        },
+        "reconciliation": {
+          "source_component": "network",
+          "target_component": "ledger",
+          "partition_fields": [
+            "legal_entity_id",
+            "account_id",
+            "currency"
+          ],
+          "match_keys": [
+            "instruction_id",
+            "network_payment_id"
+          ],
+          "owner": "Payments Operations",
+          "exception_queue": "SYNTH-hub-unresolved",
+          "source_ids": [
+            "control-doc"
+          ]
+        }
+      },
+      {
+        "flow_id": "network-status",
+        "stage": "reconciliation",
+        "from_component": "network",
+        "to_component": "hub",
+        "state_entity": "network-payment",
+        "mutates_money": false,
+        "source_ids": [
+          "architecture-doc"
+        ]
+      }
+    ],
+    "nfrs": [
+      {
+        "nfr_id": "availability",
+        "metric": "availability",
+        "target": "99.95",
+        "unit": "percent",
+        "measurement_plan": "Measure valid request availability per minute and report monthly, including controlled dependency failure drills.",
+        "owner": "SRE",
+        "source_ids": [
+          "control-doc"
+        ]
+      },
+      {
+        "nfr_id": "uncertain-age",
+        "metric": "maximum-uncertain-age",
+        "target": "15",
+        "unit": "minutes",
+        "measurement_plan": "Inject ambiguous network timeout; alert queue owner after 15 minutes and reconcile against status journal.",
+        "owner": "Payments Operations",
+        "source_ids": [
+          "control-doc"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "option_id": "retain",
+        "description": "Keep legacy executor and add durable deduplication/status polling",
+        "component_changes": [
+          "legacy deduplication store",
+          "network status adapter"
+        ],
+        "benefits": [
+          "Small cutover scope"
+        ],
+        "tradeoffs": [
+          "Legacy coupling remains"
+        ],
+        "acceptance_evidence": [
+          "synthetic legacy adapter design; fault-injection results still required"
+        ],
+        "source_ids": [
+          "architecture-doc"
+        ]
+      },
+      {
+        "option_id": "strangler",
+        "description": "Strangler migration with new hub orchestration and one executor per partition",
+        "component_changes": [
+          "hub instruction state store",
+          "atomic writer-ownership registry",
+          "network status adapter"
+        ],
+        "benefits": [
+          "Explicit uncertain state and partition ownership"
+        ],
+        "tradeoffs": [
+          "Extra transition complexity; dual schemas during migration"
+        ],
+        "acceptance_evidence": [
+          "synthetic design review; end-to-end test and reconciliation evidence required before cutover"
+        ],
+        "source_ids": [
+          "architecture-doc"
+        ]
+      }
+    ],
+    "migration": [
+      {
+        "phase_id": "shadow",
+        "sequence": 1,
+        "scope": "Read-only shadow only; legacy retains sole financial execution",
+        "entry_evidence": [
+          "approved mapping specification",
+          "synthetic masked replay corpus"
+        ],
+        "exit_evidence": [
+          "all test events mapped with explainable differences",
+          "zero financial writes by shadow"
+        ],
+        "inflight_handling": "Legacy owns all active instructions to terminal reconciliation; shadow only observes",
+        "financial_reconciliation": "Match network status, instruction record and journal by entity/account/currency and instruction",
+        "rollback_boundary": "Disable shadow intake without changing any accepted payment",
+        "rollback_mode": "stop-new-intake",
+        "dual_financial_execution": false,
+        "owner": "Payments Engineering",
+        "source_ids": [
+          "migration-doc"
+        ]
+      },
+      {
+        "phase_id": "canary",
+        "sequence": 2,
+        "scope": "5% canary of newly accepted instructions in disjoint ownership partition",
+        "entry_evidence": [
+          "reconciliation gate signed by Operations",
+          "timeout/payload-conflict/replay test report",
+          "atomic writer fencing verified"
+        ],
+        "exit_evidence": [
+          "zero unexplained unmatched payments for five working days",
+          "NFR results and on-call exercise accepted"
+        ],
+        "inflight_handling": "Ownership registry assigns exactly one executor at initial acceptance; old in-flight stays legacy until reconciled",
+        "financial_reconciliation": "Network-to-hub-to-journal counts and amount balances plus exception review per partition before expansion",
+        "rollback_boundary": "Stop routing new instructions to canary; retain its accepted/in-flight ownership until reconciled; no automatic reversal of settled funds",
+        "rollback_mode": "stop-new-intake",
+        "dual_financial_execution": false,
+        "owner": "Payments Engineering",
+        "source_ids": [
+          "migration-doc"
+        ]
+      }
+    ]
+  }
+}

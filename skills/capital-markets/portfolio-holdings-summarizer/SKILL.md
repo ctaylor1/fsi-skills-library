@@ -52,7 +52,7 @@ recommendation or judgment about what to do next.
   out of scope; do not answer it here.
 - The user asks whether the portfolio is suitable, well-diversified, or risky in a
   personalized sense → route to `portfolio-risk-diversification-check` (educational,
-  non-advice) and, for suitability, to `suitability-reg-bi-reviewer`.
+  non-advice) and, for suitability, to `investment-recommendation-evidence-reviewer`.
 - The user wants performance/attribution over time → `performance-attribution-builder`.
 - The user wants to place or stage trades → not supported here (see `portfolio-rebalancing-assistant`, R4).
 

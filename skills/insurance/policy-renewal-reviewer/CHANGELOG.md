@@ -1,5 +1,12 @@
 # Changelog — policy-renewal-reviewer
 
+## [0.2.0] — 2026-09-18
+
+- Phase 1: corrected implemented scope, source preservation, typed result states, portable evidence contract and substantive output recomputation.
+- Added synthetic regression cases for observed correctness failures.
+- Domain professional review and production integration acceptance remain pending.
+
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`).
 
@@ -19,8 +26,8 @@ Initial authoring in the FSI Skills Library (baseline status: `new`).
   determination/pricing/advice-language screen, disclaimer, context prompts).
 - **Evaluations:** trigger/routing, golden Escalated case, missing-term and no-claims edges,
   deterministic script checks, no-determination safety + injection, external-delivery authorization.
-- **Handoffs:** downstream to `underwriting-workbench-assistant`, `policy-wording-comparator`,
-  `coverage-gap-analyzer`, `claims-file-reviewer`, `catastrophe-exposure-monitor`,
+- **Handoffs:** downstream to `insurance-underwriting-risk-reviewer`, `policy-wording-comparator`,
+  `coverage-gap-analyzer`, `claim-file-quality-reviewer`, `catastrophe-exposure-monitor`,
   `premium-quote-comparator`, `policy-document-explainer`; renewal decision / pricing / bind / notice
   reframed as licensed-underwriter (human) actions.
 

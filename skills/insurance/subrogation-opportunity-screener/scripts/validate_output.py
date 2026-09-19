@@ -14,23 +14,39 @@ Usage:
   python validate_output.py pack.json | --selftest
 Exit 0 if no errors, 1 otherwise.
 """
+
 from __future__ import annotations
-import json, re, sys
+
+import json
+import re
+import sys
 from pathlib import Path
 
-DISCLAIMER = ("Screening evidence only; not a subrogation, liability, or limitation "
-              "determination. No demand, filing, waiver, or recovery action has been taken.")
+from insurance_contract import validate_artifact
+
+DISCLAIMER = (
+    "Screening evidence only; not a subrogation, liability, or limitation "
+    "determination. No demand, filing, waiver, or recovery action has been taken."
+)
 CORE = {"third_party_liability_indicated", "recovery_above_floor", "positive_expected_recovery"}
 
 # Positive determination / action assertions an R2 screener must NOT make:
 DETERMINATION_PATTERNS = [
-    r"\bthird part(y|ies) (is|are) liable\b", r"\bis (definitely |clearly |fully )?liable\b",
-    r"\bis time[- ]barred\b", r"\bclaim is barred\b", r"\bstatute has run\b",
-    r"\bfile (a )?(suit|lawsuit|claim in court)\b", r"\bissue (a |the )?demand\b",
-    r"\bsend (a |the )?demand (letter|package)\b", r"\bplace a lien\b",
-    r"\bwaive (the )?(subrogation|recovery)\b", r"\brelease (the )?(claim|third party)\b",
-    r"\bclose the recovery\b", r"\bdeny (the )?claim\b",
-    r"\b(guaranteed|certain) recovery\b", r"\bwe will recover\b",
+    r"\bthird part(y|ies) (is|are) liable\b",
+    r"\bis (definitely |clearly |fully )?liable\b",
+    r"\bis time[- ]barred\b",
+    r"\bclaim is barred\b",
+    r"\bstatute has run\b",
+    r"\bfile (a )?(suit|lawsuit|claim in court)\b",
+    r"\bissue (a |the )?demand\b",
+    r"\bsend (a |the )?demand (letter|package)\b",
+    r"\bplace a lien\b",
+    r"\bwaive (the )?(subrogation|recovery)\b",
+    r"\brelease (the )?(claim|third party)\b",
+    r"\bclose the recovery\b",
+    r"\bdeny (the )?claim\b",
+    r"\b(guaranteed|certain) recovery\b",
+    r"\bwe will recover\b",
 ]
 
 
@@ -50,7 +66,7 @@ def expected_band(fired: set, time_critical: bool) -> str:
     return band
 
 
-def validate(pack: dict) -> list[str]:
+def _validate(pack: dict) -> list[str]:
     errors: list[str] = []
     signals = pack.get("signals") or []
     fired = {s["signal"] for s in signals if s.get("fired")}
@@ -64,19 +80,36 @@ def validate(pack: dict) -> list[str]:
                 if not (row.get("citation") or "").strip():
                     errors.append(f"fired signal {s['signal']} evidence row missing citation")
 
-    exp = expected_band(fired, bool(pack.get("time_critical")))
+    exp = "Review" if pack.get("not_evaluable") else expected_band(fired, bool(pack.get("time_critical")))
+    if pack.get("recovery_availability") == "unknown" and "recovery_not_waived" in fired:
+        errors.append("unknown waiver/prior status cannot establish recovery availability")
+    if sorted(fired) != sorted(pack.get("fired_signals", [])):
+        errors.append("fired signal list mismatch")
+    economics = pack.get("referral_economics") or {}
+    if economics.get("evaluability") == "not_evaluable":
+        if any(economics.get(k) is not None for k in ("recovery_base", "liability_share", "gross_expected", "net_expected")):
+            errors.append("unknown economics must retain null calculated amounts and share")
+        if fired & {"recovery_above_floor", "positive_expected_recovery"}:
+            errors.append("unknown economics cannot fire financial recovery signals")
+        if pack.get("screening_band") != "Review":
+            errors.append("unknown economics requires Review")
     if pack.get("screening_band") != exp:
-        errors.append(f"screening_band {pack.get('screening_band')!r} != deterministic {exp!r} "
-                      f"for fired={sorted(fired)} time_critical={bool(pack.get('time_critical'))}")
+        errors.append(
+            f"screening_band {pack.get('screening_band')!r} != deterministic {exp!r} "
+            f"for fired={sorted(fired)} time_critical={bool(pack.get('time_critical'))}"
+        )
 
     # scan free text (narrative + notes + reasons) but NOT the disclaimer field
-    text = " ".join([str(pack.get("narrative", "")), str(pack.get("notes", ""))]
-                    + [str(s.get("reason", "")) for s in signals])
+    text = " ".join(
+        [str(pack.get("narrative", "")), str(pack.get("notes", ""))] + [str(s.get("reason", "")) for s in signals]
+    )
     for pat in DETERMINATION_PATTERNS:
         m = re.search(pat, text, re.I)
         if m:
-            errors.append(f"determination/action language detected: {m.group(0)!r} "
-                          f"(R2 screens and evidences; it does not decide/act)")
+            errors.append(
+                f"determination/action language detected: {m.group(0)!r} "
+                f"(R2 screens and evidences; it does not decide/act)"
+            )
 
     if DISCLAIMER.lower() not in (str(pack.get("narrative", "")) + " " + str(pack.get("disclaimer", ""))).lower():
         errors.append("missing standing disclaimer text")
@@ -85,6 +118,16 @@ def validate(pack: dict) -> list[str]:
         errors.append("band is not No-Action but no consider_prompts (counter-considerations) included")
 
     return errors
+
+
+def validate(doc: dict, *args, **kwargs) -> list[str]:
+    if not isinstance(doc, dict):
+        return ["output must be an object"]
+    try:
+        errors = _validate(doc, *args, **kwargs)
+    except (KeyError, TypeError, ValueError, AttributeError, OverflowError) as exc:
+        errors = ["malformed output: " + str(exc)]
+    return errors + validate_artifact(doc.get("artifact"), output=doc)
 
 
 def main(argv):

@@ -56,7 +56,7 @@ closure stay with the human/approver and the downstream skills.
   comms) → `cyber-incident-response-coordinator`.
 - **Remediate access / stage revocations** for compromised identities → `identity-access-reviewer`.
 - **Recover funds / work the payment-fraud case** (recall, beneficiary analysis) →
-  `payment-fraud-case-investigator`.
+  `payment-fraud-and-scam-investigator`.
 - **Data-exfiltration / DLP investigation** → `data-loss-prevention-incident-assistant`.
 - Any request to **confirm, close, block, reset, recall, or file** → refuse; recommend and route.
 

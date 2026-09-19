@@ -1,0 +1,1 @@
+Prior totals EP1m WP1.1m loss560000 expense200000 claims20 exposure800. Current EP1m WP1.1m loss740000 expense220000 claims22 exposure700. LR56%->74%; mix8pp plus within10pp =18pp. Expense ratios18.181818%->20%, combined74.181818%->94%. Frequency.025->.031428571; severity28000->33636.363636. Cannot attribute to inflation.

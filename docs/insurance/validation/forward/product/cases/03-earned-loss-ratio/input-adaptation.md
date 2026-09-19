@@ -1,0 +1,1 @@
+Confirmed synthetic history is marked claims_complete=true. No earned_premium object is supplied. Both terms are provided to satisfy renewal scope; identical coverage/exposure/form facts are declared synthetic.

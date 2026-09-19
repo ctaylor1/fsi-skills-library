@@ -62,7 +62,7 @@ filing stays human**.
 - **Alert triage/enrichment** before an incident is declared → `security-alert-triage-assistant`.
 - **Deep investigation** of a specific vector: BEC/phishing → `phishing-and-bec-investigator`;
   data exfiltration/DLP → `data-loss-prevention-incident-assistant`; payment fraud →
-  `payment-fraud-case-investigator`.
+  `payment-fraud-and-scam-investigator`.
 - **Drafting the regulatory/resilience report** or maintaining registers →
   `operational-resilience-reporter`. **SAR** consideration → `suspicious-activity-report-drafter`.
 

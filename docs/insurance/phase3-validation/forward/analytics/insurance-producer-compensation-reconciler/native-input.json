@@ -1,0 +1,154 @@
+{
+  "case_id": "insurance-producer-compensation-reconciler-forward-01",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "Producer compensation analyst",
+    "represented_party": "Harbor Mutual (synthetic)",
+    "object_id": "AGENCY-M7",
+    "jurisdiction": "SYNTHETIC-STATE",
+    "line_of_business": "commercial-package"
+  },
+  "sources": [
+    {
+      "source_ref": "profile",
+      "version": "v1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "agreement",
+      "version": "v1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "events",
+      "version": "v1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "reported",
+      "version": "v1",
+      "as_of": "2026-09-18"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "profile": {
+      "profile_id": "insurance-producer-compensation-reconciler-local-study",
+      "version": "study-1",
+      "effective_from": "2025-01-01",
+      "effective_to": "2027-12-31",
+      "jurisdictions": [
+        "SYNTHETIC-STATE"
+      ],
+      "lines_of_business": [
+        "commercial-package"
+      ],
+      "reviewed_by": "Synthetic reviewer Morgan Vale",
+      "source_refs": [
+        "profile"
+      ],
+      "method": "earned-base-rate-split-linked-chargeback"
+    },
+    "agency_id": "AGENCY-M7",
+    "currency": "USD",
+    "period": {
+      "start": "2026-07-01",
+      "end": "2026-09-18"
+    },
+    "ledger_complete": true,
+    "agreements": [
+      {
+        "agreement_id": "AG7",
+        "basis": "received-premium-USD",
+        "earning_trigger": "carrier-received-premium",
+        "rate": "0.1375",
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "source_refs": [
+          "agreement"
+        ],
+        "splits": [
+          {
+            "producer_id": "P65",
+            "share": "0.65",
+            "source_refs": [
+              "agreement"
+            ]
+          },
+          {
+            "producer_id": "P35",
+            "share": "0.35",
+            "source_refs": [
+              "agreement"
+            ]
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "event_id": "E1",
+        "agreement_id": "AG7",
+        "policy_id": "POL-P1",
+        "kind": "earned",
+        "date": "2026-07-10",
+        "basis": "received-premium-USD",
+        "currency": "USD",
+        "source_refs": [
+          "events",
+          "agreement"
+        ],
+        "base_amount": "100003.50",
+        "trigger_evidence": "carrier-received-premium"
+      },
+      {
+        "event_id": "E2",
+        "agreement_id": "AG7",
+        "policy_id": "POL-P2",
+        "kind": "earned",
+        "date": "2026-08-02",
+        "basis": "received-premium-USD",
+        "currency": "USD",
+        "source_refs": [
+          "events",
+          "agreement"
+        ],
+        "base_amount": "40000",
+        "trigger_evidence": "carrier-received-premium"
+      },
+      {
+        "event_id": "CBACK1",
+        "agreement_id": "AG7",
+        "policy_id": "POL-P1",
+        "kind": "chargeback",
+        "date": "2026-09-04",
+        "basis": "received-premium-USD",
+        "currency": "USD",
+        "source_refs": [
+          "events",
+          "agreement"
+        ],
+        "reverses_id": "E1",
+        "fraction": "0.25"
+      }
+    ],
+    "reported": [
+      {
+        "producer_id": "P65",
+        "net_earned": "10278.36",
+        "currency": "USD",
+        "source_refs": [
+          "reported"
+        ]
+      },
+      {
+        "producer_id": "P35",
+        "net_earned": "5530",
+        "currency": "USD",
+        "source_refs": [
+          "reported"
+        ]
+      }
+    ]
+  }
+}

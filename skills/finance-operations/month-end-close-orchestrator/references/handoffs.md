@@ -10,7 +10,7 @@ packages, or perform variance analysis — those are separate skills it routes t
 | Upstream skill | Handoff artifact | Gate it satisfies |
 | -------------- | ---------------- | ----------------- |
 | `gl-reconciler` | Reconciliation with zero unresolved breaks + `reconciliation_ref` | `certify_reconciliation` requires `unresolved_breaks == 0` |
-| `transaction-reconciliation-helper` | Cleared sub-ledger-to-GL reconciliation evidence | Sub-ledger tie-out before `lock_subledger` |
+| `payment-transaction-reconciler` | Cleared sub-ledger-to-GL reconciliation evidence | Sub-ledger tie-out before `lock_subledger` |
 | `accounts-payable-exception-resolver` | Resolved AP exception (misapplied/duplicate payment) | AP sub-ledger ties before its lock |
 | `financials-normalizer` | Normalized trial balance / mapped accounts | Clean inputs for accrual and allocation journals |
 

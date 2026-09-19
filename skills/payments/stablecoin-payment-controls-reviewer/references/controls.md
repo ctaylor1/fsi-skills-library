@@ -56,3 +56,7 @@
 
 `review_id` binds output to the exact inputs, period `as_of`, and **config version**;
 re-running with the same inputs and config reproduces the findings and disposition.
+
+## Phase 1 implementation boundary
+
+Phase 1: control evidence only, not a stablecoin settlement opportunity assessment. policy_profile must identify authority, source, version, active dates, review owner, participant/jurisdiction and required_controls. Missing/expired/inapplicable policy remains not_evaluable and escalated. No universal travel-rule threshold or chain confirmation count exists in this engine; supply applicable values and currency/chain context. Issuer controls do not automatically apply to a merchant using settlement services. Firm policy cannot override law.

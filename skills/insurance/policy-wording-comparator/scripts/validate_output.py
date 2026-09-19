@@ -48,11 +48,13 @@ def _expected_track(findings: list) -> str:
         return "Legal/compliance review required"
     if any(f.get("material") for f in findings):
         return "Standard review"
-    return "No material changes"
+    return "No material changes found in evaluated content"
 
 
 def validate(pack: dict) -> list[str]:
     errors: list[str] = []
+    from insurance_contract import validate_artifact
+    errors.extend(validate_artifact(pack.get("artifact"), input_doc=pack.get("calculation_inputs"), output=pack))
     findings = pack.get("findings") or []
 
     for f in findings:
@@ -68,6 +70,8 @@ def validate(pack: dict) -> list[str]:
                     errors.append(f"material finding {fid} evidence row missing citation")
 
     exp = _expected_track(findings)
+    if not any(f.get("material") for f in findings) and pack.get("not_evaluable"):
+        exp = "Incomplete comparison"
     if pack.get("suggested_review_track") != exp:
         errors.append(
             f"suggested_review_track {pack.get('suggested_review_track')!r} != deterministic {exp!r}")
@@ -90,6 +94,14 @@ def validate(pack: dict) -> list[str]:
     if DISCLAIMER.lower() not in haystack:
         errors.append("missing standing disclaimer text")
 
+    try:
+        from calculate_or_transform import compute
+        expected = compute(pack["calculation_inputs"])
+        for key in ('findings', 'counts', 'suggested_review_track', 'not_evaluable'):
+            if pack.get(key) != expected[key]:
+                errors.append(f"{key} does not reproduce calculation_inputs")
+    except (KeyError, ValueError, TypeError) as exc:
+        errors.append(f"missing or invalid calculation_inputs: {exc}")
     return errors
 
 

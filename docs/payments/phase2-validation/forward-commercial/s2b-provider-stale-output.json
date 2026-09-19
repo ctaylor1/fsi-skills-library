@@ -1,0 +1,508 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-provider-evaluator",
+  "request_id": "forward-provider-expired-b-evidence",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "issuer",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "forward-provider-expired-b-evidence",
+    "as_of": "2026-09-18",
+    "jurisdiction": "UK",
+    "participant": "issuer",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "issuer-requirements",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-issuer-requirements.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      },
+      {
+        "source_id": "processor-a-tests",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-processor-a-tests.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      },
+      {
+        "source_id": "processor-b-tests",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-processor-b-tests.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-09-17"
+      },
+      {
+        "source_id": "processor-quotes",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-processor-quotes.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "requirements": [
+        {
+          "requirement_id": "disputes",
+          "description": "Supported issuer dispute workflow with traceable lifecycle and case handoff",
+          "mandatory": true,
+          "weight": "20",
+          "source_ids": [
+            "issuer-requirements"
+          ]
+        },
+        {
+          "requirement_id": "data_export",
+          "description": "Complete transaction/dispute data export for migration and retention",
+          "mandatory": true,
+          "weight": "20",
+          "source_ids": [
+            "issuer-requirements"
+          ]
+        },
+        {
+          "requirement_id": "analytics",
+          "description": "Advanced real-time operational dashboards",
+          "mandatory": false,
+          "weight": "60",
+          "source_ids": [
+            "issuer-requirements"
+          ]
+        }
+      ],
+      "providers": [
+        {
+          "provider_id": "A",
+          "role": "issuer_processor",
+          "evidence": [
+            {
+              "requirement_id": "analytics",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "processor-a-tests"
+              ]
+            }
+          ],
+          "prices": [
+            {
+              "price_id": "core-rate",
+              "amount": "0.04",
+              "currency": "GBP",
+              "unit": "per_attempt",
+              "scope": "core issuer processing; ancillary charges excluded",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "processor-quotes"
+              ]
+            }
+          ]
+        },
+        {
+          "provider_id": "B",
+          "role": "issuer_processor",
+          "evidence": [
+            {
+              "requirement_id": "disputes",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "processor-b-tests"
+              ]
+            },
+            {
+              "requirement_id": "data_export",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "processor-b-tests"
+              ]
+            },
+            {
+              "requirement_id": "analytics",
+              "status": "unsupported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "processor-b-tests"
+              ]
+            }
+          ],
+          "prices": [
+            {
+              "price_id": "core-rate",
+              "amount": "0.08",
+              "currency": "GBP",
+              "unit": "per_success",
+              "scope": "core issuer processing; ancillary charges excluded",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "processor-quotes"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "aea3fef6ed116d5179c2a1a9d7e97ae77e23f323e1525fc17cd626c61463707a",
+  "findings": [
+    {
+      "code": "provider-evidence-gap",
+      "message": "A/disputes: unknown",
+      "severity": "gap",
+      "source_ids": []
+    },
+    {
+      "code": "provider-evidence-gap",
+      "message": "A/data_export: unknown",
+      "severity": "gap",
+      "source_ids": []
+    },
+    {
+      "code": "provider-evidence-gap",
+      "message": "B/disputes: unknown",
+      "severity": "gap",
+      "source_ids": [
+        "processor-b-tests"
+      ]
+    },
+    {
+      "code": "provider-evidence-gap",
+      "message": "B/data_export: unknown",
+      "severity": "gap",
+      "source_ids": [
+        "processor-b-tests"
+      ]
+    },
+    {
+      "code": "provider-evidence-gap",
+      "message": "B/analytics: unknown",
+      "severity": "warning",
+      "source_ids": [
+        "processor-b-tests"
+      ]
+    },
+    {
+      "code": "stale-source",
+      "message": "Source review is overdue: processor-b-tests",
+      "source_ids": [
+        "processor-b-tests"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "requirements": [
+      {
+        "requirement_id": "disputes",
+        "description": "Supported issuer dispute workflow with traceable lifecycle and case handoff",
+        "mandatory": true,
+        "weight": "20",
+        "source_ids": [
+          "issuer-requirements"
+        ]
+      },
+      {
+        "requirement_id": "data_export",
+        "description": "Complete transaction/dispute data export for migration and retention",
+        "mandatory": true,
+        "weight": "20",
+        "source_ids": [
+          "issuer-requirements"
+        ]
+      },
+      {
+        "requirement_id": "analytics",
+        "description": "Advanced real-time operational dashboards",
+        "mandatory": false,
+        "weight": "60",
+        "source_ids": [
+          "issuer-requirements"
+        ]
+      }
+    ],
+    "provider_comparisons": [
+      {
+        "provider_id": "A",
+        "role": "issuer_processor",
+        "requirement_matrix": [
+          {
+            "requirement_id": "disputes",
+            "requirement": "Supported issuer dispute workflow with traceable lifecycle and case handoff",
+            "mandatory": true,
+            "weight": "20",
+            "asserted_status": "unknown",
+            "evidence_status": "unknown",
+            "evidence_kind": "unknown",
+            "source_ids": []
+          },
+          {
+            "requirement_id": "data_export",
+            "requirement": "Complete transaction/dispute data export for migration and retention",
+            "mandatory": true,
+            "weight": "20",
+            "asserted_status": "unknown",
+            "evidence_status": "unknown",
+            "evidence_kind": "unknown",
+            "source_ids": []
+          },
+          {
+            "requirement_id": "analytics",
+            "requirement": "Advanced real-time operational dashboards",
+            "mandatory": false,
+            "weight": "60",
+            "asserted_status": "supported",
+            "evidence_status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-a-tests"
+            ]
+          }
+        ],
+        "mandatory_gaps": [
+          {
+            "requirement_id": "disputes",
+            "status": "unknown"
+          },
+          {
+            "requirement_id": "data_export",
+            "status": "unknown"
+          }
+        ],
+        "shortlist_eligible": false,
+        "weighted_score": null,
+        "score_bounds": {
+          "minimum": "60.0",
+          "maximum": "100"
+        },
+        "unknown_weight": "40",
+        "diligence_questions": [
+          {
+            "requirement_id": "disputes",
+            "question": "Provide scope-specific evidence and remediation/contract response for: Supported issuer dispute workflow with traceable lifecycle and case handoff"
+          },
+          {
+            "requirement_id": "data_export",
+            "question": "Provide scope-specific evidence and remediation/contract response for: Complete transaction/dispute data export for migration and retention"
+          }
+        ],
+        "prices": [
+          {
+            "price_id": "core-rate",
+            "amount": "0.04",
+            "currency": "GBP",
+            "unit": "per_attempt",
+            "scope": "core issuer processing; ancillary charges excluded",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-quotes"
+            ]
+          }
+        ]
+      },
+      {
+        "provider_id": "B",
+        "role": "issuer_processor",
+        "requirement_matrix": [
+          {
+            "requirement_id": "disputes",
+            "requirement": "Supported issuer dispute workflow with traceable lifecycle and case handoff",
+            "mandatory": true,
+            "weight": "20",
+            "asserted_status": "supported",
+            "evidence_status": "unknown",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-b-tests"
+            ]
+          },
+          {
+            "requirement_id": "data_export",
+            "requirement": "Complete transaction/dispute data export for migration and retention",
+            "mandatory": true,
+            "weight": "20",
+            "asserted_status": "supported",
+            "evidence_status": "unknown",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-b-tests"
+            ]
+          },
+          {
+            "requirement_id": "analytics",
+            "requirement": "Advanced real-time operational dashboards",
+            "mandatory": false,
+            "weight": "60",
+            "asserted_status": "unsupported",
+            "evidence_status": "unknown",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-b-tests"
+            ]
+          }
+        ],
+        "mandatory_gaps": [
+          {
+            "requirement_id": "disputes",
+            "status": "unknown"
+          },
+          {
+            "requirement_id": "data_export",
+            "status": "unknown"
+          }
+        ],
+        "shortlist_eligible": false,
+        "weighted_score": null,
+        "score_bounds": {
+          "minimum": "0",
+          "maximum": "100"
+        },
+        "unknown_weight": "100",
+        "diligence_questions": [
+          {
+            "requirement_id": "disputes",
+            "question": "Provide scope-specific evidence and remediation/contract response for: Supported issuer dispute workflow with traceable lifecycle and case handoff"
+          },
+          {
+            "requirement_id": "data_export",
+            "question": "Provide scope-specific evidence and remediation/contract response for: Complete transaction/dispute data export for migration and retention"
+          },
+          {
+            "requirement_id": "analytics",
+            "question": "Provide scope-specific evidence and remediation/contract response for: Advanced real-time operational dashboards"
+          }
+        ],
+        "prices": [
+          {
+            "price_id": "core-rate",
+            "amount": "0.08",
+            "currency": "GBP",
+            "unit": "per_success",
+            "scope": "core issuer processing; ancillary charges excluded",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "processor-quotes"
+            ]
+          }
+        ]
+      }
+    ],
+    "shortlist_for_human_diligence": [],
+    "selected_provider": null,
+    "ranking": null,
+    "comparable_rate_groups": [
+      {
+        "currency": "GBP",
+        "unit": "per_attempt",
+        "scope": "core issuer processing; ancillary charges excluded",
+        "rates": [
+          {
+            "provider_id": "A",
+            "price_id": "core-rate",
+            "amount": "0.04",
+            "comparison_state": "supplied-inspected-rate",
+            "source_ids": [
+              "processor-quotes"
+            ]
+          }
+        ]
+      },
+      {
+        "currency": "GBP",
+        "unit": "per_success",
+        "scope": "core issuer processing; ancillary charges excluded",
+        "rates": [
+          {
+            "provider_id": "B",
+            "price_id": "core-rate",
+            "amount": "0.08",
+            "comparison_state": "supplied-inspected-rate",
+            "source_ids": [
+              "processor-quotes"
+            ]
+          }
+        ]
+      }
+    ],
+    "decision_conditions": [
+      "Mandatory gaps cannot be offset by a weighted score.",
+      "Inspected is a supplied evidence classification, not independent source authentication.",
+      "Rate groups do not establish total cost; volumes, inclusions, minimums, tiers, tax, FX and terms require an economics model.",
+      "Shortlist indicates requirement evidence only; commercial, regulatory and third-party-risk acceptance remains open."
+    ]
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-economics-modeler",
+      "reason": "Model comparable participant-specific total economics with explicit volume and cost assumptions.",
+      "required_inputs": [
+        "requirements",
+        "provider_comparisons",
+        "comparable_rate_groups"
+      ],
+      "handoff_id": "23428e500bfcf016ebed7e8aedcf3e2ac5e804f49d33499aed4a154bcd55006b",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-provider-evaluator",
+      "case_id": "forward-provider-expired-b-evidence",
+      "lead_owner": "issuer",
+      "requested_output": "Model comparable participant-specific total economics with explicit volume and cost assumptions.",
+      "source_refs": [
+        "/tmp/payments-phase2-forward-commercial/source-issuer-requirements.json",
+        "/tmp/payments-phase2-forward-commercial/source-processor-a-tests.json",
+        "/tmp/payments-phase2-forward-commercial/source-processor-b-tests.json",
+        "/tmp/payments-phase2-forward-commercial/source-processor-quotes.json"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "provider-evidence-gap",
+          "message": "A/disputes: unknown",
+          "severity": "gap",
+          "source_ids": []
+        },
+        {
+          "code": "provider-evidence-gap",
+          "message": "A/data_export: unknown",
+          "severity": "gap",
+          "source_ids": []
+        },
+        {
+          "code": "provider-evidence-gap",
+          "message": "B/disputes: unknown",
+          "severity": "gap",
+          "source_ids": [
+            "processor-b-tests"
+          ]
+        },
+        {
+          "code": "provider-evidence-gap",
+          "message": "B/data_export: unknown",
+          "severity": "gap",
+          "source_ids": [
+            "processor-b-tests"
+          ]
+        },
+        {
+          "code": "stale-source",
+          "message": "Source review is overdue: processor-b-tests",
+          "source_ids": [
+            "processor-b-tests"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

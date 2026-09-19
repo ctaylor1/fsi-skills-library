@@ -1,66 +1,57 @@
-# Domain Rules — senior-investor-protection-screener
+# Signal rules and applicability
 
-Explainable senior-investor **concern signals** and how they map to a suggested **review
-disposition band**. Thresholds are configuration (versioned, owned by the wealth-management
-compliance / senior-protection team), not hard-coded judgments, and never tuned to an
-individual. Orientation references: **FINRA Rule 2165** (Financial Exploitation of Specified
-Adults), **FINRA Rule 4512** (Trusted Contact Person), the **Senior Safe Act**, and the
-**NASAA Model Act** — the firm's senior/vulnerable-investor standard takes precedence.
+These are versioned library screening conventions, not legal tests or empirically calibrated
+exploitation predictions. Deployment requires domain/control/fairness acceptance of the
+configuration and review routing. Firm policy cannot override applicable law.
 
-A "specified adult" is (per Rule 2165) a client **age >= 65**, or a client the firm reasonably
-believes has a mental or physical impairment that impairs financial self-protection
-(`impairment_flag`). Specified-adult status is **context** — it decides which protections
-apply — and is **not** itself a concern signal or a negative inference about the client.
+[FINRA Rule 2165](https://www.finra.org/rules-guidance/rulebooks/finra-rules/2165) identifies
+specified adults as people 65+ or adults 18+ meeting its impairment criterion. This package
+uses a trained-human impairment flag for context; it does not establish that legal criterion
+or that the firm's activity falls under the rule. [FINRA Rule 4512](https://www.finra.org/rules-guidance/rulebooks/finra-rules/4512)
+addresses trusted-contact information. A customer's declined contact is not an exploitation
+finding or proof of a rule violation. Both sources reviewed 2026-09-16; a compliance owner
+must validate current jurisdiction/capacity applicability before use. Other state/professional
+regimes require separately reviewed policies.
 
-## Signal taxonomy
+## Window and signals
+`as_of` includes that entire UTC calendar day. Date-only transaction records represent midnight
+UTC; adapters must preserve real time zones where available. The history window begins
+`as_of - (lookback_days - 1)`. Baseline rows are within that window and strictly precede the
+earliest focal transaction; focal rows are excluded. Only lifecycle=executed records enter
+historical baselines or executed outflow aggregates. Proposed/pending focal requests remain
+eligible for amount-versus-history, new-payee and account-change screening; their lifecycle
+is explicit in every focal evidence row and result.focal_activity. Cancelled activity never
+enters executed totals and is not an active focal request. Future focal activity is rejected.
+Out-of-window history is excluded, and claimed coverage is checked against requested dates.
 
-| Signal | Fires when (default config) | Evidence attached | High severity |
-| ------ | --------------------------- | ----------------- | ------------- |
-| `unusual_disbursement` | Focal disbursement > baseline mean + `amount_k`·stdev (default k=3) of same-direction debit history | Focal txn + baseline stats + window | |
-| `new_external_payee` | First-seen counterparty receiving a disbursement >= `new_payee_amount` (default 5,000) | Payee first-seen + amount | |
-| `rapid_liquidation` | Debit outflow within `cluster_days` (default 30) >= `liquidation_amount` (default 25,000) | The debit rows in the window | ✓ |
-| `account_or_beneficiary_change` | A beneficiary/registration/address change within `change_window_days` (default 90) coincident with a disbursement | The change record(s) + focal txn | |
-| `trusted_contact_gap` | No trusted contact on file, or last confirmation > `tc_stale_days` (default 365) — a Rule 4512 gap | Trusted-contact status | |
-| `third_party_influence` | Observed `third_party_present` or `new_caregiver_or_poa` | The set observation flags + observation ref | ✓ |
-| `capacity_concern_indicators` | Observed `confusion_observed`, `cannot_recall_transaction`, or `repeated_questions` — **indicators only, not a diagnosis** | The set observation flags | |
-| `communication_red_flags` | Observed `unusual_urgency`, `requests_secrecy`, `refuses_family_involvement`, or `scam_narrative_flag` | The set observation flags | ✓ |
+| Signal | Rule | Missing evidence |
+| --- | --- | --- |
+| unusual_disbursement | Focal debit exceeds pre-focal mean plus configured k population standard deviations | Unknown below minimum history or missing configuration/source coverage |
+| new_external_payee | High-value focal debit payee absent from the bounded baseline | Unknown if payee or coverage missing; never claims lifetime novelty |
+| rapid_liquidation | Sourced executed debit total in configured recent window exceeds threshold | Unknown if window insufficient; name denotes outflow proxy, not confirmed liquidation |
+| account_or_beneficiary_change | Sourced recent beneficiary/registration/address change and focal debit | Unknown if changes/config unavailable |
+| trusted_contact_gap | Known absent contact or confirmation older than configured recency | Unknown if collection/confirmation unknown; administrative only |
+| third_party_influence | Any supplied true third-party/caregiver observation | Unknown if group incompletely assessed and none true |
+| capacity_concern_indicators | Any supplied true confusion/recall/repetition observation | Observations only, never a diagnosis |
+| communication_red_flags | Any supplied true urgency/secrecy/isolation/scam observation | Unknown if group incompletely assessed and none true |
 
-Signals are **additive and independent**; the output reports each that fired with its own
-evidence. There is no opaque composite "exploitation score". Behavioral signals
-(`third_party_influence`, `capacity_concern_indicators`, `communication_red_flags`) are
-computed only from **structured observation flags supplied by a trained human** — the skill
-does not infer them from free text or diagnose the client.
+`fired` is true, false or null. Null means not evaluable. Positive observations are preserved
+alongside missing flags, and missing flags remain findings. Never infer negative observations
+from an absent block. Age is never itself a concern signal. Under-18 cases retain human
+safeguarding routing and do not acquire specified-adult context from an impairment flag.
 
-## Disposition mapping (deterministic, documented)
+## Review priority
+Exclude `trusted_contact_gap` from exploitation concern counting. Escalate when three concerns
+fire or any of rapid liquidation, third-party influence or communications concern fires.
+Otherwise Review for any concern; Insufficient evidence with no concern but incomplete data;
+Monitor only when there are no concern signals and no data findings. Monitor is not clearance.
+These conservatively broad rules require false-positive/false-negative calibration before use.
+Any data finding leaves the overall artifact `needs-data`, even with an Escalate priority.
 
-Let `fired` be the set of fired concern signals and `HIGH` = {`rapid_liquidation`,
-`third_party_influence`, `communication_red_flags`}.
-
-| Suggested band | Rule |
-| -------------- | ---- |
-| **Monitor** | 0 signals fired |
-| **Review** | 1–2 signals fired and none is high-severity |
-| **Escalate** | >= 3 signals fired, OR any high-severity signal fired |
-
-Disposition is a **triage suggestion for a human adjudicator**. It is not a determination that
-exploitation or diminished capacity occurred, and it never triggers a hold, a filing, a
-trusted-contact contact, or a case closure. `scripts/validate_output.py` re-derives the band
-from `fired` and fails closed on any mismatch.
-
-## Hard boundaries (fail closed)
-
-- Never state or imply that exploitation/abuse **has occurred**, or that the client **lacks
-  capacity / is incapacitated** — surface indicators and attribute conclusions to the human.
-- Never recommend as an executed action, or take, a **Rule 2165 hold**, freeze, filing
-  (SAR / APS), trusted-contact outreach, or **case closure**.
-- Never tune thresholds to the individual or infer "what's normal for this person" beyond the
-  computed baseline.
-- `capacity_concern_indicators` are **observed indicators**, never a clinical determination.
-
-## Benign-explanation prompts (always include when relevant)
-
-A legitimate large purchase (home, vehicle, medical / long-term care); planned gifting to
-family or charity; estate, tax, or RMD/Roth-conversion planning; a genuine new professional or
-caregiver the client engaged; a relocation to assisted living; a real, client-directed
-personal relationship or new payee. The pack must invite the adjudicator to weigh these before
-reaching any conclusion.
+## Configuration and bounds
+No fallback thresholds. Require sourced version/owner/capacity/jurisdiction and numeric values
+for amount_k (0–10), min_baseline_n (2–10,000), new_payee_amount/liquidation_amount (0–1e12),
+cluster_days (1–365), change_window_days/tc_stale_days (1–3650). Day counts and sample counts
+must be integers. Lookback is 1–3650 days; at most 10,000 transactions and 1000 changes.
+These are computational bounds, not approved regulatory thresholds. Missing parameters create
+needs-data; malformed/out-of-bound parameters stop calculation.

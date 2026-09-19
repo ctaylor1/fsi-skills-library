@@ -1,0 +1,249 @@
+{
+  "run_id": "cem-0483f89954a960dd",
+  "as_of": "2026-09-18T12:00:00-04:00",
+  "config_version": "synthetic-cat-policy-1.0",
+  "exposure_snapshot_id": "portfolio-20260918-v1",
+  "financial_context": {
+    "currency": "USD",
+    "unit": "currency",
+    "financial_basis": "gross",
+    "limit_grain": "location"
+  },
+  "queue": "catastrophe-risk-review",
+  "approaching_ratio": "0.9",
+  "confidence": "degraded",
+  "sources": [
+    {
+      "source": "policy_admin",
+      "as_of": "2026-09-18T11:30:00-04:00",
+      "source_ref": "synthetic-exposure-feed",
+      "version": "portfolio-20260918-v1",
+      "age_hours": 0.5,
+      "max_staleness_hours": 24.0,
+      "freshness": "fresh"
+    },
+    {
+      "source": "event_feed",
+      "as_of": "2026-09-18T11:00:00-04:00",
+      "source_ref": "synthetic-event-feed-rowan",
+      "version": "rowan-footprint-v3",
+      "age_hours": 1.0,
+      "max_staleness_hours": 24.0,
+      "freshness": "fresh"
+    },
+    {
+      "source": "cat_model",
+      "as_of": "2026-09-18T11:45:00-04:00",
+      "source_ref": "synthetic-model-run-42",
+      "version": "synthetic-model-v5",
+      "age_hours": 0.25,
+      "max_staleness_hours": 24.0,
+      "freshness": "fresh"
+    }
+  ],
+  "alerts": [
+    {
+      "alert_key": "HUR-SYN-01:coast-A:hurricane:zone_accumulation",
+      "event_id": "HUR-SYN-01",
+      "event_name": "Synthetic Hurricane Rowan",
+      "zone": "coast-A",
+      "peril": "hurricane",
+      "breach_type": "zone_accumulation",
+      "metric": "24000000",
+      "threshold": "20000000",
+      "exceedance_ratio": "1.2",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "synthetic-exposure-feed/row/1",
+          "location_id": "LOC-1",
+          "limit_id": "allocated-limit-1"
+        },
+        {
+          "citation": "synthetic-exposure-feed/row/2",
+          "location_id": "LOC-2",
+          "limit_id": "allocated-limit-2"
+        }
+      ],
+      "footprint_version": "rowan-footprint-v3",
+      "exposure_snapshot_id": "portfolio-20260918-v1",
+      "aggregate_tiv": "32000000",
+      "location_count": 2,
+      "severity": "Watch",
+      "suggested_response_priority": "P3",
+      "queue": "catastrophe-risk-review",
+      "reason": "zone_accumulation 24000000 compared with 20000000",
+      "status": "ongoing"
+    },
+    {
+      "alert_key": "HUR-SYN-01:EVENT:hurricane:modeled_loss",
+      "status": "unknown",
+      "reason": "not evaluable on complete current evidence; prior alert retained",
+      "evaluation": null
+    }
+  ],
+  "dedup": {
+    "new": 0,
+    "ongoing": 1,
+    "cleared": 0,
+    "unknown": 1
+  },
+  "data_gaps": [
+    {
+      "location_id": "LOC-2",
+      "gap": "unmodeled_or_ambiguous",
+      "detail": "event HUR-SYN-01 needs one bound model result"
+    }
+  ],
+  "evaluated_metrics": [
+    {
+      "alert_key": "HUR-SYN-01:coast-A:hurricane:zone_accumulation",
+      "event_id": "HUR-SYN-01",
+      "event_name": "Synthetic Hurricane Rowan",
+      "zone": "coast-A",
+      "peril": "hurricane",
+      "breach_type": "zone_accumulation",
+      "metric": "24000000",
+      "threshold": "20000000",
+      "exceedance_ratio": "1.2",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "synthetic-exposure-feed/row/1",
+          "location_id": "LOC-1",
+          "limit_id": "allocated-limit-1"
+        },
+        {
+          "citation": "synthetic-exposure-feed/row/2",
+          "location_id": "LOC-2",
+          "limit_id": "allocated-limit-2"
+        }
+      ],
+      "footprint_version": "rowan-footprint-v3",
+      "exposure_snapshot_id": "portfolio-20260918-v1",
+      "aggregate_tiv": "32000000",
+      "location_count": 2
+    },
+    {
+      "alert_key": "HUR-SYN-01:coast-A:hurricane:single_location:LOC-1",
+      "event_id": "HUR-SYN-01",
+      "event_name": "Synthetic Hurricane Rowan",
+      "zone": "coast-A",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "12000000",
+      "threshold": "15000000",
+      "exceedance_ratio": "0.8",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "synthetic-exposure-feed/row/1",
+          "location_id": "LOC-1"
+        }
+      ],
+      "footprint_version": "rowan-footprint-v3",
+      "exposure_snapshot_id": "portfolio-20260918-v1"
+    },
+    {
+      "alert_key": "HUR-SYN-01:coast-A:hurricane:single_location:LOC-2",
+      "event_id": "HUR-SYN-01",
+      "event_name": "Synthetic Hurricane Rowan",
+      "zone": "coast-A",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "12000000",
+      "threshold": "15000000",
+      "exceedance_ratio": "0.8",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "synthetic-exposure-feed/row/2",
+          "location_id": "LOC-2"
+        }
+      ],
+      "footprint_version": "rowan-footprint-v3",
+      "exposure_snapshot_id": "portfolio-20260918-v1"
+    }
+  ],
+  "overall_severity": "Watch",
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "data_coverage.models not complete",
+    "event HUR-SYN-01 model total withheld: incomplete/incompatible location scenarios",
+    "LOC-2: unmodeled_or_ambiguous (event HUR-SYN-01 needs one bound model result)"
+  ],
+  "disclaimer": "Monitoring alert only; exposure and modeled-loss figures are estimates for human review. No underwriting, reinsurance, capacity, reserving, or system-of-record action has been taken.",
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "catastrophe-exposure-monitor",
+    "artifact_type": "catastrophe-exposure-alerts",
+    "as_of": "2026-09-18T12:00:00-04:00",
+    "context": {
+      "capacity": "catastrophe risk analyst",
+      "represented_party": "Synthetic Carrier A",
+      "object_id": "synthetic-coastal-property-portfolio",
+      "jurisdiction": "US-FL",
+      "line_of_business": "commercial property"
+    },
+    "sources": [
+      {
+        "source": "policy_admin",
+        "source_ref": "synthetic-exposure-feed",
+        "version": "portfolio-20260918-v1",
+        "as_of": "2026-09-18T11:30:00-04:00"
+      },
+      {
+        "source": "event_feed",
+        "source_ref": "synthetic-event-feed-rowan",
+        "version": "rowan-footprint-v3",
+        "as_of": "2026-09-18T11:00:00-04:00"
+      },
+      {
+        "source": "cat_model",
+        "source_ref": "synthetic-model-run-42",
+        "version": "synthetic-model-v5",
+        "as_of": "2026-09-18T11:45:00-04:00"
+      },
+      {
+        "source": "risk_policy",
+        "source_ref": "synthetic-cat-risk-owner-threshold-policy",
+        "version": "synthetic-cat-policy-1.0",
+        "as_of": "2026-09-01T09:00:00-04:00"
+      }
+    ],
+    "input_hash": "0483f89954a960ddb3f550a6b6aff139ed26082a28d3562aa2e4db8b21c4cb49",
+    "output_hash": "40bb241a931b1b8360546d5eb773f4a385a1c6621a03f07af5400ad5538a49a8",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "data_coverage.models not complete",
+      "event HUR-SYN-01 model total withheld: incomplete/incompatible location scenarios",
+      "LOC-2: unmodeled_or_ambiguous (event HUR-SYN-01 needs one bound model result)"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "3c405a9d3dccebb720c3ec6c3a249462167bde66b1397e46007cd3d93f693b45"
+  }
+}

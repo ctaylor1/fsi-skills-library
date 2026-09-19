@@ -1,0 +1,12 @@
+# Independently authored synthetic bank packet
+
+No target fixtures, golden files or target test files were consulted. Input contracts, implementation validation criteria and public skill instructions were read. This is an independent agent forward review, not specialist acceptance or live-system testing.
+
+## Change case
+A community bank moves payment intake and routing to a cloud hub while retaining financial posting on its mainframe. Release CB-2026.09.18-rc2 spans cloud-hub, durable-outbox, mainframe-ledger. Payment identity is retained across redelivery. A single fenced financial writer owns an instruction; during partition the isolated writer stops. Cutover changes new intake only, while the mainframe retains ownership of in-flight money. Observed synthetic tests cover duplicate/lost/delayed/out-of-order events, commit/response loss, partition, uncertain money, cutover, rollback and support recovery. A second active-active scope tests the same observed financial invariants. Variants include two financial effects under partition, an omitted lost-event run, an artifact from rc1, and modified observations without a renewed inspection.
+
+## Incident case
+During the rc2 cutover, three customer payments generated five API attempts: p1 USD120 settled after a timeout and repeat delivery; p2 USD80 remains outcome-unknown after two attempts; p3 EUR50 failed with authoritative no effect. Attempts are load, not unique customer outcomes. Later reconciliation ties p1 and p3, leaving p2 unresolved. A release immediately before the incident is only a causal hypothesis. A proposed resend of p2 under a new key is unsafe. A duplicate p1 snapshot must collapse, while a conflicting p1 amount must quarantine identity and population success rates.
+
+## Queue/automation case
+Three completed queue cases have 35,45,20 minutes including rework; two are STP-eligible and one of those is automated. One old case remains open. An exact duplicate of the first completed case must not create extra savings. Automation affects the first two completed cases, gross80×0.75=60min; expected review/error effort=2×(5+0.1×10)=12min; capacity48min=0.8hours. Loaded cost60/hour gives48 capacity value, but a 25% realization assumption yields12 cash, bounded by a20 cap. Technology10 plus implementation15 plus expected error cost2 means net−15. An overlapping opportunity is an alternative, not additive. Variants include a conflicting case, incomplete AI control evidence, different staffing currency and unknown effort.

@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "skill": "bank-payment-workflow-designer",
+  "request_id": "SYNTH-COLLECTION-1",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "SYNTH-COLLECTION-1",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "bank",
+    "sources": [
+      {
+        "source_id": "S1",
+        "reference": "synthetic://request-response-ledger",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "requests": [
+        {
+          "request_id": "RFP-1",
+          "message_id": "MSG-1",
+          "requester_ref": "BILLER-1",
+          "payer_ref": "PAYER-1",
+          "beneficiary_ref": "BILLER-1",
+          "amount": "125.00",
+          "currency": "USD",
+          "rail_profile_id": "US-FEDNOW",
+          "channel": "request-for-payment",
+          "state": "open",
+          "issued_on": "2026-09-18",
+          "expires_on": "2026-09-19",
+          "access_review": {
+            "participant_reach_ref": "access1",
+            "scheme_profile_ref": "profile1",
+            "requester_legitimacy_ref": "review1"
+          },
+          "source_ids": [
+            "S1"
+          ],
+          "payer_response": {
+            "response_id": "RESPONSE-1",
+            "decision": "accept",
+            "binding": {
+              "request_id": "RFP-1",
+              "payer_ref": "PAYER-1",
+              "beneficiary_ref": "BILLER-1",
+              "amount": "125.00",
+              "currency": "USD"
+            },
+            "consent_ref": "consent1",
+            "review_ref": "review2"
+          }
+        }
+      ]
+    }
+  },
+  "input_hash": "594b5109a6bd9857650f6a1f9defd428c3b89c607d97f2b39b0e2224713f9dde",
+  "findings": [],
+  "result": {
+    "module": "collection-design",
+    "requests": [
+      {
+        "request_id": "RFP-1",
+        "message_id": "MSG-1",
+        "channel": "request-for-payment",
+        "rail_profile_id": "US-FEDNOW",
+        "exact_collection_binding": {
+          "request_id": "RFP-1",
+          "payer_ref": "PAYER-1",
+          "beneficiary_ref": "BILLER-1",
+          "amount": "125.00",
+          "currency": "USD"
+        },
+        "payer_response": {
+          "response_id": "RESPONSE-1",
+          "decision": "accept",
+          "binding": {
+            "request_id": "RFP-1",
+            "payer_ref": "PAYER-1",
+            "beneficiary_ref": "BILLER-1",
+            "amount": "125.00",
+            "currency": "USD"
+          },
+          "consent_ref": "consent1",
+          "review_ref": "review2"
+        },
+        "next_step": "assemble-separate-native-initiation-review",
+        "gaps": [],
+        "source_ids": [
+          "S1"
+        ],
+        "payment_authorized": true,
+        "payment_submitted": false,
+        "settlement_inferred": false
+      }
+    ],
+    "creates_funds_movement": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Prepare an exact separate credit instruction after scoped acceptance evidence; recheck intent, screening, account, duplicate and authority controls.",
+      "required_inputs": [
+        "native exact instruction",
+        "payer consent and bound request/response evidence",
+        "access and authority policy",
+        "unresolved collection issues"
+      ],
+      "handoff_id": "08ab7e5fefc1a9aaf07ae59960cf70b7fd8162ce19910ee37a4f2cf0eb13955c",
+      "contract_version": "1.0.0",
+      "source_skill": "bank-payment-workflow-designer",
+      "case_id": "SYNTH-COLLECTION-1",
+      "lead_owner": "bank",
+      "requested_output": "Prepare an exact separate credit instruction after scoped acceptance evidence; recheck intent, screening, account, duplicate and authority controls.",
+      "source_refs": [
+        "synthetic://request-response-ledger"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Normalized request/response review only; no native pain.013 parser, signature verification or network participation check.",
+    "Request, customer acceptance, payment initiation and settlement are separate records. Request cancellation does not reverse an existing payment.",
+    "Pay-by-bank here is a supplied credit-push collection design; direct-debit mandates remain separate. No SEPA Request-to-Pay or UK Request-to-Pay adapter is implemented."
+  ]
+}

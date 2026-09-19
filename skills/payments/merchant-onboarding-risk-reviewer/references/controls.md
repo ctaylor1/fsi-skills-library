@@ -51,3 +51,7 @@
 
 `review_id` binds the output to the exact application inputs and the **config version**;
 re-running with the same inputs and config reproduces the findings and recommendation.
+
+## Phase 1 implementation boundary
+
+Phase 1: pending/hit screening is unresolved and routes to the sanctions specialist, not Recommend-Decline. Default risk lists and ownership/volume thresholds are synthetic examples, not legal requirements or current sanctions lists. Production requires an institution-owned current policy and separate entity/owner screening coverage. Initial onboarding only; periodic/event underwriting is later work.

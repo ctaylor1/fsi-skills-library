@@ -1,0 +1,1 @@
+Review the June closing liability for LD-BLOCK-17. Recompute the supplied expected cashflow PV, reconcile both the PV-to-book adjustment and the signed roll-forward, and identify the exact residuals without making a reserve adequacy opinion.

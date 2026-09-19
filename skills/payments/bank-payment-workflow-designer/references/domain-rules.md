@@ -1,0 +1,7 @@
+# Bank workflow decisions
+
+Evaluate actual needs against each native rail's mechanism. An instant-only requirement conflicts with a non-instant rail. A business-hours customer need may be served by 24x7 operation; the reverse does not follow. Scheme operation hours are not a promise of customer delivery or service availability. The configured provider timing evidence remains necessary even for an instant profile.
+
+Keep contractual reach, participant funding, instruction authority, finality and servicing separate. FedNow orientation must not be converted to a generic prefunding-account model. RTP prefunding must not be assigned to all instant systems. SDD collection requires mandate authority; receipt of a request-for-payment requires a new payer intent decision. Customer access and national overlays remain supplied evidence. The deterministic funding criterion reports complete free-text evidence as `declared-only`, not compatible: it cannot validate a settlement arrangement from a label or account balance. Specialist comparison against the native funding mechanism remains an explicit gap.
+
+A settled payment is not a reversible state machine. Eligible returns, refunds, recalls and recovery requests have their own authority and outcomes. No unconditional rollback option exists. Cost comparisons need commercial evidence; missing fees are unknown, and this package does not annualize or optimize economics.

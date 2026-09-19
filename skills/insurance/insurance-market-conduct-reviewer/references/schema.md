@@ -1,0 +1,7 @@
+# Native schema
+
+Top level: case_id, calendar as_of, context{capacity,represented_party,object_id,jurisdiction,line_of_business}, sources[{source_ref,version,as_of?}], explicit unresolved_issues[], optional upstream_artifacts/context_mappings and data. data.profile requires profile_id/version/source_refs/effective_from/effective_to/jurisdictions[]/lines_of_business[] matching the actual case.
+
+profile.rules[{rule_id,activity,operator:max_calendar_days|maximum|minimum|equals,value,source_refs}]; date rules add start_field/end_field/day_basis:elapsed_calendar_excluding_start; other rules field. sampling{method:census|random|purposive,population_count,source_refs}. cases[{record_id,activity,dates:{field:date|null},pending_events:[],values:{field:value},source_refs}]. metrics[{row_id,metric_id,partition_id,definition_id,definition_version,period,unit,scope_id,numerator,denominator,inventory_complete,source_refs}]. Unique record IDs/metric partitions; future/reversed event dates withheld. A pending event cannot also have a completed date.
+
+All evidence rows identify supplied source_refs. Financial numbers accept finite numeric strings/numbers; null is unknown, never zero. Unknown business evidence may be structurally valid but prevents complete readiness. Literal explicit empty inventories are retained as assertions for review. Duplicate IDs reject. Output retains source_document, native results/findings, status/completeness/evaluability, unresolved_issues and content-bound artifact. validate_output recomputes rather than trusting a fresh hash.

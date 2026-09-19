@@ -8,10 +8,10 @@ reserve, or close anything — those are human and downstream-skill responsibili
 
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
-| `underwriting-workbench-assistant` | An accumulation or single-location breach needs an underwriting response (capacity, limit, terms) on a new or renewal risk | `run_id` + breached `alert_key`s + exposed locations |
-| `submission-intake-triager` | A zone is at/over appetite and new inbound submissions in that zone need tighter intake screening | zone + peril + accumulation status |
-| `reinsurance-treaty-interpreter` | The manager needs treaty attachment/retention/recovery implications of the modeled event loss (interpretation only) | event modeled-loss range + treaty reference |
-| `reserving-analysis-assistant` | A landfalling event's modeled loss should inform reserving/IBNR | `run_id` + event modeled-loss range |
+| `insurance-underwriting-risk-reviewer` | An accumulation or single-location breach needs an underwriting response (capacity, limit, terms) on a new or renewal risk | `run_id` + breached `alert_key`s + exposed locations |
+| `insurance-submission-preparer` | A zone is at/over appetite and new inbound submissions in that zone need tighter intake screening | zone + peril + accumulation status |
+| `reinsurance-contract-reviewer` | The manager needs treaty attachment/retention/recovery implications of the modeled event loss (interpretation only) | event modeled-loss range + treaty reference |
+| `pc-reserving-analysis-assistant` | A landfalling event's modeled loss should inform reserving/IBNR | `run_id` + event modeled-loss range |
 | `claims-triage-assistant` | The event has made landfall and a claims surge needs first-line triage | event id + affected zones |
 
 ## Upstream (may trigger this skill)
@@ -27,7 +27,7 @@ delegates a decision to it.
   the catastrophe-risk committee and the treaty reinsurance team. The monitor never places,
   binds, or recommends-as-instruction any reinsurance.
 - **Binding, declining, or amending a specific policy** → the licensed underwriter via
-  `underwriting-workbench-assistant`; the monitor only flags the exposure.
+  `insurance-underwriting-risk-reviewer`; the monitor only flags the exposure.
 - **Setting or changing appetite, zone limits, or model assumptions** → the cat-risk model /
   actuarial owner, as a versioned config change — never tuned inside a run.
 
@@ -38,3 +38,7 @@ delegates a decision to it.
   action — those belong to the human queue and the named downstream skills.
 - Downstream skills consume the `run_id` / `alert_key` package rather than re-monitoring the
   portfolio. Ongoing alerts are carried by `alert_key`, not re-raised as new each run.
+
+## Typed receiver validation
+
+Prepare native receiver input together with `make_handoff` from the bundled insurance contract. Preserve source artifact, object/context and unresolved issues. Invoke `validate_handoff` with the actual receiver input validator; a producer claim of passed validation is insufficient. The receiver separately assesses its domain prerequisites and carries any upstream partial state. This is content binding and schema validation, not permission to act.

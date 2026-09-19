@@ -1,0 +1,364 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-delegated-authority-reviewer",
+  "case_id": "FWD-OPS-DELEGATION",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "insurer-oversight",
+    "represented_party": "INS-1",
+    "object_id": "DA-12",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "commercial-property"
+  },
+  "status": "needs-review",
+  "findings": [
+    {
+      "code": "aggregate-limit",
+      "message": "Projected aggregate usage 2060000 USD exceeds the limit 2000000 by 60000.",
+      "source_refs": [
+        "AGR",
+        "LEDGER"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "bordereaux-exception",
+      "message": "B-8: late or out-of-balance report",
+      "source_refs": [
+        "REPORT"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "contract-exception",
+      "message": "MGA requests one risk over aggregate; no executed amendment or insurer acceptance supplied.",
+      "source_refs": [
+        "EMAIL"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "authority_checks": [
+      {
+        "check": "executed-agreement",
+        "status": "observed-match",
+        "detail": "Executed and versioned agreement evidence is required.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "insurer_id",
+        "status": "observed-match",
+        "detail": "insurer_id must match the agreement party.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "delegate_id",
+        "status": "observed-match",
+        "detail": "delegate_id must match the agreement party.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "jurisdiction",
+        "status": "observed-match",
+        "detail": "Requested jurisdiction is checked against the agreement scope.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "line_of_business",
+        "status": "observed-match",
+        "detail": "Requested line_of_business is checked against the agreement scope.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "action",
+        "status": "observed-match",
+        "detail": "Requested action is checked against the agreement scope.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "authority-period",
+        "status": "observed-match",
+        "detail": "Transaction date must be within the supplied authority period.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "request-scope",
+        "status": "observed-match",
+        "detail": "Request and declared review scope must agree.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "financial-basis",
+        "status": "observed-match",
+        "detail": "Request currency and amount basis must match the authority limit.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "per-risk-limit",
+        "status": "observed-match",
+        "detail": "Compare request amount to the per-risk authority limit.",
+        "source_refs": [
+          "AGR"
+        ]
+      },
+      {
+        "check": "aggregate-limit",
+        "status": "observed-exception",
+        "detail": "Projected aggregate usage 2060000 USD exceeds the limit 2000000 by 60000.",
+        "source_refs": [
+          "AGR",
+          "LEDGER"
+        ]
+      }
+    ],
+    "aggregate_remaining_before_request": "120000",
+    "projected_aggregate_used": "2060000",
+    "currency": "USD",
+    "bordereaux_checks": [
+      {
+        "report_id": "B-8",
+        "status": "observed-exception",
+        "late_or_overdue": true,
+        "reported_minus_expected": "-249.50",
+        "currency": "USD",
+        "amount_basis": "written-premium",
+        "period_end": "2026-08-31",
+        "issues": [],
+        "source_refs": [
+          "REPORT"
+        ]
+      }
+    ],
+    "authority_granted": false,
+    "exceptions_disposition": "reserved-for-authorized-reviewer"
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [
+    "Projected aggregate usage 2060000 USD exceeds the limit 2000000 by 60000.",
+    "B-8: late or out-of-balance report",
+    "MGA requests one risk over aggregate; no executed amendment or insurer acceptance supplied."
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "FWD-OPS-DELEGATION",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "insurer-oversight",
+      "represented_party": "INS-1",
+      "object_id": "DA-12",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#PROFILE",
+        "source_excerpt": "Synthetic oversight profile DA-P v1 reviewed by INS-OWNER, effective 2026-01-01 through 2026-12-31 for US-TEST commercial-property."
+      },
+      {
+        "source_ref": "AGR",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#AGR",
+        "source_excerpt": "Executed agreement DA-12 v4, insurer INS-1, delegate MGA-2, effective 2026-01-01 through 2026-12-31. US-TEST commercial-property action bind. USD insured-limit basis, per-risk limit 250000, aggregate limit 2000000."
+      },
+      {
+        "source_ref": "REQUEST",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#REQUEST",
+        "source_excerpt": "Transaction T-88, INS-1/MGA-2, US-TEST commercial-property, bind, 2026-09-18, USD 180000 insured-limit basis."
+      },
+      {
+        "source_ref": "LEDGER",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#LEDGER",
+        "source_excerpt": "DA-12 v4 utilization ledger as of 2026-09-18: complete; used 1880000 USD insured-limit basis; T-88 is not included."
+      },
+      {
+        "source_ref": "REPORT",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#REPORT",
+        "source_excerpt": "August report B-8 period_end 2026-08-31 due 2026-09-10 received 2026-09-16 complete USD written-premium; expected 95000.00 reported 94750.50."
+      },
+      {
+        "source_ref": "EMAIL",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#EMAIL",
+        "source_excerpt": "MGA email: please allow this one risk over aggregate. No insurer acceptance or executed amendment supplied."
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "DA-P",
+        "version": "1",
+        "source_refs": [
+          "PROFILE"
+        ],
+        "reviewed_by": "INS-OWNER",
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "commercial-property"
+        ]
+      },
+      "agreement": {
+        "agreement_id": "DA-12",
+        "version": "4",
+        "source_ref": "AGR",
+        "execution_status": "executed",
+        "insurer_id": "INS-1",
+        "delegate_id": "MGA-2",
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "commercial-property"
+        ],
+        "actions": [
+          "bind"
+        ],
+        "currency": "USD",
+        "amount_basis": "insured-limit",
+        "per_risk_limit": "250000",
+        "aggregate_limit": "2000000"
+      },
+      "request": {
+        "transaction_id": "T-88",
+        "insurer_id": "INS-1",
+        "delegate_id": "MGA-2",
+        "jurisdiction": "US-TEST",
+        "line_of_business": "commercial-property",
+        "action": "bind",
+        "transaction_date": "2026-09-18",
+        "amount": "180000",
+        "currency": "USD",
+        "amount_basis": "insured-limit",
+        "source_ref": "REQUEST"
+      },
+      "aggregate_ledger": {
+        "agreement_id": "DA-12",
+        "agreement_version": "4",
+        "source_ref": "LEDGER",
+        "as_of": "2026-09-18",
+        "used_amount": "1880000",
+        "currency": "USD",
+        "amount_basis": "insured-limit",
+        "complete": true,
+        "includes_request": false
+      },
+      "bordereaux": [
+        {
+          "report_id": "B-8",
+          "source_ref": "REPORT",
+          "period_end": "2026-08-31",
+          "due_date": "2026-09-10",
+          "received_date": "2026-09-16",
+          "complete": true,
+          "currency": "USD",
+          "amount_basis": "written-premium",
+          "expected_total": "95000.00",
+          "reported_total": "94750.50"
+        }
+      ],
+      "exceptions": [
+        {
+          "description": "MGA requests one risk over aggregate; no executed amendment or insurer acceptance supplied.",
+          "source_ref": "EMAIL"
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-delegated-authority-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "insurer-oversight",
+      "represented_party": "INS-1",
+      "object_id": "DA-12",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#PROFILE",
+        "source_excerpt": "Synthetic oversight profile DA-P v1 reviewed by INS-OWNER, effective 2026-01-01 through 2026-12-31 for US-TEST commercial-property."
+      },
+      {
+        "source_ref": "AGR",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#AGR",
+        "source_excerpt": "Executed agreement DA-12 v4, insurer INS-1, delegate MGA-2, effective 2026-01-01 through 2026-12-31. US-TEST commercial-property action bind. USD insured-limit basis, per-risk limit 250000, aggregate limit 2000000."
+      },
+      {
+        "source_ref": "REQUEST",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#REQUEST",
+        "source_excerpt": "Transaction T-88, INS-1/MGA-2, US-TEST commercial-property, bind, 2026-09-18, USD 180000 insured-limit basis."
+      },
+      {
+        "source_ref": "LEDGER",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#LEDGER",
+        "source_excerpt": "DA-12 v4 utilization ledger as of 2026-09-18: complete; used 1880000 USD insured-limit basis; T-88 is not included."
+      },
+      {
+        "source_ref": "REPORT",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#REPORT",
+        "source_excerpt": "August report B-8 period_end 2026-08-31 due 2026-09-10 received 2026-09-16 complete USD written-premium; expected 95000.00 reported 94750.50."
+      },
+      {
+        "source_ref": "EMAIL",
+        "version": "synthetic-observation-1",
+        "locator": "raw-source.json#EMAIL",
+        "source_excerpt": "MGA email: please allow this one risk over aggregate. No insurer acceptance or executed amendment supplied."
+      }
+    ],
+    "input_hash": "f361238c69366aa2268a518c25a78a9507b6d44f32978f97028e8252912f37b5",
+    "output_hash": "6293c135f51fc47eacdfcb9ef9e43cd765036838cae73b419f678684edd67e48",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [
+      "Projected aggregate usage 2060000 USD exceeds the limit 2000000 by 60000.",
+      "B-8: late or out-of-balance report",
+      "MGA requests one risk over aggregate; no executed amendment or insurer acceptance supplied."
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "58a67b0f19eba959f0193e8afab5af19880a83cf4b55db5f8d97886bab04d5d4"
+  }
+}

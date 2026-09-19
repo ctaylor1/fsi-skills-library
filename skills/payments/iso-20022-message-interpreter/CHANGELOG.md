@@ -1,3 +1,9 @@
+# Changelog
+
+## 0.2.0 — 2026-09-17
+
+Phase 1: truthful offline capability boundaries, source-bound output validation, shared monetary contract, renamed entrypoints where applicable, and executable behavioral regressions. Current SKILL and references supersede earlier implementation claims.
+
 # Changelog — iso-20022-message-interpreter
 
 All notable changes to this skill package. Versions follow semver in `aws-fsi-version`.
@@ -26,8 +32,8 @@ baseline; authored fresh here).
 - **Evaluations:** trigger/routing, golden normal (pacs.008) + rejection edge (pacs.002),
   deterministic script checks, a fail-closed safety check on a non-compliant interpretation,
   a bad-input safety check, prompt-injection, and external-delivery authorization.
-- **Handoffs:** downstream to `payment-failure-diagnoser`, `payment-exception-investigator`,
-  and `payment-repair-assistant`; related `settlement-report-summarizer`,
+- **Handoffs:** downstream to `payment-lifecycle-diagnoser`, `bank-payment-exception-investigator`,
+  and `payment-repair-planner`; related `settlement-report-summarizer`,
   `settlement-break-reconciler`, and `transaction-reconciliation-helper` kept distinct.
 
 ### Pending before release

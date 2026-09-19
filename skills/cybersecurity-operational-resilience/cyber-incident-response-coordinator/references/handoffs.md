@@ -24,7 +24,7 @@ the right investigation, remediation, reporting, and human owners.
 | `third-party-cyber-risk-reviewer` | A supplier/third party is implicated in the incident | Supplier + incident linkage |
 | `ransomware-readiness-assessor` | Post-incident readiness/recovery gaps should be assessed | Lessons learned + affected controls |
 | `operational-resilience-scenario-tester` | Lessons learned should feed a severe-but-plausible scenario test | Post-incident actions + dependency map |
-| `payment-fraud-case-investigator` | The incident involves payment fraud needing case investigation | Focal transactions + `coordination_id` |
+| `payment-fraud-and-scam-investigator` | The incident involves payment fraud needing case investigation | Focal transactions + `coordination_id` |
 | `suspicious-activity-report-drafter` | A reviewer decides a SAR may be warranted (draft-only, human-filed) | Evidence + `coordination_id` |
 
 ## Human / specialist handoffs (no catalog skill — route in prose)

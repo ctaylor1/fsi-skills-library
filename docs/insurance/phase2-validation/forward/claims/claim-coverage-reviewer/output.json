@@ -1,0 +1,336 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "claim-coverage-reviewer",
+  "case_id": "FWD-claim-coverage-reviewer",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "internal insurer analyst preparing draft for authorized reviewer",
+    "represented_party": "Fictional Harbor Mutual Insurance",
+    "object_id": "CLM-WATER-731",
+    "jurisdiction": "US-NY",
+    "line_of_business": "commercial_property"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "conflicting-evidence",
+      "message": "H-GRANT: contrary facts retained for review",
+      "source_refs": [
+        "POLICY",
+        "NOTICE",
+        "PLUMBER"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "conflicting-evidence",
+      "message": "H-EXCLUDE: contrary facts retained for review",
+      "source_refs": [
+        "POLICY",
+        "NOTICE",
+        "PLUMBER"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "policy_id": "P-HM-731",
+    "loss_within_supplied_period": true,
+    "facts": [
+      {
+        "fact_id": "F-NOTICE",
+        "quote": "Water first appeared on the sales floor on 13 September 2026; we had seen no earlier leak.",
+        "source_refs": [
+          "NOTICE"
+        ]
+      },
+      {
+        "fact_id": "F-PLUMBER",
+        "quote": "A cracked supply coupling was actively leaking. Staining behind the cabinet may indicate leakage for several weeks; I cannot date the onset without opening the wall.",
+        "source_refs": [
+          "PLUMBER"
+        ]
+      }
+    ],
+    "clauses": [
+      {
+        "clause_id": "G1",
+        "quote": "We pay direct physical water damage caused by sudden accidental escape from plumbing.",
+        "source_refs": [
+          "POLICY"
+        ]
+      },
+      {
+        "clause_id": "X1",
+        "quote": "We exclude damage caused by continuous seepage or leakage lasting fourteen days or more.",
+        "source_refs": [
+          "POLICY"
+        ]
+      }
+    ],
+    "coverage_hypotheses": [
+      {
+        "hypothesis_id": "H-GRANT",
+        "interpretation": "Reported sudden discovery and coupling failure may support the grant; discovery is not established onset.",
+        "clause_ids": [
+          "G1"
+        ],
+        "supporting_fact_ids": [
+          "F-NOTICE"
+        ],
+        "contrary_fact_ids": [
+          "F-PLUMBER"
+        ],
+        "contrary_evidence_reviewed": true,
+        "effect": "potential_grant",
+        "source_refs": [
+          "POLICY",
+          "NOTICE",
+          "PLUMBER"
+        ],
+        "assessment": "hypothesis_for_review",
+        "source_linked": true
+      },
+      {
+        "hypothesis_id": "H-EXCLUDE",
+        "interpretation": "Staining may support prolonged leakage, but duration is unproven and first visible water is recent.",
+        "clause_ids": [
+          "X1"
+        ],
+        "supporting_fact_ids": [
+          "F-PLUMBER"
+        ],
+        "contrary_fact_ids": [
+          "F-NOTICE"
+        ],
+        "contrary_evidence_reviewed": true,
+        "effect": "potential_exclusion",
+        "source_refs": [
+          "POLICY",
+          "NOTICE",
+          "PLUMBER"
+        ],
+        "assessment": "hypothesis_for_review",
+        "source_linked": true
+      }
+    ],
+    "coverage_determination": "not_made",
+    "reservation_of_rights": "not_issued",
+    "decision_owner": "authorized claims coverage specialist"
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "Leak onset and duration remain unverified; wall inspection, moisture history and maintenance photos unavailable.",
+    "H-GRANT: contrary facts retained for review",
+    "H-EXCLUDE: contrary facts retained for review"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "FWD-claim-coverage-reviewer",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "internal insurer analyst preparing draft for authorized reviewer",
+      "represented_party": "Fictional Harbor Mutual Insurance",
+      "object_id": "CLM-WATER-731",
+      "jurisdiction": "US-NY",
+      "line_of_business": "commercial_property"
+    },
+    "sources": [
+      {
+        "source_ref": "POLICY",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-coverage-reviewer/raw_sources/POLICY.md",
+        "sha256": "632aafe91de773729e678b36830a3fa1b968aae5fa739197d0669fd129593e4f"
+      },
+      {
+        "source_ref": "NOTICE",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-coverage-reviewer/raw_sources/NOTICE.md",
+        "sha256": "c421ddb536f1582fa32f433774ecd43ec165e34674c0f56eefb71f848e7a096f"
+      },
+      {
+        "source_ref": "PLUMBER",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-coverage-reviewer/raw_sources/PLUMBER.md",
+        "sha256": "3c045142f74a5b1985814b2611672ac1047a173d0826e359a1a5b8ae77d71ac6"
+      },
+      {
+        "source_ref": "REVIEW-PROFILE",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-coverage-reviewer/raw_sources/REVIEW-PROFILE.md",
+        "sha256": "5fcbbfc298178f79579c4b519198b580c6980579560848892cb69dd0ad2da4aa"
+      }
+    ],
+    "unresolved_issues": [
+      "Leak onset and duration remain unverified; wall inspection, moisture history and maintenance photos unavailable."
+    ],
+    "rule_profile": {
+      "profile_id": "SYNTHETIC-REVIEW-claim-coverage-reviewer",
+      "version": "1",
+      "source_refs": [
+        "REVIEW-PROFILE"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "jurisdictions": [
+        "US-NY"
+      ],
+      "lines_of_business": [
+        "commercial_property"
+      ]
+    },
+    "data": {
+      "policy": {
+        "policy_id": "P-HM-731",
+        "insured_id": "SHOP-731",
+        "wording_version": "CP-WATER-2026-1",
+        "coverage_trigger": "occurrence",
+        "effective": "2026-01-01",
+        "expiry": "2027-01-01",
+        "source_refs": [
+          "POLICY"
+        ]
+      },
+      "reported_insured_id": "SHOP-731",
+      "loss_date": "2026-09-13",
+      "facts": [
+        {
+          "fact_id": "F-NOTICE",
+          "quote": "Water first appeared on the sales floor on 13 September 2026; we had seen no earlier leak.",
+          "source_refs": [
+            "NOTICE"
+          ]
+        },
+        {
+          "fact_id": "F-PLUMBER",
+          "quote": "A cracked supply coupling was actively leaking. Staining behind the cabinet may indicate leakage for several weeks; I cannot date the onset without opening the wall.",
+          "source_refs": [
+            "PLUMBER"
+          ]
+        }
+      ],
+      "clauses": [
+        {
+          "clause_id": "G1",
+          "quote": "We pay direct physical water damage caused by sudden accidental escape from plumbing.",
+          "source_refs": [
+            "POLICY"
+          ]
+        },
+        {
+          "clause_id": "X1",
+          "quote": "We exclude damage caused by continuous seepage or leakage lasting fourteen days or more.",
+          "source_refs": [
+            "POLICY"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesis_id": "H-GRANT",
+          "interpretation": "Reported sudden discovery and coupling failure may support the grant; discovery is not established onset.",
+          "clause_ids": [
+            "G1"
+          ],
+          "supporting_fact_ids": [
+            "F-NOTICE"
+          ],
+          "contrary_fact_ids": [
+            "F-PLUMBER"
+          ],
+          "contrary_evidence_reviewed": true,
+          "effect": "potential_grant",
+          "source_refs": [
+            "POLICY",
+            "NOTICE",
+            "PLUMBER"
+          ]
+        },
+        {
+          "hypothesis_id": "H-EXCLUDE",
+          "interpretation": "Staining may support prolonged leakage, but duration is unproven and first visible water is recent.",
+          "clause_ids": [
+            "X1"
+          ],
+          "supporting_fact_ids": [
+            "F-PLUMBER"
+          ],
+          "contrary_fact_ids": [
+            "F-NOTICE"
+          ],
+          "contrary_evidence_reviewed": true,
+          "effect": "potential_exclusion",
+          "source_refs": [
+            "POLICY",
+            "NOTICE",
+            "PLUMBER"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "claim-coverage-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "internal insurer analyst preparing draft for authorized reviewer",
+      "represented_party": "Fictional Harbor Mutual Insurance",
+      "object_id": "CLM-WATER-731",
+      "jurisdiction": "US-NY",
+      "line_of_business": "commercial_property"
+    },
+    "sources": [
+      {
+        "source_ref": "POLICY",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-coverage-reviewer/raw_sources/POLICY.md",
+        "sha256": "632aafe91de773729e678b36830a3fa1b968aae5fa739197d0669fd129593e4f"
+      },
+      {
+        "source_ref": "NOTICE",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-coverage-reviewer/raw_sources/NOTICE.md",
+        "sha256": "c421ddb536f1582fa32f433774ecd43ec165e34674c0f56eefb71f848e7a096f"
+      },
+      {
+        "source_ref": "PLUMBER",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-coverage-reviewer/raw_sources/PLUMBER.md",
+        "sha256": "3c045142f74a5b1985814b2611672ac1047a173d0826e359a1a5b8ae77d71ac6"
+      },
+      {
+        "source_ref": "REVIEW-PROFILE",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-coverage-reviewer/raw_sources/REVIEW-PROFILE.md",
+        "sha256": "5fcbbfc298178f79579c4b519198b580c6980579560848892cb69dd0ad2da4aa"
+      }
+    ],
+    "input_hash": "636019cd218d75de15782b0f33290de7a44a902dd905eadfc581fe5dc2c582be",
+    "output_hash": "4aad3188279d48c33f1294025be246a68c50e8dc52a3520a8c7a8022a7f6bdd7",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "Leak onset and duration remain unverified; wall inspection, moisture history and maintenance photos unavailable.",
+      "H-GRANT: contrary facts retained for review",
+      "H-EXCLUDE: contrary facts retained for review"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "14e8c1abf6ffb7332d61a920787cb8ee285412bddd71cfa4d727aa6a4462d5f9"
+  }
+}

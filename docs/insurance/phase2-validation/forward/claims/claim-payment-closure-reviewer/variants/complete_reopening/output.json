@@ -1,0 +1,416 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "claim-payment-closure-reviewer",
+  "case_id": "FWD-claim-payment-closure-reviewer-complete_reopening",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "internal insurer analyst preparing draft for authorized reviewer",
+    "represented_party": "Fictional Harbor Mutual Insurance",
+    "object_id": "CLM-WATER-731",
+    "jurisdiction": "US-NY",
+    "line_of_business": "commercial_property"
+  },
+  "status": "needs-review",
+  "findings": [
+    {
+      "code": "duplicate-payment",
+      "message": "Payment identity already appears in a pending/submitted/settled transaction",
+      "source_refs": [
+        "PAYMENT-LEDGER"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "payment_review_status": "blocked",
+    "closure_review_status": "ready_for_authorized_review",
+    "payment_request": {
+      "payment_id": "PAY-731-FINAL",
+      "claim_id": "CLM-WATER-731",
+      "payee_id": "SHOP-731",
+      "obligation_id": "SETTLEMENT-731",
+      "amount": "28460.25",
+      "currency": "USD",
+      "source_refs": [
+        "PAYMENT-LEDGER"
+      ]
+    },
+    "duplicate_transactions": [
+      {
+        "payment_id": "PAY-731-FINAL",
+        "claim_id": "CLM-WATER-731",
+        "payee_id": "SHOP-731",
+        "obligation_id": "SETTLEMENT-731",
+        "amount": "28460.25",
+        "currency": "USD",
+        "source_refs": [
+          "PAYMENT-LEDGER"
+        ],
+        "state": "settled"
+      }
+    ],
+    "gate_matrix": [
+      {
+        "gate_id": "G-coverage",
+        "category": "coverage",
+        "state": "pass",
+        "source_refs": [
+          "CONTROL-REVIEW"
+        ]
+      },
+      {
+        "gate_id": "G-payee_verification",
+        "category": "payee_verification",
+        "state": "pass",
+        "source_refs": [
+          "CONTROL-REVIEW"
+        ]
+      },
+      {
+        "gate_id": "G-sanctions",
+        "category": "sanctions",
+        "state": "pass",
+        "source_refs": [
+          "CONTROL-REVIEW"
+        ]
+      },
+      {
+        "gate_id": "G-liens",
+        "category": "liens",
+        "state": "pass",
+        "source_refs": [
+          "CONTROL-REVIEW"
+        ]
+      },
+      {
+        "gate_id": "G-settlement_document",
+        "category": "settlement_document",
+        "state": "pass",
+        "source_refs": [
+          "CONTROL-REVIEW"
+        ]
+      },
+      {
+        "gate_id": "G-bank_verification",
+        "category": "bank_verification",
+        "state": "pass",
+        "source_refs": [
+          "CONTROL-REVIEW"
+        ]
+      },
+      {
+        "gate_id": "G-authority",
+        "category": "authority",
+        "state": "pass",
+        "source_refs": [
+          "CONTROL-REVIEW"
+        ]
+      }
+    ],
+    "open_obligations": [],
+    "reconciled_payment_ids": [
+      "PAY-731-INITIAL",
+      "PAY-731-FINAL"
+    ],
+    "reopen_triggers": [
+      {
+        "trigger": "New concealed water damage evidence",
+        "owner": "Property Claims Reopening Team",
+        "routing": "Internal queue PROPERTY-REOPEN with claim ID",
+        "source_refs": [
+          "CLOSURE-V2"
+        ]
+      }
+    ],
+    "payment_executed": false,
+    "claim_closed": false,
+    "claim_reopened": false
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [
+    "Payment identity already appears in a pending/submitted/settled transaction"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "FWD-claim-payment-closure-reviewer-complete_reopening",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "internal insurer analyst preparing draft for authorized reviewer",
+      "represented_party": "Fictional Harbor Mutual Insurance",
+      "object_id": "CLM-WATER-731",
+      "jurisdiction": "US-NY",
+      "line_of_business": "commercial_property"
+    },
+    "sources": [
+      {
+        "source_ref": "PAYMENT-LEDGER",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/PAYMENT-LEDGER.md",
+        "sha256": "9d7c74242fff3aaf76d59e0e300e23431a11d3754423a0f8c301e91287ab420a"
+      },
+      {
+        "source_ref": "AUTHORITY",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/AUTHORITY.md",
+        "sha256": "1f1c9ce56ab0c662931a27d254bd925b0d593cf5a1cc45b72e4e80281e3237d3"
+      },
+      {
+        "source_ref": "CONTROL-REVIEW",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/CONTROL-REVIEW.md",
+        "sha256": "db1f5fc874e7ec75a4b6b4822427b65e16f3a9c989b7b5cdd49d26bd255dd6b4"
+      },
+      {
+        "source_ref": "CLOSURE",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/CLOSURE.md",
+        "sha256": "ae1d4dfd7b98d18ca00ba4ead4810cef9b1929fb3ee4880b43338f09e455fd68"
+      },
+      {
+        "source_ref": "REVIEW-PROFILE",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/REVIEW-PROFILE.md",
+        "sha256": "5fcbbfc298178f79579c4b519198b580c6980579560848892cb69dd0ad2da4aa"
+      },
+      {
+        "source_ref": "CLOSURE-V2",
+        "version": "2",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/variants/complete_reopening/CLOSURE-V2.md",
+        "sha256": "6715ef74a0cd092b35b272056c2316a10d6654fcbac716e17ea6a7a2b2334230"
+      }
+    ],
+    "unresolved_issues": [],
+    "rule_profile": {
+      "profile_id": "SYNTHETIC-REVIEW-claim-payment-closure-reviewer",
+      "version": "1",
+      "source_refs": [
+        "REVIEW-PROFILE"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "jurisdictions": [
+        "US-NY"
+      ],
+      "lines_of_business": [
+        "commercial_property"
+      ]
+    },
+    "data": {
+      "payment_request": {
+        "payment_id": "PAY-731-FINAL",
+        "claim_id": "CLM-WATER-731",
+        "payee_id": "SHOP-731",
+        "obligation_id": "SETTLEMENT-731",
+        "amount": "28460.25",
+        "currency": "USD",
+        "source_refs": [
+          "PAYMENT-LEDGER"
+        ]
+      },
+      "authority": {
+        "claim_id": "CLM-WATER-731",
+        "payee_id": "SHOP-731",
+        "currency": "USD",
+        "limit": "35000.00",
+        "effective": "2026-09-15",
+        "expiry": "2026-09-30",
+        "approval_state": "approved",
+        "approver": "Claims Manager 12",
+        "source_refs": [
+          "AUTHORITY"
+        ]
+      },
+      "payment_history": [
+        {
+          "payment_id": "PAY-731-FINAL",
+          "claim_id": "CLM-WATER-731",
+          "payee_id": "SHOP-731",
+          "obligation_id": "SETTLEMENT-731",
+          "amount": "28460.25",
+          "currency": "USD",
+          "source_refs": [
+            "PAYMENT-LEDGER"
+          ],
+          "state": "settled"
+        },
+        {
+          "payment_id": "PAY-731-INITIAL",
+          "claim_id": "CLM-WATER-731",
+          "payee_id": "SHOP-731",
+          "obligation_id": "ADVANCE-731",
+          "amount": "18450.75",
+          "currency": "USD",
+          "state": "settled",
+          "source_refs": [
+            "PAYMENT-LEDGER"
+          ]
+        }
+      ],
+      "history_review": {
+        "complete": true,
+        "source_refs": [
+          "PAYMENT-LEDGER"
+        ]
+      },
+      "gates": [
+        {
+          "gate_id": "G-coverage",
+          "category": "coverage",
+          "state": "pass",
+          "source_refs": [
+            "CONTROL-REVIEW"
+          ]
+        },
+        {
+          "gate_id": "G-payee_verification",
+          "category": "payee_verification",
+          "state": "pass",
+          "source_refs": [
+            "CONTROL-REVIEW"
+          ]
+        },
+        {
+          "gate_id": "G-sanctions",
+          "category": "sanctions",
+          "state": "pass",
+          "source_refs": [
+            "CONTROL-REVIEW"
+          ]
+        },
+        {
+          "gate_id": "G-liens",
+          "category": "liens",
+          "state": "pass",
+          "source_refs": [
+            "CONTROL-REVIEW"
+          ]
+        },
+        {
+          "gate_id": "G-settlement_document",
+          "category": "settlement_document",
+          "state": "pass",
+          "source_refs": [
+            "CONTROL-REVIEW"
+          ]
+        },
+        {
+          "gate_id": "G-bank_verification",
+          "category": "bank_verification",
+          "state": "pass",
+          "source_refs": [
+            "CONTROL-REVIEW"
+          ]
+        },
+        {
+          "gate_id": "G-authority",
+          "category": "authority",
+          "state": "pass",
+          "source_refs": [
+            "CONTROL-REVIEW"
+          ]
+        }
+      ],
+      "closure": {
+        "open_obligations": [],
+        "remaining_case_reserve": "0.00",
+        "payment_reconciled": true,
+        "required_payment_ids": [
+          "PAY-731-INITIAL",
+          "PAY-731-FINAL"
+        ],
+        "reopen_triggers": [
+          {
+            "trigger": "New concealed water damage evidence",
+            "owner": "Property Claims Reopening Team",
+            "routing": "Internal queue PROPERTY-REOPEN with claim ID",
+            "source_refs": [
+              "CLOSURE-V2"
+            ]
+          }
+        ],
+        "source_refs": [
+          "CLOSURE",
+          "CLOSURE-V2"
+        ]
+      }
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "claim-payment-closure-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "internal insurer analyst preparing draft for authorized reviewer",
+      "represented_party": "Fictional Harbor Mutual Insurance",
+      "object_id": "CLM-WATER-731",
+      "jurisdiction": "US-NY",
+      "line_of_business": "commercial_property"
+    },
+    "sources": [
+      {
+        "source_ref": "PAYMENT-LEDGER",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/PAYMENT-LEDGER.md",
+        "sha256": "9d7c74242fff3aaf76d59e0e300e23431a11d3754423a0f8c301e91287ab420a"
+      },
+      {
+        "source_ref": "AUTHORITY",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/AUTHORITY.md",
+        "sha256": "1f1c9ce56ab0c662931a27d254bd925b0d593cf5a1cc45b72e4e80281e3237d3"
+      },
+      {
+        "source_ref": "CONTROL-REVIEW",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/CONTROL-REVIEW.md",
+        "sha256": "db1f5fc874e7ec75a4b6b4822427b65e16f3a9c989b7b5cdd49d26bd255dd6b4"
+      },
+      {
+        "source_ref": "CLOSURE",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/CLOSURE.md",
+        "sha256": "ae1d4dfd7b98d18ca00ba4ead4810cef9b1929fb3ee4880b43338f09e455fd68"
+      },
+      {
+        "source_ref": "REVIEW-PROFILE",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/raw_sources/REVIEW-PROFILE.md",
+        "sha256": "5fcbbfc298178f79579c4b519198b580c6980579560848892cb69dd0ad2da4aa"
+      },
+      {
+        "source_ref": "CLOSURE-V2",
+        "version": "2",
+        "as_of": "2026-09-18",
+        "path": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/variants/complete_reopening/CLOSURE-V2.md",
+        "sha256": "6715ef74a0cd092b35b272056c2316a10d6654fcbac716e17ea6a7a2b2334230"
+      }
+    ],
+    "input_hash": "0ada7c4aafcdcd276fb62dc1d8523af4bbd29b947c7d79db1009dfa85ab3db9d",
+    "output_hash": "14252fc9da81d5ff617984a1a99e29fa00d6e708576935d5a14b65ea717d48ed",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [
+      "Payment identity already appears in a pending/submitted/settled transaction"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "0529a3f5c7a3b78de24d2556b0365f4ca314b57dbf87c2b03ddd9f0b497f66c8"
+  }
+}

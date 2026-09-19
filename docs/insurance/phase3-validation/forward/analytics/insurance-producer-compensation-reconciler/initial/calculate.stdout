@@ -1,0 +1,285 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-producer-compensation-reconciler",
+  "case_id": "insurance-producer-compensation-reconciler-forward-01",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "Producer compensation analyst",
+    "represented_party": "Harbor Mutual (synthetic)",
+    "object_id": "AGENCY-M7",
+    "jurisdiction": "SYNTHETIC-STATE",
+    "line_of_business": "commercial-package"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "chargeback-basis",
+      "message": "Supply the contractual chargeback clause or approved entitlement basis; cancellation alone cannot create a chargeback.",
+      "source_refs": [
+        "events",
+        "agreement"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "results": {
+    "event_ledger": [
+      {
+        "event_id": "E1",
+        "agreement_id": "AG7",
+        "policy_id": "POL-P1",
+        "kind": "earned",
+        "gross": "13750.481250",
+        "producer_allocations": {
+          "P65": "8937.81281250",
+          "P35": "4812.66843750"
+        },
+        "source_refs": [
+          "events",
+          "agreement"
+        ]
+      },
+      {
+        "event_id": "E2",
+        "agreement_id": "AG7",
+        "policy_id": "POL-P2",
+        "kind": "earned",
+        "gross": "5500.0000",
+        "producer_allocations": {
+          "P65": "3575.000000",
+          "P35": "1925.000000"
+        },
+        "source_refs": [
+          "events",
+          "agreement"
+        ]
+      },
+      {
+        "event_id": "CBACK1",
+        "agreement_id": "AG7",
+        "policy_id": "POL-P1",
+        "kind": "chargeback",
+        "gross": null,
+        "producer_allocations": null,
+        "source_refs": [
+          "events",
+          "agreement"
+        ]
+      }
+    ],
+    "currency": "USD",
+    "net_earned_by_producer": null,
+    "reconciliation_differences": null,
+    "payment_authorized": false,
+    "licensing_determination": "not-performed"
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "Supply the contractual chargeback clause or approved entitlement basis; cancellation alone cannot create a chargeback."
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "insurance-producer-compensation-reconciler-forward-01",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "Producer compensation analyst",
+      "represented_party": "Harbor Mutual (synthetic)",
+      "object_id": "AGENCY-M7",
+      "jurisdiction": "SYNTHETIC-STATE",
+      "line_of_business": "commercial-package"
+    },
+    "sources": [
+      {
+        "source_ref": "profile",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "agreement",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "events",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "reported",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "insurance-producer-compensation-reconciler-local-study",
+        "version": "study-1",
+        "effective_from": "2025-01-01",
+        "effective_to": "2027-12-31",
+        "jurisdictions": [
+          "SYNTHETIC-STATE"
+        ],
+        "lines_of_business": [
+          "commercial-package"
+        ],
+        "reviewed_by": "Synthetic reviewer Morgan Vale",
+        "source_refs": [
+          "profile"
+        ],
+        "method": "earned-base-rate-split-linked-chargeback"
+      },
+      "agency_id": "AGENCY-M7",
+      "currency": "USD",
+      "period": {
+        "start": "2026-07-01",
+        "end": "2026-09-18"
+      },
+      "ledger_complete": true,
+      "agreements": [
+        {
+          "agreement_id": "AG7",
+          "basis": "received-premium-USD",
+          "earning_trigger": "carrier-received-premium",
+          "rate": "0.1375",
+          "effective_from": "2026-01-01",
+          "effective_to": "2026-12-31",
+          "source_refs": [
+            "agreement"
+          ],
+          "splits": [
+            {
+              "producer_id": "P65",
+              "share": "0.65",
+              "source_refs": [
+                "agreement"
+              ]
+            },
+            {
+              "producer_id": "P35",
+              "share": "0.35",
+              "source_refs": [
+                "agreement"
+              ]
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "event_id": "E1",
+          "agreement_id": "AG7",
+          "policy_id": "POL-P1",
+          "kind": "earned",
+          "date": "2026-07-10",
+          "basis": "received-premium-USD",
+          "currency": "USD",
+          "source_refs": [
+            "events",
+            "agreement"
+          ],
+          "base_amount": "100003.50",
+          "trigger_evidence": "carrier-received-premium"
+        },
+        {
+          "event_id": "E2",
+          "agreement_id": "AG7",
+          "policy_id": "POL-P2",
+          "kind": "earned",
+          "date": "2026-08-02",
+          "basis": "received-premium-USD",
+          "currency": "USD",
+          "source_refs": [
+            "events",
+            "agreement"
+          ],
+          "base_amount": "40000",
+          "trigger_evidence": "carrier-received-premium"
+        },
+        {
+          "event_id": "CBACK1",
+          "agreement_id": "AG7",
+          "policy_id": "POL-P1",
+          "kind": "chargeback",
+          "date": "2026-09-04",
+          "basis": "received-premium-USD",
+          "currency": "USD",
+          "source_refs": [
+            "events",
+            "agreement"
+          ],
+          "reverses_id": "E1",
+          "fraction": "0.25"
+        }
+      ],
+      "reported": [
+        {
+          "producer_id": "P65",
+          "net_earned": "10278.36",
+          "currency": "USD",
+          "source_refs": [
+            "reported"
+          ]
+        },
+        {
+          "producer_id": "P35",
+          "net_earned": "5530",
+          "currency": "USD",
+          "source_refs": [
+            "reported"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-producer-compensation-reconciler",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "Producer compensation analyst",
+      "represented_party": "Harbor Mutual (synthetic)",
+      "object_id": "AGENCY-M7",
+      "jurisdiction": "SYNTHETIC-STATE",
+      "line_of_business": "commercial-package"
+    },
+    "sources": [
+      {
+        "source_ref": "profile",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "agreement",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "events",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "reported",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "3e33d6d1c4de9b3461d8426bef74de1fb58e2b6f8bb5b3fb12c2ec32d21628f7",
+    "output_hash": "cd72bce904eb7d8dd7ea6020c80a6034da5441b34524e892eb08f336d95ec82b",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "Supply the contractual chargeback clause or approved entitlement basis; cancellation alone cannot create a chargeback."
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "7fb42e553806411e03220f63cbf232ace76897b7c68d4ebb412276803afe3891"
+  }
+}

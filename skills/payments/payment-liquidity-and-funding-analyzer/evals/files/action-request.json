@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0",
+  "request_id": "phase3-3-synthetic",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank-treasury",
+  "sources": [
+    {
+      "source_id": "ledger",
+      "reference": "synthetic://phase3-reviewed-ledger-v1",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "window_start": "2026-09-18T18:00:00Z",
+    "window_end": "2026-09-21T12:00:00Z",
+    "history_complete": true,
+    "accounts": [
+      {
+        "account_id": "fednow-master",
+        "entity_id": "bank-a",
+        "currency": "USD",
+        "rail_profile_id": "US-FEDNOW",
+        "funding_model": "master-account",
+        "snapshot_at": "2026-09-18T18:00:00Z",
+        "balance": "1000.00",
+        "held": "100.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "rtp-prefund",
+        "entity_id": "bank-a",
+        "currency": "USD",
+        "rail_profile_id": "US-RTP",
+        "funding_model": "prefunded-position",
+        "snapshot_at": "2026-09-18T18:00:00Z",
+        "balance": "400.00",
+        "held": "0.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "event_id": "obligation-1",
+        "economic_id": "economic-1",
+        "account_id": "fednow-master",
+        "entity_id": "bank-a",
+        "currency": "USD",
+        "kind": "settlement-obligation",
+        "certainty": "firm",
+        "due_at": "2026-09-18T19:00:00Z",
+        "amount": "600.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "event_id": "funding-1",
+        "economic_id": "economic-2",
+        "account_id": "fednow-master",
+        "entity_id": "bank-a",
+        "currency": "USD",
+        "kind": "inflow",
+        "certainty": "firm",
+        "due_at": "2026-09-18T20:00:00Z",
+        "amount": "500.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "event_id": "obligation-2",
+        "economic_id": "economic-3",
+        "account_id": "fednow-master",
+        "entity_id": "bank-a",
+        "currency": "USD",
+        "kind": "outflow",
+        "certainty": "firm",
+        "due_at": "2026-09-19T20:00:00Z",
+        "amount": "700.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "event_id": "rtp-obligation",
+        "economic_id": "economic-4",
+        "account_id": "rtp-prefund",
+        "entity_id": "bank-a",
+        "currency": "USD",
+        "kind": "settlement-obligation",
+        "certainty": "firm",
+        "due_at": "2026-09-19T20:00:00Z",
+        "amount": "300.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "reservations": [
+      {
+        "reservation_id": "reserve-1",
+        "account_id": "fednow-master",
+        "event_id": "obligation-1",
+        "currency": "USD",
+        "amount": "200.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "funding_windows": [
+      {
+        "window_id": "declared-access-window",
+        "account_id": "fednow-master",
+        "opens_at": "2026-09-18T18:00:00Z",
+        "closes_at": "2026-09-18T22:00:00Z",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "stress_scenarios": [
+      {
+        "scenario_id": "funding-unavailable",
+        "rationale": "Funding provider outage during declared window",
+        "remove_inflow_ids": [
+          "funding-1"
+        ],
+        "outflow_multiplier_bps": 10000,
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "scenario_id": "outflow-spike",
+        "rationale": "Illustrative 25% obligation uplift; no probability claim",
+        "remove_inflow_ids": [],
+        "outflow_multiplier_bps": 12500,
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ]
+  },
+  "requested_action": "execute"
+}

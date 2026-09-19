@@ -7,10 +7,10 @@ decide the renewal, price it, bind it, issue a notice, or make a coverage/claim 
 
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
-| `underwriting-workbench-assistant` | A renewal decision, re-rate, or bind is needed — compile the underwriter-ready profile and draft rationale for a **human** underwriter | `review_id` + fired findings |
+| `insurance-underwriting-risk-reviewer` | A renewal decision, re-rate, or bind is needed — compile the underwriter-ready profile and draft rationale for a **human** underwriter | `review_id` + fired findings |
 | `policy-wording-comparator` | A `form_endorsement_change` finding fired and the wording impact needs clause-level comparison | changed `form_id`/editions |
 | `coverage-gap-analyzer` | A `coverage_removed` / `limit_reduced` finding raises a coverage-adequacy question against the insured's needs | affected coverages + limits |
-| `claims-file-reviewer` | A `large_open_claim` in the loss history needs deep file review (reserve, chronology, coverage evidence) | `claim_id` + loss window |
+| `claim-file-quality-reviewer` | A `large_open_claim` in the loss history needs deep file review (reserve, chronology, coverage evidence) | `claim_id` + loss window |
 | `catastrophe-exposure-monitor` | Exposure change or accumulation needs modeled-loss / cat-accumulation monitoring | policy + exposure/location data |
 | `premium-quote-comparator` | The user actually wants to compare **competing market quotes**, not expiring-vs-proposed on one policy | the quotes to normalize |
 | `policy-document-explainer` | The user wants a plain explanation of a single policy document, not a renewal comparison | the document |

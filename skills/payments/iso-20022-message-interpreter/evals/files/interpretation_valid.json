@@ -1,46 +1,161 @@
 {
+  "source_message": {
+    "message_type": "pacs.008.001.08",
+    "usage_guideline": "CBPR+",
+    "direction": "inbound",
+    "group_header": {
+      "msg_id": "MSGID-20260715-0001",
+      "cre_dt_tm": "2026-07-15T09:30:00",
+      "nb_of_txs": "2",
+      "ctrl_sum": 145000.0,
+      "instg_agt": {
+        "bic": "CHASUS33"
+      },
+      "instd_agt": {
+        "bic": "DEUTDEFF"
+      }
+    },
+    "transactions": [
+      {
+        "end_to_end_id": "E2E-INV-88213",
+        "instr_id": "INSTR-0001",
+        "tx_id": "TX-0001",
+        "uetr": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "amount": {
+          "value": 120000.0,
+          "currency": "USD"
+        },
+        "settlement_amount": {
+          "value": 120000.0,
+          "currency": "USD"
+        },
+        "debtor": {
+          "name": "Acme Manufacturing LLC",
+          "account": "0123456789"
+        },
+        "debtor_agent": {
+          "bic": "CHASUS33"
+        },
+        "creditor": {
+          "name": "Global Components GmbH",
+          "account": "DE89370400440532013000"
+        },
+        "creditor_agent": {
+          "bic": "DEUTDEFF"
+        },
+        "charge_bearer": "SHAR",
+        "purpose_code": "SUPP",
+        "remittance_info": {
+          "unstructured": [
+            "Payment for commercial invoice INV-88213 covering Q2 2026 industrial component shipments delivered to the Hamburg distribution centre including freight insurance and applicable handling surcharges per master supply contract"
+          ]
+        },
+        "source": {
+          "system": "payment-gateway",
+          "ref": "batch=BAT-77;msg=MSGID-20260715-0001;tx=1"
+        }
+      },
+      {
+        "end_to_end_id": "E2E-INV-88214",
+        "instr_id": "INSTR-0002",
+        "tx_id": "TX-0002",
+        "amount": {
+          "value": 25000.0,
+          "currency": "USD"
+        },
+        "settlement_amount": {
+          "value": 25000.0,
+          "currency": "USD"
+        },
+        "debtor": {
+          "name": "Acme Manufacturing LLC",
+          "account": "0123456789"
+        },
+        "debtor_agent": {
+          "bic": "CHASUS33"
+        },
+        "creditor": {
+          "name": "Nordic Supply AB",
+          "account": "DE89370400440532013000"
+        },
+        "creditor_agent": {
+          "bic": "DEUTDEFF"
+        },
+        "charge_bearer": "SHAR",
+        "purpose_code": "SUPP",
+        "remittance_info": {
+          "unstructured": [
+            "Invoice INV-88214"
+          ]
+        },
+        "source": {
+          "system": "payment-gateway",
+          "ref": "batch=BAT-77;msg=MSGID-20260715-0001;tx=2"
+        }
+      }
+    ],
+    "mapping_profile": {
+      "source_ref": "fixture:explicit-MT-mapping-v1",
+      "target_format": "MT",
+      "max_remittance_length": 140,
+      "charset": "SWIFT-X"
+    }
+  },
+  "source_hash": "ef69152d9708c59567f161ced03587459d88ea662482c273314250c19f5837f4",
+  "input_format": "normalized-json",
+  "interpretation_mode": "normalized_transactions",
+  "schema_validated": false,
+  "scheme_validated": false,
   "message_type": "pacs.008.001.08",
   "message_family": "pacs",
-  "family_description": "Payments Clearing and Settlement (FI-to-FI)",
   "message_name": "FI To FI Customer Credit Transfer (pacs.008)",
   "usage_guideline": "CBPR+",
-  "summary": {
-    "nb_of_txs": 2,
-    "total_amount": 145000.0,
-    "currencies": [
-      "USD"
-    ],
-    "control_totals_balanced": true
-  },
   "transactions": [
     {
       "end_to_end_id": "E2E-INV-88213",
       "uetr": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=1",
       "amount": {
-        "value": 120000.0,
+        "value": "120000.0",
         "currency": "USD"
-      },
-      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=1"
+      }
     },
     {
       "end_to_end_id": "E2E-INV-88214",
       "uetr": null,
+      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=2",
       "amount": {
-        "value": 25000.0,
+        "value": "25000.0",
         "currency": "USD"
-      },
-      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=2"
+      }
     }
   ],
   "findings": [
     {
       "severity": "medium",
       "code": "TRUNCATION_RISK",
-      "field": "remittance.unstructured[0]",
-      "message": "Remittance line is 223 chars; exceeds the 140-char legacy MT :70: limit and would be truncated on down-mapping.",
-      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=1"
+      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=1",
+      "message": "Remittance exceeds supplied mapping limit 140; loss depends on mapping behavior.",
+      "mapping_source": "fixture:explicit-MT-mapping-v1"
     }
   ],
-  "narrative": "This message is FI To FI Customer Credit Transfer (pacs.008) — Payments Clearing and Settlement (FI-to-FI) — under the CBPR+ usage guideline, carrying 2 transaction(s) totalling USD 145,000.00. The declared control totals match the transactions present. Transaction E2E-INV-88213 states USD 120,000.00 [source: payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=1]. Transaction E2E-INV-88214 states USD 25,000.00 [source: payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=2]. Every figure above is traceable to the cited source reference. Interpretation and explanation only; not a payment instruction, repair authorization, or compliance/fraud determination.",
-  "disclaimer": "Interpretation and explanation only; not a payment instruction, repair authorization, or compliance/fraud determination."
+  "summary": {
+    "nb_of_txs": 2,
+    "currency_totals": {
+      "USD": "145000.0"
+    },
+    "total_amount": "145000.0",
+    "currencies": [
+      "USD"
+    ],
+    "raw_control_sum": "145000.0",
+    "control_totals_balanced": true,
+    "control_totals_status": "balanced"
+  },
+  "limitations": [
+    "truncation risk under the supplied mapping_profile",
+    "No raw XML, XSD, live external code-set, account ownership, directory, or scheme validation is implemented."
+  ],
+  "disclaimer": "Interpretation and explanation only; not a payment instruction, repair authorization, or compliance/fraud determination.",
+  "narrative": "FI To FI Customer Credit Transfer (pacs.008): 2 normalized record(s). Control-total assessment: balanced. Amounts are partitioned by currency; absent status-report amounts remain unknown. Message statuses describe reports and do not independently establish legal finality. Interpretation and explanation only; not a payment instruction, repair authorization, or compliance/fraud determination."
 }

@@ -1,0 +1,1 @@
+The original native validator rejects explicitly unknown paid and deductible amounts as nonnumeric, so this run produced no screening artifact. The unknowns must remain unknown; I cannot replace them with zero to force an output. This conflicts with the package rule that unknown financial inputs produce null economics and Review.

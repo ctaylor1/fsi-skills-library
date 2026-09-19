@@ -1,0 +1,246 @@
+{
+  "schema_version": "1.0",
+  "request_id": "synthetic-phase2-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "issuer",
+  "requested_action": "execute",
+  "sources": [
+    {
+      "source_id": "s1",
+      "reference": "synthetic://approved-design-brief",
+      "as_of": "2026-09-17",
+      "review_due": "2026-12-31"
+    },
+    {
+      "source_id": "s2",
+      "reference": "synthetic://operating-evidence",
+      "as_of": "2026-09-18",
+      "review_due": "2026-12-31"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "context": {
+      "business_flow": "Issuer processor posting to bank ledger",
+      "current_constraint": "Uncertain API results create manual breaks",
+      "target_outcome": "Retain one authoritative instruction and replay safely",
+      "module": "issuer",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "components": [
+      {
+        "component_id": "gateway",
+        "role": "instruction intake",
+        "owner": "payments-tech",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "component_id": "processor",
+        "role": "card processing",
+        "owner": "processor-operations",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "component_id": "ledger",
+        "role": "bank ledger",
+        "owner": "bank-finance",
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "data_models": [
+      {
+        "entity": "instruction",
+        "identifier_fields": [
+          "legal_entity_id",
+          "instruction_id"
+        ],
+        "authoritative_component": "gateway",
+        "state_values": [
+          "received",
+          "pending",
+          "unknown",
+          "confirmed",
+          "rejected"
+        ],
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "entity": "ledger-entry",
+        "identifier_fields": [
+          "legal_entity_id",
+          "entry_id"
+        ],
+        "authoritative_component": "ledger",
+        "state_values": [
+          "proposed",
+          "posted",
+          "reversed"
+        ],
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "flows": [
+      {
+        "flow_id": "posting",
+        "stage": "posting",
+        "from_component": "processor",
+        "to_component": "ledger",
+        "state_entity": "ledger-entry",
+        "mutates_money": true,
+        "idempotency": {
+          "key_fields": [
+            "legal_entity_id",
+            "instruction_id",
+            "operation"
+          ],
+          "scope": "posting operation and legal entity",
+          "retention": "Supplied replay window from design contract",
+          "atomic_enforcement": "Unique key reservation and recorded result in ledger transaction",
+          "payload_conflict_behavior": "reject-conflict",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        "uncertain_outcome": {
+          "strategy": "status-then-reconcile",
+          "status_authority": "ledger",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        "reconciliation": {
+          "source_component": "processor",
+          "target_component": "ledger",
+          "partition_fields": [
+            "legal_entity_id",
+            "account_id",
+            "currency"
+          ],
+          "match_keys": [
+            "instruction_id"
+          ],
+          "owner": "bank-finance",
+          "exception_queue": "ledger-breaks",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        "ledger_invariant": "Per-currency balanced journal with immutable linked reversal; independent ledger owner validates accounting",
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "nfrs": [
+      {
+        "nfr_id": "availability",
+        "metric": "availability",
+        "target": "99.9",
+        "unit": "percent",
+        "measurement_plan": "Measure eligible minutes with explicit outage exclusions",
+        "owner": "payments-tech",
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "option_id": "bounded-adapter",
+        "description": "Add durable instruction boundary before legacy ledger",
+        "component_changes": [
+          "gateway instruction store",
+          "ledger idempotency constraint"
+        ],
+        "benefits": [
+          "Inspect uncertain outcomes before retry"
+        ],
+        "tradeoffs": [
+          "Additional state store and reconciliation"
+        ],
+        "acceptance_evidence": [
+          "fault-injection duplicate protection",
+          "ledger statement tie-out"
+        ],
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "option_id": "retain-current",
+        "description": "Retain current posting and remediate manual controls",
+        "component_changes": [
+          "documented operator workflow"
+        ],
+        "benefits": [
+          "Avoid immediate migration"
+        ],
+        "tradeoffs": [
+          "Manual break workload remains"
+        ],
+        "acceptance_evidence": [
+          "sampled operator cases"
+        ],
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "migration": [
+      {
+        "phase_id": "shadow-compare",
+        "sequence": 1,
+        "scope": "Mirror deidentified events; no financial posting",
+        "entry_evidence": [
+          "approved data contract"
+        ],
+        "exit_evidence": [
+          "balanced independent comparison"
+        ],
+        "inflight_handling": "Keep current writer authoritative; record unclosed instructions",
+        "financial_reconciliation": "Tie control totals and breaks by entity/account/currency",
+        "rollback_boundary": "Disable shadow reads; current writer remains authoritative",
+        "rollback_mode": "disable-new-intake",
+        "dual_financial_execution": false,
+        "owner": "payments-tech",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "phase_id": "bounded-cutover",
+        "sequence": 2,
+        "scope": "One issuer cohort",
+        "entry_evidence": [
+          "shadow exceptions reviewed"
+        ],
+        "exit_evidence": [
+          "in-flight queue zero or formally owned",
+          "financial breaks resolved"
+        ],
+        "inflight_handling": "Drain old writer then mark writer ownership; no double posting",
+        "financial_reconciliation": "Compare all posted entries to original instructions",
+        "rollback_boundary": "Route new intake back; keep already posted entries and outstanding ownership",
+        "rollback_mode": "disable-new-intake",
+        "dual_financial_execution": false,
+        "owner": "bank-finance",
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ]
+  }
+}

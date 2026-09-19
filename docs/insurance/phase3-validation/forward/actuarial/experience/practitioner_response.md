@@ -1,0 +1,7 @@
+# Draft practitioner response
+
+For Cedar's LIFE-COHORT-349 mortality count study, 2026-01-01 through 2026-07-01, the supplied three lives produce 349 exposure days (0.956164 years) and two observed deaths. Segment A contributes 288 days, one death and 0.078904 expected deaths; segment B contributes 61 days, one death and 0.033425 expected deaths. Their A/E ratios are 12.673611 and 29.918033; combined A/E is 17.804878. The pre-event risk counts are three on February 1 and two on June 1. Delayed entry, left truncation and the April 1 segment transfer are reflected without double counting.
+
+ADMIN and ASSUMPTIONS, fresh-synthetic-v1, support the row dates, outcomes and constant intensities. These are central intensities, not annual death probabilities. An unallocated late death notification remains unknown and has not been inserted as a guessed event. Native status is needs-data/partial despite available arithmetic. The small and potentially incomplete study does not support credibility or a mortality assumption reset. The experience actuary should resolve the notification and assess reporting lag, censoring and segmentation first. No assumption library was changed. Original mapping required an interface-only correction from death to event for exit_reason; event_type remains death. All 21 independent arithmetic checks pass after that correction.
+
+Source evidence is synthetic and supplied, not authenticated. Approval not requested; execution not performed; no business action taken.

@@ -1,0 +1,506 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-liquidity-and-funding-analyzer",
+  "request_id": "phase3-3-synthetic",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank-treasury",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "phase3-3-synthetic",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "bank-treasury",
+    "sources": [
+      {
+        "source_id": "ledger",
+        "reference": "synthetic://phase3-reviewed-ledger-v1",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "window_start": "2026-09-18T18:00:00Z",
+      "window_end": "2026-09-21T12:00:00Z",
+      "history_complete": true,
+      "accounts": [
+        {
+          "account_id": "fednow-master",
+          "entity_id": "bank-a",
+          "currency": "USD",
+          "rail_profile_id": "US-FEDNOW",
+          "funding_model": "master-account",
+          "snapshot_at": "2026-09-18T18:00:00Z",
+          "balance": "1000.00",
+          "held": "100.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "account_id": "rtp-prefund",
+          "entity_id": "bank-a",
+          "currency": "USD",
+          "rail_profile_id": "US-RTP",
+          "funding_model": "prefunded-position",
+          "snapshot_at": "2026-09-18T18:00:00Z",
+          "balance": "400.00",
+          "held": "0.00",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "event_id": "obligation-1",
+          "economic_id": "economic-1",
+          "account_id": "fednow-master",
+          "entity_id": "bank-a",
+          "currency": "USD",
+          "kind": "settlement-obligation",
+          "certainty": "firm",
+          "due_at": "2026-09-18T19:00:00Z",
+          "amount": "600.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "event_id": "funding-1",
+          "economic_id": "economic-2",
+          "account_id": "fednow-master",
+          "entity_id": "bank-a",
+          "currency": "USD",
+          "kind": "inflow",
+          "certainty": "firm",
+          "due_at": "2026-09-18T20:00:00Z",
+          "amount": "500.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "event_id": "obligation-2",
+          "economic_id": "economic-3",
+          "account_id": "fednow-master",
+          "entity_id": "bank-a",
+          "currency": "USD",
+          "kind": "outflow",
+          "certainty": "firm",
+          "due_at": "2026-09-19T20:00:00Z",
+          "amount": "700.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "event_id": "rtp-obligation",
+          "economic_id": "economic-4",
+          "account_id": "rtp-prefund",
+          "entity_id": "bank-a",
+          "currency": "USD",
+          "kind": "settlement-obligation",
+          "certainty": "firm",
+          "due_at": "2026-09-19T20:00:00Z",
+          "amount": "300.00",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "reservations": [
+        {
+          "reservation_id": "reserve-1",
+          "account_id": "fednow-master",
+          "event_id": "obligation-1",
+          "currency": "USD",
+          "amount": "200.00",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "funding_windows": [
+        {
+          "window_id": "declared-access-window",
+          "account_id": "fednow-master",
+          "opens_at": "2026-09-18T18:00:00Z",
+          "closes_at": "2026-09-18T22:00:00Z",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "stress_scenarios": [
+        {
+          "scenario_id": "funding-unavailable",
+          "rationale": "Funding provider outage during declared window",
+          "remove_inflow_ids": [
+            "funding-1"
+          ],
+          "outflow_multiplier_bps": 10000,
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "scenario_id": "outflow-spike",
+          "rationale": "Illustrative 25% obligation uplift; no probability claim",
+          "remove_inflow_ids": [],
+          "outflow_multiplier_bps": 12500,
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "7e3eeec96b3ffd8ff20d6bf4c3c7ff5d1dbebee32ab13be2ef21438807e10f8d",
+  "findings": [
+    {
+      "code": "funding-shortfall",
+      "message": "fednow-master/funding-unavailable peak deficit 400.00 USD; later receipts cannot cure earlier missed obligations.",
+      "source_ids": [
+        "ledger"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "funding-shortfall",
+      "message": "fednow-master/outflow-spike peak deficit 225.00 USD; later receipts cannot cure earlier missed obligations.",
+      "source_ids": [
+        "ledger"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "window_start": "2026-09-18T18:00:00Z",
+    "window_end": "2026-09-21T12:00:00Z",
+    "account_positions": [
+      {
+        "account_id": "fednow-master",
+        "entity_id": "bank-a",
+        "currency": "USD",
+        "funding_model": "master-account",
+        "excluded_inflows": [],
+        "scenario_paths": [
+          {
+            "scenario_id": "base",
+            "timeline": [
+              {
+                "at": "2026-09-18T18:00:00Z",
+                "event_ids": [],
+                "available": "700.00"
+              },
+              {
+                "at": "2026-09-18T19:00:00Z",
+                "event_ids": [
+                  "obligation-1"
+                ],
+                "available": "300.00"
+              },
+              {
+                "at": "2026-09-18T20:00:00Z",
+                "event_ids": [
+                  "funding-1"
+                ],
+                "available": "800.00"
+              },
+              {
+                "at": "2026-09-19T20:00:00Z",
+                "event_ids": [
+                  "obligation-2"
+                ],
+                "available": "100.00"
+              }
+            ],
+            "minimum_available": "100.00",
+            "peak_shortfall": "0",
+            "ending_available": "100.00"
+          },
+          {
+            "scenario_id": "funding-unavailable",
+            "timeline": [
+              {
+                "at": "2026-09-18T18:00:00Z",
+                "event_ids": [],
+                "available": "700.00"
+              },
+              {
+                "at": "2026-09-18T19:00:00Z",
+                "event_ids": [
+                  "obligation-1"
+                ],
+                "available": "300.00"
+              },
+              {
+                "at": "2026-09-18T20:00:00Z",
+                "event_ids": [
+                  "funding-1"
+                ],
+                "available": "300.00"
+              },
+              {
+                "at": "2026-09-19T20:00:00Z",
+                "event_ids": [
+                  "obligation-2"
+                ],
+                "available": "-400.00"
+              }
+            ],
+            "minimum_available": "-400.00",
+            "peak_shortfall": "400.00",
+            "ending_available": "-400.00"
+          },
+          {
+            "scenario_id": "outflow-spike",
+            "timeline": [
+              {
+                "at": "2026-09-18T18:00:00Z",
+                "event_ids": [],
+                "available": "700.00"
+              },
+              {
+                "at": "2026-09-18T19:00:00Z",
+                "event_ids": [
+                  "obligation-1"
+                ],
+                "available": "150.00"
+              },
+              {
+                "at": "2026-09-18T20:00:00Z",
+                "event_ids": [
+                  "funding-1"
+                ],
+                "available": "650.00"
+              },
+              {
+                "at": "2026-09-19T20:00:00Z",
+                "event_ids": [
+                  "obligation-2"
+                ],
+                "available": "-225.00"
+              }
+            ],
+            "minimum_available": "-225.00",
+            "peak_shortfall": "225.00",
+            "ending_available": "-225.00"
+          }
+        ]
+      },
+      {
+        "account_id": "rtp-prefund",
+        "entity_id": "bank-a",
+        "currency": "USD",
+        "funding_model": "prefunded-position",
+        "excluded_inflows": [],
+        "scenario_paths": [
+          {
+            "scenario_id": "base",
+            "timeline": [
+              {
+                "at": "2026-09-18T18:00:00Z",
+                "event_ids": [],
+                "available": "400.00"
+              },
+              {
+                "at": "2026-09-19T20:00:00Z",
+                "event_ids": [
+                  "rtp-obligation"
+                ],
+                "available": "100.00"
+              }
+            ],
+            "minimum_available": "100.00",
+            "peak_shortfall": "0",
+            "ending_available": "100.00"
+          },
+          {
+            "scenario_id": "funding-unavailable",
+            "timeline": [
+              {
+                "at": "2026-09-18T18:00:00Z",
+                "event_ids": [],
+                "available": "400.00"
+              },
+              {
+                "at": "2026-09-19T20:00:00Z",
+                "event_ids": [
+                  "rtp-obligation"
+                ],
+                "available": "100.00"
+              }
+            ],
+            "minimum_available": "100.00",
+            "peak_shortfall": "0",
+            "ending_available": "100.00"
+          },
+          {
+            "scenario_id": "outflow-spike",
+            "timeline": [
+              {
+                "at": "2026-09-18T18:00:00Z",
+                "event_ids": [],
+                "available": "400.00"
+              },
+              {
+                "at": "2026-09-19T20:00:00Z",
+                "event_ids": [
+                  "rtp-obligation"
+                ],
+                "available": "25.00"
+              }
+            ],
+            "minimum_available": "25.00",
+            "peak_shortfall": "0",
+            "ending_available": "25.00"
+          }
+        ]
+      }
+    ],
+    "aggregation": "No cross-account, legal-entity or currency netting",
+    "funding_options_for_owner_review": [
+      "Confirm actual usable balance and disjoint holds/reservations",
+      "Verify funding access and windows for the required settlement arrangement",
+      "Stage evidenced resources before earliest obligation",
+      "Review liquidity buffer and service limits under outage stress"
+    ],
+    "transfers_created": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "settlement-reconciliation-matcher",
+      "reason": "Reconcile source balances and settlement obligations before funding decisions.",
+      "required_inputs": [
+        "account statements",
+        "settlement ledgers",
+        "reservation identifiers"
+      ],
+      "handoff_id": "5179f80ccb1017781ef465c7f4d6f788457e26929dc97a313dada33e13e182c7",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "phase3-3-synthetic",
+      "lead_owner": "bank-treasury",
+      "requested_output": "Reconcile source balances and settlement obligations before funding decisions.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "funding-shortfall",
+          "message": "fednow-master/funding-unavailable peak deficit 400.00 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "fednow-master/outflow-spike peak deficit 225.00 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "ledger"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Any funding movement requires a separately authorized exact instruction.",
+      "required_inputs": [
+        "source and destination accounts",
+        "amount and currency",
+        "funding window",
+        "approval and mandate"
+      ],
+      "handoff_id": "a17036938638e66a44875e87bd9ac8e46f2f6d8c08b7dfe27c0468ce70dd5a0a",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "phase3-3-synthetic",
+      "lead_owner": "bank-treasury",
+      "requested_output": "Any funding movement requires a separately authorized exact instruction.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "funding-shortfall",
+          "message": "fednow-master/funding-unavailable peak deficit 400.00 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "fednow-master/outflow-spike peak deficit 225.00 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "ledger"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-platform-architecture-reviewer",
+      "reason": "Review continuous funding monitoring, uncertain outcomes and recovery dependencies.",
+      "required_inputs": [
+        "timed shortfalls",
+        "failure assumptions",
+        "system and operational dependencies"
+      ],
+      "handoff_id": "601b950e63af3a99fea7212d229ff1b53213c5cbfa0654c7b0ca99e807573434",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "phase3-3-synthetic",
+      "lead_owner": "bank-treasury",
+      "requested_output": "Review continuous funding monitoring, uncertain outcomes and recovery dependencies.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "funding-shortfall",
+          "message": "fednow-master/funding-unavailable peak deficit 400.00 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "fednow-master/outflow-spike peak deficit 225.00 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "ledger"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

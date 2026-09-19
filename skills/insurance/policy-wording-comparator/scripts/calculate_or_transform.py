@@ -22,7 +22,7 @@ from pathlib import Path
 MATERIAL_TYPES = {
     "insuring_agreement", "exclusion", "condition", "condition_precedent", "definition",
     "limit", "sublimit", "deductible", "coverage_trigger", "cancellation", "subrogation",
-    "other_insurance",
+    "other_insurance", "attachment", "reinstatement", "reporting", "recoverability", "aggregate", "cession",
 }
 ESCALATION_TYPES = {
     "insuring_agreement", "exclusion", "limit", "sublimit", "deductible", "coverage_trigger",
@@ -76,6 +76,10 @@ def _question(finding_type: str, clause_type: str, clause_id: str, extra: str = 
 
 
 def compute(doc: dict) -> dict:
+    from validate_input import validate
+    errors, _ = validate(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
     material_types = set(doc.get("config", {}).get("material_types", MATERIAL_TYPES))
     escalation_types = set(doc.get("config", {}).get("escalation_types", ESCALATION_TYPES))
@@ -112,7 +116,7 @@ def compute(doc: dict) -> dict:
         filed_dev = material and base_of_record
         escalate = material and (ct in escalation_types or filed_dev)
         add("added", ct, cid, c.get("heading"), material, escalate, filed_dev,
-            [{"side": "subject", "source_ref": c.get("source_ref"), "citation": _cite("subject", c)}],
+            [{"side": "subject", "source_ref": c.get("source_ref"), "source_text": c.get("text"), "citation": _cite("subject", c)}],
             _question("added", ct, cid))
 
     # removed: in baseline, not in subject
@@ -123,7 +127,7 @@ def compute(doc: dict) -> dict:
         filed_dev = material and base_of_record
         escalate = material and (ct in escalation_types or filed_dev)
         add("removed", ct, cid, c.get("heading"), material, escalate, filed_dev,
-            [{"side": "baseline", "source_ref": c.get("source_ref"), "citation": _cite("baseline", c)}],
+            [{"side": "baseline", "source_ref": c.get("source_ref"), "source_text": c.get("text"), "citation": _cite("baseline", c)}],
             _question("removed", ct, cid))
 
     # modified: same id, text differs
@@ -137,8 +141,8 @@ def compute(doc: dict) -> dict:
         filed_dev = material and base_of_record
         escalate = material and (ct in escalation_types or filed_dev)
         add("modified", ct, cid, sc.get("heading"), material, escalate, filed_dev,
-            [{"side": "baseline", "source_ref": bc.get("source_ref"), "citation": _cite("baseline", bc)},
-             {"side": "subject", "source_ref": sc.get("source_ref"), "citation": _cite("subject", sc)}],
+            [{"side": "baseline", "source_ref": bc.get("source_ref"), "source_text": bc.get("text"), "citation": _cite("baseline", bc)},
+             {"side": "subject", "source_ref": sc.get("source_ref"), "source_text": sc.get("text"), "citation": _cite("subject", sc)}],
             _question("modified", ct, cid, f"{int(round(ratio*100))}% of wording changed"),
             extra={"text_change_ratio": ratio})
 
@@ -155,7 +159,7 @@ def compute(doc: dict) -> dict:
                     cid = c["clause_id"]
                     add("dangling_reference", c.get("clause_type", ""), cid, c.get("heading"),
                         True, True, False,
-                        [{"side": "subject", "source_ref": c.get("source_ref"), "citation": _cite("subject", c)}],
+                        [{"side": "subject", "source_ref": c.get("source_ref"), "source_text": c.get("text"), "citation": _cite("subject", c)}],
                         _question("dangling_reference", c.get("clause_type", ""), cid, f"'{ref}'"),
                         extra={"missing_reference": str(ref)})
     else:
@@ -181,7 +185,7 @@ def compute(doc: dict) -> dict:
     elif material_findings:
         track = "Standard review"
     else:
-        track = "No material changes"
+        track = "Incomplete comparison" if not_evaluable else "No material changes found in evaluated content"
 
     legal_handoff = ""
     if track == "Legal/compliance review required":
@@ -194,6 +198,8 @@ def compute(doc: dict) -> dict:
     sid = str(subject.get("form_id", "subj")).replace("*", "")
     bid = str(baseline.get("form_id", "base")).replace("*", "")
     return {
+        "calculation_inputs": doc,
+        "contract_type": doc.get("contract_type", "policy"),
         "comparison_id": f"pwc-{sid}-vs-{bid}-{doc['as_of']}-0001",
         "as_of": doc["as_of"],
         "config_version": doc.get("config_version"),
@@ -210,6 +216,36 @@ def compute(doc: dict) -> dict:
         "not_evaluable": not_evaluable,
         "disclaimer": DISCLAIMER,
     }
+
+
+
+# Bind native result and source snapshot to the portable insurance evidence contract.
+_native_compute = compute
+def compute(doc):
+    from insurance_contract import build_artifact, stable_hash
+    result = _native_compute(doc)
+    output = result[0] if isinstance(result, tuple) else result
+    issues = []
+    for field in ("not_evaluable", "data_gaps"):
+        for item in output.get(field, []):
+            issues.append(str(item))
+    if output.get("cost_comparison_status") == "not_comparable":
+        issues.append("quotes are not directly comparable; aggregate ranking suppressed")
+    for item in output.get("segments", []):
+        if not item.get("packageable"):
+            issues.append(f"segment {item.get('segment_id')}: {item.get('status')}")
+    for item in output.get("profiles", []):
+        if item.get("recommended_disposition") == "needs-data":
+            issues.append(f"submission {item.get('submission_id')} requires data")
+    for item in output.get("reconciliation", []):
+        if item.get("status") in {"mismatch", "unparseable"}:
+            issues.append(f"unresolved source conflict: {item.get('field')}")
+    for key in ("comparison_id", "analysis_id", "review_id", "packet_id", "worksheet_id", "triage_id", "interpretation_id"):
+        if key in output:
+            output[key] = "wording_comparison-" + stable_hash(doc)[:24]
+    output["artifact"] = build_artifact(doc, output, producer="policy-wording-comparator", artifact_type="wording_comparison",
+        completeness="partial" if issues else "complete", evaluability="partial" if issues else "evaluable", issues=issues)
+    return result
 
 
 def main(argv):

@@ -1,0 +1,1 @@
+Reconcile the selected June close accounts for Cedar. Review the supplied balanced proposal and quantify remaining breaks. Preserve the unresolved policy review; do not invent a balancing entry, post a journal or certify the close.

@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0",
+  "request_id": "business-count-not-value",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "forward-reviewer",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "forward-evidence",
+      "reference": "synthetic://independently-authored-payment-contract-and-ledger",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-01"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "analysis_question": "Compare processor unit economics with matching scope",
+    "accountable_owner": "payments-strategy",
+    "companies": [
+      {
+        "company_id": "grossCo",
+        "roles": [
+          "processor"
+        ],
+        "customer": "business-merchants",
+        "value_proposition": "payment acceptance",
+        "monetization": "processing fee",
+        "dependencies": "sponsor and network",
+        "jurisdiction": "US",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      },
+      {
+        "company_id": "netCo",
+        "roles": [
+          "processor"
+        ],
+        "customer": "business-merchants",
+        "value_proposition": "payment acceptance",
+        "monetization": "processing fee",
+        "dependencies": "sponsor and network",
+        "jurisdiction": "US",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "gross-segment",
+        "company_id": "grossCo",
+        "economic_partition_id": "grossCo-distinct-processing",
+        "segment_name": "USprocessing",
+        "currency": "USD",
+        "period_start": "2026-01-01",
+        "period_end": "2026-06-30",
+        "period_basis": "six-months",
+        "volume_definition": "settled-merchant-volume",
+        "scope_definition": "US-domestic-card-processing",
+        "accounting_policy_ref": "principal-agent-reviewed",
+        "volume_unit": "currency-amount",
+        "revenue_basis": "gross-billings",
+        "costs_complete": true,
+        "payment_volume": "1000000",
+        "gross_billings": "25000",
+        "pass_through": "17000",
+        "incentives": "1000",
+        "reported_net_revenue": "7000",
+        "variable_cost": "3000",
+        "allocated_fixed_cost": "1200",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      },
+      {
+        "segment_id": "net-segment",
+        "company_id": "netCo",
+        "economic_partition_id": "netCo-distinct-processing",
+        "segment_name": "USprocessing",
+        "currency": "USD",
+        "period_start": "2026-01-01",
+        "period_end": "2026-06-30",
+        "period_basis": "six-months",
+        "volume_definition": "settled-merchant-volume",
+        "scope_definition": "US-domestic-card-processing",
+        "accounting_policy_ref": "principal-agent-reviewed",
+        "volume_unit": "transaction-count",
+        "revenue_basis": "net-revenue",
+        "costs_complete": true,
+        "payment_volume": "15000",
+        "gross_billings": "25000",
+        "pass_through": "17000",
+        "incentives": "1000",
+        "reported_net_revenue": "7000",
+        "variable_cost": "3000",
+        "allocated_fixed_cost": "1200",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ],
+    "comparisons": [
+      {
+        "comparison_id": "peer-delta",
+        "left_segment": "gross-segment",
+        "right_segment": "net-segment",
+        "accounting_comparability_review_ref": "reviewed-accounting-and-scope",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ],
+    "strategic_options": [
+      {
+        "option_id": "margin-test",
+        "hypothesis": "reduce processing costs",
+        "test": "measured supplier pilot",
+        "owner": "payments-operations",
+        "dependency": "issuer data",
+        "risk": "quality loss",
+        "segment_ids": [
+          "gross-segment"
+        ],
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ]
+  }
+}

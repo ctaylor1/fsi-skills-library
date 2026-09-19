@@ -1,0 +1,372 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "PROSPECT-DEMO-001",
+  "household_id": "PROVISIONAL-HH-DEMO-001",
+  "as_of": "2026-09-17",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "source_ids": [
+      "policy"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "prospect-record",
+      "reference": "synthetic://prospect-record/version-1",
+      "owner": "Synthetic prospect-record owner",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "referral-record",
+      "reference": "synthetic://referral-record/version-1",
+      "owner": "Synthetic referral-record owner",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "policy",
+      "reference": "synthetic://policy/version-1",
+      "owner": "Synthetic policy owner",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "permission",
+      "reference": "synthetic://permission/version-1",
+      "owner": "Synthetic permission owner",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "controls",
+      "reference": "synthetic://controls/version-1",
+      "owner": "Synthetic controls owner",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "review",
+      "reference": "synthetic://review/version-1",
+      "owner": "Synthetic review owner",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "upstream_issues": [],
+  "policy": {
+    "version": "prospect-demo-v1",
+    "owner": "Synthetic firm policy owner",
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "effective_date": "2026-09-01",
+    "valid_until": "2026-12-31",
+    "allowed_channels": [
+      "email",
+      "manual-phone"
+    ],
+    "permitted_source_kinds": [
+      "firm-record",
+      "prospect-provided",
+      "referrer-provided",
+      "approved-public-record"
+    ],
+    "max_fact_age_days": 90,
+    "contact_basis": "documented-affirmative-permission-only",
+    "regulatory_profile": "SEC-registered-adviser",
+    "services": [
+      {
+        "service_id": "HOUSEHOLD-PLANNING",
+        "name": "Household financial planning",
+        "scope": "A planning discussion covering stated cash flow, debt and goals.",
+        "discussion_question": "Which household planning priorities would you like to discuss?",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "service_id": "ESTATE-COORDINATION",
+        "name": "Estate coordination",
+        "scope": "Coordination of documented intentions and account records with your legal advisers.",
+        "discussion_question": "Would an estate coordination discussion with your existing advisers be useful?",
+        "source_ids": [
+          "policy"
+        ]
+      }
+    ],
+    "source_ids": [
+      "policy"
+    ]
+  },
+  "prospect": {
+    "prospect_id": "P-DEMO-001",
+    "display_name_masked": "Prospect P.",
+    "identity_basis": "provisional-prospect-case",
+    "source_ids": [
+      "prospect-record"
+    ]
+  },
+  "firm": {
+    "firm_id": "FIRM-DEMO",
+    "display_name": "Synthetic Advisory Firm",
+    "representative": "Advisor A.",
+    "postal_address": "123 Example Avenue, Example City, NY 10001",
+    "opt_out_instruction": "You may ask us to stop marketing contact by replying to the firm contact address recorded in your permission record.",
+    "source_ids": [
+      "policy"
+    ]
+  },
+  "outreach_request": {
+    "channel": "email",
+    "purpose_id": "introductory-service-discussion",
+    "service_ids": [
+      "HOUSEHOLD-PLANNING",
+      "ESTATE-COORDINATION"
+    ],
+    "source_ids": [
+      "permission"
+    ]
+  },
+  "research_permissions": [
+    {
+      "record_source_id": "prospect-record",
+      "kind": "prospect-provided",
+      "status": "permitted",
+      "owner": "Synthetic data-use owner",
+      "permission_reference": "synthetic://data-use/prospect-record",
+      "permitted_uses": [
+        "internal-research",
+        "outreach-drafting"
+      ],
+      "effective_date": "2026-09-10",
+      "valid_until": "2026-12-31",
+      "source_ids": [
+        "permission"
+      ]
+    },
+    {
+      "record_source_id": "referral-record",
+      "kind": "referrer-provided",
+      "status": "permitted",
+      "owner": "Synthetic data-use owner",
+      "permission_reference": "synthetic://data-use/referral-record",
+      "permitted_uses": [
+        "internal-research",
+        "outreach-drafting"
+      ],
+      "effective_date": "2026-09-10",
+      "valid_until": "2026-12-31",
+      "source_ids": [
+        "permission"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "fact_id": "F1",
+      "text": "Prospect stated interest in organizing household cash flow and planning goals.",
+      "record_source_id": "prospect-record",
+      "topic": "service-interest",
+      "evidence_state": "reported",
+      "sensitivity": "ordinary-service-context",
+      "observed_date": "2026-09-15",
+      "source_ids": [
+        "prospect-record"
+      ]
+    },
+    {
+      "fact_id": "F2",
+      "text": "Referring professional reported a request for coordination with the prospect\u2019s existing estate counsel.",
+      "record_source_id": "referral-record",
+      "topic": "professional-context",
+      "evidence_state": "reported",
+      "sensitivity": "ordinary-service-context",
+      "observed_date": "2026-09-15",
+      "source_ids": [
+        "referral-record"
+      ]
+    }
+  ],
+  "service_candidates": [
+    {
+      "candidate_id": "C1",
+      "service_id": "HOUSEHOLD-PLANNING",
+      "supporting_fact_ids": [
+        "F1"
+      ],
+      "source_ids": [
+        "prospect-record"
+      ]
+    },
+    {
+      "candidate_id": "C2",
+      "service_id": "ESTATE-COORDINATION",
+      "supporting_fact_ids": [
+        "F2"
+      ],
+      "source_ids": [
+        "referral-record"
+      ]
+    }
+  ],
+  "channel_permissions": [
+    {
+      "permission_id": "P-EMAIL",
+      "prospect_id": "P-DEMO-001",
+      "firm_id": "FIRM-DEMO",
+      "purpose_id": "introductory-service-discussion",
+      "channel": "email",
+      "status": "granted",
+      "basis": "prospect-direct",
+      "authority_reference": null,
+      "effective_date": "2026-09-15",
+      "valid_until": "2026-10-15",
+      "source_ids": [
+        "permission"
+      ]
+    }
+  ],
+  "contact_controls": [
+    {
+      "channel": "all",
+      "opt_out_status": "none-recorded",
+      "screening_status": "recorded-no-block",
+      "checked_at": "2026-09-17",
+      "valid_until": "2026-09-17",
+      "source_ids": [
+        "controls"
+      ]
+    },
+    {
+      "channel": "email",
+      "opt_out_status": "none-recorded",
+      "screening_status": "recorded-no-block",
+      "checked_at": "2026-09-17",
+      "valid_until": "2026-09-17",
+      "source_ids": [
+        "controls"
+      ]
+    }
+  ],
+  "review_records": [
+    {
+      "review_id": "REVIEW-privacy-data-use",
+      "topic": "privacy-data-use",
+      "status": "recorded",
+      "owner": "Synthetic privacy-data-use reviewer",
+      "reference": "synthetic://review/privacy-data-use",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-09-30",
+      "source_ids": [
+        "review"
+      ],
+      "applicability": "applies",
+      "rationale": "Synthetic owner supplied applicability for this firm, service-introduction purpose and referral arrangement; no legal clearance inferred."
+    },
+    {
+      "review_id": "REVIEW-marketing-content",
+      "topic": "marketing-content",
+      "status": "recorded",
+      "owner": "Synthetic marketing-content reviewer",
+      "reference": "synthetic://review/marketing-content",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-09-30",
+      "source_ids": [
+        "review"
+      ],
+      "applicability": "applies",
+      "rationale": "Synthetic owner supplied applicability for this firm, service-introduction purpose and referral arrangement; no legal clearance inferred."
+    },
+    {
+      "review_id": "REVIEW-channel-permission",
+      "topic": "channel-permission",
+      "status": "recorded",
+      "owner": "Synthetic channel-permission reviewer",
+      "reference": "synthetic://review/channel-permission",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-09-30",
+      "source_ids": [
+        "review"
+      ],
+      "applicability": "applies",
+      "rationale": "Synthetic owner supplied applicability for this firm, service-introduction purpose and referral arrangement; no legal clearance inferred."
+    },
+    {
+      "review_id": "REVIEW-referrer-authority",
+      "topic": "referrer-authority",
+      "status": "recorded",
+      "owner": "Synthetic referrer-authority reviewer",
+      "reference": "synthetic://review/referrer-authority",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-09-30",
+      "source_ids": [
+        "review"
+      ],
+      "applicability": "applies",
+      "rationale": "Synthetic owner supplied applicability for this firm, service-introduction purpose and referral arrangement; no legal clearance inferred."
+    },
+    {
+      "review_id": "REVIEW-referral-compensation",
+      "topic": "referral-compensation",
+      "status": "recorded",
+      "owner": "Synthetic referral-compensation reviewer",
+      "reference": "synthetic://review/referral-compensation",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-09-30",
+      "source_ids": [
+        "review"
+      ],
+      "applicability": "applies",
+      "rationale": "Synthetic owner supplied applicability for this firm, service-introduction purpose and referral arrangement; no legal clearance inferred."
+    }
+  ],
+  "referral": {
+    "referral_id": "R-DEMO-001",
+    "referrer_id": "PROF-DEMO",
+    "referrer_name_masked": "Professional R.",
+    "relationship_description": "Prospect\u2019s existing professional adviser as reported in the referral record.",
+    "referral_date": "2026-09-15",
+    "sharing_authority": {
+      "status": "documented",
+      "prospect_id": "P-DEMO-001",
+      "firm_id": "FIRM-DEMO",
+      "reference": "synthetic://sharing-authority/prospect-1",
+      "record_source_ids": [
+        "referral-record"
+      ],
+      "effective_date": "2026-09-15",
+      "valid_until": "2026-10-15",
+      "source_ids": [
+        "permission"
+      ]
+    },
+    "incentives": {
+      "status": "cash",
+      "amount": "250.00",
+      "currency": "USD",
+      "description": "Fixed introduction payment of USD 250 recorded in the synthetic agreement.",
+      "source_ids": [
+        "referral-record"
+      ]
+    },
+    "conflicts": {
+      "status": "identified",
+      "description": "The introduction payment creates an economic incentive for the referring professional.",
+      "source_ids": [
+        "review"
+      ]
+    },
+    "disclosure": {
+      "version": "referral-disclosure-demo-v1",
+      "text": "The referring professional receives a fixed USD 250 introduction payment from Synthetic Advisory Firm. This creates an incentive to make the introduction. You have no obligation to engage the firm.",
+      "source_ids": [
+        "policy"
+      ]
+    },
+    "source_ids": [
+      "referral-record"
+    ],
+    "referrer_relationship_to_firm": "nonclient"
+  }
+}

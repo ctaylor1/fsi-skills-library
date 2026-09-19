@@ -1,0 +1,364 @@
+{
+  "schema_version": "1.0",
+  "skill": "bank-payment-workflow-designer",
+  "request_id": "synthetic-phase2-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": true,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-phase2-001",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "bank",
+    "sources": [
+      {
+        "source_id": "s1",
+        "reference": "synthetic://phase2/bank-fixture",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "requested_action": "draft",
+    "data": {
+      "requirements": {
+        "currency": "USD",
+        "direction": "credit",
+        "amount": "100.00",
+        "urgency": "instant",
+        "availability": "24x7",
+        "payer_location": "US",
+        "payee_location": "US",
+        "return_need": "best-effort-recovery",
+        "intent_evidence_available": true,
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "candidate_profile_ids": [
+        "US-FEDNOW"
+      ],
+      "access_evidence": [
+        {
+          "profile_id": "US-FEDNOW",
+          "participant": "bank",
+          "contracted": true,
+          "reachable": true,
+          "payer_location": "US",
+          "payee_location": "US",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "timing_evidence": [
+        {
+          "profile_id": "US-FEDNOW",
+          "participant": "bank",
+          "required_urgency": "instant",
+          "delivery_compatible": true,
+          "cutoff_and_calendar_checked": true,
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "funding_evidence": [
+        {
+          "profile_id": "US-FEDNOW",
+          "participant": "bank",
+          "currency": "USD",
+          "arrangement": "participant documented master-account funding",
+          "available_amount": "500.00",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "costs": [
+        {
+          "profile_id": "US-FEDNOW",
+          "currency": "USD",
+          "per_payment_fee": "0.10",
+          "fixed_monthly_fee": "50.00",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "f10951c86b2eff0bb0a756de316e20da7f51fecf2fc8370fb28a1e0eb81a73e3",
+  "findings": [
+    {
+      "code": "funding-declared-only",
+      "message": "US-FEDNOW: The supplied currency-specific balance and free-text funding arrangement are declarations. Compatibility with the native settlement mechanism requires specialist review; neither text presence nor balance validates the funding model or grants access.",
+      "source_ids": [
+        "s1"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "requirements": {
+      "currency": "USD",
+      "direction": "credit",
+      "amount": "100.00",
+      "urgency": "instant",
+      "availability": "24x7",
+      "payer_location": "US",
+      "payee_location": "US",
+      "return_need": "best-effort-recovery",
+      "intent_evidence_available": true,
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "rail_comparison": [
+      {
+        "profile_id": "US-FEDNOW",
+        "review": "evidence-needed",
+        "decision_criteria": [
+          {
+            "criterion": "jurisdiction",
+            "assessment": "compatible",
+            "rationale": "Profile scope US compared with requested US.",
+            "source_ids": []
+          },
+          {
+            "criterion": "currency",
+            "assessment": "compatible",
+            "rationale": "Requested USD; supported currencies ['USD'].",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "criterion": "direction",
+            "assessment": "compatible",
+            "rationale": "Requested credit; supported directions ['credit'].",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "criterion": "availability",
+            "assessment": "compatible",
+            "rationale": "Profile operation 24x7; customer requirement 24x7.",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "criterion": "access-and-reach",
+            "assessment": "compatible",
+            "rationale": "Institution access, contracted product and both actual endpoint locations/reach must be evidenced; public scheme access does not prove customer availability.",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "criterion": "delivery-timing",
+            "assessment": "compatible",
+            "rationale": "Native timing class instant; actual instruction cutoff/calendar and customer-delivery commitment require provider evidence.",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "criterion": "funding",
+            "assessment": "declared-only",
+            "rationale": "The supplied currency-specific balance and free-text funding arrangement are declarations. Compatibility with the native settlement mechanism requires specialist review; neither text presence nor balance validates the funding model or grants access.",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "criterion": "payment-intent",
+            "assessment": "compatible",
+            "rationale": "The future instruction requires explicit payer intent independently of authentication or request-for-payment receipt.",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "criterion": "servicing",
+            "assessment": "compatible",
+            "rationale": "Native finality and return mechanisms remain distinct; consumer refund rights and operational return eligibility require separate review.",
+            "source_ids": [
+              "s1"
+            ]
+          },
+          {
+            "criterion": "commercial-cost",
+            "assessment": "compatible",
+            "rationale": "Actual contracted per-payment and fixed costs must be supplied; public fees and zero assumptions are not customer economics.",
+            "source_ids": [
+              "s1"
+            ]
+          }
+        ],
+        "profile_facts": {
+          "availability": "24x7",
+          "timing": {
+            "class": "instant",
+            "notes": "Continuous immediate processing, subject to receiver reachability and participant controls."
+          },
+          "finality": "Accepted settlement is final; request-for-payment is a request, not consent or funds.",
+          "returns": "camt.056 request, camt.029 response and pacs.004 return are distinct.",
+          "funding": "Master/correspondent account settlement; not the RTP prefunded joint-account model.",
+          "access": "Evidence of contracted participant/sponsor access and actual endpoint reachability required; listing a rail does not prove access.",
+          "message_contract_id": "iso-credit-transfer",
+          "limitations": [
+            "Design profile only; not operating authority, legal applicability or production certification.",
+            "No universal amount limit, fee, customer cutoff or return deadline is inferred."
+          ]
+        },
+        "source_refs": [
+          "https://www.frbservices.org/binaries/content/assets/crsocms/resources/rules-regulations/042826-fednow-service-operating-procedures.pdf"
+        ],
+        "profile_reviewed_on": "2026-09-18",
+        "contracted_cost": {
+          "currency": "USD",
+          "per_payment_fee": "0.10",
+          "fixed_monthly_fee": "50.00"
+        }
+      }
+    ],
+    "preferred_profile_id": null,
+    "selection_rule": "Human choice among candidates that meet required dimensions after evidence gaps are resolved; no inferred cheapest rail.",
+    "workflow": [
+      {
+        "stage": "capture-intent",
+        "artifact": "exact instruction and payer authorization or collection mandate"
+      },
+      {
+        "stage": "review-initiation",
+        "artifact": "account/payee binding, screening, limit and batch-control review"
+      },
+      {
+        "stage": "fund-and-submit",
+        "artifact": "operator-owned approval, funding and idempotent submission record"
+      },
+      {
+        "stage": "observe-outcome",
+        "artifact": "native acknowledgement, reject, settlement and posting evidence kept distinct"
+      },
+      {
+        "stage": "reconcile-and-service",
+        "artifact": "linked cash/ledger reconciliation plus separate servicing plan if required"
+      }
+    ]
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Bind exact proposed instructions, authority, screening and batch controls before authorized submission.",
+      "required_inputs": [
+        "selected native profile",
+        "exact instructions",
+        "intent/mandate evidence",
+        "comparison findings"
+      ],
+      "handoff_id": "4829aeebb3b4b6126e710c040373d51a94f44baef41d422992c87d76bd671d01",
+      "contract_version": "1.0.0",
+      "source_skill": "bank-payment-workflow-designer",
+      "case_id": "synthetic-phase2-001",
+      "lead_owner": "bank",
+      "requested_output": "Bind exact proposed instructions, authority, screening and batch controls before authorized submission.",
+      "source_refs": [
+        "synthetic://phase2/bank-fixture"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "funding-declared-only",
+          "message": "US-FEDNOW: The supplied currency-specific balance and free-text funding arrangement are declarations. Compatibility with the native settlement mechanism requires specialist review; neither text presence nor balance validates the funding model or grants access.",
+          "source_ids": [
+            "s1"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-regulatory-applicability-reviewer",
+      "reason": "Determine entity/activity and national obligations beyond this bounded rail comparison.",
+      "required_inputs": [
+        "entity",
+        "activity",
+        "jurisdictions",
+        "flow and customer model"
+      ],
+      "handoff_id": "0b87fbcad719520301a0b7b5051d2f9cd2ed88d298ea72465f9266bda1b2a76e",
+      "contract_version": "1.0.0",
+      "source_skill": "bank-payment-workflow-designer",
+      "case_id": "synthetic-phase2-001",
+      "lead_owner": "bank",
+      "requested_output": "Determine entity/activity and national obligations beyond this bounded rail comparison.",
+      "source_refs": [
+        "synthetic://phase2/bank-fixture"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "funding-declared-only",
+          "message": "US-FEDNOW: The supplied currency-specific balance and free-text funding arrangement are declarations. Compatibility with the native settlement mechanism requires specialist review; neither text presence nor balance validates the funding model or grants access.",
+          "source_ids": [
+            "s1"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-economics-modeler",
+      "reason": "Compare sourced commercial and funding assumptions by participant and scenario.",
+      "required_inputs": [
+        "candidate rails",
+        "contracted cost evidence",
+        "volume and loss assumptions"
+      ],
+      "handoff_id": "aca9bdcad6056812c507164783500a1cfe7deec9e4ea97c4c4aff621b22a759f",
+      "contract_version": "1.0.0",
+      "source_skill": "bank-payment-workflow-designer",
+      "case_id": "synthetic-phase2-001",
+      "lead_owner": "bank",
+      "requested_output": "Compare sourced commercial and funding assumptions by participant and scenario.",
+      "source_refs": [
+        "synthetic://phase2/bank-fixture"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "funding-declared-only",
+          "message": "US-FEDNOW: The supplied currency-specific balance and free-text funding arrangement are declarations. Compatibility with the native settlement mechanism requires specialist review; neither text presence nor balance validates the funding model or grants access.",
+          "source_ids": [
+            "s1"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

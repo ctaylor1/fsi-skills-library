@@ -1,0 +1,574 @@
+[
+  {
+    "skill": "insurance-orsa-packager",
+    "key": "orsa-negative-stress-surpluses",
+    "input_filename": "mapped-input.json",
+    "input_sha256": "85f035fbd62c98fccf1424c96dcc12b0d9c74cbe69eebb4d5d5c3f25a9bd3129",
+    "original_input_sha256": "faf05c42fc6a8bc6498ccf4ce9c15dae21ed7f6f67fab3381d22aaca50d01296",
+    "expected_sha256": "271f1f33806a4b0a6e6c074e979a754120714d194dae471e51e894cd3a8ea324",
+    "mapping": [
+      "capital_measures/0/reviewer -> reviewed_by",
+      "capital_measures/1/reviewer -> reviewed_by",
+      "capital_measures/2/reviewer -> reviewed_by",
+      "liquidity_measures/0/reviewer -> reviewed_by",
+      "liquidity_measures/1/reviewer -> reviewed_by",
+      "liquidity_measures/2/reviewer -> reviewed_by"
+    ],
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-review",
+    "findings": [
+      {
+        "code": "scenario-shortfall",
+        "message": "capital_measures for ('storm-liquidity', 'one-year'): scenario has a negative surplus of -50000000; record management assessment and feasibility.",
+        "severity": "review",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      {
+        "code": "scenario-shortfall",
+        "message": "liquidity_measures for ('storm-liquidity', 'one-year'): scenario has a negative surplus of -35000000; record management assessment and feasibility.",
+        "severity": "review",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      }
+    ],
+    "results": {
+      "material_risk_ids": [
+        "R-CAT",
+        "R-LIQ"
+      ],
+      "uncovered_material_risks": [],
+      "risk_assessments": [
+        {
+          "risk_id": "R-CAT",
+          "material": true,
+          "materiality_basis": "Synthetic owned tail loss above appetite",
+          "owner": "Synthetic catastrophe risk owner",
+          "assessment": "Wind/flood correlation affects solvency and liquidity",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "risk_id": "R-LIQ",
+          "material": true,
+          "materiality_basis": "Synthetic peak cash outflow above liquid resources",
+          "owner": "Synthetic liquidity owner",
+          "assessment": "Claims settlement and collateral calls can coincide",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "scenario_reconciliations": [
+        {
+          "scenario_id": "baseline",
+          "horizon": "one-year",
+          "capital": {
+            "scenario_id": "baseline",
+            "horizon": "one-year",
+            "calculated_surplus": "80000000",
+            "reported_surplus": "80000000",
+            "difference": "0"
+          },
+          "liquidity": {
+            "scenario_id": "baseline",
+            "horizon": "one-year",
+            "calculated_surplus": "30000000",
+            "reported_surplus": "30000000",
+            "difference": "0"
+          }
+        },
+        {
+          "scenario_id": "storm-liquidity",
+          "horizon": "one-year",
+          "capital": {
+            "scenario_id": "storm-liquidity",
+            "horizon": "one-year",
+            "calculated_surplus": "-50000000",
+            "reported_surplus": "-50000000",
+            "difference": "0"
+          },
+          "liquidity": {
+            "scenario_id": "storm-liquidity",
+            "horizon": "one-year",
+            "calculated_surplus": "-35000000",
+            "reported_surplus": "-35000000",
+            "difference": "0"
+          }
+        },
+        {
+          "scenario_id": "storm-liquidity",
+          "horizon": "three-year",
+          "capital": {
+            "scenario_id": "storm-liquidity",
+            "horizon": "three-year",
+            "calculated_surplus": "30000000",
+            "reported_surplus": "30000000",
+            "difference": "0"
+          },
+          "liquidity": {
+            "scenario_id": "storm-liquidity",
+            "horizon": "three-year",
+            "calculated_surplus": "10000000",
+            "reported_surplus": "10000000",
+            "difference": "0"
+          }
+        }
+      ],
+      "narrative_evidence": [
+        {
+          "section_id": "risk-framework",
+          "owner": "Synthetic CRO",
+          "assessment": "Supplied risk ownership, escalation and appetite description",
+          "evidence_date": "2026-09-10",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "section_id": "risk-assessment",
+          "owner": "Synthetic risk committee",
+          "assessment": "Supplied quantitative and qualitative material risk assessment",
+          "evidence_date": "2026-09-11",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "section_id": "solvency",
+          "owner": "Synthetic CFO",
+          "assessment": "Prospective standalone capital and liquidity with limitations",
+          "evidence_date": "2026-09-12",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "governance_evidence": [
+        {
+          "governance_role": "risk-owner",
+          "owner": "Synthetic risk-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "capital-owner",
+          "owner": "Synthetic capital-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "liquidity-owner",
+          "owner": "Synthetic liquidity-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "governing-body",
+          "owner": "Synthetic governing-body",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "basis": "standalone-internal-orsa",
+      "currency": "USD",
+      "available_capital_basis": "internal-economic-capital",
+      "required_capital_basis": "internal-risk-capital",
+      "filing_applicability": "human-determination-required",
+      "orsa_approved": false,
+      "external_submission_authorized": false,
+      "packaging_metric": "evidence-and-reconciliation; no completion-percentage"
+    }
+  },
+  {
+    "skill": "insurance-orsa-packager",
+    "key": "orsa-missing-liquidity-open-board-mismatch",
+    "input_filename": "mapped-input.json",
+    "input_sha256": "b3a139e52edf43fe236170364e3cf2c26d798478ed8b432f72856dfefca82380",
+    "original_input_sha256": "49b65a5f05ada3ecdf5440e24e5240c0d63c0d96135ba52ae71a888849d95f49",
+    "expected_sha256": "ccd2abb2a77e784cf23297307454f009faa2810da41ada4b8084260bcce3c21e",
+    "mapping": [
+      "capital_measures/0/reviewer -> reviewed_by",
+      "capital_measures/1/reviewer -> reviewed_by",
+      "capital_measures/2/reviewer -> reviewed_by",
+      "liquidity_measures/0/reviewer -> reviewed_by",
+      "liquidity_measures/1/reviewer -> reviewed_by"
+    ],
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [
+      {
+        "code": "scenario-shortfall",
+        "message": "capital_measures for ('storm-liquidity', 'one-year'): scenario has a negative surplus of -50000000; record management assessment and feasibility.",
+        "severity": "review",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      {
+        "code": "scenario-reconciliation-break",
+        "message": "capital_measures for ('storm-liquidity', 'three-year'): supplied surplus differs from components by -1000000.",
+        "severity": "review",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      {
+        "code": "scenario-measure-missing",
+        "message": "liquidity_measures missing for scenario/horizon ('storm-liquidity', 'one-year'); narrative coverage cannot replace reconciled measures.",
+        "severity": "gap",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      {
+        "code": "governance-open",
+        "message": "Governance review remains open or rejected; packaging cannot certify approval.",
+        "severity": "review",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      }
+    ],
+    "results": {
+      "material_risk_ids": [
+        "R-CAT",
+        "R-LIQ"
+      ],
+      "uncovered_material_risks": [],
+      "risk_assessments": [
+        {
+          "risk_id": "R-CAT",
+          "material": true,
+          "materiality_basis": "Synthetic owned tail loss above appetite",
+          "owner": "Synthetic catastrophe risk owner",
+          "assessment": "Wind/flood correlation affects solvency and liquidity",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "risk_id": "R-LIQ",
+          "material": true,
+          "materiality_basis": "Synthetic peak cash outflow above liquid resources",
+          "owner": "Synthetic liquidity owner",
+          "assessment": "Claims settlement and collateral calls can coincide",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "scenario_reconciliations": [
+        {
+          "scenario_id": "baseline",
+          "horizon": "one-year",
+          "capital": {
+            "scenario_id": "baseline",
+            "horizon": "one-year",
+            "calculated_surplus": "80000000",
+            "reported_surplus": "80000000",
+            "difference": "0"
+          },
+          "liquidity": {
+            "scenario_id": "baseline",
+            "horizon": "one-year",
+            "calculated_surplus": "30000000",
+            "reported_surplus": "30000000",
+            "difference": "0"
+          }
+        },
+        {
+          "scenario_id": "storm-liquidity",
+          "horizon": "one-year",
+          "capital": {
+            "scenario_id": "storm-liquidity",
+            "horizon": "one-year",
+            "calculated_surplus": "-50000000",
+            "reported_surplus": "-50000000",
+            "difference": "0"
+          },
+          "liquidity": null
+        },
+        {
+          "scenario_id": "storm-liquidity",
+          "horizon": "three-year",
+          "capital": {
+            "scenario_id": "storm-liquidity",
+            "horizon": "three-year",
+            "calculated_surplus": "30000000",
+            "reported_surplus": "31000000",
+            "difference": "-1000000"
+          },
+          "liquidity": {
+            "scenario_id": "storm-liquidity",
+            "horizon": "three-year",
+            "calculated_surplus": "10000000",
+            "reported_surplus": "10000000",
+            "difference": "0"
+          }
+        }
+      ],
+      "narrative_evidence": [
+        {
+          "section_id": "risk-framework",
+          "owner": "Synthetic CRO",
+          "assessment": "Supplied risk ownership, escalation and appetite description",
+          "evidence_date": "2026-09-10",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "section_id": "risk-assessment",
+          "owner": "Synthetic risk committee",
+          "assessment": "Supplied quantitative and qualitative material risk assessment",
+          "evidence_date": "2026-09-11",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "section_id": "solvency",
+          "owner": "Synthetic CFO",
+          "assessment": "Prospective standalone capital and liquidity with limitations",
+          "evidence_date": "2026-09-12",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "governance_evidence": [
+        {
+          "governance_role": "risk-owner",
+          "owner": "Synthetic risk-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "capital-owner",
+          "owner": "Synthetic capital-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "liquidity-owner",
+          "owner": "Synthetic liquidity-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "governing-body",
+          "owner": "Synthetic governing-body",
+          "decision": "open",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "basis": "standalone-internal-orsa",
+      "currency": "USD",
+      "available_capital_basis": "internal-economic-capital",
+      "required_capital_basis": "internal-risk-capital",
+      "filing_applicability": "human-determination-required",
+      "orsa_approved": false,
+      "external_submission_authorized": false,
+      "packaging_metric": "evidence-and-reconciliation; no completion-percentage"
+    }
+  },
+  {
+    "skill": "insurance-orsa-packager",
+    "key": "orsa-baseline-does-not-cover-risk",
+    "input_filename": "mapped-input.json",
+    "input_sha256": "6c8d32d1015f7980ae970d418d6223f8cb17105fcc1098cfcc33038227896288",
+    "original_input_sha256": "bf6da37bff09b05ced9158d5b8e26bc75e8f92d29cd473faaa7126f76c245757",
+    "expected_sha256": "a0e168c728d3bf0c004241f05e23ce2575cedfd8b1f6667d91e5dbd6e3f4ac9e",
+    "mapping": [
+      "capital_measures/0/reviewer -> reviewed_by",
+      "liquidity_measures/0/reviewer -> reviewed_by"
+    ],
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [
+      {
+        "code": "material-risk-uncovered",
+        "message": "Material risk R-CAT has no supplied non-baseline scenario assessment.",
+        "severity": "gap",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      {
+        "code": "material-risk-uncovered",
+        "message": "Material risk R-LIQ has no supplied non-baseline scenario assessment.",
+        "severity": "gap",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      }
+    ],
+    "results": {
+      "material_risk_ids": [
+        "R-CAT",
+        "R-LIQ"
+      ],
+      "uncovered_material_risks": [
+        "R-CAT",
+        "R-LIQ"
+      ],
+      "risk_assessments": [
+        {
+          "risk_id": "R-CAT",
+          "material": true,
+          "materiality_basis": "Synthetic owned tail loss above appetite",
+          "owner": "Synthetic catastrophe risk owner",
+          "assessment": "Wind/flood correlation affects solvency and liquidity",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "risk_id": "R-LIQ",
+          "material": true,
+          "materiality_basis": "Synthetic peak cash outflow above liquid resources",
+          "owner": "Synthetic liquidity owner",
+          "assessment": "Claims settlement and collateral calls can coincide",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "scenario_reconciliations": [
+        {
+          "scenario_id": "baseline",
+          "horizon": "one-year",
+          "capital": {
+            "scenario_id": "baseline",
+            "horizon": "one-year",
+            "calculated_surplus": "80000000",
+            "reported_surplus": "80000000",
+            "difference": "0"
+          },
+          "liquidity": {
+            "scenario_id": "baseline",
+            "horizon": "one-year",
+            "calculated_surplus": "30000000",
+            "reported_surplus": "30000000",
+            "difference": "0"
+          }
+        }
+      ],
+      "narrative_evidence": [
+        {
+          "section_id": "risk-framework",
+          "owner": "Synthetic CRO",
+          "assessment": "Supplied risk ownership, escalation and appetite description",
+          "evidence_date": "2026-09-10",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "section_id": "risk-assessment",
+          "owner": "Synthetic risk committee",
+          "assessment": "Supplied quantitative and qualitative material risk assessment",
+          "evidence_date": "2026-09-11",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "section_id": "solvency",
+          "owner": "Synthetic CFO",
+          "assessment": "Prospective standalone capital and liquidity with limitations",
+          "evidence_date": "2026-09-12",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "governance_evidence": [
+        {
+          "governance_role": "risk-owner",
+          "owner": "Synthetic risk-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "capital-owner",
+          "owner": "Synthetic capital-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "liquidity-owner",
+          "owner": "Synthetic liquidity-owner",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "governance_role": "governing-body",
+          "owner": "Synthetic governing-body",
+          "decision": "reviewed",
+          "evidence_date": "2026-09-14",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "basis": "standalone-internal-orsa",
+      "currency": "USD",
+      "available_capital_basis": "internal-economic-capital",
+      "required_capital_basis": "internal-risk-capital",
+      "filing_applicability": "human-determination-required",
+      "orsa_approved": false,
+      "external_submission_authorized": false,
+      "packaging_metric": "evidence-and-reconciliation; no completion-percentage"
+    }
+  }
+]

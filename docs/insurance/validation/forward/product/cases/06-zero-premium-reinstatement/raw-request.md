@@ -1,0 +1,1 @@
+Illustrate the same eligible USD 12m loss in a USD 10m excess USD 5m layer, USD 20m aggregate, one reinstatement restoring erosion pro rata as to amount. The supplied contract expressly sets the base layer premium to USD 0; reinstatement premium is 100% pro rata by amount with no time adjustment. Explain restoration separately from the premium charge.

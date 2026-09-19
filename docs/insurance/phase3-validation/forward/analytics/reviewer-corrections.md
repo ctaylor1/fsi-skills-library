@@ -1,0 +1,5 @@
+# Evaluator corrections and run notes
+
+- The fraud pre-run expectation correctly froze the unique flagged amount at5000 but incorrectly described the sum of overlapping signal amounts as8000. The raw amounts imply5000+4200=9200. This was an evaluator mental-arithmetic typo, not a native-code defect; original expectations remain unchanged. Exact rational checks independently confirmed every signal amount and union.
+- Independent checker attempt1 exited1 because its own text parser captured terminal sentence punctuation in a decimal. Attempt2 exited1 because its own regex assumed a space before a source amount. Both stderr/stdout logs are retained. The corrected checker (attempt3) exited0 with248/248 assertions. No package code, inputs, raw values or expected financial conclusions changed to repair the checker.
+- Calculation-source inspection was limited to targeted searches for basis_record_id and chargeback_basis after all seven raw/native cases were frozen and the initial runs completed. No packaged tests/evals/fixtures/goldens/prior audits were opened or run. Directory discovery output listed some filenames but their contents were not consulted.

@@ -1,0 +1,3 @@
+# SYNTHETIC SOURCE — invented for independent forward evaluation
+
+Governance working group assertions as of 18 September 2026: actuarial review required and satisfied (cost memo approved for review); wording review required and unsatisfied because WD1 brochure includes excluded pipe repair; distribution review required and unknown pending agent training sign-off; operations review required and satisfied. Filing scope review required and unknown; compliance owner has not supplied the applicable filing path. WD1 claims simulation failed: handler would pay pipe repairs under brochure. TE1 simulation passed within $15,000. No product approval or launch authority issued.

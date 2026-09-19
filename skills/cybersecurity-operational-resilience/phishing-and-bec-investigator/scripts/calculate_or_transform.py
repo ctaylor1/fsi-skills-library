@@ -312,7 +312,7 @@ def investigate_report(r: dict, doc: dict, cfg: dict) -> dict:
     if sig["bec_bank_change"] and (sig["auth_fail"] or sig["impersonation"]):
         rec["recommended_disposition"] = "recommend-bec-fraud"
         rec["disposition_reason"] = "fraudulent payment request with beneficiary/vendor bank change and sender anomalies"
-        rec["route_specialist"] = "payment-fraud-case-investigator"
+        rec["route_specialist"] = "payment-fraud-and-scam-investigator"
         rec["recommended_fraud_coordination"] = [
             "Recommend the payments team assess a beneficiary-bank recall/hold (requires approval)",
             "Recommend out-of-band verification with the named vendor via a known-good contact (requires approval)"]

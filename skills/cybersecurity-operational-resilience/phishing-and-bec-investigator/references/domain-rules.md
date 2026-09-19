@@ -35,7 +35,7 @@ Evaluated in order; the first match wins:
 2. `possible-duplicate` — same `from_addr` + `subject` as an open case → **linked** to that
    parent case, not re-investigated or closed.
 3. `recommend-bec-fraud` — payment request with a beneficiary/vendor bank change **and** a
-   sender anomaly (auth failure or impersonation). Routes to `payment-fraud-case-investigator`.
+   sender anomaly (auth failure or impersonation). Routes to `payment-fraud-and-scam-investigator`.
 4. `recommend-credential-phishing` — malicious link **and** a sender anomaly. Routes to
    `identity-access-reviewer` (credential exposure).
 5. `recommend-malware-phishing` — suspicious attachment **and** a sender anomaly. Routes to

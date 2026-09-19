@@ -65,7 +65,7 @@ support**: it packages evidence and a recommendation; it never dispositions the 
 - A potential **sanctions match** on the subject/counterparty needs adjudication →
   `sanctions-match-adjudicator`. A **KYC/CDD gap or refresh** → `kyc-customer-due-diligence-screener`.
   **Adverse-media** assessment → `adverse-media-investigator`. The pattern is really **payment
-  fraud** (device/identity/beneficiary) → `payment-fraud-case-investigator`.
+  fraud** (device/identity/beneficiary) → `payment-fraud-and-scam-investigator`.
 - **Tuning the typology thresholds** themselves → owned by the financial-crime tuning /
   model-risk function; report the gap, do not adjust a threshold here.
 - A **determination of suspicion or legal advice** → out of scope; that is a human FIU decision.

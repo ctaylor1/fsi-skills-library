@@ -8,7 +8,7 @@ Downstream skills consume the breakdown via its durable `breakdown_id`.
 
 | Downstream skill | When to route | Handoff artifact |
 | ---------------- | ------------- | ---------------- |
-| `suitability-reg-bi-reviewer` | User asks whether the offering is suitable / in their best interest, or wants a Reg BI judgment on a recommendation | `breakdown_id` + client/account context |
+| `investment-recommendation-evidence-reviewer` | User asks whether the offering is suitable / in their best interest, or wants a Reg BI judgment on a recommendation | `breakdown_id` + client/account context |
 | `portfolio-risk-diversification-check` | User wants a personalized risk/diversification view given their portfolio (educational, non-advice) | `breakdown_id` + `snapshot_id` |
 | `fee-and-charge-reviewer` | User wants a fee **reasonableness / benchmarking** conclusion, not just what the fees are | `breakdown_id` + fee lines with page cites |
 | `fund-fact-sheet-builder` / `fund-commentary-drafter` | User wants a marketing fact sheet or commentary drafted from the document (approval-gated) | `breakdown_id` |
@@ -16,7 +16,7 @@ Downstream skills consume the breakdown via its durable `breakdown_id`.
 
 ## Upstream (may call this skill)
 
-`suitability-reg-bi-reviewer`, `client-review-preparer`, and `relationship-manager-client-briefer`
+`investment-recommendation-evidence-reviewer`, `client-review-preparer`, and `relationship-manager-client-briefer`
 may request a plain-language breakdown of the offering document from this skill rather than
 re-reading the prospectus themselves.
 

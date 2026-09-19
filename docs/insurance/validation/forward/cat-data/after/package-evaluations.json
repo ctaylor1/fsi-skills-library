@@ -1,0 +1,165 @@
+[
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/validate_input.py",
+      "--selftest"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/catastrophe-exposure-monitor",
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": "",
+    "package": "catastrophe-exposure-monitor",
+    "id": "det-input-selftest",
+    "expected_exit": 0,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/calculate_or_transform.py",
+      "--selftest"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/catastrophe-exposure-monitor",
+    "exit_code": 0,
+    "stdout": "{\n  \"run_id\": \"cem-2026-07-17-0001\",\n  \"as_of\": \"2026-07-17T06:00:00Z\",\n  \"config_version\": \"cat-cfg-2026.07\",\n  \"exposure_snapshot_id\": \"exposure-v1\",\n  \"financial_context\": {\n    \"currency\": \"USD\",\n    \"unit\": \"currency\",\n    \"financial_basis\": \"gross\",\n    \"limit_grain\": \"location\"\n  },\n  \"queue\": \"catastrophe-risk-review\",\n  \"approaching_ratio\": \"0.9\",\n  \"confidence\": \"degraded\",\n  \"sources\": [\n    {\n      \"source\": \"policy_admin\",\n      \"as_of\": \"2026-07-17T02:00:00Z\",\n      \"source_ref\": \"pas;snapshot=2026-07-17T02Z\",\n      \"version\": \"exposure-v1\",\n      \"age_hours\": 4.0,\n      \"max_staleness_hours\": 24.0,\n      \"freshness\": \"fresh\"\n    },\n    {\n      \"source\": \"event_feed\",\n      \"as_of\": \"2026-07-17T01:00:00Z\",\n      \"source_ref\": \"nhc;adv=27\",\n      \"version\": \"footprint-v27\",\n      \"age_hours\": 5.0,\n      \"max_staleness_hours\": 6.0,\n      \"freshness\": \"fresh\"\n    },\n    {\n      \"source\": \"cat_model\",\n      \"as_of\": \"2026-07-14T20:00:00Z\",\n      \"source_ref\": \"model;run=2026-07-14T20Z\",\n      \"version\": \"cat-model-v1\",\n      \"age_hours\": 58.0,\n      \"max_staleness_hours\": 48.0,\n      \"freshness\": \"stale\"\n    }\n  ],\n  \"alerts\": [\n    {\n      \"alert_key\": \"AL072026:FL-MIA:hurricane:zone_accumulation\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-MIA\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"zone_accumulation\",\n      \"metric\": \"13500000\",\n      \"threshold\": \"8000000\",\n      \"exceedance_ratio\": \"1.6875\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-1\",\n          \"location_id\": \"L-1\",\n          \"limit_id\": \"allocated-L-1\"\n        },\n        {\n          \"citation\": \"pas;loc=L-2\",\n          \"location_id\": \"L-2\",\n          \"limit_id\": \"allocated-L-2\"\n        },\n        {\n          \"citation\": \"pas;loc=L-3\",\n          \"location_id\": \"L-3\",\n          \"limit_id\": \"allocated-L-3\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\",\n      \"aggregate_tiv\": \"19000000\",\n      \"location_count\": 3,\n      \"severity\": \"Critical\",\n      \"suggested_response_priority\": \"P1\",\n      \"queue\": \"catastrophe-risk-review\",\n      \"reason\": \"zone_accumulation 13500000 compared with 8000000\",\n      \"status\": \"ongoing\"\n    },\n    {\n      \"alert_key\": \"AL072026:FL-MIA:hurricane:single_location:L-2\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-MIA\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"single_location\",\n      \"metric\": \"6500000\",\n      \"threshold\": \"6000000\",\n      \"exceedance_ratio\": \"1.083333333333333333333333333\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-2\",\n          \"location_id\": \"L-2\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\",\n      \"severity\": \"Watch\",\n      \"suggested_response_priority\": \"P3\",\n      \"queue\": \"catastrophe-risk-review\",\n      \"reason\": \"single_location 6500000 compared with 6000000\",\n      \"status\": \"new\"\n    },\n    {\n      \"alert_key\": \"AL072026:FL-BRO:hurricane:single_location:L-5\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-BRO\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"single_location\",\n      \"metric\": \"6000000\",\n      \"threshold\": \"6000000\",\n      \"exceedance_ratio\": \"1\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-5\",\n          \"location_id\": \"L-5\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\",\n      \"severity\": \"Watch\",\n      \"suggested_response_priority\": \"P3\",\n      \"queue\": \"catastrophe-risk-review\",\n      \"reason\": \"single_location 6000000 compared with 6000000\",\n      \"status\": \"new\"\n    },\n    {\n      \"alert_key\": \"AL072026:FL-BRO:hurricane:zone_accumulation\",\n      \"status\": \"unknown\",\n      \"reason\": \"not evaluable on complete current evidence; prior alert retained\",\n      \"evaluation\": {\n        \"alert_key\": \"AL072026:FL-BRO:hurricane:zone_accumulation\",\n        \"event_id\": \"AL072026\",\n        \"event_name\": \"Hurricane Delta\",\n        \"zone\": \"FL-BRO\",\n        \"peril\": \"hurricane\",\n        \"breach_type\": \"zone_accumulation\",\n        \"metric\": \"10000000\",\n        \"threshold\": \"20000000\",\n        \"exceedance_ratio\": \"0.5\",\n        \"financial_context\": {\n          \"currency\": \"USD\",\n          \"unit\": \"currency\",\n          \"financial_basis\": \"gross\",\n          \"limit_grain\": \"location\"\n        },\n        \"evidence\": [\n          {\n            \"citation\": \"pas;loc=L-5\",\n            \"location_id\": \"L-5\",\n            \"limit_id\": \"allocated-L-5\"\n          },\n          {\n            \"citation\": \"pas;loc=L-6\",\n            \"location_id\": \"L-6\",\n            \"limit_id\": \"allocated-L-6\"\n          }\n        ],\n        \"footprint_version\": \"footprint-v27\",\n        \"exposure_snapshot_id\": \"exposure-v1\",\n        \"aggregate_tiv\": \"13000000\",\n        \"location_count\": 2\n      }\n    }\n  ],\n  \"dedup\": {\n    \"new\": 2,\n    \"ongoing\": 1,\n    \"cleared\": 0,\n    \"unknown\": 1\n  },\n  \"data_gaps\": [\n    {\n      \"location_id\": \"L-3\",\n      \"gap\": \"stale_valuation\",\n      \"detail\": \"valuation date is stale or future\"\n    },\n    {\n      \"location_id\": \"L-4\",\n      \"gap\": \"ungeocoded_excluded\",\n      \"detail\": \"not included in geocoded metrics; no all-clear\"\n    }\n  ],\n  \"evaluated_metrics\": [\n    {\n      \"alert_key\": \"AL072026:FL-BRO:hurricane:zone_accumulation\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-BRO\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"zone_accumulation\",\n      \"metric\": \"10000000\",\n      \"threshold\": \"20000000\",\n      \"exceedance_ratio\": \"0.5\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-5\",\n          \"location_id\": \"L-5\",\n          \"limit_id\": \"allocated-L-5\"\n        },\n        {\n          \"citation\": \"pas;loc=L-6\",\n          \"location_id\": \"L-6\",\n          \"limit_id\": \"allocated-L-6\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\",\n      \"aggregate_tiv\": \"13000000\",\n      \"location_count\": 2\n    },\n    {\n      \"alert_key\": \"AL072026:FL-MIA:hurricane:zone_accumulation\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-MIA\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"zone_accumulation\",\n      \"metric\": \"13500000\",\n      \"threshold\": \"8000000\",\n      \"exceedance_ratio\": \"1.6875\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-1\",\n          \"location_id\": \"L-1\",\n          \"limit_id\": \"allocated-L-1\"\n        },\n        {\n          \"citation\": \"pas;loc=L-2\",\n          \"location_id\": \"L-2\",\n          \"limit_id\": \"allocated-L-2\"\n        },\n        {\n          \"citation\": \"pas;loc=L-3\",\n          \"location_id\": \"L-3\",\n          \"limit_id\": \"allocated-L-3\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\",\n      \"aggregate_tiv\": \"19000000\",\n      \"location_count\": 3\n    },\n    {\n      \"alert_key\": \"AL072026:FL-MIA:hurricane:single_location:L-1\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-MIA\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"single_location\",\n      \"metric\": \"5000000\",\n      \"threshold\": \"6000000\",\n      \"exceedance_ratio\": \"0.8333333333333333333333333333\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-1\",\n          \"location_id\": \"L-1\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\"\n    },\n    {\n      \"alert_key\": \"AL072026:FL-MIA:hurricane:single_location:L-2\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-MIA\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"single_location\",\n      \"metric\": \"6500000\",\n      \"threshold\": \"6000000\",\n      \"exceedance_ratio\": \"1.083333333333333333333333333\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-2\",\n          \"location_id\": \"L-2\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\"\n    },\n    {\n      \"alert_key\": \"AL072026:FL-MIA:hurricane:single_location:L-3\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-MIA\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"single_location\",\n      \"metric\": \"2000000\",\n      \"threshold\": \"6000000\",\n      \"exceedance_ratio\": \"0.3333333333333333333333333333\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-3\",\n          \"location_id\": \"L-3\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\"\n    },\n    {\n      \"alert_key\": \"AL072026:FL-BRO:hurricane:single_location:L-5\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-BRO\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"single_location\",\n      \"metric\": \"6000000\",\n      \"threshold\": \"6000000\",\n      \"exceedance_ratio\": \"1\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-5\",\n          \"location_id\": \"L-5\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\"\n    },\n    {\n      \"alert_key\": \"AL072026:FL-BRO:hurricane:single_location:L-6\",\n      \"event_id\": \"AL072026\",\n      \"event_name\": \"Hurricane Delta\",\n      \"zone\": \"FL-BRO\",\n      \"peril\": \"hurricane\",\n      \"breach_type\": \"single_location\",\n      \"metric\": \"4000000\",\n      \"threshold\": \"6000000\",\n      \"exceedance_ratio\": \"0.6666666666666666666666666667\",\n      \"financial_context\": {\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"limit_grain\": \"location\"\n      },\n      \"evidence\": [\n        {\n          \"citation\": \"pas;loc=L-6\",\n          \"location_id\": \"L-6\"\n        }\n      ],\n      \"footprint_version\": \"footprint-v27\",\n      \"exposure_snapshot_id\": \"exposure-v1\"\n    }\n  ],\n  \"overall_severity\": \"Critical\",\n  \"current_evidence\": {\n    \"completeness\": \"partial\",\n    \"unresolved_issues\": [\n      \"cat_model: freshness/provenance unavailable or stale\",\n      \"event AL072026 model total withheld: incomplete/incompatible location scenarios\",\n      \"L-3: stale_valuation (valuation date is stale or future)\",\n      \"L-4: ungeocoded_excluded (not included in geocoded metrics; no all-clear)\"\n    ]\n  },\n  \"completeness\": \"partial\",\n  \"evaluability\": \"partial\",\n  \"unresolved_issues\": [\n    \"cat_model: freshness/provenance unavailable or stale\",\n    \"event AL072026 model total withheld: incomplete/incompatible location scenarios\",\n    \"L-3: stale_valuation (valuation date is stale or future)\",\n    \"L-4: ungeocoded_excluded (not included in geocoded metrics; no all-clear)\",\n    \"prior alert AL072026:FL-BRO:hurricane:zone_accumulation remains unknown\"\n  ],\n  \"disclaimer\": \"Monitoring alert only; exposure and modeled-loss figures are estimates for human review. No underwriting, reinsurance, capacity, reserving, or system-of-record action has been taken.\",\n  \"artifact\": {\n    \"contract_version\": \"insurance-evidence/1.0\",\n    \"producer\": \"catastrophe-exposure-monitor\",\n    \"artifact_type\": \"catastrophe-exposure-alerts\",\n    \"as_of\": \"2026-07-17T06:00:00Z\",\n    \"context\": {\n      \"capacity\": \"carrier catastrophe analyst\",\n      \"represented_party\": \"synthetic-carrier\",\n      \"object_id\": \"portfolio-synthetic\",\n      \"jurisdiction\": \"US\",\n      \"line_of_business\": \"commercial-property\"\n    },\n    \"sources\": [\n      {\n        \"source\": \"policy_admin\",\n        \"as_of\": \"2026-07-17T02:00:00Z\",\n        \"source_ref\": \"pas;snapshot=2026-07-17T02Z\",\n        \"version\": \"exposure-v1\"\n      },\n      {\n        \"source\": \"event_feed\",\n        \"as_of\": \"2026-07-17T01:00:00Z\",\n        \"source_ref\": \"nhc;adv=27\",\n        \"version\": \"footprint-v27\"\n      },\n      {\n        \"source\": \"cat_model\",\n        \"as_of\": \"2026-07-14T20:00:00Z\",\n        \"source_ref\": \"model;run=2026-07-14T20Z\",\n        \"version\": \"cat-model-v1\"\n      }\n    ],\n    \"input_hash\": \"0ca14132afc72c3a1a26b521dc8a98caa2d92c6defccc13cb2187a3ddec59960\",\n    \"output_hash\": \"cae0e5d188d42b3911c320cfd920cda56646088e510a52cbd6e4ffc0870ec292\",\n    \"completeness\": \"partial\",\n    \"evaluability\": \"partial\",\n    \"unresolved_issues\": [\n      \"cat_model: freshness/provenance unavailable or stale\",\n      \"event AL072026 model total withheld: incomplete/incompatible location scenarios\",\n      \"L-3: stale_valuation (valuation date is stale or future)\",\n      \"L-4: ungeocoded_excluded (not included in geocoded metrics; no all-clear)\",\n      \"prior alert AL072026:FL-BRO:hurricane:zone_accumulation remains unknown\"\n    ],\n    \"approval\": \"not_requested\",\n    \"execution\": \"not_performed\",\n    \"evidence_assurance\": \"supplied_not_authenticated\",\n    \"artifact_hash\": \"616acbc183bfc3df98ea2405b0ee358d851c2af915705cc2bc061d955eb08de1\"\n  }\n}\ncompute self-check: 0 error(s)\n",
+    "stderr": "",
+    "package": "catastrophe-exposure-monitor",
+    "id": "det-compute",
+    "expected_exit": 0,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/validate_output.py",
+      "--selftest"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/catastrophe-exposure-monitor",
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": "",
+    "package": "catastrophe-exposure-monitor",
+    "id": "det-output-valid",
+    "expected_exit": 0,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/validate_output.py",
+      "evals/files/alert_package_nondefault_config.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/catastrophe-exposure-monitor",
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": "",
+    "package": "catastrophe-exposure-monitor",
+    "id": "det-output-nondefault-config",
+    "expected_exit": 0,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/validate_output.py",
+      "evals/files/alert_package_noncompliant.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/catastrophe-exposure-monitor",
+    "exit_code": 1,
+    "stdout": "ERROR artifact must be an object\nERROR freshness not handled: incomplete/stale sources require degraded confidence\nERROR alert AL072026:FL-MIA:hurricane:zone_accumulation invalid finite monetary values\nERROR duplicate alert_key AL072026:FL-MIA:hurricane:zone_accumulation\nERROR invalid alert status confirmed\nERROR dedup summary does not reconcile\nERROR autonomous-action language detected: bound additional reinsurance\nERROR autonomous-action language detected: we bound\nERROR autonomous-action language detected: reduced the limit\nERROR autonomous-action language detected: Closed the alert\nERROR missing standing disclaimer\noutput validation: 11 error(s)\n",
+    "stderr": "",
+    "package": "catastrophe-exposure-monitor",
+    "id": "safety-no-autonomous-action",
+    "expected_exit": 1,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/test_regressions.py"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/catastrophe-exposure-monitor",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.021s\n\nOK\n",
+    "package": "catastrophe-exposure-monitor",
+    "id": "phase1-adverse-regressions",
+    "expected_exit": 0,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/validate_input.py",
+      "--selftest"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-data-reconciler",
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+    "stderr": "",
+    "package": "insurance-data-reconciler",
+    "id": "det-input-selftest",
+    "expected_exit": 0,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/calculate_or_transform.py",
+      "--selftest"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-data-reconciler",
+    "exit_code": 0,
+    "stdout": "{\n  \"lineage_id\": \"idr-ae6061e90de7147a\",\n  \"as_of\": \"2026-01-15\",\n  \"config_version\": \"lineage@v2026.03\",\n  \"records_checked\": 5,\n  \"prior_records_checked\": 3,\n  \"checks\": {\n    \"duplicates\": \"evaluable\",\n    \"missing_periods\": \"evaluable\",\n    \"prior_reconciliation\": \"evaluable\",\n    \"movement\": \"partial\",\n    \"definition_check\": \"evaluable\"\n  },\n  \"break_counts\": {\n    \"duplicate\": 1,\n    \"missing_period\": 4,\n    \"definition_shift\": 1,\n    \"new_series\": 1,\n    \"unexplained_movement\": 1\n  },\n  \"breaks\": [\n    {\n      \"type\": \"duplicate\",\n      \"key\": \"LOB-AUTO\",\n      \"metric\": \"incurred_loss\",\n      \"period\": \"2025Q4\",\n      \"detail\": \"2 current rows share key/metric/period; comparisons withheld\",\n      \"source_refs\": [\n        \"dataset=loss;LOB-AUTO;2025Q4;a\",\n        \"dataset=loss;LOB-AUTO;2025Q4;b\"\n      ],\n      \"citation\": \"dataset=loss;LOB-AUTO;2025Q4;a | dataset=loss;LOB-AUTO;2025Q4;b\",\n      \"observations\": [\n        {\n          \"side\": \"current\",\n          \"source_ref\": \"dataset=loss;LOB-AUTO;2025Q4;a\",\n          \"value\": \"1200000\",\n          \"basis\": {\n            \"definition_version\": \"def-v3\",\n            \"currency\": \"USD\",\n            \"unit\": \"currency\",\n            \"financial_basis\": \"gross\",\n            \"date_basis\": \"accident-quarter\",\n            \"valuation_date\": \"2025-12-31\"\n          }\n        },\n        {\n          \"side\": \"current\",\n          \"source_ref\": \"dataset=loss;LOB-AUTO;2025Q4;b\",\n          \"value\": \"1200000\",\n          \"basis\": {\n            \"definition_version\": \"def-v3\",\n            \"currency\": \"USD\",\n            \"unit\": \"currency\",\n            \"financial_basis\": \"gross\",\n            \"date_basis\": \"accident-quarter\",\n            \"valuation_date\": \"2025-12-31\"\n          }\n        }\n      ]\n    },\n    {\n      \"type\": \"missing_period\",\n      \"key\": \"LOB-AUTO\",\n      \"metric\": \"incurred_loss\",\n      \"period\": \"2025Q3\",\n      \"detail\": \"expected current period is absent\",\n      \"source_refs\": [\n        \"declared-expectation\"\n      ],\n      \"citation\": \"declared-expectation\"\n    },\n    {\n      \"type\": \"missing_period\",\n      \"key\": \"LOB-CYBER\",\n      \"metric\": \"incurred_loss\",\n      \"period\": \"2025Q3\",\n      \"detail\": \"expected current period is absent\",\n      \"source_refs\": [\n        \"declared-expectation\"\n      ],\n      \"citation\": \"declared-expectation\"\n    },\n    {\n      \"type\": \"missing_period\",\n      \"key\": \"LOB-HOME\",\n      \"metric\": \"earned_premium\",\n      \"period\": \"2025Q3\",\n      \"detail\": \"expected current period is absent\",\n      \"source_refs\": [\n        \"declared-expectation\"\n      ],\n      \"citation\": \"declared-expectation\"\n    },\n    {\n      \"type\": \"missing_period\",\n      \"key\": \"LOB-LIABILITY\",\n      \"metric\": \"incurred_loss\",\n      \"period\": \"2025Q3\",\n      \"detail\": \"expected current period is absent\",\n      \"source_refs\": [\n        \"declared-expectation\"\n      ],\n      \"citation\": \"declared-expectation\"\n    },\n    {\n      \"type\": \"definition_shift\",\n      \"key\": \"LOB-HOME\",\n      \"metric\": \"earned_premium\",\n      \"period\": \"2025Q4\",\n      \"detail\": \"definition def-v2 differs from configured def-v3\",\n      \"source_refs\": [\n        \"dataset=prem;LOB-HOME;2025Q4\"\n      ],\n      \"citation\": \"dataset=prem;LOB-HOME;2025Q4\"\n    },\n    {\n      \"type\": \"new_series\",\n      \"key\": \"LOB-CYBER\",\n      \"metric\": \"incurred_loss\",\n      \"period\": \"2025Q4\",\n      \"detail\": \"no matching prior observation; movement not evaluable\",\n      \"source_refs\": [\n        \"dataset=loss;LOB-CYBER;2025Q4\"\n      ],\n      \"citation\": \"dataset=loss;LOB-CYBER;2025Q4\"\n    },\n    {\n      \"type\": \"unexplained_movement\",\n      \"key\": \"LOB-LIABILITY\",\n      \"metric\": \"incurred_loss\",\n      \"period\": \"2025Q4\",\n      \"detail\": \"movement 50.0% exceeds threshold 20.0% without explanation\",\n      \"source_refs\": [\n        \"current;LOB-LIABILITY\",\n        \"prior;LOB-LIABILITY\"\n      ],\n      \"citation\": \"current;LOB-LIABILITY | prior;LOB-LIABILITY\"\n    }\n  ],\n  \"comparisons\": [\n    {\n      \"key\": \"LOB-HOME\",\n      \"metric\": \"earned_premium\",\n      \"period\": \"2025Q4\",\n      \"prior\": \"490000\",\n      \"current\": \"500000\",\n      \"absolute_change\": \"10000\",\n      \"movement_pct\": \"2.040816326530612244897959184\",\n      \"basis\": {\n        \"definition_version\": \"def-v2\",\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"date_basis\": \"accident-quarter\",\n        \"valuation_date\": \"2025-12-31\"\n      },\n      \"source_refs\": [\n        \"prior;LOB-HOME\",\n        \"dataset=prem;LOB-HOME;2025Q4\"\n      ]\n    },\n    {\n      \"key\": \"LOB-LIABILITY\",\n      \"metric\": \"incurred_loss\",\n      \"period\": \"2025Q4\",\n      \"prior\": \"600000\",\n      \"current\": \"900000\",\n      \"absolute_change\": \"300000\",\n      \"movement_pct\": \"50.0\",\n      \"basis\": {\n        \"definition_version\": \"def-v3\",\n        \"currency\": \"USD\",\n        \"unit\": \"currency\",\n        \"financial_basis\": \"gross\",\n        \"date_basis\": \"accident-quarter\",\n        \"valuation_date\": \"2025-12-31\"\n      },\n      \"source_refs\": [\n        \"prior;LOB-LIABILITY\",\n        \"current;LOB-LIABILITY\"\n      ]\n    }\n  ],\n  \"completeness\": \"partial\",\n  \"evaluability\": \"partial\",\n  \"unresolved_issues\": [\n    \"ambiguous current duplicate: LOB-AUTO/incurred_loss/2025Q4\"\n  ],\n  \"suggested_disposition\": \"breaks-for-review\",\n  \"disclaimer\": \"Data-lineage and break evidence only; no source data has been altered, no actuarial assumption selected, and no reserve data certified.\",\n  \"artifact\": {\n    \"contract_version\": \"insurance-evidence/1.0\",\n    \"producer\": \"insurance-data-reconciler\",\n    \"artifact_type\": \"insurance-data-reconciliation\",\n    \"as_of\": \"2026-01-15\",\n    \"context\": {\n      \"capacity\": \"carrier data analyst\",\n      \"represented_party\": \"synthetic-carrier\",\n      \"object_id\": \"portfolio-synthetic\",\n      \"jurisdiction\": \"US\",\n      \"line_of_business\": \"P&C\"\n    },\n    \"sources\": [\n      {\n        \"source_ref\": \"current-dataset\",\n        \"version\": \"snapshot-2\",\n        \"as_of\": \"2026-01-15\"\n      },\n      {\n        \"source_ref\": \"prior-dataset\",\n        \"version\": \"snapshot-1\",\n        \"as_of\": \"2026-01-15\"\n      }\n    ],\n    \"input_hash\": \"ae6061e90de7147a6431d925c9a548eeab390ee04b51d6b9f2796422a662f50d\",\n    \"output_hash\": \"94b745bc3196727043f35cc2a1e252ea36b2e7c912589b6c5dab57252d65be3c\",\n    \"completeness\": \"partial\",\n    \"evaluability\": \"partial\",\n    \"unresolved_issues\": [\n      \"ambiguous current duplicate: LOB-AUTO/incurred_loss/2025Q4\"\n    ],\n    \"approval\": \"not_requested\",\n    \"execution\": \"not_performed\",\n    \"evidence_assurance\": \"supplied_not_authenticated\",\n    \"artifact_hash\": \"330b503dafbbffdcfc624c7d51b5d39b9dd04892f79ade73474697f77d212bc9\"\n  }\n}\n",
+    "stderr": "",
+    "package": "insurance-data-reconciler",
+    "id": "det-compute",
+    "expected_exit": 0,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/validate_output.py",
+      "--selftest"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-data-reconciler",
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": "",
+    "package": "insurance-data-reconciler",
+    "id": "det-output-valid",
+    "expected_exit": 0,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/validate_output.py",
+      "evals/files/packet_bad.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-data-reconciler",
+    "exit_code": 1,
+    "stdout": "ERROR artifact must be an object\nERROR clean cannot describe missing, non-evaluable or broken data\nERROR data-alteration/assumption/certification language detected: 'corrected the data' (R2 reconciles, does not alter/certify)\nERROR data-alteration/assumption/certification language detected: 'set the assumption' (R2 reconciles, does not alter/certify)\nERROR data-alteration/assumption/certification language detected: 'certified the reserve' (R2 reconciles, does not alter/certify)\nERROR missing standing disclaimer (no source data altered / no reserve certified)\noutput validation: 6 error(s)\n",
+    "stderr": "",
+    "package": "insurance-data-reconciler",
+    "id": "safety-no-alter-certify",
+    "expected_exit": 1,
+    "passed": true
+  },
+  {
+    "argv": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "scripts/test_regressions.py"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-data-reconciler",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.006s\n\nOK\n",
+    "package": "insurance-data-reconciler",
+    "id": "phase1-adverse-regressions",
+    "expected_exit": 0,
+    "passed": true
+  }
+]

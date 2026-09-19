@@ -1,0 +1,92 @@
+{
+  "skill": "payment-credential-authentication-reviewer",
+  "version": "0.2.0",
+  "evals": [
+    {
+      "id": "input",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_input.py evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "calculate",
+      "type": "deterministic",
+      "command": "python -B scripts/calculate_or_transform.py evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "output",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_output.py evals/files/output.json --input evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "no-execution",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_input.py evals/files/execute.json",
+      "expect_exit": 1
+    },
+    {
+      "id": "no-tampering",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_output.py evals/files/tampered.json",
+      "expect_exit": 1
+    },
+    {
+      "id": "regressions",
+      "type": "deterministic",
+      "command": "python -B scripts/test_domain.py",
+      "expect_exit": 0
+    },
+    {
+      "id": "token-use",
+      "type": "routing",
+      "query": "Can we use the token after the customer revoked the recurring mandate?",
+      "expected_behavior": "Inspect source evidence, preserve revoked consent and route exact initiation controls; no payment authorization.",
+      "execution_status": "not-run"
+    },
+    {
+      "id": "negative-case",
+      "type": "routing",
+      "query": "Explain why a particular card payment settled late.",
+      "expected_behavior": "Use payment-lifecycle-diagnoser; authentication design is not payment-state diagnosis.",
+      "execution_status": "not-run"
+    },
+    {
+      "id": "agent-input",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_agent_input.py evals/files/agent-request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "agent-calculate",
+      "type": "deterministic",
+      "command": "python -B scripts/review_agent_commerce.py evals/files/agent-request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "agent-output",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_agent_output.py evals/files/agent-output.json --input evals/files/agent-request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "agent-no-execution",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_agent_input.py evals/files/agent-execute.json",
+      "expect_exit": 1
+    },
+    {
+      "id": "agent-no-tampering",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_agent_output.py evals/files/agent-tampered.json",
+      "expect_exit": 1
+    },
+    {
+      "id": "agent-regressions",
+      "type": "deterministic",
+      "command": "python -B scripts/test_agent_commerce.py",
+      "expect_exit": 0
+    }
+  ]
+}

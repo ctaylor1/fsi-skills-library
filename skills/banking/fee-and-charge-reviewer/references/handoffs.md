@@ -10,9 +10,9 @@ complaint, or file anything.
 | ---------------- | ---- | ---------------- |
 | `complaint-resolution-assistant` | The customer is filing a complaint and wants a chronology, applicable standards, and a proposed remediation/response | `review_id` + flagged findings |
 | `loan-servicing-exception-resolver` | The flagged charge is a **loan-servicing** exception needing root-cause and a staged correction for authorized approval | `review_id` + the loan-side finding |
-| `dispute-operations-assistant` | The charge is a **card** transaction dispute (issuer/acquirer), not a fee-vs-schedule question | posted fee + evidence |
-| `chargeback-dispute-packager` | Merchant-side card dispute representment | posted fee + evidence |
-| `merchant-fee-optimizer` | The user is a **merchant** analyzing interchange/processor pricing, not a consumer account fee | merchant statement + terms |
+| `issuer-payment-dispute-reviewer` | The charge is a **card** transaction dispute (issuer consumer-error review; merchant/acquirer evidence uses merchant-chargeback-response-packager), not a fee-vs-schedule question | posted fee + evidence |
+| `merchant-chargeback-response-packager` | Merchant-side card dispute representment | posted fee + evidence |
+| `merchant-payment-cost-analyzer` | The user is a **merchant** analyzing interchange/processor pricing, not a consumer account fee | merchant statement + terms |
 | `bank-statement-analyzer` | The user wants general statement/cash-flow analysis, not a fee-vs-schedule comparison | account + period |
 | `account-anomaly-screener` | The concern is unusual/unauthorized **activity**, not a disclosed-fee comparison | account + focal activity |
 

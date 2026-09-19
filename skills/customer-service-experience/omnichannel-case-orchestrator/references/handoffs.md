@@ -23,10 +23,10 @@ after approval — executes it and emits a `plan_id` + audit record.
 
 | Skill | When |
 | ----- | ---- |
-| `dispute-operations-assistant` | The matter is a card/transaction dispute, not a case remedy |
-| `chargeback-dispute-packager` | A chargeback needs to be packaged and represented |
-| `payment-exception-investigator` | A payment exception needs investigation before any repair |
-| `payment-repair-assistant` | A payment must be repaired/reprocessed (payment-rail action) |
+| `issuer-payment-dispute-reviewer` | The matter is a card/transaction dispute, not a case remedy |
+| `merchant-chargeback-response-packager` | A chargeback needs to be packaged and represented |
+| `bank-payment-exception-investigator` | A payment exception needs investigation before any repair |
+| `payment-repair-planner` | A payment must be repaired/reprocessed (payment-rail action) |
 | `loan-servicing-exception-resolver` | The correction is a loan-servicing exception (misapplied payment, escrow, fee) |
 | `fee-and-charge-reviewer` | A fee's correctness must be reviewed before deciding to adjust it |
 | `kyc-customer-due-diligence-screener` | An account change needs identity / due-diligence re-verification first |
@@ -42,3 +42,5 @@ after approval — executes it and emits a `plan_id` + audit record.
   double-applies (no double refund, no duplicate confirmation sent).
 - If another workflow already resolved part of the case, the affected step's precondition
   fails and this skill halts on that step rather than re-applying.
+
+Dispute routing requires participant context: issuer/customer error review uses issuer-payment-dispute-reviewer; merchant/acquirer representment uses merchant-chargeback-response-packager. If the role is unknown, clarify rather than treating the former generic dispute alias as unconditional issuer routing.

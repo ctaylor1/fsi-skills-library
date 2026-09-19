@@ -1,0 +1,373 @@
+{
+  "as_of": "2026-07-15",
+  "period": {
+    "start": "2026-07-01",
+    "end": "2026-07-14"
+  },
+  "config_version": "settle-recon-cfg-2026.07",
+  "settlement_currency": "USD",
+  "config": {
+    "amount_tolerance_abs": "0.5",
+    "fee_tolerance_abs": "0.5",
+    "reserve_tolerance_abs": "0.5",
+    "cash_tolerance_abs": "0.5",
+    "net_calc_tolerance_abs": "0.5",
+    "currency_minor_units": {
+      "USD": 2
+    }
+  },
+  "fee_schedule": [
+    {
+      "scheme": "VISA",
+      "rate_bps": 180,
+      "reserve_bps": 0,
+      "legal_entity_id": "merchant42",
+      "account_id": "settlement-account-4321",
+      "currency": "USD",
+      "version": "2026.07",
+      "source_ref": "contract:merchant42;scheme=VISA",
+      "effective_from": "2026-07-01",
+      "effective_to": "2026-07-31"
+    },
+    {
+      "scheme": "MC",
+      "rate_bps": 200,
+      "reserve_bps": 50,
+      "legal_entity_id": "merchant42",
+      "account_id": "settlement-account-4321",
+      "currency": "USD",
+      "version": "2026.07",
+      "source_ref": "contract:merchant42;scheme=MC",
+      "effective_from": "2026-07-01",
+      "effective_to": "2026-07-31"
+    },
+    {
+      "scheme": "AMEX",
+      "rate_bps": 250,
+      "reserve_bps": 0,
+      "legal_entity_id": "merchant42",
+      "account_id": "settlement-account-4321",
+      "currency": "USD",
+      "version": "2026.07",
+      "source_ref": "contract:merchant42;scheme=AMEX",
+      "effective_from": "2026-07-01",
+      "effective_to": "2026-07-31"
+    }
+  ],
+  "sources": {
+    "network": [
+      {
+        "match_key": "B-0701-VISA",
+        "scheme": "VISA",
+        "settlement_date": "2026-07-01",
+        "currency": "USD",
+        "gross": "100000.0",
+        "source_ref": "net=VISA;batch=B-0701-VISA",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "network-1"
+      },
+      {
+        "match_key": "B-0702-MC",
+        "scheme": "MC",
+        "settlement_date": "2026-07-02",
+        "currency": "USD",
+        "gross": "50000.0",
+        "source_ref": "net=MC;batch=B-0702-MC",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "network-2"
+      },
+      {
+        "match_key": "B-0703-VISA",
+        "scheme": "VISA",
+        "settlement_date": "2026-07-03",
+        "currency": "USD",
+        "gross": "20000.0",
+        "source_ref": "net=VISA;batch=B-0703-VISA",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "network-3"
+      },
+      {
+        "match_key": "B-0704-AMEX",
+        "scheme": "AMEX",
+        "settlement_date": "2026-07-04",
+        "currency": "USD",
+        "gross": "30000.0",
+        "source_ref": "net=AMEX;batch=B-0704-AMEX",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "network-4"
+      },
+      {
+        "match_key": "B-0714-VISA",
+        "scheme": "VISA",
+        "settlement_date": "2026-07-14",
+        "currency": "USD",
+        "gross": "15000.0",
+        "source_ref": "net=VISA;batch=B-0714-VISA",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "network-5",
+        "expected_funding_date": "2026-07-16",
+        "funding_due_source_ref": "funding-contract:batch=B-0714-VISA;due=2026-07-16"
+      },
+      {
+        "match_key": "B-0705-MC",
+        "scheme": "MC",
+        "settlement_date": "2026-07-05",
+        "currency": "USD",
+        "gross": "40000.0",
+        "source_ref": "net=MC;batch=B-0705-MC",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "network-6"
+      }
+    ],
+    "processor": [
+      {
+        "match_key": "B-0701-VISA",
+        "scheme": "VISA",
+        "settlement_date": "2026-07-01",
+        "currency": "USD",
+        "gross": "100000.0",
+        "fees": "1800.0",
+        "reserve": "0.0",
+        "net": "98200.0",
+        "source_ref": "proc=ACQ1;batch=B-0701-VISA",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "processor-1",
+        "refunds": "0.00",
+        "chargebacks": "0.00",
+        "adjustments": "0.00"
+      },
+      {
+        "match_key": "B-0702-MC",
+        "scheme": "MC",
+        "settlement_date": "2026-07-02",
+        "currency": "USD",
+        "gross": "50000.0",
+        "fees": "1250.0",
+        "reserve": "250.0",
+        "net": "48500.0",
+        "source_ref": "proc=ACQ1;batch=B-0702-MC",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "processor-2",
+        "refunds": "0.00",
+        "chargebacks": "0.00",
+        "adjustments": "0.00"
+      },
+      {
+        "match_key": "B-0703-VISA",
+        "scheme": "VISA",
+        "settlement_date": "2026-07-03",
+        "currency": "USD",
+        "gross": "20000.0",
+        "fees": "360.0",
+        "reserve": "0.0",
+        "net": "19640.0",
+        "source_ref": "proc=ACQ1;batch=B-0703-VISA",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "processor-3",
+        "refunds": "0.00",
+        "chargebacks": "0.00",
+        "adjustments": "0.00"
+      },
+      {
+        "match_key": "B-0704-AMEX",
+        "scheme": "AMEX",
+        "settlement_date": "2026-07-04",
+        "currency": "USD",
+        "gross": "30000.0",
+        "fees": "750.0",
+        "reserve": "0.0",
+        "net": "29250.0",
+        "source_ref": "proc=ACQ1;batch=B-0704-AMEX",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "processor-4",
+        "refunds": "0.00",
+        "chargebacks": "0.00",
+        "adjustments": "0.00"
+      },
+      {
+        "match_key": "B-0714-VISA",
+        "scheme": "VISA",
+        "settlement_date": "2026-07-14",
+        "currency": "USD",
+        "gross": "15000.0",
+        "fees": "270.0",
+        "reserve": "0.0",
+        "net": "14730.0",
+        "source_ref": "proc=ACQ1;batch=B-0714-VISA",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "processor-5",
+        "refunds": "0.00",
+        "chargebacks": "0.00",
+        "adjustments": "0.00",
+        "expected_funding_date": "2026-07-16",
+        "funding_due_source_ref": "funding-contract:batch=B-0714-VISA;due=2026-07-16"
+      },
+      {
+        "match_key": "B-0705-MC",
+        "scheme": "MC",
+        "settlement_date": "2026-07-05",
+        "currency": "USD",
+        "gross": "40250.0",
+        "fees": "805.0",
+        "reserve": "201.25",
+        "net": "39243.75",
+        "source_ref": "proc=ACQ1;batch=B-0705-MC",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "processor-6",
+        "refunds": "0.00",
+        "chargebacks": "0.00",
+        "adjustments": "0.00"
+      }
+    ],
+    "bank_cash": [
+      {
+        "match_key": "B-0701-VISA",
+        "value_date": "2026-07-02",
+        "currency": "USD",
+        "amount": "98200.0",
+        "source_ref": "bank=DDA123;fund=B-0701-VISA",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "bank_cash-1"
+      },
+      {
+        "match_key": "B-0702-MC",
+        "value_date": "2026-07-03",
+        "currency": "USD",
+        "amount": "48500.0",
+        "source_ref": "bank=DDA123;fund=B-0702-MC",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "bank_cash-2"
+      },
+      {
+        "match_key": "B-0703-VISA",
+        "value_date": "2026-07-04",
+        "currency": "USD",
+        "amount": "19640.0",
+        "source_ref": "bank=DDA123;fund=B-0703-VISA",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "bank_cash-3"
+      },
+      {
+        "match_key": "B-0704-AMEX",
+        "value_date": "2026-07-05",
+        "currency": "USD",
+        "amount": "29000.0",
+        "source_ref": "bank=DDA123;fund=B-0704-AMEX",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "bank_cash-4"
+      },
+      {
+        "match_key": "B-0705-MC",
+        "value_date": "2026-07-06",
+        "currency": "USD",
+        "amount": "39243.75",
+        "source_ref": "bank=DDA123;fund=B-0705-MC",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "bank_cash-5"
+      }
+    ],
+    "ledger": [
+      {
+        "match_key": "B-0701-VISA",
+        "post_date": "2026-07-02",
+        "currency": "USD",
+        "net": "98200.0",
+        "source_ref": "gl=1000;je=JE-0701",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "ledger-1"
+      },
+      {
+        "match_key": "B-0702-MC",
+        "post_date": "2026-07-03",
+        "currency": "USD",
+        "net": "48500.0",
+        "source_ref": "gl=1000;je=JE-0702",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "ledger-2"
+      },
+      {
+        "match_key": "B-0704-AMEX",
+        "post_date": "2026-07-05",
+        "currency": "USD",
+        "net": "29250.0",
+        "source_ref": "gl=1000;je=JE-0704",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "ledger-3"
+      },
+      {
+        "match_key": "B-0714-VISA",
+        "post_date": "2026-07-14",
+        "currency": "USD",
+        "net": "14730.0",
+        "source_ref": "gl=1000;je=JE-0714",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "ledger-4"
+      },
+      {
+        "match_key": "B-0705-MC",
+        "post_date": "2026-07-06",
+        "currency": "USD",
+        "net": "39243.75",
+        "source_ref": "gl=1000;je=JE-0705",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "ledger-5"
+      },
+      {
+        "match_key": "B-0710-ADJ",
+        "post_date": "2026-07-10",
+        "currency": "USD",
+        "net": "5000.0",
+        "source_ref": "gl=1000;je=JE-0710-ADJ",
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "settlement_cycle": "2026-07-01_2026-07-14",
+        "record_id": "ledger-6"
+      }
+    ]
+  },
+  "mode": "reconcile-settlement"
+}

@@ -1,0 +1,222 @@
+{
+  "schema_version": "1.0",
+  "request_id": "independent-b2b",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "corporate-ap",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "RAW",
+      "reference": "synthetic:independent-operating-ledger-20260918",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    },
+    {
+      "source_id": "POL",
+      "reference": "synthetic:independent-contract-and-policy-20260918",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "history_complete": true,
+    "approval_policy": {
+      "owner": "AP controller",
+      "policy_ref": "AP-2026",
+      "effective_from": "2026-01-01",
+      "review_due": "2026-12-31"
+    },
+    "suppliers": [
+      {
+        "supplier_id": "SUP",
+        "legal_entity_id": "SUP-LEGAL",
+        "payee_account_ref": "PAYEE",
+        "erp_supplier_ref": "ERP-SUP",
+        "enabled_methods": [
+          "ACH"
+        ],
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "invoices": [
+      {
+        "invoice_id": "IA",
+        "invoice_number": "INV-A",
+        "supplier_id": "SUP",
+        "buyer_entity_id": "BUY",
+        "currency": "USD",
+        "erp_invoice_ref": "ERP-IA",
+        "due_date": "2026-09-25",
+        "amount": "500",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "invoice_id": "IB",
+        "invoice_number": "INV-B",
+        "supplier_id": "SUP",
+        "buyer_entity_id": "BUY",
+        "currency": "USD",
+        "erp_invoice_ref": "ERP-IB",
+        "due_date": "2026-09-25",
+        "amount": "300",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "credit_notes": [
+      {
+        "credit_note_id": "CR1",
+        "invoice_id": "IA",
+        "currency": "USD",
+        "erp_credit_ref": "ERP-CR1",
+        "amount": null,
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "payments": [
+      {
+        "payment_id": "P0",
+        "supplier_id": "SUP",
+        "payer_entity_id": "BUY",
+        "payee_account_ref": "PAYEE",
+        "currency": "USD",
+        "method": "ACH",
+        "state": "settled",
+        "erp_payment_ref": "ERP-P0",
+        "amount": "300",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "payment_id": "P1",
+        "supplier_id": "SUP",
+        "payer_entity_id": "BUY",
+        "payee_account_ref": "PAYEE",
+        "currency": "USD",
+        "method": "ACH",
+        "state": "pending",
+        "erp_payment_ref": "ERP-P1",
+        "amount": "50",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "payment_id": "P2",
+        "supplier_id": "SUP",
+        "payer_entity_id": "BUY",
+        "payee_account_ref": "PAYEE",
+        "currency": "USD",
+        "method": "ACH",
+        "state": "proposed",
+        "erp_payment_ref": "ERP-P2",
+        "amount": "300",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "allocations": [
+      {
+        "allocation_id": "X0A",
+        "payment_id": "P0",
+        "invoice_id": "IA",
+        "currency": "USD",
+        "amount": "200",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "allocation_id": "X0B",
+        "payment_id": "P0",
+        "invoice_id": "IB",
+        "currency": "USD",
+        "amount": "100",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "allocation_id": "X1B",
+        "payment_id": "P1",
+        "invoice_id": "IB",
+        "currency": "USD",
+        "amount": "50",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "allocation_id": "X2A",
+        "payment_id": "P2",
+        "invoice_id": "IA",
+        "currency": "USD",
+        "amount": "200",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "allocation_id": "X2B",
+        "payment_id": "P2",
+        "invoice_id": "IB",
+        "currency": "USD",
+        "amount": "100",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "remittances": [
+      {
+        "remittance_id": "REM-P0",
+        "payment_id": "P0",
+        "supplier_id": "SUP",
+        "delivery_reference": "SENT-P0",
+        "allocation_ids": [
+          "X0A",
+          "X0B"
+        ],
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "remittance_id": "REM-P1",
+        "payment_id": "P1",
+        "supplier_id": "SUP",
+        "delivery_reference": "DRAFT-P1",
+        "allocation_ids": [
+          "X1B"
+        ],
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "remittance_id": "REM-P2",
+        "payment_id": "P2",
+        "supplier_id": "SUP",
+        "delivery_reference": "DRAFT-P2",
+        "allocation_ids": [
+          "X2A",
+          "X2B"
+        ],
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ]
+  }
+}

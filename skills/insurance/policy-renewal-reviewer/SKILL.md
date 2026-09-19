@@ -1,38 +1,34 @@
 ---
 name: policy-renewal-reviewer
-description: >-
-  Compare an expiring policy term with the proposed renewal term — premium, limits,
-  deductibles, exposures, forms/endorsements, and loss history — surface material changes
-  with cited evidence, draft renewal questions and plain-language customer explanations, and
-  suggest a review disposition. Use when an underwriter, agent, or account manager asks
-  "what changed at renewal", "compare the expiring and proposed terms", "is this renewal
-  priced/structured differently", or needs a review-ready renewal comparison. This skill
-  compares, evidences, and drafts questions only; it NEVER makes a renew/non-renew or
-  decline decision, sets premium or rate, binds coverage, issues a non-renewal notice, makes
-  a coverage or claim determination, or gives personalized insurance advice — those are
-  human/licensed-professional actions.
+description: "Compare an expiring P&C policy term with the proposed renewal term — premium, limits, deductibles, exposures, forms/endorsements, and loss history — surface material changes with cited evidence, draft renewal questions and plain-language customer explanations, and suggest a review disposition. Use when an underwriter, agent, or account manager asks \"what changed at renewal\", \"compare the expiring and proposed terms\", \"is this renewal priced/structured differently\", or needs a review-ready renewal comparison. This skill compares, evidences, and drafts questions only; it NEVER makes a renew/non-renew or decline decision, sets premium or rate, binds coverage, issues a non-renewal notice, makes a coverage or claim determination, or gives personalized insurance advice — those are human/licensed-professional actions."
 license: MIT
-compatibility: Amazon Quick Desktop; requires policy-administration, claims, underwriting-rules/config, document-intelligence, and actuarial/catastrophe MCP integrations (all read-only).
+compatibility: Python 3.10+; offline structured inputs and supplied source evidence. Expected source systems are not bundled production connectors.
 metadata:
   aws-fsi-category: "Insurance"
   aws-fsi-skill-type: "Analysis and evaluation skills"
   aws-fsi-risk-tier: "R2"
   aws-fsi-archetype: "Analyze & review"
   aws-fsi-agent-pattern: "Interactive decision-support copilot"
-  aws-fsi-delivery-wave: "Wave 2 - analytical production"
+  aws-fsi-delivery-wave: "Insurance Phase 1"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (customer NPI/PII)"
-  aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
-  aws-fsi-owner: "Insurance underwriting & claims"
+  aws-fsi-jurisdictions: "Reviewed target-specific jurisdiction/product profiles required; fixture coverage is not global applicability"
+  aws-fsi-owner: "Insurance underwriting and account management"
   aws-fsi-primary-user: "Underwriter / agent / account manager"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-18"
 ---
 
 # Policy Renewal Reviewer
+
+## Implemented scope and evidence contract
+
+Loss statistics require `claims_complete: true` and sourced `earned_premium{amount,period_start,period_end,currency,source_ref}` matching the exact inclusive `[as_of - review_window_days, as_of]` window and top-level currency. Filter out old/future claims; never substitute expiring premium times years. Missing schedules/forms are not removals. Empty source lists require an explicit corresponding completeness flag. No fired findings plus unevaluable checks is `Incomplete`, never `Routine`. A confirmed empty claims list is distinct from unavailable history.
+
+All output artifacts include the portable insurance evidence contract and source snapshot. Missing actor, versioned source, date or upstream context remains explicitly partial. Content hashes detect changes; they do not authenticate sources or grant approval. After authoring narrative, rebuild `artifact` with `build_artifact` from `scripts/insurance_contract.py` before running output validation. A common envelope does not replace the receiver's native input validator.
 
 ## Purpose and outcome
 Given an expiring policy term and a proposed renewal term (plus loss history), compute a set
@@ -54,7 +50,7 @@ commitment remain human/licensed-professional actions.
 - The user wants a **renewal decision** ("should we renew / non-renew / decline?"), a **price
   or rate**, to **bind** the renewal, or to **issue a non-renewal notice** → out of scope.
   Provide the comparison and route to the licensed underwriter; underwriting decision support
-  is `underwriting-workbench-assistant` (which itself drafts rationale for human underwriting).
+  is `insurance-underwriting-risk-reviewer` (which itself drafts rationale for human underwriting).
 - **Coverage-need / exposure-adequacy analysis** ("do I have enough coverage / any gaps?") →
   `coverage-gap-analyzer`.
 - **Clause-level wording comparison** of specific forms/endorsements → `policy-wording-comparator`.
@@ -62,7 +58,7 @@ commitment remain human/licensed-professional actions.
   `premium-quote-comparator`.
 - **Plain explanation of a single policy document** with no renewal comparison →
   `policy-document-explainer`.
-- **Deep review of a specific claim** in the loss history → `claims-file-reviewer`; catastrophe
+- **Deep review of a specific claim** in the loss history → `claim-file-quality-reviewer`; catastrophe
   accumulation/modeled-loss monitoring → `catastrophe-exposure-monitor`.
 - **Personalized insurance advice** ("which option should I buy?") → decline; route to a
   licensed agent/broker.
@@ -161,3 +157,9 @@ log the read and any external-delivery approval. Never exfiltrate customer data.
 - **Loss ratio is context, not verdict.** Read it with development, large-loss treatment, and
   credibility; it never by itself decides the renewal.
 - **Thresholds come from versioned config**, never tuned to an individual insured to force or avoid a flag.
+
+## Evidence and handoff contract
+
+Read [the insurance evidence contract](references/insurance-contract.md) for source
+versioning, explicit unknowns, financial/date bases and receiver validation. A
+content hash is not source authentication, professional approval or execution authority.

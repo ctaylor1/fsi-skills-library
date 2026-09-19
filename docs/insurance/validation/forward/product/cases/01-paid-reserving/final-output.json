@@ -1,0 +1,213 @@
+{
+  "dataset_version": "synthetic-reserve-v1",
+  "calculation_inputs": {
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "P&C reserving actuary",
+      "represented_party": "Synthetic insurer or applicant; no live customer",
+      "object_id": "synthetic-paid-triangle"
+    },
+    "sources": [
+      {
+        "source_ref": "triangle-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "dataset_version": "synthetic-reserve-v1",
+    "valuation_date": "2026-09-18",
+    "currency": "USD",
+    "unit": "USD thousands",
+    "large_loss_threshold": 1000,
+    "segments": [
+      {
+        "segment_id": "PROP-PAID",
+        "line_of_business": "P&C property",
+        "triangle_basis": "paid",
+        "development_ages": [
+          12,
+          24
+        ],
+        "triangle": {
+          "2024": [
+            100,
+            160
+          ],
+          "2025": [
+            250
+          ]
+        },
+        "factor_method": "volume-weighted",
+        "tail_factor": 1,
+        "source_ref": "triangle-v1"
+      }
+    ]
+  },
+  "valuation_date": "2026-09-18",
+  "document": {
+    "title": "Reserve Analysis Exhibit - DRAFT (for qualified actuarial review)",
+    "valuation_date": "2026-09-18",
+    "currency": "USD",
+    "unit": "USD thousands",
+    "sections": [
+      "Cover and valuation basis",
+      "Data sources and reconciliation",
+      "Development method and factors",
+      "Indicated ultimate and reserve measures",
+      "Severity, frequency, and large-loss analysis",
+      "Uncertainty and sensitivity",
+      "Assumptions and limitations",
+      "Actuarial review and approval"
+    ],
+    "approvals": [
+      {
+        "role": "Preparing analyst / actuarial associate",
+        "status": "pending"
+      },
+      {
+        "role": "Qualified (appointed) actuary - reserve review and selection",
+        "status": "pending"
+      },
+      {
+        "role": "Independent peer reviewer - actuarial review",
+        "status": "pending"
+      }
+    ]
+  },
+  "segments": [
+    {
+      "segment_id": "PROP-PAID",
+      "line_of_business": "P&C property",
+      "triangle_basis": "paid",
+      "method": "volume-weighted chain-ladder",
+      "tail_factor": 1.0,
+      "citations": [
+        "claims-datamart:triangle-v1"
+      ],
+      "reserve_measure": "total_unpaid",
+      "large_loss": {
+        "threshold": 1000,
+        "count": 0,
+        "total": 0,
+        "claims": [],
+        "flagged": false
+      },
+      "development_factors": [
+        {
+          "from_age": 12,
+          "to_age": 24,
+          "factor": 1.6,
+          "basis": "volume-weighted"
+        }
+      ],
+      "cdf_to_ultimate": [
+        {
+          "age": 12,
+          "cdf": 1.6
+        },
+        {
+          "age": 24,
+          "cdf": 1.0
+        }
+      ],
+      "origin_results": [
+        {
+          "origin": "2024",
+          "latest_dev_age": 24,
+          "paid": 160.0,
+          "cdf_used": 1.0,
+          "ultimate": 160.0,
+          "total_unpaid": 0.0,
+          "citations": [
+            "claims-datamart:triangle-v1"
+          ]
+        },
+        {
+          "origin": "2025",
+          "latest_dev_age": 12,
+          "paid": 250.0,
+          "cdf_used": 1.6,
+          "ultimate": 400.0,
+          "total_unpaid": 150.0,
+          "citations": [
+            "claims-datamart:triangle-v1"
+          ]
+        }
+      ],
+      "totals": {
+        "paid": 410.0,
+        "ultimate": 560.0,
+        "total_unpaid": 150.0
+      },
+      "severity": null,
+      "frequency": null,
+      "uncertainty": {
+        "method": "min-max age-to-age link-ratio range (indicative sensitivity, NOT a statistical confidence interval)",
+        "low_ultimate": 560.0,
+        "selected_ultimate": 560.0,
+        "high_ultimate": 560.0,
+        "range_pct_of_selected": 0.0
+      },
+      "status": "draft-analysis",
+      "packageable": true,
+      "reserve_analysis": {
+        "segment_id": "PROP-PAID",
+        "line_of_business": "P&C property",
+        "triangle_basis": "paid",
+        "method": "volume-weighted chain-ladder",
+        "valuation_date": "2026-09-18",
+        "currency": "USD",
+        "unit": "USD thousands",
+        "indicated": {
+          "paid": 410.0,
+          "ultimate": 560.0,
+          "total_unpaid": 150.0
+        },
+        "selection_basis": "method indication only (chain-ladder); the appointed actuary reviews, selects the carried reserve, and approves before booking",
+        "large_loss_flagged": false,
+        "uncertainty_range": {
+          "low": 560.0,
+          "high": 560.0
+        },
+        "actuarial_review_required": true,
+        "reviewer_signoff_required": true
+      }
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "draft_analysis": 1,
+    "anomaly_flagged": 0,
+    "needs_data": 0,
+    "large_loss_segments": 0
+  },
+  "standing_note": "Draft reserving analysis for qualified actuarial review only; this skill computes method-indicated estimates from the supplied data, does not select or book carried reserves, does not issue or sign a Statement of Actuarial Opinion, and does not opine on reserve adequacy - a qualified actuary must review, select, and approve every figure before use.",
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "reserving-analysis-assistant",
+    "artifact_type": "reserve_analysis",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "P&C reserving actuary",
+      "represented_party": "Synthetic insurer or applicant; no live customer",
+      "object_id": "synthetic-paid-triangle"
+    },
+    "sources": [
+      {
+        "source_ref": "triangle-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "87b07e23b454ef59404bdc1c2f10e8698d11cdad00aa5478266c0a3935018dcb",
+    "output_hash": "a0e6720a9ccf13853084d496b4d160e865675ff25505e36ba2349ce1bf9f8cb7",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "af13484690977d06d63617212acf78451cbd1a6139bb2122c2e939851f338a7f"
+  },
+  "narrative": "# Reserve Analysis Exhibit \u2014 DRAFT\n\n## 1. Cover and valuation basis\nSynthetic P&C property segment PROP-PAID; paid-loss basis; valuation 2026-09-18; USD thousands; dataset synthetic-reserve-v1.\n\n## 2. Data sources and reconciliation\nThe triangle is synthetic triangle-v1: 2024 paid 100 at 12 months and 160 at 24 months; 2025 paid 250 at 12 months. Source: claims-datamart:triangle-v1, synthetic-v1. Paid totals reconcile to 410. No live claim-system reconciliation was supplied. Separate practitioner-context-v1 states case outstanding 80 and reviewer-provided ultimate 400 for 2025 on aligned basis/units; these are contextual inputs outside the native paid-triangle schema.\n\n## 3. Development method and factors\nVolume-weighted 12-to-24-month factor = 160 / 100 = 1.6. With the expressly supplied tail 1, CDFs are 1.6 at 12 months and 1.0 at 24 months. Only one observed link ratio supports this example. Source: triangle-v1 and synthetic-reserve-v1.\n\n## 4. Indicated ultimate and reserve measures\n| Origin | Paid | CDF | Indicated ultimate | Total unpaid | Source |\n| --- | ---: | ---: | ---: | ---: | --- |\n| 2024 | 160 | 1.0 | 160 | 0 | triangle-v1 |\n| 2025 | 250 | 1.6 | 400 | 150 | triangle-v1 |\n| Total | 410 | | 560 | 150 | triangle-v1 |\n\nFor 2025, method-indicated total unpaid is 400 - 250 = 150. Total unpaid includes case outstanding; it is not itself IBNR. The separate supplied case outstanding 80 would imply reported incurred 250 + 80 = 330 and a residual 400 - 330 = 70 on the expressly aligned contextual basis (practitioner-context-v1). The native paid-triangle engine does not consume case outstanding or independently validate that reconciliation; the 70 is a transparent supplemental calculation for actuarial review. The supplied ultimate 400 coincides with the mechanical indication; the engine makes no reserve selection.\n\n## 5. Severity, frequency, and large-loss analysis\nSeverity and frequency are unavailable because no claim counts or exposure were supplied. Large-loss analysis is unavailable because no claim-level large-loss schedule was supplied. The native output's zero count/total and false large-loss flag must not be interpreted as evidence that no large losses exist.\n\n## 6. Uncertainty and sensitivity\nThe native min/max link-ratio sensitivity is 560 to 560 in aggregate because there is only one observed factor. This zero width supplies no evidence of certainty and is not a statistical interval. The JSON key selected_ultimate represents the method-indicated aggregate 560, not a human reserve selection.\n\n## 7. Assumptions and limitations\nThe supplied tail 1 assumes no further development after 24 months for this illustration. Origin, valuation, currency and basis alignment must be checked by the reviewing actuary. Aggregate triangles do not establish claim-level large-loss completeness. The paid output table uses total unpaid because the supplied template's generic IBNR heading would mislabel this paid-basis measure.\n\n## 8. Actuarial review and approval\nPreparing analyst, qualified actuary and independent peer reviewer sign-offs remain pending. No selection, booking or approval has been performed.\n"
+}

@@ -1,0 +1,348 @@
+[
+  {
+    "intent": "authorization-decline",
+    "action": "analyze",
+    "participant": "merchant",
+    "rail": "card",
+    "lead": null,
+    "support": [
+      "payment-lifecycle-diagnoser",
+      "payment-api-log-diagnostic-pack"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "Portfolio authorization-rate deterioration needs cohort denominators, retries and causal hypotheses. Single-payment traces and supplied error-log counts can supply evidence but cannot complete the aggregate analysis.",
+    "unknowns": [
+      "jurisdiction",
+      "time period",
+      "success denominator",
+      "payment mix and retry behavior"
+    ],
+    "gap": "Phase 3 payment-acceptance-performance-analyzer"
+  },
+  {
+    "intent": "rail-comparison",
+    "action": "analyze",
+    "rail": "multi-rail",
+    "lead": "bank-payment-workflow-designer",
+    "support": [
+      "payment-regulatory-applicability-reviewer",
+      "payment-economics-modeler",
+      "card-lifecycle-operations-assistant"
+    ],
+    "verdict": "partial-coverage",
+    "rationale": "Bank workflow design is a sensible lead for FedNow, RTP and ACH. The requested card comparison also needs card lifecycle/acceptance evidence; the bank designer explicitly has only bank-rail profiles.",
+    "unknowns": [
+      "participant",
+      "deployment jurisdiction",
+      "specific use case",
+      "card network/product/acceptance perspective"
+    ],
+    "gap": "No native card-rail comparison profile in the selected bank-rail target; keep card leg unresolved rather than silently dropping it."
+  },
+  {
+    "intent": "global-acquiring",
+    "action": "draft",
+    "participant": "merchant",
+    "rail": "card",
+    "lead": "merchant-acceptance-strategy-designer",
+    "support": [
+      "payment-provider-evaluator",
+      "payment-regulatory-applicability-reviewer"
+    ],
+    "verdict": "scoped-route",
+    "rationale": "Acquiring footprint, market/channel acceptance and contracting responsibility are merchant acceptance strategy. Provider diligence and entity/activity applicability support separately scoped decisions.",
+    "unknowns": [
+      "actual countries",
+      "contracting merchant entities",
+      "currencies",
+      "local methods and customer segments"
+    ],
+    "gap": "Global coverage is not established by installed US/euro-area/UK analytical modules; other countries remain unsupported until separately scoped."
+  },
+  {
+    "intent": "pay-by-bank-economics",
+    "action": "analyze",
+    "lead": "payment-economics-modeler",
+    "support": [
+      "bank-payment-workflow-designer"
+    ],
+    "verdict": "route",
+    "rationale": "Adding a method is prospective scenario economics: define participant perspective, attempt population, adoption/displacement, completion and disjoint costs. Bank workflow design establishes the proposed rail and operating flow.",
+    "unknowns": [
+      "participant perspective",
+      "jurisdiction",
+      "pay-by-bank method",
+      "baseline volumes and economics",
+      "adoption assumptions"
+    ],
+    "gap": null
+  },
+  {
+    "intent": "merchant-cost",
+    "action": "analyze",
+    "lead": "merchant-payment-cost-analyzer",
+    "support": [
+      "payment-economics-modeler"
+    ],
+    "verdict": "scope-clarification",
+    "rationale": "Observed acceptance-cost decomposition is the closest initial work product. If the request means prospective pricing or issuer interchange revenue rather than incurred merchant costs, switch ownership after scope clarification; do not fabricate a statement.",
+    "unknowns": [
+      "participant perspective",
+      "observed versus prospective costs",
+      "jurisdiction",
+      "statement period and currency"
+    ],
+    "gap": null
+  },
+  {
+    "intent": "vertical-saas-payments",
+    "action": "draft",
+    "lead": null,
+    "support": [
+      "merchant-acceptance-strategy-designer",
+      "payment-regulatory-applicability-reviewer",
+      "payment-platform-architecture-reviewer",
+      "payment-economics-modeler"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "Embedded platform strategy needs platform/merchant/sponsor responsibilities and funds-flow design, including explicit PayFac/MoR distinctions. Existing acceptance, regulatory, architecture and economics packages provide bounded inputs, not the complete platform proposition.",
+    "unknowns": [
+      "software-only versus regulated payment role",
+      "countries",
+      "merchant-of-record and contracting model",
+      "funds possession and liability"
+    ],
+    "gap": "Later-phase platform-payment-flow-designer"
+  },
+  {
+    "intent": "chargeback-spike",
+    "action": "analyze",
+    "rail": "card",
+    "lead": null,
+    "support": [
+      "merchant-chargeback-response-packager",
+      "payment-fraud-and-scam-investigator"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "A spike is a portfolio performance and cause investigation. Merchant representment is conditional individual-case evidence support once the participant is known; it is not an aggregate diagnosis.",
+    "unknowns": [
+      "merchant/acquirer/issuer participant",
+      "jurisdiction",
+      "network and dispute stages",
+      "cohort denominator and lag",
+      "fraud versus operational causes"
+    ],
+    "gap": "Phase 3 payment-acceptance-performance-analyzer"
+  },
+  {
+    "intent": "instant-fraud-strategy",
+    "action": "draft",
+    "rail": "instant",
+    "lead": null,
+    "support": [
+      "instant-payment-risk-monitor",
+      "payment-fraud-rule-impact-analyzer",
+      "payment-fraud-and-scam-investigator"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "A fraud strategy needs a control portfolio and appetite/friction/loss tradeoffs. Snapshot alert analysis, one-predicate backtests and individual investigations are evidence support only.",
+    "unknowns": [
+      "participant",
+      "jurisdiction and instant rail",
+      "fraud/scam typology",
+      "risk appetite and control evidence"
+    ],
+    "gap": "Phase 3 payment-fraud-control-evaluator"
+  },
+  {
+    "intent": "card-lifecycle",
+    "action": "analyze",
+    "rail": "card",
+    "lead": "card-lifecycle-operations-assistant",
+    "support": [
+      "payment-lifecycle-diagnoser"
+    ],
+    "verdict": "route",
+    "rationale": "Card lifecycle ownership explicitly covers authorization holds, presentment, clearing and settlement. Explain concepts without inventing transaction events; a single-payment diagnoser is optional only for a supplied case. Servicing is unrequested.",
+    "unknowns": [
+      "participant perspective",
+      "jurisdiction",
+      "network/product",
+      "educational explanation versus a specific trace"
+    ],
+    "gap": null
+  },
+  {
+    "intent": "hub-modernization",
+    "action": "analyze",
+    "participant": "bank",
+    "lead": "payment-platform-architecture-reviewer",
+    "support": [
+      "bank-payment-workflow-designer",
+      "payment-integration-readiness-reviewer",
+      "payment-economics-modeler"
+    ],
+    "verdict": "scoped-route",
+    "rationale": "A modernization decision starts with current flow/state authority, constraints and alternatives. Rail workflow and inspected readiness support the decision; an explicit investment business case would separately need economics.",
+    "unknowns": [
+      "jurisdiction",
+      "current hub and constraints",
+      "options and cost evidence",
+      "NFRs and migration scope"
+    ],
+    "gap": "Full performance, service-incident and resilience modules remain Phase 3 work; a draft architecture review is not production resilience acceptance."
+  },
+  {
+    "intent": "issuer-processor-comparison",
+    "action": "analyze",
+    "rail": "card",
+    "lead": "payment-provider-evaluator",
+    "support": [
+      "card-program-designer"
+    ],
+    "verdict": "route",
+    "rationale": "Comparing issuer processors is provider diligence against explicit requirements and comparable commercial terms. Card program design supplies requirements when a program is being designed; supplied assertions do not select a vendor.",
+    "unknowns": [
+      "requesting participant",
+      "jurisdiction",
+      "card program and required functions",
+      "providers and inspected evidence"
+    ],
+    "gap": null
+  },
+  {
+    "intent": "cross-border-options",
+    "action": "analyze",
+    "lead": null,
+    "support": [
+      "bank-payment-workflow-designer",
+      "payment-provider-evaluator",
+      "payment-regulatory-applicability-reviewer"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "End-to-end corridor design includes domestic legs, correspondent/provider access, FX, liquidity and finality. Existing domestic-rail and provider/applicability evidence cannot establish a complete cross-border option.",
+    "unknowns": [
+      "participant",
+      "origin/destination countries",
+      "currencies",
+      "corridor and use case",
+      "FX and settlement arrangements"
+    ],
+    "gap": "Later-phase cross-border-payment-designer"
+  },
+  {
+    "intent": "acquiring-architecture",
+    "action": "draft",
+    "lead": "payment-platform-architecture-reviewer",
+    "support": [
+      "merchant-acceptance-strategy-designer"
+    ],
+    "verdict": "scoped-route",
+    "rationale": "The requested work product is architecture: component/flow ownership, identities, state, idempotency, ledger and reconciliation. Merchant acceptance strategy supplies commercial requirements without replacing the architecture lead.",
+    "unknowns": [
+      "merchant versus acquirer operator perspective",
+      "jurisdiction",
+      "payment methods",
+      "current versus target design",
+      "partner responsibilities"
+    ],
+    "gap": "Foundational architecture is available; full later-phase incident/performance/resilience acceptance is not."
+  },
+  {
+    "intent": "orchestration-strategy",
+    "action": "draft",
+    "lead": null,
+    "conditional_leads": [
+      "merchant-acceptance-strategy-designer",
+      "payment-platform-architecture-reviewer"
+    ],
+    "support": [],
+    "verdict": "ambiguous-lead",
+    "rationale": "Orchestration could mean a merchant acceptance/PSP routing strategy or a bank/issuer payment-flow architecture. The dedicated strategy intent is closest linguistically, but no merchant role is declared; its merchant lead must remain tentative until scope is resolved.",
+    "unknowns": [
+      "participant and orchestration layer",
+      "jurisdiction",
+      "objective and outcomes",
+      "merchant PSP selection versus general hub/issuer flow"
+    ],
+    "gap": "Role ambiguity, not an absent installed core architecture capability."
+  },
+  {
+    "intent": "payments-company",
+    "action": "analyze",
+    "lead": null,
+    "support": [
+      "payment-provider-evaluator",
+      "payment-economics-modeler"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "Business-model and competitor analysis is broader than procurement diligence or a supplied unit-economics scenario. Those can be scoped evidence inputs but do not supply a payments-company research owner.",
+    "unknowns": [
+      "company/competitor",
+      "participant business model",
+      "research purpose",
+      "markets",
+      "source evidence"
+    ],
+    "gap": "Later-phase payments-business-model-analyzer"
+  },
+  {
+    "intent": "stablecoin-opportunity",
+    "action": "analyze",
+    "rail": "stablecoin",
+    "lead": null,
+    "support": [
+      "stablecoin-payment-controls-reviewer",
+      "payment-regulatory-applicability-reviewer",
+      "payment-economics-modeler"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "Settlement opportunity assessment must compare access, redemption, convertibility, economics, legal roles and end-to-end finality. Existing control review only evaluates supplied control evidence; it does not assess adoption opportunity.",
+    "unknowns": [
+      "participant",
+      "jurisdictions",
+      "token/issuer/chain",
+      "corridor and redemption arrangements",
+      "economic counterfactual"
+    ],
+    "gap": "Later-phase stablecoin-settlement-assessor"
+  },
+  {
+    "intent": "ai-operations-strategy",
+    "action": "draft",
+    "lead": null,
+    "support": [
+      "payment-platform-architecture-reviewer"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "An AI operations strategy needs prioritized workflows, economics, data/evidence quality and operating controls. Architecture review can supply current-state ownership evidence but is not a payments-operations improvement strategy.",
+    "unknowns": [
+      "participant",
+      "jurisdiction",
+      "operating processes",
+      "AI use cases",
+      "human controls and business measures"
+    ],
+    "gap": "Later-phase payment-operations-improvement-analyzer"
+  },
+  {
+    "intent": "agent-commerce",
+    "action": "draft",
+    "lead": null,
+    "support": [
+      "payment-initiation-control-reviewer",
+      "payment-platform-architecture-reviewer",
+      "payment-regulatory-applicability-reviewer"
+    ],
+    "verdict": "coverage-gap",
+    "rationale": "Core exact-instruction consent/delegated-authority review exists, but an agent-commerce capability design additionally needs mandate/protocol and multi-party operating semantics. Do not treat the installed initiation core as the advanced requested capability.",
+    "unknowns": [
+      "participant/principal/agent roles",
+      "jurisdiction",
+      "commerce and payment protocols",
+      "mandate scope and revocation",
+      "liability and execution design"
+    ],
+    "gap": "Later-phase advanced agent-commerce mandate/protocol modules; core initiation control is installed."
+  }
+]

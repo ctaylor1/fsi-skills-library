@@ -1,0 +1,171 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "REQ-COMPARE-UNKNOWN",
+  "household_id": "HH-INVEST-DEMO",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "FACTS",
+      "reference": "fixture:controlled-investment-facts",
+      "owner": "test-fixture-only",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-10-16"
+    },
+    {
+      "source_id": "POLICY",
+      "reference": "fixture:synthetic-policy-not-production-approval",
+      "owner": "test-governance",
+      "as_of": "2026-09-01",
+      "valid_until": "2026-10-16"
+    }
+  ],
+  "policy": {
+    "policy_id": "SYNTHETIC-TEST",
+    "version": "1",
+    "owner": "test-governance",
+    "source_ids": [
+      "POLICY"
+    ],
+    "max_issuer_weight": 0.6,
+    "max_sector_weight": 0.8,
+    "max_illiquid_weight": 0.2,
+    "liquidity_horizon_days": 30,
+    "annual_cost_limit_bps": 100
+  },
+  "proposals": [
+    {
+      "proposal_id": "P-A",
+      "currency": "USD",
+      "portfolio_value": 1000000,
+      "advisory_fee_bps": 50,
+      "custody_fee_bps": 5,
+      "other_annual_cost_bps": 0,
+      "transaction_cost_amount": 100,
+      "reported_first_year_cost_amount": 6200,
+      "holdings": [
+        {
+          "holding_id": "A-FUND",
+          "security_id": "FUND",
+          "weight": 0.6,
+          "expense_ratio_bps": null,
+          "liquidity_days": null,
+          "proprietary": null,
+          "revenue_sharing": false,
+          "cheaper_share_class_available": false,
+          "exposures": null,
+          "source_ids": [
+            "FACTS"
+          ]
+        },
+        {
+          "holding_id": "A-BOND",
+          "security_id": "BOND",
+          "weight": 0.4,
+          "expense_ratio_bps": 0,
+          "liquidity_days": 1,
+          "proprietary": false,
+          "revenue_sharing": false,
+          "cheaper_share_class_available": false,
+          "exposures": [
+            {
+              "exposure_id": "BOND",
+              "weight": 1,
+              "issuer_id": "ISSUER-Z",
+              "sector": "bonds",
+              "asset_class": "bonds",
+              "source_ids": [
+                "FACTS"
+              ]
+            }
+          ],
+          "source_ids": [
+            "FACTS"
+          ]
+        }
+      ],
+      "source_ids": [
+        "FACTS"
+      ]
+    },
+    {
+      "proposal_id": "P-B",
+      "currency": "USD",
+      "portfolio_value": 1000000,
+      "advisory_fee_bps": 40,
+      "custody_fee_bps": 0,
+      "other_annual_cost_bps": 5,
+      "transaction_cost_amount": 200,
+      "reported_first_year_cost_amount": 5200,
+      "holdings": [
+        {
+          "holding_id": "B-X",
+          "security_id": "X",
+          "weight": 0.5,
+          "expense_ratio_bps": 0,
+          "liquidity_days": 1,
+          "proprietary": false,
+          "revenue_sharing": false,
+          "cheaper_share_class_available": false,
+          "exposures": [
+            {
+              "exposure_id": "X",
+              "weight": 1,
+              "issuer_id": "ISSUER-X",
+              "sector": "technology",
+              "asset_class": "equity",
+              "source_ids": [
+                "FACTS"
+              ]
+            }
+          ],
+          "source_ids": [
+            "FACTS"
+          ]
+        },
+        {
+          "holding_id": "B-FUND",
+          "security_id": "FUND",
+          "weight": 0.5,
+          "expense_ratio_bps": 10,
+          "liquidity_days": 1,
+          "proprietary": false,
+          "revenue_sharing": false,
+          "cheaper_share_class_available": false,
+          "exposures": [
+            {
+              "exposure_id": "X",
+              "weight": 0.5,
+              "issuer_id": "ISSUER-X",
+              "sector": "technology",
+              "asset_class": "equity",
+              "source_ids": [
+                "FACTS"
+              ]
+            },
+            {
+              "exposure_id": "Y",
+              "weight": 0.5,
+              "issuer_id": "ISSUER-Y",
+              "sector": "healthcare",
+              "asset_class": "equity",
+              "source_ids": [
+                "FACTS"
+              ]
+            }
+          ],
+          "source_ids": [
+            "FACTS"
+          ]
+        }
+      ],
+      "source_ids": [
+        "FACTS"
+      ]
+    }
+  ],
+  "upstream_issues": []
+}

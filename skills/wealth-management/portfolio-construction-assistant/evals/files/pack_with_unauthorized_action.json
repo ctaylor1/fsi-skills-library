@@ -1,0 +1,275 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "skill": "portfolio-construction-assistant",
+  "request_id": "REQ-CONSTRUCT-1",
+  "household_id": "HH-INVEST-DEMO",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "FACTS",
+      "reference": "fixture:controlled-investment-facts",
+      "owner": "test-fixture-only",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-10-16"
+    },
+    {
+      "source_id": "POLICY",
+      "reference": "fixture:synthetic-policy-not-production-approval",
+      "owner": "test-governance",
+      "as_of": "2026-09-01",
+      "valid_until": "2026-10-16"
+    }
+  ],
+  "input_hash": "c277af02378684da03dfc8eee698c8862d54fbc846b4067b2d9de04b774e9a78",
+  "artifact_id": "portfolio-construction-assistant-c277af02378684da03df",
+  "status": "review-ready",
+  "findings": [],
+  "result": {
+    "input_snapshot": {
+      "schema_version": "wealth-p0-v1",
+      "request_id": "REQ-CONSTRUCT-1",
+      "household_id": "HH-INVEST-DEMO",
+      "as_of": "2026-09-16",
+      "engagement": {
+        "capacity": "advisory",
+        "jurisdiction": "US"
+      },
+      "sources": [
+        {
+          "source_id": "FACTS",
+          "reference": "fixture:controlled-investment-facts",
+          "owner": "test-fixture-only",
+          "as_of": "2026-09-16",
+          "valid_until": "2026-10-16"
+        },
+        {
+          "source_id": "POLICY",
+          "reference": "fixture:synthetic-policy-not-production-approval",
+          "owner": "test-governance",
+          "as_of": "2026-09-01",
+          "valid_until": "2026-10-16"
+        }
+      ],
+      "portfolio_value": 1000000,
+      "currency": "USD",
+      "mandate": {
+        "policy_id": "SYNTHETIC-TEST",
+        "version": "1",
+        "owner": "test-governance",
+        "source_ids": [
+          "POLICY"
+        ],
+        "method": "proportional-within-model-sleeve",
+        "cash_min": 0.05,
+        "cash_max": 0.1,
+        "max_position_weight": 0.6,
+        "restricted_security_ids": [],
+        "class_bands": [
+          {
+            "asset_class": "equity",
+            "min_weight": 0.5,
+            "max_weight": 0.7,
+            "source_ids": [
+              "FACTS"
+            ]
+          },
+          {
+            "asset_class": "bonds",
+            "min_weight": 0.2,
+            "max_weight": 0.4,
+            "source_ids": [
+              "FACTS"
+            ]
+          }
+        ]
+      },
+      "universe": [
+        {
+          "security_id": "A",
+          "asset_class": "equity",
+          "eligible": true,
+          "max_weight": 0.3,
+          "source_ids": [
+            "FACTS"
+          ]
+        },
+        {
+          "security_id": "B",
+          "asset_class": "equity",
+          "eligible": true,
+          "max_weight": 0.5,
+          "source_ids": [
+            "FACTS"
+          ]
+        },
+        {
+          "security_id": "C",
+          "asset_class": "bonds",
+          "eligible": true,
+          "max_weight": 0.5,
+          "source_ids": [
+            "FACTS"
+          ]
+        }
+      ],
+      "models": [
+        {
+          "model_id": "MODEL-1",
+          "version": "1",
+          "cash_weight": 0.05,
+          "approval_record": {
+            "status": "recorded-approved",
+            "owner": "human-fixture",
+            "reference": "fixture:model-approval",
+            "source_ids": [
+              "FACTS"
+            ]
+          },
+          "allocations": [
+            {
+              "security_id": "A",
+              "weight": 0.4,
+              "source_ids": [
+                "FACTS"
+              ]
+            },
+            {
+              "security_id": "B",
+              "weight": 0.2,
+              "source_ids": [
+                "FACTS"
+              ]
+            },
+            {
+              "security_id": "C",
+              "weight": 0.35,
+              "source_ids": [
+                "FACTS"
+              ]
+            }
+          ],
+          "source_ids": [
+            "FACTS"
+          ]
+        }
+      ],
+      "upstream_issues": []
+    },
+    "upstream_issues": [],
+    "handoff_context": {
+      "household_id": "HH-INVEST-DEMO",
+      "as_of": "2026-09-16",
+      "engagement": {
+        "capacity": "advisory",
+        "jurisdiction": "US"
+      },
+      "sources": [
+        {
+          "source_id": "FACTS",
+          "reference": "fixture:controlled-investment-facts",
+          "owner": "test-fixture-only",
+          "as_of": "2026-09-16",
+          "valid_until": "2026-10-16"
+        },
+        {
+          "source_id": "POLICY",
+          "reference": "fixture:synthetic-policy-not-production-approval",
+          "owner": "test-governance",
+          "as_of": "2026-09-01",
+          "valid_until": "2026-10-16"
+        }
+      ],
+      "upstream_issues": []
+    },
+    "candidates": [
+      {
+        "candidate_id": "candidate-MODEL-1",
+        "model_id": "MODEL-1",
+        "status": "constraint-consistent",
+        "holdings": [
+          {
+            "security_id": "A",
+            "asset_class": "equity",
+            "weight": 0.3,
+            "amount": 300000.0,
+            "model_weight": 0.4,
+            "deviation_weight": -0.1,
+            "source_ids": [
+              "FACTS"
+            ]
+          },
+          {
+            "security_id": "B",
+            "asset_class": "equity",
+            "weight": 0.3,
+            "amount": 300000.0,
+            "model_weight": 0.2,
+            "deviation_weight": 0.1,
+            "source_ids": [
+              "FACTS"
+            ]
+          },
+          {
+            "security_id": "C",
+            "asset_class": "bonds",
+            "weight": 0.35,
+            "amount": 350000.0,
+            "model_weight": 0.35,
+            "deviation_weight": 0.0,
+            "source_ids": [
+              "FACTS"
+            ]
+          }
+        ],
+        "cash_weight": 0.05,
+        "cash_amount": 50000.0,
+        "model_weight_sum": 1.0,
+        "class_weights": {
+          "equity": 0.6000000000000001,
+          "bonds": 0.35
+        },
+        "unallocated_by_class": {
+          "equity": 0.0,
+          "bonds": 0.0
+        },
+        "constraint_checks": [
+          {
+            "constraint": "class-band",
+            "asset_class": "bonds",
+            "actual": 0.35,
+            "minimum": 0.2,
+            "maximum": 0.4,
+            "met": true
+          },
+          {
+            "constraint": "class-band",
+            "asset_class": "equity",
+            "actual": 0.6000000000000001,
+            "minimum": 0.5,
+            "maximum": 0.7,
+            "met": true
+          },
+          {
+            "constraint": "cash-band",
+            "actual": 0.05,
+            "minimum": 0.05,
+            "maximum": 0.1,
+            "met": true
+          }
+        ],
+        "findings": []
+      }
+    ],
+    "method": "proportional-within-model-sleeve",
+    "selected_candidate": null,
+    "scope": "Model-derived continuous-weight candidates; no trade sizing, return forecast or investment approval.",
+    "approved": true
+  },
+  "human_review_required": true,
+  "action_taken": true,
+  "delivery_status": "not-delivered"
+}

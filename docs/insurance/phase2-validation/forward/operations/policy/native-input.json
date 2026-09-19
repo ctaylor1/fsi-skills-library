@@ -1,0 +1,173 @@
+{
+  "case_id": "FWD-OPS-POLICY",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "policy-administration-specialist",
+    "represented_party": "CO-1",
+    "object_id": "P-CO-77",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "sources": [
+    {
+      "source_ref": "POL",
+      "version": "synthetic-observation-1",
+      "locator": "raw-source.json#POL",
+      "source_excerpt": "PAS snapshot 2026-09-18: policy P-CO-77, version 8, active, insured CO-1, US-TEST commercial-property, USD, term 2026-01-01 through 2027-01-01. values.location_address = 12 Main St."
+    },
+    {
+      "source_ref": "REQ",
+      "version": "synthetic-observation-1",
+      "locator": "raw-source.json#REQ",
+      "source_excerpt": "Email E-24 from account manager AM-7 dated 2026-09-18: policy P-CO-77 expected version 8, endorsement effective 2026-09-25; change location_address from 10 Main St to 40 Mill Rd."
+    },
+    {
+      "source_ref": "RULE",
+      "version": "synthetic-observation-1",
+      "locator": "raw-source.json#RULE",
+      "source_excerpt": "Synthetic reviewed operations profile OP-9 v2 (reviewer OPS-OWNER), effective 2026-01-01 through 2026-12-31, US-TEST commercial-property. Endorsement: active policies, location_address changes, required endorsement-form, no notice recipients, calendar-day notice minimum zero; backdating prohibited."
+    },
+    {
+      "source_ref": "AUTH",
+      "version": "synthetic-observation-1",
+      "locator": "raw-source.json#AUTH",
+      "source_excerpt": "AM-7 has documented P-CO-77 endorsement preparation authority 2026-01-01 through 2026-12-31."
+    },
+    {
+      "source_ref": "DOC",
+      "version": "synthetic-observation-1",
+      "locator": "raw-source.json#DOC",
+      "source_excerpt": "Endorsement form END-24, version 1, P-CO-77, policy version 8, kind endorsement-form."
+    },
+    {
+      "source_ref": "PREM",
+      "version": "synthetic-observation-1",
+      "locator": "raw-source.json#PREM",
+      "source_excerpt": "Underwriting premium worksheet PW-24: USD +125.50 written-premium-change for E-24."
+    },
+    {
+      "source_ref": "QUEUE",
+      "version": "synthetic-observation-1",
+      "locator": "raw-source.json#QUEUE",
+      "source_excerpt": "Full queue snapshot 2026-09-18 includes another pending endorsement E-23 on P-CO-77. No sequence or effect has been reconciled."
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "policy": {
+      "policy_id": "P-CO-77",
+      "version": "8",
+      "status": "active",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc",
+      "product_line": "commercial-property",
+      "currency": "USD",
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-01-01",
+      "values": {
+        "location_address": "12 Main St"
+      },
+      "source_refs": [
+        "POL"
+      ]
+    },
+    "request": {
+      "request_id": "E-24",
+      "policy_id": "P-CO-77",
+      "expected_policy_version": "8",
+      "requested_by": "AM-7",
+      "transaction_type": "endorsement",
+      "effective_date": "2026-09-25",
+      "changes": [
+        {
+          "field": "location_address",
+          "before": "10 Main St",
+          "after": "40 Mill Rd",
+          "source_refs": [
+            "REQ"
+          ]
+        }
+      ],
+      "source_refs": [
+        "REQ"
+      ]
+    },
+    "authority": {
+      "actor_id": "AM-7",
+      "policy_id": "P-CO-77",
+      "actions": [
+        "endorsement"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "source_refs": [
+        "AUTH"
+      ]
+    },
+    "rule_profile": {
+      "profile_id": "OP-9",
+      "version": "2",
+      "source_refs": [
+        "RULE"
+      ],
+      "reviewed_by": "OPS-OWNER",
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "pc"
+      ],
+      "transactions": {
+        "endorsement": {
+          "allowed_statuses": [
+            "active"
+          ],
+          "allowed_fields": [
+            "location_address"
+          ],
+          "required_documents": [
+            "endorsement-form"
+          ],
+          "required_recipients": [],
+          "minimum_notice_days": 0,
+          "notice_day_basis": "calendar",
+          "backdating_permitted": false
+        }
+      }
+    },
+    "documents": [
+      {
+        "document_id": "END-24",
+        "kind": "endorsement-form",
+        "version": "1",
+        "policy_id": "P-CO-77",
+        "policy_version": "8",
+        "source_refs": [
+          "DOC"
+        ]
+      }
+    ],
+    "notices": [],
+    "premium_effect": {
+      "amount": "125.50",
+      "currency": "USD",
+      "basis": "written-premium-change",
+      "source_refs": [
+        "PREM"
+      ]
+    },
+    "pending_inventory_complete": true,
+    "pending_transactions": [
+      {
+        "request_id": "E-23",
+        "policy_id": "P-CO-77",
+        "status": "pending",
+        "source_refs": [
+          "QUEUE"
+        ]
+      }
+    ]
+  }
+}

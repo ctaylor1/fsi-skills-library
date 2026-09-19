@@ -1,0 +1,109 @@
+{
+  "case_id": "FWD-ACT-PRICING",
+  "as_of": "2026-06-30",
+  "context": {
+    "capacity": "actuarial analyst",
+    "represented_party": "Fictional Cedar Assurance",
+    "object_id": "ENDOWMENT-MP-100",
+    "jurisdiction": "SYNTHETIC-INTERNAL",
+    "line_of_business": "life"
+  },
+  "sources": [
+    {
+      "source_ref": "PROFILE",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-06-30",
+      "title": "PROFILE synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#PROFILE",
+      "extraction_text": "Internal deterministic annual projection, BOY premium/expense, EOY benefits, mutually exclusive unconditional death/lapse probabilities. ENDOWMENT-MP-100, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Exactly two years, 100 opening policies. No capital, taxes or reserve earnings."
+    },
+    {
+      "source_ref": "APPROVED-SCHEDULE",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-06-30",
+      "title": "APPROVED-SCHEDULE synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#APPROVED-SCHEDULE",
+      "extraction_text": "Year 1: q=.02, lapse=.08, premium=100, expense=10, death=1000, surrender=50, survival=0, annual forward rate=.05. Year 2: q=.03, lapse=.07, premium=110, expense=12, death=1000, surrender=70, survival=20, annual forward rate=.04. Additional terminal benefit per final survivor=300; separate from year-2 survival benefit."
+    },
+    {
+      "source_ref": "AMENDMENT",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-06-30",
+      "title": "AMENDMENT synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#AMENDMENT",
+      "extraction_text": "Unsigned proposed amendment would increase additional terminal benefit from 300 to 320. No effective approval evidence supplied; retain approved-schedule 300 as conditional arithmetic and flag unresolved proposal."
+    }
+  ],
+  "unresolved_issues": [
+    "Unsigned terminal-benefit amendment proposes 320 instead of the reviewed 300; no authority to adopt it."
+  ],
+  "data": {
+    "scope": {
+      "object_id": "ENDOWMENT-MP-100",
+      "currency": "USD",
+      "basis": "annual_mutually_exclusive_decrement_cashflow",
+      "valuation_date": "2026-06-30"
+    },
+    "profile": {
+      "profile_id": "PROFILE-pricing",
+      "version": "fresh-synthetic-v1",
+      "source_refs": [
+        "PROFILE"
+      ],
+      "jurisdictions": [
+        "SYNTHETIC-INTERNAL"
+      ],
+      "lines_of_business": [
+        "life"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-12-31",
+      "object_ids": [
+        "ENDOWMENT-MP-100"
+      ],
+      "currencies": [
+        "USD"
+      ],
+      "method": "annual_mutually_exclusive_decrement_cashflow"
+    },
+    "initial_policies": 100,
+    "projection_end_year": 2,
+    "years": [
+      {
+        "object_id": "ENDOWMENT-MP-100",
+        "currency": "USD",
+        "basis": "annual_mutually_exclusive_decrement_cashflow",
+        "source_ref": "APPROVED-SCHEDULE",
+        "year": 1,
+        "mortality_probability": ".02",
+        "lapse_probability": ".08",
+        "premium": 100,
+        "expense_boy": 10,
+        "death_benefit": 1000,
+        "surrender_benefit": 50,
+        "survival_benefit": 0,
+        "discount_rate": ".05"
+      },
+      {
+        "object_id": "ENDOWMENT-MP-100",
+        "currency": "USD",
+        "basis": "annual_mutually_exclusive_decrement_cashflow",
+        "source_ref": "APPROVED-SCHEDULE",
+        "year": 2,
+        "mortality_probability": ".03",
+        "lapse_probability": ".07",
+        "premium": 110,
+        "expense_boy": 12,
+        "death_benefit": 1000,
+        "surrender_benefit": 70,
+        "survival_benefit": 20,
+        "discount_rate": ".04"
+      }
+    ],
+    "terminal_benefit_per_survivor": 300,
+    "terminal_source_ref": "APPROVED-SCHEDULE"
+  }
+}

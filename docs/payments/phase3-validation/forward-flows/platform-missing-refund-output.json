@@ -1,0 +1,557 @@
+{
+  "schema_version": "1.0",
+  "skill": "platform-payment-flow-designer",
+  "request_id": "independent-marketplace",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "platform",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "independent-marketplace",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "platform",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "RAW",
+        "reference": "synthetic:independent-operating-ledger-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      },
+      {
+        "source_id": "POL",
+        "reference": "synthetic:independent-contract-and-policy-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "model": "marketplace",
+      "ledger_complete": true,
+      "entities": [
+        {
+          "entity_id": "PL",
+          "legal_name": "PL Ltd",
+          "role": "platform",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "entity_id": "S1",
+          "legal_name": "S1 Ltd",
+          "role": "seller",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "entity_id": "S2",
+          "legal_name": "S2 Ltd",
+          "role": "seller",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "entity_id": "PR",
+          "legal_name": "PR Ltd",
+          "role": "processor",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "accounts": [
+        {
+          "account_id": "COL",
+          "owner_entity_id": "PL",
+          "currency": "USD",
+          "custody_role": "collection",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "account_id": "DEST1",
+          "owner_entity_id": "S1",
+          "currency": "USD",
+          "custody_role": "seller-owned",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "account_id": "DEST2",
+          "owner_entity_id": "S2",
+          "currency": "USD",
+          "custody_role": "seller-owned",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "responsibilities": [
+        {
+          "activity": "seller-onboarding",
+          "entity_id": "PL",
+          "contract_ref": "CONTRACT-seller-onboarding",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "activity": "customer-contract",
+          "entity_id": "PL",
+          "contract_ref": "CONTRACT-customer-contract",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "activity": "refunds",
+          "entity_id": "PL",
+          "contract_ref": "CONTRACT-refunds",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "activity": "chargebacks",
+          "entity_id": "PL",
+          "contract_ref": "CONTRACT-chargebacks",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "activity": "payouts",
+          "entity_id": "PL",
+          "contract_ref": "CONTRACT-payouts",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "activity": "safeguarding-assessment",
+          "entity_id": "PL",
+          "contract_ref": "CONTRACT-safeguarding-assessment",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "charges": [
+        {
+          "charge_id": "CH",
+          "customer_contract_entity_id": "PL",
+          "collecting_account_id": "COL",
+          "currency": "USD",
+          "state": "settled",
+          "amount": "1000",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "allocations": [
+        {
+          "allocation_id": "ALS1",
+          "charge_id": "CH",
+          "beneficiary_entity_id": "S1",
+          "currency": "USD",
+          "type": "seller",
+          "amount": "600",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "allocation_id": "ALS2",
+          "charge_id": "CH",
+          "beneficiary_entity_id": "S2",
+          "currency": "USD",
+          "type": "seller",
+          "amount": "300",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "allocation_id": "ALPL",
+          "charge_id": "CH",
+          "beneficiary_entity_id": "PL",
+          "currency": "USD",
+          "type": "platform-fee",
+          "amount": "70",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "allocation_id": "ALPR",
+          "charge_id": "CH",
+          "beneficiary_entity_id": "PR",
+          "currency": "USD",
+          "type": "processor-fee",
+          "amount": "30",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "adjustments": [
+        {
+          "adjustment_id": "REF",
+          "allocation_id": "ALS1",
+          "currency": "USD",
+          "type": "refund",
+          "amount": null,
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "adjustment_id": "RES1",
+          "allocation_id": "ALS1",
+          "currency": "USD",
+          "type": "reserve",
+          "amount": "50",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "adjustment_id": "CB",
+          "allocation_id": "ALS2",
+          "currency": "USD",
+          "type": "chargeback",
+          "amount": "25",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "adjustment_id": "RES2",
+          "allocation_id": "ALS2",
+          "currency": "USD",
+          "type": "reserve",
+          "amount": "20",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "payouts": [
+        {
+          "payout_id": "PAID",
+          "allocation_id": "ALS1",
+          "destination_account_id": "DEST1",
+          "currency": "USD",
+          "state": "paid",
+          "amount": "100",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "payout_id": "PEND",
+          "allocation_id": "ALS1",
+          "destination_account_id": "DEST1",
+          "currency": "USD",
+          "state": "pending",
+          "amount": "120",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "payout_id": "PROP1",
+          "allocation_id": "ALS1",
+          "destination_account_id": "DEST1",
+          "currency": "USD",
+          "state": "proposed",
+          "amount": "200",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "payout_id": "PROP2",
+          "allocation_id": "ALS2",
+          "destination_account_id": "DEST2",
+          "currency": "USD",
+          "state": "proposed",
+          "amount": "200",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "2f12850430da2a3d651b22c9b853dbd378b2c13ad1d6e784488a57d23e4829be",
+  "findings": [
+    {
+      "code": "unknown-position",
+      "message": "Allocation ALS1 has unknown amounts or unresolved links; no payout capacity asserted.",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "model": "marketplace",
+    "role_and_responsibility_map": [
+      {
+        "activity": "seller-onboarding",
+        "entity_id": "PL",
+        "contract_ref": "CONTRACT-seller-onboarding",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "activity": "customer-contract",
+        "entity_id": "PL",
+        "contract_ref": "CONTRACT-customer-contract",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "activity": "refunds",
+        "entity_id": "PL",
+        "contract_ref": "CONTRACT-refunds",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "activity": "chargebacks",
+        "entity_id": "PL",
+        "contract_ref": "CONTRACT-chargebacks",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "activity": "payouts",
+        "entity_id": "PL",
+        "contract_ref": "CONTRACT-payouts",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "activity": "safeguarding-assessment",
+        "entity_id": "PL",
+        "contract_ref": "CONTRACT-safeguarding-assessment",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "account_ownership": [
+      {
+        "account_id": "COL",
+        "owner_entity_id": "PL",
+        "currency": "USD",
+        "custody_role": "collection",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "account_id": "DEST1",
+        "owner_entity_id": "S1",
+        "currency": "USD",
+        "custody_role": "seller-owned",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "account_id": "DEST2",
+        "owner_entity_id": "S2",
+        "currency": "USD",
+        "custody_role": "seller-owned",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "charge_reconciliation": [
+      {
+        "charge_id": "CH",
+        "currency": "USD",
+        "gross": "1000",
+        "allocated": "1000",
+        "difference": "0",
+        "state": "settled"
+      }
+    ],
+    "allocation_positions": [
+      {
+        "allocation_id": "ALS1",
+        "beneficiary_entity_id": "S1",
+        "currency": "USD",
+        "allocation_type": "seller",
+        "owed_after_paid": null,
+        "reserve_held": null,
+        "pending_payouts": null,
+        "proposed_payouts": null,
+        "available_before_proposed": null
+      },
+      {
+        "allocation_id": "ALS2",
+        "beneficiary_entity_id": "S2",
+        "currency": "USD",
+        "allocation_type": "seller",
+        "owed_after_paid": "275",
+        "reserve_held": "20",
+        "pending_payouts": "0",
+        "proposed_payouts": "200",
+        "available_before_proposed": "255"
+      },
+      {
+        "allocation_id": "ALPL",
+        "beneficiary_entity_id": "PL",
+        "currency": "USD",
+        "allocation_type": "platform-fee",
+        "owed_after_paid": "70",
+        "reserve_held": "0",
+        "pending_payouts": "0",
+        "proposed_payouts": "0",
+        "available_before_proposed": "70"
+      },
+      {
+        "allocation_id": "ALPR",
+        "beneficiary_entity_id": "PR",
+        "currency": "USD",
+        "allocation_type": "processor-fee",
+        "owed_after_paid": "30",
+        "reserve_held": "0",
+        "pending_payouts": "0",
+        "proposed_payouts": "0",
+        "available_before_proposed": "30"
+      }
+    ],
+    "permission_determination": "not-performed"
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-regulatory-applicability-reviewer",
+      "reason": "Review actual contracting, custody and entity roles before design adoption.",
+      "required_inputs": [
+        "entity and account ownership",
+        "contracts",
+        "funds-flow map"
+      ],
+      "handoff_id": "21838b48e22f27ad4a5757349be9135e9a294c700bcb5bdcbc756ed9aa887cbc",
+      "contract_version": "1.0.0",
+      "source_skill": "platform-payment-flow-designer",
+      "case_id": "independent-marketplace",
+      "lead_owner": "platform",
+      "requested_output": "Review actual contracting, custody and entity roles before design adoption.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "unknown-position",
+          "message": "Allocation ALS1 has unknown amounts or unresolved links; no payout capacity asserted.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Any eventual payout requires a separately validated exact instruction.",
+      "required_inputs": [
+        "payee and account",
+        "currency and amount",
+        "mandate and approval",
+        "remaining capacity"
+      ],
+      "handoff_id": "00e40fa4da2a27ac7b88e8eed64f9c66947545c91a962a7831b7dc1df9a75c97",
+      "contract_version": "1.0.0",
+      "source_skill": "platform-payment-flow-designer",
+      "case_id": "independent-marketplace",
+      "lead_owner": "platform",
+      "requested_output": "Any eventual payout requires a separately validated exact instruction.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "unknown-position",
+          "message": "Allocation ALS1 has unknown amounts or unresolved links; no payout capacity asserted.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "merchant-onboarding-risk-reviewer",
+      "reason": "Review onboarding and submerchant risk ownership.",
+      "required_inputs": [
+        "seller population",
+        "business model",
+        "sponsor contracts"
+      ],
+      "handoff_id": "6248e6b6f89c42de23a8f977255112fee5206ac426ef6b2f960776e8bda57986",
+      "contract_version": "1.0.0",
+      "source_skill": "platform-payment-flow-designer",
+      "case_id": "independent-marketplace",
+      "lead_owner": "platform",
+      "requested_output": "Review onboarding and submerchant risk ownership.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "unknown-position",
+          "message": "Allocation ALS1 has unknown amounts or unresolved links; no payout capacity asserted.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

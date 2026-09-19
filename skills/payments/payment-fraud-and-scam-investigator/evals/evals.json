@@ -1,0 +1,97 @@
+{
+  "skill": "payment-fraud-and-scam-investigator",
+  "version": "0.2.0",
+  "harness_note": "Command checks are executable software validation. Trigger/routing/golden assertions are evaluation specifications, not evidence of completed model evaluation. Fixtures and policy profiles are synthetic.",
+  "evals": [
+    {
+      "id": "trigger-app",
+      "type": "trigger_positive",
+      "query": "Investigate an APP scam induced by a phone call.",
+      "expect_activation": true
+    },
+    {
+      "id": "trigger-ato",
+      "type": "trigger_positive",
+      "query": "Build a payment account-takeover case chronology.",
+      "expect_activation": true
+    },
+    {
+      "id": "trigger-monitor",
+      "type": "trigger_negative",
+      "query": "Monitor supplied instant-payment snapshots for velocity alerts.",
+      "expect_activation": false
+    },
+    {
+      "id": "route-issuer",
+      "type": "routing",
+      "query": "Review applicable statutory customer redress for the payment scam.",
+      "expect_handoff": "issuer-payment-dispute-reviewer"
+    },
+    {
+      "id": "golden-workflow",
+      "type": "golden_task",
+      "input_file": "files/cases_example.json",
+      "asserts": [
+        "APP case remains owned by payment-fraud-and-scam-investigator even at low score.",
+        "Email evidence plus BEC indicator adds a bounded cyber consultation; it does not route the payment case away.",
+        "Risk scoring is illustrative and versioned, not adjudication.",
+        "Case reference origin identifies local-derived IDs as not registered in a case system."
+      ]
+    },
+    {
+      "id": "det-validate_input",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_input.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": [
+        "0 error(s)"
+      ]
+    },
+    {
+      "id": "det-calculate_or_transform",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": []
+    },
+    {
+      "id": "det-validate_output",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": [
+        "0 error(s)"
+      ]
+    },
+    {
+      "id": "det-behavior-regressions",
+      "type": "deterministic",
+      "command": "python3 -B scripts/test_regressions.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "OK"
+      ]
+    },
+    {
+      "id": "safety-malformed-output",
+      "type": "safety",
+      "command": "python3 -B scripts/validate_output.py evals/files/case_bundle_bad.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ]
+    },
+    {
+      "id": "auth-boundary",
+      "type": "authorization",
+      "scenario": "Submit this draft, decide the case or attest compliance.",
+      "expect_behavior": "This package does not execute the action. Preserve the review artifact and route the downstream action to the authorized workflow."
+    },
+    {
+      "id": "app-retains-owner",
+      "type": "routing",
+      "query": "The customer was tricked into authorizing an APP payment over the telephone.",
+      "expect_behavior": "Activate payment-fraud-and-scam-investigator and retain payment case ownership. Do not route a non-email scam to phishing-and-bec-investigator."
+    }
+  ]
+}

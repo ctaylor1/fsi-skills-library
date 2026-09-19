@@ -17,8 +17,9 @@ Usage:
 Prints the review JSON to stdout.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, math
 from pathlib import Path
+from payment_contract import validate_rule_profile
 
 DEFAULT_CONFIG = {
     "prohibited_mccs": ["7801", "7995"],
@@ -34,8 +35,8 @@ DISCLAIMER = ("Recommendation and evidence only; not an onboarding decision. No 
               "adjudication is required.")
 
 # Finding severities (fixed contract; validate_output re-derives the recommendation from these).
-BLOCKING = {"sanctions_screening", "prohibited_business_model"}
-INCOMPLETE = {"evidence_incomplete"}
+BLOCKING = {"prohibited_business_model"}
+INCOMPLETE = {"evidence_incomplete", "sanctions_screening", "policy_applicability_unknown", "screening_coverage_unknown"}
 ELEVATED = {
     "restricted_business_model", "adverse_media", "beneficial_ownership_gap",
     "high_risk_geography", "pep_ownership", "expected_activity_outsized",
@@ -59,7 +60,10 @@ REQUIRED_EVIDENCE = ("kyb_registration", "ubo_verification", "website_review",
 
 def _num(v, default=None):
     try:
-        return float(v)
+        if isinstance(v, bool):
+            return None
+        result = float(v)
+        return result if math.isfinite(result) else None
     except (TypeError, ValueError):
         return default
 
@@ -88,9 +92,26 @@ def compute(doc: dict) -> dict:
             "rule_ref": rule_ref,
         })
 
-    # 1. sanctions_screening (BLOCKING) — any status other than cleared blocks approval.
+    profile = doc.get("policy_profile") or {}
+    policy_issues = validate_rule_profile(profile, str(doc.get("as_of", ""))[:10],
+                                         participant="acquirer", jurisdiction=m.get("country", "unknown"))
+    if profile.get("version") != doc.get("config_version"):
+        policy_issues.append("config/profile version mismatch")
+    if any(key not in (doc.get("config") or {}) for key in DEFAULT_CONFIG):
+        policy_issues.append("explicit institution risk configuration incomplete; defaults are examples")
+    add("policy_applicability_unknown", "incomplete", bool(policy_issues),
+        "; ".join(policy_issues) if policy_issues else "supplied scoped policy declaration present; authority not authenticated",
+        [{"citation": profile.get("source_ref") or "missing-policy-profile"}], "payment-contract.md#evidence-and-rules")
+    subjects = {doc.get("case_id")} | {o.get("source_ref") for o in owners}
+    covered = set(scr.get("covered_subject_refs") or [])
+    coverage_unknown = None in subjects or not subjects.issubset(covered)
+    add("screening_coverage_unknown", "incomplete", coverage_unknown,
+        "entity/owner screening coverage not established" if coverage_unknown else "supplied subject coverage declaration present",
+        [{"citation": sanc.get("source_ref") or "missing-screening-source"}], "payment-contract.md#evidence-and-rules")
+
+    # 1. Unresolved or pending screening requires specialist review, not a decline finding.
     sanc_status = str(sanc.get("status", "pending"))
-    add("sanctions_screening", "blocking", sanc_status != "cleared",
+    add("sanctions_screening", "incomplete", sanc_status != "cleared",
         f"sanctions screening status is {sanc_status!r} (not 'cleared')"
         if sanc_status != "cleared" else "sanctions screening cleared",
         [{"detail": f"status={sanc_status}", "citation": f"sanctions:{sanc.get('source_ref','?')}"}],
@@ -200,6 +221,7 @@ def compute(doc: dict) -> dict:
 
     present = [k for k in REQUIRED_EVIDENCE if evidence.get(k)]
     return {
+        "source_snapshot": doc,
         "review_id": f"mor-{doc.get('case_id', 'NA')}-0001",
         "case_id": doc.get("case_id"),
         "as_of": doc.get("as_of"),
@@ -223,6 +245,8 @@ def compute(doc: dict) -> dict:
 def _recommendation(fired: list[str]) -> str:
     """Deterministic mapping documented in references/domain-rules.md."""
     fs = set(fired)
+    if "policy_applicability_unknown" in fs:
+        return "Escalate-Insufficient-Evidence"
     if BLOCKING & fs:
         return "Recommend-Decline"
     if INCOMPLETE & fs:

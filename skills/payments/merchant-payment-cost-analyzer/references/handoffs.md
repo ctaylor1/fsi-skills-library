@@ -1,0 +1,32 @@
+# Adjacent-Skill Handoffs — merchant-payment-cost-analyzer
+
+This skill produces a cited **fee-optimization pack** (`analysis_id`) with estimated,
+assumption-backed savings opportunities and then stops. It does not negotiate, sign,
+terminate, switch, reconcile, or dispute.
+
+## Downstream (route the human/reviewer to)
+
+| Downstream skill | When | Handoff artifact |
+| ---------------- | ---- | ---------------- |
+| `payment-settlement-reconciler` | The question is settlement/funding vs. ledger reconciliation and break classification, not pricing | statement/settlement file + period |
+| `payment-transaction-reconciler` | Transaction-level reconciliation of processor detail against records | transaction detail + period |
+| `payment-settlement-reconciler` | The user wants a plain summary of a settlement report: select explain-payout mode; bank/ledger not required | settlement report |
+| `merchant-chargeback-response-packager` | A specific transaction needs a chargeback/dispute package | focal txn + evidence |
+| `payment-scheme-change-tracker` | The driver is a card-network rule/interchange schedule change | scheme + effective date |
+| `iso-20022-message-interpreter` | The input is an ISO 20022 message needing field-level interpretation | message |
+
+## Upstream (may call this skill)
+
+A merchant/payments finance analyst invokes this skill interactively with a processing
+statement. It is **not** a scheduled agent (`aws-fsi-scheduled-agent: no`).
+
+## Duplicate-execution prevention
+
+- This skill **estimates and evidences opportunities only**; it must not reconcile
+  settlement breaks, dispute transactions, interpret ISO 20022 messages, or take/recommend a
+  binding contract or processor action — those belong to the human and the downstream skills.
+- Downstream skills reuse the `analysis_id` evidence rather than recomputing fee estimates.
+- If asked to negotiate, sign, terminate, or switch, stop and hand the decision back to the
+  human — no skill in this library performs that action autonomously.
+
+Phase 1 handoff: retain case/participant/rail/jurisdiction, original source references and unresolved issues using payment-contract.md. Validate the target native input independently; renamed skills are not assumed input-compatible. Local IDs and hashes grant no authority and do not persist or accept a case. Only invoke installed capabilities within the requested scope.

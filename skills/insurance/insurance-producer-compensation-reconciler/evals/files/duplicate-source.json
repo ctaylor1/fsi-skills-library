@@ -1,0 +1,133 @@
+{
+  "case_id": "TEST-CASE-1",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "carrier-review",
+    "represented_party": "PARTY-1",
+    "object_id": "OBJECT-1",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "test-product"
+  },
+  "sources": [
+    {
+      "source_ref": "S",
+      "version": "synthetic-evidence-v1",
+      "as_of": "2026-09-18"
+    },
+    {
+      "source_ref": "P",
+      "version": "synthetic-profile-v1",
+      "as_of": "2026-09-01"
+    },
+    {
+      "source_ref": "S",
+      "version": "synthetic-evidence-v1",
+      "as_of": "2026-09-18"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "profile": {
+      "profile_id": "TEST-ONLY",
+      "version": "1",
+      "reviewed_by": "Synthetic reviewer",
+      "method": "earned-base-rate-split-linked-chargeback",
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "test-product"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "source_refs": [
+        "P"
+      ]
+    },
+    "agency_id": "OBJECT-1",
+    "currency": "USD",
+    "period": {
+      "start": "2026-09-01",
+      "end": "2026-09-18"
+    },
+    "ledger_complete": true,
+    "agreements": [
+      {
+        "agreement_id": "A1",
+        "basis": "contract-earned-premium",
+        "earning_trigger": "coverage-earned-record",
+        "rate": "0.1",
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "splits": [
+          {
+            "producer_id": "PROD1",
+            "share": "0.6",
+            "source_refs": [
+              "S"
+            ]
+          },
+          {
+            "producer_id": "PROD2",
+            "share": "0.4",
+            "source_refs": [
+              "S"
+            ]
+          }
+        ],
+        "source_refs": [
+          "S"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "event_id": "E1",
+        "agreement_id": "A1",
+        "policy_id": "POL1",
+        "kind": "earned",
+        "date": "2026-09-02",
+        "basis": "contract-earned-premium",
+        "currency": "USD",
+        "base_amount": "10000",
+        "trigger_evidence": "coverage-earned-record",
+        "source_refs": [
+          "S"
+        ]
+      },
+      {
+        "event_id": "E2",
+        "agreement_id": "A1",
+        "policy_id": "POL1",
+        "kind": "chargeback",
+        "date": "2026-09-10",
+        "basis": "contract-earned-premium",
+        "currency": "USD",
+        "reverses_id": "E1",
+        "fraction": "0.25",
+        "source_refs": [
+          "S"
+        ],
+        "chargeback_basis": "Synthetic contract section 5: supplied 25 percent earned-commission reversal"
+      }
+    ],
+    "reported": [
+      {
+        "producer_id": "PROD1",
+        "net_earned": "450",
+        "currency": "USD",
+        "source_refs": [
+          "S"
+        ]
+      },
+      {
+        "producer_id": "PROD2",
+        "net_earned": "300",
+        "currency": "USD",
+        "source_refs": [
+          "S"
+        ]
+      }
+    ]
+  }
+}

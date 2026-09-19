@@ -1,0 +1,308 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-settlement-reconciler",
+  "input_hash": "cdbf61ab59e85f5223dafe79f844aa07b1af01d9c66419eb8506222116b44b78",
+  "source_snapshot": {
+    "mode": "reconcile-settlement",
+    "as_of": "2026-09-17",
+    "period": {
+      "start": "2026-09-16",
+      "end": "2026-09-16"
+    },
+    "config_version": "forward-retest-v1",
+    "config": {
+      "currency_minor_units": {
+        "USD": 2,
+        "EUR": 2
+      }
+    },
+    "fee_schedule": [
+      {
+        "legal_entity_id": "synthetic-merchant",
+        "account_id": "****0101",
+        "currency": "USD",
+        "settlement_cycle": "2026-09-16",
+        "scheme": "SYNTH",
+        "version": "1",
+        "source_ref": "synthetic:policy:fee0",
+        "effective_from": "2026-09-01",
+        "effective_to": "2026-09-30",
+        "rate_bps": "0",
+        "reserve_bps": "0"
+      }
+    ],
+    "sources": {
+      "network": [
+        {
+          "legal_entity_id": "synthetic-merchant",
+          "account_id": "****0101",
+          "currency": "USD",
+          "settlement_cycle": "2026-09-16",
+          "record_id": "network-row1",
+          "match_key": "BATCH-1",
+          "source_ref": "synthetic:network:row1",
+          "settlement_date": "2026-09-16",
+          "gross": "100.00"
+        }
+      ],
+      "processor": [
+        {
+          "legal_entity_id": "synthetic-merchant",
+          "account_id": "****0101",
+          "currency": "USD",
+          "settlement_cycle": "2026-09-16",
+          "record_id": "processor-row1",
+          "match_key": "BATCH-1",
+          "source_ref": "synthetic:processor:row1",
+          "settlement_date": "2026-09-16",
+          "scheme": "SYNTH",
+          "gross": "100.00",
+          "fees": "0.00",
+          "reserve": "0.00",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "net": "100.00"
+        }
+      ],
+      "bank_cash": [
+        {
+          "legal_entity_id": "synthetic-merchant",
+          "account_id": "****0101",
+          "currency": "USD",
+          "settlement_cycle": "2026-09-16",
+          "record_id": "bank_cash-row1",
+          "match_key": "BATCH-1",
+          "source_ref": "synthetic:bank_cash:row1",
+          "value_date": "2026-09-16",
+          "amount": "100.00"
+        }
+      ],
+      "ledger": [
+        {
+          "legal_entity_id": "synthetic-merchant",
+          "account_id": "****0101",
+          "currency": "USD",
+          "settlement_cycle": "2026-09-16",
+          "record_id": "ledger-row1",
+          "match_key": "BATCH-1",
+          "source_ref": "synthetic:ledger:row1",
+          "post_date": "2026-09-16",
+          "net": "100.00"
+        }
+      ]
+    }
+  },
+  "config_version": "forward-retest-v1",
+  "warnings": [],
+  "mode": "reconcile-settlement",
+  "as_of": "2026-09-17",
+  "period": {
+    "start": "2026-09-16",
+    "end": "2026-09-16"
+  },
+  "groups": [
+    {
+      "partition": {
+        "legal_entity_id": "synthetic-merchant",
+        "account_id": "****0101",
+        "currency": "USD",
+        "settlement_cycle": "2026-09-16"
+      },
+      "match_key": "BATCH-1",
+      "group_id": "e1951a2cae9b15f6ded69649c8e6707846dd6a2ad41e2ad2f0f2bdf37ee448d3",
+      "status": "matched",
+      "source_values": {
+        "network": {
+          "gross": "100.00"
+        },
+        "processor": {
+          "gross": "100.00",
+          "fees": "0.00",
+          "reserve": "0.00",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "net": "100.00"
+        },
+        "bank_cash": {
+          "amount": "100.00"
+        },
+        "ledger": {
+          "net": "100.00"
+        }
+      },
+      "checks": [
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": "100.00",
+          "observed": "100.00",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.01",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": "100.00",
+          "observed": "100.00",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.01",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": "100.00",
+          "observed": "100.00",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.01",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": "100.00",
+          "observed": "100.00",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.01",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": "100.00",
+          "observed": "100.00",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.01",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": "0.00",
+          "observed": "0.00",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.01",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "synthetic:policy:fee0"
+          ]
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": "0.00",
+          "observed": "0.00",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.01",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "synthetic:policy:fee0"
+          ]
+        }
+      ],
+      "issues": [],
+      "pending_items": [],
+      "evidence": [
+        {
+          "evidence_id": "bank_cash-row1",
+          "status": "supplied",
+          "source": "bank_cash",
+          "source_ref": "bank_cash:synthetic:bank_cash:row1@2026-09-16"
+        },
+        {
+          "evidence_id": "ledger-row1",
+          "status": "supplied",
+          "source": "ledger",
+          "source_ref": "ledger:synthetic:ledger:row1@2026-09-16"
+        },
+        {
+          "evidence_id": "network-row1",
+          "status": "supplied",
+          "source": "network",
+          "source_ref": "network:synthetic:network:row1@2026-09-16"
+        },
+        {
+          "evidence_id": "processor-row1",
+          "status": "supplied",
+          "source": "processor",
+          "source_ref": "processor:synthetic:processor:row1@2026-09-16"
+        }
+      ]
+    }
+  ],
+  "partition_totals": [
+    {
+      "partition": {
+        "legal_entity_id": "synthetic-merchant",
+        "account_id": "****0101",
+        "currency": "USD",
+        "settlement_cycle": "2026-09-16"
+      },
+      "source_totals": {
+        "network.gross": {
+          "total": "100.00",
+          "known_subtotal": "100.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "processor.gross": {
+          "total": "100.00",
+          "known_subtotal": "100.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "processor.fees": {
+          "total": "0.00",
+          "known_subtotal": "0.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "processor.reserve": {
+          "total": "0.00",
+          "known_subtotal": "0.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "processor.refunds": {
+          "total": "0.00",
+          "known_subtotal": "0.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "processor.chargebacks": {
+          "total": "0.00",
+          "known_subtotal": "0.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "processor.adjustments": {
+          "total": "0.00",
+          "known_subtotal": "0.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "processor.net": {
+          "total": "100.00",
+          "known_subtotal": "100.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "bank_cash.amount": {
+          "total": "100.00",
+          "known_subtotal": "100.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        },
+        "ledger.net": {
+          "total": "100.00",
+          "known_subtotal": "100.00",
+          "known_groups": 1,
+          "missing_or_quarantined_groups": 0
+        }
+      }
+    }
+  ],
+  "investigation_handoffs": [],
+  "summary": {
+    "group_count": 1,
+    "issue_count": 0,
+    "fully_evaluated_and_matched": true
+  },
+  "disclaimer": "Read-only evidence comparison; no journal, payment repair, or system-of-record change is proposed or executed."
+}

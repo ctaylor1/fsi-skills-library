@@ -1,60 +1,39 @@
-# Domain Rules — portfolio-rebalancing-assistant
+# Transition planning economics and limits
 
-The firm's rebalance policy, the account's **IPS / target model** (versioned), the
-**restrictions/mandate** service, and the **approved tax-assumption set** (versioned) govern.
-Nothing outside these may be planned or executed by this skill.
+Pre-transition NAV = settled cash + sum(position quantity × sourced quote). Reconcile to supplied
+position values and portfolio total. Reconcile lot quantities to each position and lot basis to
+reported position basis when supplied. Do not infer missing taxable lots from position-level averages.
 
-## Permissible actions and limits (default policy)
+Generate mode uses the explicit transaction-cost reserve: desired quantity = floor(((preNAV-reserve)
+× target weight / quote) / quantity increment) × increment. Differences from current quantities become
+sell/buy drafts; this supports exits and new target names. Sells are listed first. This is an explicit
+snapshot sizing convention, not a tax or investment recommendation. The reserve is not an assumed fee.
+Validate mode evaluates the actual supplied transitions; it never invents trades to repair them.
 
-| Rule | Default | Enforced by |
-| ---- | ------- | ----------- |
-| Permissible actions | `buy`, `sell` only (to reach the model target) | `validate_input`, `validate_output` |
-| Per-order authority limit (`max_order_notional`) | ≤ 250,000 notional | both scripts |
-| Plan turnover ceiling (`max_plan_turnover_pct`) | sell notional ÷ total value ≤ 30% | `validate_input`, plan builder |
-| Short-term realized-gain budget (`st_gain_budget`) | ≤ 10,000 realized short-term gain | `validate_input`, plan builder |
-| Concentration cap (`max_position_weight_bps`) | post-trade single position ≤ 4,500 bps | `validate_input` |
-| Drift band (`drift_tolerance_bps`) | rebalance only sleeves outside ±500 bps of target | `validate_input`, plan builder |
+Fee = trade notional × supplied fee bps/10000 + supplied fixed fee, charged per trade. Verify stated
+fees and the reserve. Post cash = starting cash + sale proceeds - purchases - calculated fees.
+Post NAV = preNAV - fees, and projected security values plus cash must tie to that NAV. Economic
+checks use cumulative security/lot consumption, not each sell independently. No short position is allowed.
 
-The request may **tighten** these via a `limits` block; the plan records the effective
-limits used. Requests that breach any limit, buy a restricted security, trigger a wash sale,
-or cannot settle are **out of scope** — the builder returns a REJECTED plan and escalates.
+Oldest-first is an explicitly chosen deterministic lot convention: acquisition date then lot ID;
+specified mode consumes the supplied choices. Allocated basis = lot total basis × sold fraction.
+Gross lot gain/loss = sold quantity × quote - allocated basis. Report signed losses as well as gains;
+fees are reported separately, with no tax deduction/term-rate conclusion. A supplied tax identity group
+can flag same-plan loss/rebuy overlap, but cannot establish complete cross-account, substantially
+identical, lookback/forward-window, corporate-action or jurisdictional tax treatment.
 
-## Tax, wash-sale, and funding rules
+Settlement ledger groups credits/debits by explicitly supplied settlement date. Same-day-netting
+checks net cash at each date; prefund-buys additionally requires cash before that date's sale credits.
+A final funded balance never cures an earlier date's cash deficit. No trade fills or settlement
+availability are guaranteed. Dates are supplied scenarios, not inferred venue settlement rules.
 
-- **Realized gain/loss** is estimated proportionally per lot under the approved
-  tax-assumption version; short-term (`holding_days < 365`) realized gains count against the
-  budget. Long-term gains are reported, not budget-gated.
-- **Wash sale:** selling a symbol at a loss and (re)buying the same symbol in the same plan
-  is disallowed (substantially-identical, 30-day rule). Fail closed.
-- **Funding / settlement:** buys must be fundable by available cash plus sell proceeds; an
-  underfunded plan cannot settle and is rejected.
-- These are estimates for planning only — **not** personalized tax advice.
+Check order notional, total sells/preNAV turnover, explicit restrictions, minimum cash, post-NAV
+position weights and target drift including cash. Unknown permissions, conflicting totals, overdrawn
+cash, excessive quantities and unresolved limits keep needs-data. Blocked draft lines stay visible
+for diagnosis; no output line authorizes submission. A zero-trade result can be valid if already in band.
 
-## Plan requirements (every step)
-
-- **Idempotency key** deterministic from `{plan_id, step_id, action, symbol, amount}`;
-  re-submitting a filled step is a no-op.
-- **Precondition** read from the OMS/portfolio system at execute time (holding held to sell;
-  settled cash to buy; symbol not restricted) — checked, not assumed.
-- **Expected effect** with a notional that ties to the target weight movement.
-- **Verification** that reads fills and resulting weights after the trade and compares to
-  the expected post-state.
-- **Rollback** that cancels an unfilled order or routes an offsetting trade to the last
-  verified checkpoint.
-
-## Two-party approval binding
-
-- Authorization yields **two tokens** — one from the licensed **advisor**, one from the
-  **client** — each bound to the **plan hash**.
-- A **discretionary** account requires the advisor token; a **non-discretionary** account
-  additionally requires the client token before any submission.
-- Any change to the plan after authorization changes the hash and **voids** both tokens.
-- Execution is permitted **only** with the valid token pair whose amounts remain within the
-  authority limits.
-
-## Post-state verification & rollback
-
-- Verify the **actual** post-state (read fills and weights) equals the expected post-state,
-  with every traded sleeve inside the drift band. On mismatch, **roll back** and halt.
-- On partial completion, roll back to the last verified checkpoint so the account is never
-  left half-rebalanced.
+The complete input hash covers account, mandate/limits, target, sources, assumptions and all proposed
+trades. It is not a permission token. No caller role/approval string enables execution. Numerical
+reconciliation uses1e-8 for quantities/weights and0.01 currency units for external totals; these are
+software tolerances, not trading authority or legal rules. No live order, idempotent execution,
+fill verification, tax clearance or guaranteed reversal is implemented.

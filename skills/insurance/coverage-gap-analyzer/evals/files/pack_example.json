@@ -1,5 +1,132 @@
 {
-  "analysis_id": "cga-CGA-4471-2026-07-15-0001",
+  "calculation_inputs": {
+    "profile_id": "CGA-****4471",
+    "as_of": "2026-07-15",
+    "config_version": "coverage-cfg-2026.07",
+    "jurisdiction": "US",
+    "policy": {
+      "policy_number": "HO****-1234",
+      "form": "HO-3",
+      "coverages": [
+        {
+          "coverage_id": "C-A",
+          "type": "dwelling",
+          "limit": 300000,
+          "deductible": 2500,
+          "source_ref": "pol=HO****-1234;form=HO-3;cov=A"
+        },
+        {
+          "coverage_id": "C-C",
+          "type": "personal_property",
+          "limit": 150000,
+          "deductible": 500,
+          "sublimits": {
+            "jewelry": 1500,
+            "electronics": 2500
+          },
+          "source_ref": "pol=HO****-1234;form=HO-3;cov=C"
+        },
+        {
+          "coverage_id": "C-E",
+          "type": "personal_liability",
+          "limit": 300000,
+          "deductible": 0,
+          "source_ref": "pol=HO****-1234;form=HO-3;cov=E"
+        }
+      ],
+      "exclusions": [
+        {
+          "exclusion_id": "X-1",
+          "peril": "flood",
+          "source_ref": "pol=HO****-1234;form=HO-3;excl=water-flood"
+        },
+        {
+          "exclusion_id": "X-2",
+          "peril": "earth_movement",
+          "source_ref": "pol=HO****-1234;form=HO-3;excl=earth-movement"
+        },
+        {
+          "exclusion_id": "X-3",
+          "peril": "water_backup",
+          "source_ref": "pol=HO****-1234;form=HO-3;excl=water-backup"
+        }
+      ],
+      "endorsements": [
+        {
+          "endorsement_id": "EN-1",
+          "adds": "water_backup",
+          "source_ref": "pol=HO****-1234;end=WB-01"
+        }
+      ]
+    },
+    "exposures": [
+      {
+        "exposure_id": "E-1",
+        "category": "dwelling",
+        "description": "Primary home replacement cost",
+        "value": 450000,
+        "peril": "fire",
+        "required_coverage": "dwelling",
+        "source_ref": "needs=****4471;item=E-1"
+      },
+      {
+        "exposure_id": "E-2",
+        "category": "flood",
+        "description": "Home sits in FEMA Zone AE (flood exposure)",
+        "value": 120000,
+        "peril": "flood",
+        "required_coverage": "flood",
+        "source_ref": "needs=****4471;item=E-2"
+      },
+      {
+        "exposure_id": "E-3",
+        "category": "personal_property",
+        "description": "Scheduled jewelry collection",
+        "value": 15000,
+        "peril": "theft",
+        "required_coverage": "personal_property",
+        "sublimit_category": "jewelry",
+        "source_ref": "needs=****4471;item=E-3"
+      },
+      {
+        "exposure_id": "E-4",
+        "category": "business_property",
+        "description": "Home-based consulting equipment",
+        "value": 20000,
+        "peril": "theft",
+        "required_coverage": "personal_property",
+        "recommended_endorsement": "home_business",
+        "source_ref": "needs=****4471;item=E-4"
+      },
+      {
+        "exposure_id": "E-5",
+        "category": "dwelling_peril",
+        "description": "Sewer/sump water backup exposure",
+        "value": 8000,
+        "peril": "water_backup",
+        "required_coverage": "dwelling",
+        "source_ref": "needs=****4471;item=E-5"
+      }
+    ],
+    "config": {
+      "deductible_burden_ratio": 0.1
+    },
+    "context": {
+      "capacity": "reviewing_professional",
+      "represented_party": "synthetic-insurance-review-team",
+      "object_id": "synthetic:needs_and_policy_example.json",
+      "jurisdiction": "US",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-fixture:needs_and_policy_example.json",
+        "version": "0.2.0",
+        "as_of": "2026-07-15"
+      }
+    ]
+  },
+  "analysis_id": "coverage_needs_review-fcadfdb9ec7b0904eb11742e",
   "profile_id": "CGA-****4471",
   "as_of": "2026-07-15",
   "jurisdiction": "US",
@@ -37,6 +164,12 @@
           "peril": "flood",
           "citation": "needs:needs=****4471;item=E-2@2026-07-15",
           "policy_citation": "policy:pol=HO****-1234;form=HO-3;excl=water-flood"
+        },
+        {
+          "exposure_id": "E-5",
+          "peril": "water_backup",
+          "citation": "needs:needs=****4471;item=E-5@2026-07-15",
+          "policy_citation": "policy:pol=HO****-1234;form=HO-3;excl=water-backup"
         }
       ],
       "basis": {
@@ -45,11 +178,9 @@
           "flood",
           "water_backup"
         ],
-        "buy_backs": [
-          "water_backup"
-        ]
+        "buy_backs": []
       },
-      "contribution": 1
+      "contribution": 2
     },
     {
       "gap_type": "limit_shortfall",
@@ -141,6 +272,10 @@
     {
       "gap_type": "coinsurance_shortfall",
       "why": "no coverage declares a coinsurance clause"
+    },
+    {
+      "gap_type": "endorsement_effect",
+      "why": "endorsement conditions and exposure applicability require wording review; presence does not automatically remove exclusions"
     }
   ],
   "review_priority": "Elevated",
@@ -152,5 +287,37 @@
     "Statutory minimums, lender, or lease requirements may govern the required limits in this jurisdiction."
   ],
   "disclaimer": "Coverage-gap analysis only; not a coverage, eligibility, or claim determination and not insurance or legal advice. Consult a licensed insurance professional before acting.",
-  "narrative": "Coverage-gap analysis of policy HO****-1234 (HO-3) against 5 stated exposures for profile CGA-****4471 as of 2026-07-15 surfaced 6 evaluable gaps. The dwelling replacement exposure (450,000) is above the Coverage A limit (300,000), a 150,000 shortfall. The flood exposure has no matching coverage in the schedule and flood is a named exclusion with no buy-back endorsement. The scheduled jewelry value (15,000) is above the personal-property jewelry sublimit (1,500). The home-business equipment names a recommended home_business endorsement that is not attached. The water-backup deductible (2,500) is 31% of that exposure value. Coinsurance could not be evaluated because no coverage declares a coinsurance clause. Suggested review priority: Elevated. These are questions for a licensed insurance professional to weigh against the review prompts, not conclusions. Coverage-gap analysis only; not a coverage, eligibility, or claim determination and not insurance or legal advice. Consult a licensed insurance professional before acting."
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "coverage-gap-analyzer",
+    "artifact_type": "coverage_needs_review",
+    "as_of": "2026-07-15",
+    "context": {
+      "capacity": "reviewing_professional",
+      "represented_party": "synthetic-insurance-review-team",
+      "object_id": "synthetic:needs_and_policy_example.json",
+      "jurisdiction": "US",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-fixture:needs_and_policy_example.json",
+        "version": "0.2.0",
+        "as_of": "2026-07-15"
+      }
+    ],
+    "input_hash": "fcadfdb9ec7b0904eb11742e2f853afff368c6f85410c1c66398fb988725c0a0",
+    "output_hash": "d67dde96e8b424d799a2f80dedd04c66e3c79b595479d82e4ebd3c17054010a3",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "{'gap_type': 'coinsurance_shortfall', 'why': 'no coverage declares a coinsurance clause'}",
+      "{'gap_type': 'endorsement_effect', 'why': 'endorsement conditions and exposure applicability require wording review; presence does not automatically remove exclusions'}"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "4a9894eac85a36a30fb1e389c53f20cc0eb2b54b9b5b6a5ee5a250d8f7b8b79a"
+  },
+  "narrative": "Source-linked draft for professional review. Coverage-gap analysis only; not a coverage, eligibility, or claim determination and not insurance or legal advice. Consult a licensed insurance professional before acting."
 }

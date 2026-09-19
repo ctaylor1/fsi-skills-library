@@ -10,7 +10,7 @@ eligibility, extend credit, or write a system of record.
 | ---------------- | ---- | ---------------- |
 | `financial-spreading-assistant` | The user needs standardized credit spreads / financial statements rather than a forward cash-flow view | history + statements |
 | `retirement-income-scenario-modeler` | The question is long-horizon retirement income/drawdown, not near-term operating cash flow | goals + accounts |
-| `financial-goal-progress-analyzer` | The user wants to measure progress toward stated budgets/goals using the forecast's cash flows | `forecast_id` |
+| `household-financial-planning-assistant` | The user wants to measure progress toward stated budgets/goals using the forecast's cash flows | `forecast_id` |
 | A licensed **advisor / lending workflow** (human) | The user asks "what should I do", or wants a loan/credit decision | `forecast_id` + drivers |
 
 ## Upstream (may call this skill)

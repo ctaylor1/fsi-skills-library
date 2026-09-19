@@ -1,0 +1,49 @@
+{
+  "processing_date": "2026-09-17",
+  "cases": [
+    {
+      "case_id": "SYNTH-D1",
+      "role": "issuer",
+      "jurisdiction": "US",
+      "rail": "card",
+      "product": "consumer-debit",
+      "source_ref": "synthetic:customer-report",
+      "currency": "USD",
+      "dispute_amount": "100.00",
+      "transaction": {
+        "txn_id": "SYNTH-T1",
+        "amount": "100.00",
+        "currency": "USD"
+      },
+      "allegation": "Customer reports unauthorized debit-card purchase",
+      "statutory_clocks": [
+        {
+          "name": "review-supplied-business-day-clock",
+          "source_ref": "synthetic:intake-clock",
+          "trigger_event": "customer-notice",
+          "trigger_date": "2026-09-16",
+          "trigger_source_ref": "synthetic:customer-report",
+          "due_date": "2026-09-30",
+          "day_basis": "business-days"
+        }
+      ],
+      "scheme_clocks": [
+        {
+          "name": "scheme-recovery-deadline",
+          "source_ref": "synthetic:scheme-recovery-deadline",
+          "trigger_event": "transaction-date",
+          "trigger_date": "2026-09-15",
+          "trigger_source_ref": "synthetic:transaction",
+          "due_date": "2026-10-15",
+          "day_basis": "explicit-date"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "customer-allegation",
+          "ref": "synthetic:customer-report"
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,11 @@
 # Changelog — client-review-preparer
 
+## [0.2.0] — 2026-09-16
+- Hardened structural and item-level evidence checks, source dates/validity, explicit versioned engagement/applicability policy and material missingness.
+- Added request/artifact IDs, retained source snapshots and reproducible input hashes; validate actual content, identity and values against the snapshot. Hashes are not authorization.
+- Preserved substantive outputs and added executable regressions for prior missing-date, source, version, applicability and output-tampering failures.
+- Local fixtures and regressions are validated; live integrations, controlled-source policies, SME review and real-model acceptance remain pending.
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`). Created to prepare an
 audit-ready, fully source-cited wealth client-review pack (brief, agenda, deck outline) for
@@ -25,7 +31,7 @@ suitability review, trading, delivery, and post-meeting follow-up.
   tieout-break, disclosure-gap), deterministic script checks, a fail-closed safety fixture
   (overreach: recommendation/decision/filing/delivery + tie-out/disclosure breaches), prompt
   injection, advice refusal, and no-delivery / no-closure authorization refusals.
-- **Handoffs:** surfaces routes to `suitability-reg-bi-reviewer`, `portfolio-rebalancing-assistant`,
+- **Handoffs:** surfaces routes to `investment-recommendation-evidence-reviewer`, `portfolio-rebalancing-assistant`,
   `senior-investor-protection-screener`, `financial-goal-progress-analyzer`,
   `retirement-income-scenario-modeler`, `investment-policy-statement-builder`,
   `portfolio-proposal-comparator`, and post-meeting `advisor-follow-up-assistant`; licensed

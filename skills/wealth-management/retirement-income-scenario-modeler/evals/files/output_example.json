@@ -1,0 +1,438 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "skill": "retirement-income-scenario-modeler",
+  "request_id": "synthetic-plan-2026-09-16",
+  "household_id": "HH-SYNTHETIC",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "client",
+      "reference": "synthetic:client-discovery@v1",
+      "owner": "Synthetic household",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "model",
+      "reference": "synthetic:planning-methods@v1",
+      "owner": "Synthetic model owner; not firm approval",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "custody",
+      "reference": "synthetic:account-balances@v1",
+      "owner": "Synthetic custodian",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "input_hash": "68c9c9d055086dff1e4b36e95f5a52de0c9890ab64fd6232b094bba1ec53bdb1",
+  "artifact_id": "retirement-income-scenario-modeler-68c9c9d055086dff1e4b",
+  "status": "review-ready",
+  "findings": [],
+  "result": {
+    "currency": "USD",
+    "model_status": "modeled",
+    "projection": {
+      "start_age": 65,
+      "end_age": 67,
+      "opening_balance_basis": "current-at-as-of",
+      "opening_balance_date": "2026-09-16",
+      "source_ids": [
+        "client"
+      ]
+    },
+    "spending": {
+      "annual_net_amount": 100,
+      "annual_inflation": 0,
+      "source_ids": [
+        "client"
+      ]
+    },
+    "model": {
+      "version": "synthetic-retirement-v1",
+      "tax_method": "effective-withdrawal-rate-proxy",
+      "benefit_method": "supplied-income-schedules-no-entitlement-calculation",
+      "source_ids": [
+        "model"
+      ],
+      "limitations": [
+        {
+          "topic": "rmd",
+          "description": "No required-minimum-distribution calculation; external professional review required.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "not-modeled"
+        },
+        {
+          "topic": "tax-brackets-and-capital-gains",
+          "description": "Flat effective withdrawal tax proxy; no brackets, basis lots, statutory capital-gain tax or Social Security tax calculation.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "not-modeled"
+        },
+        {
+          "topic": "benefit-entitlement",
+          "description": "Income schedules are supplied assumptions; no Social Security or pension entitlement calculation.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "not-modeled"
+        },
+        {
+          "topic": "survivor-and-household-changes",
+          "description": "One age axis and fixed household; no survivor transition or mortality probabilities.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "not-modeled"
+        },
+        {
+          "topic": "healthcare-and-long-term-care",
+          "description": "Healthcare must be included in supplied spending; no insurance or long-term-care shock estimation.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "included-only-in-supplied-spending"
+        }
+      ]
+    },
+    "withdrawal_policy": {
+      "strategy": "spending-gap",
+      "account_order": [
+        "A1"
+      ],
+      "source_ids": [
+        "client"
+      ]
+    },
+    "scenario_assumptions": [
+      {
+        "scenario_id": "base",
+        "label": "Base illustrative assumptions",
+        "return_adjustment": 0,
+        "inflation_adjustment": 0,
+        "return_sequences": [],
+        "source_ids": [
+          "model"
+        ]
+      }
+    ],
+    "scenarios": [
+      {
+        "scenario_id": "base",
+        "label": "Base illustrative assumptions",
+        "source_ids": [
+          "model"
+        ],
+        "annual_rows": [
+          {
+            "age": 65,
+            "year_index": 0,
+            "beginning_portfolio": 1000.0,
+            "net_spending_need": 100.0,
+            "modeled_income": [
+              {
+                "income_id": "I1",
+                "active": false,
+                "gross": 0.0,
+                "tax": 0.0,
+                "net": 0.0,
+                "source_ids": [
+                  "client"
+                ]
+              }
+            ],
+            "net_income": 0.0,
+            "gross_withdrawals": 125.0,
+            "withdrawal_tax": 25.0,
+            "income_tax": 0.0,
+            "total_modeled_tax": 25.0,
+            "net_withdrawals": 100.0,
+            "spending_shortfall": 0.0,
+            "surplus_not_reinvested": 0.0,
+            "investment_return": 0.0,
+            "ending_portfolio": 875.0,
+            "accounts": [
+              {
+                "account_id": "A1",
+                "beginning_balance": 1000.0,
+                "gross_withdrawal": 125.0,
+                "withdrawal_tax": 25.0,
+                "net_withdrawal": 100.0,
+                "return_rate": 0.0,
+                "investment_return": 0.0,
+                "ending_balance": 875.0,
+                "source_ids": [
+                  "custody",
+                  "model"
+                ]
+              }
+            ]
+          },
+          {
+            "age": 66,
+            "year_index": 1,
+            "beginning_portfolio": 875.0,
+            "net_spending_need": 100.0,
+            "modeled_income": [
+              {
+                "income_id": "I1",
+                "active": true,
+                "gross": 20.0,
+                "tax": 0.0,
+                "net": 20.0,
+                "source_ids": [
+                  "client"
+                ]
+              }
+            ],
+            "net_income": 20.0,
+            "gross_withdrawals": 100.0,
+            "withdrawal_tax": 20.0,
+            "income_tax": 0.0,
+            "total_modeled_tax": 20.0,
+            "net_withdrawals": 80.0,
+            "spending_shortfall": 0.0,
+            "surplus_not_reinvested": 0.0,
+            "investment_return": 0.0,
+            "ending_portfolio": 775.0,
+            "accounts": [
+              {
+                "account_id": "A1",
+                "beginning_balance": 875.0,
+                "gross_withdrawal": 100.0,
+                "withdrawal_tax": 20.0,
+                "net_withdrawal": 80.0,
+                "return_rate": 0.0,
+                "investment_return": 0.0,
+                "ending_balance": 775.0,
+                "source_ids": [
+                  "custody",
+                  "model"
+                ]
+              }
+            ]
+          },
+          {
+            "age": 67,
+            "year_index": 2,
+            "beginning_portfolio": 775.0,
+            "net_spending_need": 100.0,
+            "modeled_income": [
+              {
+                "income_id": "I1",
+                "active": true,
+                "gross": 20.0,
+                "tax": 0.0,
+                "net": 20.0,
+                "source_ids": [
+                  "client"
+                ]
+              }
+            ],
+            "net_income": 20.0,
+            "gross_withdrawals": 100.0,
+            "withdrawal_tax": 20.0,
+            "income_tax": 0.0,
+            "total_modeled_tax": 20.0,
+            "net_withdrawals": 80.0,
+            "spending_shortfall": 0.0,
+            "surplus_not_reinvested": 0.0,
+            "investment_return": 0.0,
+            "ending_portfolio": 675.0,
+            "accounts": [
+              {
+                "account_id": "A1",
+                "beginning_balance": 775.0,
+                "gross_withdrawal": 100.0,
+                "withdrawal_tax": 20.0,
+                "net_withdrawal": 80.0,
+                "return_rate": 0.0,
+                "investment_return": 0.0,
+                "ending_balance": 675.0,
+                "source_ids": [
+                  "custody",
+                  "model"
+                ]
+              }
+            ]
+          }
+        ],
+        "summary": {
+          "terminal_portfolio": 675.0,
+          "first_spending_shortfall_age": null,
+          "total_spending_shortfall": 0.0,
+          "first_asset_depletion_age": null,
+          "assets_depleted_by_horizon": false,
+          "assets_depleted_before_horizon": false,
+          "total_gross_withdrawals": 325.0,
+          "total_modeled_tax": 65.0,
+          "total_surplus_not_reinvested": 0.0
+        }
+      }
+    ],
+    "calculation_convention": "Annual spending and withdrawals at period start; net-of-fee returns afterward. Income COLA starts from its own start_age. Monetary rows rounded to cents.",
+    "standing_note": "Deterministic illustrations, not probabilities or benefit/tax advice. Flat effective tax rates are supplied modeling proxies, not statutory capital-gains rates. RMD compliance, benefit eligibility and survivor outcomes are not calculated. Surplus income is reported and excluded from portfolio reinvestment. Human review required.",
+    "upstream_issues": []
+  },
+  "human_review_required": true,
+  "action_taken": false,
+  "delivery_status": "not-delivered",
+  "input_snapshot": {
+    "schema_version": "wealth-p0-v1",
+    "request_id": "synthetic-plan-2026-09-16",
+    "household_id": "HH-SYNTHETIC",
+    "as_of": "2026-09-16",
+    "engagement": {
+      "capacity": "advisory",
+      "jurisdiction": "US"
+    },
+    "sources": [
+      {
+        "source_id": "client",
+        "reference": "synthetic:client-discovery@v1",
+        "owner": "Synthetic household",
+        "as_of": "2026-09-16",
+        "valid_until": "2026-12-31"
+      },
+      {
+        "source_id": "model",
+        "reference": "synthetic:planning-methods@v1",
+        "owner": "Synthetic model owner; not firm approval",
+        "as_of": "2026-09-16",
+        "valid_until": "2026-12-31"
+      },
+      {
+        "source_id": "custody",
+        "reference": "synthetic:account-balances@v1",
+        "owner": "Synthetic custodian",
+        "as_of": "2026-09-16",
+        "valid_until": "2026-12-31"
+      }
+    ],
+    "currency": "USD",
+    "projection": {
+      "start_age": 65,
+      "end_age": 67,
+      "opening_balance_basis": "current-at-as-of",
+      "opening_balance_date": "2026-09-16",
+      "source_ids": [
+        "client"
+      ]
+    },
+    "spending": {
+      "annual_net_amount": 100,
+      "annual_inflation": 0,
+      "source_ids": [
+        "client"
+      ]
+    },
+    "model": {
+      "version": "synthetic-retirement-v1",
+      "tax_method": "effective-withdrawal-rate-proxy",
+      "benefit_method": "supplied-income-schedules-no-entitlement-calculation",
+      "source_ids": [
+        "model"
+      ],
+      "limitations": [
+        {
+          "topic": "rmd",
+          "description": "No required-minimum-distribution calculation; external professional review required.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "not-modeled"
+        },
+        {
+          "topic": "tax-brackets-and-capital-gains",
+          "description": "Flat effective withdrawal tax proxy; no brackets, basis lots, statutory capital-gain tax or Social Security tax calculation.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "not-modeled"
+        },
+        {
+          "topic": "benefit-entitlement",
+          "description": "Income schedules are supplied assumptions; no Social Security or pension entitlement calculation.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "not-modeled"
+        },
+        {
+          "topic": "survivor-and-household-changes",
+          "description": "One age axis and fixed household; no survivor transition or mortality probabilities.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "not-modeled"
+        },
+        {
+          "topic": "healthcare-and-long-term-care",
+          "description": "Healthcare must be included in supplied spending; no insurance or long-term-care shock estimation.",
+          "source_ids": [
+            "model"
+          ],
+          "treatment": "included-only-in-supplied-spending"
+        }
+      ]
+    },
+    "accounts": [
+      {
+        "account_id": "A1",
+        "type": "tax-deferred",
+        "balance": 1000,
+        "annual_return": 0,
+        "effective_withdrawal_tax_rate": 0.2,
+        "source_ids": [
+          "custody",
+          "model"
+        ]
+      }
+    ],
+    "income": [
+      {
+        "income_id": "I1",
+        "label": "Illustrative pension assumption",
+        "annual_gross_at_start": 20,
+        "start_age": 66,
+        "end_age": 120,
+        "annual_cola": 0,
+        "effective_tax_rate": 0,
+        "source_ids": [
+          "client"
+        ]
+      }
+    ],
+    "withdrawal_policy": {
+      "strategy": "spending-gap",
+      "account_order": [
+        "A1"
+      ],
+      "source_ids": [
+        "client"
+      ]
+    },
+    "scenarios": [
+      {
+        "scenario_id": "base",
+        "label": "Base illustrative assumptions",
+        "return_adjustment": 0,
+        "inflation_adjustment": 0,
+        "return_sequences": [],
+        "source_ids": [
+          "model"
+        ]
+      }
+    ],
+    "upstream_issues": []
+  }
+}
