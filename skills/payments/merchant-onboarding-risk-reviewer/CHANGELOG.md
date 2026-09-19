@@ -1,3 +1,7 @@
+# Phase 1 — 2026-09-17
+
+Corrected executable scope, evidence boundaries and/or naming; bundled canonical payment contract. Tests establish bounded offline behavior, not professional or deployment acceptance. See docs/payments/PHASE1-IMPLEMENTATION.md at repository level.
+
 # Changelog — merchant-onboarding-risk-reviewer
 
 ## [0.1.0] — 2026-07-17

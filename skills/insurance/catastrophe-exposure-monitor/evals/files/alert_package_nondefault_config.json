@@ -1,66 +1,499 @@
 {
-  "run_id": "cem-2026-07-18-0007",
-  "as_of": "2026-07-18T06:00:00",
-  "config_version": "cat-cfg-2026.07-earlywarn",
+  "run_id": "cem-2026-07-17-0001",
+  "as_of": "2026-07-17T06:00:00Z",
+  "config_version": "cat-cfg-2026.07",
+  "exposure_snapshot_id": "exposure-v1",
+  "financial_context": {
+    "currency": "USD",
+    "unit": "currency",
+    "financial_basis": "gross",
+    "limit_grain": "location"
+  },
   "queue": "catastrophe-risk-review",
-  "approaching_ratio": 0.8,
-  "confidence": "normal",
+  "approaching_ratio": "0.8",
+  "confidence": "degraded",
   "sources": [
     {
       "source": "policy_admin",
-      "as_of": "2026-07-18T02:00:00",
+      "as_of": "2026-07-17T02:00:00Z",
+      "source_ref": "pas;snapshot=2026-07-17T02Z",
+      "version": "exposure-v1",
       "age_hours": 4.0,
       "max_staleness_hours": 24.0,
       "freshness": "fresh"
     },
     {
       "source": "event_feed",
-      "as_of": "2026-07-18T01:00:00",
+      "as_of": "2026-07-17T01:00:00Z",
+      "source_ref": "nhc;adv=27",
+      "version": "footprint-v27",
       "age_hours": 5.0,
       "max_staleness_hours": 6.0,
       "freshness": "fresh"
     },
     {
       "source": "cat_model",
-      "as_of": "2026-07-18T00:00:00",
-      "age_hours": 6.0,
+      "as_of": "2026-07-14T20:00:00Z",
+      "source_ref": "model;run=2026-07-14T20Z",
+      "version": "cat-model-v1",
+      "age_hours": 58.0,
       "max_staleness_hours": 48.0,
-      "freshness": "fresh"
+      "freshness": "stale"
     }
   ],
   "alerts": [
     {
-      "alert_key": "AL092026:TX-HOU:hurricane:single_location:L-10",
-      "event_id": "AL092026",
-      "event_name": "Tropical Storm Echo",
-      "zone": "TX-HOU",
+      "alert_key": "AL072026:FL-BRO:hurricane:zone_accumulation",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-BRO",
       "peril": "hurricane",
-      "breach_type": "single_location",
-      "metric": 8500000.0,
-      "threshold": 10000000.0,
-      "exceedance_ratio": 0.85,
+      "breach_type": "zone_accumulation",
+      "metric": "10000000",
+      "threshold": "12000000",
+      "exceedance_ratio": "0.8333333333333333333333333333",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-5",
+          "location_id": "L-5",
+          "limit_id": "allocated-L-5"
+        },
+        {
+          "citation": "pas;loc=L-6",
+          "location_id": "L-6",
+          "limit_id": "allocated-L-6"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1",
+      "aggregate_tiv": "13000000",
+      "location_count": 2,
       "severity": "Informational",
       "suggested_response_priority": "P4",
       "queue": "catastrophe-risk-review",
-      "reason": "location L-10 limit 8,500,000 vs single-location max 10,000,000",
+      "reason": "zone_accumulation 10000000 compared with 12000000",
+      "status": "ongoing"
+    },
+    {
+      "alert_key": "AL072026:FL-MIA:hurricane:zone_accumulation",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-MIA",
+      "peril": "hurricane",
+      "breach_type": "zone_accumulation",
+      "metric": "13500000",
+      "threshold": "8000000",
+      "exceedance_ratio": "1.6875",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
       "evidence": [
         {
-          "location_id": "L-10",
-          "limit": 8500000,
-          "citation": "pas:pas;loc=L-10@2026-07-18T06:00:00"
+          "citation": "pas;loc=L-1",
+          "location_id": "L-1",
+          "limit_id": "allocated-L-1"
+        },
+        {
+          "citation": "pas;loc=L-2",
+          "location_id": "L-2",
+          "limit_id": "allocated-L-2"
+        },
+        {
+          "citation": "pas;loc=L-3",
+          "location_id": "L-3",
+          "limit_id": "allocated-L-3"
         }
       ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1",
+      "aggregate_tiv": "19000000",
+      "location_count": 3,
+      "severity": "Critical",
+      "suggested_response_priority": "P1",
+      "queue": "catastrophe-risk-review",
+      "reason": "zone_accumulation 13500000 compared with 8000000",
+      "status": "ongoing"
+    },
+    {
+      "alert_key": "AL072026:FL-MIA:hurricane:single_location:L-1",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-MIA",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "5000000",
+      "threshold": "6000000",
+      "exceedance_ratio": "0.8333333333333333333333333333",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-1",
+          "location_id": "L-1"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1",
+      "severity": "Informational",
+      "suggested_response_priority": "P4",
+      "queue": "catastrophe-risk-review",
+      "reason": "single_location 5000000 compared with 6000000",
+      "status": "new"
+    },
+    {
+      "alert_key": "AL072026:FL-MIA:hurricane:single_location:L-2",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-MIA",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "6500000",
+      "threshold": "6000000",
+      "exceedance_ratio": "1.083333333333333333333333333",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-2",
+          "location_id": "L-2"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1",
+      "severity": "Watch",
+      "suggested_response_priority": "P3",
+      "queue": "catastrophe-risk-review",
+      "reason": "single_location 6500000 compared with 6000000",
+      "status": "new"
+    },
+    {
+      "alert_key": "AL072026:FL-BRO:hurricane:single_location:L-5",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-BRO",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "6000000",
+      "threshold": "6000000",
+      "exceedance_ratio": "1",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-5",
+          "location_id": "L-5"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1",
+      "severity": "Watch",
+      "suggested_response_priority": "P3",
+      "queue": "catastrophe-risk-review",
+      "reason": "single_location 6000000 compared with 6000000",
       "status": "new"
     }
   ],
   "dedup": {
-    "new": 1,
-    "ongoing": 0,
-    "cleared": 0
+    "new": 3,
+    "ongoing": 2,
+    "cleared": 0,
+    "unknown": 0
   },
-  "data_gaps": [],
-  "overall_severity": "Informational",
+  "data_gaps": [
+    {
+      "location_id": "L-3",
+      "gap": "stale_valuation",
+      "detail": "valuation date is stale or future"
+    },
+    {
+      "location_id": "L-4",
+      "gap": "ungeocoded_excluded",
+      "detail": "not included in geocoded metrics; no all-clear"
+    }
+  ],
+  "evaluated_metrics": [
+    {
+      "alert_key": "AL072026:FL-BRO:hurricane:zone_accumulation",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-BRO",
+      "peril": "hurricane",
+      "breach_type": "zone_accumulation",
+      "metric": "10000000",
+      "threshold": "12000000",
+      "exceedance_ratio": "0.8333333333333333333333333333",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-5",
+          "location_id": "L-5",
+          "limit_id": "allocated-L-5"
+        },
+        {
+          "citation": "pas;loc=L-6",
+          "location_id": "L-6",
+          "limit_id": "allocated-L-6"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1",
+      "aggregate_tiv": "13000000",
+      "location_count": 2
+    },
+    {
+      "alert_key": "AL072026:FL-MIA:hurricane:zone_accumulation",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-MIA",
+      "peril": "hurricane",
+      "breach_type": "zone_accumulation",
+      "metric": "13500000",
+      "threshold": "8000000",
+      "exceedance_ratio": "1.6875",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-1",
+          "location_id": "L-1",
+          "limit_id": "allocated-L-1"
+        },
+        {
+          "citation": "pas;loc=L-2",
+          "location_id": "L-2",
+          "limit_id": "allocated-L-2"
+        },
+        {
+          "citation": "pas;loc=L-3",
+          "location_id": "L-3",
+          "limit_id": "allocated-L-3"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1",
+      "aggregate_tiv": "19000000",
+      "location_count": 3
+    },
+    {
+      "alert_key": "AL072026:FL-MIA:hurricane:single_location:L-1",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-MIA",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "5000000",
+      "threshold": "6000000",
+      "exceedance_ratio": "0.8333333333333333333333333333",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-1",
+          "location_id": "L-1"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1"
+    },
+    {
+      "alert_key": "AL072026:FL-MIA:hurricane:single_location:L-2",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-MIA",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "6500000",
+      "threshold": "6000000",
+      "exceedance_ratio": "1.083333333333333333333333333",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-2",
+          "location_id": "L-2"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1"
+    },
+    {
+      "alert_key": "AL072026:FL-MIA:hurricane:single_location:L-3",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-MIA",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "2000000",
+      "threshold": "6000000",
+      "exceedance_ratio": "0.3333333333333333333333333333",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-3",
+          "location_id": "L-3"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1"
+    },
+    {
+      "alert_key": "AL072026:FL-BRO:hurricane:single_location:L-5",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-BRO",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "6000000",
+      "threshold": "6000000",
+      "exceedance_ratio": "1",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-5",
+          "location_id": "L-5"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1"
+    },
+    {
+      "alert_key": "AL072026:FL-BRO:hurricane:single_location:L-6",
+      "event_id": "AL072026",
+      "event_name": "Hurricane Delta",
+      "zone": "FL-BRO",
+      "peril": "hurricane",
+      "breach_type": "single_location",
+      "metric": "4000000",
+      "threshold": "6000000",
+      "exceedance_ratio": "0.6666666666666666666666666667",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "pas;loc=L-6",
+          "location_id": "L-6"
+        }
+      ],
+      "footprint_version": "footprint-v27",
+      "exposure_snapshot_id": "exposure-v1"
+    }
+  ],
+  "overall_severity": "Critical",
+  "current_evidence": {
+    "completeness": "partial",
+    "unresolved_issues": [
+      "cat_model: freshness/provenance unavailable or stale",
+      "event AL072026 model total withheld: incomplete/incompatible location scenarios",
+      "L-3: stale_valuation (valuation date is stale or future)",
+      "L-4: ungeocoded_excluded (not included in geocoded metrics; no all-clear)"
+    ]
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "cat_model: freshness/provenance unavailable or stale",
+    "event AL072026 model total withheld: incomplete/incompatible location scenarios",
+    "L-3: stale_valuation (valuation date is stale or future)",
+    "L-4: ungeocoded_excluded (not included in geocoded metrics; no all-clear)"
+  ],
   "disclaimer": "Monitoring alert only; exposure and modeled-loss figures are estimates for human review. No underwriting, reinsurance, capacity, reserving, or system-of-record action has been taken.",
-  "narrative": "Scheduled catastrophe-exposure run cem-2026-07-18-0007 over Tropical Storm Echo (AL092026, cat 1) fired 1 early-warning alert in the Houston footprint under the deployment's non-default approaching_ratio of 0.8. Location L-10 single-location limit (8,500,000) is Informational at exceedance ratio 0.85 against the 10,000,000 single-location max; because approaching_ratio is 0.8 for this pack, an 0.85 ratio bands as Informational (early warning), not below-threshold. All sources are fresh so confidence is normal and no data gaps were found. This is an estimate queued to catastrophe-risk-review for a human; the catastrophe-risk / portfolio manager decides any response. Monitoring alert only; exposure and modeled-loss figures are estimates for human review. No underwriting, reinsurance, capacity, reserving, or system-of-record action has been taken.",
-  "notes": "Early-warning-only run: the sole breach is an approaching-band single-location alert surfaced because this deployment lowers approaching_ratio to 0.8; nothing is at or over a hard threshold."
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "catastrophe-exposure-monitor",
+    "artifact_type": "catastrophe-exposure-alerts",
+    "as_of": "2026-07-17T06:00:00Z",
+    "context": {
+      "capacity": "carrier catastrophe analyst",
+      "represented_party": "synthetic-carrier",
+      "object_id": "portfolio-synthetic",
+      "jurisdiction": "US",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source": "policy_admin",
+        "as_of": "2026-07-17T02:00:00Z",
+        "source_ref": "pas;snapshot=2026-07-17T02Z",
+        "version": "exposure-v1"
+      },
+      {
+        "source": "event_feed",
+        "as_of": "2026-07-17T01:00:00Z",
+        "source_ref": "nhc;adv=27",
+        "version": "footprint-v27"
+      },
+      {
+        "source": "cat_model",
+        "as_of": "2026-07-14T20:00:00Z",
+        "source_ref": "model;run=2026-07-14T20Z",
+        "version": "cat-model-v1"
+      }
+    ],
+    "input_hash": "896d68c1760f29a94d1170979c5a1a340c2b2fd840520d28da76be9813109117",
+    "output_hash": "9650178a99ab8981ed5844d21622ff7ea2e4010d0e5fbd04786ccde66e1cf1bc",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "cat_model: freshness/provenance unavailable or stale",
+      "event AL072026 model total withheld: incomplete/incompatible location scenarios",
+      "L-3: stale_valuation (valuation date is stale or future)",
+      "L-4: ungeocoded_excluded (not included in geocoded metrics; no all-clear)"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "1c30a33a2c5818a8c96652d7008e4b678916a68ec0557a9792bda6dfa4ed4286"
+  }
 }

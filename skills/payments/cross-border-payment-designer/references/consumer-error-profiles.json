@@ -1,0 +1,308 @@
+{
+  "version": "1.0.0",
+  "profiles": {
+    "US-REG-E-CONSUMER-EFT": {
+      "jurisdictions": [
+        "US"
+      ],
+      "products": [
+        "consumer-eft",
+        "debit-card",
+        "consumer-deposit"
+      ],
+      "rails": [
+        "ACH",
+        "FedNow",
+        "RTP",
+        "card"
+      ],
+      "regime": "Regulation E, 12 CFR 1005.11",
+      "authority": "CFPB",
+      "source_ref": "https://www.consumerfinance.gov/rules-policy/regulations/1005/11/",
+      "conditions": [
+        "Consumer account and covered EFT; commercial accounts and excluded wire systems require separate assessment.",
+        "Timely notice generally links to statement transmission; late unauthorized notice does not automatically end liability review."
+      ],
+      "clock_rules": [
+        {
+          "name": "error-notice",
+          "trigger": "statement-first-showing-error",
+          "basis": "calendar-days",
+          "period": 60
+        },
+        {
+          "name": "initial-investigation",
+          "trigger": "notice-received",
+          "basis": "business-days",
+          "period": 10
+        },
+        {
+          "name": "extended-investigation",
+          "trigger": "notice-received",
+          "basis": "calendar-days",
+          "period": 45
+        },
+        {
+          "name": "results-notice",
+          "trigger": "investigation-completed",
+          "basis": "business-days",
+          "period": 3
+        },
+        {
+          "name": "correction",
+          "trigger": "error-determined",
+          "basis": "business-days",
+          "period": 1
+        }
+      ],
+      "exceptions": [
+        "New-account initial investigation can be 20 business days.",
+        "New-account, foreign-initiated and POS-debit cases can change extended investigation to 90 calendar days.",
+        "Provisional-credit and written-confirmation conditions require case review; no credit is authorized by this profile."
+      ],
+      "required_action_reviews": [
+        "provisional-credit-conditions",
+        "written-confirmation",
+        "unauthorized-transfer-liability",
+        "exception-applicability"
+      ],
+      "profile_id": "US-REG-E-CONSUMER-EFT",
+      "version": "2026-09-18.1",
+      "status": "reference-only",
+      "participants": [
+        "issuer",
+        "bank",
+        "payment-provider"
+      ],
+      "reviewed_on": "2026-09-18",
+      "review_due": "2026-10-18",
+      "required_evidence_types": [
+        "customer-notice",
+        "transaction-record",
+        "authority-record"
+      ],
+      "required_clock_names": [
+        "error-notice",
+        "initial-investigation",
+        "extended-investigation",
+        "results-notice",
+        "correction"
+      ],
+      "limitations": [
+        "Public source summary; national/product exceptions and case applicability require specialist review.",
+        "Named calendar, cutoffs, trigger evidence and reviewed due dates are required; no automatic deadline or credit decision."
+      ]
+    },
+    "US-REG-Z-OPEN-END": {
+      "jurisdictions": [
+        "US"
+      ],
+      "products": [
+        "consumer-open-end-credit",
+        "credit-card"
+      ],
+      "rails": [
+        "card"
+      ],
+      "regime": "Regulation Z, 12 CFR 1026.13",
+      "authority": "CFPB",
+      "source_ref": "https://www.consumerfinance.gov/rules-policy/regulations/1026/13/",
+      "conditions": [
+        "Consumer open-end credit billing error; required written notice and content must be assessed."
+      ],
+      "clock_rules": [
+        {
+          "name": "billing-error-notice",
+          "trigger": "first-statement-showing-error",
+          "basis": "calendar-days",
+          "period": 60
+        },
+        {
+          "name": "acknowledgment",
+          "trigger": "notice-received",
+          "basis": "calendar-days",
+          "period": 30
+        },
+        {
+          "name": "resolution",
+          "trigger": "notice-received",
+          "basis": "billing-cycles-and-cap",
+          "period": 2,
+          "cap_calendar_days": 90
+        }
+      ],
+      "exceptions": [
+        "Acknowledgment exception if resolution completes within the acknowledgment period.",
+        "Resolution uses two complete billing cycles after receipt, with a 90-day outer limit; do not substitute 60 calendar days.",
+        "Payment withholding, collections and reporting restrictions require separate review."
+      ],
+      "required_action_reviews": [
+        "notice-content-and-delivery",
+        "billing-cycle-calendar",
+        "collections-and-credit-reporting"
+      ],
+      "profile_id": "US-REG-Z-OPEN-END",
+      "version": "2026-09-18.1",
+      "status": "reference-only",
+      "participants": [
+        "issuer",
+        "bank",
+        "payment-provider"
+      ],
+      "reviewed_on": "2026-09-18",
+      "review_due": "2026-10-18",
+      "required_evidence_types": [
+        "customer-notice",
+        "transaction-record",
+        "authority-record"
+      ],
+      "required_clock_names": [
+        "billing-error-notice",
+        "acknowledgment",
+        "resolution"
+      ],
+      "limitations": [
+        "Public source summary; national/product exceptions and case applicability require specialist review.",
+        "Named calendar, cutoffs, trigger evidence and reviewed due dates are required; no automatic deadline or credit decision."
+      ]
+    },
+    "EA-PSD2-UNAUTHORIZED": {
+      "jurisdictions": [
+        "EA"
+      ],
+      "products": [
+        "consumer-payment-account"
+      ],
+      "rails": [
+        "SCT",
+        "SCT-INST",
+        "SDD-CORE",
+        "card"
+      ],
+      "regime": "PSD2 Articles 71-74, subject to national transposition",
+      "authority": "EU legislature / national competent authority",
+      "source_ref": "https://eur-lex.europa.eu/eli/dir/2015/2366/oj/eng",
+      "conditions": [
+        "Relevant covered payment service and consumer; national transposition and territorial scope must be supplied.",
+        "Unauthorized payment allegation is distinct from an authorized scam and from an authorized direct-debit refund."
+      ],
+      "clock_rules": [
+        {
+          "name": "unauthorized-notification",
+          "trigger": "debit-date",
+          "basis": "calendar-months",
+          "period": 13
+        },
+        {
+          "name": "unauthorized-refund-review",
+          "trigger": "awareness-or-notification",
+          "basis": "business-days",
+          "period": 1
+        }
+      ],
+      "exceptions": [
+        "Notify without undue delay; required information availability can affect the outer limit.",
+        "Immediate refund and end-of-next-business-day limit have a suspected-fraud reporting exception requiring legal review.",
+        "Do not apply this profile automatically to authorized APP scams."
+      ],
+      "required_action_reviews": [
+        "national-transposition",
+        "authorization-evidence",
+        "fraud-exception",
+        "liability-and-refund"
+      ],
+      "profile_id": "EA-PSD2-UNAUTHORIZED",
+      "version": "2026-09-18.1",
+      "status": "reference-only",
+      "participants": [
+        "issuer",
+        "bank",
+        "payment-provider"
+      ],
+      "reviewed_on": "2026-09-18",
+      "review_due": "2026-10-18",
+      "required_evidence_types": [
+        "customer-notice",
+        "transaction-record",
+        "authority-record"
+      ],
+      "required_clock_names": [
+        "unauthorized-notification",
+        "unauthorized-refund-review"
+      ],
+      "limitations": [
+        "Public source summary; national/product exceptions and case applicability require specialist review.",
+        "Named calendar, cutoffs, trigger evidence and reviewed due dates are required; no automatic deadline or credit decision."
+      ]
+    },
+    "UK-PSR-UNAUTHORIZED": {
+      "jurisdictions": [
+        "UK"
+      ],
+      "products": [
+        "consumer-payment-account"
+      ],
+      "rails": [
+        "FPS",
+        "BACS",
+        "CHAPS",
+        "card"
+      ],
+      "regime": "UK Payment Services Regulations 2017 unauthorized-payment review",
+      "authority": "UK legislature / FCA",
+      "source_ref": "https://www.fca.org.uk/consumers/fraudulent-payments",
+      "conditions": [
+        "Consumer unauthorized-payment allegation within applicable PSR scope.",
+        "Authorized APP reimbursement through FPS/CHAPS has a separate framework and case conditions."
+      ],
+      "clock_rules": [
+        {
+          "name": "unauthorized-notification",
+          "trigger": "debit-date",
+          "basis": "calendar-months",
+          "period": 13
+        },
+        {
+          "name": "unauthorized-refund-review",
+          "trigger": "awareness-or-notification",
+          "basis": "business-days",
+          "period": 1
+        }
+      ],
+      "exceptions": [
+        "Notify without undue delay; review applicable notice and suspected-fraud exceptions.",
+        "Authentication alone does not establish customer authority or gross negligence.",
+        "No automatic APP eligibility or reimbursement outcome is generated."
+      ],
+      "required_action_reviews": [
+        "authorization-evidence",
+        "notice-and-fraud-exceptions",
+        "liability-and-refund",
+        "APP-distinction"
+      ],
+      "profile_id": "UK-PSR-UNAUTHORIZED",
+      "version": "2026-09-18.1",
+      "status": "reference-only",
+      "participants": [
+        "issuer",
+        "bank",
+        "payment-provider"
+      ],
+      "reviewed_on": "2026-09-18",
+      "review_due": "2026-10-18",
+      "required_evidence_types": [
+        "customer-notice",
+        "transaction-record",
+        "authority-record"
+      ],
+      "required_clock_names": [
+        "unauthorized-notification",
+        "unauthorized-refund-review"
+      ],
+      "limitations": [
+        "Public source summary; national/product exceptions and case applicability require specialist review.",
+        "Named calendar, cutoffs, trigger evidence and reviewed due dates are required; no automatic deadline or credit decision."
+      ]
+    }
+  }
+}

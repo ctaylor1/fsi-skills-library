@@ -51,6 +51,8 @@ def _expected_disposition(fired: list) -> str:
 
 def validate(pack: dict) -> list:
     errors: list = []
+    from insurance_contract import validate_artifact
+    errors.extend(validate_artifact(pack.get("artifact"), input_doc=pack.get("calculation_inputs"), output=pack))
     findings = pack.get("findings") or []
     fired = [f["finding"] for f in findings if f.get("fired")]
 
@@ -64,10 +66,21 @@ def validate(pack: dict) -> list:
                     errors.append(f"fired finding {f['finding']} evidence row missing citation")
 
     exp = _expected_disposition(fired)
+    if not fired and pack.get("not_evaluable"):
+        exp = "Incomplete"
     if pack.get("suggested_disposition") != exp:
         errors.append(
             f"suggested_disposition {pack.get('suggested_disposition')!r} != deterministic "
             f"{exp!r} for fired={fired}")
+
+    try:
+        from calculate_or_transform import compute
+        expected = compute(pack["calculation_inputs"])
+        for key in ("findings", "fired_findings", "not_evaluable", "suggested_disposition", "review_status", "loss_window"):
+            if pack.get(key) != expected[key]:
+                errors.append(f"{key} does not reproduce calculation_inputs")
+    except (KeyError, ValueError, TypeError) as exc:
+        errors.append(f"missing or invalid calculation_inputs: {exc}")
 
     # scan free text: narrative + notes + finding reasons + renewal questions (NOT disclaimer)
     text = " ".join(

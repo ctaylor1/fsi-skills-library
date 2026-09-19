@@ -1,0 +1,310 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "long-duration-liability-valuation-reviewer",
+  "case_id": "FWD-ACT-VALUATION",
+  "as_of": "2026-06-30",
+  "context": {
+    "capacity": "actuarial analyst",
+    "represented_party": "Fictional Cedar Assurance",
+    "object_id": "LD-BLOCK-17",
+    "jurisdiction": "SYNTHETIC-INTERNAL",
+    "line_of_business": "life"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "cashflow_pv_break",
+      "message": "Recomputed minus supplied amount is -10, exceeding supplied rounding tolerance 0.01",
+      "source_refs": [
+        "BOOK",
+        "PROFILE"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "pv_to_book_break",
+      "message": "Recomputed minus supplied amount is -10, exceeding supplied rounding tolerance 0.01",
+      "source_refs": [
+        "BOOK",
+        "PROFILE"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "method": "supplied_liability_cashflow_pv_act365",
+    "cashflow_pv": "990",
+    "cashflows": [
+      {
+        "cashflow_id": "benefit",
+        "kind": "benefit",
+        "payment_date": "2027-06-30",
+        "time_years_act365": "1",
+        "signed_cashflow": "1210",
+        "present_value": "1.1E+3",
+        "source_ref": "PROJECTION"
+      },
+      {
+        "cashflow_id": "expense",
+        "kind": "expense",
+        "payment_date": "2027-06-30",
+        "time_years_act365": "1",
+        "signed_cashflow": "121",
+        "present_value": "1.1E+2",
+        "source_ref": "PROJECTION"
+      },
+      {
+        "cashflow_id": "premium",
+        "kind": "premium",
+        "payment_date": "2027-06-30",
+        "time_years_act365": "1",
+        "signed_cashflow": "-242",
+        "present_value": "-2.2E+2",
+        "source_ref": "PROJECTION"
+      }
+    ],
+    "pv_reconciliation": {
+      "computed": "990",
+      "reported": "1000",
+      "difference": "-10"
+    },
+    "book_bridge": {
+      "cashflow_pv": "990",
+      "adjustments": "60",
+      "expected_book": "1050",
+      "closing_book": "1060",
+      "difference": "-10"
+    },
+    "rollforward": {
+      "opening": "1000",
+      "movements": "60",
+      "expected_closing": "1060",
+      "supplied_closing": "1060",
+      "difference": "0"
+    },
+    "reserve_method_validated": false,
+    "accounting_basis": "INTERNAL-LD-REVIEW",
+    "rounding_tolerance": "0.01"
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "Projection horizon completeness has not been reviewed; source-model adequacy remains unresolved.",
+    "Recomputed minus supplied amount is -10, exceeding supplied rounding tolerance 0.01"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "FWD-ACT-VALUATION",
+    "as_of": "2026-06-30",
+    "context": {
+      "capacity": "actuarial analyst",
+      "represented_party": "Fictional Cedar Assurance",
+      "object_id": "LD-BLOCK-17",
+      "jurisdiction": "SYNTHETIC-INTERNAL",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "PROFILE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/valuation/raw_sources.json#PROFILE",
+        "extraction_text": "Reviewed synthetic internal management liability basis: INTERNAL-LD-REVIEW, annual-effective supplied spot rates, actual/365, rounding tolerance 0.01 USD. LD-BLOCK-17, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Expected amounts already reflect decrements."
+      },
+      {
+        "source_ref": "PROJECTION",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "PROJECTION synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/valuation/raw_sources.json#PROJECTION",
+        "extraction_text": "2027-06-30 expected benefits 1210, expenses 121, premiums 242; each spot rate .10. Projection horizon 2027-06-30. No source confirmation that future obligations beyond this horizon are exhausted."
+      },
+      {
+        "source_ref": "BOOK",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "BOOK synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/valuation/raw_sources.json#BOOK",
+        "extraction_text": "Opening liability 1000 at 2026-03-31; closing liability 1060 at 2026-06-30; reported cashflow PV 1000. Signed movements: 2026-04-30 +80 accrual, 2026-06-30 -20 benefits. At 2026-06-30 PV-to-book management adjustment +60."
+      }
+    ],
+    "unresolved_issues": [
+      "Projection horizon completeness has not been reviewed; source-model adequacy remains unresolved."
+    ],
+    "data": {
+      "scope": {
+        "object_id": "LD-BLOCK-17",
+        "currency": "USD",
+        "basis": "supplied_liability_cashflow_pv_act365",
+        "valuation_date": "2026-06-30"
+      },
+      "profile": {
+        "profile_id": "PROFILE-valuation",
+        "version": "fresh-synthetic-v1",
+        "source_refs": [
+          "PROFILE"
+        ],
+        "jurisdictions": [
+          "SYNTHETIC-INTERNAL"
+        ],
+        "lines_of_business": [
+          "life"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2027-12-31",
+        "object_ids": [
+          "LD-BLOCK-17"
+        ],
+        "currencies": [
+          "USD"
+        ],
+        "method": "supplied_liability_cashflow_pv_act365",
+        "accounting_basis": "INTERNAL-LD-REVIEW",
+        "rounding_tolerance": ".01"
+      },
+      "accounting_basis": "INTERNAL-LD-REVIEW",
+      "projection_horizon_end": "2027-06-30",
+      "cashflows": [
+        {
+          "object_id": "LD-BLOCK-17",
+          "currency": "USD",
+          "basis": "supplied_liability_cashflow_pv_act365",
+          "source_ref": "PROJECTION",
+          "cashflow_id": "benefit",
+          "payment_date": "2027-06-30",
+          "kind": "benefit",
+          "amount": 1210,
+          "spot_rate": ".10"
+        },
+        {
+          "object_id": "LD-BLOCK-17",
+          "currency": "USD",
+          "basis": "supplied_liability_cashflow_pv_act365",
+          "source_ref": "PROJECTION",
+          "cashflow_id": "expense",
+          "payment_date": "2027-06-30",
+          "kind": "expense",
+          "amount": 121,
+          "spot_rate": ".10"
+        },
+        {
+          "object_id": "LD-BLOCK-17",
+          "currency": "USD",
+          "basis": "supplied_liability_cashflow_pv_act365",
+          "source_ref": "PROJECTION",
+          "cashflow_id": "premium",
+          "payment_date": "2027-06-30",
+          "kind": "premium",
+          "amount": 242,
+          "spot_rate": ".10"
+        }
+      ],
+      "balances": {
+        "object_id": "LD-BLOCK-17",
+        "currency": "USD",
+        "basis": "supplied_liability_cashflow_pv_act365",
+        "source_ref": "BOOK",
+        "opening_date": "2026-03-31",
+        "closing_date": "2026-06-30",
+        "opening_liability": 1000,
+        "closing_liability": 1060,
+        "reported_cashflow_pv": 1000
+      },
+      "movements": [
+        {
+          "object_id": "LD-BLOCK-17",
+          "currency": "USD",
+          "basis": "supplied_liability_cashflow_pv_act365",
+          "source_ref": "BOOK",
+          "movement_id": "M1",
+          "movement_date": "2026-04-30",
+          "amount": 80,
+          "reason": "accrual"
+        },
+        {
+          "object_id": "LD-BLOCK-17",
+          "currency": "USD",
+          "basis": "supplied_liability_cashflow_pv_act365",
+          "source_ref": "BOOK",
+          "movement_id": "M2",
+          "movement_date": "2026-06-30",
+          "amount": -20,
+          "reason": "benefits"
+        }
+      ],
+      "pv_to_book_adjustments": [
+        {
+          "object_id": "LD-BLOCK-17",
+          "currency": "USD",
+          "basis": "supplied_liability_cashflow_pv_act365",
+          "source_ref": "BOOK",
+          "adjustment_id": "ADJ1",
+          "valuation_date": "2026-06-30",
+          "amount": 60,
+          "reason": "management adjustment"
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "long-duration-liability-valuation-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-06-30",
+    "context": {
+      "capacity": "actuarial analyst",
+      "represented_party": "Fictional Cedar Assurance",
+      "object_id": "LD-BLOCK-17",
+      "jurisdiction": "SYNTHETIC-INTERNAL",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "PROFILE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/valuation/raw_sources.json#PROFILE",
+        "extraction_text": "Reviewed synthetic internal management liability basis: INTERNAL-LD-REVIEW, annual-effective supplied spot rates, actual/365, rounding tolerance 0.01 USD. LD-BLOCK-17, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Expected amounts already reflect decrements."
+      },
+      {
+        "source_ref": "PROJECTION",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "PROJECTION synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/valuation/raw_sources.json#PROJECTION",
+        "extraction_text": "2027-06-30 expected benefits 1210, expenses 121, premiums 242; each spot rate .10. Projection horizon 2027-06-30. No source confirmation that future obligations beyond this horizon are exhausted."
+      },
+      {
+        "source_ref": "BOOK",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-06-30",
+        "title": "BOOK synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/valuation/raw_sources.json#BOOK",
+        "extraction_text": "Opening liability 1000 at 2026-03-31; closing liability 1060 at 2026-06-30; reported cashflow PV 1000. Signed movements: 2026-04-30 +80 accrual, 2026-06-30 -20 benefits. At 2026-06-30 PV-to-book management adjustment +60."
+      }
+    ],
+    "input_hash": "90c9a2547a0a949771493bcc9ac16cd28a030e1768337a2c9082e002df07b368",
+    "output_hash": "bcbb5b3d9ef0c54bcde0f721b57b99e9c7b31397dc2d8549ddae19d875e626cd",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "Projection horizon completeness has not been reviewed; source-model adequacy remains unresolved.",
+      "Recomputed minus supplied amount is -10, exceeding supplied rounding tolerance 0.01"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "bf3277ce7ce4d3c32e4cc26af937b00b5e56eb9078af6c830f57154cbb85a22d"
+  }
+}

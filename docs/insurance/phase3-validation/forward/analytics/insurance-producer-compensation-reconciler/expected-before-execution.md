@@ -1,0 +1,1 @@
+E1gross13750.48125,E2gross5500,chargebackgross3437.6203125. Netgross15812.8609375; P65=10278.359609375,P35=5534.501328125. Differences recomputed-reported P65=-.000390625,P35=4.501328125. Tiny P65 discrepancy could match cent rounding but rule absent. P35 discrepancy requires ledger/control review; no payment.

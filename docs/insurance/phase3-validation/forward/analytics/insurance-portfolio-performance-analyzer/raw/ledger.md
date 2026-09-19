@@ -1,0 +1,4 @@
+# Synthetic portfolio extract v1
+§1. Q1-2025 2025-01-01 to 2025-03-31: segment Urban earned premium600000,written660000,incurred loss LAE240000,underwriting expense120000,claim count12,earned exposure600; Rural earned400000,written440000,loss320000,expense80000,count8,exposure200.
+§2. Q1-2026 2026-01-01 to 2026-03-31: Urban earned400000,written440000,loss200000,expense88000,count10,exposure400; Rural earned600000,written660000,loss540000,expense132000,count12,exposure300. All amounts USD gross-direct; periods are calendar and losses include LAE. Rows are exhaustive and disjoint. No missing components.
+§3. Underwriting manager suggests repair-cost inflation explains all deterioration. No development triangle, rate-level adjustment, repair-cost series or matched claim files accompany this suggestion.

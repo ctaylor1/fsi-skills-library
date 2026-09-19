@@ -1,0 +1,115 @@
+{
+  "execution_mode": "offline-case-review",
+  "input_snapshot_hash": "d6e2c24e2c79e6b3431424b5140987040fd97f869a5d8e4d6917d1c55bf6e55a",
+  "config_version": "synthetic-v1",
+  "rules_version": "synthetic-v1",
+  "score_basis": {
+    "high_min": 8,
+    "low_max": 3,
+    "interpretation": "illustrative supplied-signal score; not a calibrated fraud model"
+  },
+  "cases": [
+    {
+      "alert_id": "SYNTH-A1",
+      "case_id": "SYNTH-PHONE1",
+      "risk_score": 0,
+      "risk_band": "Low",
+      "disposition": "needs-evidence",
+      "recommendation_rationale": "Reported deception requires payment-scam investigation regardless of the illustrative score. Preserve authorization, victim account, beneficiary, recovery and reimbursement evidence; retain the payment case while specialists perform bounded subinvestigations.",
+      "evidence_bundle": {
+        "case_id": "SYNTH-PHONE1",
+        "evidence_status": "supplied",
+        "customer_id_masked": "****0101",
+        "account_ref": "****1101",
+        "channel": "rtp",
+        "amount": "1000.00",
+        "currency": "USD",
+        "chronology": [
+          {
+            "ts": "2026-09-17T09:10:00-04:00",
+            "type": "phone-scam-report",
+            "detail": "Customer reports a caller induced them to authorize the transfer. No email artifacts exist.",
+            "citation": "synthetic:phone-scam-report"
+          },
+          {
+            "ts": "2026-09-17T09:30:00-04:00",
+            "type": "transaction",
+            "detail": "outbound 1000.00 USD txn=SYNTH-RTP1 benef=****2201",
+            "citation": "synthetic:payment-record"
+          },
+          {
+            "ts": "2026-09-17T10:00:00-04:00",
+            "type": "case_opened",
+            "detail": "Fraud alert opened on channel rtp",
+            "citation": "synthetic:phone-scam-report"
+          }
+        ],
+        "parties": [
+          {
+            "role": "customer",
+            "ref": "****0101",
+            "citation": "synthetic:phone-scam-report"
+          },
+          {
+            "role": "beneficiary",
+            "ref": "****2201",
+            "citation": "synthetic:phone-scam-report"
+          }
+        ],
+        "evidence_items": [],
+        "network_links": [],
+        "risk_score": 0,
+        "risk_band": "Low",
+        "score_reasons": [],
+        "evidence_complete": false,
+        "missing_evidence": [
+          "device",
+          "identity",
+          "behavior",
+          "transaction",
+          "beneficiary"
+        ],
+        "recommended_disposition": "needs-evidence",
+        "case_owner": "payment-fraud-and-scam-investigator",
+        "scam_reported": true,
+        "scam_evidence": {
+          "authorization_evidence": "synthetic:payment-consent",
+          "victim_account": "****1101",
+          "recovery_status": "unknown"
+        },
+        "missing_scam_evidence": [
+          "beneficiary_evidence",
+          "reimbursement_profile"
+        ],
+        "consultations": [],
+        "recommendation_rationale": "Reported deception requires payment-scam investigation regardless of the illustrative score. Preserve authorization, victim account, beneficiary, recovery and reimbursement evidence; retain the payment case while specialists perform bounded subinvestigations.",
+        "citations": [
+          "synthetic:payment-record",
+          "synthetic:phone-scam-report"
+        ]
+      },
+      "case_owner": "payment-fraud-and-scam-investigator",
+      "case_reference_origin": "supplied",
+      "consultations": [],
+      "needs": [
+        "evidence category: device",
+        "evidence category: identity",
+        "evidence category: behavior",
+        "evidence category: transaction",
+        "evidence category: beneficiary",
+        "scam evidence: beneficiary_evidence",
+        "scam evidence: reimbursement_profile",
+        "human scam investigation and applicable reimbursement review"
+      ]
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "needs-evidence": 1,
+    "recommend-elevated-monitoring": 0,
+    "recommend-fraud": 0,
+    "recommend-legitimate": 0,
+    "route-specialist": 0
+  },
+  "standing_note": "Investigation evidence and a disposition recommendation only; no case has been closed, no fraud determination has been made, and no filing has been performed. Human adjudication is required before any block, closure, filing, or customer commitment."
+}

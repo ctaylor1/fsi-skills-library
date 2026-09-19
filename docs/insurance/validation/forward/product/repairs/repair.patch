@@ -1,0 +1,314 @@
+--- before/premium-quote-comparator/SKILL.md
++++ after/premium-quote-comparator/SKILL.md
+@@ -26,7 +26,7 @@
+ 
+ ## Implemented scope and evidence contract
+ 
+-The implemented comparison covers annualized P&C payment schedules, not life/annuity illustrations. Every material comparability flag suppresses the overall lowest-cost ID and cost spread (`null`); display individual amounts with their original currencies and source dates. Do not use the batch date as a quote source date. Missing limits are unknown, not proof that coverage is absent. Service factors remain unscored quoted context.
++The implemented comparison covers annualized P&C payment schedules, not life/annuity illustrations. Every material comparability flag suppresses the overall lowest-cost ID and cost spread (`null`); display individual amounts with their original currencies and source dates. Do not use the batch date as a quote source date. A missing limit or deductible prevents overall comparability even when the other value is supplied; unknown values are not proof that coverage is absent. Service factors remain unscored quoted context.
+ 
+ All output artifacts include the portable insurance evidence contract and source snapshot. Missing actor, versioned source, date or upstream context remains explicitly partial. Content hashes detect changes; they do not authenticate sources or grant approval. After authoring narrative, rebuild `artifact` with `build_artifact` from `scripts/insurance_contract.py` before running output validation. A common envelope does not replace the receiver's native input validator.
+ 
+--- before/premium-quote-comparator/references/domain-rules.md
++++ after/premium-quote-comparator/references/domain-rules.md
+@@ -45,6 +45,11 @@
+ quotes. A lower annualized cost frequently reflects a higher deductible, a lower limit, a
+ dropped coverage, or an extra exclusion — the flags make that explicit.
+ 
++An unknown limit or deductible raises `coverage_unknown`, including when the same field is
++missing from every quote. Retain the individual quoted premiums and coverage presence, but
++withhold overall comparability, the lowest-cost ID and cost spread. An explicit zero
++deductible is a supplied value, not missing data.
++
+ ## Hard boundaries (fail closed)
+ 
+ - Never **recommend, select, or rank-as-advice** a quote; report the lowest cost as a fact.
+--- before/premium-quote-comparator/scripts/calculate_or_transform.py
++++ after/premium-quote-comparator/scripts/calculate_or_transform.py
+@@ -195,8 +195,13 @@
+         flag("currency_unknown", True, "currency is missing; costs cannot be compared", all_ids)
+     if any(not q.get("as_of") or not q.get("source_ref") for q in quotes):
+         flag("source_incomplete", True, "quote source date or reference is missing", all_ids)
+-    if any(c.get("limit") is None and c.get("deductible") is None for q in quotes for c in q.get("coverages", [])):
+-        flag("coverage_unknown", True, "a listed coverage has unknown limit and deductible", all_ids)
++    unknown_coverage_ids = [q["quote_id"] for q in quotes if any(
++        c.get("limit") in (None, "") or c.get("deductible") in (None, "")
++        for c in q.get("coverages", []))]
++    if unknown_coverage_ids:
++        flag("coverage_unknown", True,
++             "a listed coverage has an unknown limit or deductible; equivalent terms are unconfirmed",
++             unknown_coverage_ids)
+     comparable = len(normalized) >= 2 and not flags
+     lowest = min(normalized, key=lambda n: (n["annualized_total_cost"], n["quote_id"])) if comparable else None
+     costs = [n["annualized_total_cost"] for n in normalized]
+--- before/premium-quote-comparator/scripts/validate_input.py
++++ after/premium-quote-comparator/scripts/validate_input.py
+@@ -98,8 +98,8 @@
+                     errors.append(f"{tag}: coverages[{j}] missing 'code'")
+                 if c.get("deductible") is not None and _num(c.get("deductible")) is None:
+                     errors.append(f"{tag}: coverages[{j}] ({c.get('code','?')}) deductible not numeric")
+-                if c.get("limit") in (None, "") and c.get("deductible") in (None, ""):
+-                    warnings.append(f"{tag}: coverage {c.get('code','?')} has neither limit nor deductible — not comparable")
++                if c.get("limit") in (None, "") or c.get("deductible") in (None, ""):
++                    warnings.append(f"{tag}: coverage {c.get('code','?')} has an unknown limit or deductible — not comparable")
+ 
+         for f in q.get("fees") or []:
+             if _num(f.get("amount")) is None:
+--- before/premium-quote-comparator/scripts/test_phase1.py
++++ after/premium-quote-comparator/scripts/test_phase1.py
+@@ -2,7 +2,7 @@
+ """Phase 1 behavioral regressions; synthetic artifacts only, no external actions."""
+ import copy,json,unittest
+ from pathlib import Path
+-from insurance_contract import build_artifact,validate_artifact
++from insurance_contract import build_artifact
+ ROOT=Path(__file__).resolve().parents[1]
+ def load(name):return json.loads((ROOT/'evals/files'/name).read_text())
+ def reseal(out):
+@@ -12,6 +12,44 @@
+ from calculate_or_transform import compute
+ from validate_output import validate
+ class Regression(unittest.TestCase):
++    def matching_quotes(self):
++        d=load('quotes_example.json')
++        first=copy.deepcopy(d['quotes'][0]);second=copy.deepcopy(first)
++        first['premium']={'amount':1000,'frequency':'annual'}
++        second['quote_id']='Q-Z';second['premium']={'amount':900,'frequency':'annual'}
++        d['quotes']=[first,second]
++        return d
++
++    def test_unknown_limit_or_deductible_suppresses_overall_comparison(self):
++        for field in ('limit','deductible'):
++            for missing in ((None,'','omitted') if field=='limit' else (None,'omitted')):
++                with self.subTest(field=field,missing=missing):
++                    d=self.matching_quotes()
++                    for quote in d['quotes']:
++                        coverage=quote['coverages'][0]
++                        if missing=='omitted':coverage.pop(field)
++                        else:coverage[field]=missing
++                    o=compute(d)
++                    self.assertEqual(o['cost_comparison_status'],'not_comparable')
++                    self.assertIsNone(o['lowest_annualized_total_cost_quote_id'])
++                    self.assertIsNone(o['cost_spread'])
++                    self.assertEqual(o['artifact']['completeness'],'partial')
++                    self.assertIn('coverage_unknown',[f['flag'] for f in o['comparability_flags']])
++                    self.assertTrue(all(c['included'] for c in o['coverage_matrix'][0]['cells']))
++                    self.assertEqual([q['annualized_premium'] for q in o['normalized_quotes']],[1000,900])
++                    self.assertFalse(validate(o))
++
++    def test_explicit_zero_deductible_and_stated_limit_remain_comparable(self):
++        d=self.matching_quotes()
++        for quote in d['quotes']:
++            quote['coverages'][0]['deductible']=0
++            quote['coverages'][0]['limit']='ACV'
++        o=compute(d)
++        self.assertEqual(o['cost_comparison_status'],'comparable')
++        self.assertEqual(o['lowest_annualized_total_cost_quote_id'],'Q-Z')
++        self.assertEqual(o['cost_spread']['delta'],100)
++        self.assertFalse(validate(o))
++
+     def test_mixed_currency_no_ranking(self):
+         d=load('quotes_example.json');d['quotes'][1]['currency']='CAD';o=compute(d)
+         self.assertIsNone(o['lowest_annualized_total_cost_quote_id']);self.assertIsNone(o['cost_spread']);self.assertFalse(validate(o))
+--- before/reinsurance-contract-reviewer/SKILL.md
++++ after/reinsurance-contract-reviewer/SKILL.md
+@@ -22,7 +22,7 @@
+   aws-fsi-recertification-date: "2027-09-18"
+ ---
+ 
+-# Reinsurance Treaty Interpreter
++# Reinsurance Contract Review
+ 
+ ## Implemented scope and evidence contract
+ 
+--- before/reinsurance-contract-reviewer/evals/evals.json
++++ after/reinsurance-contract-reviewer/evals/evals.json
+@@ -61,7 +61,7 @@
+         "layer stated as 10,000,000 xs 5,000,000 with one reinstatement and 20,000,000 aggregate",
+         "each clause restated in plain language with a citation",
+         "O-1 ceded recovery 7,000,000 and O-2 ceded recovery 10,000,000, cumulative 17,000,000",
+-        "O-2 reinstates 7,000,000 of limit for a reinstatement premium of 1,400,000",
++        "O-1 reinstates 7,000,000 for premium 1,400,000; O-2 reinstates the remaining 3,000,000 for premium 600,000",
+         "O-3 (3,000,000) shown as below attachment with zero layer recovery, not dropped",
+         "illustrative total ceded 17,000,000 with 3,000,000 aggregate remaining",
+         "recovery figures labeled illustrative, not a recoverability determination",
+--- before/reinsurance-contract-reviewer/references/domain-rules.md
++++ after/reinsurance-contract-reviewer/references/domain-rules.md
+@@ -38,6 +38,8 @@
+ The restored amount is the sum of these overlaps; premium is the sum of
+ `overlap/limit * premium_pct/100 * layer_premium`. Restoration is capped at count*limit.
+ There is no time adjustment. Never apply this method to wording providing a different trigger.
++Restored capacity is independent of the premium charge: an explicitly supplied zero layer
++premium or zero premium percentage still restores the calculated erosion amount, at zero charge.
+ 
+ The synthetic 10m xs 5m example has one reinstatement at 100%, a 2m layer premium and 20m
+ aggregate. Losses 12m, 18m and 3m produce ceded 7m, 10m and 0; restored amounts 7m, 3m and 0;
+--- before/reinsurance-contract-reviewer/scripts/calculate_or_transform.py
++++ after/reinsurance-contract-reviewer/scripts/calculate_or_transform.py
+@@ -44,7 +44,8 @@
+ 
+ def _reinstatement_premium(prev_cum, new_cum, limit, reinstatements, terms, layer_premium):
+     """Premium to restore limit for the band (prev_cum, new_cum], by reinstatement band."""
+-    if not reinstatements or not layer_premium or limit <= 0:
++    # Restoration follows contractual erosion even when its premium charge is zero.
++    if not reinstatements or limit <= 0:
+         return 0.0, 0.0
+     reinstated_amount = 0.0
+     premium = 0.0
+@@ -79,10 +80,6 @@
+         if attachment is None or limit is None or limit <= 0:
+             errors.append("cannot illustrate: excess_of_loss layer needs numeric attachment and positive limit")
+ 
+-    if limit and limit > 0:
+-        default_agg = limit * (1 + int(reinstatements))
+-    else:
+-        default_agg = None
+     aggregate_limit = _num(layer.get("aggregate_limit"))
+ 
+     as_of = doc.get("inception_date", "")
+--- before/reinsurance-contract-reviewer/scripts/test_phase1.py
++++ after/reinsurance-contract-reviewer/scripts/test_phase1.py
+@@ -1,8 +1,8 @@
+ #!/usr/bin/env python3
+ """Phase 1 behavioral regressions; synthetic artifacts only, no external actions."""
+-import copy,json,unittest
++import json,unittest
+ from pathlib import Path
+-from insurance_contract import build_artifact,validate_artifact
++from insurance_contract import build_artifact
+ ROOT=Path(__file__).resolve().parents[1]
+ def load(name):return json.loads((ROOT/'evals/files'/name).read_text())
+ def reseal(out):
+@@ -12,6 +12,39 @@
+ from calculate_or_transform import transform
+ from validate_output import validate
+ class Regression(unittest.TestCase):
++    def test_zero_premium_restores_limit_without_a_charge(self):
++        d=load('treaty_example.json')
++        d['layer']['layer_premium']=0
++        d['expected_total_reinstatement_premium']=0
++        for clause in d['clauses']:
++            if clause['clause_type']=='reinstatement':
++                clause['text']='One pro-rata amount reinstatement on erosion at 100 percent of the zero layer premium, without time adjustment.'
++        out,errors=transform(d)
++        self.assertFalse(errors)
++        ill=out['recovery_illustration']
++        self.assertEqual([o['reinstated_amount'] for o in ill['occurrences']],[7000000,3000000,0])
++        self.assertEqual([o['reinstatement_premium'] for o in ill['occurrences']],[0,0,0])
++        self.assertEqual(ill['total_ceded'],17000000)
++        self.assertEqual(ill['total_reinstatement_premium'],0)
++        self.assertEqual(ill['occurrences'][-1]['remaining_aggregate'],3000000)
++        for clause in out['clauses']:
++            clause['plain_summary']='The supplied clause is retained for review.'
++        self.assertFalse(validate(reseal(out)))
++        out['recovery_illustration']['occurrences'][0]['reinstated_amount']=0
++        self.assertTrue(validate(reseal(out)))
++
++    def test_zero_reinstatement_percentage_still_restores_limit(self):
++        d=load('treaty_example.json')
++        d['layer']['reinstatement_terms']=[{'premium_pct':0}]
++        d['expected_total_reinstatement_premium']=0
++        for clause in d['clauses']:
++            if clause['clause_type']=='reinstatement':
++                clause['text']='One free pro-rata amount reinstatement on erosion at zero percent of the layer premium, without time adjustment.'
++        out,errors=transform(d)
++        self.assertFalse(errors)
++        self.assertEqual(out['recovery_illustration']['occurrences'][0]['reinstated_amount'],7000000)
++        self.assertEqual(out['recovery_illustration']['total_reinstatement_premium'],0)
++
+     def test_xol_and_reinstatement_first_erosion(self):
+         out,errors=transform(load('treaty_example.json'));self.assertFalse(errors);ill=out['recovery_illustration']
+         self.assertEqual(ill['occurrences'][0]['ceded_recovery'],7000000);self.assertEqual(ill['occurrences'][0]['reinstatement_premium'],1400000)
+--- before/pc-reserving-analysis-assistant/SKILL.md
++++ after/pc-reserving-analysis-assistant/SKILL.md
+@@ -22,7 +22,7 @@
+   aws-fsi-recertification-date: "2027-09-18"
+ ---
+ 
+-# Reserving Analysis Assistant
++# P&C Reserving Analysis
+ 
+ ## Implemented scope and evidence contract
+ 
+--- before/pc-reserving-analysis-assistant/scripts/test_phase1.py
++++ after/pc-reserving-analysis-assistant/scripts/test_phase1.py
+@@ -1,8 +1,8 @@
+ #!/usr/bin/env python3
+ """Phase 1 behavioral regressions; synthetic artifacts only, no external actions."""
+-import copy,json,unittest
++import json,unittest
+ from pathlib import Path
+-from insurance_contract import build_artifact,validate_artifact
++from insurance_contract import build_artifact
+ ROOT=Path(__file__).resolve().parents[1]
+ def load(name):return json.loads((ROOT/'evals/files'/name).read_text())
+ def reseal(out):
+--- before/pc-reserving-analysis-assistant/assets/output-template.md
++++ after/pc-reserving-analysis-assistant/assets/output-template.md
+@@ -32,8 +32,9 @@
+ | ------- | --------------- | --------------- | ------------- |
+ | {{segment_id}} | {{triangle_source}} | {{as_of}} | {{recon_target}} |
+ 
+-Data gaps (force `needs-data`): {{data_gaps}}. Anomalies raised for actuarial review (force
+-`anomaly-flagged`): {{anomalies}}.
++Triangle gaps preventing development (`needs-data`): {{data_gaps}}. Anomalies raised for
++actuarial review (`anomaly-flagged`): {{anomalies}}. Supporting analyses that remain
++unevaluable despite a computable triangle indication: {{supporting_analysis_gaps}}.
+ 
+ ## 3. Development method and factors
+ 
+@@ -48,13 +49,16 @@
+ 
+ ## 4. Indicated ultimate and reserve measures
+ 
+-Indicated figures are mechanical method outputs, not selected reserves. IBNR =
+-indicated ultimate − reported. Every row ties out (ultimate = paid + total_unpaid or reported_incurred + ibnr).
++Indicated figures are mechanical method outputs, not selected reserves. Choose labels and
++values for the segment's basis: paid triangles use **Paid** (`paid`) and **Total unpaid**
++(`total_unpaid`); incurred triangles use **Reported incurred** (`reported_incurred`) and
++**IBNR** (`ibnr`). Total unpaid includes case outstanding and must not be relabeled IBNR.
++Every row ties out as ultimate = paid + total_unpaid or reported_incurred + ibnr.
+ 
+-| Origin | Latest dev age | Reported ({{unit}}) | CDF used | Indicated ultimate | Indicated IBNR | Source |
++| Origin | Latest dev age | {{diagonal_label}} ({{unit}}) | CDF used | Indicated ultimate | Indicated {{reserve_measure_label}} | Source |
+ | ------ | -------------- | ------------------- | -------- | ------------------ | -------------- | ------ |
+-| {{origin}} | {{latest_dev_age}} | {{reported}} | {{cdf_used}} | {{ultimate}} | {{ibnr}} | {{citation}} |
+-| **Total** | | {{total_reported}} | | {{total_ultimate}} | {{total_ibnr}} | |
++| {{origin}} | {{latest_dev_age}} | {{diagonal_value}} | {{cdf_used}} | {{ultimate}} | {{reserve_value}} | {{citation}} |
++| **Total** | | {{total_diagonal}} | | {{total_ultimate}} | {{total_reserve_value}} | |
+ 
+ Selection basis: {{selection_basis}} — the appointed actuary selects the carried reserve.
+ 
+@@ -62,13 +66,18 @@
+ 
+ | Metric | Value | Source |
+ | ------ | ----- | ------ |
+-| Ultimate severity (ultimate losses / ultimate counts) | {{severity}} | {{severity_source}} |
+-| Frequency (ultimate counts / earned exposure) | {{frequency}} | {{frequency_source}} |
++| Supplied-count severity (indicated ultimate losses / supplied claim counts) | {{severity}} | {{severity_source}} |
++| Frequency (supplied claim counts / earned exposure) | {{frequency}} | {{frequency_source}} |
++| Supplied claim-count basis | {{count_basis}} | {{count_source}} |
+ | Large-loss threshold | {{large_loss_threshold}} | ruleset |
+ | Large losses ≥ threshold (count / total) | {{ll_count}} / {{ll_total}} | {{ll_source}} |
+ 
+ Large-loss claims flagged for the actuary's attention: {{large_loss_claims}}. Where a
+ large loss distorts the triangle, note it here; do not silently smooth it.
++Supplied counts are not developed ultimate counts; state their basis and its compatibility
++with the loss and exposure data. If the large-loss schedule or threshold is unavailable,
++report the analysis as `not_evaluable` with unknown count, total and flag; do not fill these
++cells with zero. Keep that supporting-data gap visible in the partial artifact.
+ 
+ ## 6. Uncertainty and sensitivity
+ 
+@@ -78,9 +87,9 @@
+ | Measure | Value |
+ | ------- | ----- |
+ | Low indicated ultimate (min link ratios) | {{low_ultimate}} |
+-| Selected-method indicated ultimate | {{selected_ultimate}} |
++| Method-indicated ultimate | {{selected_ultimate}} |
+ | High indicated ultimate (max link ratios) | {{high_ultimate}} |
+-| Indicative range (% of selected) | {{range_pct}} |
++| Indicative range (% of method-indicated ultimate) | {{range_pct}} |
+ 
+ ## 7. Assumptions and limitations
+ 

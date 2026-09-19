@@ -1,0 +1,139 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "recon-001",
+  "household_id": "HH-DEMO",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "scope",
+      "reference": "demo:account-scope",
+      "owner": "demo-operations",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-09-30"
+    },
+    {
+      "source_id": "policy",
+      "reference": "demo:valuation-policy",
+      "owner": "demo-operations",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-09-30"
+    },
+    {
+      "source_id": "statement",
+      "reference": "demo:statements",
+      "owner": "demo-operations",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-09-30"
+    },
+    {
+      "source_id": "reference",
+      "reference": "demo:independent-reference",
+      "owner": "demo-operations",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-09-30"
+    }
+  ],
+  "base_currency": "USD",
+  "household_party_ids": [
+    "P1",
+    "P2"
+  ],
+  "valuation_policy": {
+    "version": "demo-v1",
+    "max_age_days": 7,
+    "source_ids": [
+      "policy"
+    ]
+  },
+  "expected_accounts": [
+    {
+      "account_id": "A1",
+      "kind": "asset",
+      "source_ids": [
+        "scope"
+      ]
+    },
+    {
+      "account_id": "A2",
+      "kind": "asset",
+      "source_ids": [
+        "scope"
+      ]
+    },
+    {
+      "account_id": "L1",
+      "kind": "liability",
+      "source_ids": [
+        "scope"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "record_id": "A1-s1",
+      "account_id": "A1",
+      "kind": "asset",
+      "value": "100000.00",
+      "household_share": "1",
+      "currency": "USD",
+      "valuation_date": "2026-09-15",
+      "owner_party_ids": [
+        "P1"
+      ],
+      "identity_verified": true,
+      "is_held_away": false,
+      "source_ids": [
+        "statement"
+      ]
+    },
+    {
+      "record_id": "A2-s1",
+      "account_id": "A2",
+      "kind": "asset",
+      "value": "100000.00",
+      "household_share": "0.5",
+      "currency": "USD",
+      "valuation_date": "2026-09-15",
+      "owner_party_ids": [
+        "P2",
+        "EXTERNAL"
+      ],
+      "identity_verified": true,
+      "is_held_away": true,
+      "source_ids": [
+        "statement"
+      ]
+    },
+    {
+      "record_id": "L1-s1",
+      "account_id": "L1",
+      "kind": "liability",
+      "value": "20000.00",
+      "household_share": "1",
+      "currency": "USD",
+      "valuation_date": "2026-09-15",
+      "owner_party_ids": [
+        "P1",
+        "P2"
+      ],
+      "identity_verified": true,
+      "is_held_away": false,
+      "source_ids": [
+        "statement"
+      ]
+    }
+  ],
+  "reference_totals": {
+    "assets": "150000.00",
+    "liabilities": "20000.00",
+    "basis": "household-share",
+    "currency": "USD",
+    "source_ids": [
+      "reference"
+    ]
+  }
+}

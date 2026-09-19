@@ -1,0 +1,59 @@
+import copy, hashlib, importlib.util, json, pathlib, subprocess, sys
+ROOT=pathlib.Path('/Users/taylor/DevRepo/Skills/fsi-skills-library')
+OUT=pathlib.Path('/tmp/insurance-claims-forward-20260918')
+PY='/tmp/fsi-p0-venv/bin/python'
+PKGS=['claims-triage-assistant','liability-evidence-matrix-builder','subrogation-opportunity-screener','claim-intake-preparer']
+def write(name,obj):
+ p=OUT/name
+ p.write_text(json.dumps(obj,indent=2)+'\n' if not isinstance(obj,str) else obj)
+def common(cid):
+ return {'as_of':'2026-09-18','context':{'capacity':'claims adjuster','represented_party':'Synthetic Harbor Mutual','object_id':cid,'jurisdiction':'US-NY','line_of_business':'pc'},'sources':[{'source_ref':'synthetic-notice','version':'v1','as_of':'2026-09-18'},{'source_ref':'synthetic-profile','version':'review-v1','as_of':'2026-09-18'}]}
+scenarios=[]
+s=common('CLM-SYN-URGENT-042'); s.update(config_version='synthetic-triage-v1',claims=[{'claim_id':'CLM-SYN-URGENT-042','policy_id':'POL-SYN-042','product':'commercial-auto','claim_type':'auto_liability','loss_date':'2026-09-10','reported_date':'2026-09-11','source_ref':'synthetic-notice','policy_period':{'from':'2026-01-01','to':'2026-12-31'},'policy_status':'active','estimated_exposure':None,'liability_clear':None,'injuries':True,'fatality':True,'litigation':True,'statutory_deadline_date':'2026-09-17','statutory_deadline_source_ref':'synthetic-counsel-diary','catastrophe_code':'SYN-STORM-42','subrogation_potential':True,'fraud_indicators':['conflicting vehicle identification supplied'],'parties':['insured','claimant','contractor'],'claimant':{'vulnerability_flag':True}}]);scenarios.append(('01-urgent-unknown-liability',PKGS[0],"I am the carrier claims triage lead. This commercial-auto notice reports a fatality and injuries after a storm, litigation and a counsel-supplied diary date that passed yesterday. Fault and exposure have not been established. Prepare immediate review priorities and specialist recommendations while preserving those unknowns; do not decide fault, coverage, payment or assignment.",s,{'urgency':'Immediate despite liability and exposure unknown','deadline_days':-1,'specialist_routes':['investigation','CAT','litigation','fraud','subrogation','vulnerable claimant'],'classification':'partial'}))
+s=common('CLM-SYN-LIAB-019');s['sources'] += [{'source_ref':'synthetic-driver-statement','version':'signed-v1'},{'source_ref':'synthetic-camera-review','version':'v2'},{'source_ref':'synthetic-invoice','version':'v1'}];s.update(claim={'claim_id':'CLM-SYN-LIAB-019','claim_type':'auto_liability'},facts=[{'fact_id':'F1','statement':'The insured driver entered on red.','party':'insured','source_ref':'synthetic-notice'},{'fact_id':'F2','statement':'The claimant vehicle was stationary.','party':'claimant','source_ref':'synthetic-notice'},{'fact_id':'F3','statement':'The impact caused all billed repairs.','party':'claimant','source_ref':'synthetic-invoice'}],evidence=[{'evidence_id':'E1','source_ref':'synthetic-driver-statement','version':'signed-v1','relations':[{'fact_id':'F1','role':'supports','source_quote':'The insured is liable; I saw their car cross the stop line after the signal turned red.','relation_basis':'Supplied witness assertion describes the alleged red-light entry; liability language remains attributed quotation.'}]},{'evidence_id':'E2','source_ref':'synthetic-camera-review','version':'v2','relations':[{'fact_id':'F1','role':'contradicts','source_quote':'The insured vehicle crossed on green before the light changed.','relation_basis':'The supplied camera-review account conflicts with the alleged red-light entry.'},{'fact_id':'F2','role':'contradicts','source_quote':'The claimant vehicle was reversing when the vehicles contacted.','relation_basis':'The supplied description of motion is contrary to a stationary vehicle.'}]}]);scenarios.append(('02-quoted-contrary-evidence',PKGS[1],"For this disputed collision, build an evidence matrix from the supplied passages. Keep the witness's exact words 'The insured is liable' as a quotation. The camera reviewer contradicts that account. Distinguish contested, contradicted and unsupported allegations and do not turn any statement into your own fault finding.",s,{'F1':'contested','F2':'contradicted','F3':'unsupported','quote':'preserved','assistant_assertion':'must be rejected'}))
+s=common('CLM-SYN-SUBRO-058');s.update(claim_id='CLM-SYN-SUBRO-058',config_version='synthetic-recovery-v1',line_of_business='commercial_property',paid_to_date=18400,currency='USD',limitation_date='2026-10-03',limitation_source_ref='synthetic-counsel-diary',liability={'indicated':True,'basis':'supplied engineering allegation, disputed by contractor','responsible_parties':[{'party_id':'P1','name':'Synthetic Plumbing Contractor','role':'contractor','liability_pct':70,'insured':True,'assets_known':False,'source_ref':'synthetic-engineer-note'}]},evidence=[{'type':'expert_report','present':True,'source_ref':'synthetic-engineer-note'}],config={'referral_floor':2500,'min_liability_pct':50,'recovery_cost_estimate':750,'limitation_buffer_days':30,'limitation_urgent_days':90});scenarios.append(('03-unknown-waiver-economics',PKGS[2],"I am preparing a recovery specialist review for a burst pipe claim. A draft engineering report alleges a contractor contribution and counsel supplied an October 3 diary date. Paid amount is 18,400 USD, but the deductible and financial source record are missing, and nobody has checked policy waiver or prior recovery. Screen only what is supportable; do not assume no waiver, no prior recovery, or zero deductible.",s,{'availability':'unknown','band':'Review','economics':'not_evaluable; null base/gross/net/share','time_critical':True,'recovery_not_waived':False}))
+s=common('FNOL-SYN-077');s.update(raw_fnol={'fnol_id':'FNOL-SYN-077','policy_number':'POL-SYN-077','loss_date':'2026-09-15','reported_date':'2026-09-18','claimant_name':'Synthetic Claimant A','loss_type_raw':'Water damage','cause_raw':'pipe leak','loss_location_raw':'Synthetic Warehouse A','receipt':{'received_at':'2026-09-18T09:12:00-04:00','source_ref':'synthetic-mailbox-receipt'}},config={'config_version':'synthetic-vocabulary-v1','loss_type_map':{'water damage':'property_damage'},'cause_map':{'pipe leak':'escape_of_water'},'required_fields':['policy_number','loss_date','reported_date','claimant','loss_type','cause']},claim_package={'claim_id':'CLM-SYN-077','fnol_id':'FNOL-SYN-077','identity_mapping':{'source_ref':'synthetic-reviewed-assignment'},'policy_number':'POL-SYN-077','claim_type':'property_damage','as_of':'2026-09-18','config_version':'synthetic-requirements-v1','dates':{'date_of_loss':'2026-09-15','date_reported':'2026-09-18','date_prepared':'2026-09-18','policy_effective':'2026-01-01','policy_expiration':'2026-12-31'},'fields':{'claimant_name':'Synthetic Claimant A','loss_description':'Pipe leak damaged stock','amount_claimed':None},'documents':[],'deadlines':[{'name':'supplied notice diary','due_date':'2026-10-20','hard':True,'source_ref':'synthetic-policy-condition'}],'config':{'requirements':{'property_damage':{'documents':[{'type':'damage_inventory','blocking':True}],'forms':[{'type':'notice_form','blocking':True,'accepted_versions':['syn-v1']}],'fields':['claimant_name','loss_description','amount_claimed']}}}});scenarios.append(('04-receipt-incomplete-package',PKGS[3],"The notice arrived in our mailbox at 09:12 Eastern today. It lacks the inventory, signed notice form and amount claimed. The reviewed internal record separately maps FNOL-SYN-077 to CLM-SYN-077. Prepare the intake review and identify gaps while retaining documented receipt. Do not treat missing support as a refusal of notice or open, transmit or route a claim.",s,{'receipt':'recorded','normalization':'complete','completeness':'gaps','timeliness':'checked','notice_receipt_blocked':False,'disposition':'exceptions-for-review'}))
+write('scenario-design-frozen.json',[{'case_id':x[0],'package':x[1],'request':x[2],'pre_run_acceptance_criteria':x[4]} for x in scenarios])
+source_hashes={}
+for pkg in PKGS+['insurance-router']:
+ for p in sorted((ROOT/'skills/insurance'/pkg).rglob('*')):
+  if p.is_file() and 'evals' not in p.parts and not p.name.startswith('test_') and '__pycache__' not in p.parts:
+   source_hashes[str(p.relative_to(ROOT))]=hashlib.sha256(p.read_bytes()).hexdigest()
+write('source-hashes-before.json',source_hashes)
+manifest=[]
+def run(label,cmd,stdout):
+ p=subprocess.run(cmd,capture_output=True,text=True,cwd=ROOT)
+ write(stdout,p.stdout);write(stdout+'.stderr.txt',p.stderr)
+ manifest.append({'label':label,'command':cmd,'cwd':str(ROOT),'exit_code':p.returncode,'stdout':stdout,'stderr':stdout+'.stderr.txt'})
+ return p
+for cid,pkg,request,native,criteria in scenarios:
+ write(cid+'.request.txt',request+'\n');write(cid+'.native.json',native)
+ scripts=ROOT/'skills/insurance'/pkg/'scripts'
+ run(cid+' input validation',[PY,str(scripts/'validate_input.py'),str(OUT/(cid+'.native.json'))],cid+'.input-validation.txt')
+ p=run(cid+' calculation',[PY,str(scripts/'calculate_or_transform.py'),str(OUT/(cid+'.native.json'))],cid+'.output.json')
+ if p.returncode==0:run(cid+' output validation',[PY,str(scripts/'validate_output.py'),str(OUT/(cid+'.output.json'))],cid+'.output-validation.txt')
+# Explicit unknown amounts are a fresh native boundary probe, never substituted with invented zero.
+cid='03b-explicit-null-amounts';native=copy.deepcopy(scenarios[2][3]);native['paid_to_date']=None;native['recovery_deductible']=None
+write(cid+'.request.txt','Same recovery screening request, except paid amount and deductible are explicitly unknown (JSON null). Preserve unknowns and return a bounded review artifact if the native workflow supports them.\n');write(cid+'.native.json',native)
+scripts=ROOT/'skills/insurance/subrogation-opportunity-screener/scripts'
+run(cid+' input validation',[PY,str(scripts/'validate_input.py'),str(OUT/(cid+'.native.json'))],cid+'.input-validation.txt')
+run(cid+' calculation',[PY,str(scripts/'calculate_or_transform.py'),str(OUT/(cid+'.native.json'))],cid+'.output.json')
+# Rehash a deliberately generated liability finding, so rejection must be domain-specific.
+scripts=ROOT/'skills/insurance/liability-evidence-matrix-builder/scripts';sys.path.insert(0,str(scripts))
+from insurance_contract import build_artifact
+native=scenarios[1][3];o=json.loads((OUT/'02-quoted-contrary-evidence.output.json').read_text());o['conclusion']='The insured is liable for this collision.'
+a=o['artifact'];o['artifact']=build_artifact(native,o,producer=a['producer'],artifact_type=a['artifact_type'],completeness=a['completeness'],evaluability=a['evaluability'],issues=a['unresolved_issues'])
+write('02b-generated-liability-assertion.mutated.json',o)
+run('generated assertion boundary',[PY,str(scripts/'validate_output.py'),str(OUT/'02b-generated-liability-assertion.mutated.json')],'02b-generated-liability-assertion.validation.txt')
+# Replay previous raw requests, modifying only actual installed inventory.
+router_dir=OUT/'router-after';router_dir.mkdir(exist_ok=True)
+installed=sorted(p.parent.name for p in (ROOT/'skills/insurance').glob('*/SKILL.md'))
+write('installed-insurance-inventory.json',installed)
+for p in sorted(pathlib.Path('/tmp/insurance-router-forward-20260918').glob('*.request.json')):
+ req=json.loads(p.read_text());req['available_skills']=installed
+ cid='router-after/'+p.name.removesuffix('.request.json')
+ write(cid+'.request.json',req)
+ run(cid+' routing',[PY,str(ROOT/'skills/insurance/insurance-router/scripts/route.py'),str(OUT/(cid+'.request.json'))],cid+'.route.json')
+ run(cid+' route validation',[PY,str(ROOT/'skills/insurance/insurance-router/scripts/route.py'),'--validate',str(OUT/(cid+'.route.json'))],cid+'.validation.txt')
+write('execution-manifest.json',manifest)
+print(json.dumps([{'case':r['label'],'exit_code':r['exit_code']} for r in manifest],indent=2))

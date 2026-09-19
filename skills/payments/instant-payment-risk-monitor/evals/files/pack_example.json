@@ -1,0 +1,394 @@
+{
+  "run_id": "rtp-2026-07-17-1430",
+  "as_of": "2026-07-17T14:30-04:00",
+  "config_version": "rtp-risk-cfg-2026.07",
+  "execution_mode": "offline-scheduled-snapshot",
+  "inline_prevention": false,
+  "input_snapshot_hash": "eee0ba2b2c24e562841c393d1d1bcb8483e0d8c752d8f77725436546f59ecef9",
+  "window_minutes": 60,
+  "window": {
+    "start_exclusive": "2026-07-17T13:30:00-04:00",
+    "end_inclusive": "2026-07-17T14:30:00-04:00"
+  },
+  "excluded_events": [],
+  "unresolved_handoffs": [
+    {
+      "rule_id": "STRUCT-10K",
+      "capability": "structuring",
+      "status": "not-evaluated",
+      "reason": "financial-crime specialist review or payment settlement liquidity capability required; this scheduled fraud monitor does not implement that control"
+    },
+    {
+      "rule_id": "WATCH-SANCTIONS",
+      "capability": "watchlist",
+      "status": "not-evaluated",
+      "reason": "financial-crime specialist review or payment settlement liquidity capability required; this scheduled fraud monitor does not implement that control"
+    },
+    {
+      "rule_id": "LIQ-PREFUND-80",
+      "capability": "liquidity",
+      "status": "not-evaluated",
+      "reason": "financial-crime specialist review or payment settlement liquidity capability required; this scheduled fraud monitor does not implement that control"
+    },
+    {
+      "position_id": "POS-USD-FEDNOW",
+      "capability": "settlement-liquidity",
+      "status": "not-evaluated",
+      "rail": "FedNow",
+      "funding_model": "master-or-correspondent-account",
+      "reason": "Specialist settlement funding review required; FedNow uses master/correspondent settlement and does not require RTP-style prefunding. Dedicated payment liquidity skill is not implemented in this phase."
+    }
+  ],
+  "upstream_screening_references": [
+    {
+      "alert_id": "SCREEN-1",
+      "source_ref": "fixture://sanctions-screening/alert-1",
+      "status": "supplied",
+      "target": "sanctions-match-adjudicator"
+    }
+  ],
+  "data_freshness": [
+    {
+      "entity_id": "SYNTHETIC-BANK|ACCT-VELO|USD|RTP",
+      "entity_type": "account",
+      "feed_as_of": "2026-07-17T14:28-04:00",
+      "staleness_minutes": 2,
+      "stale": false
+    },
+    {
+      "entity_id": "SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow",
+      "entity_type": "account",
+      "feed_as_of": "2026-07-17T14:29-04:00",
+      "staleness_minutes": 1,
+      "stale": false
+    },
+    {
+      "entity_id": "SYNTHETIC-BANK|ACCT-MULE|USD|RTP",
+      "entity_type": "account",
+      "feed_as_of": "2026-07-17T14:29-04:00",
+      "staleness_minutes": 1,
+      "stale": false
+    },
+    {
+      "entity_id": "SYNTHETIC-BANK|ACCT-WATCH|USD|RTP",
+      "entity_type": "account",
+      "feed_as_of": "2026-07-17T14:29-04:00",
+      "staleness_minutes": 1,
+      "stale": false
+    },
+    {
+      "entity_id": "SYNTHETIC-BANK|ACCT-STRUCT|USD|RTP",
+      "entity_type": "account",
+      "feed_as_of": "2026-07-17T14:29-04:00",
+      "staleness_minutes": 1,
+      "stale": false
+    },
+    {
+      "entity_id": "SYNTHETIC-BANK|ACCT-WARN|USD|RTP",
+      "entity_type": "account",
+      "feed_as_of": "2026-07-17T14:29-04:00",
+      "staleness_minutes": 1,
+      "stale": false
+    },
+    {
+      "entity_id": "SYNTHETIC-BANK|ACCT-STALE|USD|RTP",
+      "entity_type": "account",
+      "feed_as_of": "2026-07-17T14:00-04:00",
+      "staleness_minutes": 30,
+      "stale": true
+    },
+    {
+      "entity_id": "SYNTHETIC-BANK|ACCT-CLEAN|USD|RTP",
+      "entity_type": "account",
+      "feed_as_of": "2026-07-17T14:29-04:00",
+      "staleness_minutes": 1,
+      "stale": false
+    }
+  ],
+  "alerts": [
+    {
+      "fingerprint": "SYNTHETIC-BANK|ACCT-VELO|USD|RTP|VELO-CNT-20|count|flow|BREACH",
+      "entity_id": "SYNTHETIC-BANK|ACCT-VELO|USD|RTP",
+      "entity_type": "account",
+      "rule_id": "VELO-CNT-20",
+      "rule_type": "velocity",
+      "scope": "sender",
+      "bucket": "count",
+      "status": "BREACH",
+      "breach_type": "flow",
+      "severity": "Medium",
+      "queue": "payment-risk-review-queue",
+      "is_duplicate": true,
+      "stale_input": false,
+      "evidence": [
+        {
+          "metric": "count",
+          "measured_value": 21,
+          "outbound_settled": 21,
+          "citation": "payments:account=SYNTHETIC-BANK|ACCT-VELO|USD|RTP;metric=count@2026-07-17T14:30-04:00"
+        },
+        {
+          "rule": "VELO-CNT-20",
+          "citation": "rules:rule_id=VELO-CNT-20@rtp-risk-cfg-2026.07"
+        }
+      ],
+      "measured_value": 21,
+      "limit": "20",
+      "warn_buffer": "3",
+      "legal_entity_id": "SYNTHETIC-BANK",
+      "account_id": "ACCT-VELO",
+      "currency": "USD",
+      "scheme": "RTP",
+      "source_ref": "fixture://payments/ACCT-VELO"
+    },
+    {
+      "fingerprint": "SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow|VELO-AMT-100K|amount|inflight|BREACH",
+      "entity_id": "SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow",
+      "entity_type": "account",
+      "rule_id": "VELO-AMT-100K",
+      "rule_type": "velocity",
+      "scope": "sender",
+      "bucket": "amount",
+      "status": "BREACH",
+      "breach_type": "inflight",
+      "severity": "High",
+      "queue": "payment-risk-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "metric": "amount",
+          "current_value": "60000.00",
+          "projected_value": "115000.00",
+          "pending_payments": [
+            "I-04"
+          ],
+          "citation": "payments:account=SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow;metric=amount;state=pending@2026-07-17T14:30-04:00"
+        },
+        {
+          "rule": "VELO-AMT-100K",
+          "citation": "rules:rule_id=VELO-AMT-100K@rtp-risk-cfg-2026.07"
+        }
+      ],
+      "measured_value": "115000.00",
+      "limit": "100000",
+      "warn_buffer": "10000",
+      "legal_entity_id": "SYNTHETIC-BANK",
+      "account_id": "ACCT-INFLIGHT",
+      "currency": "USD",
+      "scheme": "FedNow",
+      "source_ref": "fixture://payments/ACCT-INFLIGHT"
+    },
+    {
+      "fingerprint": "SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow|LIMIT-TXN-25K|transaction|inflight|BREACH",
+      "entity_id": "SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow",
+      "entity_type": "account",
+      "rule_id": "LIMIT-TXN-25K",
+      "rule_type": "limit",
+      "scope": "transaction",
+      "bucket": "transaction",
+      "status": "BREACH",
+      "breach_type": "inflight",
+      "severity": "High",
+      "queue": "payment-risk-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "payment_id": "I-04",
+          "amount": "55000.00",
+          "counterparty_id": "CP-I4",
+          "citation": "payments:account=SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow;payment=I-04@2026-07-17T14:30-04:00"
+        },
+        {
+          "rule": "LIMIT-TXN-25K",
+          "citation": "rules:rule_id=LIMIT-TXN-25K@rtp-risk-cfg-2026.07"
+        }
+      ],
+      "measured_value": "55000.00",
+      "limit": "25000",
+      "warn_buffer": "2500",
+      "legal_entity_id": "SYNTHETIC-BANK",
+      "account_id": "ACCT-INFLIGHT",
+      "currency": "USD",
+      "scheme": "FedNow",
+      "source_ref": "fixture://payments/ACCT-INFLIGHT"
+    },
+    {
+      "fingerprint": "SYNTHETIC-BANK|ACCT-MULE|USD|RTP|MULE-PASSTHRU|passthrough|flow|BREACH",
+      "entity_id": "SYNTHETIC-BANK|ACCT-MULE|USD|RTP",
+      "entity_type": "account",
+      "rule_id": "MULE-PASSTHRU",
+      "rule_type": "mule",
+      "scope": "account",
+      "bucket": "passthrough",
+      "status": "BREACH",
+      "breach_type": "flow",
+      "severity": "High",
+      "queue": "payment-risk-escalation",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "inbound_amount": "90000.00",
+          "outbound_amount": "85000.00",
+          "passthrough_pct": "94.44",
+          "distinct_beneficiaries": 5,
+          "sample_beneficiaries": [
+            "CP-M1",
+            "CP-M2",
+            "CP-M3",
+            "CP-M4",
+            "CP-M5"
+          ],
+          "citation": "payments:account=SYNTHETIC-BANK|ACCT-MULE|USD|RTP;pattern=passthrough@2026-07-17T14:30-04:00"
+        },
+        {
+          "rule": "MULE-PASSTHRU",
+          "citation": "rules:rule_id=MULE-PASSTHRU@rtp-risk-cfg-2026.07"
+        }
+      ],
+      "legal_entity_id": "SYNTHETIC-BANK",
+      "account_id": "ACCT-MULE",
+      "currency": "USD",
+      "scheme": "RTP",
+      "source_ref": "fixture://payments/ACCT-MULE"
+    },
+    {
+      "fingerprint": "SYNTHETIC-BANK|ACCT-WARN|USD|RTP|VELO-CNT-20|count|flow|WARN",
+      "entity_id": "SYNTHETIC-BANK|ACCT-WARN|USD|RTP",
+      "entity_type": "account",
+      "rule_id": "VELO-CNT-20",
+      "rule_type": "velocity",
+      "scope": "sender",
+      "bucket": "count",
+      "status": "WARN",
+      "breach_type": "flow",
+      "severity": "Low",
+      "queue": "monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "metric": "count",
+          "measured_value": 18,
+          "outbound_settled": 18,
+          "citation": "payments:account=SYNTHETIC-BANK|ACCT-WARN|USD|RTP;metric=count@2026-07-17T14:30-04:00"
+        },
+        {
+          "rule": "VELO-CNT-20",
+          "citation": "rules:rule_id=VELO-CNT-20@rtp-risk-cfg-2026.07"
+        }
+      ],
+      "measured_value": 18,
+      "limit": "20",
+      "warn_buffer": "3",
+      "legal_entity_id": "SYNTHETIC-BANK",
+      "account_id": "ACCT-WARN",
+      "currency": "USD",
+      "scheme": "RTP",
+      "source_ref": "fixture://payments/ACCT-WARN"
+    },
+    {
+      "fingerprint": "SYNTHETIC-BANK|ACCT-STALE|USD|RTP|VELO-CNT-20|count|flow|BREACH",
+      "entity_id": "SYNTHETIC-BANK|ACCT-STALE|USD|RTP",
+      "entity_type": "account",
+      "rule_id": "VELO-CNT-20",
+      "rule_type": "velocity",
+      "scope": "sender",
+      "bucket": "count",
+      "status": "BREACH",
+      "breach_type": "flow",
+      "severity": "Medium",
+      "queue": "payment-risk-review-queue",
+      "is_duplicate": false,
+      "stale_input": true,
+      "evidence": [
+        {
+          "metric": "count",
+          "measured_value": 21,
+          "outbound_settled": 21,
+          "citation": "payments:account=SYNTHETIC-BANK|ACCT-STALE|USD|RTP;metric=count@2026-07-17T14:30-04:00"
+        },
+        {
+          "rule": "VELO-CNT-20",
+          "citation": "rules:rule_id=VELO-CNT-20@rtp-risk-cfg-2026.07"
+        }
+      ],
+      "measured_value": 21,
+      "limit": "20",
+      "warn_buffer": "3",
+      "legal_entity_id": "SYNTHETIC-BANK",
+      "account_id": "ACCT-STALE",
+      "currency": "USD",
+      "scheme": "RTP",
+      "source_ref": "fixture://payments/ACCT-STALE"
+    },
+    {
+      "fingerprint": "SYNTHETIC-BANK|ACCT-STALE|USD|RTP|DATA-FRESHNESS|staleness|freshness|WARN",
+      "entity_id": "SYNTHETIC-BANK|ACCT-STALE|USD|RTP",
+      "entity_type": "account",
+      "rule_id": "DATA-FRESHNESS",
+      "rule_type": "freshness",
+      "scope": "data",
+      "bucket": "staleness",
+      "status": "WARN",
+      "breach_type": "freshness",
+      "severity": "Low",
+      "queue": "monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": true,
+      "evidence": [
+        {
+          "citation": "fixture://payments/ACCT-STALE",
+          "feed_as_of": "2026-07-17T14:00-04:00",
+          "staleness_minutes": 30
+        }
+      ],
+      "measured_value": 30,
+      "limit": 5
+    }
+  ],
+  "new_alerts": [
+    "SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow|VELO-AMT-100K|amount|inflight|BREACH",
+    "SYNTHETIC-BANK|ACCT-INFLIGHT|USD|FedNow|LIMIT-TXN-25K|transaction|inflight|BREACH",
+    "SYNTHETIC-BANK|ACCT-MULE|USD|RTP|MULE-PASSTHRU|passthrough|flow|BREACH",
+    "SYNTHETIC-BANK|ACCT-WARN|USD|RTP|VELO-CNT-20|count|flow|WARN",
+    "SYNTHETIC-BANK|ACCT-STALE|USD|RTP|VELO-CNT-20|count|flow|BREACH",
+    "SYNTHETIC-BANK|ACCT-STALE|USD|RTP|DATA-FRESHNESS|staleness|freshness|WARN"
+  ],
+  "still_open": [
+    "SYNTHETIC-BANK|ACCT-VELO|USD|RTP|VELO-CNT-20|count|flow|BREACH"
+  ],
+  "summary": {
+    "accounts": 8,
+    "rules_evaluated": 4,
+    "alerts_total": 7,
+    "new": 6,
+    "deduplicated": 1,
+    "warn": 2,
+    "breach": 5,
+    "stale_entities": [
+      "SYNTHETIC-BANK|ACCT-STALE|USD|RTP"
+    ],
+    "unresolved_handoffs": 4
+  },
+  "escalations": [
+    {
+      "severity": "High",
+      "queue": "payment-risk-escalation",
+      "count": 3
+    },
+    {
+      "severity": "Medium",
+      "queue": "payment-risk-review-queue",
+      "count": 2
+    },
+    {
+      "severity": "Low",
+      "queue": "monitoring-watchlist",
+      "count": 2
+    }
+  ],
+  "disclaimer": "Monitoring alert only; no payment, account, or case action has been taken \u2014 nothing was blocked, held, released, returned, reversed, repaired, filed, or closed. Payment-risk alerts require human review and adjudication, and any regulated decision, account action, filing, or case closure is a human action."
+}

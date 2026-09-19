@@ -1,0 +1,1 @@
+Original source packet preserved. CLOSURE-V2 supersedes only reopening information. Native reopen_triggers and unresolved_issues reflect that explicit update; all amount, identity, scope and settlement fields unchanged. Variants execute the frozen pre-repair native implementation.

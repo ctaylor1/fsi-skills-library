@@ -56,7 +56,7 @@ human can review, approve, and instruct. The decision and any collateral movemen
 - A **binding funding decision** (repo, borrow/lend, FX to raise cash) or **personalized
   investment advice** → out of scope; not this skill and not any skill without a human gate.
 - **Settlement of an approved movement** → `post-trade-settlement-monitor`; a **failed/broken
-  movement** → `settlement-break-reconciler`.
+  movement** → `payment-settlement-reconciler`.
 - **Counterparty/CCP exposure** analysis → `counterparty-exposure-monitor`; **funding/liquidity
   stress** of the plan → `liquidity-risk-scenario-analyzer`; a **corporate action** on a pledged
   security → `corporate-action-election-assistant`.

@@ -5,16 +5,15 @@ configuration (versioned, owned by the payments risk/compliance team), not hard-
 judgments, and never tuned to an individual program. Orientation references: the US GENIUS
 Act (payment-stablecoin reserve/attestation/disclosure regime), EU MiCA (e-money/asset-
 referenced tokens), NYDFS stablecoin guidance, and FATF Recommendation 16 (travel rule).
-These orient the control set; the firm's approved, jurisdiction-specific policy governs and
-takes precedence.
+These orient the control set; the firm's approved, jurisdiction-specific policy must remain consistent with applicable law and scheme obligations.
 
-## Control catalog and rules (default config)
+## Control vocabulary (explicit applicable policy required)
 
 Each control is evaluated to `pass`, `fail`, `gap` (required but not evidenced /
 `attested: false`), or `not_evaluable` (insufficient metrics). Evidence is the control's
 `source_ref`.
 
-| Control id | Category | Requirement | Fires (default) |
+| Control id | Category | Requirement | Comparison when applicable and explicitly configured |
 | ---------- | -------- | ----------- | --------------- |
 | `reserve_backing_ratio` | reserve | Reserves fully back outstanding tokens (≥ 1:1) | `fail` if `reserve_market_value / (outstanding_tokens × par_value)` < `min_backing_ratio` (1.0) |
 | `reserve_asset_quality` | reserve | Permitted high-quality liquid assets | `fail` if `eligible_pct` < `min_eligible_pct` (100.0) |
@@ -23,10 +22,10 @@ Each control is evaluated to `pass`, `fail`, `gap` (required but not evidenced /
 | `custody_qualified_custodian` | custody | Assets at a qualified custodian | `fail` if `qualified` is false |
 | `key_management` | custody | Quorum-based MPC/HSM signing keys | `fail` if scheme not MPC/HSM/threshold or no `quorum` |
 | `sanctions_wallet_screening` | screening | Wallet screening vs sanctions lists | `fail` if `enabled` is false |
-| `travel_rule` | screening | FATF travel-rule data capture | `fail` if not `enabled`; `gap` if `threshold` > `required_travel_rule_max` (1000) |
+| `travel_rule` | screening | FATF travel-rule data capture | `fail` if not `enabled`; `gap` if `threshold` > `required_travel_rule_max` (explicit jurisdiction/currency policy) |
 | `kyc_program` | screening | KYC on originator/beneficiary | `fail` if `enabled` is false |
 | `txn_limits` | transaction | Per-txn and daily value limits | `gap` if limits absent; `fail` if a limit is 0 |
-| `finality_confirmations` | transaction | Min confirmations before credit | `fail` if `min_confirmations` < `required_min_confirmations` (12) |
+| `finality_confirmations` | transaction | Min confirmations before credit | `fail` if `min_confirmations` < `required_min_confirmations` (explicit chain policy) |
 | `address_allowlist` | transaction | Address allow/blocklist enforced | `fail` if `enforced` is false |
 | `incident_response` | operational | Runbook for key compromise/depeg/halt | `fail` if `runbook` is false |
 | `reorg_handling` | operational | Chain reorg/fork handling policy | `fail` if `policy` is false |
@@ -50,7 +49,7 @@ escalates (fail-closed: an un-evaluable critical control is treated as a defect)
 
 | Suggested band | Rule |
 | -------------- | ---- |
-| **Controls Evidenced** | No fail/gap findings and no un-evaluable critical control |
+| **Controls Evidenced** | No fail/gap findings and no un-evaluable critical control within the supplied profile; not independent assurance |
 | **Findings - Remediation Recommended** | ≥1 fail/gap finding, none in a critical control, and fewer than `escalate_fail_count` (3) fails |
 | **Material Gaps - Escalate** | Any critical-control defect (fail/gap/not_evaluable) OR ≥ `escalate_fail_count` (3) fails |
 
@@ -73,3 +72,7 @@ determination, launch approval, attestation, or program action.
 `required_report_cadence_days`, `escalate_fail_count`. Record `config_version` in the output
 so the review reproduces. Jurisdiction packs may override these (e.g., MiCA vs GENIUS Act
 reserve composition and reporting cadence) without changing the engine.
+
+## Phase 1 implementation boundary
+
+Phase 1: control evidence only, not a stablecoin settlement opportunity assessment. policy_profile must identify authority, source, version, active dates, review owner, participant/jurisdiction and required_controls. Missing/expired/inapplicable policy remains not_evaluable and escalated. No universal travel-rule threshold or chain confirmation count exists in this engine; supply applicable values and currency/chain context. Issuer controls do not automatically apply to a merchant using settlement services. Firm policy cannot override law.

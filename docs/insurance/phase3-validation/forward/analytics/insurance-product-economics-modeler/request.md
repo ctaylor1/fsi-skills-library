@@ -1,0 +1,1 @@
+Build an unselected 2027 carrier-versus-MGA business case from these scenarios. Show the carrier reinsurance bridge, expense denominator and period capital return. Retain the unknown recovery sensitivity and explain its decision significance.

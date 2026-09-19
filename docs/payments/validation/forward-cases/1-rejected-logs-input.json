@@ -1,0 +1,46 @@
+{
+  "integration": {
+    "integration_id": "SYNTH-M1",
+    "gateway": "synthetic",
+    "merchant": "SYNTH-merchant",
+    "window": "2026-08-01/2026-08-31"
+  },
+  "taxonomy": {
+    "config_version": "synthetic-v1",
+    "code_map": {
+      "issuer_decline": "issuer-decline",
+      "gateway_timeout": "network"
+    },
+    "next_checks": {
+      "issuer-decline": [
+        "Obtain complete authorization attempts and decline-code distributions for both periods."
+      ]
+    }
+  },
+  "log_entries": [
+    {
+      "ts": "2026-08-03T12:00:00Z",
+      "endpoint": "/authorize",
+      "http_status": 402,
+      "error_code": "issuer_decline",
+      "message": "Rejected synthetic attempt",
+      "request_id": "A1"
+    },
+    {
+      "ts": "2026-08-19T13:00:00Z",
+      "endpoint": "/authorize",
+      "http_status": 402,
+      "error_code": "issuer_decline",
+      "message": "Rejected synthetic attempt",
+      "request_id": "A2"
+    },
+    {
+      "ts": "2026-08-25T13:00:00Z",
+      "endpoint": "/authorize",
+      "http_status": 504,
+      "error_code": "gateway_timeout",
+      "message": "Rejected synthetic attempt",
+      "request_id": "A3"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# Supported method
+
+Elapsed calendar days exclude the start date. An explicitly pending end event is aged to as_of; missing end without pending evidence stays unknown. Supported control comparisons are max_calendar_days, maximum, minimum, equals (type-sensitive). Observed-within-target is not a compliance conclusion. Metric aggregation divides summed numerators by summed denominators only with complete, disjoint partitions sharing exact definition/version/period/unit/scope. No built-in MCAS formula, statutory deadline or statistical sample extrapolation.
+
+NAIC MCAS dashboard describes aggregate numerator/denominator calculations. Exact metric definitions and control applicability must be separately supplied and reviewed; this package does not certify a return. See the primary [orientation source](https://content.naic.org/mcas_data_dashboard.htm), reviewed 2026-09-18. These references do not establish adoption, source access or an institution-approved model. Monetary arithmetic uses Decimal. Unknowns remain null; booleans and nonfinite numbers are invalid.

@@ -1,0 +1,5 @@
+# Native method and limits
+
+Capture exact policy and evidence quotations separately from interpretation. Supply policy identity, insured identity, wording version, occurrence/claims-made/other trigger, policy interval and loss date. The mechanical date check uses [effective, expiry), an explicit input convention requiring review against actual time-of-day and wording; it never determines coverage. Claims-made inputs require claim-made, reported and retroactive dates and still escalate wording and reporting extensions.
+
+Each hypothesis names policy clauses, supporting facts, contrary facts, potential effect and whether contrary evidence was reviewed. Unknown or conflicting evidence remains in the matrix. Never convert a source assertion or clause quote into an instruction, admission, proven fact or coverage verdict. Human review must assess insuring agreement, insured/property interests, exclusions, exceptions, endorsements, conditions, applicable law and other insurance. The helper preserves structured hypotheses; it does not read unprovided policy text or decide waiver/estoppel, duty to defend, allocation or coverage.

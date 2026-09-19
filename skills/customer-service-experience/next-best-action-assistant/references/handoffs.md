@@ -16,7 +16,7 @@ This skill emits a draft package; it must not perform another skill's decision.
 
 | Route to | When | Handoff artifact |
 | -------- | ---- | ---------------- |
-| `suitability-reg-bi-reviewer` | Any investment allocation / suitability question (prohibited as an NBA recommendation) | customer_ref + the excluded action + context |
+| `investment-recommendation-evidence-reviewer` | Any investment allocation / suitability question (prohibited as an NBA recommendation) | customer_ref + the excluded action + context |
 | `investment-policy-statement-builder` / `portfolio-proposal-comparator` | Downstream of a licensed adviser once advice is appropriate | licensed adviser's engagement |
 | `senior-investor-protection-screener` | Older-investor protection concerns surface | customer_ref + trigger context |
 | `loan-affordability-precheck` / `credit-application-packager` | Customer is shopping for credit; NBA drafts a **referral**, not a decision | customer_ref + referral note |

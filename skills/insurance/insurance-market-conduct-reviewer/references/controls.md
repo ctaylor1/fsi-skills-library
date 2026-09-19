@@ -1,0 +1,3 @@
+# Controls
+
+R3 draft decision support: Insurance market conduct compliance owns professional interpretation and disposition. Retain case/context, input source register, contradictory evidence, calculation and reviewed narrative with the institution’s access/retention rules. Minimize identifiers and use tokens for sensitive links. Missing information cannot be replaced with zero or a favorable assumption. Review-ready does not mean approved. Human review, source verification and execution stay separate; no tool here contacts another party, denies, books, pays or files. Failed native validation stops calculation; valid gaps must remain in the resulting memo and downstream artifact.

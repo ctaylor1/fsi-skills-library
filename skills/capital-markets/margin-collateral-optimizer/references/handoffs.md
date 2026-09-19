@@ -10,7 +10,7 @@ dispute or accept a margin call. Those are human/authorized-system actions that 
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
 | `post-trade-settlement-monitor` | Track settlement of the approved collateral movements | `recommendation_id` + posted assets |
-| `settlement-break-reconciler` | A collateral movement fails or breaks in settlement | posted assets + expected vs actual |
+| `payment-settlement-reconciler` | A collateral movement fails or breaks in settlement | posted assets + expected vs actual |
 | `counterparty-exposure-monitor` | Rising counterparty/CCP exposure drives or follows the call | portfolio + counterparty |
 | `liquidity-risk-scenario-analyzer` | Assess the funding/liquidity impact of the plan under stress | recommended allocation + funding estimate |
 | `corporate-action-election-assistant` | A pledged/eligible security faces a corporate action affecting eligibility or requiring substitution | affected asset + agreement |

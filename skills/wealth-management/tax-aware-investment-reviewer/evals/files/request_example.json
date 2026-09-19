@@ -1,0 +1,182 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "TAX-DEMO",
+  "household_id": "HH-P1",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "scope",
+      "reference": "synthetic:scope",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "policy",
+      "reference": "synthetic:policy",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "ledger",
+      "reference": "synthetic:ledger",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "reference",
+      "reference": "synthetic:reference",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "research",
+      "reference": "synthetic:research",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "unresolved_issues": [],
+  "currency": "USD",
+  "accounts": [
+    {
+      "account_id": "A",
+      "owner_relationship": "primary",
+      "tax_treatment": "taxable",
+      "history_complete": true,
+      "forward_orders_reviewed": true,
+      "history_from": "2026-08-01",
+      "history_through": "2026-09-16",
+      "source_ids": [
+        "scope"
+      ]
+    },
+    {
+      "account_id": "B",
+      "owner_relationship": "spouse IRA",
+      "tax_treatment": "tax-deferred",
+      "history_complete": true,
+      "forward_orders_reviewed": true,
+      "history_from": "2026-08-01",
+      "history_through": "2026-09-16",
+      "source_ids": [
+        "scope"
+      ]
+    }
+  ],
+  "scope_review": {
+    "household_scope_complete": true,
+    "source_ids": [
+      "scope"
+    ]
+  },
+  "lots": [
+    {
+      "lot_id": "L1",
+      "account_id": "A",
+      "security_id": "EQ1",
+      "asset_class": "equity",
+      "quantity": "100",
+      "unit_cost_basis": "80",
+      "unit_price": "100",
+      "acquired_on": "2024-01-02",
+      "price_as_of": "2026-09-15",
+      "tax_term": "long",
+      "source_ids": [
+        "ledger"
+      ]
+    },
+    {
+      "lot_id": "L2",
+      "account_id": "B",
+      "security_id": "BOND1",
+      "asset_class": "bond",
+      "quantity": "50",
+      "unit_cost_basis": "100",
+      "unit_price": "95",
+      "acquired_on": "2024-01-02",
+      "price_as_of": "2026-09-15",
+      "tax_term": "long",
+      "source_ids": [
+        "ledger"
+      ]
+    }
+  ],
+  "proposed_sales": [
+    {
+      "sale_id": "S1",
+      "lot_id": "L1",
+      "quantity": "20",
+      "estimated_fees": "10.00",
+      "trade_date": "2026-09-16",
+      "source_ids": [
+        "ledger"
+      ]
+    }
+  ],
+  "equivalence_map": [
+    {
+      "security_id": "EQ1",
+      "group_id": "HUMAN-EQ1",
+      "source_ids": [
+        "research"
+      ]
+    },
+    {
+      "security_id": "BOND1",
+      "group_id": "HUMAN-BOND1",
+      "source_ids": [
+        "research"
+      ]
+    }
+  ],
+  "purchases": [],
+  "tax_profile": {
+    "version": "demo-v1",
+    "owner": "fixture-tax-reviewer",
+    "short_term_rate_pct": "35",
+    "long_term_rate_pct": "20",
+    "max_positive_gain_amount": "5000.00",
+    "max_tax_reserve": "2000.00",
+    "max_price_age_days": 7,
+    "source_ids": [
+      "policy"
+    ]
+  },
+  "location_policy": {
+    "version": "demo-v1",
+    "preferences": [
+      {
+        "asset_class": "equity",
+        "preferred_tax_treatments": [
+          "taxable"
+        ],
+        "rationale": "Supplied illustrative household policy",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "asset_class": "bond",
+        "preferred_tax_treatments": [
+          "tax-deferred"
+        ],
+        "rationale": "Supplied illustrative household policy",
+        "source_ids": [
+          "policy"
+        ]
+      }
+    ],
+    "source_ids": [
+      "policy"
+    ]
+  }
+}

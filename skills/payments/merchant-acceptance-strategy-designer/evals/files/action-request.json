@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "request_id": "synthetic-commercial-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "merchant",
+  "requested_action": "execute",
+  "sources": [
+    {
+      "source_id": "merchant-brief",
+      "reference": "synthetic merchant scope and outcomes brief",
+      "as_of": "2026-09-18",
+      "review_due": "2027-09-18"
+    },
+    {
+      "source_id": "diligence",
+      "reference": "synthetic inspected provider scope and commercial schedule",
+      "as_of": "2026-09-18",
+      "review_due": "2027-09-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "segments": [
+      {
+        "segment_id": "us-web",
+        "market": "US",
+        "channel": "web",
+        "customer_type": "consumer",
+        "use_case": "one_time",
+        "currency": "USD",
+        "required_methods": [
+          "card",
+          "pay_by_bank"
+        ],
+        "source_ids": [
+          "merchant-brief"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "option_id": "two-method-psp",
+        "operating_model": "Merchant contracts PSP with named acquirer and separate bank-payment settlement service.",
+        "merchant_entity": "Synthetic US merchant",
+        "gateway": "Synthetic gateway",
+        "acquirer": "Synthetic acquirer",
+        "psp": "Synthetic PSP",
+        "responsibilities": {
+          "checkout": "merchant",
+          "authentication": "PSP with issuer/bank authentication",
+          "screening": "merchant and PSP per documented responsibilities",
+          "settlement": "acquirer for card and receiving bank for bank payments",
+          "reconciliation": "merchant finance",
+          "refunds": "merchant with PSP workflow",
+          "disputes": "merchant with acquirer; bank-payment servicing separately"
+        },
+        "coverage": [
+          {
+            "segment_id": "us-web",
+            "method": "card",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ],
+            "presentment_currencies": [
+              "USD"
+            ],
+            "settlement_currencies": [
+              "USD"
+            ],
+            "entity_eligible": true
+          },
+          {
+            "segment_id": "us-web",
+            "method": "pay_by_bank",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ],
+            "presentment_currencies": [
+              "USD"
+            ],
+            "settlement_currencies": [
+              "USD"
+            ],
+            "entity_eligible": true
+          }
+        ],
+        "constraints": [
+          {
+            "constraint_id": "scope",
+            "description": "US entity eligibility, currency, processing responsibilities and operating limits reviewed in synthetic diligence.",
+            "mandatory": true,
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ]
+      }
+    ],
+    "orchestration": {
+      "objective": "Compare successful order completion net of costs and losses",
+      "success_metric": "completed orders / unique checkout attempts by segment",
+      "guardrails": [
+        "no duplicate payment",
+        "customer friction",
+        "loss maturity",
+        "settlement and reconciliation breaks"
+      ],
+      "fallback_policy": "No blind retry; inspect prior lifecycle state and idempotency before an alternative path.",
+      "experiment": "Bounded randomized pilot; same cohorts and time windows; observe maturity before decisions."
+    }
+  }
+}

@@ -1,0 +1,9 @@
+# Native method and limits
+
+Supported method: one aligned experience cohort and one currency/exposure unit. Historical premium is earned and before supplied on-level/trend factors. Losses are already reviewed ultimate loss plus LAE, excluding catastrophe losses. No loss development, trend selection, credibility estimation, class relativity or statistical model fitting occurs here.
+
+Let E = earned exposure, P = earned premium, L = reviewed ultimate non-CAT loss+LAE, O = on-level factor, T_p/T_l = premium/loss trend factors, Z = supplied credibility, C = prospective complementary loss+LAE per exposure, F = prospective fixed expense per exposure, K = catastrophe provision per exposure, R = prospective reinsurance net cost after expected recoveries, V = variable expense ratio and Q = underwriting profit ratio.
+
+Current adjusted premium per exposure = P × O × T_p / E. Experience prospective loss+LAE = L × T_l / E. Blended loss+LAE = Z × experience + (1−Z) × C. Indicated premium per exposure = (blended loss+LAE + F + K + R) / (1−V−Q). Indicated change = indicated/current − 1. C is optional only at Z=1. Explicit zeros are required for genuinely absent provisions. The net reinsurance provision can be negative only under a documented net-cost convention; it is not a ceded premium total. L, C, K and R must be selected on consistent bases to avoid double counting. Six decimal places are output presentation precision, not a currency settlement rule.
+
+Mismatched periods, units, currencies or basis, absent sources/profile and nonpositive denominators suppress the indication. This method is not a full rate filing, credibility procedure, adequacy opinion or proof rates are nondiscriminatory. The actuary must assess changing mix/coverage, limits/deductibles, development uncertainty, CAT normalization, expenses, capital, regulatory constraints and sensitivity before rate selection.

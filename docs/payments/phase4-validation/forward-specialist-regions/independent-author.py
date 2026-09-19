@@ -1,0 +1,64 @@
+from pathlib import Path
+import json,subprocess,copy,hashlib
+ROOT=Path('/Users/taylor/DevRepo/Skills/fsi-skills-library'); OUT=Path('/tmp/payments-phase4-forward-specialist-regions');OUT.mkdir(exist_ok=True)
+PYTHON='/tmp/fsi-p0-venv/bin/python'
+CONTEXTS={'stable':('stablecoin-settlement-assessor','validate_input.py','calculate_or_transform.py','validate_output.py'),'business':('payment-business-model-analyzer','validate_input.py','calculate_or_transform.py','validate_output.py'),'cross':('cross-border-payment-designer','validate_input.py','calculate_or_transform.py','validate_output.py'),'regional':('bank-payment-workflow-designer','validate_regional_input.py','review_regional.py','validate_regional_output.py'),'funding':('payment-liquidity-and-funding-analyzer','validate_corridor_input.py','review_corridor.py','validate_corridor_output.py')}
+def row(**x):return {**x,'source_ids':['forward-evidence']}
+def env(data,jur='US',participant='forward-reviewer'):
+ return dict(schema_version='1.0',request_id='independent-phase4-case',as_of='2026-09-18',jurisdiction=jur,participant=participant,requested_action='analyze',sources=[dict(source_id='forward-evidence',reference='synthetic://independently-authored-payment-contract-and-ledger',as_of='2026-09-18',review_due='2026-10-01')],upstream_issues=[],data=data)
+def write(name,obj):
+ p=OUT/name;p.write_text(json.dumps(obj,indent=2)+'\n');return p
+commands=[]; assertions=[];observations=[]
+def check(condition,message):
+ assertions.append(dict(message=message,passed=bool(condition)))
+ if not condition:observations.append(message)
+def run(key,name,req):
+ req=copy.deepcopy(req);req['request_id']=name;path=write(name+'.json',req)
+ pkg,iv,calc,ov=CONTEXTS[key];base=ROOT/'skills/payments'/pkg/'scripts'
+ def call(script,args):
+  cmd=[PYTHON,'-B',str(base/script),*[str(x) for x in args]]
+  p=subprocess.run(cmd,cwd=OUT,text=True,capture_output=True)
+  commands.append(dict(case=name,command=cmd,exit_code=p.returncode,stdout=p.stdout,stderr=p.stderr))
+  try:return p.returncode,json.loads(p.stdout)
+  except json.JSONDecodeError:return p.returncode,{'raw':p.stdout}
+ ie,i=call(iv,[path]); ce,o=call(calc,[path]);write(name+'-output.json',o)
+ if ce==0:
+  oe,valid=call(ov,[OUT/(name+'-output.json'),'--input',path])
+  check(oe==0 and valid.get('valid') is True,name+': retained independent input validates output')
+  check(o.get('authority_granted') is False and o.get('action_taken') is False,name+': no authority or action')
+  check(o.get('source_snapshot')==req,name+': exact source snapshot retained')
+ else:
+  check(ie!=0,name+': calculator rejects only alongside invalid input')
+ return ce,o
+# Independent stable/fiat principal USD10000 delivered EUR9000; fees all quote-bound USD.
+binding=dict(principal='10000',source_currency='USD',destination_currency='EUR',comparison_currency='USD',window_start='2026-09-18',window_end='2026-09-20')
+def option(typ,cost):
+ x=row(option_id=typ+'-route',type=typ,instrument_ref=typ+'-instrument',provider_ref=typ+'-provider',quote_basis_ref='separate-absolute-usd-costs-for-same-principal-window',availability_status='production',costs_complete=True,delivered_amount='9000',quote_binding=copy.deepcopy(binding),costs={k:'0' for k in ['network','provider','fx','onramp','offramp','redemption','custody','liquidity','operations']},evidence={k:'reviewed-'+k for k in ['availability','provider_counterparty','legal_applicability','sanctions_aml','liquidity_access','failure_recovery','economic_finality']},applicability=row(profile_id=typ+'-applicability',version='forward-v1',owner='local-legal-reviewer',reviewed_on='2026-09-17',review_due='2026-10-01',jurisdictions=['US','EA'],participant_roles=['holder'],instrument_refs=[typ+'-instrument']))
+ x['costs']['provider']=cost
+ if typ=='stablecoin':
+  x.update(asset_ref='forward-issued-asset',chain_id='forward-chain',issuer_ref='forward-issuer',custodian_ref='forward-custodian');x['applicability'].update(asset_refs=['forward-issued-asset'],chain_ids=['forward-chain']);x['evidence'].update({k:'reviewed-'+k for k in ['issuer_reserves','redemption_rights','custody_control','chain_finality','freeze_fork_bridge','holder_rights']})
+ return x
+stable=env(dict(use_case='supplier-cross-border-settlement',participant_ref='forward-company',origin_jurisdiction='US',destination_jurisdiction='EA',accountable_owner='treasury-reviewer',**binding,role_assignments=[row(entity_ref='forward-company',role='holder',responsibility='settle supplier obligation'),row(entity_ref='forward-issuer',role='issuer',responsibility='issue and redeem asset'),row(entity_ref='forward-custodian',role='custodian',responsibility='custody controls')],options=[option('stablecoin','28'),option('fiat','65')]),participant='forward-company')
+# Independent business populations with stable accounting bridge, then mismatched definitions.
+company=lambda i,role:row(company_id=i,roles=[role],customer='business-merchants',value_proposition='payment acceptance',monetization='processing fee',dependencies='sponsor and network',jurisdiction='US')
+segment=lambda sid,cid,basis:row(segment_id=sid,company_id=cid,economic_partition_id=cid+'-distinct-processing',segment_name='USprocessing',currency='USD',period_start='2026-01-01',period_end='2026-06-30',period_basis='six-months',volume_definition='settled-merchant-volume',scope_definition='US-domestic-card-processing',accounting_policy_ref='principal-agent-reviewed',volume_unit='currency-amount',revenue_basis=basis,costs_complete=True,payment_volume='1000000',gross_billings='25000',pass_through='17000',incentives='1000',reported_net_revenue='7000',variable_cost='3000',allocated_fixed_cost='1200')
+business=env(dict(analysis_question='Compare processor unit economics with matching scope',accountable_owner='payments-strategy',companies=[company('grossCo','processor'),company('netCo','processor')],segments=[segment('gross-segment','grossCo','gross-billings'),segment('net-segment','netCo','net-revenue')],comparisons=[row(comparison_id='peer-delta',left_segment='gross-segment',right_segment='net-segment',accounting_comparability_review_ref='reviewed-accounting-and-scope')],strategic_options=[row(option_id='margin-test',hypothesis='reduce processing costs',test='measured supplier pilot',owner='payments-operations',dependency='issuer data',risk='quality loss',segment_ids=['gross-segment'])]))
+# Regional proposals exact beneficiary binding, no raw aliases.
+def regional(jur,profile,currency):
+ bind=dict(payer_entity='paying-company',payer_account_ref='payer-account-opaque',payee_entity='local-supplier',payee_account_ref='payee-account-opaque',amount='275.50',currency=currency)
+ p=row(proposal_id='native-credit-push',profile_id=profile,use_case='domestic-business-credit',accountable_reviewer='local-specialist',intent_ref='supplier-invoice-intent',**bind,participant_review={k:'forward-reviewed-'+k for k in ['access_ref','payer_reach_ref','payee_reach_ref','funding_arrangement_ref','limits_review_ref','fees_review_ref','operational_support_ref']},rule_review=dict(reviewer='local-specialist',reference='current-local-product-review',rule_version='forward-reviewed-2026',activity_scope_ref='domestic-business-credit',profile_id=profile,jurisdiction=jur,use_case='domestic-business-credit',reviewed_on='2026-09-17',review_due='2026-10-01'),beneficiary_review=dict(verification_ref='payee-identity-review',alias_resolution_ref='opaque-alias-resolution-review',match_status='matched',reviewed_on='2026-09-17',review_due='2026-10-01',binding=bind.copy()))
+ if jur=='CA':p.update(delivery_mode='autodeposit',displayed_legal_name_review_ref='displayed-name-reviewed')
+ return env({'proposals':[p]},jur)
+# Corridor US GBP principal1000, USD payer add5, principal deduct2 at GBP per USD0.8 and recipient fee3 => debit1005, receipt795.4.
+def review(j):return dict(jurisdiction=j,use_case='consumer-remittance',reviewer='corridor-specialist-'+j,reference='local-reviewed-activity-'+j,rule_version='forward-v1',activity_scope_ref='consumer-remittance-scope',valid_from='2026-09-01T00:00:00Z',valid_until='2026-10-01T00:00:00Z')
+legs=[dict(leg_id='collect',economic_id='customer-collect-1',purpose='customer-collection',from_entity='payer',from_account_ref='payer-account',to_entity='provider-us',to_account_ref='provider-us-account',jurisdiction='US',currency='USD',amount='1005',method='bank-credit',obligation_ref='source-debit-contract',access_review_ref='access-US',funding_review_ref='collected-principal',timing_review_ref='delivery-window'),dict(leg_id='deliver',economic_id='recipient-credit-1',purpose='local-payout',from_entity='provider-uk',from_account_ref='provider-uk-account',to_entity='payee',to_account_ref='payee-account',jurisdiction='UK',currency='GBP',amount='795.4',method='bank-credit',obligation_ref='recipient-credit-contract',access_review_ref='access-UK',funding_review_ref='local-funded-account',timing_review_ref='delivery-window')]
+cross=env(dict(use_case='consumer-remittance',principal='1000',evaluate_at='2026-09-18T12:00:00Z',accountable_reviewer='corridor-operations',payer=dict(entity_id='payer',account_ref='payer-account',jurisdiction='US',currency='USD'),payee=dict(entity_id='payee',account_ref='payee-account',jurisdiction='UK',currency='GBP'),options=[row(option_id='bank-corridor',charge_convention='SHA',charge_convention_review_ref='reviewed-fee-allocation',fees_complete=True,expected_delivery_review_ref='recipient-window-reviewed',fees=[dict(fee_id='payer-charge',kind='fee',charging_entity='provider-us',currency='USD',amount='5',side='payer-addition'),dict(fee_id='principal-charge',kind='fee',charging_entity='provider-us',currency='USD',amount='2',side='principal-deduction'),dict(fee_id='recipient-charge',kind='fee',charging_entity='provider-uk',currency='GBP',amount='3',side='recipient-deduction')],fx_quote=dict(base_currency='USD',quote_currency='GBP',rate='0.8',quoted_at='2026-09-18T11:00:00Z',expires_at='2026-09-18T13:00:00Z',kind='firm',quote_ref='forward-exact-principal-quote'),legs=legs,regulatory_reviews=[review('US'),review('UK')],sanctions_review=dict(entity_ids=['payer','payee','provider-us','provider-uk'],jurisdictions=['US','UK'],reference='reviewed-all-party-screening',reviewer='sanctions-owner',policy_version='forward-v1',valid_from='2026-09-18T00:00:00Z',valid_until='2026-09-19T00:00:00Z'))]))
+# Funding USD3000 source and EUR0 payout; transfer1000USD->900EUR at10 debit/11 credit, payout800 at12. stress removes transfer -> deficit800.
+start='2026-09-18T09:00:00Z';end='2026-09-18T18:00:00Z'
+account=lambda aid,entity,jur,ccy,balance,role:row(account_id=aid,entity_id=entity,jurisdiction=jur,currency=ccy,account_role=role,snapshot_at=start,opening_balance=balance,held='0',ownership_review_ref='exact-legal-account-review',funding_model_review_ref='funding-model-reviewed')
+funding=env(dict(window_start=start,window_end=end,history_complete=True,accountable_reviewer='cross-currency-treasury',accounts=[account('usd-source','provider','US','USD','3000','source-funding'),account('eur-payout','provider','EA','EUR','0','local-payout')],obligations=[row(economic_id='recipient-obligation-1',account_id='eur-payout',entity_id='provider',currency='EUR',purpose='customer-payout',amount='800',due_at='2026-09-18T12:00:00Z')],funding_transfers=[row(transfer_id='fx-funding-1',economic_id='funding-economic-1',source_account='usd-source',destination_account='eur-payout',source_entity_id='provider',destination_entity_id='provider',source_currency='USD',destination_currency='EUR',source_amount='1000',destination_amount='900',debit_at='2026-09-18T10:00:00Z',credit_at='2026-09-18T11:00:00Z',certainty='firm',funding_contract_ref='reviewed-fx-funding-contract',access_review_ref='access-reviewed',limit_review_ref='limits-reviewed',debit_window=dict(opens_at=start,closes_at=end,availability_review_ref='source-window-review'),credit_window=dict(opens_at=start,closes_at=end,availability_review_ref='destination-window-review'),fx_quote=dict(base_currency='USD',quote_currency='EUR',rate='0.9',quoted_at='2026-09-18T09:00:00Z',expires_at='2026-09-18T10:30:00Z',kind='firm',quote_ref='firm-fx-evidence'))],stress_scenarios=[dict(scenario_id='funding-unavailable',rationale='Correspondent funding unavailable',remove_transfer_ids=['fx-funding-1'])]))
+if __name__=='__main__':
+ for key,req in [('stable',stable),('business',business),('regional',regional('BR','BR-PIX','BRL')),('regional',regional('IN','IN-UPI','INR')),('regional',regional('CA','CA-INTERAC-ETRANSFER','CAD')),('cross',cross),('funding',funding)]:
+  name='forward-'+key+('-'+req['jurisdiction'] if key=='regional' else '')
+  code,out=run(key,name,req);print(name,code,out.get('status'),json.dumps(out.get('result',out))[:2500])
+ write('commands-initial.json',commands);write('assertions-initial.json',assertions);write('observations-initial.json',observations)

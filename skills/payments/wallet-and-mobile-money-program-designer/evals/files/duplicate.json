@@ -1,0 +1,214 @@
+{
+  "schema_version": "1.0",
+  "request_id": "synthetic-phase4-program",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "program-design-owner",
+  "sources": [
+    {
+      "source_id": "evidence",
+      "reference": "synthetic://reviewed-ledger-and-contract-pack",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "model": "e-money",
+    "ledger_complete": true,
+    "entities": [
+      {
+        "entity_id": "issuer",
+        "role": "issuer",
+        "legal_name": "Synthetic Issuer",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "entity_id": "trustee",
+        "role": "trustee",
+        "legal_name": "Synthetic Custodian",
+        "source_ids": [
+          "evidence"
+        ]
+      }
+    ],
+    "roles": [
+      {
+        "role_id": "issuer",
+        "role": "issuer",
+        "entity_id": "issuer",
+        "responsibility_ref": "synthetic-contract-issuer",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "role_id": "operator",
+        "role": "operator",
+        "entity_id": "issuer",
+        "responsibility_ref": "synthetic-contract-operator",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "role_id": "holder",
+        "role": "holder",
+        "entity_id": "issuer",
+        "responsibility_ref": "synthetic-contract-holder",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "role_id": "merchant",
+        "role": "merchant",
+        "entity_id": "issuer",
+        "responsibility_ref": "synthetic-contract-merchant",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "role_id": "funding-provider",
+        "role": "funding-provider",
+        "entity_id": "issuer",
+        "responsibility_ref": "synthetic-contract-funding-provider",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "role_id": "support-owner",
+        "role": "support-owner",
+        "entity_id": "issuer",
+        "responsibility_ref": "synthetic-contract-support-owner",
+        "source_ids": [
+          "evidence"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "position_id": "gbp-issuer",
+        "issuer_entity_id": "issuer",
+        "currency": "GBP",
+        "opening_liability": "1000",
+        "reported_liability": "1150",
+        "source_ids": [
+          "evidence"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "event_id": "issue-1",
+        "economic_id": "econ-issue-1",
+        "position_id": "gbp-issuer",
+        "type": "issue",
+        "state": "settled",
+        "holder_ref": "holder-opaque",
+        "currency": "GBP",
+        "amount": "200",
+        "funding_state": "settled",
+        "funding_receipt_ref": "funding-receipt-1",
+        "funding_amount": "200",
+        "funding_currency": "GBP",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "event_id": "redeem-1",
+        "economic_id": "econ-issue-1",
+        "position_id": "gbp-issuer",
+        "type": "redeem",
+        "state": "settled",
+        "holder_ref": "holder-opaque",
+        "currency": "GBP",
+        "amount": "50",
+        "external_payout_ref": "payout-confirmation-1",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "event_id": "redeem-2",
+        "economic_id": "econ-redeem-2",
+        "position_id": "gbp-issuer",
+        "type": "redeem",
+        "state": "pending",
+        "holder_ref": "holder-opaque",
+        "currency": "GBP",
+        "amount": "100",
+        "source_ids": [
+          "evidence"
+        ]
+      },
+      {
+        "event_id": "internal-1",
+        "economic_id": "econ-internal-1",
+        "position_id": "gbp-issuer",
+        "type": "internal-payment",
+        "state": "settled",
+        "holder_ref": "holder-opaque",
+        "currency": "GBP",
+        "amount": "75",
+        "payee_claim_ref": "merchant-claim-1",
+        "source_ids": [
+          "evidence"
+        ]
+      }
+    ],
+    "backing": [
+      {
+        "backing_id": "backing-1",
+        "account_ref": "trust-account-opaque",
+        "position_id": "gbp-issuer",
+        "owner_entity_id": "trustee",
+        "beneficiary_issuer_entity_id": "issuer",
+        "ownership_review_ref": "trust-arrangement-reviewed",
+        "currency": "GBP",
+        "eligibility_review_ref": "bank-evidence-reviewed",
+        "amount": "1160",
+        "source_ids": [
+          "evidence"
+        ]
+      }
+    ],
+    "program_pack": {
+      "jurisdiction": "UK",
+      "country": "GB",
+      "owner": "payment-operations-and-legal",
+      "provider_ref": "synthetic-provider",
+      "version": "2026-09-18",
+      "review_due": "2026-10-18",
+      "licensing_review_ref": "synthetic-reviewed-licensing_review_ref",
+      "access_review_ref": "synthetic-reviewed-access_review_ref",
+      "consumer_error_ref": "synthetic-reviewed-consumer_error_ref",
+      "aml_review_ref": "synthetic-reviewed-aml_review_ref",
+      "support_ref": "synthetic-reviewed-support_ref",
+      "funding_ref": "synthetic-reviewed-funding_ref",
+      "redemption_ref": "synthetic-reviewed-redemption_ref",
+      "reconciliation_ref": "synthetic-reviewed-reconciliation_ref",
+      "source_ids": [
+        "evidence"
+      ]
+    },
+    "channels": [
+      {
+        "type": "qr-merchant-presented",
+        "participant_access_ref": "network-access-review",
+        "fraud_support_ref": "support-review",
+        "qr_profile_ref": "provider-qr-version-review",
+        "interoperability_test_ref": "provider-test-review",
+        "payee_binding_ref": "merchant-verification-review",
+        "source_ids": [
+          "evidence"
+        ]
+      }
+    ]
+  }
+}

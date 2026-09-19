@@ -1,37 +1,34 @@
 ---
 name: policy-wording-comparator
-description: >-
-  Compare insurance policy forms, endorsements, manuscript clauses, and form versions against
-  approved or filed baseline forms; produce clause-level findings of material wording changes,
-  additions, removals, conflicts, and coverage gaps with citations to both forms, plus reviewer
-  questions and a suggested review track. Use when product counsel, underwriting, or compliance
-  asks to diff two policy forms, check a manuscript endorsement against a filed form, review what
-  changed between editions, or find wording conflicts and gaps before human review. This skill
-  surfaces cited evidence and review questions only; it NEVER decides coverage, determines
-  compliance, approves or clears a form for filing, files or binds a form, or closes the review —
-  those are licensed-human / authorized-system actions requiring mandatory adjudication.
+description: "Compare insurance policy forms, endorsements, manuscript clauses, and form versions against approved or filed baseline forms; produce clause-level findings of material wording changes, additions, removals, conflicts, and coverage gaps with citations to both forms, plus reviewer questions and a suggested review track. Use when product counsel, underwriting, or compliance asks to diff two policy forms, check a manuscript endorsement against a filed form, review what changed between editions, or find wording conflicts and gaps before human review. This skill surfaces cited evidence and review questions only; it NEVER decides coverage, determines compliance, approves or clears a form for filing, files or binds a form, or closes the review — those are licensed-human / authorized-system actions requiring mandatory adjudication."
 license: MIT
-compatibility: Amazon Quick Desktop; requires policy-form/endorsement-repository, filed-approved-forms, document-intelligence (clause parsing), product-rules, and legal/compliance-reference MCP integrations (all read-only).
+compatibility: Python 3.10+; offline structured inputs and supplied source evidence. Expected source systems are not bundled production connectors.
 metadata:
   aws-fsi-category: "Insurance"
   aws-fsi-skill-type: "Analysis and evaluation skills"
   aws-fsi-risk-tier: "R3"
   aws-fsi-archetype: "Analyze & review"
   aws-fsi-agent-pattern: "Interactive decision-support copilot"
-  aws-fsi-delivery-wave: "Wave 3 - regulated casework"
+  aws-fsi-delivery-wave: "Insurance Phase 1"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "required"
   aws-fsi-data-classification: "Highly Confidential (customer NPI/PII)"
-  aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
-  aws-fsi-owner: "Insurance underwriting & claims"
+  aws-fsi-jurisdictions: "Reviewed target-specific jurisdiction/product profiles required; fixture coverage is not global applicability"
+  aws-fsi-owner: "Insurance product wording and compliance"
   aws-fsi-primary-user: "Insurance product counsel / underwriting / compliance"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-18"
 ---
 
 # Policy Wording Comparator
+
+## Implemented scope and evidence contract
+
+Compare policy or reinsurance wording using `contract_type: policy|reinsurance`, aligned clause IDs and both documents in the native schema. A treaty baseline may have `filing_status: executed`; it is not a filed-form authority claim. Keep treaty comparison here; use the treaty interpreter only for a different request to explain one contract. Preserve both source texts/citations for modified clauses. String similarity is a text-change indicator, not semantic equivalence. Unevaluable checks prevent a clean comparison status.
+
+All output artifacts include the portable insurance evidence contract and source snapshot. Missing actor, versioned source, date or upstream context remains explicitly partial. Content hashes detect changes; they do not authenticate sources or grant approval. After authoring narrative, rebuild `artifact` with `build_artifact` from `scripts/insurance_contract.py` before running output validation. A common envelope does not replace the receiver's native input validator.
 
 ## Purpose and outcome
 Given a **subject form** (a policy form, endorsement, manuscript clause set, or new edition) and
@@ -55,8 +52,7 @@ coverage, compliance, and filing **decisions remain with a licensed human**.
 - Plain-language **explanation of a single policy** (no comparison) → `policy-document-explainer`.
 - Compare a customer's **needs/exposures** against policy terms for adequacy → `coverage-gap-analyzer`.
 - Compare **expiring vs proposed renewal** terms for a customer explanation → `policy-renewal-reviewer`.
-- **Reinsurance treaty** wording (attachment, reinstatements, recoverability) →
-  `reinsurance-treaty-interpreter`.
+- **Single reinsurance contract explanation**, without comparison → `reinsurance-contract-reviewer`. Treaty wording comparison stays here using the reinsurance overlay.
 - Compare **premiums/quotes** across carriers → `premium-quote-comparator`.
 
 ## Adjacent-skill handoffs
@@ -155,3 +151,9 @@ form or customer data to unapproved destinations.
   material; a large formatting change to a notice-of-address clause may not be. Clause type leads.
 - **Do not tune materiality to the deal.** Thresholds come from the versioned config, not from what
   a reviewer hopes the answer will be.
+
+## Evidence and handoff contract
+
+Read [the insurance evidence contract](references/insurance-contract.md) for source
+versioning, explicit unknowns, financial/date bases and receiver validation. A
+content hash is not source authentication, professional approval or execution authority.

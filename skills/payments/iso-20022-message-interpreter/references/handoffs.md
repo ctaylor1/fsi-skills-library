@@ -1,44 +1,12 @@
-# Adjacent-Skill Handoffs — iso-20022-message-interpreter
+# Optional composition
 
-This skill **interprets and explains** a single ISO 20022 message (or a linked
-status/response) and stops. It does not trace a payment end-to-end, build a case, decide a
-disposition, or repair/resubmit anything. It hands off by returning its cited
-interpretation object (message classification, tie-outs, findings, and per-transaction
-citations) keyed by the message identifiers (`MsgId`, `EndToEndId`, `UETR`).
+- `payment-lifecycle-diagnoser`: use when the job spans multiple events/attempts rather than one message.
+- `bank-payment-exception-investigator`: use for a bank investigation chronology, ownership and conditional recommendation.
+- `payment-repair-planner`: use only for a confirmed defect with exact correction, policy and screening evidence; it drafts an offline plan.
+- Account-reporting/settlement reconciliation: classification-only camt output is not a normalized ledger or settlement dataset. A suitable extraction adapter and the reconciliation input contract are still required.
 
-## Downstream (this skill routes to)
+A raw XML request requires a separately available parser; this package must disclose that it cannot supply one. Recognized camt.110/111/admi.024 names are useful routing context, not completed case-message interpretation.
 
-| Downstream skill | When to route | Handoff artifact |
-| ---------------- | ------------- | ---------------- |
-| `payment-failure-diagnoser` | The user wants to know **why a payment failed or is delayed across the whole chain** (initiation → authorization → routing → messaging → screening → clearing → settlement), not just what one message says | Interpretation object + message identifiers |
-| `payment-exception-investigator` | A genuine **exception/investigation case** is needed — chronology of parties and statuses, camt.056/029 cancellation-investigation flow (R3, casework) | Interpretation object + identifiers as case evidence |
-| `payment-repair-assistant` | A rejected/held payment must be **corrected, validated, approved, and resubmitted** (R4, approval-gated action) | Interpretation object as input evidence only — this skill never repairs |
+Use [payment-contract.md](payment-contract.md) for a handoff envelope, preserve the lead owner and source references, and require target validation. No fixed serial pipeline is required; the user can enter any workflow directly with sufficient evidence.
 
-## Upstream (may call this skill)
-
-`payment-failure-diagnoser` and `payment-exception-investigator` may call this skill to get
-an authoritative, cited interpretation of a specific message (field semantics, status/reason
-decoding, truncation detection) rather than re-parsing the message themselves.
-
-## Human / specialist handoffs (no catalog skill applies)
-
-- **Sanctions / AML / fraud determination** — a `FRAD` reason, a screening hit, or a
-  suspected-fraud pattern is *explained* here and routed to the sanctions/AML/fraud
-  operations function and its regulated skills; this skill never adjudicates.
-- **Scheme / correspondent dispute or clarification** requiring contact with another bank →
-  payments operations / correspondent-banking specialist (external delivery needs approval).
-- **Legal or regulatory interpretation** of a message's obligations → licensed specialist.
-
-## Related but distinct (do not absorb)
-
-- Summarizing an already-settled **settlement report** is `settlement-report-summarizer`.
-- Reconciling settlement or transaction **records across sources** is
-  `settlement-break-reconciler` / `transaction-reconciliation-helper`.
-
-## Duplicate-execution prevention
-
-- This skill **only interprets/explains**; it must not perform end-to-end tracing, casework,
-  disposition, or repair — those belong to the skills above.
-- Downstream skills must **reuse** this skill's interpretation (keyed by message identifiers)
-  rather than re-deriving field semantics and status meanings.
-- A rejection or a control-total break is **surfaced and routed**, never resolved here.
+Phase 1 handoff: retain case/participant/rail/jurisdiction, original source references and unresolved issues using payment-contract.md. Validate the target native input independently; renamed skills are not assumed input-compatible. Local IDs and hashes grant no authority and do not persist or accept a case. Only invoke installed capabilities within the requested scope.

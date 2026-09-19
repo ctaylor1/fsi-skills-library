@@ -1,0 +1,7 @@
+# Native schema
+
+Top level: case_id, calendar as_of, context{capacity,represented_party,object_id,jurisdiction,line_of_business}, sources[{source_ref,version,as_of?}], explicit unresolved_issues[], optional upstream_artifacts/context_mappings and data. data.profile requires profile_id/version/source_refs/effective_from/effective_to/jurisdictions[]/lines_of_business[] matching the actual case.
+
+scope and market_total share market_id/metric/currency/basis/period/product/geography/source_refs; market_total.value is positive. observations[{entity_id,value,...same scope fields,source_refs}] have unique entity IDs. inventory_complete is explicit boolean. claims[{claim_id,kind:fact|inference|hypothesis,statement,implication,falsification_or_next_evidence,entity_ids[],contrary_evidence_reviewed,contrary_source_refs[],source_refs}] link listed entity IDs; empty entity_ids supports market-wide claims.
+
+All evidence rows identify supplied source_refs. Financial numbers accept finite numeric strings/numbers; null is unknown, never zero. Unknown business evidence may be structurally valid but prevents complete readiness. Literal explicit empty inventories are retained as assertions for review. Duplicate IDs reject. Output retains source_document, native results/findings, status/completeness/evaluability, unresolved_issues and content-bound artifact. validate_output recomputes rather than trusting a fresh hash.

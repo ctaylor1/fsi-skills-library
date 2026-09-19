@@ -1,0 +1,318 @@
+{
+  "calculation_inputs": {
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "Renewal analyst",
+      "represented_party": "Synthetic insurer or applicant; no live customer",
+      "object_id": "SYNTHETIC-0001"
+    },
+    "sources": [
+      {
+        "source_ref": "pas-expiring-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "pas-proposed-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "loss-history-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "policy_id": "SYNTHETIC-0001",
+    "config_version": "synthetic-renewal-v1",
+    "currency": "USD",
+    "line_of_business": "P&C property",
+    "review_window_days": 1095,
+    "claims_complete": true,
+    "expiring": {
+      "term_effective": "2025-10-01",
+      "annual_premium": 100000,
+      "source_ref": "pas-expiring-v1",
+      "coverages": [
+        {
+          "coverage": "Building",
+          "limit": 1000000,
+          "deductible": 1000
+        }
+      ],
+      "exposures": [
+        {
+          "basis": "TIV",
+          "value": 1000000
+        }
+      ],
+      "forms": [
+        {
+          "form_id": "SYNTH-PROP",
+          "edition": "2026-01"
+        }
+      ]
+    },
+    "proposed": {
+      "term_effective": "2026-10-01",
+      "annual_premium": 100000,
+      "source_ref": "pas-proposed-v1",
+      "coverages": [
+        {
+          "coverage": "Building",
+          "limit": 1000000,
+          "deductible": 1000
+        }
+      ],
+      "exposures": [
+        {
+          "basis": "TIV",
+          "value": 1000000
+        }
+      ],
+      "forms": [
+        {
+          "form_id": "SYNTH-PROP",
+          "edition": "2026-01"
+        }
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "SYNTH-C1",
+        "date_of_loss": "2024-01-15",
+        "incurred": 100000,
+        "paid": 100000,
+        "status": "closed",
+        "cause": "synthetic property damage",
+        "source_ref": "loss-history-v1/row1"
+      },
+      {
+        "claim_id": "SYNTH-C2",
+        "date_of_loss": "2025-01-15",
+        "incurred": 100000,
+        "paid": 100000,
+        "status": "closed",
+        "cause": "synthetic property damage",
+        "source_ref": "loss-history-v1/row2"
+      },
+      {
+        "claim_id": "SYNTH-C3",
+        "date_of_loss": "2026-01-15",
+        "incurred": 100000,
+        "paid": 100000,
+        "status": "closed",
+        "cause": "synthetic property damage",
+        "source_ref": "loss-history-v1/row3"
+      }
+    ]
+  },
+  "review_status": "partial",
+  "loss_window": {
+    "start": "2023-09-19",
+    "end": "2026-09-18",
+    "excluded_claim_count": 0
+  },
+  "review_id": "renewal_review-d83b491dd75c3d1dd7e4780d",
+  "policy_id": "SYNTHETIC-0001",
+  "line_of_business": "P&C property",
+  "as_of": "2026-09-18",
+  "config_version": "synthetic-renewal-v1",
+  "terms": {
+    "expiring_effective": "2025-10-01",
+    "proposed_effective": "2026-10-01"
+  },
+  "findings": [
+    {
+      "finding": "premium_change",
+      "fired": false,
+      "reason": "premium change +0.00% within 10.0%",
+      "evidence": [
+        {
+          "term": "expiring",
+          "annual_premium": 100000.0,
+          "citation": "pas:pas-expiring-v1@2026-09-18"
+        },
+        {
+          "term": "proposed",
+          "annual_premium": 100000.0,
+          "citation": "pas:pas-proposed-v1@2026-09-18"
+        }
+      ],
+      "basis": {
+        "delta_pct": 0.0,
+        "threshold_pct": 10.0
+      },
+      "contribution": 0
+    },
+    {
+      "finding": "exposure_change",
+      "fired": false,
+      "reason": "no exposure basis change exceeds 10.0%",
+      "evidence": [],
+      "basis": {
+        "bases_compared": [
+          "TIV"
+        ],
+        "threshold_pct": 10.0
+      },
+      "contribution": 0
+    },
+    {
+      "finding": "limit_reduced",
+      "fired": false,
+      "reason": "no coverage limit reduced",
+      "evidence": [],
+      "basis": {
+        "coverages_compared": [
+          "Building"
+        ]
+      },
+      "contribution": 0
+    },
+    {
+      "finding": "deductible_increased",
+      "fired": false,
+      "reason": "no deductible increase >= 20.0%",
+      "evidence": [],
+      "basis": {
+        "threshold_pct": 20.0
+      },
+      "contribution": 0
+    },
+    {
+      "finding": "coverage_removed",
+      "fired": false,
+      "reason": "no coverage removed",
+      "evidence": [],
+      "basis": {},
+      "contribution": 0
+    },
+    {
+      "finding": "coverage_added",
+      "fired": false,
+      "reason": "no coverage added",
+      "evidence": [],
+      "basis": {},
+      "contribution": 0
+    },
+    {
+      "finding": "form_endorsement_change",
+      "fired": false,
+      "reason": "no form/endorsement change",
+      "evidence": [],
+      "basis": {},
+      "contribution": 0
+    },
+    {
+      "finding": "large_open_claim",
+      "fired": true,
+      "reason": "3 large or open claim(s) in the review window",
+      "evidence": [
+        {
+          "claim_id": "SYNTH-C1",
+          "incurred": 100000.0,
+          "status": "closed",
+          "cause": "synthetic property damage",
+          "citation": "claims:loss-history-v1/row1@2024-01-15"
+        },
+        {
+          "claim_id": "SYNTH-C2",
+          "incurred": 100000.0,
+          "status": "closed",
+          "cause": "synthetic property damage",
+          "citation": "claims:loss-history-v1/row2@2025-01-15"
+        },
+        {
+          "claim_id": "SYNTH-C3",
+          "incurred": 100000.0,
+          "status": "closed",
+          "cause": "synthetic property damage",
+          "citation": "claims:loss-history-v1/row3@2026-01-15"
+        }
+      ],
+      "basis": {
+        "large_claim_incurred": 100000.0
+      },
+      "contribution": 3
+    },
+    {
+      "finding": "rate_exposure_divergence",
+      "fired": false,
+      "reason": "premium/exposure divergence 0.00pt within tolerance",
+      "evidence": [
+        {
+          "premium_delta_pct": 0.0,
+          "exposure_basis": "TIV",
+          "exposure_delta_pct": 0.0,
+          "divergence_pct": 0.0,
+          "citation": "pas:pas-proposed-v1@2026-09-18"
+        }
+      ],
+      "basis": {
+        "tolerance_pct": 5.0
+      },
+      "contribution": 0
+    }
+  ],
+  "fired_findings": [
+    "large_open_claim"
+  ],
+  "not_evaluable": [
+    {
+      "finding": "loss_ratio_flag",
+      "why": "complete claims and sourced earned premium for the identical period/currency are required"
+    }
+  ],
+  "suggested_disposition": "Review",
+  "renewal_questions": [
+    "Confirm the status and reserve adequacy of the large/open claim(s) with claims before the underwriter's review."
+  ],
+  "context_prompts": [
+    "A premium change may reflect exposure growth, inflation guard, a scheduled rate filing, or loss experience rather than a discretionary rate action.",
+    "Form/edition changes may be mandatory bureau or state filings rather than carrier-initiated coverage restrictions.",
+    "A limit or deductible change may be at the insured's request or reflect updated valuations.",
+    "A loss ratio should be read with loss development, large-loss treatment, and credibility in mind.",
+    "An exposure basis change may be a data correction rather than real growth or contraction."
+  ],
+  "disclaimer": "Comparison and review evidence only; not a renewal, pricing, or coverage determination. No renewal decision or notice has been issued.",
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "policy-renewal-reviewer",
+    "artifact_type": "renewal_review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "Renewal analyst",
+      "represented_party": "Synthetic insurer or applicant; no live customer",
+      "object_id": "SYNTHETIC-0001"
+    },
+    "sources": [
+      {
+        "source_ref": "pas-expiring-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "pas-proposed-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "loss-history-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "d83b491dd75c3d1dd7e4780da079916509d4de3f0122dec25b5ef04f27b486ea",
+    "output_hash": "0388eae8f67df17def8da281db89ef95654173cf994e79c991f09f3bb66760cc",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "{'finding': 'loss_ratio_flag', 'why': 'complete claims and sourced earned premium for the identical period/currency are required'}"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "d3b51d1bed439abe8a3b8ca3f75f3274342cf1e2a51ffd30a4044ca2cefae1d4"
+  }
+}

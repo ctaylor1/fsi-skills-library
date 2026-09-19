@@ -1,0 +1,447 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-service-incident-investigator",
+  "request_id": "incident-native",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "Synthetic Community Bank",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "incident-native",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "Synthetic Community Bank",
+    "sources": [
+      {
+        "source_id": "independent-bank-packet",
+        "reference": "synthetic://independently-authored-bank-packet-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "window": {
+        "start": "2026-09-18T10:00:00Z",
+        "end": "2026-09-18T12:00:00Z"
+      },
+      "coverage": {
+        "complete": true,
+        "expected_unique_payments": 3,
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      "payments": [
+        {
+          "payment_id": "p1",
+          "legal_entity_id": "bank-us",
+          "currency": "USD",
+          "amount": "120",
+          "outcome": "succeeded",
+          "outcome_authority": "settlement-ledger:P1",
+          "lifecycle_state": "settled",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "payment_id": "p2",
+          "legal_entity_id": "bank-us",
+          "currency": "USD",
+          "amount": "80",
+          "outcome": "unknown",
+          "outcome_authority": "pending-status:P2",
+          "lifecycle_state": "unknown",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "payment_id": "p3",
+          "legal_entity_id": "bank-eu",
+          "currency": "EUR",
+          "amount": "50",
+          "outcome": "failed",
+          "outcome_authority": "authoritative-no-effect:P3",
+          "lifecycle_state": "rejected",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "payment_id": "p1",
+          "legal_entity_id": "bank-us",
+          "currency": "USD",
+          "amount": "120",
+          "outcome": "succeeded",
+          "outcome_authority": "settlement-ledger:P1",
+          "lifecycle_state": "settled",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        }
+      ],
+      "attempts": [
+        {
+          "attempt_id": "a1",
+          "payment_id": "p1",
+          "at": "2026-09-18T10:01:00Z",
+          "status": "unknown",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "attempt_id": "a2",
+          "payment_id": "p1",
+          "at": "2026-09-18T10:02:00Z",
+          "status": "succeeded",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "attempt_id": "a3",
+          "payment_id": "p2",
+          "at": "2026-09-18T10:03:00Z",
+          "status": "unknown",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "attempt_id": "a4",
+          "payment_id": "p2",
+          "at": "2026-09-18T10:04:00Z",
+          "status": "unknown",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "attempt_id": "a5",
+          "payment_id": "p3",
+          "at": "2026-09-18T10:05:00Z",
+          "status": "failed",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "event_id": "release-rc2",
+          "kind": "release",
+          "at": "2026-09-18T09:59:00Z",
+          "observation": "Cutover new-intake routing enabled",
+          "release_version": "CB-2026.09.18-rc2",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "event_id": "trace-p2",
+          "kind": "trace",
+          "at": "2026-09-18T10:05:00Z",
+          "observation": "P2 response absent; money outcome unresolved",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        {
+          "event_id": "reconcile",
+          "kind": "reconciliation",
+          "at": "2026-09-18T11:30:00Z",
+          "observation": "P1 settled once; P3 no effect; P2 remains unmatched",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesis_id": "hyp-route",
+          "statement": "New routing may delay response correlation",
+          "supporting_event_ids": [
+            "release-rc2",
+            "trace-p2"
+          ],
+          "discriminating_test": "Compare persisted outbox IDs and mainframe effects with route versions",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        }
+      ],
+      "containment": {
+        "strategy": "status-and-reconcile",
+        "owner": "Incident commander",
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      "recovery": {
+        "owner": "Settlement operations",
+        "support_handoff": "support-shift-case:82",
+        "financial_reconciliation_ref": "synthetic-recon:P1-P3",
+        "matched_payment_ids": [
+          "p1",
+          "p3"
+        ],
+        "unresolved_payment_ids": [
+          "p2"
+        ],
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      }
+    }
+  },
+  "input_hash": "41573fc4da68a661411f6f4a1e7b0e8aa0c2843e508a8d5e0679d9e5e4cbfe13",
+  "findings": [],
+  "result": {
+    "incident_id": "incident-native",
+    "window": {
+      "start": "2026-09-18T10:00:00Z",
+      "end": "2026-09-18T12:00:00Z"
+    },
+    "impact": {
+      "unique_payments": 3,
+      "attempts": 5,
+      "retry_attempts": 2,
+      "payment_outcomes": {
+        "failed": 1,
+        "succeeded": 1,
+        "unknown": 1
+      },
+      "attempt_outcomes": {
+        "unknown": 3,
+        "succeeded": 1,
+        "failed": 1
+      },
+      "population_coverage_verified_from_supplied_record": true,
+      "confirmed_success_rate": "0.3333333333333333333333333333",
+      "eventual_success_rate": null,
+      "payment_rows_deduplicated": 1,
+      "attempt_rows_deduplicated": 0,
+      "quarantined_payment_ids": [],
+      "quarantined_attempt_ids": [],
+      "monetary_partitions": [
+        {
+          "legal_entity_id": "bank-eu",
+          "currency": "EUR",
+          "confirmed_success_amount": "0",
+          "failed_payment_amount": "50",
+          "unknown_outcome_amount": "0",
+          "actual_loss": null
+        },
+        {
+          "legal_entity_id": "bank-us",
+          "currency": "USD",
+          "confirmed_success_amount": "120",
+          "failed_payment_amount": "0",
+          "unknown_outcome_amount": "80",
+          "actual_loss": null
+        }
+      ]
+    },
+    "retry_chains": [
+      {
+        "payment_id": "p1",
+        "outcome": "succeeded",
+        "attempts": [
+          {
+            "attempt_id": "a1",
+            "payment_id": "p1",
+            "at": "2026-09-18T10:01:00Z",
+            "status": "unknown",
+            "source_ids": [
+              "independent-bank-packet"
+            ]
+          },
+          {
+            "attempt_id": "a2",
+            "payment_id": "p1",
+            "at": "2026-09-18T10:02:00Z",
+            "status": "succeeded",
+            "source_ids": [
+              "independent-bank-packet"
+            ]
+          }
+        ]
+      },
+      {
+        "payment_id": "p2",
+        "outcome": "unknown",
+        "attempts": [
+          {
+            "attempt_id": "a3",
+            "payment_id": "p2",
+            "at": "2026-09-18T10:03:00Z",
+            "status": "unknown",
+            "source_ids": [
+              "independent-bank-packet"
+            ]
+          },
+          {
+            "attempt_id": "a4",
+            "payment_id": "p2",
+            "at": "2026-09-18T10:04:00Z",
+            "status": "unknown",
+            "source_ids": [
+              "independent-bank-packet"
+            ]
+          }
+        ]
+      },
+      {
+        "payment_id": "p3",
+        "outcome": "failed",
+        "attempts": [
+          {
+            "attempt_id": "a5",
+            "payment_id": "p3",
+            "at": "2026-09-18T10:05:00Z",
+            "status": "failed",
+            "source_ids": [
+              "independent-bank-packet"
+            ]
+          }
+        ]
+      }
+    ],
+    "timeline": [
+      {
+        "event_id": "release-rc2",
+        "kind": "release",
+        "at": "2026-09-18T09:59:00Z",
+        "observation": "Cutover new-intake routing enabled",
+        "release_version": "CB-2026.09.18-rc2",
+        "source_ids": [
+          "independent-bank-packet"
+        ],
+        "causal_status": "observation only"
+      },
+      {
+        "event_id": "trace-p2",
+        "kind": "trace",
+        "at": "2026-09-18T10:05:00Z",
+        "observation": "P2 response absent; money outcome unresolved",
+        "source_ids": [
+          "independent-bank-packet"
+        ],
+        "causal_status": "observation only"
+      },
+      {
+        "event_id": "reconcile",
+        "kind": "reconciliation",
+        "at": "2026-09-18T11:30:00Z",
+        "observation": "P1 settled once; P3 no effect; P2 remains unmatched",
+        "source_ids": [
+          "independent-bank-packet"
+        ],
+        "causal_status": "observation only"
+      }
+    ],
+    "hypotheses": [
+      {
+        "hypothesis_id": "hyp-route",
+        "statement": "New routing may delay response correlation",
+        "supporting_event_ids": [
+          "release-rc2",
+          "trace-p2"
+        ],
+        "discriminating_test": "Compare persisted outbox IDs and mainframe effects with route versions",
+        "source_ids": [
+          "independent-bank-packet"
+        ],
+        "causality": "unproven hypothesis",
+        "causal_conclusion": false
+      }
+    ],
+    "containment_plan": {
+      "strategy": "status-and-reconcile",
+      "owner": "Incident commander",
+      "source_ids": [
+        "independent-bank-packet"
+      ]
+    },
+    "replay_assessment": "not proposed",
+    "recovery_plan": {
+      "owner": "Settlement operations",
+      "support_handoff": "support-shift-case:82",
+      "financial_reconciliation_ref": "synthetic-recon:P1-P3",
+      "matched_payment_ids": [
+        "p1",
+        "p3"
+      ],
+      "unresolved_payment_ids": [
+        "p2"
+      ],
+      "source_ids": [
+        "independent-bank-packet"
+      ]
+    },
+    "incident_closed": false,
+    "root_cause_confirmed": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-integration-readiness-reviewer",
+      "reason": "Review recovery and regression evidence before a release decision.",
+      "required_inputs": [
+        "incident timeline and affected versions",
+        "negative-path test artifacts",
+        "reconciliation and unresolved payment inventory"
+      ],
+      "handoff_id": "2df0965bc012226a80dcb6b2ffa468b0d59ef174a1d8b7b838fdf418af1aa9dd",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-service-incident-investigator",
+      "case_id": "incident-native",
+      "lead_owner": "Synthetic Community Bank",
+      "requested_output": "Review recovery and regression evidence before a release decision.",
+      "source_refs": [
+        "synthetic://independently-authored-bank-packet-20260918"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-repair-planner",
+      "reason": "Assess individual unresolved money outcomes under the separate repair gate.",
+      "required_inputs": [
+        "original payment identities",
+        "authoritative outcome evidence",
+        "exact proposed repair and authority"
+      ],
+      "handoff_id": "11c7c139f15180ff5afe7c7d619f11362064c468c90e5305972e3832d666656b",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-service-incident-investigator",
+      "case_id": "incident-native",
+      "lead_owner": "Synthetic Community Bank",
+      "requested_output": "Assess individual unresolved money outcomes under the separate repair gate.",
+      "source_refs": [
+        "synthetic://independently-authored-bank-packet-20260918"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Inline source records are inspected as supplied, not authenticated. Failed/unknown payment amounts are exposure categories, not realized losses. Frequency and release coincidence do not establish cause."
+  ]
+}

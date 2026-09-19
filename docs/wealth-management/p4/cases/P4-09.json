@@ -1,0 +1,48 @@
+{
+  "schema_version": "wealth-p4-v1",
+  "case_id": "P4-09",
+  "title": "Concurrent service requests with a documented pressure signal",
+  "skill_ids": [
+    "wealth-management-router",
+    "wealth-account-service-packager",
+    "senior-investor-protection-screener"
+  ],
+  "prompt": "A US brokerage advisor requests a source-grounded protection screening and an operations draft for HH-IRIS. Prepare the protection review first where appropriate, then package the two service requests with unresolved conditions and aggregate funding. Audience: authorized protection reviewer and operations only. The advisor is asking for review, not a diagnosis or decision to restrict the account.\n\nAll people, firms and records are synthetic. Review as of 2026-09-17. Use only this packet, distinguish source assertions from verified facts, cite source IDs at material claims, and prepare drafts for the stated audience. Report missing evidence and next owners rather than inventing data. Do not contact anyone or change any system. An incomplete but useful source-grounded report is acceptable; do not manufacture fields just to run a tool.",
+  "source_packet": [
+    {
+      "source_id": "I1",
+      "reference": "Engagement, party and account record, operations Noor, 2026-09-17; current through2026-09-30",
+      "content": "HH-IRIS is US brokerage. AdultI-A is72 and owns individual accountAC-IRIS. Available settled cash25000; supplied holdings schedule is empty. RelativeI-N is not a recorded account owner or authorized person. Age is demographic context. Trusted-contact information was offered and declined onSeptember10; no impairment determination has been supplied."
+    },
+    {
+      "source_id": "I2",
+      "reference": "Service requests receivedSeptember17, operations Noor; current throughSeptember30",
+      "content": "RequestDIST-18: I-A requests proposed cash distribution18000 to a masked new external payeePAY-NEW for “urgent family assistance.” Requested tax instruction reference is missing. RequestTR-10: I-A requests partial cash transfer10000 to masked destinationDEST-I in I-A’s name. Neither request has been submitted. Identity evidence is received for both; signed authority record received forTR-10 but missing forDIST-18. Destination evidence received forTR-10; DIST-18 has two conflicting destination confirmations. An extra nonrequired callback-review condition is also recorded conflicting, not cleared."
+    },
+    {
+      "source_id": "I3",
+      "reference": "Supplied service profile OPS-I v2, owner Noor, effective2026-09-01 through2026-12-31",
+      "content": "Brokerage US profile requires identity, authority and destination records for each transfer/distribution; distribution additionally requires tax instructions. Required records must be received and consistent for operations review. A callback condition, if supplied conflicting, is not waived just because it is outside the required list. Available cash must be checked across concurrent requests. No instruction conveys hold or transfer authority to the preparer."
+    },
+    {
+      "source_id": "I4",
+      "reference": "Complete bounded transaction history, protection analyst Ori, 2026-09-17; valid through2026-09-17",
+      "content": "LookbackAugust19–September17 is represented as complete. Executed debits toPAY-REG: September2 USD1000; September8 USD1200; September10 USD800. No other executed debit in that lookback. Proposed focal debitDIST-18,September17,USD18000 toPAY-NEW is not executed or pending settlement. It is an active proposed request. TR-10 is a separate proposed service request; no source records it as executed. A recorded beneficiary-change request occurredSeptember15; its legal validity was not assessed."
+    },
+    {
+      "source_id": "I5",
+      "reference": "Observed call notes, Ori, September17,2026; current throughSeptember30",
+      "content": "I-N repeatedly answered questions directed toI-A. I-A said “I was told this must happen today and not to tell the rest of the family.” Analyst records third-party influence=true, urgency=true,secrecy=true. Confusion, recall and repetition observations were not assessed. No one diagnosed incapacity or established exploitation. The destination disagreement remains unresolved."
+    },
+    {
+      "source_id": "I6",
+      "reference": "Screening configuration SCR-I v4, control owner Priya, effective2026-09-01 through2026-12-31",
+      "content": "Supplied brokerage US screening conventions: lookback30days, amount k3 population standard deviations,min baseline3,new-payee threshold5000, recent executed-outflow window7days and threshold10000, account-change window30days, trusted-contact recency365days. Third-party or communication concerns independently warrant escalation to the authorized reviewer; trusted-contact gap is administrative and excluded from concern counts. Profile is an attributed configuration, not a legal Rule2165 applicability or hold determination. Origin SERVICE-I-18, code destination-conflict, message “DIST-18 destination evidence conflicts.” Unresolved, sourcesI2/I5."
+    }
+  ],
+  "conditions": [
+    "with-skill",
+    "without-skill"
+  ],
+  "rubric_id": "P4-09-R1"
+}

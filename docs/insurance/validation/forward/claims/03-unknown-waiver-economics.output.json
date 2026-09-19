@@ -1,0 +1,186 @@
+{
+  "screening_id": "sos-CLM-SYN-SUBRO-058-2026-09-18-0001",
+  "claim_id": "CLM-SYN-SUBRO-058",
+  "as_of": "2026-09-18",
+  "config_version": "synthetic-recovery-v1",
+  "line_of_business": "commercial_property",
+  "context": {
+    "loss_date": null,
+    "loss_state": null,
+    "limitation_date": "2026-10-03",
+    "days_to_limitation": 15
+  },
+  "time_critical": true,
+  "recovery_availability": "unknown",
+  "economics_basis": "supplied scenario assumptions; not an entitlement or collectibility determination",
+  "signals": [
+    {
+      "signal": "third_party_liability_indicated",
+      "fired": true,
+      "reason": "claim facts indicate a responsible third party with liability share >= 50%",
+      "evidence": [
+        {
+          "party": "Synthetic Plumbing Contractor",
+          "role": "contractor",
+          "liability_pct": 70.0,
+          "citation": "claims:synthetic-engineer-note@2026-09-18"
+        }
+      ],
+      "basis": {
+        "basis": "supplied engineering allegation, disputed by contractor",
+        "min_liability_pct": 50
+      },
+      "contribution": 1
+    },
+    {
+      "signal": "recovery_above_floor",
+      "fired": false,
+      "reason": "economics not evaluable from supplied financial and liability inputs",
+      "evidence": [],
+      "basis": {
+        "referral_floor": 2500
+      },
+      "contribution": 1
+    },
+    {
+      "signal": "limitation_window_open",
+      "fired": false,
+      "reason": "15 day(s) to limitation date 2026-10-03 (buffer 30d)",
+      "evidence": [],
+      "basis": {
+        "limitation_buffer_days": 30
+      },
+      "contribution": 0
+    },
+    {
+      "signal": "supporting_evidence_present",
+      "fired": true,
+      "reason": "strong liability evidence on file (expert_report)",
+      "evidence": [
+        {
+          "type": "expert_report",
+          "citation": "claims:synthetic-engineer-note@2026-09-18"
+        }
+      ],
+      "basis": {
+        "strong_evidence_types": [
+          "police_report",
+          "liability_admission",
+          "expert_report"
+        ]
+      },
+      "contribution": 1
+    },
+    {
+      "signal": "recovery_not_waived",
+      "fired": false,
+      "reason": "recovery availability unknown (waiver=None, prior_recovery_status=None)",
+      "evidence": [],
+      "basis": {
+        "waiver_of_subrogation": null,
+        "prior_recovery_status": null
+      },
+      "contribution": 0
+    },
+    {
+      "signal": "collectible_responsible_party",
+      "fired": true,
+      "reason": "responsible party is insured",
+      "evidence": [
+        {
+          "party": "Synthetic Plumbing Contractor",
+          "insured": true,
+          "assets_known": false,
+          "citation": "claims:synthetic-engineer-note@2026-09-18"
+        }
+      ],
+      "basis": {
+        "collectibility_factor": 1.0
+      },
+      "contribution": 1
+    },
+    {
+      "signal": "positive_expected_recovery",
+      "fired": false,
+      "reason": "economics not evaluable from supplied financial and liability inputs",
+      "evidence": [],
+      "basis": {
+        "liability_share": 0.7,
+        "collectibility_factor": 1.0
+      },
+      "contribution": 1
+    }
+  ],
+  "fired_signals": [
+    "collectible_responsible_party",
+    "supporting_evidence_present",
+    "third_party_liability_indicated"
+  ],
+  "not_evaluable": [
+    {
+      "signal": "recovery_above_floor",
+      "why": "paid/deductible/currency/source unknown; economics not evaluable"
+    },
+    {
+      "signal": "recovery_not_waived",
+      "why": "waiver, prior recovery status, or status evidence unknown; availability is not established"
+    }
+  ],
+  "referral_economics": {
+    "currency": "USD",
+    "evaluability": "not_evaluable",
+    "recovery_base": null,
+    "liability_share": null,
+    "collectibility_factor": 1.0,
+    "gross_expected": null,
+    "recovery_cost": 750,
+    "net_expected": null
+  },
+  "screening_band": "Review",
+  "consider_prompts": [
+    "comparative or contributory negligence may reduce the recoverable share",
+    "the responsible party may be judgment-proof or under-insured (verify collectibility)",
+    "an anti-subrogation rule or the made-whole doctrine may limit recovery",
+    "the limitation period varies by jurisdiction and claim type \u2014 confirm the controlling date with the recovery specialist / counsel",
+    "another insurer or party may already be pursuing recovery (avoid a duplicate demand)",
+    "policy conditions (e.g., a waiver-of-subrogation endorsement) may bar recovery"
+  ],
+  "disclaimer": "Screening evidence only; not a subrogation, liability, or limitation determination. No demand, filing, waiver, or recovery action has been taken.",
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "subrogation-opportunity-screener",
+    "artifact_type": "subrogation-opportunity-screener-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "claims adjuster",
+      "represented_party": "Synthetic Harbor Mutual",
+      "object_id": "CLM-SYN-SUBRO-058",
+      "jurisdiction": "US-NY",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-notice",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "synthetic-profile",
+        "version": "review-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "8801c5422ec87dddef6f92e56c5f0bcee3a6156b3e951dc1f50bdb62bb935a7f",
+    "output_hash": "40cac4e47c70fef6230f9410cda493d2b6238db55be5750b62967def4cbf0767",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "{'signal': 'recovery_above_floor', 'why': 'paid/deductible/currency/source unknown; economics not evaluable'}",
+      "{'signal': 'recovery_not_waived', 'why': 'waiver, prior recovery status, or status evidence unknown; availability is not established'}"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "9cbcbdd9a53f098ac0fac08c825b929edea11637a244857e110ae2333cbfb02f"
+  }
+}

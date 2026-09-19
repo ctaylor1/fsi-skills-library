@@ -54,9 +54,9 @@ servicing — the decision, any refund/credit, and any fee action remain human.
 - **Complaint** adjudication (chronology, applicable standards, proposed remediation, reviewed
   response) → `complaint-resolution-assistant`.
 - **Loan-servicing** exception root-cause and staged correction → `loan-servicing-exception-resolver`.
-- **Card transaction disputes** → `dispute-operations-assistant` (issuer/acquirer) or
-  `chargeback-dispute-packager` (merchant).
-- **Merchant** interchange/processor-pricing analysis → `merchant-fee-optimizer`.
+- **Card transaction disputes** → `issuer-payment-dispute-reviewer` (issuer/consumer-error review); merchant/acquirer representment → `merchant-chargeback-response-packager` or
+  `merchant-chargeback-response-packager` (merchant).
+- **Merchant** interchange/processor-pricing analysis → `merchant-payment-cost-analyzer`.
 - General statement/cash-flow analysis → `bank-statement-analyzer`; unusual/unauthorized
   **activity** (not a disclosed-fee question) → `account-anomaly-screener`.
 

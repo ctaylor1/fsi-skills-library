@@ -7,10 +7,10 @@ not investigate to disposition, file, or act.
 
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
-| `payment-fraud-case-investigator` | Payment-fraud alert needing device/identity/beneficiary network investigation | `screening_id` + focal txns |
+| `payment-fraud-and-scam-investigator` | Payment-fraud alert needing device/identity/beneficiary network investigation | `screening_id` + focal txns |
 | `suspicious-activity-report-drafter` | The reviewer decides a SAR may be warranted (draft-only, human-filed) | `screening_id` + evidence |
-| `chargeback-dispute-packager` | Merchant-side card dispute | focal txn + evidence |
-| `dispute-operations-assistant` | Issuer/acquirer-side dispute | focal txn + evidence |
+| `merchant-chargeback-response-packager` | Merchant-side card dispute | focal txn + evidence |
+| `issuer-payment-dispute-reviewer` | Issuer-side consumer-error review; merchant/acquirer representment uses merchant-chargeback-response-packager | focal txn + evidence |
 | `bank-statement-analyzer` | The user actually wants cash-flow/statement analysis, not anomaly review | account + period |
 
 ## Upstream (may call this skill)

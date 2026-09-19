@@ -18,7 +18,7 @@ A read-only monitor may *populate* the reported-message queue, but must not inve
 
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
-| `payment-fraud-case-investigator` | BEC with a fraudulent payment / vendor bank-change request | `case_id` + amounts + beneficiary evidence |
+| `payment-fraud-and-scam-investigator` | BEC with a fraudulent payment / vendor bank-change request | `case_id` + amounts + beneficiary evidence |
 | `cyber-incident-response-coordinator` | Confirmed-worthy phishing incident needing coordinated containment across the org | `case_id` + evidence bundle + recommended containment |
 | `identity-access-reviewer` | Credential exposure / suspected account takeover of recipients or an internal sender | `case_id` + affected-identity evidence |
 | `data-loss-prevention-incident-assistant` | The lure or a reply indicates data exfiltration / policy violation | `case_id` + exposure evidence |

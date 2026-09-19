@@ -1,0 +1,5 @@
+# Domain rules
+
+Scores use configured weights and low/high thresholds; outputs disclose both. Required pillar presence is a structural completeness check, not proof of factual sufficiency. APP/BEC overrides a low-score legitimate recommendation. Cyber consultation requires both a BEC indicator and email source reference and cannot replace payment-case ownership. Sanctions and adverse-media determinations are separate from payment fraud adjudication. No case closure, SAR filing, blocks, recovery, return or reversal is performed.
+
+Versioned configuration and cases with alert/case IDs, masked parties, channel, amount/currency, opened time, transactions/timeline, evidence pillars and source references. Scam flags include `app_scam_reported` and `bec_indicator`; `scam_evidence` records authorization evidence, victim account, beneficiary evidence, recovery status and reimbursement profile. `email_evidence_ref` is needed for a BEC email consultation. Separate sanctions/adverse-media flags are preferred; the legacy combined flag remains unresolved sanctions-specialist review.

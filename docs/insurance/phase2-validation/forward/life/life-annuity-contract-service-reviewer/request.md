@@ -1,0 +1,1 @@
+I am a carrier annuity service specialist reviewing owner SYN-O22's withdrawal request W-22. Please show proceeds and the account-value and benefit-base changes, identify consent gaps, and prepare an internal review note without executing the withdrawal.

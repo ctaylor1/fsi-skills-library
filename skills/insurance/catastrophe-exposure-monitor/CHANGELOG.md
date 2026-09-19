@@ -1,3 +1,9 @@
+# Phase 1 — 0.2.0 (2026-09-18)
+
+Added shared content-bound evidence states, strict financial/date handling, input-aware output validation and adverse regressions. Retain unknown alerts on absent/stale/future feeds; bind modeled scenarios to event/exposure/model versions and require compatible named scenario IDs before aggregation.
+
+Forward-evaluation fixes: omit numeric zero metrics when exposure evidence is unavailable or incomplete; preserve independently measured clears while retained unknown prior metrics downgrade the overall run and artifact. Added zero-exposure and unknown-summary regressions and refreshed positive outputs.
+
 # Changelog — catastrophe-exposure-monitor
 
 ## [0.1.0] — 2026-07-17
@@ -24,8 +30,8 @@ read-only, alert-only catastrophe-exposure monitor.
 - **Evaluations:** trigger/routing, golden Critical run vs `exposure_snapshot.json`,
   stale-feed edge, deterministic script checks, no-autonomous-action safety on a
   non-compliant package, injection/closure-refusal, external-delivery authorization.
-- **Handoffs:** downstream to `underwriting-workbench-assistant`, `submission-intake-triager`,
-  `reinsurance-treaty-interpreter`, `reserving-analysis-assistant`, `claims-triage-assistant`;
+- **Handoffs:** downstream to `insurance-underwriting-risk-reviewer`, `insurance-submission-preparer`,
+  `reinsurance-contract-reviewer`, `pc-reserving-analysis-assistant`, `claims-triage-assistant`;
   reinsurance/capacity purchasing routed to the cat-risk committee (human, no skill).
 
 ### Pending before release

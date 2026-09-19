@@ -115,9 +115,9 @@ Recorded required approvals (delivery and any recommendation/trade are separate 
 outside this skill):
 
 - [ ] Advisor review and sign-off.
-- [ ] Supervisory / principal review before the pack is used in a client meeting.
+- [ ] Additional review roles required by the approved engagement/review policy.
 - [ ] Suitability / Reg BI review — required if any recommendation is contemplated (routed to
-      `suitability-reg-bi-reviewer`).
+      `investment-recommendation-evidence-reviewer`).
 
 Reviewer checklist:
 
@@ -131,3 +131,6 @@ Reviewer checklist:
 - [ ] Customer NPI/PII minimized to what the review needs.
 
 Reviewer: ________________________  Date: ____________  Decision: use / revise / hold
+
+## Evidence lineage
+Record request_id, review_id, artifact_id, input_hash, template/config versions and prior_artifact_id when supplied. The retained input snapshot is sensitive evidence, not authorization.

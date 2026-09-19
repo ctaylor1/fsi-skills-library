@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-initiation-control-reviewer",
+  "request_id": "synthetic-phase2-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": true,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-phase2-001",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "bank",
+    "sources": [
+      {
+        "source_id": "s1",
+        "reference": "synthetic://phase2/bank-fixture",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "requested_action": "draft",
+    "data": {
+      "instructions": [
+        {
+          "instruction_id": "i1",
+          "payer_account_ref": "account-origin",
+          "payee_ref": "payee-A",
+          "payee_account_ref": "account-destination",
+          "amount": "100.00",
+          "currency": "USD",
+          "rail_profile_id": "US-FEDNOW",
+          "execution_date": "2026-09-18",
+          "direction": "credit",
+          "principal_ref": "customer-A",
+          "submitter_ref": "customer-A",
+          "intent_id": "intent-1",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "intents": [
+        {
+          "intent_id": "intent-1",
+          "instruction_id": "i1",
+          "principal_ref": "customer-A",
+          "authorized": true,
+          "binding": {
+            "instruction_id": "i1",
+            "payer_account_ref": "account-origin",
+            "payee_ref": "payee-A",
+            "payee_account_ref": "account-destination",
+            "amount": "100.00",
+            "currency": "USD",
+            "rail_profile_id": "US-FEDNOW",
+            "execution_date": "2026-09-18",
+            "direction": "credit",
+            "principal_ref": "customer-A"
+          },
+          "effective_from": "2026-09-01",
+          "effective_until": "2026-10-31",
+          "revoked": false,
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "mandates": [],
+      "screenings": [
+        {
+          "instruction_id": "i1",
+          "binding": {
+            "instruction_id": "i1",
+            "payer_account_ref": "account-origin",
+            "payee_ref": "payee-A",
+            "payee_account_ref": "account-destination",
+            "amount": "100.00",
+            "currency": "USD",
+            "rail_profile_id": "US-FEDNOW",
+            "execution_date": "2026-09-18",
+            "direction": "credit",
+            "principal_ref": "customer-A"
+          },
+          "status": "clear",
+          "effective_from": "2026-09-01",
+          "effective_until": "2026-10-31",
+          "revoked": false,
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "account_verifications": [
+        {
+          "instruction_id": "i1",
+          "payer_account_ref": "account-origin",
+          "payee_ref": "payee-A",
+          "payee_account_ref": "account-destination",
+          "status": "matched",
+          "effective_from": "2026-09-01",
+          "effective_until": "2026-10-31",
+          "revoked": false,
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "delegations": [],
+      "policy": {
+        "jurisdiction": "US",
+        "participants": [
+          "bank"
+        ],
+        "profile_ids": [
+          "US-FEDNOW"
+        ],
+        "authorized_submitter_refs": [
+          "customer-A"
+        ],
+        "approval_roles": [
+          "payments-operator"
+        ],
+        "currency_limits": [
+          {
+            "currency": "USD",
+            "max_instruction_amount": "1000.00",
+            "max_batch_amount": "5000.00"
+          }
+        ],
+        "effective_from": "2026-09-01",
+        "effective_until": "2026-10-31",
+        "revoked": false,
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "prior_instruction_ids": [],
+      "prior_instruction_bindings": [],
+      "prior_instruction_ledger_complete": true,
+      "batch_controls": {
+        "count": 1,
+        "totals_by_currency": {
+          "USD": "100.00"
+        },
+        "source_ids": [
+          "s1"
+        ]
+      }
+    }
+  },
+  "input_hash": "de7d3696576ae1f9fdc3eb48f4ebb0b4fcef6ccbe7dccdbfbf7df3512d8721a5",
+  "findings": [],
+  "result": {
+    "review": "ready-for-human-review",
+    "instructions": [
+      {
+        "instruction_id": "i1",
+        "binding": {
+          "instruction_id": "i1",
+          "payer_account_ref": "account-origin",
+          "payee_ref": "payee-A",
+          "payee_account_ref": "account-destination",
+          "amount": "100.00",
+          "currency": "USD",
+          "rail_profile_id": "US-FEDNOW",
+          "execution_date": "2026-09-18",
+          "direction": "credit",
+          "principal_ref": "customer-A"
+        },
+        "review": "ready-for-human-review",
+        "finding_codes": [],
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "batch_count": 1,
+    "totals_by_currency": {
+      "USD": "100.00"
+    },
+    "approval_roles": [
+      "payments-operator"
+    ],
+    "submission_authorized": false,
+    "authentication_proves_payment_intent": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-platform-architecture-reviewer",
+      "reason": "Implement binding, deduplication and approval gates in the operating system; this review cannot enforce them.",
+      "required_inputs": [
+        "exact instruction bindings",
+        "applicable policy and approval roles",
+        "source evidence and control findings",
+        "complete prior-submission history"
+      ],
+      "handoff_id": "eb06b1f9b1b6f0a6e742f602d99787c15a43424db3d91beb8adb1cba3d94fd7d",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-initiation-control-reviewer",
+      "case_id": "synthetic-phase2-001",
+      "lead_owner": "bank",
+      "requested_output": "Implement binding, deduplication and approval gates in the operating system; this review cannot enforce them.",
+      "source_refs": [
+        "synthetic://phase2/bank-fixture"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

@@ -12,8 +12,8 @@ coverage, or draft customer-facing letters.
 | `policy-wording-comparator` | The question is whether form/endorsement **wording** matches an approved/filed form (R3, clause-level) | policy forms + endorsements |
 | `premium-quote-comparator` | The user wants to compare priced quotes/options across carriers | normalized quotes |
 | `policy-renewal-reviewer` | The task is comparing expiring vs. proposed terms at renewal and drafting renewal questions | expiring + proposed terms |
-| `claim-readiness-checker` | An actual loss has occurred and the user needs claim-submission completeness | claim + evidence |
-| `claim-denial-appeal-helper` | A claim was denied and the user needs appeal support | denial letter + policy |
+| `claim-intake-preparer` | An actual loss has occurred and the user needs claim-submission completeness | claim + evidence |
+| `health-benefit-appeal-packager` | A claim was denied and the user needs appeal support | denial letter + policy |
 
 ## Upstream (may call this skill)
 

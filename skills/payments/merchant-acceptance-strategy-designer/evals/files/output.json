@@ -1,0 +1,354 @@
+{
+  "schema_version": "1.0",
+  "skill": "merchant-acceptance-strategy-designer",
+  "request_id": "synthetic-commercial-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "merchant",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-commercial-001",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "merchant",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "merchant-brief",
+        "reference": "synthetic merchant scope and outcomes brief",
+        "as_of": "2026-09-18",
+        "review_due": "2027-09-18"
+      },
+      {
+        "source_id": "diligence",
+        "reference": "synthetic inspected provider scope and commercial schedule",
+        "as_of": "2026-09-18",
+        "review_due": "2027-09-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "segments": [
+        {
+          "segment_id": "us-web",
+          "market": "US",
+          "channel": "web",
+          "customer_type": "consumer",
+          "use_case": "one_time",
+          "currency": "USD",
+          "required_methods": [
+            "card",
+            "pay_by_bank"
+          ],
+          "source_ids": [
+            "merchant-brief"
+          ]
+        }
+      ],
+      "options": [
+        {
+          "option_id": "two-method-psp",
+          "operating_model": "Merchant contracts PSP with named acquirer and separate bank-payment settlement service.",
+          "merchant_entity": "Synthetic US merchant",
+          "gateway": "Synthetic gateway",
+          "acquirer": "Synthetic acquirer",
+          "psp": "Synthetic PSP",
+          "responsibilities": {
+            "checkout": "merchant",
+            "authentication": "PSP with issuer/bank authentication",
+            "screening": "merchant and PSP per documented responsibilities",
+            "settlement": "acquirer for card and receiving bank for bank payments",
+            "reconciliation": "merchant finance",
+            "refunds": "merchant with PSP workflow",
+            "disputes": "merchant with acquirer; bank-payment servicing separately"
+          },
+          "coverage": [
+            {
+              "segment_id": "us-web",
+              "method": "card",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "diligence"
+              ],
+              "presentment_currencies": [
+                "USD"
+              ],
+              "settlement_currencies": [
+                "USD"
+              ],
+              "entity_eligible": true
+            },
+            {
+              "segment_id": "us-web",
+              "method": "pay_by_bank",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "diligence"
+              ],
+              "presentment_currencies": [
+                "USD"
+              ],
+              "settlement_currencies": [
+                "USD"
+              ],
+              "entity_eligible": true
+            }
+          ],
+          "constraints": [
+            {
+              "constraint_id": "scope",
+              "description": "US entity eligibility, currency, processing responsibilities and operating limits reviewed in synthetic diligence.",
+              "mandatory": true,
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "diligence"
+              ]
+            }
+          ]
+        }
+      ],
+      "orchestration": {
+        "objective": "Compare successful order completion net of costs and losses",
+        "success_metric": "completed orders / unique checkout attempts by segment",
+        "guardrails": [
+          "no duplicate payment",
+          "customer friction",
+          "loss maturity",
+          "settlement and reconciliation breaks"
+        ],
+        "fallback_policy": "No blind retry; inspect prior lifecycle state and idempotency before an alternative path.",
+        "experiment": "Bounded randomized pilot; same cohorts and time windows; observe maturity before decisions."
+      }
+    }
+  },
+  "input_hash": "7f050227f883ab2c7fb1b7b80d6cd87c962f2a6c39977d62ef5440f2bb6581f0",
+  "findings": [],
+  "result": {
+    "segments": [
+      {
+        "segment_id": "us-web",
+        "market": "US",
+        "channel": "web",
+        "customer_type": "consumer",
+        "use_case": "one_time",
+        "currency": "USD",
+        "required_methods": [
+          "card",
+          "pay_by_bank"
+        ],
+        "source_ids": [
+          "merchant-brief"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "option_id": "two-method-psp",
+        "operating_model": "Merchant contracts PSP with named acquirer and separate bank-payment settlement service.",
+        "parties": {
+          "merchant_entity": "Synthetic US merchant",
+          "gateway": "Synthetic gateway",
+          "acquirer": "Synthetic acquirer",
+          "psp": "Synthetic PSP"
+        },
+        "responsibilities": {
+          "checkout": "merchant",
+          "authentication": "PSP with issuer/bank authentication",
+          "screening": "merchant and PSP per documented responsibilities",
+          "settlement": "acquirer for card and receiving bank for bank payments",
+          "reconciliation": "merchant finance",
+          "refunds": "merchant with PSP workflow",
+          "disputes": "merchant with acquirer; bank-payment servicing separately"
+        },
+        "coverage_matrix": [
+          {
+            "segment": {
+              "segment_id": "us-web",
+              "market": "US",
+              "channel": "web",
+              "customer_type": "consumer",
+              "use_case": "one_time",
+              "currency": "USD",
+              "required_methods": [
+                "card",
+                "pay_by_bank"
+              ],
+              "source_ids": [
+                "merchant-brief"
+              ]
+            },
+            "method": "card",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ],
+            "evidence_gates": [],
+            "ready_for_option_review": true
+          },
+          {
+            "segment": {
+              "segment_id": "us-web",
+              "market": "US",
+              "channel": "web",
+              "customer_type": "consumer",
+              "use_case": "one_time",
+              "currency": "USD",
+              "required_methods": [
+                "card",
+                "pay_by_bank"
+              ],
+              "source_ids": [
+                "merchant-brief"
+              ]
+            },
+            "method": "pay_by_bank",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ],
+            "evidence_gates": [],
+            "ready_for_option_review": true
+          }
+        ],
+        "constraints": [
+          {
+            "constraint_id": "scope",
+            "description": "US entity eligibility, currency, processing responsibilities and operating limits reviewed in synthetic diligence.",
+            "mandatory": true,
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ],
+        "gating_questions": [],
+        "review_state": "ready-for-human-option-review",
+        "estimated_reach": null,
+        "conversion_uplift": null
+      }
+    ],
+    "orchestration": {
+      "objective": "Compare successful order completion net of costs and losses",
+      "success_metric": "completed orders / unique checkout attempts by segment",
+      "guardrails": [
+        "no duplicate payment",
+        "customer friction",
+        "loss maturity",
+        "settlement and reconciliation breaks"
+      ],
+      "fallback_policy": "No blind retry; inspect prior lifecycle state and idempotency before an alternative path.",
+      "experiment": "Bounded randomized pilot; same cohorts and time windows; observe maturity before decisions."
+    },
+    "selected_option": null,
+    "implementation_sequence": [
+      {
+        "stage": 1,
+        "work": "Resolve market/entity/method and mandatory constraint evidence for candidate options.",
+        "exit": "All chosen option gates resolved by accountable owners."
+      },
+      {
+        "stage": 2,
+        "work": "Diligence provider scope, contracting responsibilities, funds flows, pricing and service levels.",
+        "exit": "Documented provider and regulatory review; model comparable economics."
+      },
+      {
+        "stage": 3,
+        "work": "Design integration, reconciliation, refunds, servicing and operational fallback with explicit owners.",
+        "exit": "Inspectable acceptance criteria and test evidence."
+      },
+      {
+        "stage": 4,
+        "work": "Run a bounded pilot with agreed success denominator and loss/cost/customer guardrails.",
+        "exit": "Human launch decision based on pilot outcomes; no assumed conversion uplift."
+      }
+    ]
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-provider-evaluator",
+      "reason": "Diligence candidate operating requirements and evidence.",
+      "required_inputs": [
+        "options",
+        "coverage_matrix",
+        "gating_questions"
+      ],
+      "handoff_id": "4e3f0f9dd6ec98b577beed87c3660a9409fd623164c3538ece65a43c84d367d6",
+      "contract_version": "1.0.0",
+      "source_skill": "merchant-acceptance-strategy-designer",
+      "case_id": "synthetic-commercial-001",
+      "lead_owner": "merchant",
+      "requested_output": "Diligence candidate operating requirements and evidence.",
+      "source_refs": [
+        "synthetic merchant scope and outcomes brief",
+        "synthetic inspected provider scope and commercial schedule"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-economics-modeler",
+      "reason": "Model participant-specific acceptance scenarios with adoption and displacement.",
+      "required_inputs": [
+        "segments",
+        "options"
+      ],
+      "handoff_id": "b801dc1d20b39200e299e4705b88afddcb552962d51ae7fee62d637c9a624a46",
+      "contract_version": "1.0.0",
+      "source_skill": "merchant-acceptance-strategy-designer",
+      "case_id": "synthetic-commercial-001",
+      "lead_owner": "merchant",
+      "requested_output": "Model participant-specific acceptance scenarios with adoption and displacement.",
+      "source_refs": [
+        "synthetic merchant scope and outcomes brief",
+        "synthetic inspected provider scope and commercial schedule"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-integration-readiness-reviewer",
+      "reason": "Review inspected/tested launch evidence after design.",
+      "required_inputs": [
+        "responsibilities",
+        "implementation_sequence"
+      ],
+      "handoff_id": "16d89e9e1fccec99405c571c70f8dde1b807928300939936d702ccbdbc13fb42",
+      "contract_version": "1.0.0",
+      "source_skill": "merchant-acceptance-strategy-designer",
+      "case_id": "synthetic-commercial-001",
+      "lead_owner": "merchant",
+      "requested_output": "Review inspected/tested launch evidence after design.",
+      "source_refs": [
+        "synthetic merchant scope and outcomes brief",
+        "synthetic inspected provider scope and commercial schedule"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-provider-evaluator",
+  "request_id": "synthetic-commercial-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "merchant",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-commercial-001",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "merchant",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "merchant-brief",
+        "reference": "synthetic merchant scope and outcomes brief",
+        "as_of": "2026-09-18",
+        "review_due": "2027-09-18"
+      },
+      {
+        "source_id": "diligence",
+        "reference": "synthetic inspected provider scope and commercial schedule",
+        "as_of": "2026-09-18",
+        "review_due": "2027-09-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "requirements": [
+        {
+          "requirement_id": "market",
+          "description": "Contractual US entity and USD settlement eligibility",
+          "mandatory": true,
+          "weight": "70",
+          "source_ids": [
+            "merchant-brief"
+          ]
+        },
+        {
+          "requirement_id": "report",
+          "description": "Stable reconciliation identifiers at transaction and payout level",
+          "mandatory": false,
+          "weight": "30",
+          "source_ids": [
+            "merchant-brief"
+          ]
+        }
+      ],
+      "providers": [
+        {
+          "provider_id": "inspected-provider",
+          "role": "psp",
+          "evidence": [
+            {
+              "requirement_id": "market",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "requirement_id": "report",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "diligence"
+              ]
+            }
+          ],
+          "prices": [
+            {
+              "price_id": "attempt-charge",
+              "unit": "per_attempt",
+              "currency": "USD",
+              "scope": "US web card, excludes interchange/scheme fees",
+              "amount": "0.05",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "diligence"
+              ]
+            }
+          ]
+        },
+        {
+          "provider_id": "proposal-provider",
+          "role": "psp",
+          "evidence": [
+            {
+              "requirement_id": "market",
+              "status": "supported",
+              "evidence_kind": "proposal",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "requirement_id": "report",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "diligence"
+              ]
+            }
+          ],
+          "prices": [
+            {
+              "price_id": "success-charge",
+              "unit": "per_success",
+              "currency": "EUR",
+              "scope": "US web card, excludes interchange/scheme fees",
+              "amount": "0.04",
+              "evidence_kind": "proposal",
+              "source_ids": [
+                "diligence"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "bae5d28e5ce5b0ad065a48c9a8bbd98eb44b698d574c658c17adb9c71a73a912",
+  "findings": [
+    {
+      "code": "provider-evidence-gap",
+      "message": "proposal-provider/market: unknown",
+      "severity": "gap",
+      "source_ids": [
+        "diligence"
+      ]
+    },
+    {
+      "code": "provider-price-gap",
+      "message": "proposal-provider/success-charge: proposal, missing rate or absent inspected source cannot establish comparable cost.",
+      "severity": "gap",
+      "source_ids": [
+        "diligence"
+      ]
+    }
+  ],
+  "result": {
+    "requirements": [
+      {
+        "requirement_id": "market",
+        "description": "Contractual US entity and USD settlement eligibility",
+        "mandatory": true,
+        "weight": "70",
+        "source_ids": [
+          "merchant-brief"
+        ]
+      },
+      {
+        "requirement_id": "report",
+        "description": "Stable reconciliation identifiers at transaction and payout level",
+        "mandatory": false,
+        "weight": "30",
+        "source_ids": [
+          "merchant-brief"
+        ]
+      }
+    ],
+    "provider_comparisons": [
+      {
+        "provider_id": "inspected-provider",
+        "role": "psp",
+        "requirement_matrix": [
+          {
+            "requirement_id": "market",
+            "requirement": "Contractual US entity and USD settlement eligibility",
+            "mandatory": true,
+            "weight": "70",
+            "asserted_status": "supported",
+            "evidence_status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          },
+          {
+            "requirement_id": "report",
+            "requirement": "Stable reconciliation identifiers at transaction and payout level",
+            "mandatory": false,
+            "weight": "30",
+            "asserted_status": "supported",
+            "evidence_status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ],
+        "mandatory_gaps": [],
+        "shortlist_eligible": true,
+        "weighted_score": "100",
+        "score_bounds": {
+          "minimum": "100",
+          "maximum": "100"
+        },
+        "unknown_weight": "0",
+        "diligence_questions": [],
+        "prices": [
+          {
+            "price_id": "attempt-charge",
+            "unit": "per_attempt",
+            "currency": "USD",
+            "scope": "US web card, excludes interchange/scheme fees",
+            "amount": "0.05",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ]
+      },
+      {
+        "provider_id": "proposal-provider",
+        "role": "psp",
+        "requirement_matrix": [
+          {
+            "requirement_id": "market",
+            "requirement": "Contractual US entity and USD settlement eligibility",
+            "mandatory": true,
+            "weight": "70",
+            "asserted_status": "supported",
+            "evidence_status": "unknown",
+            "evidence_kind": "proposal",
+            "source_ids": [
+              "diligence"
+            ]
+          },
+          {
+            "requirement_id": "report",
+            "requirement": "Stable reconciliation identifiers at transaction and payout level",
+            "mandatory": false,
+            "weight": "30",
+            "asserted_status": "supported",
+            "evidence_status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ],
+        "mandatory_gaps": [
+          {
+            "requirement_id": "market",
+            "status": "unknown"
+          }
+        ],
+        "shortlist_eligible": false,
+        "weighted_score": null,
+        "score_bounds": {
+          "minimum": "30.0",
+          "maximum": "100"
+        },
+        "unknown_weight": "70",
+        "diligence_questions": [
+          {
+            "requirement_id": "market",
+            "question": "Provide scope-specific evidence and remediation/contract response for: Contractual US entity and USD settlement eligibility"
+          }
+        ],
+        "prices": [
+          {
+            "price_id": "success-charge",
+            "unit": "per_success",
+            "currency": "EUR",
+            "scope": "US web card, excludes interchange/scheme fees",
+            "amount": "0.04",
+            "evidence_kind": "proposal",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ]
+      }
+    ],
+    "shortlist_for_human_diligence": [
+      "inspected-provider"
+    ],
+    "selected_provider": null,
+    "ranking": null,
+    "comparable_rate_groups": [
+      {
+        "currency": "EUR",
+        "unit": "per_success",
+        "scope": "US web card, excludes interchange/scheme fees",
+        "rates": [
+          {
+            "provider_id": "proposal-provider",
+            "price_id": "success-charge",
+            "amount": null,
+            "comparison_state": "unresolved",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ]
+      },
+      {
+        "currency": "USD",
+        "unit": "per_attempt",
+        "scope": "US web card, excludes interchange/scheme fees",
+        "rates": [
+          {
+            "provider_id": "inspected-provider",
+            "price_id": "attempt-charge",
+            "amount": "0.05",
+            "comparison_state": "supplied-inspected-rate",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ]
+      }
+    ],
+    "decision_conditions": [
+      "Mandatory gaps cannot be offset by a weighted score.",
+      "Inspected is a supplied evidence classification, not independent source authentication.",
+      "Rate groups do not establish total cost; volumes, inclusions, minimums, tiers, tax, FX and terms require an economics model.",
+      "Shortlist indicates requirement evidence only; commercial, regulatory and third-party-risk acceptance remains open."
+    ]
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-economics-modeler",
+      "reason": "Model comparable participant-specific total economics with explicit volume and cost assumptions.",
+      "required_inputs": [
+        "requirements",
+        "provider_comparisons",
+        "comparable_rate_groups"
+      ],
+      "handoff_id": "79a7305e49a5f02d99f431ae7cf3cd7cace4501d796def1f420961b4e6d1263d",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-provider-evaluator",
+      "case_id": "synthetic-commercial-001",
+      "lead_owner": "merchant",
+      "requested_output": "Model comparable participant-specific total economics with explicit volume and cost assumptions.",
+      "source_refs": [
+        "synthetic merchant scope and outcomes brief",
+        "synthetic inspected provider scope and commercial schedule"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "provider-evidence-gap",
+          "message": "proposal-provider/market: unknown",
+          "severity": "gap",
+          "source_ids": [
+            "diligence"
+          ]
+        },
+        {
+          "code": "provider-price-gap",
+          "message": "proposal-provider/success-charge: proposal, missing rate or absent inspected source cannot establish comparable cost.",
+          "severity": "gap",
+          "source_ids": [
+            "diligence"
+          ]
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

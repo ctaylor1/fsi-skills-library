@@ -1,0 +1,164 @@
+{
+  "case_id": "FWD-ACT-ALM",
+  "as_of": "2026-06-30",
+  "context": {
+    "capacity": "actuarial analyst",
+    "represented_party": "Fictional Cedar Assurance",
+    "object_id": "ALM-POOL-47",
+    "jurisdiction": "SYNTHETIC-INTERNAL",
+    "line_of_business": "life"
+  },
+  "sources": [
+    {
+      "source_ref": "PROFILE",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-06-30",
+      "title": "PROFILE synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/alm/raw_sources.json#PROFILE",
+      "extraction_text": "Static actual/365 deterministic ALM; scope ALM-POOL-47, USD, life, SYNTHETIC-INTERNAL. Effective 2026-01-01 through 2027-12-31. Same-date cashflows net. Opening cash is not in receipts; no borrowing, asset sale, interest on cumulative cash or reinvestment."
+    },
+    {
+      "source_ref": "CASH",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-06-30",
+      "title": "CASH synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/alm/raw_sources.json#CASH",
+      "extraction_text": "Opening cash 20 at 2026-06-30. 2026-09-30 assets 50, liabilities 140. 2027-06-30 assets 200, liabilities 80. Horizon 2027-06-30."
+    },
+    {
+      "source_ref": "CURVE",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-06-30",
+      "title": "CURVE synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/alm/raw_sources.json#CURVE",
+      "extraction_text": "Annual effective spot rates: 2026-09-30=.04; 2027-06-30=.05."
+    },
+    {
+      "source_ref": "SCENARIOS",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-06-30",
+      "title": "SCENARIOS synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/alm/raw_sources.json#SCENARIOS",
+      "extraction_text": "base: parallel shift=0, asset multiplier=1, liability multiplier=1. combined: parallel shift=.01, asset multiplier=.9, liability multiplier=1.1."
+    },
+    {
+      "source_ref": "REVIEW",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-06-30",
+      "title": "REVIEW synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/alm/raw_sources.json#REVIEW",
+      "extraction_text": "No dynamic surrender/prepayment response or management action supplied. Treasury has not committed a liquidity facility."
+    }
+  ],
+  "unresolved_issues": [
+    "Dynamic surrender response and committed liquidity-facility evidence are absent."
+  ],
+  "data": {
+    "scope": {
+      "object_id": "ALM-POOL-47",
+      "currency": "USD",
+      "basis": "static_cashflow_alm_act365",
+      "valuation_date": "2026-06-30"
+    },
+    "profile": {
+      "profile_id": "PROFILE-alm",
+      "version": "fresh-synthetic-v1",
+      "source_refs": [
+        "PROFILE"
+      ],
+      "jurisdictions": [
+        "SYNTHETIC-INTERNAL"
+      ],
+      "lines_of_business": [
+        "life"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-12-31",
+      "object_ids": [
+        "ALM-POOL-47"
+      ],
+      "currencies": [
+        "USD"
+      ],
+      "method": "static_cashflow_alm_act365"
+    },
+    "horizon_end": "2027-06-30",
+    "opening_cash": 20,
+    "cash_source_ref": "CASH",
+    "cashflows": [
+      {
+        "object_id": "ALM-POOL-47",
+        "currency": "USD",
+        "basis": "static_cashflow_alm_act365",
+        "source_ref": "CASH",
+        "cashflow_id": "asset-1",
+        "side": "asset",
+        "payment_date": "2026-09-30",
+        "amount": 50
+      },
+      {
+        "object_id": "ALM-POOL-47",
+        "currency": "USD",
+        "basis": "static_cashflow_alm_act365",
+        "source_ref": "CASH",
+        "cashflow_id": "liability-1",
+        "side": "liability",
+        "payment_date": "2026-09-30",
+        "amount": 140
+      },
+      {
+        "object_id": "ALM-POOL-47",
+        "currency": "USD",
+        "basis": "static_cashflow_alm_act365",
+        "source_ref": "CASH",
+        "cashflow_id": "asset-2",
+        "side": "asset",
+        "payment_date": "2027-06-30",
+        "amount": 200
+      },
+      {
+        "object_id": "ALM-POOL-47",
+        "currency": "USD",
+        "basis": "static_cashflow_alm_act365",
+        "source_ref": "CASH",
+        "cashflow_id": "liability-2",
+        "side": "liability",
+        "payment_date": "2027-06-30",
+        "amount": 80
+      }
+    ],
+    "curve": [
+      {
+        "payment_date": "2026-09-30",
+        "spot_rate": ".04",
+        "source_ref": "CURVE"
+      },
+      {
+        "payment_date": "2027-06-30",
+        "spot_rate": ".05",
+        "source_ref": "CURVE"
+      }
+    ],
+    "scenarios": [
+      {
+        "scenario_id": "base",
+        "parallel_rate_shift": 0,
+        "asset_receipt_multiplier": 1,
+        "liability_payment_multiplier": 1,
+        "source_ref": "SCENARIOS"
+      },
+      {
+        "scenario_id": "combined",
+        "parallel_rate_shift": ".01",
+        "asset_receipt_multiplier": ".9",
+        "liability_payment_multiplier": "1.1",
+        "source_ref": "SCENARIOS"
+      }
+    ]
+  }
+}

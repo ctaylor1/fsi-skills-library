@@ -1,0 +1,1 @@
+The native documented schema has no separate case-outstanding/selected-ultimate field. Those figures remain in the raw request and practitioner context; the engine receives the stated paid triangle. No native schema field was invented.

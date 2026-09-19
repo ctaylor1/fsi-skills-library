@@ -1,0 +1,3 @@
+# Adjacent workflow handoffs
+
+Upstream `insurance-product-design-reviewer` may provide relevant evidence. Downstream `insurance-portfolio-performance-analyzer` owns the next distinct job when required. Confirm installation and scope before routing. Carry original context/as_of/source versions, artifact, actual findings and unresolved issues; construct the receiver’s native input and run its input validator. A source artifact is not a field adapter. Cross-object/party/capacity transitions require a reviewed source-bound context mapping. Do not re-execute an upstream job or infer approval from a handoff.

@@ -42,3 +42,5 @@ citation per element; the narrative references them inline where a statement is 
 - `docintel.extract(document_id)` → sections with page/clause references.
 - `forms.retrieve(form_edition | endorsement_id)` → filed/approved wording.
 All read-only, deterministic schemas, durable `explanation_id`, below the fixed timeout.
+
+Executed wording/endorsements and PAS records are separate sources. Preserve conflicts and ask the authorized contract reviewer to resolve them; source ranking here does not establish legal priority.

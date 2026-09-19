@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0",
+  "request_id": "ops-overlap",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "Synthetic Community Bank",
+  "sources": [
+    {
+      "source_id": "independent-bank-packet",
+      "reference": "synthetic://independently-authored-bank-packet-20260918",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-01"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "window": {
+      "start": "2026-09-15T00:00:00Z",
+      "end": "2026-09-18T00:00:00Z",
+      "population_complete": true,
+      "source_ids": [
+        "independent-bank-packet"
+      ]
+    },
+    "cases": [
+      {
+        "case_id": "q1",
+        "task": "return-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "payment-ops",
+        "currency": "USD",
+        "created_at": "2026-09-15T10:00:00Z",
+        "status": "completed",
+        "completed_at": "2026-09-16T10:00:00Z",
+        "handling_minutes": "30",
+        "rework_minutes": "5",
+        "automated": false,
+        "stp_eligible": true,
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      {
+        "case_id": "q2",
+        "task": "return-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "payment-ops",
+        "currency": "USD",
+        "created_at": "2026-09-15T10:00:00Z",
+        "status": "completed",
+        "completed_at": "2026-09-16T10:00:00Z",
+        "handling_minutes": "40",
+        "rework_minutes": "5",
+        "automated": true,
+        "stp_eligible": true,
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      {
+        "case_id": "q3",
+        "task": "return-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "payment-ops",
+        "currency": "USD",
+        "created_at": "2026-09-15T10:00:00Z",
+        "status": "completed",
+        "completed_at": "2026-09-16T10:00:00Z",
+        "handling_minutes": "20",
+        "rework_minutes": "0",
+        "automated": false,
+        "stp_eligible": false,
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      {
+        "case_id": "q-old",
+        "task": "return-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "payment-ops",
+        "currency": "USD",
+        "created_at": "2026-09-01T10:00:00Z",
+        "status": "open",
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      {
+        "case_id": "q1",
+        "task": "return-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "payment-ops",
+        "currency": "USD",
+        "created_at": "2026-09-15T10:00:00Z",
+        "status": "completed",
+        "completed_at": "2026-09-16T10:00:00Z",
+        "handling_minutes": "30",
+        "rework_minutes": "5",
+        "automated": false,
+        "stp_eligible": true,
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      }
+    ],
+    "staffing": {
+      "window": {
+        "start": "2026-09-15T00:00:00Z",
+        "end": "2026-09-18T00:00:00Z"
+      },
+      "legal_entity_id": "bank-us",
+      "team": "payment-ops",
+      "currency": "USD",
+      "cost_per_hour": "60",
+      "available_hours": "12",
+      "source_ids": [
+        "independent-bank-packet"
+      ]
+    },
+    "opportunities": [
+      {
+        "opportunity_id": "summary-ai",
+        "task": "return-investigation",
+        "owner": "Ops manager",
+        "case_ids": [
+          "q1",
+          "q2"
+        ],
+        "automation_fraction": "0.75",
+        "realization_fraction": "0.25",
+        "error_rate": "0.1",
+        "review_minutes_per_case": "5",
+        "error_minutes_per_case": "10",
+        "error_cost_per_case": "10",
+        "technology_cost": "10",
+        "implementation_cost": "15",
+        "cash_reduction_cap": "20",
+        "uses_ai": true,
+        "ai_controls": {
+          "task_definition": "Summarize return evidence for human review",
+          "evaluation_dataset_ref": "synthetic-labelled-holdout-v3",
+          "label_maturity": "90-day reviewed final disposition",
+          "false_positive_cost": "wrong summary requires rework",
+          "false_negative_cost": "missed conflict requires escalation",
+          "quality_threshold": "zero unauthorized release; reviewer assessment rubric",
+          "human_review_scope": "Every proposed summary",
+          "escalation_owner": "Ops controller",
+          "pilot_scope": "Ten synthetic cases, offline",
+          "stop_conditions": "Any lost evidence or authority claim",
+          "model_version": "synthetic-model-v1",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      {
+        "opportunity_id": "summary-rpa",
+        "task": "return-investigation",
+        "owner": "Ops manager",
+        "case_ids": [
+          "q1",
+          "q2"
+        ],
+        "automation_fraction": "0.75",
+        "realization_fraction": "0.25",
+        "error_rate": "0.1",
+        "review_minutes_per_case": "5",
+        "error_minutes_per_case": "10",
+        "error_cost_per_case": "10",
+        "technology_cost": "10",
+        "implementation_cost": "15",
+        "cash_reduction_cap": "20",
+        "uses_ai": true,
+        "ai_controls": {
+          "task_definition": "Summarize return evidence for human review",
+          "evaluation_dataset_ref": "synthetic-labelled-holdout-v3",
+          "label_maturity": "90-day reviewed final disposition",
+          "false_positive_cost": "wrong summary requires rework",
+          "false_negative_cost": "missed conflict requires escalation",
+          "quality_threshold": "zero unauthorized release; reviewer assessment rubric",
+          "human_review_scope": "Every proposed summary",
+          "escalation_owner": "Ops controller",
+          "pilot_scope": "Ten synthetic cases, offline",
+          "stop_conditions": "Any lost evidence or authority claim",
+          "model_version": "synthetic-model-v1",
+          "source_ids": [
+            "independent-bank-packet"
+          ]
+        },
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      }
+    ]
+  }
+}

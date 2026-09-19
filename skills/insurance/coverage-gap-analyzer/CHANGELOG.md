@@ -1,5 +1,12 @@
 # Changelog — coverage-gap-analyzer
 
+## [0.2.0] — 2026-09-18
+
+- Phase 1: corrected implemented scope, source preservation, typed result states, portable evidence contract and substantive output recomputation.
+- Added synthetic regression cases for observed correctness failures.
+- Domain professional review and production integration acceptance remain pending.
+
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `existing-updated` relative to
 the AWS baseline — stronger evidence traceability, explicit no-coverage-determination /
@@ -21,8 +28,8 @@ no-advice guardrails, and a deterministic review-priority mapping).
   deterministic script checks, no-determination safety + injection, external-delivery
   authorization.
 - **Handoffs:** `policy-document-explainer`, `policy-wording-comparator`,
-  `premium-quote-comparator`, `policy-renewal-reviewer`, `claim-readiness-checker`,
-  `claim-denial-appeal-helper`.
+  `premium-quote-comparator`, `policy-renewal-reviewer`, `claim-intake-preparer`,
+  `health-benefit-appeal-packager`.
 
 ### Pending before release
 - Domain SME (underwriting/product) + control-owner blind review; conduct/fairness review of

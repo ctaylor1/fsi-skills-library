@@ -1,0 +1,181 @@
+{
+  "run_id": "cem-defeceb06c4b7806",
+  "as_of": "2026-09-18T12:00:00-04:00",
+  "config_version": "synthetic-cat-policy-1.0",
+  "exposure_snapshot_id": "portfolio-20260918-v1",
+  "financial_context": {
+    "currency": "USD",
+    "unit": "currency",
+    "financial_basis": "gross",
+    "limit_grain": "location"
+  },
+  "queue": "catastrophe-risk-review",
+  "approaching_ratio": "0.9",
+  "confidence": "degraded",
+  "sources": [
+    {
+      "source": "policy_admin",
+      "as_of": "2026-09-18T11:30:00-04:00",
+      "source_ref": "synthetic-exposure-feed",
+      "version": "portfolio-20260918-v1",
+      "age_hours": 0.5,
+      "max_staleness_hours": 24.0,
+      "freshness": "fresh"
+    },
+    {
+      "source": "event_feed",
+      "as_of": "2026-09-18T11:00:00-04:00",
+      "source_ref": "synthetic-event-feed-rowan",
+      "version": "rowan-footprint-v3",
+      "age_hours": 1.0,
+      "max_staleness_hours": 24.0,
+      "freshness": "fresh"
+    },
+    {
+      "source": "cat_model",
+      "as_of": "2026-09-18T11:45:00-04:00",
+      "source_ref": "synthetic-model-run-42",
+      "version": "synthetic-model-v5",
+      "age_hours": 0.25,
+      "max_staleness_hours": 24.0,
+      "freshness": "fresh"
+    }
+  ],
+  "alerts": [
+    {
+      "alert_key": "HUR-SYN-01:EVENT:hurricane:modeled_loss",
+      "status": "unknown",
+      "reason": "not evaluable on complete current evidence; prior alert retained",
+      "evaluation": null
+    },
+    {
+      "alert_key": "HUR-SYN-01:coast-A:hurricane:zone_accumulation",
+      "status": "cleared",
+      "reason": "observed below configured threshold in complete current evidence",
+      "evaluation": {
+        "alert_key": "HUR-SYN-01:coast-A:hurricane:zone_accumulation",
+        "event_id": "HUR-SYN-01",
+        "event_name": "Synthetic Hurricane Rowan",
+        "zone": "coast-A",
+        "peril": "hurricane",
+        "breach_type": "zone_accumulation",
+        "metric": "0",
+        "threshold": "20000000",
+        "exceedance_ratio": "0",
+        "financial_context": {
+          "currency": "USD",
+          "unit": "currency",
+          "financial_basis": "gross",
+          "limit_grain": "location"
+        },
+        "evidence": [
+          {
+            "citation": "synthetic-exposure-feed",
+            "zero_observed_locations": true
+          }
+        ],
+        "footprint_version": "rowan-footprint-v3",
+        "exposure_snapshot_id": "portfolio-20260918-v1",
+        "aggregate_tiv": "0",
+        "location_count": 0
+      }
+    }
+  ],
+  "dedup": {
+    "new": 0,
+    "ongoing": 0,
+    "cleared": 1,
+    "unknown": 1
+  },
+  "data_gaps": [],
+  "evaluated_metrics": [
+    {
+      "alert_key": "HUR-SYN-01:coast-A:hurricane:zone_accumulation",
+      "event_id": "HUR-SYN-01",
+      "event_name": "Synthetic Hurricane Rowan",
+      "zone": "coast-A",
+      "peril": "hurricane",
+      "breach_type": "zone_accumulation",
+      "metric": "0",
+      "threshold": "20000000",
+      "exceedance_ratio": "0",
+      "financial_context": {
+        "currency": "USD",
+        "unit": "currency",
+        "financial_basis": "gross",
+        "limit_grain": "location"
+      },
+      "evidence": [
+        {
+          "citation": "synthetic-exposure-feed",
+          "zero_observed_locations": true
+        }
+      ],
+      "footprint_version": "rowan-footprint-v3",
+      "exposure_snapshot_id": "portfolio-20260918-v1",
+      "aggregate_tiv": "0",
+      "location_count": 0
+    }
+  ],
+  "overall_severity": "Unknown",
+  "current_evidence": {
+    "completeness": "complete",
+    "unresolved_issues": []
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "prior alert HUR-SYN-01:EVENT:hurricane:modeled_loss remains unknown"
+  ],
+  "disclaimer": "Monitoring alert only; exposure and modeled-loss figures are estimates for human review. No underwriting, reinsurance, capacity, reserving, or system-of-record action has been taken.",
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "catastrophe-exposure-monitor",
+    "artifact_type": "catastrophe-exposure-alerts",
+    "as_of": "2026-09-18T12:00:00-04:00",
+    "context": {
+      "capacity": "catastrophe risk analyst",
+      "represented_party": "Synthetic Carrier A",
+      "object_id": "synthetic-coastal-property-portfolio",
+      "jurisdiction": "US-FL",
+      "line_of_business": "commercial property"
+    },
+    "sources": [
+      {
+        "source": "policy_admin",
+        "source_ref": "synthetic-exposure-feed",
+        "version": "portfolio-20260918-v1",
+        "as_of": "2026-09-18T11:30:00-04:00"
+      },
+      {
+        "source": "event_feed",
+        "source_ref": "synthetic-event-feed-rowan",
+        "version": "rowan-footprint-v3",
+        "as_of": "2026-09-18T11:00:00-04:00"
+      },
+      {
+        "source": "cat_model",
+        "source_ref": "synthetic-model-run-42",
+        "version": "synthetic-model-v5",
+        "as_of": "2026-09-18T11:45:00-04:00"
+      },
+      {
+        "source": "risk_policy",
+        "source_ref": "synthetic-cat-risk-owner-threshold-policy",
+        "version": "synthetic-cat-policy-1.0",
+        "as_of": "2026-09-01T09:00:00-04:00"
+      }
+    ],
+    "input_hash": "defeceb06c4b78060703dc6b20152f2cd89ed002a4ed5b05c2ecaec382130710",
+    "output_hash": "d141b9c73178fd67df6f202e656633610f5689e4f4d989336ebd68157b24ca30",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "prior alert HUR-SYN-01:EVENT:hurricane:modeled_loss remains unknown"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "4eef8bcb55dd634c1f217bd98b4b932582543e52d6a13d9d4781bf7582056aac"
+  }
+}

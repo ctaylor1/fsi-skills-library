@@ -1,24 +1,12 @@
 #!/usr/bin/env python3
-"""Deterministic interpretation transform for iso-20022-message-interpreter.
-
-Parses a normalized ISO 20022 payment-message JSON (see validate_input.py for the schema)
-and emits a source-linked, plain-language INTERPRETATION object: message classification,
-control-total tie-outs, identifier checks (IBAN mod-97, BIC shape, UETR UUIDv4),
-truncation / character-set detection, and status-code interpretation for status reports
-(pacs.002 / pain.002). It is descriptive only: it never proposes a repair, a resubmission,
-a fund movement, or a fraud / sanctions / compliance determination.
-
-Stdlib-only, self-contained, no network. Output conforms to the schema validated by
-validate_output.py.
-
-Usage:
-  python calculate_or_transform.py message.json     # print interpretation JSON, exit 0
-  python calculate_or_transform.py --selftest       # transform + self-check bundled fixture
-Exit 0 on success, 1 on structural failure / self-check error.
-"""
+"""Interpret supported normalized ISO transaction/status profiles; classify other families only.
+No XML, XSD, live code-set or scheme validator is implemented. No payment actions."""
 from __future__ import annotations
 import json, re, sys
 from pathlib import Path
+from decimal import Decimal
+from payment_contract import money, stable_hash
+from validate_input import validate as validate_input, profile
 
 UUID4_RE = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
 BIC_RE = re.compile(r"^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$")
@@ -54,10 +42,13 @@ MESSAGE_NAMES = {
     "camt.056": "FI To FI Payment Cancellation Request",
     "camt.060": "Account Reporting Request",
     "camt.087": "Request To Modify Payment",
+    "camt.110": "Investigation Request",
+    "camt.111": "Investigation Response",
+    "admi.024": "Notification Of Correspondence",
 }
 # ExternalPaymentTransactionStatus / group status -> (category, plain-language)
 STATUS = {
-    "ACSC": ("accepted", "Accepted Settlement Completed — settlement on the creditor side is complete."),
+    "ACSC": ("accepted", "Accepted Settlement Completed — settlement completion is reported; side and finality depend on the applicable message and scheme."),
     "ACCC": ("accepted", "Accepted Settlement Completed on the creditor account."),
     "ACSP": ("accepted", "Accepted Settlement In Process — accepted; settlement is in progress."),
     "ACCP": ("accepted", "Accepted Customer Profile — preceding format/customer checks passed."),
@@ -102,252 +93,128 @@ REASON = {
 }
 
 
-def _num(v):
-    try:
-        return float(v)
-    except (TypeError, ValueError):
-        return None
+def _cite(record):
+    source = record.get("source") or {}
+    return f"{source.get('system', '?')}:{source.get('ref', '?')}"
 
 
-def _cite(tx) -> str:
-    src = tx.get("source") or {}
-    return f"{src.get('system', '?')}:{src.get('ref', '?')}"
+def iban_ok(account):
+    account = re.sub(r"\s+", "", str(account)).upper()
+    if not IBAN_RE.fullmatch(account): return False
+    digits = "".join(str(ord(c) - 55) if c.isalpha() else c for c in account[4:] + account[:4])
+    return int(digits) % 97 == 1
 
 
-def iban_ok(acct: str) -> bool:
-    acct = re.sub(r"\s+", "", str(acct)).upper()
-    if not IBAN_RE.match(acct):
-        return False
-    rearranged = acct[4:] + acct[:4]
-    digits = "".join(str(ord(c) - 55) if c.isalpha() else c for c in rearranged)
-    try:
-        return int(digits) % 97 == 1
-    except ValueError:
-        return False
+def status_interpretation(status):
+    code = str(status.get("code", "")).upper()
+    category, plain = STATUS.get(code, ("unknown", "Unmapped status; applicable scheme documentation is required."))
+    reason = str(status.get("reason_code", "")).upper()
+    return {"code": code, "category": category, "plain": plain,
+            "reason_code": reason or None, "reason_plain": REASON.get(reason),
+            "reason_text": status.get("reason_text"),
+            "codeset_scope": "bundled representative ISO meanings; not scheme/version validation"}
 
 
-def looks_like_iban(acct: str) -> bool:
-    return bool(re.match(r"^[A-Z]{2}\d{2}", re.sub(r"\s+", "", str(acct)).upper()))
-
-
-def _bad_chars(text: str):
-    return sorted({c for c in str(text) if c not in PERMITTED})
-
-
-def classify(mt: str) -> dict:
-    parts = mt.split(".")
-    family = parts[0] if parts else ""
-    short = ".".join(parts[:2]) if len(parts) >= 2 else mt
-    return {
-        "message_type": mt,
-        "message_family": family,
-        "family_description": FAMILY_DESC.get(family, "Non-core ISO 20022 message"),
-        "message_name": f"{MESSAGE_NAMES.get(short, 'ISO 20022 message')} ({short})",
-    }
-
-
-def interpret(doc: dict) -> dict:
-    mt = str(doc.get("message_type", ""))
-    cls = classify(mt)
-    ".".join(mt.split(".")[:2])
-    gh = doc.get("group_header") or {}
-    txs = doc.get("transactions") or []
-
-    findings: list[dict] = []
-    out_txs: list[dict] = []
-    total = 0.0
-    currencies: set = set()
-
+def interpret(doc):
+    errors, warnings = validate_input(doc)
+    if errors: raise ValueError("; ".join(errors))
+    mt = doc["message_type"]
+    short, family = ".".join(mt.split(".")[:2]), mt.split(".")[0]
+    mode = profile(mt)
+    result = {"source_message": doc, "source_hash": stable_hash(doc), "input_format": "normalized-json",
+              "interpretation_mode": mode, "schema_validated": False, "scheme_validated": False,
+              "message_type": mt, "message_family": family,
+              "message_name": MESSAGE_NAMES.get(short, "Unmapped ISO 20022 message") + f" ({short})",
+              "usage_guideline": doc.get("usage_guideline"), "transactions": [], "findings": [],
+              "summary": {"nb_of_txs": None, "total_amount": None, "currency_totals": {},
+                          "currencies": [], "raw_control_sum": None, "control_totals_balanced": None,
+                          "control_totals_status": "not_evaluated"},
+              "limitations": warnings + ["No raw XML, XSD, live external code-set, account ownership, directory, or scheme validation is implemented."],
+              "disclaimer": DISCLAIMER}
+    if mode == "classification_only":
+        result["findings"].append({"severity": "info", "code": "CLASSIFICATION_ONLY", "citation": _cite(doc),
+                                   "message": "Message family identified only; structured interpretation for this family is not implemented."})
+        result["narrative"] = f"{result['message_name']}: classification only. No payment, balance, or finality assertion is made. " + DISCLAIMER
+        return result
+    findings = result["findings"]
+    totals = {}
+    amount_count = 0
+    txs = doc.get("transactions", [])
+    mapping = doc.get("mapping_profile") or {}
     for tx in txs:
-        cite = _cite(tx)
-        amt = tx.get("amount") or {}
-        val = _num(amt.get("value"))
-        ccy = amt.get("currency")
-        if val is not None:
-            total += val
-        if ccy:
-            currencies.add(ccy)
-
-        tx_out = {
-            "end_to_end_id": tx.get("end_to_end_id"),
-            "uetr": tx.get("uetr"),
-            "amount": {"value": val, "currency": ccy},
-            "citation": cite,
-        }
-
-        # Identifier checks
-        uetr = tx.get("uetr")
-        if uetr and not UUID4_RE.match(str(uetr)):
-            findings.append({"severity": "high", "code": "UETR_INVALID", "field": "uetr",
-                             "message": f"UETR {uetr!r} is not a valid UUIDv4.", "citation": cite})
+        citation = _cite(tx)
+        out = {"end_to_end_id": tx.get("end_to_end_id"), "uetr": tx.get("uetr"), "citation": citation, "amount": None}
+        if tx.get("amount") is not None:
+            amount = tx["amount"]
+            value = money(amount["value"])
+            out["amount"] = {"value": str(value), "currency": amount["currency"]}
+            totals[amount["currency"]] = totals.get(amount["currency"], Decimal(0)) + value
+            amount_count += 1
+        if tx.get("uetr") and not UUID4_RE.fullmatch(str(tx["uetr"])):
+            findings.append({"severity": "high", "code": "UETR_INVALID", "message": "UETR is not UUIDv4 shaped.", "citation": citation})
         for role in ("debtor_agent", "creditor_agent"):
             bic = (tx.get(role) or {}).get("bic")
-            if bic and not BIC_RE.match(str(bic)):
-                findings.append({"severity": "high", "code": "BIC_INVALID", "field": role,
-                                 "message": f"{role} BIC {bic!r} is not a valid BIC (8 or 11).",
-                                 "citation": cite})
+            if bic and not BIC_RE.fullmatch(str(bic)):
+                findings.append({"severity": "high", "code": "BIC_INVALID", "message": f"{role} BIC fails the 8/11-character shape check.", "citation": citation})
         for role in ("debtor", "creditor"):
-            acct = (tx.get(role) or {}).get("account")
-            if acct and looks_like_iban(acct) and not iban_ok(acct):
-                findings.append({"severity": "high", "code": "IBAN_INVALID", "field": role,
-                                 "message": f"{role} IBAN fails the mod-97 check digit.",
-                                 "citation": cite})
-
-        # Truncation / character-set detection
-        rmt = (tx.get("remittance_info") or {}).get("unstructured") or []
-        for j, line in enumerate(rmt):
-            if len(str(line)) > MT_NARR_LINE:
-                findings.append({"severity": "medium", "code": "TRUNCATION_RISK",
-                                 "field": f"remittance.unstructured[{j}]",
-                                 "message": f"Remittance line is {len(str(line))} chars; exceeds the "
-                                            "140-char legacy MT :70: limit and would be truncated on "
-                                            "down-mapping.", "citation": cite})
-            if _bad_chars(line):
-                findings.append({"severity": "medium", "code": "CHARSET_RISK",
-                                 "field": f"remittance.unstructured[{j}]",
-                                 "message": f"Remittance line contains non-permitted character(s) "
-                                            f"{_bad_chars(line)}; replacement or rejection risk on "
-                                            "SWIFT-x networks.", "citation": cite})
-
-        # Status interpretation (status-report messages)
-        st = tx.get("status") or {}
-        code = str(st.get("code", "")).upper()
-        if code:
-            cat, plain = STATUS.get(code, ("unknown", f"Status {code} — not in the interpreted set; "
-                                                       "consult the message usage guideline."))
-            rc = str(st.get("reason_code", "")).upper()
-            reason_plain = REASON.get(rc) if rc else None
-            si = {"code": code, "category": cat, "plain": plain,
-                  "reason_code": rc or None, "reason_plain": reason_plain,
-                  "reason_text": st.get("reason_text")}
-            tx_out["status_interpretation"] = si
-            if cat in ("rejected", "returned") and not (rc or st.get("reason_text")):
-                findings.append({"severity": "high", "code": "REJECT_NO_REASON", "field": "status",
-                                 "message": f"Status {code} reports a rejection but carries no reason "
-                                            "code or text; the cause cannot be explained.",
-                                 "citation": cite})
-            elif cat in ("rejected", "returned"):
-                detail = reason_plain or st.get("reason_text") or rc
-                findings.append({"severity": "high", "code": "STATUS_REJECTED", "field": "status",
-                                 "message": f"Transaction reported {code} (rejected). Reason {rc or '—'}: "
-                                            f"{detail}", "citation": cite})
-
-        out_txs.append(tx_out)
-
-    # Control-total tie-outs
-    nb = gh.get("nb_of_txs")
-    nb_ok = nb is None or (_num(nb) is not None and int(_num(nb)) == len(txs))
-    if nb is not None and not nb_ok:
-        findings.append({"severity": "high", "code": "NBTX_MISMATCH", "field": "group_header.nb_of_txs",
-                         "message": f"NbOfTxs {nb} does not match the {len(txs)} transactions present.",
-                         "citation": f"{(gh.get('msg_id') or 'grphdr')}"})
-    cs = gh.get("ctrl_sum")
-    cs_ok = cs is None or (_num(cs) is not None and abs(_num(cs) - total) <= max(0.01, abs(total) * 0.0001))
-    if cs is not None and not cs_ok:
-        findings.append({"severity": "high", "code": "CTRLSUM_MISMATCH", "field": "group_header.ctrl_sum",
-                         "message": f"CtrlSum {cs} does not match the summed amount {total:.2f}.",
-                         "citation": f"{(gh.get('msg_id') or 'grphdr')}"})
-
-    balanced = nb_ok and cs_ok
-    ccy_list = sorted(currencies)
-    total_str = f"{ccy_list[0] + ' ' if len(ccy_list) == 1 else ''}{total:,.2f}"
-
-    narrative = _narrate(cls, doc, out_txs, balanced, total_str, ccy_list)
-
-    return {
-        "message_type": mt,
-        "message_family": cls["message_family"],
-        "family_description": cls["family_description"],
-        "message_name": cls["message_name"],
-        "usage_guideline": doc.get("usage_guideline", "base ISO 20022 schema"),
-        "summary": {
-            "nb_of_txs": len(txs),
-            "total_amount": round(total, 2),
-            "currencies": ccy_list,
-            "control_totals_balanced": balanced,
-        },
-        "transactions": out_txs,
-        "findings": findings,
-        "narrative": narrative,
-        "disclaimer": DISCLAIMER,
-    }
+            account = (tx.get(role) or {}).get("account")
+            if account and re.match(r"^[A-Z]{2}\d{2}", str(account)) and not iban_ok(account):
+                findings.append({"severity": "high", "code": "IBAN_INVALID", "message": f"{role} IBAN fails its check digit.", "citation": citation})
+        for line in (tx.get("remittance_info") or {}).get("unstructured", []):
+            limit = mapping.get("max_remittance_length")
+            if limit is not None and len(str(line)) > limit:
+                findings.append({"severity": "medium", "code": "TRUNCATION_RISK", "citation": citation,
+                    "message": f"Remittance exceeds supplied mapping limit {limit}; loss depends on mapping behavior.", "mapping_source": mapping["source_ref"]})
+            if mapping.get("charset") == "SWIFT-X" and any(c not in PERMITTED for c in str(line)):
+                findings.append({"severity": "medium", "code": "CHARSET_RISK", "citation": citation,
+                    "message": "Characters fall outside the supplied SWIFT-X mapping profile.", "mapping_source": mapping["source_ref"]})
+        if tx.get("status"):
+            out["status_interpretation"] = status_interpretation(tx["status"])
+            si = out["status_interpretation"]
+            if si["category"] == "rejected":
+                findings.append({"severity": "high", "code": "STATUS_REJECTED" if si["reason_code"] or si["reason_text"] else "REJECT_NO_REASON",
+                    "message": f"Reported {si['code']} (rejected). {si['reason_plain'] or si['reason_text'] or 'Reason unknown.'}", "citation": citation})
+        result["transactions"].append(out)
+    if doc.get("group_status"):
+        result["group_status_interpretation"] = status_interpretation(doc["group_status"])
+    header = doc["group_header"]
+    count, control = header.get("nb_of_txs"), header.get("ctrl_sum")
+    complete_amounts = bool(txs) and amount_count == len(txs)
+    raw_sum = sum(totals.values(), Decimal(0)) if complete_amounts else None
+    checks = []
+    if count is not None: checks.append(int(count) == len(txs))
+    if control is not None and raw_sum is not None: checks.append(money(control) == raw_sum)
+    unavailable = control is not None and raw_sum is None
+    balance = None if not checks or unavailable else all(checks)
+    if balance is False:
+        findings.append({"severity": "high", "code": "CONTROL_TOTAL_MISMATCH", "message": "Declared control totals differ from normalized records.", "citation": header["msg_id"]})
+    if unavailable:
+        findings.append({"severity": "info", "code": "CONTROL_TOTAL_UNRESOLVED", "message": "Declared sum cannot be evaluated because amounts are absent.", "citation": header["msg_id"]})
+    result["summary"] = {"nb_of_txs": len(txs), "currency_totals": {k: str(v) for k, v in sorted(totals.items())},
+        "total_amount": str(raw_sum) if complete_amounts and len(totals) == 1 else None,
+        "currencies": sorted(totals), "raw_control_sum": str(raw_sum) if raw_sum is not None else None,
+        "control_totals_balanced": balance, "control_totals_status": "not_evaluated" if balance is None else ("balanced" if balance else "mismatch")}
+    result["narrative"] = (f"{result['message_name']}: {len(txs)} normalized record(s). "
+        f"Control-total assessment: {result['summary']['control_totals_status']}. "
+        "Amounts are partitioned by currency; absent status-report amounts remain unknown. "
+        "Message statuses describe reports and do not independently establish legal finality. " + DISCLAIMER)
+    return result
 
 
-def _narrate(cls, doc, out_txs, balanced, total_str, ccy_list) -> str:
-    ug = doc.get("usage_guideline", "base ISO 20022 schema")
-    n = len(out_txs)
-    ccy_phrase = f"totalling {total_str}" if len(ccy_list) == 1 else \
-        f"across {len(ccy_list)} currencies ({', '.join(ccy_list)})"
-    tie = ("The declared control totals match the transactions present."
-           if balanced else
-           "The declared control totals do NOT match the transactions present (see findings).")
-    lines = [
-        f"This message is {cls['message_name']} — {cls['family_description']} — under the "
-        f"{ug} usage guideline, carrying {n} transaction(s) {ccy_phrase}. {tie}"
-    ]
-    for tx in out_txs:
-        amt = tx.get("amount") or {}
-        piece = (f"Transaction {tx.get('end_to_end_id')} states "
-                 f"{(amt.get('currency') or '')} {(_num(amt.get('value')) or 0):,.2f}")
-        si = tx.get("status_interpretation")
-        if si:
-            piece += f"; status {si['code']} ({si['category']}) — {si['plain']}"
-            if si.get("reason_plain"):
-                piece += f" Reason {si['reason_code']}: {si['reason_plain']}"
-        piece += f" [source: {tx.get('citation')}]."
-        lines.append(piece)
-    lines.append("Every figure above is traceable to the cited source reference. " + DISCLAIMER)
-    return " ".join(lines)
-
-
-# --- prohibited-language guard reused by the self-check (kept minimal, mirrors output check) ---
-_ADVICE = [r"\byou (should|must|need to|ought to)\b", r"\bwe (recommend|advise|suggest)\b",
-           r"\bresubmit\b", r"\bre-?send\b", r"\bsafe to release\b", r"\bsanctions[- ]clear"]
-
-
-def _selfcheck(result: dict) -> list[str]:
-    errs = []
-    if "ISO 20022 message" == result.get("message_name", "").split(" (")[0]:
-        errs.append("message_type was not classified to a known name")
-    if not result.get("summary", {}).get("currencies"):
-        errs.append("no currency resolved")
-    for t in result.get("transactions", []):
-        if not (t.get("citation") or "").strip():
-            errs.append(f"transaction {t.get('end_to_end_id')} missing citation")
-    for f in result.get("findings", []):
-        if not (f.get("citation") or "").strip():
-            errs.append(f"finding {f.get('code')} missing citation")
-    if DISCLAIMER not in result.get("disclaimer", ""):
-        errs.append("standing disclaimer missing")
-    text = result.get("narrative", "")
-    for pat in _ADVICE:
-        if re.search(pat, text, re.I):
-            errs.append(f"narrative contains prohibited advice/action phrasing matching {pat!r}")
-    if result.get("summary", {}).get("control_totals_balanced") is not True:
-        errs.append("bundled fixture unexpectedly failed control-total tie-out")
-    return errs
-
-
-def main(argv: list[str]) -> int:
-    if "--selftest" in argv:
-        fixture = Path(__file__).resolve().parents[1] / "evals" / "files" / "pacs008_message.json"
-        doc = json.loads(fixture.read_text(encoding="utf-8"))
+def main(argv):
+    path = Path(__file__).resolve().parents[1] / "evals/files/pacs008_message.json" if "--selftest" in argv else (Path(argv[0]) if argv else None)
+    try:
+        doc = json.loads(path.read_text() if path else sys.stdin.read())
         result = interpret(doc)
-        errs = _selfcheck(result)
-        for e in errs:
-            print("ERROR", e)
-        print(f"transform selftest: {len(errs)} error(s)")
-        return 1 if errs else 0
-    if argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        doc = json.loads(sys.stdin.read())
-    if not isinstance(doc, dict) or "transactions" not in doc or "message_type" not in doc:
-        print("ERROR input is not a normalized ISO 20022 message (missing message_type/transactions)")
-        return 1
-    print(json.dumps(interpret(doc), indent=2, ensure_ascii=False))
+    except (ValueError, TypeError) as exc:
+        print("ERROR", exc); return 1
+    if "--selftest" in argv:
+        from validate_output import validate
+        errors = validate(result)
+        for error in errors: print("ERROR", error)
+        print(f"transform selftest: {len(errors)} error(s)")
+        return bool(errors)
+    print(json.dumps(result, indent=2))
     return 0
 
-
-if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1:]))
+if __name__ == "__main__": raise SystemExit(main(sys.argv[1:]))

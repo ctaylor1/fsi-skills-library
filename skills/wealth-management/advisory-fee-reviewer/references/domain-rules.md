@@ -1,0 +1,29 @@
+# Advisory fee method and input contract
+
+Recalculate one explicit household billing group under a single agreement for a closed period. The result is a household total; it does not validate an institution's allocation of the household charge among accounts. Split distinct agreements or billing groups into separate requests. When terms change, split periods and reconcile any contractual minimum separately; do not silently blend schedules.
+
+## Specific fields
+
+- `currency: USD`; `billing_period: {start, end}` includes both dates and ends no later than `as_of`.
+- `agreement`: `agreement_id`, `version`, `owner`, `effective_from`, `effective_until` covering the full billing period, `schedule_type: marginal|cliff`, `day_basis: actual/365|actual/actual`, `valuation_method: segment-constant`, `minimum_period_fee` (nonnegative money), `minimum_applies_at_zero` (boolean), `source_ids`. `tiers` contains unique `tier_id`, increasing `up_to` money bounds, and nonnegative `annual_rate_bps`. The final `up_to` must be explicit null for unbounded coverage.
+- `accounts`: nonempty `{account_id, source_ids}` rows defining the household billing group.
+- `valuation_segments`: `{segment_id, start, end, accounts}` rows. Each segment's accounts contain `account_id`, `reported_total`, `source_ids`, and `assets: [{asset_id, market_value, fee_eligible, exclusion_reason, source_ids}]`. Values and totals are nonnegative money; eligibility is true, false or explicit null. An exclusion requires a sourced reason. Each declared account must appear in every segment and assets must tie to its total. Segments partition the period with no missing or duplicate day.
+- `assessed_charges`: possibly empty `{charge_id, account_id, amount, source_ids}` rows with signed money; `billing_records_complete` is an explicit boolean. Zero assessed charges are meaningful only when the inventory is complete.
+- `adjustments`: possibly empty `{adjustment_id, amount, reason, source_ids}` signed money rows. Terms must explicitly establish the adjustment and its place after the minimum; do not reuse a credit already netted in the assessed amount as a second adjustment.
+- `conflict_review`: `reviewed_by`, `reviewed_on`, `source_ids`, and `items: [{conflict_id, description, status: open|addressed, treatment, source_ids}]`. Empty items require an attributed dated review, not an inference that no conflict exists.
+
+## Arithmetic and interpretation
+
+Sum eligible assets across the household before applying breakpoints. Marginal schedules apply each rate only to the asset slice in that tier. Cliff schedules apply the selected tier rate to all billable assets; an exact upper breakpoint belongs to the lower tier. Multiply annual charges by actual inclusive segment days divided by 365, or by 365/366 within each calendar year for actual/actual. Sum unrounded segment fees, apply the period minimum if applicable, apply signed adjustments, floor the invoice at zero, then round once to cents using half-even rounding. Segment amounts shown separately are illustrative rounded amounts and may differ by a cent from the invoice sum.
+
+`assessed_minus_expected` is assessed charges less the rounded expected household fee. Missing account/segment coverage, unknown eligibility, or broken valuation tie-outs suppress the expected fee and variance. Incomplete assessed records suppress variance. Other source and conflict gaps keep diagnostic calculations visible with needs-data status. No daily-average, average-month-end, advance billing/refund, security-level accrued-fee or performance-fee method is inferred. Normalize those explicitly under an approved method or refer them to billing specialists.
+
+The example excludes $200,000 cash and aggregates $1,000,000 billable assets. At 100 bps on the first $500,000 and 50 bps thereafter for 2025, the annual charge is $7,500, matching the supplied bill.
+
+## Common input and evidence
+
+Use the complete synthetic [request](../evals/files/request_example.json) as the serialization example. Required top-level fields are `schema_version: wealth-p0-v1` (the retained envelope version, not the delivery wave), `request_id`, `household_id`, ISO `as_of`, `engagement` with explicit `capacity` (advisory, brokerage, private-bank, or trust), `engagement.jurisdiction: US`, and nonempty `sources`. Each source has unique `source_id`, `reference`, `owner`, `as_of`, `valid_until`; its window must cover the request date. Source identifiers on evidence are `source_ids: [id, ...]`. Source metadata establishes traceability, not truth or authority. Registry date defects reject the request; missing item citations remain findings.
+
+`unresolved_issues` is an explicit list of objects with `code`, `message`, `source_ids`; copy known upstream concerns unchanged, using `[]` only after substantive review. Every input row identifier is a unique nonempty string within its list; referenced accounts/lots must exist. Dates are exact ISO calendar dates. Monetary inputs accept finite decimal strings or JSON numbers, excluding booleans; money has at most two decimal places where specified, quantities/rates at most eight. No FX conversion, missing-to-zero conversion, short positions, or automatic source retrieval is implemented. Input structural validation is necessary but the calculation also performs financial consistency checks.
+
+The output is the shared draft envelope: input hash and artifact ID, scope, sources, findings, status, full `result.input_snapshot`, and calculated evidence. Any finding means `needs-data`; `review-ready` means the structured artifact has no detected gaps, not professional acceptance. Output validation recomputes the entire artifact, including financial values and findings, from that snapshot. An attacker who changes both input and output consistently can produce a new valid draft; hashes are not signatures or an approval record.

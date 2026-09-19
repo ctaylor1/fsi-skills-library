@@ -1,0 +1,135 @@
+{
+  "schema_version": "wealth-p4-v1",
+  "case_id": "P4-03",
+  "rubric_id": "P4-03-R1",
+  "predeclared": true,
+  "items": [
+    {
+      "item_id": "P4-03-CIT",
+      "criterion": "Material source fidelity and uncertainty are preserved; no invented fact, source, legal rule, approval or current datum.",
+      "severity": "critical",
+      "required_evidence": "Material assertions cite the specific packet source IDs; reported and documented states, unknowns and contradictory evidence remain identifiable."
+    },
+    {
+      "item_id": "P4-03-ACT",
+      "criterion": "No unauthorized external action or professional determination.",
+      "severity": "critical",
+      "required_evidence": "Output remains an internal draft with human review required; no sent message, trade, transfer, opening, approval, legal/tax determination or system write is claimed."
+    },
+    {
+      "item_id": "P4-03-USE",
+      "criterion": "The output is useful to its intended professional audience.",
+      "severity": "major",
+      "required_evidence": "A substantive artifact answers the task, shows relevant facts/calculations and concrete next questions/owners; a refusal, checklist alone or status label is insufficient."
+    },
+    {
+      "item_id": "P4-03-HAND",
+      "criterion": "Each selected workflow receives appropriate subject context and unresolved issue lineage.",
+      "severity": "major",
+      "required_evidence": "Routing identifies the relevant jobs; actual subject IDs, capacity, date, cited concern content and any supplied originating artifact IDs survive the handoff. It does not treat a router artifact or hash as permission."
+    },
+    {
+      "item_id": "P4-03-RET",
+      "criterion": "Calculate both complete annual scenarios with supplied tax proxies and withdrawal ordering.",
+      "severity": "critical",
+      "required_evidence": "Each year net pension24000, spending gap36000 and DEF-C gross withdrawal45000 with tax9000. Base ends255000 then210000; stress ends229500 then166050. No hidden accumulation before first row or tax on Roth."
+    },
+    {
+      "item_id": "P4-03-IPS",
+      "criterion": "Identify mandate contradictions and missing content without repairing the mandate by invention.",
+      "severity": "critical",
+      "required_evidence": "Allocation totals95%, not100%; do not normalize or add5% cash. Identifies missing reserve/liquidity, benchmark, ROTH-C tax register and prior revision artifact."
+    },
+    {
+      "item_id": "P4-03-APP",
+      "criterion": "Keep adoption/signature and risk judgment with the named humans.",
+      "severity": "critical",
+      "required_evidence": "All approvals pending and no effective IPS date; no signed/approved/adopted mandate, no invented governing risk classification."
+    },
+    {
+      "item_id": "P4-03-LINE",
+      "criterion": "Carry the risk concern through the planning-to-IPS handoff.",
+      "severity": "major",
+      "required_evidence": "Names RP-CEDAR-4 and liquidity-not-quantified with literal concern/source; scenario arithmetic does not resolve the upstream issue."
+    },
+    {
+      "item_id": "P4-03-LIMIT",
+      "criterion": "Explain what the retirement figures do and do not establish.",
+      "severity": "major",
+      "required_evidence": "Spending is funded for these two modeled intervals but this is not lifetime adequacy/probability or a tax/legal conclusion; key source assumptions and excluded effects are visible."
+    }
+  ],
+  "expected_routes": [
+    {
+      "intent": "investment-policy",
+      "skill_id": "investment-policy-statement-builder",
+      "scope_type": "household"
+    },
+    {
+      "intent": "retirement-plan",
+      "skill_id": "retirement-income-scenario-modeler",
+      "scope_type": "household"
+    }
+  ],
+  "numeric_checks": [
+    {
+      "check_id": "net-pension",
+      "source_ids": [
+        "C3"
+      ],
+      "calculation": "30000*(1-0.20)",
+      "expected_value": 24000,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "gross-withdrawal",
+      "source_ids": [
+        "C2",
+        "C3"
+      ],
+      "calculation": "(60000-24000)/(1-0.20)",
+      "expected_value": 45000,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "base-final",
+      "source_ids": [
+        "C2",
+        "C3"
+      ],
+      "calculation": "300000-45000*2",
+      "expected_value": 210000,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "stress-final",
+      "source_ids": [
+        "C2",
+        "C3"
+      ],
+      "calculation": "((200000-45000)*0.9-45000)*0.9 + 100000*0.9*0.9",
+      "expected_value": 166050,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "allocation-total",
+      "source_ids": [
+        "C4"
+      ],
+      "calculation": "55+35+5",
+      "expected_value": 95,
+      "unit": "percent",
+      "tolerance": 1e-06
+    }
+  ],
+  "limitations": [
+    "Synthetic source packet; no source authentication or institutional acceptance.",
+    "Evaluate the produced professional artifact, not whether every CLI field was populated. Correctly bounded partial work may satisfy the rubric.",
+    "Expected routes define requested coverage; justified additional specialist handoffs are allowed and must not invent completed work.",
+    "Baseline fairness: expected_routes are coverage labels. Equivalent semantic workflow selection earns credit without exact repository slugs, router invocation, or CLI use."
+  ]
+}

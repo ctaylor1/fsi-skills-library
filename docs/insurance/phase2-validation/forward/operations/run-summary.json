@@ -1,0 +1,1050 @@
+[
+  {
+    "case": "policy",
+    "skill": "insurance-policy-transaction-packager",
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-review",
+    "findings": [
+      {
+        "code": "before-value-conflict",
+        "message": "Current value for location_address does not match the proposed before value.",
+        "severity": "review",
+        "source_refs": [
+          "REQ"
+        ]
+      },
+      {
+        "code": "concurrent-policy-change",
+        "message": "A pending/approved change may invalidate this policy snapshot; resolve sequencing.",
+        "severity": "review",
+        "source_refs": [
+          "QUEUE"
+        ]
+      }
+    ],
+    "results": {
+      "transaction_type": "endorsement",
+      "request_id": "E-24",
+      "policy_binding": {
+        "policy_id": "P-CO-77",
+        "version": "8",
+        "status": "active",
+        "jurisdiction": "US-TEST",
+        "line_of_business": "pc",
+        "product_line": "commercial-property",
+        "currency": "USD",
+        "effective_from": "2026-01-01",
+        "effective_to": "2027-01-01",
+        "values": {
+          "location_address": "12 Main St"
+        },
+        "source_refs": [
+          "POL"
+        ]
+      },
+      "policy_snapshot_hash": "3e6e57b3c3730c4f8533ae2146e85ac37909163bbab7a1274b7dacf84b9e6683",
+      "proposed_changes": [
+        {
+          "field": "location_address",
+          "before": "10 Main St",
+          "after": "40 Mill Rd",
+          "source_refs": [
+            "REQ"
+          ]
+        }
+      ],
+      "requested_effective_date": "2026-09-25",
+      "document_matrix": [
+        {
+          "kind": "endorsement-form",
+          "matched_document_ids": [
+            "END-24"
+          ],
+          "status": "supplied"
+        }
+      ],
+      "notice_plan": [],
+      "premium_effect": {
+        "amount": "125.50",
+        "currency": "USD",
+        "basis": "written-premium-change"
+      },
+      "instruction_status": "draft",
+      "resulting_policy_state": "not-established",
+      "execution_authorized": false
+    }
+  },
+  {
+    "case": "billing",
+    "skill": "insurance-premium-billing-reconciler",
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-review",
+    "findings": [
+      {
+        "code": "closing-balance-break",
+        "message": "Calculated and reported closing balances differ.",
+        "severity": "review",
+        "source_refs": [
+          "CTL"
+        ]
+      },
+      {
+        "code": "unapplied-cash-credit",
+        "message": "Unapplied cash/credits are separate from invoice aging; allocate only with linked evidence.",
+        "severity": "review",
+        "source_refs": []
+      }
+    ],
+    "results": {
+      "account_id": "AC-72",
+      "currency": "USD",
+      "basis": "gross-premium-receivable",
+      "period": {
+        "start": "2026-08-01",
+        "end": "2026-08-31"
+      },
+      "movement_register": [
+        {
+          "entry_id": "I-1",
+          "kind": "invoice",
+          "amount": "600.00",
+          "currency": "USD",
+          "policy_id": "P-72",
+          "account_id": "AC-72",
+          "signed_receivable_effect": "600.00",
+          "source_refs": [
+            "LEDGER"
+          ]
+        },
+        {
+          "entry_id": "R-1",
+          "kind": "receipt",
+          "amount": "700.00",
+          "currency": "USD",
+          "policy_id": "P-72",
+          "account_id": "AC-72",
+          "signed_receivable_effect": "-700.00",
+          "source_refs": [
+            "LEDGER"
+          ]
+        },
+        {
+          "entry_id": "C-1",
+          "kind": "credit-adjustment",
+          "amount": "100.00",
+          "currency": "USD",
+          "policy_id": "P-72",
+          "account_id": "AC-72",
+          "signed_receivable_effect": "-100.00",
+          "source_refs": [
+            "LEDGER"
+          ]
+        },
+        {
+          "entry_id": "R-2",
+          "kind": "receipt",
+          "amount": "200.00",
+          "currency": "USD",
+          "policy_id": "P-72",
+          "account_id": "AC-72",
+          "signed_receivable_effect": "-200.00",
+          "source_refs": [
+            "LEDGER"
+          ]
+        },
+        {
+          "entry_id": "V-2",
+          "kind": "reversal",
+          "amount": "200.00",
+          "currency": "USD",
+          "policy_id": "P-72",
+          "account_id": "AC-72",
+          "signed_receivable_effect": "200.00",
+          "source_refs": [
+            "LEDGER"
+          ]
+        },
+        {
+          "entry_id": "R-3",
+          "kind": "receipt",
+          "amount": "650.00",
+          "currency": "USD",
+          "policy_id": "P-72",
+          "account_id": "AC-72",
+          "signed_receivable_effect": "-650.00",
+          "source_refs": [
+            "LEDGER"
+          ]
+        }
+      ],
+      "movement_total": "-850.00",
+      "calculated_closing_balance": "150.00",
+      "reported_closing_balance": "420.00",
+      "difference": "-270.00",
+      "excluded_entry_ids": [],
+      "invoice_aging": [
+        {
+          "invoice_id": "OLD-1",
+          "policy_id": "P-72",
+          "outstanding": "200.00",
+          "days_past_due": 47,
+          "source_refs": [
+            "OPEN"
+          ]
+        },
+        {
+          "invoice_id": "NEW-1",
+          "policy_id": "P-72",
+          "outstanding": "0.00",
+          "days_past_due": 11,
+          "source_refs": [
+            "LEDGER"
+          ]
+        }
+      ],
+      "aging_buckets": {
+        "not_due": "0",
+        "1_30": "0.00",
+        "31_60": "200.00",
+        "61_plus": "0"
+      },
+      "unapplied_cash_credits": {
+        "R-1": "0.00",
+        "C-1": "0.00",
+        "R-3": "50.00"
+      },
+      "policy_coverage_state": "not-determined",
+      "collection_or_cancellation_authorized": false
+    }
+  },
+  {
+    "case": "producer",
+    "skill": "insurance-producer-onboarding-reviewer",
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [
+      {
+        "code": "license-unknown",
+        "message": "REQ-IND-4: multiple matching records require reconciliation",
+        "source_refs": [
+          "LICA",
+          "LICB"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "appointment-unknown",
+        "message": "REQ-AGENCY-4: no matching record",
+        "source_refs": [],
+        "severity": "gap"
+      }
+    ],
+    "results": {
+      "scope_checks": [
+        {
+          "requirement_id": "REQ-IND-4",
+          "scope": {
+            "requirement_id": "REQ-IND-4",
+            "entity_id": "IND-4",
+            "jurisdiction": "US-TEST",
+            "line_of_authority": "property",
+            "carrier_id": "C-9",
+            "license_required": true,
+            "appointment_required": true,
+            "rule_source_ref": "SCOPE"
+          },
+          "checks": [
+            {
+              "kind": "license",
+              "status": "unknown",
+              "record_ids": [
+                "LIC-I-A",
+                "LIC-I-B"
+              ],
+              "source_refs": [
+                "LICA",
+                "LICB"
+              ],
+              "reasons": [
+                "multiple matching records require reconciliation"
+              ]
+            },
+            {
+              "kind": "appointment",
+              "status": "observed-match",
+              "record_ids": [
+                "APP-I"
+              ],
+              "source_refs": [
+                "APPT"
+              ],
+              "reasons": []
+            }
+          ]
+        },
+        {
+          "requirement_id": "REQ-AGENCY-4",
+          "scope": {
+            "requirement_id": "REQ-AGENCY-4",
+            "entity_id": "AGENCY-4",
+            "jurisdiction": "US-TEST",
+            "line_of_authority": "property",
+            "carrier_id": "C-9",
+            "license_required": true,
+            "appointment_required": true,
+            "rule_source_ref": "SCOPE"
+          },
+          "checks": [
+            {
+              "kind": "license",
+              "status": "observed-match",
+              "record_ids": [
+                "LIC-A"
+              ],
+              "source_refs": [
+                "LICAG"
+              ],
+              "reasons": []
+            },
+            {
+              "kind": "appointment",
+              "status": "unknown",
+              "record_ids": [],
+              "source_refs": [],
+              "reasons": [
+                "no matching record"
+              ]
+            }
+          ]
+        }
+      ],
+      "carrier_binding_authority": "not-determined",
+      "onboarding_decision": "reserved-for-authorized-reviewer"
+    }
+  },
+  {
+    "case": "placement",
+    "skill": "insurance-placement-packager",
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [
+      {
+        "code": "subjectivity-unknown",
+        "message": "N-2: Roof inspection",
+        "source_refs": [
+          "N2"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "market-gap",
+        "message": "N-2: premium, fees or taxes missing; total withheld",
+        "source_refs": [
+          "N2"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "subjectivity-open",
+        "message": "S-1: Signed application",
+        "source_refs": [
+          "S1"
+        ],
+        "severity": "review"
+      }
+    ],
+    "results": {
+      "placement_id": "PL-77",
+      "response_history": [
+        {
+          "response_id": "N-1",
+          "market_id": "North",
+          "version": "1",
+          "source_ref": "N1",
+          "issued_on": "2026-09-15",
+          "valid_until": "2026-09-25",
+          "insured_id": "CO-1",
+          "jurisdiction": "US-TEST",
+          "line_of_business": "commercial-property",
+          "status": "quoted",
+          "currency": "USD",
+          "period_start": "2026-10-01",
+          "period_end": "2027-10-01",
+          "layer": "primary",
+          "coverage_basis": "occurrence",
+          "coverages": [
+            "building"
+          ],
+          "exclusions": [
+            "flood"
+          ],
+          "limit": "1000000",
+          "retention": "5000",
+          "premium": "12000",
+          "fees": "250",
+          "taxes": "600",
+          "subjectivities": []
+        },
+        {
+          "response_id": "N-2",
+          "market_id": "North",
+          "version": "2",
+          "source_ref": "N2",
+          "issued_on": "2026-09-18",
+          "valid_until": "2026-09-25",
+          "insured_id": "CO-1",
+          "jurisdiction": "US-TEST",
+          "line_of_business": "commercial-property",
+          "status": "quoted",
+          "currency": "USD",
+          "period_start": "2026-10-01",
+          "period_end": "2027-10-01",
+          "layer": "primary",
+          "coverage_basis": "occurrence",
+          "coverages": [
+            "building"
+          ],
+          "exclusions": [
+            "flood"
+          ],
+          "limit": "1000000",
+          "retention": "5000",
+          "premium": "11800",
+          "fees": "300",
+          "taxes": null,
+          "subjectivities": [
+            {
+              "subjectivity_id": "S-N",
+              "description": "Roof inspection",
+              "status": "satisfied"
+            }
+          ]
+        },
+        {
+          "response_id": "S-1",
+          "market_id": "South",
+          "version": "1",
+          "source_ref": "S1",
+          "issued_on": "2026-09-17",
+          "valid_until": "2026-09-24",
+          "insured_id": "CO-1",
+          "jurisdiction": "US-TEST",
+          "line_of_business": "commercial-property",
+          "status": "quoted",
+          "currency": "USD",
+          "period_start": "2026-10-01",
+          "period_end": "2027-10-01",
+          "layer": "primary",
+          "coverage_basis": "occurrence",
+          "coverages": [
+            "building"
+          ],
+          "exclusions": [
+            "flood"
+          ],
+          "limit": "1000000",
+          "retention": "10000",
+          "premium": "10900",
+          "fees": "200",
+          "taxes": "545",
+          "subjectivities": [
+            {
+              "subjectivity_id": "S-S",
+              "description": "Signed application",
+              "status": "open"
+            }
+          ]
+        }
+      ],
+      "selected_response_ids": [
+        "N-2",
+        "S-1"
+      ],
+      "market_assessments": [
+        {
+          "response_id": "N-2",
+          "market_id": "North",
+          "response_status": "quoted",
+          "evidence_status": "partial",
+          "quoted_total": null,
+          "currency": "USD",
+          "subjectivities": [
+            {
+              "subjectivity_id": "S-N",
+              "description": "Roof inspection",
+              "observed_status": "unknown",
+              "evidence_source_ref": null
+            }
+          ]
+        },
+        {
+          "response_id": "S-1",
+          "market_id": "South",
+          "response_status": "quoted",
+          "evidence_status": "reviewable",
+          "quoted_total": "11645",
+          "currency": "USD",
+          "subjectivities": [
+            {
+              "subjectivity_id": "S-S",
+              "description": "Signed application",
+              "observed_status": "open",
+              "evidence_source_ref": null
+            }
+          ]
+        }
+      ],
+      "comparable_groups": [
+        {
+          "basis": {
+            "coverage_basis": "occurrence",
+            "coverages": [
+              "building"
+            ],
+            "currency": "USD",
+            "exclusions": [
+              "flood"
+            ],
+            "layer": "primary",
+            "limit": "1000000",
+            "period_end": "2027-10-01",
+            "period_start": "2026-10-01",
+            "retention": "10000"
+          },
+          "response_ids": [
+            "S-1"
+          ]
+        }
+      ],
+      "market_selection": "not-performed",
+      "binding_status": "not-performed"
+    }
+  },
+  {
+    "case": "delegation",
+    "skill": "insurance-delegated-authority-reviewer",
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [
+      {
+        "code": "aggregate-limit",
+        "message": "A complete same-date, same-basis aggregate ledger excluding the request is needed.",
+        "source_refs": [
+          "AGR",
+          "LEDGER"
+        ],
+        "severity": "review"
+      },
+      {
+        "code": "bordereaux-exception",
+        "message": "B-8: report totals or financial basis unresolved",
+        "source_refs": [
+          "REPORT"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "contract-exception",
+        "message": "MGA requests one risk over aggregate; no executed amendment or insurer acceptance supplied.",
+        "source_refs": [
+          "EMAIL"
+        ],
+        "severity": "review"
+      }
+    ],
+    "results": {
+      "authority_checks": [
+        {
+          "check": "executed-agreement",
+          "status": "observed-match",
+          "detail": "Executed and versioned agreement evidence is required.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "insurer_id",
+          "status": "observed-match",
+          "detail": "insurer_id must match the agreement party.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "delegate_id",
+          "status": "observed-match",
+          "detail": "delegate_id must match the agreement party.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "jurisdiction",
+          "status": "observed-match",
+          "detail": "Requested jurisdiction is checked against the agreement scope.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "line_of_business",
+          "status": "observed-match",
+          "detail": "Requested line_of_business is checked against the agreement scope.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "action",
+          "status": "observed-match",
+          "detail": "Requested action is checked against the agreement scope.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "authority-period",
+          "status": "observed-match",
+          "detail": "Transaction date must be within the supplied authority period.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "request-scope",
+          "status": "observed-match",
+          "detail": "Request and declared review scope must agree.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "financial-basis",
+          "status": "observed-match",
+          "detail": "Request currency and amount basis must match the authority limit.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "per-risk-limit",
+          "status": "observed-match",
+          "detail": "Compare request amount to the per-risk authority limit.",
+          "source_refs": [
+            "AGR"
+          ]
+        },
+        {
+          "check": "aggregate-limit",
+          "status": "observed-exception",
+          "detail": "A complete same-date, same-basis aggregate ledger excluding the request is needed.",
+          "source_refs": [
+            "AGR",
+            "LEDGER"
+          ]
+        }
+      ],
+      "aggregate_remaining_before_request": "120000",
+      "projected_aggregate_used": "2060000",
+      "currency": "USD",
+      "bordereaux_checks": [
+        {
+          "report_id": "B-8",
+          "status": "unknown",
+          "late_or_overdue": true,
+          "reported_minus_expected": null,
+          "issues": [
+            "report totals or financial basis unresolved"
+          ],
+          "source_refs": [
+            "REPORT"
+          ]
+        }
+      ],
+      "authority_granted": false,
+      "exceptions_disposition": "reserved-for-authorized-reviewer"
+    }
+  },
+  {
+    "case": "life",
+    "skill": "life-annuity-sales-reviewer",
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "status": "needs-data",
+    "findings": [
+      {
+        "code": "consumer-evidence",
+        "message": "liquidity-needs: conflicting/duplicate topic evidence requires reconciliation",
+        "source_refs": [
+          "APP",
+          "INTERVIEW"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "product-evidence",
+        "message": "non-guaranteed-elements: missing evidence",
+        "source_refs": [],
+        "severity": "gap"
+      },
+      {
+        "code": "product-evidence",
+        "message": "disclosures-and-training: missing evidence",
+        "source_refs": [],
+        "severity": "gap"
+      },
+      {
+        "code": "product-evidence",
+        "message": "annuitization-options: missing evidence",
+        "source_refs": [],
+        "severity": "gap"
+      },
+      {
+        "code": "replacement-evidence",
+        "message": "replacement-disclosures: missing evidence",
+        "source_refs": [],
+        "severity": "gap"
+      }
+    ],
+    "results": {
+      "product_type": "fixed-annuity",
+      "consumer_matrix": [
+        {
+          "topic": "insurance-needs",
+          "status": "evidence-present",
+          "value": "Stable retirement income",
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "financial-objectives",
+          "status": "evidence-present",
+          "value": "Stable retirement income",
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "liquidity-needs",
+          "status": "missing-or-unresolved",
+          "value": null,
+          "source_refs": [
+            "APP",
+            "INTERVIEW"
+          ],
+          "issues": [
+            "conflicting/duplicate topic evidence requires reconciliation"
+          ]
+        },
+        {
+          "topic": "funding-source",
+          "status": "evidence-present",
+          "value": "100000 from existing annuity surrender",
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "financial-capacity",
+          "status": "evidence-present",
+          "value": "Annual income 48000; liquid assets 160000; proposed premium 100000",
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "age",
+          "status": "evidence-present",
+          "value": 66,
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "time-horizon",
+          "status": "evidence-present",
+          "value": "7 years",
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "risk-tolerance",
+          "status": "evidence-present",
+          "value": "Conservative",
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "financial-experience",
+          "status": "evidence-present",
+          "value": "Prior fixed annuity experience",
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "tax-status",
+          "status": "evidence-present",
+          "value": "Nonqualified",
+          "source_refs": [
+            "APP"
+          ],
+          "issues": []
+        }
+      ],
+      "product_matrix": [
+        {
+          "topic": "charges",
+          "status": "evidence-present",
+          "value": "Surrender charges 7/6/5/4/3/2/1 percent",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "surrender-terms",
+          "status": "evidence-present",
+          "value": "7-year schedule; 10% annual free withdrawal",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "guarantees",
+          "status": "evidence-present",
+          "value": "4.2% for 3 years",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "non-guaranteed-elements",
+          "status": "missing-or-unresolved",
+          "value": null,
+          "source_refs": [],
+          "issues": [
+            "missing evidence"
+          ]
+        },
+        {
+          "topic": "restrictions",
+          "status": "evidence-present",
+          "value": "10% annual free withdrawal; no MVA",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "death-benefit",
+          "status": "evidence-present",
+          "value": "Account value",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "compensation-and-conflicts",
+          "status": "evidence-present",
+          "value": "Producer commission 5% of premium",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "disclosures-and-training",
+          "status": "missing-or-unresolved",
+          "value": null,
+          "source_refs": [],
+          "issues": [
+            "missing evidence"
+          ]
+        },
+        {
+          "topic": "annuitization-options",
+          "status": "missing-or-unresolved",
+          "value": null,
+          "source_refs": [],
+          "issues": [
+            "missing evidence"
+          ]
+        },
+        {
+          "topic": "riders",
+          "status": "evidence-present",
+          "value": "No income rider elected",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        }
+      ],
+      "alternatives": [
+        {
+          "alternative_id": "KEEP",
+          "description": "Retain existing annuity",
+          "reason_reviewed": "Avoid 3000 surrender cost and preserve remaining guarantee",
+          "status": "documented",
+          "issues": [],
+          "source_refs": [
+            "RATIONALE"
+          ]
+        },
+        {
+          "alternative_id": "WAIT",
+          "description": "Defer transaction",
+          "reason_reviewed": "Resolve 60000 home-repair liquidity",
+          "status": "documented",
+          "issues": [],
+          "source_refs": [
+            "RATIONALE"
+          ]
+        }
+      ],
+      "replacement_status": "yes",
+      "replacement_matrix": [
+        {
+          "topic": "existing-values",
+          "status": "evidence-present",
+          "value": "103000 account value",
+          "source_refs": [
+            "INTERVIEW"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "existing-benefits",
+          "status": "evidence-present",
+          "value": "3.5% guarantee for remaining 2 years",
+          "source_refs": [
+            "INTERVIEW"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "existing-charges",
+          "status": "evidence-present",
+          "value": "3000 surrender charge",
+          "source_refs": [
+            "INTERVIEW"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "new-charges",
+          "status": "evidence-present",
+          "value": "7/6/5/4/3/2/1 percent surrender schedule",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "lost-guarantees",
+          "status": "evidence-present",
+          "value": "Existing 3.5% guarantee for remaining 2 years lost on surrender; other lost benefits unresolved",
+          "source_refs": [
+            "INTERVIEW"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "new-surrender-period",
+          "status": "evidence-present",
+          "value": "7 years",
+          "source_refs": [
+            "PROD"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "replacement-rationale",
+          "status": "evidence-present",
+          "value": "Higher initial guaranteed rate",
+          "source_refs": [
+            "RATIONALE"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "retain-or-modify-alternative",
+          "status": "evidence-present",
+          "value": "Retain existing contract or defer until repair liquidity resolved",
+          "source_refs": [
+            "RATIONALE"
+          ],
+          "issues": []
+        },
+        {
+          "topic": "replacement-disclosures",
+          "status": "missing-or-unresolved",
+          "value": null,
+          "source_refs": [],
+          "issues": [
+            "missing evidence"
+          ]
+        }
+      ],
+      "applicability_matrix": [
+        {
+          "rule_id": "state-sales-standard",
+          "status": "applies",
+          "issues": [],
+          "source_refs": [
+            "RULE"
+          ]
+        },
+        {
+          "rule_id": "state-replacement",
+          "status": "applies",
+          "issues": [],
+          "source_refs": [
+            "RULE"
+          ]
+        }
+      ],
+      "recommendation_rationale": "Higher initial guaranteed rate",
+      "suitability_or_best_interest_decision": "not-made",
+      "principal_approval": "not-performed"
+    }
+  }
+]

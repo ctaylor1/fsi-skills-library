@@ -1,0 +1,204 @@
+{
+  "schema_version": "1.0",
+  "request_id": "phase3-2-synthetic",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "enterprise-ap",
+  "sources": [
+    {
+      "source_id": "ledger",
+      "reference": "synthetic://phase3-reviewed-ledger-v1",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "history_complete": false,
+    "approval_policy": {
+      "owner": "Synthetic AP controller",
+      "policy_ref": "synthetic-ap-policy-v1",
+      "effective_from": "2026-01-01",
+      "review_due": "2026-12-31"
+    },
+    "suppliers": [
+      {
+        "supplier_id": "supplier-1",
+        "legal_entity_id": "seller",
+        "payee_account_ref": "supplier-opaque-account",
+        "erp_supplier_ref": "ERP:S:1",
+        "enabled_methods": [
+          "US-ACH"
+        ],
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "invoices": [
+      {
+        "invoice_id": "invoice-1",
+        "invoice_number": "INV-1001",
+        "supplier_id": "supplier-1",
+        "buyer_entity_id": "buyer",
+        "currency": "USD",
+        "erp_invoice_ref": "ERP:I:1",
+        "due_date": "2026-09-22",
+        "amount": "1000.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "invoice_id": "invoice-2",
+        "invoice_number": "INV-1002",
+        "supplier_id": "supplier-1",
+        "buyer_entity_id": "buyer",
+        "currency": "USD",
+        "erp_invoice_ref": "ERP:I:2",
+        "due_date": "2026-09-22",
+        "amount": "500.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "credit_notes": [
+      {
+        "credit_note_id": "credit-1",
+        "invoice_id": "invoice-1",
+        "currency": "USD",
+        "erp_credit_ref": "ERP:C:1",
+        "amount": "100.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "payments": [
+      {
+        "payment_id": "payment-1",
+        "supplier_id": "supplier-1",
+        "payer_entity_id": "buyer",
+        "payee_account_ref": "supplier-opaque-account",
+        "currency": "USD",
+        "method": "US-ACH",
+        "state": "settled",
+        "erp_payment_ref": "ERP:P:1",
+        "amount": "400.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "payment_id": "payment-2",
+        "supplier_id": "supplier-1",
+        "payer_entity_id": "buyer",
+        "payee_account_ref": "supplier-opaque-account",
+        "currency": "USD",
+        "method": "US-ACH",
+        "state": "pending",
+        "erp_payment_ref": "ERP:P:2",
+        "amount": "200.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "payment_id": "payment-3",
+        "supplier_id": "supplier-1",
+        "payer_entity_id": "buyer",
+        "payee_account_ref": "supplier-opaque-account",
+        "currency": "USD",
+        "method": "US-ACH",
+        "state": "proposed",
+        "erp_payment_ref": "ERP:P:3",
+        "amount": "500.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "allocations": [
+      {
+        "allocation_id": "a1",
+        "payment_id": "payment-1",
+        "invoice_id": "invoice-1",
+        "currency": "USD",
+        "amount": "400.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "allocation_id": "a2",
+        "payment_id": "payment-2",
+        "invoice_id": "invoice-1",
+        "currency": "USD",
+        "amount": "200.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "allocation_id": "a3",
+        "payment_id": "payment-3",
+        "invoice_id": "invoice-1",
+        "currency": "USD",
+        "amount": "300.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "allocation_id": "a4",
+        "payment_id": "payment-3",
+        "invoice_id": "invoice-2",
+        "currency": "USD",
+        "amount": "200.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "remittances": [
+      {
+        "remittance_id": "r1",
+        "payment_id": "payment-1",
+        "supplier_id": "supplier-1",
+        "delivery_reference": "DRAFT:remit1",
+        "allocation_ids": [
+          "a1"
+        ],
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "remittance_id": "r2",
+        "payment_id": "payment-2",
+        "supplier_id": "supplier-1",
+        "delivery_reference": "DRAFT:remit2",
+        "allocation_ids": [
+          "a2"
+        ],
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "remittance_id": "r3",
+        "payment_id": "payment-3",
+        "supplier_id": "supplier-1",
+        "delivery_reference": "DRAFT:remit3",
+        "allocation_ids": [
+          "a3",
+          "a4"
+        ],
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ]
+  }
+}

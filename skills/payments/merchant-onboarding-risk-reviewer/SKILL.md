@@ -13,7 +13,7 @@ description: >-
   sanctions/adverse-media hit, closes the case, or files/writes any system of record. Human
   adjudication is required.
 license: MIT
-compatibility: Amazon Quick Desktop; requires KYB/registry, sanctions & adverse-media screening, merchant-application, website/product-review, fraud/credit, and controlled-rules (config) MCP integrations (all read-only).
+compatibility: Python 3.10+ offline JSON analysis. Expected source-system integrations must be supplied by deployment; no connectors or actions bundled.
 metadata:
   aws-fsi-category: "Payments"
   aws-fsi-skill-type: "Analysis and evaluation skills"
@@ -23,14 +23,14 @@ metadata:
   aws-fsi-delivery-wave: "Wave 3 - regulated casework"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "required"
   aws-fsi-data-classification: "Highly Confidential (customer NPI/PII; cardholder data)"
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Payments operations & risk"
   aws-fsi-primary-user: "Merchant-risk / underwriting / KYB analyst"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-17"
 ---
 
 # Merchant Onboarding Risk Reviewer
@@ -60,7 +60,7 @@ and defensibly — the onboarding decision, and any boarding/filing action, rema
   `kyc-customer-due-diligence-screener`, `enhanced-due-diligence-packager`.
 - **Material credit write-up** for a large requested limit → `credit-memo-drafter`.
 - **Post-boarding** transaction risk monitoring or fraud investigation →
-  `real-time-payment-risk-monitor` / `payment-fraud-case-investigator`.
+  `instant-payment-risk-monitor` / `payment-fraud-and-scam-investigator`.
 - **Stablecoin/crypto settlement control review** → `stablecoin-payment-controls-reviewer`.
 
 ## Adjacent-skill handoffs
@@ -121,7 +121,7 @@ action and records no decision.
 - **Missing/insufficient evidence** → findings for absent data are reported not-fired-but-
   not-evaluable via input warnings; the recommendation escalates as Insufficient-Evidence.
 - **Ambiguous entity/ownership** → stop and confirm; never review the wrong legal entity.
-- **Sanctions/adverse-media `hit` or `pending`** → treat as blocking / unresolved; do not
+- **Sanctions/adverse-media `hit` or `pending`** → treat as unresolved; request specialist review; do not
   clear it — route to the specialist adjudicator.
 - **Stale screening** → a stale screen is a data gap, not a clearance; surface it.
 - **Stale/conflicting sources** (application vs registry) → cite both; do not resolve silently.
@@ -161,3 +161,11 @@ adjudicator's decision. Never exfiltrate applicant or owner data.
   unverified >= threshold owner is a gap even if total coverage looks high.
 - **Do not tune thresholds to the applicant**; thresholds/lists come from the versioned
   config, not from guessing what "should" be acceptable for this merchant.
+
+## Phase 1 implementation boundary
+
+Phase 1: pending/hit screening is unresolved and routes to the sanctions specialist, not Recommend-Decline. Default risk lists and ownership/volume thresholds are synthetic examples, not legal requirements or current sanctions lists. Production requires an institution-owned current policy and separate entity/owner screening coverage. Initial onboarding only; periodic/event underwriting is later work.
+
+Read [references/payment-contract.md](references/payment-contract.md) for shared lifecycle, evidence and handoff semantics.
+
+Policy input: policy_profile must follow payment-contract.md, cover acquirer and merchant country, and match config_version. Supply all institution risk-config fields; absent policy cannot be replaced with synthetic defaults. screening.covered_subject_refs must explicitly include the entity case_id and each owner source_ref; an aggregate clear result does not prove owner coverage. These declarations remain unauthenticated until deployment review. Policy uncertainty overrides recommendation bands and escalates.

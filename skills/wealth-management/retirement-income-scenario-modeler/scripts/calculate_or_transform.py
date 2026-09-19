@@ -1,352 +1,356 @@
 #!/usr/bin/env python3
-"""Deterministic retirement-income decumulation engine for retirement-income-scenario-modeler.
+"""Annual retirement scenarios with cent-level identities and separate gap/depletion facts."""
 
-Reads a retirement-plan input file (see validate_input.py), and builds an explicit,
-driver-based year-by-year decumulation projection from the retirement age to the planning
-(longevity) horizon for base / favorable / adverse scenarios. Each year it inflates the
-spending need, pays guaranteed income (Social Security, pension) net of an approved tax
-rate, funds the remaining after-tax spending gap from the portfolio in a documented
-withdrawal order (grossing up each dollar for its account's approved effective tax rate),
-rolls each account forward at its scenario return, and records shortfalls when assets
-cannot fund the plan. Scenarios flex return and inflation and may carry an explicit
-per-year return sequence, so sequence-of-returns risk is modelled deterministically.
-
-Every scenario carries its own formula tie-outs (balance roll-forward with year-to-year
-continuity, funding identity, tax identity, portfolio totals, non-negativity), independently
-re-derived from the emitted rows rather than by comparing a value to the expression that
-produced it, and rolled up into model_checks.all_tieouts_ok; every assumption carries a
-provenance tag and citation; the model is reproducible from a hash of its numeric inputs.
-
-IMPORTANT: This produces an *illustrative retirement-income projection* only, expressed as
-a RANGE across deterministic scenarios — never a guarantee that income or assets will last,
-never a probability of success presented as a guarantee, and never investment, tax,
-insurance, or legal advice or a recommendation to adopt any withdrawal, claiming, or product
-strategy. Assumptions and scenario deltas are documented inputs, not the skill's judgment.
-Any recommendation or decision is a licensed-advisor + client adjudication. See
-references/domain-rules.md.
-
-Usage:
-  python calculate_or_transform.py retirement_input.json | --selftest
-Prints the model JSON to stdout.
-"""
-from __future__ import annotations
-import hashlib, json, sys
+import json
+import sys
 from pathlib import Path
+from decimal import Decimal, ROUND_HALF_UP, ROUND_CEILING, getcontext
 
-ROUND = 2            # dollar precision (units are nominal dollars)
-RATE_ROUND = 8       # rate precision
-TOL = 0.01           # tie-out tolerance
-DISCLAIMER = ("Illustrative retirement-income projection for planning purposes only, "
-              "expressed as a range across deterministic scenarios; not a guarantee of "
-              "future income, returns, or that assets will last, and not a probability of "
-              "success. Not investment, tax, insurance, or legal advice and not a "
-              "recommendation to adopt any withdrawal, claiming, or product strategy. "
-              "Outputs depend entirely on the stated assumptions, which a qualified human "
-              "must review; any recommendation or decision requires licensed-advisor and "
-              "client adjudication.")
+from wealth_contract import validate_envelope, make_output
+from planning_support import Check
 
-SCENARIOS = ("base", "favorable", "adverse")
+getcontext().prec = 128
 
-
-def _v(node):
-    """Numeric value from a bare scalar or a {value, provenance, citation} dict."""
-    if isinstance(node, dict):
-        return float(node.get("value"))
-    return float(node)
+SKILL = "retirement-income-scenario-modeler"
+TOPICS = {
+    "rmd",
+    "tax-brackets-and-capital-gains",
+    "benefit-entitlement",
+    "survivor-and-household-changes",
+    "healthcare-and-long-term-care",
+}
+CENT = Decimal(".01")
 
 
-def _prov(node):
-    return (node.get("provenance", "") if isinstance(node, dict) else "")
+def D(value):
+    return Decimal(str(value))
 
 
-def _cite(node):
-    return (node.get("citation", "") if isinstance(node, dict) else "")
+def cents(value):
+    return value.quantize(CENT, rounding=ROUND_HALF_UP)
 
 
-def _verify_tieouts(rows: list) -> dict:
-    """Independently re-derive each per-scenario formula tie-out from the EMITTED row/account
-    fields, rather than comparing a value to the very expression that produced it (a
-    self-comparison can never fail and is not a tie-out). This is the same independent
-    re-derivation validate_output performs, run here over the just-built rows so the reported
-    flags — and model_checks.all_tieouts_ok — reflect a real check. Returns the five flags:
-    balance roll-forward (incl. year-to-year continuity), funding identity, tax identity,
-    portfolio totals, and non-negativity."""
-    roll_ok = fund_ok = tax_ok = nonneg_ok = totals_ok = True
-    prev_end = None
-    for r in rows:
-        sum_begin = sum_end = sum_gross = 0.0
-        cur_end = {}
-        for a in r["accounts"]:
-            begin, gross = a["begin"], a["gross_withdrawal"]
-            ret, end = a["return_applied"], a["end"]
-            after = begin - gross
-            if after < 0.0:
-                after = 0.0
-            if abs(round(after * (1.0 + ret), ROUND) - end) > TOL:
-                roll_ok = False
-            if begin < -TOL or end < -TOL or gross > begin + TOL:
-                nonneg_ok = False
-            if prev_end is not None and a["id"] in prev_end \
-                    and abs(prev_end[a["id"]] - begin) > TOL:
-                roll_ok = False  # continuity is part of the balance roll-forward chain
-            sum_begin += begin
-            sum_end += end
-            sum_gross += gross
-            cur_end[a["id"]] = end
-        prev_end = cur_end
-        if abs(round(sum_begin, ROUND) - r["begin_portfolio"]) > TOL \
-                or abs(round(sum_end, ROUND) - r["end_portfolio"]) > TOL \
-                or abs(round(sum_gross, ROUND) - r["gross_withdrawal_total"]) > TOL:
-            totals_ok = False
-        if abs(r["net_withdrawal"] - (r["gross_withdrawal_total"] - r["tax_portfolio"])) > TOL \
-                or abs(r["tax_total"] - (r["tax_portfolio"] + r["tax_guaranteed"])) > TOL:
-            tax_ok = False
-        if abs(r["funded"] - (r["guaranteed_income_net"] + r["net_withdrawal"])) > TOL:
-            fund_ok = False
-        if abs((r["funded"] + r["shortfall"] - r["surplus"]) - r["spending_need"]) > TOL:
-            fund_ok = False
-    return {
-        "roll_forward_ok": roll_ok, "funding_ok": fund_ok, "tax_ok": tax_ok,
-        "nonneg_ok": nonneg_ok, "portfolio_totals_ok": totals_ok,
-    }
+def num(value):
+    return float(value)
 
 
-def compute(doc: dict) -> dict:
-    retirement_age = int(doc["retirement_age"])
-    horizon_age = int(doc["horizon_age"])
-    current_age = int(doc.get("current_age", retirement_age))
-    n_last = horizon_age - retirement_age            # final year index j
-    total_years = n_last + 1
-
-    sp = doc["spending"]
-    annual_need = _v(sp["annual_need"])
-    inflation_base = _v(sp["inflation"])
-    g_tax_rate = _v(sp["guaranteed_income_tax_rate"])
-
-    accounts = doc["accounts"]
-    acct_ids = [a["id"] for a in accounts]
-    start_balance = {a["id"]: _v(a["balance"]) for a in accounts}
-    exp_return = {a["id"]: _v(a["expected_return"]) for a in accounts}
-    tax_rate = {a["id"]: _v(a["effective_tax_rate"]) for a in accounts}
-
-    streams = doc.get("guaranteed_income") or []
-
-    wd = doc.get("withdrawal") or {}
-    strategy = wd.get("strategy", "spending_gap")
-    order = wd.get("order") or acct_ids
-    fixed_pct = _v(wd["fixed_pct"]) if "fixed_pct" in wd else None
-
-    scen_adj = doc.get("scenario_adjustments") or {}
-
-    def scenario_params(name: str):
-        adj = {} if name == "base" else (scen_adj.get(name) or {})
-        rd = float(adj.get("return_delta", 0.0))
-        infl_d = float(adj.get("inflation_delta", 0.0))
-        seq = adj.get("return_sequence") or {}
-        return rd, infl_d, seq
-
-    def guaranteed_gross(j: int, age: int) -> float:
-        total = 0.0
-        for s in streams:
-            if age >= int(s["start_age"]):
-                amt = _v(s["annual_amount"]) * ((1.0 + _v(s["cola"])) ** j)
-                total += amt
-        return round(total, ROUND)
-
-    def project(name: str) -> dict:
-        rd, infl_d, seq = scenario_params(name)
-        inflation = round(inflation_base + infl_d, RATE_ROUND)
-        begin = dict(start_balance)
-        rows = []
-        total_shortfall = 0.0
-        total_surplus = 0.0
-        first_shortfall_age = None
-        funded_years = 0
-
-        for j in range(0, n_last + 1):
-            age = retirement_age + j
-            spending = round(annual_need * ((1.0 + inflation) ** j), ROUND)
-            g_gross = guaranteed_gross(j, age)
-            g_net = round(g_gross * (1.0 - g_tax_rate), ROUND)
-            begin_portfolio = round(sum(begin.values()), ROUND)
-
-            # --- determine gross withdrawals by source ---------------------------------
-            gross_by_source = {a: 0.0 for a in acct_ids}
-            if strategy == "fixed_pct":
-                remaining_gross = round((fixed_pct or 0.0) * begin_portfolio, ROUND)
-                for a in order:
-                    take = round(min(begin[a], max(0.0, remaining_gross)), ROUND)
-                    gross_by_source[a] = take
-                    remaining_gross = round(remaining_gross - take, ROUND)
-            else:  # spending_gap (default): fund the after-tax spending gap in order
-                remaining_net = round(max(0.0, spending - g_net), ROUND)
-                for a in order:
-                    if remaining_net <= 0:
-                        continue
-                    r_s = tax_rate[a]
-                    gross_needed = remaining_net / (1.0 - r_s) if r_s < 1.0 else float("inf")
-                    take = round(min(begin[a], gross_needed), ROUND)
-                    gross_by_source[a] = take
-                    remaining_net = round(remaining_net - take * (1.0 - r_s), ROUND)
-
-            gross_total = round(sum(gross_by_source.values()), ROUND)
-            tax_portfolio = round(sum(gross_by_source[a] * tax_rate[a] for a in acct_ids), ROUND)
-            net_withdrawal = round(gross_total - tax_portfolio, ROUND)
-            tax_guaranteed = round(g_gross * g_tax_rate, ROUND)
-            tax_total = round(tax_portfolio + tax_guaranteed, ROUND)
-
-            funded = round(g_net + net_withdrawal, ROUND)
-            shortfall = round(max(0.0, spending - funded), ROUND)
-            surplus = round(max(0.0, funded - spending), ROUND)
-            if shortfall > TOL:
-                if first_shortfall_age is None:
-                    first_shortfall_age = age
+def simulate(doc, scenario):
+    start = doc["projection"]["start_age"]
+    end = doc["projection"]["end_age"]
+    accounts = {row["account_id"]: row for row in doc["accounts"]}
+    balances = {aid: cents(D(a["balance"])) for aid, a in accounts.items()}
+    sequences = {row["account_id"]: row["annual_returns"] for row in scenario["return_sequences"]}
+    rows = []
+    inflation = D(doc["spending"]["annual_inflation"]) + D(scenario["inflation_adjustment"])
+    for year, age in enumerate(range(start, end + 1)):
+        beginning = sum(balances.values(), D(0))
+        spending = cents(D(doc["spending"]["annual_net_amount"]) * (1 + inflation) ** year)
+        income_rows = []
+        for income in doc["income"]:
+            active = income["start_age"] <= age <= income["end_age"]
+            gross = (
+                cents(
+                    D(income["annual_gross_at_start"]) * (1 + D(income["annual_cola"])) ** (age - income["start_age"])
+                )
+                if active
+                else D(0)
+            )
+            tax = cents(gross * D(income["effective_tax_rate"]))
+            net = gross - tax
+            income_rows.append(
+                {
+                    "income_id": income["income_id"],
+                    "active": active,
+                    "gross": num(gross),
+                    "tax": num(tax),
+                    "net": num(net),
+                    "source_ids": income["source_ids"],
+                }
+            )
+        income_net = sum((D(r["net"]) for r in income_rows), D(0))
+        income_tax = sum((D(r["tax"]) for r in income_rows), D(0))
+        gap = max(D(0), spending - income_net)
+        policy = doc["withdrawal_policy"]
+        net_remaining = gap
+        gross_remaining = (
+            cents(beginning * D(policy["annual_percentage"])) if policy["strategy"] == "fixed-percentage" else None
+        )
+        account_rows = []
+        for aid in policy["account_order"]:
+            account = accounts[aid]
+            balance = balances[aid]
+            tax_rate = D(account["effective_withdrawal_tax_rate"])
+            if policy["strategy"] == "spending-gap":
+                requested = (net_remaining / (1 - tax_rate)).quantize(CENT, rounding=ROUND_CEILING)
             else:
-                funded_years += 1
-            total_shortfall = round(total_shortfall + shortfall, ROUND)
-            total_surplus = round(total_surplus + surplus, ROUND)
-
-            # --- roll each account forward at its scenario return ----------------------
-            acct_rows = []
-            end = {}
-            for a in acct_ids:
-                if a in seq and j < len(seq[a]):
-                    r_used = round(float(seq[a][j]), RATE_ROUND)
-                else:
-                    r_used = round(exp_return[a] + rd, RATE_ROUND)
-                after_wd = round(begin[a] - gross_by_source[a], ROUND)
-                if after_wd < 0.0:
-                    after_wd = 0.0
-                end_bal = round(after_wd * (1.0 + r_used), ROUND)
-                end[a] = end_bal
-                acct_rows.append({
-                    "id": a, "begin": round(begin[a], ROUND), "return_applied": r_used,
-                    "gross_withdrawal": gross_by_source[a], "end": end_bal,
-                })
-
-            end_portfolio = round(sum(end.values()), ROUND)
-            rows.append({
-                "year": j, "age": age, "inflation_applied": inflation,
-                "spending_need": spending,
-                "guaranteed_income_gross": g_gross, "guaranteed_income_net": g_net,
-                "accounts": acct_rows,
-                "gross_withdrawal_total": gross_total, "net_withdrawal": net_withdrawal,
-                "tax_portfolio": tax_portfolio, "tax_guaranteed": tax_guaranteed,
-                "tax_total": tax_total,
-                "funded": funded, "shortfall": shortfall, "surplus": surplus,
-                "begin_portfolio": begin_portfolio, "end_portfolio": end_portfolio,
-            })
-            begin = end
-
-        terminal_portfolio = rows[-1]["end_portfolio"]
-        min_end_portfolio = round(min(r["end_portfolio"] for r in rows), ROUND)
-        depletes = first_shortfall_age is not None
-
-        return {
-            "name": name,
-            "inflation": inflation,
-            "return_delta": rd,
-            "uses_return_sequence": bool(seq),
-            "years": rows,
-            "terminal_portfolio_value": terminal_portfolio,
-            "min_end_portfolio": min_end_portfolio,
-            "total_shortfall": total_shortfall,
-            "total_surplus": total_surplus,
-            "funded_years": funded_years,
-            "total_years": total_years,
-            "first_shortfall_age": first_shortfall_age,
-            "plan_depletes_before_horizon": depletes,
-            "tieouts": _verify_tieouts(rows),
-        }
-
-    scenarios = [project(n) for n in SCENARIOS]
-    by = {s["name"]: s for s in scenarios}
-
-    # scenario behaviour: terminal value adverse <= base <= favorable;
-    # total shortfall favorable <= base <= adverse.
-    terminal_monotonic_ok = (
-        by["adverse"]["terminal_portfolio_value"] <= by["base"]["terminal_portfolio_value"] + TOL
-        and by["base"]["terminal_portfolio_value"] <= by["favorable"]["terminal_portfolio_value"] + TOL)
-    shortfall_monotonic_ok = (
-        by["favorable"]["total_shortfall"] <= by["base"]["total_shortfall"] + TOL
-        and by["base"]["total_shortfall"] <= by["adverse"]["total_shortfall"] + TOL)
-
-    # --- assumptions register (provenance + citation for every input assumption) --------
-    register = []
-    register.append({"id": "spending:annual_need", "scope": "spending", "value": annual_need,
-                     "provenance": _prov(sp["annual_need"]), "citation": _cite(sp["annual_need"])})
-    register.append({"id": "spending:inflation", "scope": "spending", "value": inflation_base,
-                     "provenance": _prov(sp["inflation"]), "citation": _cite(sp["inflation"])})
-    register.append({"id": "spending:guaranteed_income_tax_rate", "scope": "tax-assumption",
-                     "value": g_tax_rate, "provenance": _prov(sp["guaranteed_income_tax_rate"]),
-                     "citation": _cite(sp["guaranteed_income_tax_rate"])})
-    for a in accounts:
-        for field, scope in (("balance", "account-balance"),
-                             ("expected_return", "return-assumption"),
-                             ("effective_tax_rate", "tax-assumption")):
-            register.append({"id": f"account:{a['id']}:{field}", "scope": scope,
-                             "value": _v(a[field]), "provenance": _prov(a[field]),
-                             "citation": _cite(a[field])})
-    for s in streams:
-        register.append({"id": f"guaranteed:{s['id']}:annual_amount", "scope": "guaranteed-income",
-                         "value": _v(s["annual_amount"]), "provenance": _prov(s["annual_amount"]),
-                         "citation": _cite(s["annual_amount"])})
-        register.append({"id": f"guaranteed:{s['id']}:cola", "scope": "guaranteed-income",
-                         "value": _v(s["cola"]), "provenance": _prov(s["cola"]),
-                         "citation": _cite(s["cola"])})
-    if strategy == "fixed_pct" and "fixed_pct" in wd:
-        register.append({"id": "withdrawal:fixed_pct", "scope": "withdrawal-strategy",
-                         "value": fixed_pct, "provenance": _prov(wd["fixed_pct"]),
-                         "citation": _cite(wd["fixed_pct"])})
-
-    # --- reproducibility hash over the numeric assumptions ------------------------------
-    hash_src = json.dumps({
-        "retirement_age": retirement_age, "horizon_age": horizon_age, "current_age": current_age,
-        "annual_need": annual_need, "inflation": inflation_base, "g_tax_rate": g_tax_rate,
-        "accounts": {a: [start_balance[a], exp_return[a], tax_rate[a]] for a in acct_ids},
-        "guaranteed": [[s["id"], _v(s["annual_amount"]), int(s["start_age"]), _v(s["cola"])]
-                       for s in streams],
-        "strategy": strategy, "order": order, "fixed_pct": fixed_pct,
-        "scenario_adjustments": scen_adj,
-    }, sort_keys=True)
-    inputs_hash = hashlib.sha256(hash_src.encode("utf-8")).hexdigest()[:16]
-
+                requested = gross_remaining
+            gross = min(balance, max(D(0), requested))
+            tax = cents(gross * tax_rate)
+            net = gross - tax
+            net_remaining = max(D(0), net_remaining - net)
+            if gross_remaining is not None:
+                gross_remaining = max(D(0), gross_remaining - gross)
+            seq = sequences.get(aid, [])
+            rate = D(seq[year]) if year < len(seq) else D(account["annual_return"]) + D(scenario["return_adjustment"])
+            after = balance - gross
+            gain = cents(after * rate)
+            ending = after + gain
+            balances[aid] = ending
+            account_rows.append(
+                {
+                    "account_id": aid,
+                    "beginning_balance": num(balance),
+                    "gross_withdrawal": num(gross),
+                    "withdrawal_tax": num(tax),
+                    "net_withdrawal": num(net),
+                    "return_rate": num(rate),
+                    "investment_return": num(gain),
+                    "ending_balance": num(ending),
+                    "source_ids": account["source_ids"],
+                }
+            )
+        gross_total = sum((D(r["gross_withdrawal"]) for r in account_rows), D(0))
+        withdraw_tax = sum((D(r["withdrawal_tax"]) for r in account_rows), D(0))
+        net_total = gross_total - withdraw_tax
+        resources = income_net + net_total
+        ending = sum(balances.values(), D(0))
+        returns = sum((D(r["investment_return"]) for r in account_rows), D(0))
+        rows.append(
+            {
+                "age": age,
+                "year_index": year,
+                "beginning_portfolio": num(beginning),
+                "net_spending_need": num(spending),
+                "modeled_income": income_rows,
+                "net_income": num(income_net),
+                "gross_withdrawals": num(gross_total),
+                "withdrawal_tax": num(withdraw_tax),
+                "income_tax": num(income_tax),
+                "total_modeled_tax": num(income_tax + withdraw_tax),
+                "net_withdrawals": num(net_total),
+                "spending_shortfall": num(max(D(0), spending - resources)),
+                "surplus_not_reinvested": num(max(D(0), resources - spending)),
+                "investment_return": num(returns),
+                "ending_portfolio": num(ending),
+                "accounts": account_rows,
+            }
+        )
+    shortfalls = [r for r in rows if r["spending_shortfall"] > 0]
+    depleted = [r for r in rows if r["ending_portfolio"] == 0]
     return {
-        "model_id": f"retire-{str(doc['household_id']).replace('*', '')}-{doc['valuation_date']}-{inputs_hash}",
-        "household_id": doc["household_id"],
-        "as_of": doc["as_of"],
-        "valuation_date": doc["valuation_date"],
-        "currency": doc.get("currency"),
-        "units": doc.get("units"),
-        "config_version": doc.get("config_version"),
-        "inputs_hash": inputs_hash,
-        "current_age": current_age,
-        "retirement_age": retirement_age,
-        "horizon_age": horizon_age,
-        "total_years": total_years,
-        "withdrawal_strategy": strategy,
-        "withdrawal_order": order,
-        "scenarios": scenarios,
-        "assumptions_register": register,
-        "model_checks": {
-            "terminal_monotonic_ok": terminal_monotonic_ok,
-            "shortfall_monotonic_ok": shortfall_monotonic_ok,
-            "all_tieouts_ok": all(all(s["tieouts"].values()) for s in scenarios),
+        "scenario_id": scenario["scenario_id"],
+        "label": scenario["label"],
+        "source_ids": scenario["source_ids"],
+        "annual_rows": rows,
+        "summary": {
+            "terminal_portfolio": rows[-1]["ending_portfolio"],
+            "first_spending_shortfall_age": shortfalls[0]["age"] if shortfalls else None,
+            "total_spending_shortfall": num(sum((D(r["spending_shortfall"]) for r in rows), D(0))),
+            "first_asset_depletion_age": depleted[0]["age"] if depleted else None,
+            "assets_depleted_by_horizon": bool(depleted),
+            "assets_depleted_before_horizon": bool(depleted and depleted[0]["age"] < end),
+            "total_gross_withdrawals": num(sum((D(r["gross_withdrawals"]) for r in rows), D(0))),
+            "total_modeled_tax": num(sum((D(r["total_modeled_tax"]) for r in rows), D(0))),
+            "total_surplus_not_reinvested": num(sum((D(r["surplus_not_reinvested"]) for r in rows), D(0))),
         },
-        "disclaimer": DISCLAIMER,
     }
+
+
+def inspect(doc):
+    errors = validate_envelope(doc)
+    if errors:
+        return errors, [], {}
+    c = Check(doc)
+    c.upstream()
+    c.choice(doc.get("currency"), "currency", {"USD"})
+    projection = c.obj(doc.get("projection"), "projection")
+    start = c.number(projection.get("start_age"), "projection.start_age", 18, 110, True)
+    end = c.number(projection.get("end_age"), "projection.end_age", 18, 120, True)
+    if start is not None and end is not None and end < start:
+        c.errors.append("projection.end_age must not precede start_age")
+    c.choice(projection.get("opening_balance_basis"), "projection.opening_balance_basis", {"current-at-as-of"})
+    opened = c.date(projection.get("opening_balance_date"), "projection.opening_balance_date")
+    if opened and projection["opening_balance_date"] != doc["as_of"]:
+        c.gap(
+            "projection.opening_balance_date",
+            "Opening balances must be valued at as_of, when the first modeled retirement year starts",
+            "opening-date-mismatch",
+        )
+    c.sources(projection, "projection")
+    spending = c.obj(doc.get("spending"), "spending")
+    c.amount(spending.get("annual_net_amount"), "spending.annual_net_amount")
+    c.number(spending.get("annual_inflation"), "spending.annual_inflation", -0.5, 1)
+    c.sources(spending, "spending")
+    model = c.obj(doc.get("model"), "model")
+    c.text(model.get("version"), "model.version")
+    c.choice(model.get("tax_method"), "model.tax_method", {"effective-withdrawal-rate-proxy"})
+    c.choice(
+        model.get("benefit_method"), "model.benefit_method", {"supplied-income-schedules-no-entitlement-calculation"}
+    )
+    c.sources(model, "model")
+    limitations = c.rows(model.get("limitations"), "model.limitations")
+    topics = c.unique(limitations, "topic", "model.limitations")
+    if topics != TOPICS:
+        c.gap(
+            "model.limitations",
+            "Explicitly account for every required tax, RMD, benefits, survivor and healthcare limitation",
+            "model-scope-incomplete",
+        )
+    for i, row in enumerate(limitations):
+        path = f"model.limitations[{i}]"
+        c.choice(row.get("topic"), path + ".topic", TOPICS)
+        c.text(row.get("description"), path + ".description")
+        c.sources(row, path)
+        treatment = (
+            "included-only-in-supplied-spending"
+            if row.get("topic") == "healthcare-and-long-term-care"
+            else "not-modeled"
+        )
+        c.choice(row.get("treatment"), path + ".treatment", {treatment})
+    accounts = c.rows(doc.get("accounts"), "accounts")
+    aids = c.unique(accounts, "account_id", "accounts")
+    for i, row in enumerate(accounts):
+        path = f"accounts[{i}]"
+        kind = c.choice(row.get("type"), path + ".type", {"taxable", "tax-deferred", "tax-free"})
+        c.amount(row.get("balance"), path + ".balance")
+        c.number(row.get("annual_return"), path + ".annual_return", -0.99, 1)
+        tax = c.number(row.get("effective_withdrawal_tax_rate"), path + ".effective_withdrawal_tax_rate", 0, 0.95)
+        c.sources(row, path)
+        if kind == "tax-free" and tax is not None and tax != 0:
+            c.errors.append(path + " tax-free account requires zero effective withdrawal tax in this simplified model")
+    incomes = c.rows(doc.get("income"), "income", True)
+    c.unique(incomes, "income_id", "income")
+    for i, row in enumerate(incomes):
+        path = f"income[{i}]"
+        c.text(row.get("label"), path + ".label")
+        c.amount(row.get("annual_gross_at_start"), path + ".annual_gross_at_start")
+        first = c.number(row.get("start_age"), path + ".start_age", 18, 120, True)
+        last = c.number(row.get("end_age"), path + ".end_age", 18, 120, True)
+        if first is not None and last is not None and last < first:
+            c.errors.append(path + " end_age precedes start_age")
+        c.number(row.get("annual_cola"), path + ".annual_cola", -0.5, 1)
+        c.number(row.get("effective_tax_rate"), path + ".effective_tax_rate", 0, 0.95)
+        c.sources(row, path)
+    policy = c.obj(doc.get("withdrawal_policy"), "withdrawal_policy")
+    strategy = c.choice(policy.get("strategy"), "withdrawal_policy.strategy", {"spending-gap", "fixed-percentage"})
+    if strategy == "fixed-percentage":
+        c.number(policy.get("annual_percentage"), "withdrawal_policy.annual_percentage", 0, 1)
+    elif "annual_percentage" in policy and policy["annual_percentage"] is not None:
+        c.errors.append("spending-gap does not consume annual_percentage; omit it to avoid an ignored assumption")
+    order = c.strings(policy.get("account_order"), "withdrawal_policy.account_order")
+    if set(order) != aids:
+        c.gap(
+            "withdrawal_policy.account_order",
+            "Order must name every account exactly once",
+            "withdrawal-account-mismatch",
+        )
+    c.sources(policy, "withdrawal_policy")
+    scenarios = c.rows(doc.get("scenarios"), "scenarios")
+    sids = c.unique(scenarios, "scenario_id", "scenarios")
+    if "base" not in sids:
+        c.gap(
+            "scenarios", "Include a base scenario with zero adjustments and no return override", "missing-base-scenario"
+        )
+    for i, row in enumerate(scenarios):
+        path = f"scenarios[{i}]"
+        c.text(row.get("label"), path + ".label")
+        c.sources(row, path)
+        delta = c.number(row.get("return_adjustment"), path + ".return_adjustment", -1, 1)
+        inf = c.number(row.get("inflation_adjustment"), path + ".inflation_adjustment", -1, 1)
+        seqs = c.rows(row.get("return_sequences"), path + ".return_sequences", True)
+        c.unique(seqs, "account_id", path + ".return_sequences")
+        if row.get("scenario_id") == "base" and (delta not in (0, None) or inf not in (0, None) or seqs):
+            c.errors.append("base scenario must have zero adjustments and no return overrides")
+        if (
+            isinstance(spending.get("annual_inflation"), (int, float))
+            and inf is not None
+            and not -0.99 <= spending["annual_inflation"] + inf <= 1
+        ):
+            c.errors.append(path + " combined inflation must be in [-0.99,1]")
+        for a in accounts:
+            if (
+                isinstance(a.get("annual_return"), (int, float))
+                and delta is not None
+                and not -0.99 <= a["annual_return"] + delta <= 1
+            ):
+                c.errors.append(path + " adjusted annual return must be in [-0.99,1]")
+        for j, seq in enumerate(seqs):
+            sp = f"{path}.return_sequences[{j}]"
+            c.sources(seq, sp)
+            if seq.get("account_id") not in aids:
+                c.gap(sp, "Return sequence names unknown account", "unknown-account")
+            vals = seq.get("annual_returns")
+            if vals is None:
+                c.gap(sp + ".annual_returns", "Explicit annual return sequence is required")
+            elif not isinstance(vals, list):
+                c.errors.append(sp + ".annual_returns must be a list")
+            else:
+                if start is not None and end is not None and len(vals) > end - start + 1:
+                    c.errors.append(sp + " contains ignored return years beyond horizon")
+                if not vals:
+                    c.gap(sp + ".annual_returns", "An override must supply at least one annual return")
+                for k, val in enumerate(vals):
+                    c.number(val, f"{sp}.annual_returns[{k}]", -0.99, 1)
+    if c.errors:
+        return c.errors, c.findings, {}
+    results = []
+    shared_ready = all(
+        c.ready(p) for p in ["currency", "projection", "spending", "model", "accounts", "income", "withdrawal_policy"]
+    )
+    for i, scenario in enumerate(scenarios):
+        if shared_ready and c.ready(f"scenarios[{i}]"):
+            result = simulate(doc, scenario)
+            results.append(result)
+            if result["summary"]["first_spending_shortfall_age"] is not None:
+                c.gap(
+                    f"scenarios[{i}]",
+                    "Modeled spending shortfall requires human planning review; it is distinct from asset depletion",
+                    "modeled-spending-shortfall",
+                )
+        else:
+            results.append({"scenario_id": scenario.get("scenario_id"), "model_status": "not-evaluable"})
+    return (
+        [],
+        c.findings,
+        {
+            "currency": doc.get("currency"),
+            "model_status": "modeled" if results and all("annual_rows" in r for r in results) else "incomplete",
+            "projection": projection,
+            "spending": spending,
+            "model": model,
+            "withdrawal_policy": policy,
+            "scenario_assumptions": scenarios,
+            "scenarios": results,
+            "calculation_convention": "Annual spending and withdrawals at period start; net-of-fee returns afterward. Income COLA starts from its own start_age. Monetary rows rounded to cents.",
+            "standing_note": "Deterministic illustrations, not probabilities or benefit/tax advice. Flat effective tax rates are supplied modeling proxies, not statutory capital-gains rates. RMD compliance, benefit eligibility and survivor outcomes are not calculated. Surplus income is reported and excluded from portfolio reinvestment. Human review required.",
+        },
+    )
+
+
+def compute(doc):
+    errors, findings, result = inspect(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
+    result["upstream_issues"] = doc.get("upstream_issues")
+    out = make_output(SKILL, doc, result, findings)
+    out["input_snapshot"] = doc
+    return out
 
 
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "retirement_input_example.json"
-        doc = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        doc = json.loads(sys.stdin.read())
-    print(json.dumps(compute(doc), indent=2))
-    return 0
+    path = (
+        Path(__file__).resolve().parents[1] / "evals/files/request_example.json"
+        if "--selftest" in argv
+        else Path(argv[0])
+        if argv
+        else None
+    )
+    try:
+        print(json.dumps(compute(json.loads(path.read_text() if path else sys.stdin.read())), indent=2))
+        return 0
+    except (ValueError, TypeError, KeyError, OverflowError) as exc:
+        print("ERROR", exc)
+        return 1
 
 
 if __name__ == "__main__":

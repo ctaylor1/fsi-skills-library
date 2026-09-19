@@ -49,10 +49,10 @@ do next — the decision, and any action, remains human.
   a **dispute filed**, or a **SAR** → out of scope. Provide evidence and route to the human
   reviewer / authorized system; for SAR narrative drafting route to
   `suspicious-activity-report-drafter` (which itself is draft-only).
-- **Card-network chargeback/dispute** packaging → `chargeback-dispute-packager` (merchant)
-  or `dispute-operations-assistant` (issuer/acquirer).
+- **Card-network chargeback/dispute** packaging → `merchant-chargeback-response-packager` (merchant)
+  or `issuer-payment-dispute-reviewer` (issuer/consumer-error review); merchant/acquirer representment → `merchant-chargeback-response-packager`.
 - **Payment-fraud case investigation** with device/beneficiary network evidence →
-  `payment-fraud-case-investigator`.
+  `payment-fraud-and-scam-investigator`.
 - General "explain this transaction" with no anomaly question → `trade-confirmation-explainer`
   or `bank-statement-analyzer`.
 

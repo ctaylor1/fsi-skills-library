@@ -11,7 +11,7 @@ description: >-
   "best"/"better" product; fail closed on any stale, superseded, unapproved, not-yet-effective,
   or unknown product content (emit no comparison; list the block reason). Read-only; not
   advice or a suitability determination. Route recommendation review to a human and to
-  suitability-reg-bi-reviewer.
+  investment-recommendation-evidence-reviewer.
 license: MIT
 compatibility: Amazon Quick Desktop; requires controlled-content-library/product-catalog, approved-disclosure-retrieval, entity-resolution, and data-governance freshness MCP integrations (all read-only).
 metadata:
@@ -56,7 +56,7 @@ product.
 - The user wants a **recommendation, suitability call, or needs assessment** ("which should
   the customer pick?", "which is best for them?", "is this suitable?") → **out of scope**.
   Present the factual comparison only; the human decides, and a documented recommendation
-  goes to `suitability-reg-bi-reviewer`.
+  goes to `investment-recommendation-evidence-reviewer`.
 - The user wants **treasury/cash-management services recommended** from a commercial
   customer's cash flows → `commercial-cash-management-advisor`.
 - The user wants a **specific existing account's posted fees** identified and compared to

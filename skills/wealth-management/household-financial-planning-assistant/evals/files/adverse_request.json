@@ -1,0 +1,144 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "synthetic-plan-2026-09-16",
+  "household_id": "HH-SYNTHETIC",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "client",
+      "reference": "synthetic:client-discovery@v1",
+      "owner": "Synthetic household",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "model",
+      "reference": "synthetic:planning-methods@v1",
+      "owner": "Synthetic model owner; not firm approval",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "custody",
+      "reference": "synthetic:account-balances@v1",
+      "owner": "Synthetic custodian",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "currency": "USD",
+  "mode": "household_plan",
+  "assumptions": {
+    "version": "synthetic-v1",
+    "return_convention": "nominal-rate-monthly-net-of-fees-and-modeled-tax",
+    "nominal_annual_return": 0,
+    "annual_inflation": 0,
+    "extension_limit_months": 600,
+    "at_risk_ratio": 0.85,
+    "source_ids": [
+      "model"
+    ]
+  },
+  "asset_pools": [
+    {
+      "pool_id": "P1",
+      "account_ids": [
+        "A1"
+      ],
+      "balance": 10000,
+      "reserved_amount": 2000,
+      "source_ids": [
+        "custody"
+      ]
+    }
+  ],
+  "goals": [
+    {
+      "goal_id": "G1",
+      "label": "Emergency home repair",
+      "priority": 1,
+      "target_amount": 10000,
+      "target_date": "2027-09-16",
+      "target_basis": "nominal",
+      "monthly_contribution": 500,
+      "allocations": [
+        {
+          "pool_id": "P1",
+          "amount": 6000,
+          "source_ids": [
+            "client"
+          ]
+        }
+      ],
+      "source_ids": [
+        "client"
+      ]
+    },
+    {
+      "goal_id": "G2",
+      "label": "Education",
+      "priority": 2,
+      "target_amount": 10000,
+      "target_date": "2028-09-16",
+      "target_basis": "as_of_real",
+      "monthly_contribution": 250,
+      "allocations": [
+        {
+          "pool_id": "P1",
+          "amount": 4000,
+          "source_ids": [
+            "client"
+          ]
+        }
+      ],
+      "source_ids": [
+        "client"
+      ]
+    }
+  ],
+  "cash_flow": {
+    "expense_basis": "excludes-debt-goals-reserve;income-after-tax",
+    "income": [
+      {
+        "item_id": "I1",
+        "label": "Net salary",
+        "monthly_amount": 6000,
+        "source_ids": [
+          "client"
+        ]
+      }
+    ],
+    "expenses": [
+      {
+        "item_id": "E1",
+        "label": "Living costs excluding debt and savings",
+        "monthly_amount": 4000,
+        "source_ids": [
+          "client"
+        ]
+      }
+    ],
+    "monthly_reserve_contribution": 250,
+    "source_ids": [
+      "client"
+    ]
+  },
+  "debts": [
+    {
+      "debt_id": "D1",
+      "label": "Fixed loan",
+      "balance": 1200,
+      "apr": 0,
+      "minimum_monthly_payment": 100,
+      "additional_monthly_payment": 0,
+      "source_ids": [
+        "client"
+      ]
+    }
+  ],
+  "upstream_issues": []
+}

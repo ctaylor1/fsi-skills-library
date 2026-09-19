@@ -1,0 +1,654 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-integration-readiness-reviewer",
+  "request_id": "readiness-missing-lost",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "Synthetic Community Bank",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "readiness-missing-lost",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "Synthetic Community Bank",
+    "sources": [
+      {
+        "source_id": "independent-bank-packet",
+        "reference": "synthetic://independently-authored-bank-packet-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "design": {
+        "mode": "active-active",
+        "release_version": "CB-2026.09.18-rc2",
+        "component_scope": [
+          "cloud-hub",
+          "durable-outbox",
+          "mainframe-ledger"
+        ],
+        "business_flow": "Customer credit transfer with authoritative ledger posting",
+        "owner": "Bank platform owner",
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      "controls": {
+        "financial_owner": "Mainframe ledger single writer",
+        "writer_fence": "Epoch lease checked on every financial commit",
+        "fence_authority": "Quorum-controlled epoch registry",
+        "idempotency_scope": "Entity account instruction key and immutable payload hash",
+        "key_retention": "Retained through longest retry and recovery horizon",
+        "atomic_commit_boundary": "Posting and idempotency outcome in one durable commit",
+        "status_authority": "Mainframe ledger outcome by original ID",
+        "reconciliation_owner": "Settlement operations",
+        "ledger_invariant": "Balanced entries and at most one instruction effect",
+        "fenced_financial_writes": true,
+        "payload_conflict_behavior": "reject-conflict",
+        "uncertain_outcome_strategy": "status-then-reconcile",
+        "partition_policy": "fence-isolated-writer",
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      "migration": {
+        "inflight_inventory_ref": "synthetic-inflight19",
+        "cutover_owner": "Change owner",
+        "entry_gate": "Negative paths reviewed and inventory reconciled",
+        "exit_gate": "No unowned payments; unexplained balances investigated",
+        "rollback_boundary": "New intake routing only; preserve durable money",
+        "reconciliation_scope": "Original payment IDs and both ledgers",
+        "support_owner": "Payments support commander",
+        "rollback_mode": "reroute-new-intake-preserve-effects",
+        "source_ids": [
+          "independent-bank-packet"
+        ]
+      },
+      "test_artifacts": [
+        {
+          "artifact_id": "independent-active-active-duplicate-event",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "duplicate-event",
+          "steps": [
+            {
+              "step_id": "duplicate-event-1",
+              "action": "Deliver payment9 twice with stable key and changed-payload third attempt",
+              "observed": "One posting; changed payload rejected",
+              "evidence_ref": "synthetic-event-trace:duplicate-event"
+            }
+          ],
+          "observations": {
+            "financial_effect_count": 1,
+            "payload_conflict_rejected": true
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-duplicate-event",
+            "scope_hash": "19bfb8f69c261f229633ded6409c014e830a88ce44197264eaace8bd2a47af12"
+          }
+        },
+        {
+          "artifact_id": "independent-active-active-delayed-event",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "delayed-event",
+          "steps": [
+            {
+              "step_id": "delayed-event-1",
+              "action": "Deliver payment10 after timeout while retaining original ID",
+              "observed": "Original identity correlated, no second instruction",
+              "evidence_ref": "synthetic-event-trace:delayed-event"
+            }
+          ],
+          "observations": {
+            "late_event_retained": true,
+            "original_identity_preserved": true
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-delayed-event",
+            "scope_hash": "a3ff16416ee2d7c506923da1df806af56d7613b2ef297a34daa3999861910720"
+          }
+        },
+        {
+          "artifact_id": "independent-active-active-out-of-order",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "out-of-order",
+          "steps": [
+            {
+              "step_id": "out-of-order-1",
+              "action": "Deliver submitted after settled",
+              "observed": "Ledger remains balanced and no state regression",
+              "evidence_ref": "synthetic-event-trace:out-of-order"
+            }
+          ],
+          "observations": {
+            "state_regression_blocked": true,
+            "ledger_balance_preserved": true
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-out-of-order",
+            "scope_hash": "da0541503e8fcc6bf7e76861caeaf262388ee4f18b07940003403fd6925ee847"
+          }
+        },
+        {
+          "artifact_id": "independent-active-active-crash-after-commit",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "crash-after-commit",
+          "steps": [
+            {
+              "step_id": "crash-after-commit-1",
+              "action": "Kill mainframe response after durable posting",
+              "observed": "Restart recovers original posting result without new effect",
+              "evidence_ref": "synthetic-event-trace:crash-after-commit"
+            }
+          ],
+          "observations": {
+            "financial_effect_count": 1,
+            "durable_result_recovered": true
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-crash-after-commit",
+            "scope_hash": "b76166a6b6257d482cfd4e496e0999f61b82515dd41589ea838cd572f8f19917"
+          }
+        },
+        {
+          "artifact_id": "independent-active-active-network-partition",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "network-partition",
+          "steps": [
+            {
+              "step_id": "network-partition-1",
+              "action": "Partition cloud writer from financial authority",
+              "observed": "Isolated writer fenced; one financial posting",
+              "evidence_ref": "synthetic-event-trace:network-partition"
+            }
+          ],
+          "observations": {
+            "isolated_writer_fenced": true,
+            "financial_effect_count": 1
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-network-partition",
+            "scope_hash": "3eaff0847d9b1e793a959fb09c1c788f4b45d60c83d93aee43884e0623444193"
+          }
+        },
+        {
+          "artifact_id": "independent-active-active-uncertain-money",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "uncertain-money",
+          "steps": [
+            {
+              "step_id": "uncertain-money-1",
+              "action": "Drop response and delay ledger view",
+              "observed": "No blind resend; status/reconciliation retain unresolved case",
+              "evidence_ref": "synthetic-event-trace:uncertain-money"
+            }
+          ],
+          "observations": {
+            "status_checked": true,
+            "reconciliation_performed": true,
+            "blind_resends": 0,
+            "unresolved_outcomes_retained": true
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-uncertain-money",
+            "scope_hash": "3281317603ab1c54abcd913c05dec5f43d6915ae380ee2e380b814db2799d580"
+          }
+        },
+        {
+          "artifact_id": "independent-active-active-cutover-inflight",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "cutover-inflight",
+          "steps": [
+            {
+              "step_id": "cutover-inflight-1",
+              "action": "Cut over new intake with19payments pending on old route",
+              "observed": "Inventory19 matched to one owner each",
+              "evidence_ref": "synthetic-event-trace:cutover-inflight"
+            }
+          ],
+          "observations": {
+            "exactly_one_financial_owner": true,
+            "inflight_inventory_tied_out": true
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-cutover-inflight",
+            "scope_hash": "ea7d07fd792c9a09b07a0932ddf585504ddc7b2b9a3b377787038bd2cbcc2cc6"
+          }
+        },
+        {
+          "artifact_id": "independent-active-active-rollback",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "rollback",
+          "steps": [
+            {
+              "step_id": "rollback-1",
+              "action": "Roll back cloud routing after7settled and12pending",
+              "observed": "Only new intake reroutes; old effects and pending owner remain",
+              "evidence_ref": "synthetic-event-trace:rollback"
+            }
+          ],
+          "observations": {
+            "settled_entries_preserved": true,
+            "new_intake_rerouted_only": true,
+            "outstanding_ownership_preserved": true
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-rollback",
+            "scope_hash": "07e08f42a5ed80a41b985cf9ffca9c4f8947a6e6ad4ceb6a69b7cb525c5542d8"
+          }
+        },
+        {
+          "artifact_id": "independent-active-active-recovery-support",
+          "release_version": "CB-2026.09.18-rc2",
+          "mode": "active-active",
+          "component_scope": [
+            "cloud-hub",
+            "durable-outbox",
+            "mainframe-ledger"
+          ],
+          "scenario": "recovery-support",
+          "steps": [
+            {
+              "step_id": "recovery-support-1",
+              "action": "Trigger reconciliation break at handoff boundary",
+              "observed": "Named owner receives exception; monitoring alert and support acknowledged",
+              "evidence_ref": "synthetic-event-trace:recovery-support"
+            }
+          ],
+          "observations": {
+            "reconciliation_breaks_owned": true,
+            "support_handoff_exercised": true,
+            "monitoring_alert_observed": true
+          },
+          "claimed_result": "pass",
+          "source_ids": [
+            "independent-bank-packet"
+          ],
+          "inspection": {
+            "status": "inspected",
+            "reviewer": "Synthetic independent test witness",
+            "reviewed_on": "2026-09-18",
+            "result_ref": "synthetic-observation:independent-active-active-recovery-support",
+            "scope_hash": "1dc65e1e6b9c778b4aae9dd994044f68d68b02a68767940fc21bde2178a54f03"
+          }
+        }
+      ]
+    }
+  },
+  "input_hash": "839193c428336d3660da92f68744f4311c6b535f1c03ff7d7465315ebd51b80d",
+  "findings": [
+    {
+      "code": "negative-path-unresolved",
+      "message": "Negative path needs complete inspected evidence: lost-event",
+      "source_ids": [],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "module": "active-active",
+    "release_version": "CB-2026.09.18-rc2",
+    "design": {
+      "mode": "active-active",
+      "release_version": "CB-2026.09.18-rc2",
+      "component_scope": [
+        "cloud-hub",
+        "durable-outbox",
+        "mainframe-ledger"
+      ],
+      "business_flow": "Customer credit transfer with authoritative ledger posting",
+      "owner": "Bank platform owner",
+      "source_ids": [
+        "independent-bank-packet"
+      ]
+    },
+    "control_assessment": {
+      "financial_owner": "Mainframe ledger single writer",
+      "writer_fence": "Epoch lease checked on every financial commit",
+      "fence_authority": "Quorum-controlled epoch registry",
+      "idempotency_scope": "Entity account instruction key and immutable payload hash",
+      "key_retention": "Retained through longest retry and recovery horizon",
+      "atomic_commit_boundary": "Posting and idempotency outcome in one durable commit",
+      "status_authority": "Mainframe ledger outcome by original ID",
+      "reconciliation_owner": "Settlement operations",
+      "ledger_invariant": "Balanced entries and at most one instruction effect",
+      "fenced_financial_writes": true,
+      "payload_conflict_behavior": "reject-conflict",
+      "uncertain_outcome_strategy": "status-then-reconcile",
+      "partition_policy": "fence-isolated-writer",
+      "source_ids": [
+        "independent-bank-packet"
+      ]
+    },
+    "migration_assessment": {
+      "inflight_inventory_ref": "synthetic-inflight19",
+      "cutover_owner": "Change owner",
+      "entry_gate": "Negative paths reviewed and inventory reconciled",
+      "exit_gate": "No unowned payments; unexplained balances investigated",
+      "rollback_boundary": "New intake routing only; preserve durable money",
+      "reconciliation_scope": "Original payment IDs and both ledgers",
+      "support_owner": "Payments support commander",
+      "rollback_mode": "reroute-new-intake-preserve-effects",
+      "source_ids": [
+        "independent-bank-packet"
+      ]
+    },
+    "artifact_assessments": [
+      {
+        "artifact_id": "independent-active-active-duplicate-event",
+        "scenario": "duplicate-event",
+        "scope_hash": "19bfb8f69c261f229633ded6409c014e830a88ce44197264eaace8bd2a47af12",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "financial_effect_count": 1,
+          "payload_conflict_rejected": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "independent-active-active-delayed-event",
+        "scenario": "delayed-event",
+        "scope_hash": "a3ff16416ee2d7c506923da1df806af56d7613b2ef297a34daa3999861910720",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "late_event_retained": true,
+          "original_identity_preserved": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "independent-active-active-out-of-order",
+        "scenario": "out-of-order",
+        "scope_hash": "da0541503e8fcc6bf7e76861caeaf262388ee4f18b07940003403fd6925ee847",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "state_regression_blocked": true,
+          "ledger_balance_preserved": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "independent-active-active-crash-after-commit",
+        "scenario": "crash-after-commit",
+        "scope_hash": "b76166a6b6257d482cfd4e496e0999f61b82515dd41589ea838cd572f8f19917",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "financial_effect_count": 1,
+          "durable_result_recovered": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "independent-active-active-network-partition",
+        "scenario": "network-partition",
+        "scope_hash": "3eaff0847d9b1e793a959fb09c1c788f4b45d60c83d93aee43884e0623444193",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "isolated_writer_fenced": true,
+          "financial_effect_count": 1
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "independent-active-active-uncertain-money",
+        "scenario": "uncertain-money",
+        "scope_hash": "3281317603ab1c54abcd913c05dec5f43d6915ae380ee2e380b814db2799d580",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "status_checked": true,
+          "reconciliation_performed": true,
+          "blind_resends": 0,
+          "unresolved_outcomes_retained": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "independent-active-active-cutover-inflight",
+        "scenario": "cutover-inflight",
+        "scope_hash": "ea7d07fd792c9a09b07a0932ddf585504ddc7b2b9a3b377787038bd2cbcc2cc6",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "exactly_one_financial_owner": true,
+          "inflight_inventory_tied_out": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "independent-active-active-rollback",
+        "scenario": "rollback",
+        "scope_hash": "07e08f42a5ed80a41b985cf9ffca9c4f8947a6e6ad4ceb6a69b7cb525c5542d8",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "settled_entries_preserved": true,
+          "new_intake_rerouted_only": true,
+          "outstanding_ownership_preserved": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      },
+      {
+        "artifact_id": "independent-active-active-recovery-support",
+        "scenario": "recovery-support",
+        "scope_hash": "1dc65e1e6b9c778b4aae9dd994044f68d68b02a68767940fc21bde2178a54f03",
+        "status": "supplied-artifact-inspected",
+        "observations": {
+          "reconciliation_breaks_owned": true,
+          "support_handoff_exercised": true,
+          "monitoring_alert_observed": true
+        },
+        "issues": [],
+        "live_test_executed": false
+      }
+    ],
+    "negative_path_coverage": [
+      {
+        "scenario": "duplicate-event",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "lost-event",
+        "artifact_count": 0,
+        "evidence_satisfied": false
+      },
+      {
+        "scenario": "delayed-event",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "out-of-order",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "crash-after-commit",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "network-partition",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "uncertain-money",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "cutover-inflight",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "rollback",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      },
+      {
+        "scenario": "recovery-support",
+        "artifact_count": 1,
+        "evidence_satisfied": true
+      }
+    ],
+    "evidence_basis": "inline records inspected against explicit invariants; source identity and test execution not authenticated",
+    "go_live_authorized": false,
+    "resilience_certified": false,
+    "deployment_executed": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-service-incident-investigator",
+      "reason": "Investigate operational failures and uncertain payment outcomes before closing readiness gaps.",
+      "required_inputs": [
+        "version-bound test failures and incident timeline",
+        "unique payment outcome inventory",
+        "reconciliation evidence"
+      ],
+      "handoff_id": "dea48f152d7fe885306e0dbe32f4b06801f94f01d19948976bc0474a55db3385",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-integration-readiness-reviewer",
+      "case_id": "readiness-missing-lost",
+      "lead_owner": "Synthetic Community Bank",
+      "requested_output": "Investigate operational failures and uncertain payment outcomes before closing readiness gaps.",
+      "source_refs": [
+        "synthetic://independently-authored-bank-packet-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "negative-path-unresolved",
+          "message": "Negative path needs complete inspected evidence: lost-event",
+          "source_ids": [],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "This is a scoped offline artifact review, not a chaos test runner, production certification or independent source authentication. Baseline scenarios are library review criteria and cannot establish scheme or regulatory compliance."
+  ]
+}

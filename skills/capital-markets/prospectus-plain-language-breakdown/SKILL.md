@@ -60,7 +60,7 @@ solicitation, suitability judgment, or offer**.
   "is this a good fund", "will it go up", "buy or not" → out of scope; do not answer with a
   view. Offer the informational breakdown instead.
 - The user asks whether the offering is **suitable** for them or their client, or asks for a
-  Reg BI / best-interest judgment → route to `suitability-reg-bi-reviewer`.
+  Reg BI / best-interest judgment → route to `investment-recommendation-evidence-reviewer`.
 - The user wants a **personalized risk/diversification opinion** on their portfolio →
   `portfolio-risk-diversification-check` (educational, non-advice).
 - The user wants a **fee reasonableness / benchmarking** conclusion (not just what the fees

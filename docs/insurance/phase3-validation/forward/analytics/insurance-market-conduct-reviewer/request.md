@@ -1,0 +1,1 @@
+Review these acknowledgement records against our internal five-day control, distinguish explicit pending from missing status, and reconcile the population KPI. Explain owners and next evidence; do not opine on legal compliance or infer population prevalence from our sample.

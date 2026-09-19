@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "request_id": "SYNTH-CREDENTIAL-1",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "merchant",
+  "sources": [
+    {
+      "source_id": "S1",
+      "reference": "synthetic://credential-ledger",
+      "as_of": "2026-09-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "credentials": [
+      {
+        "credential_id": "opaque-C1",
+        "kind": "network-token",
+        "state": "active",
+        "scope": {
+          "merchant_ref": "M-1",
+          "token_requestor_ref": "TR-1"
+        },
+        "valid_from": "2026-01-01",
+        "valid_until": "2026-12-31",
+        "provisioning": {
+          "identity_review_ref": "review-id",
+          "consent_ref": "consent1",
+          "account_binding_ref": "account-link"
+        },
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "authentications": [
+      {
+        "authentication_id": "A1",
+        "protocol": "3ds",
+        "result": "authenticated",
+        "binding": {
+          "instruction_id": "I-1",
+          "payer_ref": "P-1",
+          "payee_ref": "M-1",
+          "currency": "GBP",
+          "amount": "40.00"
+        },
+        "source_ids": [
+          "S1"
+        ],
+        "credential_id": "opaque-C1",
+        "valid_from": "2026-09-18",
+        "valid_until": "2026-09-18"
+      }
+    ],
+    "requests": [
+      {
+        "operation_id": "USE1",
+        "credential_id": "opaque-C1",
+        "action": "use",
+        "scope": {
+          "merchant_ref": "M-1",
+          "token_requestor_ref": "TR-1"
+        },
+        "binding": {
+          "instruction_id": "I-1",
+          "payer_ref": "P-1",
+          "payee_ref": "M-1",
+          "currency": "GBP",
+          "amount": "40.00"
+        },
+        "authentication_id": "A1",
+        "payment_intent_ref": "intent1",
+        "authentication_applicability_review_ref": "scope-review",
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ]
+  }
+}

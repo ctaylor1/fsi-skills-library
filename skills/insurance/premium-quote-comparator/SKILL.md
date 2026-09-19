@@ -1,37 +1,34 @@
 ---
 name: premium-quote-comparator
-description: >-
-  Normalize two or more insurance quotes to a common annualized basis and compare them
-  side-by-side on premium, fees, deductibles, limits, exclusions, endorsements, and service
-  factors, surfacing every material difference that makes the quotes non-like-for-like. Use
-  when a consumer, agent, or broker asks "compare these quotes", "which is cheaper and why",
-  "normalize these premiums", "what's different between Carrier A and B", or needs a
-  reviewer-ready quote comparison from producer/rating data or quote PDFs. This skill
-  compares and evidences differences only; it NEVER recommends or selects a policy, gives
-  insurance/suitability advice, judges coverage adequacy, or makes a coverage/eligibility
-  determination — those are the customer's decision with a licensed producer.
+description: "Normalize two or more P&C insurance quotes to a common annualized basis and compare them side-by-side on premium, fees, deductibles, limits, exclusions, endorsements, and service factors, surfacing every material difference that makes the quotes non-like-for-like. Use when a consumer, agent, or broker asks \"compare these quotes\", \"which is cheaper and why\", \"normalize these premiums\", \"what's different between Carrier A and B\", or needs a reviewer-ready quote comparison from producer/rating data or quote PDFs. This skill compares and evidences differences only; it NEVER recommends or selects a policy, gives insurance/suitability advice, judges coverage adequacy, or makes a coverage/eligibility determination — those are the customer's decision with a licensed producer."
 license: MIT
-compatibility: Amazon Quick Desktop; requires producer/rating, policy-administration, document-intelligence, and approved-reference/config MCP integrations (all read-only).
+compatibility: Python 3.10+; offline structured inputs and supplied source evidence. Expected source systems are not bundled production connectors.
 metadata:
   aws-fsi-category: "Insurance"
   aws-fsi-skill-type: "Guidance or domain-expertise skills"
   aws-fsi-risk-tier: "R2"
   aws-fsi-archetype: "Domain workflow"
   aws-fsi-agent-pattern: "Interactive decision-support copilot"
-  aws-fsi-delivery-wave: "Wave 1 - stabilize existing"
+  aws-fsi-delivery-wave: "Insurance Phase 1"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
   aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (customer NPI/PII)"
-  aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
-  aws-fsi-owner: "Insurance underwriting & claims"
+  aws-fsi-jurisdictions: "Reviewed target-specific jurisdiction/product profiles required; fixture coverage is not global applicability"
+  aws-fsi-owner: "Insurance distribution and product comparison"
   aws-fsi-primary-user: "Consumer / agent or broker"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-18"
 ---
 
 # Premium Quote Comparator
+
+## Implemented scope and evidence contract
+
+The implemented comparison covers annualized P&C payment schedules, not life/annuity illustrations. Every material comparability flag suppresses the overall lowest-cost ID and cost spread (`null`); display individual amounts with their original currencies and source dates. Do not use the batch date as a quote source date. A missing limit or deductible prevents overall comparability even when the other value is supplied; unknown values are not proof that coverage is absent. Service factors remain unscored quoted context.
+
+All output artifacts include the portable insurance evidence contract and source snapshot. Missing actor, versioned source, date or upstream context remains explicitly partial. Content hashes detect changes; they do not authenticate sources or grant approval. After authoring narrative, rebuild `artifact` with `build_artifact` from `scripts/insurance_contract.py` before running output validation. A common envelope does not replace the receiver's native input validator.
 
 ## Purpose and outcome
 Given two or more insurance quotes, **normalize** each to a common 12-month annualized basis,
@@ -59,7 +56,7 @@ reflects a higher deductible, a lower limit, a dropped coverage, or an extra exc
 - **Explain one** policy or quote document in depth → `policy-document-explainer`.
 - **Expiring-vs-proposed renewal** review of an in-force policy → `policy-renewal-reviewer`.
 - Raw broker emails / ACORD / PDFs that must first be **ingested and structured** →
-  `submission-intake-triager`, then return here.
+  `insurance-submission-preparer`, then return here.
 
 ## Adjacent-skill handoffs
 See [references/handoffs.md](references/handoffs.md). This skill emits a comparison with a
@@ -95,7 +92,7 @@ normalization multipliers. Cite every figure and difference to its source quote.
 4. **Enumerate differences** — coverage, deductible, limit, exclusion, endorsement, and term
    differences, each naming the affected quotes.
 5. **Raise comparability flags** — for every material difference, so the lowest cost is never
-   read in isolation. Report the lowest annualized cost as a **fact**, not a suggestion.
+   read in isolation. Report a lowest annualized cost only when there are no material comparability flags; otherwise suppress aggregate ranking and spread.
 6. **Write the comparison** — plain-language side-by-side + the grid + the differences + the
    flags + explicit non-cost factors to weigh (limits, deductibles, exclusions, service
    factors). No recommendation.
@@ -142,16 +139,20 @@ comparison + citations + `config_version` per records policy; log the read and a
 external-delivery approval. Never exfiltrate customer or carrier data.
 
 ## Gotchas
-- **Cheaper is not equivalent.** A lower premium almost always buys a higher deductible, a
-  lower limit, a dropped coverage, or an extra exclusion — the comparability flags exist to
+- **Cheaper is not equivalent.** A lower premium may accompany different deductibles, limits, coverages or exclusions — the comparability flags exist to
   make that trade explicit, never to endorse the cheap quote.
 - **Installment loading**: `monthly × 12` can exceed a pay-in-full annual premium; the
   comparison normalizes payment schedules, not the pay-in-full price.
-- **`null` limit ≠ unlimited**: a missing limit means the coverage is not included; do not
-  read it as "unlimited coverage".
+- **`null` limit ≠ unlimited**: a missing limit is unknown; do not read it as excluded or unlimited.
 - **Service factors are context, not score**: AM Best / NAIC complaint index are shown to
   inform the reader, never weighted into a ranking.
 - **Quotes expire**: a comparison is valid only for its quotes' effective dates; re-rate
   before relying on stale figures.
 - **Comparing is not advising**: identifying the lowest cost is factual; telling the customer
   which to buy, or that a policy "is right for you", crosses into advice and is prohibited.
+
+## Evidence and handoff contract
+
+Read [the insurance evidence contract](references/insurance-contract.md) for source
+versioning, explicit unknowns, financial/date bases and receiver validation. A
+content hash is not source authentication, professional approval or execution authority.

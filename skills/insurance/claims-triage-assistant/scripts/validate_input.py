@@ -16,15 +16,23 @@ Input schema (JSON): see references/source-map.md. Key fields:
 Usage: python validate_input.py claims.json | --selftest
 Exit 0 if no errors (warnings allowed), 1 otherwise.
 """
+
 from __future__ import annotations
-import json, sys
+
+import json
+import sys
 from datetime import date
 from pathlib import Path
 
-REQUIRED_TOP = ("config_version", "claims")
+REQUIRED_TOP = ("config_version", "as_of", "claims")
 REQUIRED_CLAIM = ("claim_id", "policy_id", "claim_type", "loss_date", "reported_date", "source_ref")
-LIABILITY_TYPES = {"bodily_injury_liability", "general_liability", "auto_liability",
-                   "products_liability", "professional_liability"}
+LIABILITY_TYPES = {
+    "bodily_injury_liability",
+    "general_liability",
+    "auto_liability",
+    "products_liability",
+    "professional_liability",
+}
 
 
 def _is_date(v):
@@ -35,7 +43,7 @@ def _is_date(v):
         return False
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc:
@@ -43,6 +51,8 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     if errors:
         return errors, warnings
 
+    if not _is_date(doc.get("as_of")):
+        errors.append("as_of must be ISO yyyy-mm-dd")
     claims = doc.get("claims") or []
     if not isinstance(claims, list) or not claims:
         errors.append("claims must be a non-empty list")
@@ -50,7 +60,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
 
     ids = set()
     for i, c in enumerate(claims):
-        tag = f"claims[{i}] ({c.get('claim_id','?')})"
+        tag = f"claims[{i}] ({c.get('claim_id', '?')})"
         for k in REQUIRED_CLAIM:
             if k not in c or c[k] in (None, ""):
                 errors.append(f"{tag}: missing '{k}'")
@@ -59,12 +69,14 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
             errors.append(f"{tag}: duplicate claim_id")
         ids.add(cid)
 
-        for df in ("loss_date", "reported_date"):
+        for df in ("loss_date", "reported_date", "statutory_deadline_date"):
             if c.get(df) and not _is_date(c.get(df)):
                 errors.append(f"{tag}: {df} not ISO yyyy-mm-dd")
         per = c.get("policy_period") or {}
         if not (per.get("from") and per.get("to")):
-            warnings.append(f"{tag}: policy_period incomplete -> coverage-period screen skipped (confirm cover manually)")
+            warnings.append(
+                f"{tag}: policy_period incomplete -> coverage-period screen skipped (confirm cover manually)"
+            )
         elif not (_is_date(per.get("from")) and _is_date(per.get("to"))):
             errors.append(f"{tag}: policy_period dates not ISO yyyy-mm-dd")
         if not isinstance(c.get("claimant") or {}, dict):
@@ -76,14 +88,45 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         if c.get("claim_type") in LIABILITY_TYPES and c.get("liability_clear") is None:
             warnings.append(f"{tag}: liability undetermined on a liability claim -> needs-review (human adjudication)")
         if c.get("fraud_indicators"):
-            warnings.append(f"{tag}: fraud indicators present -> SIU referral (triage concludes no fraud)")
+            warnings.append(f"{tag}: fraud indicators present -> SIU referral (triage makes no fraud determination)")
         if c.get("catastrophe_code"):
             warnings.append(f"{tag}: catastrophe event -> route to CAT/major-loss unit")
         if (c.get("claimant") or {}).get("vulnerability_flag"):
             warnings.append(f"{tag}: vulnerability indicator -> accommodation review before contact")
 
     if doc.get("severity_map") in (None, {}):
-        warnings.append("no severity_map provided -> using engine defaults; confirm the approved claim-severity map at deployment")
+        warnings.append(
+            "no severity_map provided -> using engine defaults; confirm the approved claim-severity map at deployment"
+        )
+    return errors, warnings
+
+
+def validate(doc: dict) -> tuple[list[str], list[str]]:
+    if not isinstance(doc, dict):
+        return ["input must be an object"], []
+    try:
+        errors, warnings = _validate(doc)
+        from insurance_contract import amount
+
+        for c in doc.get("claims", []):
+            if c.get("estimated_exposure") is not None:
+                try:
+                    if amount(c["estimated_exposure"]) < 0:
+                        raise ValueError("negative")
+                except ValueError:
+                    errors.append("estimated_exposure must be finite nonnegative or null")
+            for k in (
+                "injuries",
+                "fatality",
+                "litigation",
+                "liability_clear",
+                "subrogation_potential",
+                "business_interruption",
+            ):
+                if c.get(k) is not None and not isinstance(c[k], bool):
+                    errors.append(k + " must be boolean or null")
+    except (KeyError, TypeError, ValueError, AttributeError, OverflowError) as exc:
+        return ["malformed input: " + str(exc)], []
     return errors, warnings
 
 

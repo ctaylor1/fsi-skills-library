@@ -1,0 +1,190 @@
+{
+  "case_id": "RP-26",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "ceded reinsurance analyst",
+    "represented_party": "Cedar Mutual",
+    "object_id": "RP-26",
+    "jurisdiction": "US",
+    "line_of_business": "property_cat"
+  },
+  "sources": [
+    {
+      "source_ref": "raw-source.md#profile",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "sha256": "a8eb84707a3c040402add14e7a02773e62966fb40c265b496b51ba619aa1bbbc"
+    },
+    {
+      "source_ref": "raw-source.md#program-a",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "sha256": "a8eb84707a3c040402add14e7a02773e62966fb40c265b496b51ba619aa1bbbc"
+    },
+    {
+      "source_ref": "raw-source.md#program-b",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "sha256": "a8eb84707a3c040402add14e7a02773e62966fb40c265b496b51ba619aa1bbbc"
+    },
+    {
+      "source_ref": "raw-source.md#stress",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "sha256": "a8eb84707a3c040402add14e7a02773e62966fb40c265b496b51ba619aa1bbbc"
+    },
+    {
+      "source_ref": "raw-source.md#zero",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "sha256": "a8eb84707a3c040402add14e7a02773e62966fb40c265b496b51ba619aa1bbbc"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "program_terms": {
+      "profile_id": "RP-US-26",
+      "version": "1",
+      "source_refs": [
+        "raw-source.md#profile"
+      ],
+      "source_ref": "raw-source.md#profile",
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "jurisdictions": [
+        "US"
+      ],
+      "lines_of_business": [
+        "property_cat"
+      ]
+    },
+    "programs": [
+      {
+        "currency": "USD",
+        "loss_basis": "ground_up_occurrence_loss",
+        "period_start": "2026-01-01",
+        "period_end": "2026-12-31",
+        "program_id": "A",
+        "fixed_premium": "1000000",
+        "scenario_additional_premiums": {
+          "STRESS": "200000",
+          "ZERO": "0"
+        },
+        "layers": [
+          {
+            "layer_id": "Q",
+            "type": "quota_share",
+            "inuring_basis": "remaining_loss",
+            "attachment": "0",
+            "limit": "8000000",
+            "share": ".2",
+            "aggregate_limit": "3000000",
+            "prior_erosion": "500000",
+            "source_ref": "raw-source.md#program-a"
+          },
+          {
+            "layer_id": "X",
+            "type": "occurrence_xol",
+            "inuring_basis": "remaining_loss",
+            "attachment": "2000000",
+            "limit": "5000000",
+            "share": ".75",
+            "aggregate_limit": "4000000",
+            "prior_erosion": "1000000",
+            "source_ref": "raw-source.md#program-a"
+          }
+        ],
+        "source_ref": "raw-source.md#program-a"
+      },
+      {
+        "currency": "USD",
+        "loss_basis": "ground_up_occurrence_loss",
+        "period_start": "2026-01-01",
+        "period_end": "2026-12-31",
+        "program_id": "B",
+        "fixed_premium": "1600000",
+        "scenario_additional_premiums": {
+          "STRESS": "350000",
+          "ZERO": "0"
+        },
+        "layers": [
+          {
+            "layer_id": "Q",
+            "type": "quota_share",
+            "inuring_basis": "remaining_loss",
+            "attachment": "0",
+            "limit": "8000000",
+            "share": ".25",
+            "aggregate_limit": "4000000",
+            "prior_erosion": "500000",
+            "source_ref": "raw-source.md#program-b"
+          },
+          {
+            "layer_id": "X",
+            "type": "occurrence_xol",
+            "inuring_basis": "remaining_loss",
+            "attachment": "3000000",
+            "limit": "5000000",
+            "share": "1",
+            "aggregate_limit": "5000000",
+            "prior_erosion": "0",
+            "source_ref": "raw-source.md#program-b"
+          }
+        ],
+        "source_ref": "raw-source.md#program-b"
+      }
+    ],
+    "scenarios": [
+      {
+        "currency": "USD",
+        "loss_basis": "ground_up_occurrence_loss",
+        "period_start": "2026-01-01",
+        "period_end": "2026-12-31",
+        "scenario_id": "STRESS",
+        "events": [
+          {
+            "event_id": "EVT1",
+            "event_date": "2026-09-01",
+            "gross_loss": "5000000",
+            "eligible_layer_ids": [
+              "Q",
+              "X"
+            ],
+            "source_ref": "raw-source.md#stress"
+          },
+          {
+            "event_id": "EVT2",
+            "event_date": "2026-09-10",
+            "gross_loss": "10000000",
+            "eligible_layer_ids": [
+              "Q",
+              "X"
+            ],
+            "source_ref": "raw-source.md#stress"
+          }
+        ],
+        "source_ref": "raw-source.md#stress"
+      },
+      {
+        "currency": "USD",
+        "loss_basis": "ground_up_occurrence_loss",
+        "period_start": "2026-01-01",
+        "period_end": "2026-12-31",
+        "scenario_id": "ZERO",
+        "events": [
+          {
+            "event_id": "EVT0",
+            "event_date": "2026-09-01",
+            "gross_loss": "0",
+            "eligible_layer_ids": [
+              "Q",
+              "X"
+            ],
+            "source_ref": "raw-source.md#zero"
+          }
+        ],
+        "source_ref": "raw-source.md#zero"
+      }
+    ]
+  }
+}

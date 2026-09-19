@@ -1,38 +1,34 @@
 ---
 name: policy-document-explainer
-description: >-
-  Explain an insurance policy document in plain language — what each coverage, limit,
-  deductible, exclusion, condition, definition, endorsement, and premium line actually
-  says — with every statement linked to the exact declarations line, section, or clause it
-  comes from. Use when a policyholder or service agent asks "what does my policy cover",
-  "explain this section/exclusion", "what's my deductible or limit", "walk me through my
-  declarations page", or attaches a policy PDF, declarations page, or endorsement and wants
-  a readable walkthrough. Informational only: it never decides whether a specific claim or
-  loss is covered, makes an eligibility or coverage determination, predicts a claim
-  outcome, tells the reader to buy/drop/switch/keep a policy, or gives insurance, legal, or
-  tax advice — route those to the appropriate coverage, claims, or advice-boundary skill.
+description: "Explain an insurance policy document in plain language — what each coverage, limit, deductible, exclusion, condition, definition, endorsement, and premium line actually says — with every statement linked to the exact declarations line, section, or clause it comes from. Use when a policyholder or service agent asks \"what does my policy cover\", \"explain this section/exclusion\", \"what's my deductible or limit\", \"walk me through my declarations page\", or attaches a policy PDF, declarations page, or endorsement and wants a readable walkthrough. Informational only: it never decides whether a specific claim or loss is covered, makes an eligibility or coverage determination, predicts a claim outcome, tells the reader to buy/drop/switch/keep a policy, or gives insurance, legal, or tax advice — route those to the appropriate coverage, claims, or advice-boundary skill."
 license: MIT
-compatibility: Amazon Quick Desktop; requires policy-administration, claims, and document-intelligence MCP integrations plus an approved-source retrieval service for filed forms/endorsements (all read-only).
+compatibility: Python 3.10+; offline structured inputs and supplied source evidence. Expected source systems are not bundled production connectors.
 metadata:
   aws-fsi-category: "Insurance"
   aws-fsi-skill-type: "Guidance or domain-expertise skills"
   aws-fsi-risk-tier: "R1"
   aws-fsi-archetype: "Explain & summarize"
   aws-fsi-agent-pattern: "Interactive decision-support copilot"
-  aws-fsi-delivery-wave: "Wave 1 - stabilize existing"
+  aws-fsi-delivery-wave: "Insurance Phase 1"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "existing-no-changes"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (customer NPI/PII)"
-  aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
-  aws-fsi-owner: "Insurance underwriting & claims"
+  aws-fsi-jurisdictions: "Reviewed target-specific jurisdiction/product profiles required; fixture coverage is not global applicability"
+  aws-fsi-owner: "Insurance policy service and communications"
   aws-fsi-primary-user: "Consumer (policyholder)"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-18"
 ---
 
 # Policy Document Explainer
+
+## Implemented scope and evidence contract
+
+Explain the supplied contract and identify its limits of interpretation. The tested example is P&C homeowners; additional line-specific benefits and illustrations require validated source profiles. Executed policy wording and endorsements must remain distinct from PAS summaries; retain and escalate conflicting sources rather than treating a PAS record as legal supremacy. Bind the authored draft to original sections with `python scripts/package_explanation.py source.json draft.json`, then validate the packaged output. Source text and citations must survive paraphrasing.
+
+All output artifacts include the portable insurance evidence contract and source snapshot. Missing actor, versioned source, date or upstream context remains explicitly partial. Content hashes detect changes; they do not authenticate sources or grant approval. After authoring narrative, rebuild `artifact` with `build_artifact` from `scripts/insurance_contract.py` before running output validation. A common envelope does not replace the receiver's native input validator.
 
 ## Purpose and outcome
 Produce a faithful, plain-language walkthrough of what an insurance policy **says** so the
@@ -54,10 +50,10 @@ any advice about what policy to hold.
 ## Do not use
 - The user asks whether a **specific loss/claim is (or would be) covered or paid** → this is
   a coverage determination; do not answer it. State that it is a claims decision and route to
-  the insurer/adjuster; for organized evidence use `claim-readiness-checker`.
+  the insurer/adjuster; for organized evidence use `claim-intake-preparer`.
 - The user wants to know if they have **enough coverage or gaps vs. their needs/exposures** →
   route to `coverage-gap-analyzer` (analytical, still non-advice).
-- A **claim was denied** and they want to understand and appeal it → `claim-denial-appeal-helper`.
+- A **claim was denied** and they want to understand and appeal it → `health-benefit-appeal-packager`.
 - The user wants to **compare policies, quotes, or premiums** → `premium-quote-comparator`.
 - The user (a professional) needs a **form/version/wording comparison against filed forms** →
   `policy-wording-comparator` (R3).
@@ -171,3 +167,9 @@ approval. See [references/controls.md](references/controls.md).
   be reissued or amended mid-term.
 - **Ambiguity is a finding, not a gap to fill**: if wording is genuinely ambiguous, say so and
   point to the insurer — do not resolve it in the reader's favor or against them.
+
+## Evidence and handoff contract
+
+Read [the insurance evidence contract](references/insurance-contract.md) for source
+versioning, explicit unknowns, financial/date bases and receiver validation. A
+content hash is not source authentication, professional approval or execution authority.

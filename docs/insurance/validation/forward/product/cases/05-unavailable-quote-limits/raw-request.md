@@ -1,0 +1,1 @@
+Compare annual property quotes A USD 1,000 and B USD 900 with identical USD 1,000 deductibles. Both quote extracts omit the building limit; their actual limits are unknown. Same source date and term. Show what is comparable and what remains missing.

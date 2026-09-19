@@ -1,35 +1,15 @@
-# Adjacent-Skill Handoffs — subrogation-opportunity-screener
+# Handoffs — Subrogation Opportunity Screening
 
-This skill produces a cited **recovery-opportunity screening / referral pack** (`screening_id`)
-and stops. It does not pursue recovery, issue a demand, file, negotiate, waive, or close.
+Human recovery specialist/counsel verifies entitlement, policy waivers, prior recovery and legal time limits. `liability-evidence-matrix-builder` can organize native fact/passages; `claim-file-quality-reviewer` can resolve financial/source inventory issues. No demand or filing is generated or sent.
 
-## Downstream (route the human/specialist to)
+## Review handoff contract
+Use a versioned insurance handoff only after constructing the receiving package’s native input.
+Retain upstream artifact, source versions and unresolved issues; request an explicit output.
+Run the actual receiver validate_input function through validate_handoff before presenting it
+as consumable. Similar field names or artifact IDs alone do not establish compatibility.
+No handoff grants execution authority or silently changes capacity or represented party.
 
-| Downstream skill | When | Handoff artifact |
-| ---------------- | ---- | ---------------- |
-| `claims-fraud-referral-assistant` | Screening surfaces fraud indicators (staged loss, inconsistent damage/injury, misrepresentation) alongside recovery potential | `screening_id` + evidence |
-| `reserving-analysis-assistant` | Anticipated recovery should feed reserve development / salvage-and-subrogation credits | `screening_id` + referral economics |
-| `claims-file-reviewer` | A full file review (documentation, chronology, reserve support) is needed before referral | claim_id + open issues |
-| `reinsurance-treaty-interpreter` | Recovery may flow to reinsurers and a treaty recoverability/reporting question arises | claim_id + recovery amounts |
-
-**Human / licensed-specialist handoff (primary):** the actual subrogation decision — whether to
-pursue, issue a demand, file suit, negotiate, or waive/release — belongs to a **licensed
-recovery/subrogation specialist or counsel**, not to any skill. This screener hands that person a
-source-linked referral with the recovery signals, the economics, and the limitation posture, and
-stops. Confirm the controlling limitation period with counsel; the screen only reports the
-diaried date.
-
-## Upstream (may route to this skill)
-
-`claims-triage-assistant` and `claims-file-reviewer` may flag a claim with apparent third-party
-liability and route it here for a recovery screen. A scheduled monitor is **not** used
-(`aws-fsi-scheduled-agent: no`); this skill is interactive.
-
-## Duplicate-execution prevention
-
-- This skill computes and evidences **recovery signals + a triage band** only; it must not reach
-  a subrogation, liability, or limitation determination, contact the third party, or take/recommend
-  a recovery action — those belong to the human specialist and downstream skills.
-- Before referring, it checks `recovery_not_waived` (waiver absent and no prior/open recovery) so
-  it does not refer a recovery that is already waived or being pursued elsewhere.
-- Downstream skills reuse the `screening_id` evidence rather than recomputing signals.
+## Revisions and duplicate work
+Use artifact_hash for a specific revision and retain input_hash/output_hash. Human-readable IDs
+are labels and may recur across revised calculations. Recalculation or a routing suggestion
+is not submission, delivery, approval, payment or proof of completed downstream work.

@@ -1,0 +1,1 @@
+R1 elapsed5 within,R2 elapsed7 exception,R3 pending elapsed8 overdue,R4 unknown even though6 elapsed since receipt; cannot treat missing as pending. Known2 exceptions among3 evaluable, not population prevalence. Population10/150=0.0666666667. Overall incomplete; owners claims operations for overdue, source owner forR4.

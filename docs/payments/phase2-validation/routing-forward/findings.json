@@ -1,0 +1,57 @@
+[
+  {
+    "id": "F01",
+    "severity": "medium",
+    "cases": [
+      "case-02"
+    ],
+    "title": "Bank-only rail route does not disclose the requested card comparison gap",
+    "observation": "The request explicitly names FedNow, RTP, ACH and card rails. The native output routes to bank-payment-workflow-designer, supports only regulatory applicability and economics, and gives no card-specific limitation. Its native profile registry contains bank rails only.",
+    "impact": "An agent could silently drop the card leg while treating the complete comparison as routed. Lead selection itself is reasonable for the bank rails.",
+    "suggested_resolution": "Retain the bank lead for the bank-leg comparison, explicitly mark card comparison as separately scoped or unsupported, and add conditional card/merchant acceptance support after the participant and card product are known.",
+    "source_refs": [
+      "skills/payments/payments-router/references/routes.json:120",
+      "skills/payments/bank-payment-workflow-designer/SKILL.md:30",
+      "skills/payments/bank-payment-workflow-designer/references/rail-profiles.json",
+      "/tmp/payments-phase2-routing-forward/case-02/native-output.json"
+    ]
+  },
+  {
+    "id": "F02",
+    "severity": "medium",
+    "cases": [
+      "case-14"
+    ],
+    "title": "Orchestration strategy silently selects a merchant lead for an unknown participant",
+    "observation": "The original request does not specify merchant, issuer, bank or the orchestration layer. The selected orchestration-strategy intent unconditionally returns merchant-acceptance-strategy-designer with platform architecture as support.",
+    "impact": "Merchant acceptance/PSP routing and bank/issuer hub orchestration can require different accountable leads. The agent should not treat the merchant assignment as final from this request alone.",
+    "suggested_resolution": "Ask for participant and orchestration layer, or emit conditional merchant-strategy versus platform-architecture ownership; retain both as alternatives until clarified.",
+    "source_refs": [
+      "skills/payments/payments-router/references/routes.json:247",
+      "skills/payments/merchant-acceptance-strategy-designer/SKILL.md:33",
+      "skills/payments/payment-platform-architecture-reviewer/SKILL.md:27",
+      "/tmp/payments-phase2-routing-forward/case-14/native-output.json"
+    ]
+  },
+  {
+    "id": "F03",
+    "severity": "low",
+    "cases": [
+      "case-02",
+      "case-04",
+      "case-05",
+      "case-09",
+      "case-11",
+      "case-13",
+      "case-14"
+    ],
+    "title": "The structured missing-context list does not carry evident scope unknowns",
+    "observation": "All 18 native outputs report missing_context=[] even though no jurisdiction was supplied and most participants are unknown. Some outputs list generic required_inputs and all require target validation.",
+    "impact": "This does not establish target readiness or infer a supported region, but consumers could misread the empty list as complete context. The independent practitioner judgments retain the omitted scope explicitly.",
+    "suggested_resolution": "Populate scope-relevant missing_context or distinguish route-selection context from target-input prerequisites; do not invent a region/role to satisfy a target.",
+    "source_refs": [
+      "/tmp/payments-phase2-routing-forward/results.json",
+      "skills/payments/payments-router/SKILL.md:27"
+    ]
+  }
+]

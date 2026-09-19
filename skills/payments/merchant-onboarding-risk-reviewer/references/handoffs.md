@@ -20,10 +20,10 @@ and the specialist skills' responsibilities.
 
 | Skill | When | Handoff artifact |
 | ----- | ---- | ---------------- |
-| `payment-fraud-case-investigator` | Application evidence suggests a fraud ring / prior-processing fraud needing investigation | `review_id` + findings |
-| `real-time-payment-risk-monitor` | After a human boards the merchant, post-onboarding transaction monitoring | boarded merchant id (set by the boarding system, not here) |
+| `payment-fraud-and-scam-investigator` | Application evidence suggests a fraud ring / prior-processing fraud needing investigation | `review_id` + findings |
+| `instant-payment-risk-monitor` | After a human boards the merchant, post-onboarding transaction monitoring | boarded merchant id (set by the boarding system, not here) |
 | `stablecoin-payment-controls-reviewer` | Business model involves stablecoin/crypto settlement controls | merchant + business model |
-| `dispute-operations-assistant` | Chargeback/dispute posture is part of the risk picture | merchant + history |
+| `merchant-chargeback-response-packager` | Chargeback/dispute posture is part of the risk picture | merchant + history |
 
 ## Human / operations handoff (no catalog skill)
 
@@ -39,3 +39,5 @@ evidence package and recommendation; it never makes or records the decision.
   belong to the specialist skills and the human adjudicator.
 - Specialist and downstream skills reuse the `review_id` evidence rather than recomputing
   the onboarding findings.
+
+Phase 1 handoff: retain case/participant/rail/jurisdiction, original source references and unresolved issues using payment-contract.md. Validate the target native input independently; renamed skills are not assumed input-compatible. Local IDs and hashes grant no authority and do not persist or accept a case. Only invoke installed capabilities within the requested scope.

@@ -1,0 +1,1666 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-settlement-reconciler",
+  "input_hash": "83825b47741764dfcdc7d907a9f17981a310eaad759ab552cb561f83bf4511e5",
+  "source_snapshot": {
+    "as_of": "2026-07-15",
+    "period": {
+      "start": "2026-07-01",
+      "end": "2026-07-14"
+    },
+    "config_version": "settle-recon-cfg-2026.07",
+    "settlement_currency": "USD",
+    "config": {
+      "amount_tolerance_abs": "0.5",
+      "fee_tolerance_abs": "0.5",
+      "reserve_tolerance_abs": "0.5",
+      "cash_tolerance_abs": "0.5",
+      "net_calc_tolerance_abs": "0.5",
+      "currency_minor_units": {
+        "USD": 2
+      }
+    },
+    "fee_schedule": [
+      {
+        "scheme": "VISA",
+        "rate_bps": 180,
+        "reserve_bps": 0,
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "version": "2026.07",
+        "source_ref": "contract:merchant42;scheme=VISA",
+        "effective_from": "2026-07-01",
+        "effective_to": "2026-07-31"
+      },
+      {
+        "scheme": "MC",
+        "rate_bps": 200,
+        "reserve_bps": 50,
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "version": "2026.07",
+        "source_ref": "contract:merchant42;scheme=MC",
+        "effective_from": "2026-07-01",
+        "effective_to": "2026-07-31"
+      },
+      {
+        "scheme": "AMEX",
+        "rate_bps": 250,
+        "reserve_bps": 0,
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "version": "2026.07",
+        "source_ref": "contract:merchant42;scheme=AMEX",
+        "effective_from": "2026-07-01",
+        "effective_to": "2026-07-31"
+      }
+    ],
+    "sources": {
+      "network": [
+        {
+          "match_key": "B-0701-VISA",
+          "scheme": "VISA",
+          "settlement_date": "2026-07-01",
+          "currency": "USD",
+          "gross": "100000.0",
+          "source_ref": "net=VISA;batch=B-0701-VISA",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "network-1"
+        },
+        {
+          "match_key": "B-0702-MC",
+          "scheme": "MC",
+          "settlement_date": "2026-07-02",
+          "currency": "USD",
+          "gross": "50000.0",
+          "source_ref": "net=MC;batch=B-0702-MC",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "network-2"
+        },
+        {
+          "match_key": "B-0703-VISA",
+          "scheme": "VISA",
+          "settlement_date": "2026-07-03",
+          "currency": "USD",
+          "gross": "20000.0",
+          "source_ref": "net=VISA;batch=B-0703-VISA",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "network-3"
+        },
+        {
+          "match_key": "B-0704-AMEX",
+          "scheme": "AMEX",
+          "settlement_date": "2026-07-04",
+          "currency": "USD",
+          "gross": "30000.0",
+          "source_ref": "net=AMEX;batch=B-0704-AMEX",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "network-4"
+        },
+        {
+          "match_key": "B-0714-VISA",
+          "scheme": "VISA",
+          "settlement_date": "2026-07-14",
+          "currency": "USD",
+          "gross": "15000.0",
+          "source_ref": "net=VISA;batch=B-0714-VISA",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "network-5",
+          "expected_funding_date": "2026-07-16",
+          "funding_due_source_ref": "funding-contract:batch=B-0714-VISA;due=2026-07-16"
+        },
+        {
+          "match_key": "B-0705-MC",
+          "scheme": "MC",
+          "settlement_date": "2026-07-05",
+          "currency": "USD",
+          "gross": "40000.0",
+          "source_ref": "net=MC;batch=B-0705-MC",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "network-6"
+        }
+      ],
+      "processor": [
+        {
+          "match_key": "B-0701-VISA",
+          "scheme": "VISA",
+          "settlement_date": "2026-07-01",
+          "currency": "USD",
+          "gross": "100000.0",
+          "fees": "1800.0",
+          "reserve": "0.0",
+          "net": "98200.0",
+          "source_ref": "proc=ACQ1;batch=B-0701-VISA",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "processor-1",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00"
+        },
+        {
+          "match_key": "B-0702-MC",
+          "scheme": "MC",
+          "settlement_date": "2026-07-02",
+          "currency": "USD",
+          "gross": "50000.0",
+          "fees": "1250.0",
+          "reserve": "250.0",
+          "net": "48500.0",
+          "source_ref": "proc=ACQ1;batch=B-0702-MC",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "processor-2",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00"
+        },
+        {
+          "match_key": "B-0703-VISA",
+          "scheme": "VISA",
+          "settlement_date": "2026-07-03",
+          "currency": "USD",
+          "gross": "20000.0",
+          "fees": "360.0",
+          "reserve": "0.0",
+          "net": "19640.0",
+          "source_ref": "proc=ACQ1;batch=B-0703-VISA",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "processor-3",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00"
+        },
+        {
+          "match_key": "B-0704-AMEX",
+          "scheme": "AMEX",
+          "settlement_date": "2026-07-04",
+          "currency": "USD",
+          "gross": "30000.0",
+          "fees": "750.0",
+          "reserve": "0.0",
+          "net": "29250.0",
+          "source_ref": "proc=ACQ1;batch=B-0704-AMEX",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "processor-4",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00"
+        },
+        {
+          "match_key": "B-0714-VISA",
+          "scheme": "VISA",
+          "settlement_date": "2026-07-14",
+          "currency": "USD",
+          "gross": "15000.0",
+          "fees": "270.0",
+          "reserve": "0.0",
+          "net": "14730.0",
+          "source_ref": "proc=ACQ1;batch=B-0714-VISA",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "processor-5",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "expected_funding_date": "2026-07-16",
+          "funding_due_source_ref": "funding-contract:batch=B-0714-VISA;due=2026-07-16"
+        },
+        {
+          "match_key": "B-0705-MC",
+          "scheme": "MC",
+          "settlement_date": "2026-07-05",
+          "currency": "USD",
+          "gross": "40250.0",
+          "fees": "805.0",
+          "reserve": "201.25",
+          "net": "39243.75",
+          "source_ref": "proc=ACQ1;batch=B-0705-MC",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "processor-6",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00"
+        }
+      ],
+      "bank_cash": [
+        {
+          "match_key": "B-0701-VISA",
+          "value_date": "2026-07-02",
+          "currency": "USD",
+          "amount": "98200.0",
+          "source_ref": "bank=DDA123;fund=B-0701-VISA",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "bank_cash-1"
+        },
+        {
+          "match_key": "B-0702-MC",
+          "value_date": "2026-07-03",
+          "currency": "USD",
+          "amount": "48500.0",
+          "source_ref": "bank=DDA123;fund=B-0702-MC",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "bank_cash-2"
+        },
+        {
+          "match_key": "B-0703-VISA",
+          "value_date": "2026-07-04",
+          "currency": "USD",
+          "amount": "19640.0",
+          "source_ref": "bank=DDA123;fund=B-0703-VISA",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "bank_cash-3"
+        },
+        {
+          "match_key": "B-0704-AMEX",
+          "value_date": "2026-07-05",
+          "currency": "USD",
+          "amount": "29000.0",
+          "source_ref": "bank=DDA123;fund=B-0704-AMEX",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "bank_cash-4"
+        },
+        {
+          "match_key": "B-0705-MC",
+          "value_date": "2026-07-06",
+          "currency": "USD",
+          "amount": "39243.75",
+          "source_ref": "bank=DDA123;fund=B-0705-MC",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "bank_cash-5"
+        }
+      ],
+      "ledger": [
+        {
+          "match_key": "B-0701-VISA",
+          "post_date": "2026-07-02",
+          "currency": "USD",
+          "net": "98200.0",
+          "source_ref": "gl=1000;je=JE-0701",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "ledger-1"
+        },
+        {
+          "match_key": "B-0702-MC",
+          "post_date": "2026-07-03",
+          "currency": "USD",
+          "net": "48500.0",
+          "source_ref": "gl=1000;je=JE-0702",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "ledger-2"
+        },
+        {
+          "match_key": "B-0704-AMEX",
+          "post_date": "2026-07-05",
+          "currency": "USD",
+          "net": "29250.0",
+          "source_ref": "gl=1000;je=JE-0704",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "ledger-3"
+        },
+        {
+          "match_key": "B-0714-VISA",
+          "post_date": "2026-07-14",
+          "currency": "USD",
+          "net": "14730.0",
+          "source_ref": "gl=1000;je=JE-0714",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "ledger-4"
+        },
+        {
+          "match_key": "B-0705-MC",
+          "post_date": "2026-07-06",
+          "currency": "USD",
+          "net": "39243.75",
+          "source_ref": "gl=1000;je=JE-0705",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "ledger-5"
+        },
+        {
+          "match_key": "B-0710-ADJ",
+          "post_date": "2026-07-10",
+          "currency": "USD",
+          "net": "5000.0",
+          "source_ref": "gl=1000;je=JE-0710-ADJ",
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "settlement_cycle": "2026-07-01_2026-07-14",
+          "record_id": "ledger-6"
+        }
+      ]
+    },
+    "mode": "reconcile-settlement"
+  },
+  "config_version": "settle-recon-cfg-2026.07",
+  "warnings": [],
+  "mode": "reconcile-settlement",
+  "as_of": "2026-07-15",
+  "period": {
+    "start": "2026-07-01",
+    "end": "2026-07-14"
+  },
+  "groups": [
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "2026-07-01_2026-07-14"
+      },
+      "match_key": "B-0701-VISA",
+      "group_id": "dd0155c6bf225c6d11c53e8c0022ea0e3e4b9fcfcf8060054f0255fcbf2c25bb",
+      "status": "matched",
+      "source_values": {
+        "network": {
+          "gross": "100000.0"
+        },
+        "processor": {
+          "gross": "100000.0",
+          "fees": "1800.0",
+          "reserve": "0.0",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "net": "98200.0"
+        },
+        "bank_cash": {
+          "amount": "98200.0"
+        },
+        "ledger": {
+          "net": "98200.0"
+        }
+      },
+      "checks": [
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": "100000.0",
+          "observed": "100000.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": "98200.00",
+          "observed": "98200.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": "98200.0",
+          "observed": "98200.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": "98200.0",
+          "observed": "98200.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": "98200.0",
+          "observed": "98200.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": "1800.00",
+          "observed": "1800.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=VISA"
+          ]
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": "0.00",
+          "observed": "0.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=VISA"
+          ]
+        }
+      ],
+      "issues": [],
+      "pending_items": [],
+      "evidence": [
+        {
+          "evidence_id": "bank_cash-1",
+          "status": "supplied",
+          "source": "bank_cash",
+          "source_ref": "bank_cash:bank=DDA123;fund=B-0701-VISA@2026-07-02"
+        },
+        {
+          "evidence_id": "ledger-1",
+          "status": "supplied",
+          "source": "ledger",
+          "source_ref": "ledger:gl=1000;je=JE-0701@2026-07-02"
+        },
+        {
+          "evidence_id": "network-1",
+          "status": "supplied",
+          "source": "network",
+          "source_ref": "network:net=VISA;batch=B-0701-VISA@2026-07-01"
+        },
+        {
+          "evidence_id": "processor-1",
+          "status": "supplied",
+          "source": "processor",
+          "source_ref": "processor:proc=ACQ1;batch=B-0701-VISA@2026-07-01"
+        }
+      ]
+    },
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "2026-07-01_2026-07-14"
+      },
+      "match_key": "B-0702-MC",
+      "group_id": "c79d388e24a4fd2273692fbf8ff17413d50ae56ff9b8debe66fd6e13f2203848",
+      "status": "needs_review",
+      "source_values": {
+        "network": {
+          "gross": "50000.0"
+        },
+        "processor": {
+          "gross": "50000.0",
+          "fees": "1250.0",
+          "reserve": "250.0",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "net": "48500.0"
+        },
+        "bank_cash": {
+          "amount": "48500.0"
+        },
+        "ledger": {
+          "net": "48500.0"
+        }
+      },
+      "checks": [
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": "50000.0",
+          "observed": "50000.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": "48500.00",
+          "observed": "48500.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": "48500.0",
+          "observed": "48500.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": "48500.0",
+          "observed": "48500.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": "48500.0",
+          "observed": "48500.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": "1000.00",
+          "observed": "1250.0",
+          "observed_minus_expected": "250.00",
+          "tolerance": "0.5",
+          "status": "mismatch",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=MC"
+          ]
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": "250.00",
+          "observed": "250.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=MC"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "type": "FEE_VARIANCE",
+          "difference": "250.00",
+          "issue_id": "ba191a831db4b2efddc16e74fc2043bdfcae4789d0d0c6b92ce2225d89b438bd"
+        }
+      ],
+      "pending_items": [],
+      "evidence": [
+        {
+          "evidence_id": "bank_cash-2",
+          "status": "supplied",
+          "source": "bank_cash",
+          "source_ref": "bank_cash:bank=DDA123;fund=B-0702-MC@2026-07-03"
+        },
+        {
+          "evidence_id": "ledger-2",
+          "status": "supplied",
+          "source": "ledger",
+          "source_ref": "ledger:gl=1000;je=JE-0702@2026-07-03"
+        },
+        {
+          "evidence_id": "network-2",
+          "status": "supplied",
+          "source": "network",
+          "source_ref": "network:net=MC;batch=B-0702-MC@2026-07-02"
+        },
+        {
+          "evidence_id": "processor-2",
+          "status": "supplied",
+          "source": "processor",
+          "source_ref": "processor:proc=ACQ1;batch=B-0702-MC@2026-07-02"
+        }
+      ]
+    },
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "2026-07-01_2026-07-14"
+      },
+      "match_key": "B-0703-VISA",
+      "group_id": "9012ca0e434258cefb65547e23aca168f96e3ddcc00468dfe4c4643e1be8680c",
+      "status": "needs_review",
+      "source_values": {
+        "network": {
+          "gross": "20000.0"
+        },
+        "processor": {
+          "gross": "20000.0",
+          "fees": "360.0",
+          "reserve": "0.0",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "net": "19640.0"
+        },
+        "bank_cash": {
+          "amount": "19640.0"
+        },
+        "ledger": {
+          "net": null
+        }
+      },
+      "checks": [
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": "20000.0",
+          "observed": "20000.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": "19640.00",
+          "observed": "19640.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": "19640.0",
+          "observed": "19640.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": "19640.0",
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": "19640.0",
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": "360.00",
+          "observed": "360.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=VISA"
+          ]
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": "0.00",
+          "observed": "0.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=VISA"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "type": "MISSING_IN_LEDGER",
+          "difference": null,
+          "issue_id": "2e618b8a934f388cadb289a6187ae80e317c9e2a594d55444c7278259d22d308"
+        }
+      ],
+      "pending_items": [],
+      "evidence": [
+        {
+          "evidence_id": "bank_cash-3",
+          "status": "supplied",
+          "source": "bank_cash",
+          "source_ref": "bank_cash:bank=DDA123;fund=B-0703-VISA@2026-07-04"
+        },
+        {
+          "evidence_id": "network-3",
+          "status": "supplied",
+          "source": "network",
+          "source_ref": "network:net=VISA;batch=B-0703-VISA@2026-07-03"
+        },
+        {
+          "evidence_id": "processor-3",
+          "status": "supplied",
+          "source": "processor",
+          "source_ref": "processor:proc=ACQ1;batch=B-0703-VISA@2026-07-03"
+        }
+      ]
+    },
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "2026-07-01_2026-07-14"
+      },
+      "match_key": "B-0704-AMEX",
+      "group_id": "8ce7314cd144d89a7d9f5431dfe13772a44313d26bbda757d612524ebbfc0fcf",
+      "status": "needs_review",
+      "source_values": {
+        "network": {
+          "gross": "30000.0"
+        },
+        "processor": {
+          "gross": "30000.0",
+          "fees": "750.0",
+          "reserve": "0.0",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "net": "29250.0"
+        },
+        "bank_cash": {
+          "amount": "29000.0"
+        },
+        "ledger": {
+          "net": "29250.0"
+        }
+      },
+      "checks": [
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": "30000.0",
+          "observed": "30000.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": "29250.00",
+          "observed": "29250.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": "29250.0",
+          "observed": "29000.0",
+          "observed_minus_expected": "-250.0",
+          "tolerance": "0.5",
+          "status": "mismatch"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": "29250.0",
+          "observed": "29250.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": "29000.0",
+          "observed": "29250.0",
+          "observed_minus_expected": "250.0",
+          "tolerance": "0.5",
+          "status": "mismatch"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": "750.00",
+          "observed": "750.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=AMEX"
+          ]
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": "0.00",
+          "observed": "0.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=AMEX"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "type": "NET_CASH_MISMATCH",
+          "difference": "-250.0",
+          "issue_id": "2a346f057b408d6cad17f33ee8a71d6ff797912fcf3da3d492dc3ea2210dc00e"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "difference": "250.0",
+          "issue_id": "0c1a6eb433faaeff1f1eab2245066afdea6422fde9f1f5c3739d007201548f52"
+        }
+      ],
+      "pending_items": [],
+      "evidence": [
+        {
+          "evidence_id": "bank_cash-4",
+          "status": "supplied",
+          "source": "bank_cash",
+          "source_ref": "bank_cash:bank=DDA123;fund=B-0704-AMEX@2026-07-05"
+        },
+        {
+          "evidence_id": "ledger-3",
+          "status": "supplied",
+          "source": "ledger",
+          "source_ref": "ledger:gl=1000;je=JE-0704@2026-07-05"
+        },
+        {
+          "evidence_id": "network-4",
+          "status": "supplied",
+          "source": "network",
+          "source_ref": "network:net=AMEX;batch=B-0704-AMEX@2026-07-04"
+        },
+        {
+          "evidence_id": "processor-4",
+          "status": "supplied",
+          "source": "processor",
+          "source_ref": "processor:proc=ACQ1;batch=B-0704-AMEX@2026-07-04"
+        }
+      ]
+    },
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "2026-07-01_2026-07-14"
+      },
+      "match_key": "B-0705-MC",
+      "group_id": "7ddc49f07031a187fa879f395efa0344a28034846288b76cc16da0ce98e6dd95",
+      "status": "needs_review",
+      "source_values": {
+        "network": {
+          "gross": "40000.0"
+        },
+        "processor": {
+          "gross": "40250.0",
+          "fees": "805.0",
+          "reserve": "201.25",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "net": "39243.75"
+        },
+        "bank_cash": {
+          "amount": "39243.75"
+        },
+        "ledger": {
+          "net": "39243.75"
+        }
+      },
+      "checks": [
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": "40000.0",
+          "observed": "40250.0",
+          "observed_minus_expected": "250.0",
+          "tolerance": "0.5",
+          "status": "mismatch"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": "39243.75",
+          "observed": "39243.75",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": "39243.75",
+          "observed": "39243.75",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": "39243.75",
+          "observed": "39243.75",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": "39243.75",
+          "observed": "39243.75",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": "805.00",
+          "observed": "805.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=MC"
+          ]
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": "201.25",
+          "observed": "201.25",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=MC"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "type": "GROSS_MISMATCH",
+          "difference": "250.0",
+          "issue_id": "a7e70735bc4053412b9036c65a979653684924e03bb54461f259e008c9c6a1fe"
+        }
+      ],
+      "pending_items": [],
+      "evidence": [
+        {
+          "evidence_id": "bank_cash-5",
+          "status": "supplied",
+          "source": "bank_cash",
+          "source_ref": "bank_cash:bank=DDA123;fund=B-0705-MC@2026-07-06"
+        },
+        {
+          "evidence_id": "ledger-5",
+          "status": "supplied",
+          "source": "ledger",
+          "source_ref": "ledger:gl=1000;je=JE-0705@2026-07-06"
+        },
+        {
+          "evidence_id": "network-6",
+          "status": "supplied",
+          "source": "network",
+          "source_ref": "network:net=MC;batch=B-0705-MC@2026-07-05"
+        },
+        {
+          "evidence_id": "processor-6",
+          "status": "supplied",
+          "source": "processor",
+          "source_ref": "processor:proc=ACQ1;batch=B-0705-MC@2026-07-05"
+        }
+      ]
+    },
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "2026-07-01_2026-07-14"
+      },
+      "match_key": "B-0710-ADJ",
+      "group_id": "560074f3aae935cef7714e9be01cc510d48bb78d5b188c9fb3657c0374839cc0",
+      "status": "needs_review",
+      "source_values": {
+        "network": {
+          "gross": null
+        },
+        "processor": {
+          "gross": null,
+          "fees": null,
+          "reserve": null,
+          "refunds": null,
+          "chargebacks": null,
+          "adjustments": null,
+          "net": null
+        },
+        "bank_cash": {
+          "amount": null
+        },
+        "ledger": {
+          "net": "5000.0"
+        }
+      },
+      "checks": [
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": null,
+          "observed": "5000.0",
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": null,
+          "observed": "5000.0",
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable",
+          "reason": "missing scoped effective schedule, rate, gross, or currency precision"
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable",
+          "reason": "missing scoped effective schedule, rate, gross, or currency precision"
+        }
+      ],
+      "issues": [
+        {
+          "type": "MISSING_IN_SETTLEMENT",
+          "difference": null,
+          "issue_id": "935e7dd41b1c7e201333f91424f727dd77e349dd374bb15c8b0e775d34f0a542"
+        },
+        {
+          "type": "MISSING_NETWORK",
+          "difference": null,
+          "issue_id": "4f4efc4bbca4f92e48e822ac74770d4ffc64f0aa466e07157d8cb74a740ff5b9"
+        },
+        {
+          "type": "MISSING_PROCESSOR",
+          "difference": null,
+          "issue_id": "095f47c10e579f532a91868a2d88b0c9d5bff9cb81cac40294bf33e89a52f804"
+        }
+      ],
+      "pending_items": [],
+      "evidence": [
+        {
+          "evidence_id": "ledger-6",
+          "status": "supplied",
+          "source": "ledger",
+          "source_ref": "ledger:gl=1000;je=JE-0710-ADJ@2026-07-10"
+        }
+      ]
+    },
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "2026-07-01_2026-07-14"
+      },
+      "match_key": "B-0714-VISA",
+      "group_id": "8a3cd75a8127aba557c480eae23a568669a8cf2aa055eabfa67951bbaa88c4ee",
+      "status": "incomplete",
+      "source_values": {
+        "network": {
+          "gross": "15000.0"
+        },
+        "processor": {
+          "gross": "15000.0",
+          "fees": "270.0",
+          "reserve": "0.0",
+          "refunds": "0.00",
+          "chargebacks": "0.00",
+          "adjustments": "0.00",
+          "net": "14730.0"
+        },
+        "bank_cash": {
+          "amount": null
+        },
+        "ledger": {
+          "net": "14730.0"
+        }
+      },
+      "checks": [
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": "15000.0",
+          "observed": "15000.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": "14730.00",
+          "observed": "14730.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": "14730.0",
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": "14730.0",
+          "observed": "14730.0",
+          "observed_minus_expected": "0.0",
+          "tolerance": "0.5",
+          "status": "within_tolerance"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": null,
+          "observed": "14730.0",
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": "270.00",
+          "observed": "270.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=VISA"
+          ]
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": "0.00",
+          "observed": "0.0",
+          "observed_minus_expected": "0.00",
+          "tolerance": "0.5",
+          "status": "within_tolerance",
+          "additional_source_refs": [
+            "contract:merchant42;scheme=VISA"
+          ]
+        }
+      ],
+      "issues": [],
+      "pending_items": [
+        {
+          "type": "PENDING_FUNDING",
+          "due_date": "2026-07-16",
+          "expected_net": "14730.0",
+          "source_refs": [
+            "funding-contract:batch=B-0714-VISA;due=2026-07-16",
+            "funding-contract:batch=B-0714-VISA;due=2026-07-16"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ledger-4",
+          "status": "supplied",
+          "source": "ledger",
+          "source_ref": "ledger:gl=1000;je=JE-0714@2026-07-14"
+        },
+        {
+          "evidence_id": "network-5",
+          "status": "supplied",
+          "source": "network",
+          "source_ref": "network:net=VISA;batch=B-0714-VISA@2026-07-14"
+        },
+        {
+          "evidence_id": "processor-5",
+          "status": "supplied",
+          "source": "processor",
+          "source_ref": "processor:proc=ACQ1;batch=B-0714-VISA@2026-07-14"
+        }
+      ]
+    }
+  ],
+  "partition_totals": [
+    {
+      "partition": {
+        "legal_entity_id": "merchant42",
+        "account_id": "settlement-account-4321",
+        "currency": "USD",
+        "settlement_cycle": "2026-07-01_2026-07-14"
+      },
+      "source_totals": {
+        "network.gross": {
+          "total": null,
+          "known_subtotal": "255000.0",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        },
+        "processor.gross": {
+          "total": null,
+          "known_subtotal": "255250.0",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        },
+        "processor.fees": {
+          "total": null,
+          "known_subtotal": "5235.0",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        },
+        "processor.reserve": {
+          "total": null,
+          "known_subtotal": "451.25",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        },
+        "processor.refunds": {
+          "total": null,
+          "known_subtotal": "0.00",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        },
+        "processor.chargebacks": {
+          "total": null,
+          "known_subtotal": "0.00",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        },
+        "processor.adjustments": {
+          "total": null,
+          "known_subtotal": "0.00",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        },
+        "processor.net": {
+          "total": null,
+          "known_subtotal": "249563.75",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        },
+        "bank_cash.amount": {
+          "total": null,
+          "known_subtotal": "234583.75",
+          "known_groups": 5,
+          "missing_or_quarantined_groups": 2
+        },
+        "ledger.net": {
+          "total": null,
+          "known_subtotal": "234923.75",
+          "known_groups": 6,
+          "missing_or_quarantined_groups": 1
+        }
+      }
+    }
+  ],
+  "investigation_handoffs": [
+    {
+      "contract_version": "1.0.0",
+      "handoff_id": "ca275b2ddf41e1f57442fe0f08ada81af8b536ae82c3f55e92bb72990dde1051",
+      "source_skill": "payment-settlement-reconciler",
+      "target_skill": "bank-payment-exception-investigator",
+      "case_id": "c79d388e24a4fd2273692fbf8ff17413d50ae56ff9b8debe66fd6e13f2203848",
+      "lead_owner": "settlement-operations",
+      "requested_output": "Investigate evidence gaps and differences; no accounting instruction",
+      "action_mode": "read-only",
+      "source_refs": [
+        "bank_cash:bank=DDA123;fund=B-0702-MC@2026-07-03",
+        "ledger:gl=1000;je=JE-0702@2026-07-03",
+        "network:net=MC;batch=B-0702-MC@2026-07-02",
+        "processor:proc=ACQ1;batch=B-0702-MC@2026-07-02"
+      ],
+      "unresolved_issues": [
+        {
+          "type": "FEE_VARIANCE",
+          "difference": "250.00",
+          "issue_id": "ba191a831db4b2efddc16e74fc2043bdfcae4789d0d0c6b92ce2225d89b438bd"
+        }
+      ],
+      "target_input": {
+        "partition": {
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "currency": "USD",
+          "settlement_cycle": "2026-07-01_2026-07-14"
+        },
+        "match_key": "B-0702-MC"
+      },
+      "target_validation": "required",
+      "authority_granted": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "handoff_id": "f2d570e6c04c0ec38460f5fccd53bf673111f993707169f1f5affbd0b7492a96",
+      "source_skill": "payment-settlement-reconciler",
+      "target_skill": "bank-payment-exception-investigator",
+      "case_id": "9012ca0e434258cefb65547e23aca168f96e3ddcc00468dfe4c4643e1be8680c",
+      "lead_owner": "settlement-operations",
+      "requested_output": "Investigate evidence gaps and differences; no accounting instruction",
+      "action_mode": "read-only",
+      "source_refs": [
+        "bank_cash:bank=DDA123;fund=B-0703-VISA@2026-07-04",
+        "network:net=VISA;batch=B-0703-VISA@2026-07-03",
+        "processor:proc=ACQ1;batch=B-0703-VISA@2026-07-03"
+      ],
+      "unresolved_issues": [
+        {
+          "type": "MISSING_IN_LEDGER",
+          "difference": null,
+          "issue_id": "2e618b8a934f388cadb289a6187ae80e317c9e2a594d55444c7278259d22d308"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": "19640.0",
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": "19640.0",
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        }
+      ],
+      "target_input": {
+        "partition": {
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "currency": "USD",
+          "settlement_cycle": "2026-07-01_2026-07-14"
+        },
+        "match_key": "B-0703-VISA"
+      },
+      "target_validation": "required",
+      "authority_granted": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "handoff_id": "87d263d6df19fa6fe1208e3d974120a92628922dc96889dad78dc1eca29397fb",
+      "source_skill": "payment-settlement-reconciler",
+      "target_skill": "bank-payment-exception-investigator",
+      "case_id": "8ce7314cd144d89a7d9f5431dfe13772a44313d26bbda757d612524ebbfc0fcf",
+      "lead_owner": "settlement-operations",
+      "requested_output": "Investigate evidence gaps and differences; no accounting instruction",
+      "action_mode": "read-only",
+      "source_refs": [
+        "bank_cash:bank=DDA123;fund=B-0704-AMEX@2026-07-05",
+        "ledger:gl=1000;je=JE-0704@2026-07-05",
+        "network:net=AMEX;batch=B-0704-AMEX@2026-07-04",
+        "processor:proc=ACQ1;batch=B-0704-AMEX@2026-07-04"
+      ],
+      "unresolved_issues": [
+        {
+          "type": "NET_CASH_MISMATCH",
+          "difference": "-250.0",
+          "issue_id": "2a346f057b408d6cad17f33ee8a71d6ff797912fcf3da3d492dc3ea2210dc00e"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "difference": "250.0",
+          "issue_id": "0c1a6eb433faaeff1f1eab2245066afdea6422fde9f1f5c3739d007201548f52"
+        }
+      ],
+      "target_input": {
+        "partition": {
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "currency": "USD",
+          "settlement_cycle": "2026-07-01_2026-07-14"
+        },
+        "match_key": "B-0704-AMEX"
+      },
+      "target_validation": "required",
+      "authority_granted": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "handoff_id": "ceea9558400a692aed8d965a8bb211bf128823e1325389cbe488a729685b69c0",
+      "source_skill": "payment-settlement-reconciler",
+      "target_skill": "bank-payment-exception-investigator",
+      "case_id": "7ddc49f07031a187fa879f395efa0344a28034846288b76cc16da0ce98e6dd95",
+      "lead_owner": "settlement-operations",
+      "requested_output": "Investigate evidence gaps and differences; no accounting instruction",
+      "action_mode": "read-only",
+      "source_refs": [
+        "bank_cash:bank=DDA123;fund=B-0705-MC@2026-07-06",
+        "ledger:gl=1000;je=JE-0705@2026-07-06",
+        "network:net=MC;batch=B-0705-MC@2026-07-05",
+        "processor:proc=ACQ1;batch=B-0705-MC@2026-07-05"
+      ],
+      "unresolved_issues": [
+        {
+          "type": "GROSS_MISMATCH",
+          "difference": "250.0",
+          "issue_id": "a7e70735bc4053412b9036c65a979653684924e03bb54461f259e008c9c6a1fe"
+        }
+      ],
+      "target_input": {
+        "partition": {
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "currency": "USD",
+          "settlement_cycle": "2026-07-01_2026-07-14"
+        },
+        "match_key": "B-0705-MC"
+      },
+      "target_validation": "required",
+      "authority_granted": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "handoff_id": "40a8c59ecfce05d975f29d6a649898a12a57581a5e9613cf215812a6d958b151",
+      "source_skill": "payment-settlement-reconciler",
+      "target_skill": "bank-payment-exception-investigator",
+      "case_id": "560074f3aae935cef7714e9be01cc510d48bb78d5b188c9fb3657c0374839cc0",
+      "lead_owner": "settlement-operations",
+      "requested_output": "Investigate evidence gaps and differences; no accounting instruction",
+      "action_mode": "read-only",
+      "source_refs": [
+        "ledger:gl=1000;je=JE-0710-ADJ@2026-07-10"
+      ],
+      "unresolved_issues": [
+        {
+          "type": "MISSING_IN_SETTLEMENT",
+          "difference": null,
+          "issue_id": "935e7dd41b1c7e201333f91424f727dd77e349dd374bb15c8b0e775d34f0a542"
+        },
+        {
+          "type": "MISSING_NETWORK",
+          "difference": null,
+          "issue_id": "4f4efc4bbca4f92e48e822ac74770d4ffc64f0aa466e07157d8cb74a740ff5b9"
+        },
+        {
+          "type": "MISSING_PROCESSOR",
+          "difference": null,
+          "issue_id": "095f47c10e579f532a91868a2d88b0c9d5bff9cb81cac40294bf33e89a52f804"
+        },
+        {
+          "type": "GROSS_MISMATCH",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "NET_CALC_MISMATCH",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "LEDGER_SETTLEMENT_MISMATCH",
+          "expected": null,
+          "observed": "5000.0",
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": null,
+          "observed": "5000.0",
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "FEE_VARIANCE",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable",
+          "reason": "missing scoped effective schedule, rate, gross, or currency precision"
+        },
+        {
+          "type": "RESERVE_VARIANCE",
+          "expected": null,
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable",
+          "reason": "missing scoped effective schedule, rate, gross, or currency precision"
+        }
+      ],
+      "target_input": {
+        "partition": {
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "currency": "USD",
+          "settlement_cycle": "2026-07-01_2026-07-14"
+        },
+        "match_key": "B-0710-ADJ"
+      },
+      "target_validation": "required",
+      "authority_granted": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "handoff_id": "58a36c5e58ef7511ea62c3718ddcf37d1a2530ba50be62c6faad8600f30a99c3",
+      "source_skill": "payment-settlement-reconciler",
+      "target_skill": "bank-payment-exception-investigator",
+      "case_id": "8a3cd75a8127aba557c480eae23a568669a8cf2aa055eabfa67951bbaa88c4ee",
+      "lead_owner": "settlement-operations",
+      "requested_output": "Investigate evidence gaps and differences; no accounting instruction",
+      "action_mode": "read-only",
+      "source_refs": [
+        "ledger:gl=1000;je=JE-0714@2026-07-14",
+        "network:net=VISA;batch=B-0714-VISA@2026-07-14",
+        "processor:proc=ACQ1;batch=B-0714-VISA@2026-07-14"
+      ],
+      "unresolved_issues": [
+        {
+          "type": "PENDING_FUNDING",
+          "due_date": "2026-07-16",
+          "expected_net": "14730.0",
+          "source_refs": [
+            "funding-contract:batch=B-0714-VISA;due=2026-07-16",
+            "funding-contract:batch=B-0714-VISA;due=2026-07-16"
+          ]
+        },
+        {
+          "type": "NET_CASH_MISMATCH",
+          "expected": "14730.0",
+          "observed": null,
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        },
+        {
+          "type": "LEDGER_CASH_MISMATCH",
+          "expected": null,
+          "observed": "14730.0",
+          "observed_minus_expected": null,
+          "tolerance": "0.5",
+          "status": "not_evaluable"
+        }
+      ],
+      "target_input": {
+        "partition": {
+          "legal_entity_id": "merchant42",
+          "account_id": "settlement-account-4321",
+          "currency": "USD",
+          "settlement_cycle": "2026-07-01_2026-07-14"
+        },
+        "match_key": "B-0714-VISA"
+      },
+      "target_validation": "required",
+      "authority_granted": false
+    }
+  ],
+  "summary": {
+    "group_count": 7,
+    "issue_count": 8,
+    "fully_evaluated_and_matched": false
+  },
+  "disclaimer": "Read-only evidence comparison; no journal, payment repair, or system-of-record change is proposed or executed.",
+  "corrections": [
+    {
+      "status": "posted",
+      "debit_account": "Cash",
+      "credit_account": "Settlement Clearing",
+      "amount": "250.00"
+    }
+  ]
+}

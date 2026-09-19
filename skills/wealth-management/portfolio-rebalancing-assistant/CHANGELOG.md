@@ -1,38 +1,20 @@
 # Changelog — portfolio-rebalancing-assistant
 
-## [0.1.0] — 2026-07-17
-Initial authoring in the FSI Skills Library (baseline status: `new`). Wealth Management R4
-gated-orchestration skill, mirroring the Banking exemplar `loan-servicing-exception-resolver`.
+## [0.2.0] — 2026-09-16
+- Rebuilt as a source-bound wealth-p0-v1 investment workflow in Wave 7 - wealth management P1.
+- Explicit domain schema, economic reconstruction, unknown-data coverage, full intent hashes,
+  human-review-only posture and expected-value/edge/tamper regression cases.
+- Replaced the v0.1 contract; legacy packets require source-backed migration, not default-field insertion.
+- Removed execution, approval-token authentication and guaranteed rollback claims; R4 retained in draft-only mode.
 
-- **Scope:** plan → validate → authorize → execute → verify → audit for a portfolio
-  rebalance — measure drift from the target model, assess tax (realized short-/long-term gain,
-  wash sale), liquidity/funding, restriction, concentration, turnover, and cost impacts, and
-  stage a proposed buy/sell trade list.
-- **Controls:** R4; execution is approval-gated and idempotent; **two-party** authorization
-  (advisor AND client) with tokens bound to the plan hash; permissible-action policy with
-  per-order authority limit, turnover ceiling, short-term-gain budget, concentration cap, and
-  drift band; verification reads OMS fills/weights; rollback (cancel/offset) to last verified
-  checkpoint; immutable audit trail; segregation of duties (planner ≠ approvers); no silent
-  retries; no personalized investment or tax advice.
-- **Scripts:** `validate_input` (permissible-action/limit/restriction/wash-sale/gain-budget/
-  turnover/funding checks), plan builder (idempotent steps, preconditions, verification,
-  rollback, expected post-state, compliance summary, plan hash, blocked/pending posture),
-  `validate_output` (permissible/in-limit, step completeness, compliance clean, amount
-  tie-out, plan_hash tamper detection, pre-execution blocked/pending, executed-without-both-
-  tokens block).
-- **Evaluations:** trigger/routing, golden rebalance plan, deterministic script checks,
-  executed-without-approval + over-limit + restricted-buy + wash-sale + tampered-plan safety,
-  two-party authorization, idempotency.
-- **Handoffs:** upstream from IPS/holdings/exposure/drift analysis; lateral to
-  `suitability-reg-bi-reviewer`, `senior-investor-protection-screener`,
-  `employee-trading-preclearance-assistant`, `best-execution-reviewer`,
-  `post-trade-settlement-monitor`, `mandate-compliance-monitor`, `advisor-follow-up-assistant`;
-  out-of-limit/restricted/tax-advice → human trading desk / compliance / licensed advisor.
+- Added mandatory cited upstream issue records and explicit handoff mapping; unresolved concerns
+  block global readiness and remain in output context. Resolution status is not authenticated.
 
 ### Pending before release
-- Wealth advisory + compliance owner and operational-risk blind review; SoD, two-party
-  authorization, and rollback tabletop test.
-- Confirm the versioned target-model/IPS, restrictions/mandate list, approved tax-assumption
-  set, authority limits, and the two-party approval-broker contract.
-- Wire the approval-gated, idempotent `oms.submit/verify/cancel_or_reverse` MCP operations and
-  the append-only audit sink at deployment.
+Domain SME and control-owner acceptance; blind real-model task/routing/injection evaluations;
+source-system integration, provenance and current-policy review; practitioner usability testing.
+Passing deterministic tests is software evidence, not professional or deployment certification.
+
+## [0.1.0] — 2026-07-17
+Original prototype superseded. Prior execution/approval or completeness claims and fixtures are
+withdrawn; no legacy packet is accepted as a current validated artifact.

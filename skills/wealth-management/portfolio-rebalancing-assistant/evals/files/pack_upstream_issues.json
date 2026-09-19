@@ -1,0 +1,431 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "skill": "portfolio-rebalancing-assistant",
+  "request_id": "REQ-TRANSITION-1-UPSTREAM",
+  "household_id": "HH-INVEST-DEMO",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "FACTS",
+      "reference": "fixture:controlled-investment-facts",
+      "owner": "test-fixture-only",
+      "as_of": "2026-09-16",
+      "valid_until": "2026-10-16"
+    },
+    {
+      "source_id": "POLICY",
+      "reference": "fixture:synthetic-policy-not-production-approval",
+      "owner": "test-governance",
+      "as_of": "2026-09-01",
+      "valid_until": "2026-10-16"
+    }
+  ],
+  "input_hash": "8916193a9e21d043364bafb61eca16af14c027454e8fb798500ef6d2489ac53e",
+  "artifact_id": "portfolio-rebalancing-assistant-8916193a9e21d043364b",
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "upstream-unresolved",
+      "message": "Supplied ownership records remain contradictory; professional review required",
+      "upstream_artifact_id": "synthetic-ownership-review-HH-INVEST-DEMO",
+      "upstream_code": "ownership-conflict",
+      "source_ids": [
+        "FACTS"
+      ]
+    },
+    {
+      "code": "upstream-unresolved",
+      "message": "Stated willingness exceeds assessed loss capacity; reconciliation remains open",
+      "upstream_artifact_id": "synthetic-risk-review-HH-INVEST-DEMO",
+      "upstream_code": "risk-capacity-conflict",
+      "source_ids": [
+        "FACTS"
+      ]
+    }
+  ],
+  "result": {
+    "input_snapshot": {
+      "schema_version": "wealth-p0-v1",
+      "request_id": "REQ-TRANSITION-1-UPSTREAM",
+      "household_id": "HH-INVEST-DEMO",
+      "as_of": "2026-09-16",
+      "engagement": {
+        "capacity": "advisory",
+        "jurisdiction": "US"
+      },
+      "sources": [
+        {
+          "source_id": "FACTS",
+          "reference": "fixture:controlled-investment-facts",
+          "owner": "test-fixture-only",
+          "as_of": "2026-09-16",
+          "valid_until": "2026-10-16"
+        },
+        {
+          "source_id": "POLICY",
+          "reference": "fixture:synthetic-policy-not-production-approval",
+          "owner": "test-governance",
+          "as_of": "2026-09-01",
+          "valid_until": "2026-10-16"
+        }
+      ],
+      "account": {
+        "account_id": "ACCT-DEMO",
+        "currency": "USD",
+        "taxable": true,
+        "source_ids": [
+          "FACTS"
+        ]
+      },
+      "portfolio": {
+        "cash": 10000,
+        "reported_total_value": 160000,
+        "positions_complete": true,
+        "positions": [
+          {
+            "security_id": "A",
+            "quantity": 1000,
+            "reported_market_value": 100000,
+            "reported_cost_basis": 92000,
+            "lots": [
+              {
+                "lot_id": "A1",
+                "quantity": 600,
+                "cost_basis": 48000,
+                "acquired_on": "2020-01-02",
+                "source_ids": [
+                  "FACTS"
+                ]
+              },
+              {
+                "lot_id": "A2",
+                "quantity": 400,
+                "cost_basis": 44000,
+                "acquired_on": "2026-01-02",
+                "source_ids": [
+                  "FACTS"
+                ]
+              }
+            ],
+            "source_ids": [
+              "FACTS"
+            ]
+          },
+          {
+            "security_id": "B",
+            "quantity": 500,
+            "reported_market_value": 50000,
+            "reported_cost_basis": 50000,
+            "lots": [
+              {
+                "lot_id": "B1",
+                "quantity": 500,
+                "cost_basis": 50000,
+                "acquired_on": "2024-01-02",
+                "source_ids": [
+                  "FACTS"
+                ]
+              }
+            ],
+            "source_ids": [
+              "FACTS"
+            ]
+          }
+        ],
+        "source_ids": [
+          "FACTS"
+        ]
+      },
+      "universe": [
+        {
+          "security_id": "A",
+          "currency": "USD",
+          "price": 100,
+          "quote_on": "2026-09-16",
+          "quantity_increment": 1,
+          "fee_bps": 0,
+          "fixed_fee": 0,
+          "settles_on": "2026-09-17",
+          "tax_identity_group": "A",
+          "source_ids": [
+            "FACTS"
+          ]
+        },
+        {
+          "security_id": "B",
+          "currency": "USD",
+          "price": 100,
+          "quote_on": "2026-09-16",
+          "quantity_increment": 1,
+          "fee_bps": 0,
+          "fixed_fee": 0,
+          "settles_on": "2026-09-17",
+          "tax_identity_group": "B",
+          "source_ids": [
+            "FACTS"
+          ]
+        }
+      ],
+      "target": {
+        "target_id": "TARGET-1",
+        "version": "1",
+        "selection_reference": "fixture:human-selected-target",
+        "cash_weight": 0.0625,
+        "allocations": [
+          {
+            "security_id": "A",
+            "weight": 0.5,
+            "source_ids": [
+              "FACTS"
+            ]
+          },
+          {
+            "security_id": "B",
+            "weight": 0.4375,
+            "source_ids": [
+              "FACTS"
+            ]
+          }
+        ],
+        "source_ids": [
+          "FACTS"
+        ]
+      },
+      "policy": {
+        "policy_id": "SYNTHETIC-TEST",
+        "version": "1",
+        "owner": "test-governance",
+        "source_ids": [
+          "POLICY"
+        ],
+        "max_order_notional": 50000,
+        "max_sell_turnover": 0.3,
+        "minimum_cash": 1000,
+        "max_position_weight": 0.6,
+        "drift_tolerance_weight": 0.005,
+        "restrictions": [
+          {
+            "security_id": "A",
+            "buy_allowed": true,
+            "sell_allowed": true,
+            "source_ids": [
+              "FACTS"
+            ]
+          },
+          {
+            "security_id": "B",
+            "buy_allowed": true,
+            "sell_allowed": true,
+            "source_ids": [
+              "FACTS"
+            ]
+          }
+        ]
+      },
+      "intent": {
+        "mode": "generate",
+        "reason": "Restore explicitly selected target weights",
+        "trade_date": "2026-09-16",
+        "lot_selection": "oldest-first",
+        "settlement_policy": "same-day-netting",
+        "transaction_cost_budget": 0,
+        "source_ids": [
+          "FACTS"
+        ]
+      },
+      "upstream_issues": [
+        {
+          "artifact_id": "synthetic-ownership-review-HH-INVEST-DEMO",
+          "code": "ownership-conflict",
+          "message": "Supplied ownership records remain contradictory; professional review required",
+          "status": "unresolved",
+          "source_ids": [
+            "FACTS"
+          ]
+        },
+        {
+          "artifact_id": "synthetic-risk-review-HH-INVEST-DEMO",
+          "code": "risk-capacity-conflict",
+          "message": "Stated willingness exceeds assessed loss capacity; reconciliation remains open",
+          "status": "unresolved",
+          "source_ids": [
+            "FACTS"
+          ]
+        }
+      ]
+    },
+    "upstream_issues": [
+      {
+        "artifact_id": "synthetic-ownership-review-HH-INVEST-DEMO",
+        "code": "ownership-conflict",
+        "message": "Supplied ownership records remain contradictory; professional review required",
+        "status": "unresolved",
+        "source_ids": [
+          "FACTS"
+        ]
+      },
+      {
+        "artifact_id": "synthetic-risk-review-HH-INVEST-DEMO",
+        "code": "risk-capacity-conflict",
+        "message": "Stated willingness exceeds assessed loss capacity; reconciliation remains open",
+        "status": "unresolved",
+        "source_ids": [
+          "FACTS"
+        ]
+      }
+    ],
+    "handoff_context": {
+      "household_id": "HH-INVEST-DEMO",
+      "as_of": "2026-09-16",
+      "engagement": {
+        "capacity": "advisory",
+        "jurisdiction": "US"
+      },
+      "sources": [
+        {
+          "source_id": "FACTS",
+          "reference": "fixture:controlled-investment-facts",
+          "owner": "test-fixture-only",
+          "as_of": "2026-09-16",
+          "valid_until": "2026-10-16"
+        },
+        {
+          "source_id": "POLICY",
+          "reference": "fixture:synthetic-policy-not-production-approval",
+          "owner": "test-governance",
+          "as_of": "2026-09-01",
+          "valid_until": "2026-10-16"
+        }
+      ],
+      "upstream_issues": [
+        {
+          "artifact_id": "synthetic-ownership-review-HH-INVEST-DEMO",
+          "code": "ownership-conflict",
+          "message": "Supplied ownership records remain contradictory; professional review required",
+          "status": "unresolved",
+          "source_ids": [
+            "FACTS"
+          ]
+        },
+        {
+          "artifact_id": "synthetic-risk-review-HH-INVEST-DEMO",
+          "code": "risk-capacity-conflict",
+          "message": "Stated willingness exceeds assessed loss capacity; reconciliation remains open",
+          "status": "unresolved",
+          "source_ids": [
+            "FACTS"
+          ]
+        }
+      ]
+    },
+    "plan_hash": "8916193a9e21d043364bafb61eca16af14c027454e8fb798500ef6d2489ac53e",
+    "trades": [
+      {
+        "trade_id": "draft-sell-A",
+        "security_id": "A",
+        "side": "sell",
+        "quantity": 200,
+        "fee_amount": 0.0,
+        "settles_on": "2026-09-17",
+        "lot_allocations": [
+          {
+            "lot_id": "A1",
+            "quantity": 200,
+            "source_ids": [
+              "FACTS"
+            ]
+          }
+        ],
+        "source_ids": [
+          "FACTS"
+        ],
+        "price": 100,
+        "notional": 20000,
+        "calculated_fee": 0.0,
+        "gross_gain_loss": 4000.0,
+        "intent_binding": "bcc0a715157f9dc1e089cccfd0327e1c3f4cc1b27e47c9c9c91e13b3eedd0275"
+      },
+      {
+        "trade_id": "draft-buy-B",
+        "security_id": "B",
+        "side": "buy",
+        "quantity": 200,
+        "fee_amount": 0.0,
+        "settles_on": "2026-09-17",
+        "lot_allocations": [],
+        "source_ids": [
+          "FACTS"
+        ],
+        "price": 100,
+        "notional": 20000,
+        "calculated_fee": 0.0,
+        "gross_gain_loss": null,
+        "intent_binding": "7078f6ec0d069a3eaea14f995c7f3f2cbc7147526e594f272e5ad7c21ed49992"
+      }
+    ],
+    "pre_nav": 160000,
+    "post_nav": 160000.0,
+    "post_cash": 10000.0,
+    "post_positions_plus_cash": 160000.0,
+    "total_sells": 20000.0,
+    "total_buys": 20000.0,
+    "transaction_fees": 0.0,
+    "sell_turnover": 0.125,
+    "settlement_ledger": [
+      {
+        "date": "2026-09-17",
+        "opening_cash": 10000,
+        "buys": 20000.0,
+        "sells": 20000.0,
+        "fees": 0.0,
+        "closing_cash": 10000.0
+      }
+    ],
+    "settlement_ledger_complete": true,
+    "positions": [
+      {
+        "security_id": "A",
+        "before_quantity": 1000,
+        "after_quantity": 800,
+        "after_market_value": 80000,
+        "target_weight": 0.5,
+        "after_weight": 0.5,
+        "drift_weight": 0.0
+      },
+      {
+        "security_id": "B",
+        "before_quantity": 500,
+        "after_quantity": 700,
+        "after_market_value": 70000,
+        "target_weight": 0.4375,
+        "after_weight": 0.4375,
+        "drift_weight": 0.0
+      }
+    ],
+    "cash_drift_weight": 0.0,
+    "lot_gain_loss": [
+      {
+        "trade_id": "draft-sell-A",
+        "lot_id": "A1",
+        "security_id": "A",
+        "quantity": 200,
+        "allocated_basis": 16000.0,
+        "gross_gain_loss": 4000.0,
+        "holding_days_at_trade": 2449,
+        "source_ids": [
+          "FACTS"
+        ]
+      }
+    ],
+    "execution_status": "not-supported",
+    "approval_status": "not-authenticated",
+    "scope": "Draft transition estimates; gross lot arithmetic and supplied same-plan identity screen only. No orders, tax clearance, authenticated approvals, fill verification or guaranteed reversal."
+  },
+  "human_review_required": true,
+  "action_taken": false,
+  "delivery_status": "not-delivered"
+}

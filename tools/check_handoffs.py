@@ -22,7 +22,7 @@ SUFFIX = re.compile(
     r"classifier|maintainer|documenter|composer|preparer|helper|diagnoser|processor|"
     r"adjuster|verifier|designer|interpreter|breakdown|precheck|scanner|spotter|normalizer|"
     r"responder|mapper|generator|coordinator|tester|reporter|briefer|planner|orchestrator|"
-    r"advisor|curator|validator|extractor|modeler)$"
+    r"advisor|curator|validator|extractor|modeler|router|evaluator)$"
 )
 TOKEN = re.compile(r"`([a-z][a-z0-9]*(?:-[a-z0-9]+)+)`")
 # hyphenated non-skill terms that legitimately appear in backticks

@@ -1,136 +1,164 @@
 #!/usr/bin/env python3
-"""Deterministic input validation for advisor-follow-up-assistant.
-
-Validates a post-meeting follow-up request before the draft package is assembled. Fails closed
-on structural problems (missing top-level fields, malformed meeting block). Warns on data gaps
-that force a `needs-data` disposition (uncited material assertions, action items without an owner
-or due date, a recommendation that requires a disclosure but has none) so the drafter surfaces
-them instead of guessing.
-
-Input schema (JSON): see references/source-map.md and references/domain-rules.md. Key fields:
-  config_version, template_version, disclosures_version, followup_id, author_id,
-  client{household_id,name_masked,senior_or_vulnerable},
-  meeting{date,channel,attendees[],citation},
-  discussion_points[{topic,summary,citation}],
-  recommendations[{id,summary,requires_disclosure,requires_suitability_review,citation}],
-  action_items[{id,owner,description,due_date,citation}],
-  client_communication{channel,subject,key_points[],citation},
-  disclosures[{id,covers_recommendation,ref,citation}],
-  crm_update{fields[{field,proposed_value,citation}]},
-  next_meeting{target_timeframe,purpose,citation},
-  approvals[{role,name_masked,status}]
-
-Usage: python validate_input.py request.json | --selftest
-Exit 0 if no errors (warnings allowed), 1 otherwise.
-"""
+"""Validate a sourced follow-up request. Errors reject structure; warnings block readiness."""
 from __future__ import annotations
-import json, sys
+import json
+import sys
+from datetime import date
 from pathlib import Path
 
-REQUIRED_TOP = ("config_version", "followup_id", "meeting")
-APPROVAL_ROLES = ("Advisor", "Supervisory Principal")
-ACTION_KEYS = ("owner", "due_date", "citation")
+CAPACITIES = {"advisory", "brokerage", "private-bank", "trust"}
+CHANNELS = {"email", "letter", "portal"}
 
+def iso(value):
+    try:
+        return isinstance(value, str) and date.fromisoformat(value).isoformat() == value
+    except ValueError:
+        return False
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def text(value):
+    return isinstance(value, str) and bool(value.strip())
+
+def validate(doc):
     errors, warnings = [], []
-    for k in REQUIRED_TOP:
-        if k not in doc:
-            errors.append(f"missing top-level field '{k}'")
+    if not isinstance(doc, dict):
+        return ["request must be an object"], []
+    for key in ("config_version", "template_version", "disclosures_version", "followup_id", "request_id", "author_id", "as_of_date"):
+        if not text(doc.get(key)):
+            errors.append(f"{key} is required")
+    if not iso(doc.get("as_of_date")):
+        errors.append("as_of_date must be an ISO date")
+    for key in ("client", "meeting", "client_communication", "crm_update", "next_meeting", "engagement", "communication_policy"):
+        if not isinstance(doc.get(key), dict):
+            errors.append(f"{key} must be an object")
+    for key in ("discussion_points", "recommendations", "action_items", "disclosures", "source_inventory", "approvals"):
+        if not isinstance(doc.get(key), list) or any(not isinstance(x, dict) for x in doc[key]):
+            errors.append(f"{key} must be a list of objects")
     if errors:
         return errors, warnings
-
-    # --- meeting block (structural = error) ---
-    meeting = doc.get("meeting") or {}
-    if not isinstance(meeting, dict):
-        errors.append("meeting must be an object")
+    engagement = doc["engagement"]
+    if not isinstance(engagement.get("capacity"), str) or engagement.get("capacity") not in CAPACITIES or engagement.get("jurisdiction") != "US":
+        errors.append("engagement needs a supported capacity and US jurisdiction")
+    policy = doc["communication_policy"]
+    roles = policy.get("required_roles")
+    if not isinstance(roles, list) or not roles or not all(text(x) for x in roles) or len(set(roles)) != len(roles) or "Advisor" not in roles:
+        errors.append("communication_policy.required_roles must include Advisor and contain unique role names")
+    if policy.get("version") != doc["config_version"] or policy.get("capacity") != engagement.get("capacity") or not text(policy.get("owner")) or not text(policy.get("approved_by")):
+        errors.append("communication_policy must match capacity/config_version and record owner and approval")
+    if policy.get("classification") not in {"correspondence", "retail", "institutional", "internal"}:
+        errors.append("communication_policy needs an explicit communication classification")
+    registry = {}
+    for i, source in enumerate(doc["source_inventory"]):
+        citation = source.get("citation")
+        if not text(citation) or citation in registry or not text(source.get("owner")):
+            errors.append(f"source_inventory[{i}] needs a unique citation and owner")
+            continue
+        registry[citation] = source
+        if not iso(source.get("as_of")) or not iso(source.get("valid_until")):
+            errors.append(f"source_inventory[{i}] needs as_of and valid_until dates")
+        elif not source["as_of"] <= doc["as_of_date"] <= source["valid_until"]:
+            errors.append(f"source_inventory[{i}] is future-dated or expired")
+    for field in ("template_version", "disclosures_version"):
+        if doc[field] not in registry:
+            errors.append(f"{field} must resolve to the controlled source inventory")
+    def cited(item, label):
+        if not text(item.get("citation")) or item["citation"] not in registry:
+            warnings.append(f"{label}: missing or unknown citation")
+    def required(item, fields, label):
+        for field in fields:
+            if not text(item.get(field)):
+                warnings.append(f"{label}: missing {field}")
+        cited(item, label)
+    cited(policy, "communication_policy")
+    client = doc["client"]
+    required(client, ("household_id", "name_masked"), "client")
+    if not isinstance(client.get("senior_or_vulnerable"), bool):
+        errors.append("client.senior_or_vulnerable must be boolean")
+    meeting = doc["meeting"]
+    required(meeting, ("meeting_id", "date", "channel"), "meeting")
+    if not iso(meeting.get("date")) or meeting["date"] > doc["as_of_date"]:
+        errors.append("meeting.date must be a supported date no later than as_of_date")
+    if not isinstance(meeting.get("attendees"), list) or not meeting["attendees"] or not all(text(x) for x in meeting["attendees"]):
+        warnings.append("meeting: attendee roster is required")
+    if not doc["discussion_points"]:
+        warnings.append("discussion_points: no documented discussion")
+    for i, point in enumerate(doc["discussion_points"]):
+        required(point, ("topic", "summary"), f"discussion_points[{i}]")
+    for list_key in ("recommendations", "action_items", "disclosures"):
+        ids = set()
+        for i, item in enumerate(doc[list_key]):
+            if not text(item.get("id")) or item["id"] in ids:
+                errors.append(f"{list_key}[{i}]: id must be present and unique")
+            else:
+                ids.add(item["id"])
+            cited(item, f"{list_key}[{i}]")
+    covered = {d.get("covers_recommendation") for d in doc["disclosures"]}
+    rec_ids = {r.get("id") for r in doc["recommendations"] if text(r.get("id"))}
+    for recommendation in doc["recommendations"]:
+        required(recommendation, ("summary",), f"recommendation {recommendation.get('id')}")
+        for flag in ("requires_disclosure", "requires_suitability_review"):
+            if not isinstance(recommendation.get(flag), bool):
+                warnings.append(f"recommendation {recommendation.get('id')}: {flag} must be explicitly reviewed")
+        if recommendation.get("requires_disclosure") and recommendation.get("id") not in covered:
+            warnings.append(f"recommendation {recommendation.get('id')}: required disclosure missing")
+    for disclosure in doc["disclosures"]:
+        required(disclosure, ("ref",), f"disclosure {disclosure.get('id')}")
+        if disclosure.get("covers_recommendation") not in rec_ids:
+            warnings.append(f"disclosure {disclosure.get('id')}: unknown recommendation")
+    not_applicable = doc.get("not_applicable", {})
+    if not isinstance(not_applicable, dict):
+        errors.append("not_applicable must be an object")
+        not_applicable = {}
+    def absent_mode(key):
+        reason = not_applicable.get(key)
+        if not isinstance(reason, dict):
+            warnings.append(f"{key}: missing content or cited not-applicable reason")
+        else:
+            required(reason, ("reason",), f"not_applicable.{key}")
+    if not doc["action_items"]:
+        absent_mode("action-items")
+    for action in doc["action_items"]:
+        required(action, ("owner", "description", "due_date"), f"action {action.get('id')}")
+        if not iso(action.get("due_date")):
+            warnings.append(f"action {action.get('id')}: due_date must be an ISO date")
+    communication = doc["client_communication"]
+    required(communication, ("channel", "subject"), "client_communication")
+    if communication.get("channel") not in CHANNELS:
+        errors.append("client_communication.channel must be email, letter or portal")
+    points = communication.get("key_points")
+    if not isinstance(points, list) or not points or any(not isinstance(x, dict) for x in points):
+        errors.append("client_communication.key_points must be a nonempty list of {text,citation} objects")
     else:
-        if not meeting.get("date"):
-            errors.append("meeting.date is required")
-        if not meeting.get("citation"):
-            warnings.append("meeting.citation missing -> meeting summary unsupported (needs-data)")
-
-    # --- discussion points (uncited = needs-data warning) ---
-    for i, dp in enumerate(doc.get("discussion_points") or []):
-        if not dp.get("citation"):
-            warnings.append(f"discussion_points[{i}] ({dp.get('topic','?')}) missing citation -> needs-data")
-
-    # --- action items (missing owner/due/citation = needs-data warning) ---
-    for i, ai in enumerate(doc.get("action_items") or []):
-        tag = f"action_items[{i}] ({ai.get('id','?')})"
-        for k in ACTION_KEYS:
-            if not ai.get(k):
-                warnings.append(f"{tag}: missing '{k}' -> needs-data")
-
-    # --- recommendations: disclosure completeness + suitability routing ---
-    disclosures = doc.get("disclosures") or []
-    covered = {d.get("covers_recommendation") for d in disclosures}
-    for rec in doc.get("recommendations") or []:
-        rid = rec.get("id")
-        if not rec.get("citation"):
-            warnings.append(f"recommendation {rid!r} missing citation -> needs-data")
-        if rec.get("requires_disclosure") and rid not in covered:
-            warnings.append(f"recommendation {rid!r} requires a disclosure but none covers it -> needs-data")
-        if rec.get("requires_suitability_review"):
-            warnings.append(f"recommendation {rid!r} requires suitability review -> will route to "
-                            f"suitability-reg-bi-reviewer (not approved here)")
-
-    # --- client communication (uncited = needs-data warning) ---
-    comm = doc.get("client_communication") or {}
-    if comm and not comm.get("citation"):
-        warnings.append("client_communication missing citation -> key points unsupported (needs-data)")
-
-    # --- crm update fields (uncited = needs-data warning) ---
-    for i, f in enumerate((doc.get("crm_update") or {}).get("fields") or []):
-        if not f.get("citation"):
-            warnings.append(f"crm_update.fields[{i}] ({f.get('field','?')}) missing citation -> needs-data")
-
-    # --- next meeting (uncited = needs-data warning) ---
-    nm = doc.get("next_meeting") or {}
-    if nm and not nm.get("citation"):
-        warnings.append("next_meeting missing citation -> needs-data")
-
-    # --- senior / vulnerable indicator routes to the protection screener ---
-    if (doc.get("client") or {}).get("senior_or_vulnerable"):
-        warnings.append("client.senior_or_vulnerable set -> route to senior-investor-protection-screener")
-
-    # --- versions present ---
-    if not doc.get("template_version"):
-        warnings.append("template_version missing -> record the versioned template contract")
-    if not doc.get("disclosures_version"):
-        warnings.append("disclosures_version missing -> record the versioned disclosures contract")
-
-    # --- approvals must not be pre-granted in the request ---
-    approvals = doc.get("approvals") or []
-    seen = {a.get("role") for a in approvals}
-    for role in APPROVAL_ROLES:
-        if role not in seen:
-            warnings.append(f"approvals: no '{role}' entry -> will be added as pending")
-    for a in approvals:
-        st = str(a.get("status", "")).lower()
-        if st and st != "pending":
-            errors.append(f"approvals: '{a.get('role')}' status {a.get('status')!r} is not 'pending' "
-                          f"(this skill drafts; approvals are granted by humans out-of-band)")
-
-    return errors, warnings
-
+        for i, point in enumerate(points):
+            required(point, ("text",), f"client_communication.key_points[{i}]")
+    fields = doc["crm_update"].get("fields")
+    if not isinstance(fields, list) or any(not isinstance(x, dict) for x in fields):
+        errors.append("crm_update.fields must be a list of objects")
+    elif not fields:
+        absent_mode("crm-update")
+    else:
+        for i, item in enumerate(fields):
+            required(item, ("field",), f"crm_update.fields[{i}]")
+            if "proposed_value" not in item or item["proposed_value"] in (None, ""):
+                warnings.append(f"crm_update.fields[{i}]: proposed_value is required")
+    if not doc["next_meeting"]:
+        absent_mode("next-meeting")
+    else:
+        required(doc["next_meeting"], ("target_timeframe", "purpose"), "next_meeting")
+    for approval in doc["approvals"]:
+        if approval.get("status") != "pending":
+            errors.append("input approvals must remain pending; decisions are outside this draft")
+    return errors, sorted(set(warnings))
 
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "followup_request_example.json"
-        doc = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        doc = json.loads(sys.stdin.read())
+    path = Path(__file__).resolve().parents[1] / "evals/files/followup_request_example.json" if "--selftest" in argv else None
+    doc = json.loads(path.read_text() if path else Path(argv[0]).read_text() if argv else sys.stdin.read())
     errors, warnings = validate(doc)
-    for w in warnings:
-        print("WARN ", w)
-    for e in errors:
-        print("ERROR", e)
+    for row in warnings:
+        print("WARN", row)
+    for row in errors:
+        print("ERROR", row)
     print(f"input validation: {len(errors)} error(s), {len(warnings)} warning(s)")
-    return 1 if errors else 0
-
+    return bool(errors)
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

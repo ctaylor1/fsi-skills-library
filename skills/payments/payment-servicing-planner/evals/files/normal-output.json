@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-servicing-planner",
+  "request_id": "synthetic-phase2-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-phase2-001",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "bank",
+    "sources": [
+      {
+        "source_id": "s1",
+        "reference": "synthetic://phase2/bank-fixture",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "requested_action": "draft",
+    "data": {
+      "original_payment": {
+        "payment_id": "payment-1",
+        "state": "settled",
+        "amount": "100.00",
+        "currency": "USD",
+        "rail_profile_id": "US-FEDNOW",
+        "originator_account_ref": "account-origin",
+        "beneficiary_account_ref": "account-destination",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "service_request": {
+        "service_id": "service-3",
+        "payment_id": "payment-1",
+        "action": "return",
+        "amount": "50.00",
+        "currency": "USD",
+        "reason": "Duplicate customer payment confirmed by operator",
+        "destination_account_ref": "account-origin",
+        "original_binding": {
+          "payment_id": "payment-1",
+          "state": "settled",
+          "amount": "100.00",
+          "currency": "USD",
+          "rail_profile_id": "US-FEDNOW",
+          "originator_account_ref": "account-origin",
+          "beneficiary_account_ref": "account-destination"
+        },
+        "source_ids": [
+          "s1"
+        ]
+      },
+      "prior_service_ledger_complete": true,
+      "prior_services": [
+        {
+          "service_id": "service-1",
+          "payment_id": "payment-1",
+          "action": "return",
+          "amount": "20.00",
+          "currency": "USD",
+          "status": "completed",
+          "source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "service_id": "service-2",
+          "payment_id": "payment-1",
+          "action": "return",
+          "amount": "10.00",
+          "currency": "USD",
+          "status": "pending",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "policy": {
+        "jurisdiction": "US",
+        "participants": [
+          "bank"
+        ],
+        "profile_ids": [
+          "US-FEDNOW"
+        ],
+        "approval_roles": [
+          "payments-operator"
+        ],
+        "permissions": [
+          {
+            "action": "return",
+            "currency": "USD",
+            "original_states": [
+              "settled",
+              "posted"
+            ],
+            "max_amount": "1000.00",
+            "deadline_date": "2026-10-31",
+            "source_ids": [
+              "s1"
+            ]
+          }
+        ],
+        "effective_from": "2026-09-01",
+        "effective_until": "2026-10-31",
+        "revoked": false,
+        "source_ids": [
+          "s1"
+        ]
+      }
+    }
+  },
+  "input_hash": "2aa0b1add9507a1b31c8f8c8d0e940eee89e1c526b5076994cc0c8e05371be85",
+  "findings": [],
+  "result": {
+    "review": "ready-for-human-review",
+    "service_id": "service-3",
+    "original_payment_id": "payment-1",
+    "action": "return",
+    "original_binding": {
+      "payment_id": "payment-1",
+      "amount": "100.00",
+      "currency": "USD",
+      "rail_profile_id": "US-FEDNOW",
+      "originator_account_ref": "account-origin",
+      "beneficiary_account_ref": "account-destination",
+      "state": "settled"
+    },
+    "completed_service_amount": "20.00",
+    "pending_service_amount": "10.00",
+    "remaining_serviceable_amount": "70.00",
+    "expected_effect": {
+      "kind": "new-linked-funds-movement",
+      "original_ledger_rolled_back": false,
+      "planned_amount": "50.00",
+      "currency": "USD",
+      "guaranteed_recovery": false
+    },
+    "approval_roles": [
+      "payments-operator"
+    ],
+    "execution_authorized": false,
+    "required_outcome_evidence": [
+      "service response linked to original and service IDs",
+      "settlement/account posting if funds move",
+      "refreshed prior and pending service ledger"
+    ]
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Review the exact new linked instruction and servicing authority before any funds-movement execution.",
+      "required_inputs": [
+        "original_binding",
+        "service_request",
+        "policy",
+        "findings"
+      ],
+      "handoff_id": "0f617df92a181a01e12b2c348dbf4039082be116e7f50198ad8148b7771c019f",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-servicing-planner",
+      "case_id": "synthetic-phase2-001",
+      "lead_owner": "bank",
+      "requested_output": "Review the exact new linked instruction and servicing authority before any funds-movement execution.",
+      "source_refs": [
+        "synthetic://phase2/bank-fixture"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-lifecycle-diagnoser",
+      "reason": "Interpret actual service and original payment events after an authorized operator acts.",
+      "required_inputs": [
+        "original payment ID",
+        "service ID",
+        "event evidence"
+      ],
+      "handoff_id": "535b2ab9fcb39df71a3bdcb2640b6021b670246f27da2403104b17ef27967f19",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-servicing-planner",
+      "case_id": "synthetic-phase2-001",
+      "lead_owner": "bank",
+      "requested_output": "Interpret actual service and original payment events after an authorized operator acts.",
+      "source_refs": [
+        "synthetic://phase2/bank-fixture"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

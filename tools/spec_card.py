@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Emit the exact SKILL.md frontmatter + a build "spec card" for a skill.
 
-Derives every metadata value deterministically from catalog/skills-catalog.json so all 173
+Derives every metadata value deterministically from catalog/skills-catalog.json so all cataloged
 packages are consistent. The build workflow runs this per skill and pastes the frontmatter
 verbatim.
 
@@ -110,12 +110,12 @@ def card(s: dict) -> tuple[str, str]:
   aws-fsi-scheduled-agent: "{_scheduled(s['scheduled_agent'])}"
   aws-fsi-baseline-status: "{_baseline(s['status'])}"
   aws-fsi-human-approval: "{_approval(tier)}"
-  aws-fsi-data-classification: "{DATA_CLASS[s['category']]}"
-  aws-fsi-jurisdictions: "{JURISDICTIONS}"
-  aws-fsi-owner: "{OWNER[s['category']]}"
+  aws-fsi-data-classification: "{s.get('data_classification', DATA_CLASS[s['category']])}"
+  aws-fsi-jurisdictions: "{s.get('jurisdictions', JURISDICTIONS)}"
+  aws-fsi-owner: "{s.get('owner', OWNER[s['category']])}"
   aws-fsi-primary-user: "{s['primary_user']}"
-  aws-fsi-version: "{VERSION}"
-  aws-fsi-recertification-date: "{RECERT}"'''
+  aws-fsi-version: "{s.get('version', VERSION)}"
+  aws-fsi-recertification-date: "{s.get('recertification_date', RECERT)}"'''
 
     info = f'''# Build spec card — {s['name']}
 

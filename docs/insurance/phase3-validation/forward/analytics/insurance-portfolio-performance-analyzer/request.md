@@ -1,0 +1,1 @@
+Explain Q1 calendar portfolio deterioration with aggregate ratios, exposure-based frequency, severity, and an exact loss-ratio mix/within bridge. Evaluate the manager’s inflation claim without asserting unsupported causality.

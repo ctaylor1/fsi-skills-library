@@ -30,6 +30,7 @@ Exit 0 if no errors, 1 otherwise.
 from __future__ import annotations
 import json, re, sys
 from pathlib import Path
+from calculate_or_transform import build
 
 STANDING_NOTE = (
     "Client-review preparation draft for internal advisor use only; this skill does not make "
@@ -41,10 +42,10 @@ STANDING_NOTE = (
 # Sections that must exist and be non-empty for a packageable pack.
 REQUIRED_NONEMPTY = ("client_id", "household_name", "advisor", "review_type", "as_of_date",
                      "accounts", "portfolio_summary", "goals", "discussion_agenda",
-                     "disclosures", "citations", "approvals")
+                     "citations", "approvals", "review_id")
 # Sections whose key must be present (may be an empty list for a given client).
 REQUIRED_PRESENT = ("performance", "plan_items", "prior_notes", "service_history",
-                    "life_events", "open_actions", "routing", "disclosure_check")
+                    "life_events", "open_actions", "routing", "disclosure_check", "disclosures")
 # Content lists whose every entry must carry a non-empty citation (no unsupported claims).
 CITED_LISTS = ("performance", "goals", "plan_items", "prior_notes", "service_history",
                "life_events", "open_actions", "discussion_agenda", "disclosures")
@@ -92,6 +93,14 @@ def _round2(x):
 
 def validate(doc: dict) -> list[str]:
     errors: list[str] = []
+    if not isinstance(doc, dict):
+        return ["output must be an object"]
+    try:
+        expected = build(doc.get("input_snapshot"))
+        if doc != expected:
+            errors.append("output differs from its validated source snapshot, calculated values, identities, or provenance")
+    except (ValueError, TypeError, KeyError, AttributeError) as exc:
+        errors.append(f"invalid or missing source snapshot: {exc}")
     reviews = doc.get("reviews") or []
     if not reviews:
         return ["review output has no records"]

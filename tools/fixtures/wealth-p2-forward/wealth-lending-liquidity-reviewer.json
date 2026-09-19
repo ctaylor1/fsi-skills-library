@@ -1,0 +1,177 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "INDEPENDENT-P2-LENDING",
+  "household_id": "HOUSEHOLD-SYNTHETIC-42",
+  "as_of": "2026-09-17",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "source_ids": [
+      "case"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "case",
+      "reference": "synthetic://independent-lending-case",
+      "owner": "Independent reviewer",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "policy": {
+    "version": "independent-1",
+    "owner": "Synthetic firm policy owner",
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "effective_date": "2026-01-01",
+    "valid_until": "2026-12-31",
+    "max_quote_age_days": 10,
+    "max_valuation_age_days": 10,
+    "source_ids": [
+      "case"
+    ]
+  },
+  "upstream_issues": [],
+  "currency": "USD",
+  "horizon_months": 12,
+  "funding_need": {
+    "amount": "125000.00",
+    "needed_by": "2026-10-01",
+    "purpose": "Household home renovation invoice",
+    "purpose_category": "other",
+    "source_ids": [
+      "case"
+    ]
+  },
+  "liquid_resources": {
+    "available_cash": "150000.00",
+    "protected_reserve": "60000.00",
+    "source_ids": [
+      "case"
+    ]
+  },
+  "debt_budget": {
+    "monthly_available": "9000.00",
+    "basis": "before-modeled-facility-service",
+    "source_ids": [
+      "case"
+    ]
+  },
+  "liquidation_options": [
+    {
+      "option_id": "SALE-ILLUSTRATION",
+      "description": "Prepared sale illustration from separately reviewed lots",
+      "gross_proceeds": "150000.00",
+      "fees": "1200.00",
+      "tax_reserve": "16800.00",
+      "available_date": "2026-09-23",
+      "source_ids": [
+        "case"
+      ]
+    }
+  ],
+  "loan_options": [
+    {
+      "loan_id": "AMORT",
+      "lender_reference": "synthetic://lender/term",
+      "description": "Fixed amortizing alternative",
+      "type": "unsecured",
+      "draw_amount": "150000.00",
+      "existing_balance": "30000.00",
+      "credit_limit": "200000.00",
+      "upfront_fee": "1500.00",
+      "monthly_fee": "25.00",
+      "annual_rate_pct": "6.0",
+      "rate_type": "fixed",
+      "rate_floor_pct": null,
+      "rate_cap_pct": null,
+      "repayment": "amortizing",
+      "term_months": 24,
+      "quote_date": "2026-09-15",
+      "quote_valid_until": "2026-10-05",
+      "funding_date": "2026-09-25",
+      "use_review": "recorded-permitted",
+      "on_demand": false,
+      "collateral_test": "none",
+      "maturity_funding": null,
+      "collateral": [],
+      "source_ids": [
+        "case"
+      ]
+    },
+    {
+      "loan_id": "SBLOC",
+      "lender_reference": "synthetic://lender/sbloc",
+      "description": "Floating non-purpose line alternative",
+      "type": "securities-backed",
+      "draw_amount": "125000.00",
+      "existing_balance": "50000.00",
+      "credit_limit": "250000.00",
+      "upfront_fee": "625.00",
+      "monthly_fee": "10.00",
+      "annual_rate_pct": "7.2",
+      "rate_type": "floating",
+      "rate_floor_pct": "4.0",
+      "rate_cap_pct": "10.5",
+      "repayment": "interest-only",
+      "term_months": 18,
+      "quote_date": "2026-09-15",
+      "quote_valid_until": "2026-10-05",
+      "funding_date": "2026-09-25",
+      "use_review": "recorded-permitted",
+      "on_demand": true,
+      "collateral_test": "ongoing-maintenance",
+      "maturity_funding": "175000.00",
+      "collateral": [
+        {
+          "asset_id": "PORT-A",
+          "market_value": "400000.00",
+          "value_reserved_elsewhere": "100000.00",
+          "advance_rate": "0.60",
+          "eligible": true,
+          "valuation_date": "2026-09-16",
+          "source_ids": [
+            "case"
+          ]
+        },
+        {
+          "asset_id": "PORT-B",
+          "market_value": "120000.00",
+          "value_reserved_elsewhere": "20000.00",
+          "advance_rate": "0.50",
+          "eligible": true,
+          "valuation_date": "2026-09-16",
+          "source_ids": [
+            "case"
+          ]
+        }
+      ],
+      "source_ids": [
+        "case"
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "PRESSURE",
+      "description": "Higher rates and lower collateral under supplied stress",
+      "rate_shock_bps": 400,
+      "collateral_price_change_pct": -30,
+      "advance_rate_reduction_pp": 10,
+      "source_ids": [
+        "case"
+      ]
+    },
+    {
+      "scenario_id": "RELIEF",
+      "description": "Lower nominal floating rate, unchanged collateral",
+      "rate_shock_bps": -500,
+      "collateral_price_change_pct": 0,
+      "advance_rate_reduction_pp": 0,
+      "source_ids": [
+        "case"
+      ]
+    }
+  ]
+}

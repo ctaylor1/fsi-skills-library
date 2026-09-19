@@ -1,0 +1,505 @@
+{
+  "version": "2.0.1",
+  "intents": {
+    "payment-state": {
+      "target": "payment-lifecycle-diagnoser",
+      "required_inputs": [
+        "linked payment events",
+        "rail and source authority"
+      ]
+    },
+    "message-interpretation": {
+      "target": "iso-20022-message-interpreter",
+      "limitations": [
+        "Normalized ISO JSON only; no raw XML/XSD parser or ISO 8583 adapter."
+      ]
+    },
+    "bank-exception": {
+      "target": "bank-payment-exception-investigator",
+      "support": [
+        "iso-20022-message-interpreter"
+      ],
+      "required_inputs": [
+        "case and bank message evidence",
+        "rail-specific rules"
+      ]
+    },
+    "repair-defect": {
+      "target": "payment-repair-planner",
+      "required_inputs": [
+        "confirmed exception",
+        "exact before/after values",
+        "scoped policy and screening evidence"
+      ],
+      "limitations": [
+        "Draft field correction only; no execution or authenticated approval."
+      ]
+    },
+    "transaction-reconciliation": {
+      "target": "payment-transaction-reconciler"
+    },
+    "settlement-reconciliation": {
+      "target": "payment-settlement-reconciler",
+      "mode": "reconcile-settlement"
+    },
+    "payout-explanation": {
+      "target": "payment-settlement-reconciler",
+      "mode": "explain-payout"
+    },
+    "merchant-chargeback": {
+      "target": "merchant-chargeback-response-packager",
+      "requires_role": [
+        "merchant",
+        "acquirer",
+        "payfac"
+      ]
+    },
+    "issuer-dispute": {
+      "target": "issuer-payment-dispute-reviewer",
+      "requires_role": [
+        "issuer",
+        "bank",
+        "payment-provider"
+      ]
+    },
+    "payment-fraud-case": {
+      "target": "payment-fraud-and-scam-investigator"
+    },
+    "app-scam": {
+      "target": "payment-fraud-and-scam-investigator"
+    },
+    "instant-risk-window": {
+      "target": "instant-payment-risk-monitor",
+      "limitations": [
+        "Supplied event window only; not an inline decision engine or live scheduler."
+      ]
+    },
+    "merchant-onboarding": {
+      "target": "merchant-onboarding-risk-reviewer",
+      "limitations": [
+        "Initial onboarding only; ongoing underwriting expansion is not implemented."
+      ]
+    },
+    "merchant-cost": {
+      "target": "merchant-payment-cost-analyzer"
+    },
+    "integration-readiness": {
+      "target": "payment-integration-readiness-reviewer"
+    },
+    "api-log-summary": {
+      "target": "payment-api-log-diagnostic-pack",
+      "limitations": [
+        "Supplied log categorization only; not causal service-incident analysis."
+      ]
+    },
+    "fraud-rule-backtest": {
+      "target": "payment-fraud-rule-impact-analyzer",
+      "limitations": [
+        "One predicate comparison only; not a complete fraud strategy."
+      ]
+    },
+    "scheme-change": {
+      "target": "payment-scheme-change-tracker",
+      "limitations": [
+        "Supplied structured bulletins and obligations; offline source declarations are not independently authenticated."
+      ]
+    },
+    "pci-evidence": {
+      "target": "pci-dss-evidence-assistant"
+    },
+    "stablecoin-control-evidence": {
+      "target": "stablecoin-payment-controls-reviewer",
+      "limitations": [
+        "Supplied control evidence only; not a settlement opportunity or legal applicability assessment."
+      ]
+    },
+    "authorization-decline": {
+      "planned": "payment-acceptance-performance-analyzer",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "rail-comparison": {
+      "target": "bank-payment-workflow-designer",
+      "support": [
+        "payment-regulatory-applicability-reviewer",
+        "payment-economics-modeler",
+        "payment-provider-evaluator"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance.",
+        "The bank helper compares registered bank rails only. Card options require separate card-program/provider contract and economics evidence; a combined bank-rail/card ranking is not implemented."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "global-acquiring": {
+      "target": "merchant-acceptance-strategy-designer",
+      "support": [
+        "payment-provider-evaluator",
+        "payment-regulatory-applicability-reviewer"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "pay-by-bank-economics": {
+      "target": "payment-economics-modeler",
+      "support": [
+        "bank-payment-workflow-designer"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "vertical-saas-payments": {
+      "planned": "platform-payment-flow-designer",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "chargeback-spike": {
+      "planned": "payment-acceptance-performance-analyzer",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "instant-fraud-strategy": {
+      "planned": "payment-fraud-control-evaluator",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "card-lifecycle": {
+      "target": "card-lifecycle-operations-assistant",
+      "support": [
+        "payment-lifecycle-diagnoser",
+        "payment-servicing-planner"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "hub-modernization": {
+      "target": "payment-platform-architecture-reviewer",
+      "support": [
+        "bank-payment-workflow-designer",
+        "payment-integration-readiness-reviewer"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance.",
+        "Core architecture and cutover review; full Phase3 performance, incident and resilience modules remain separate."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "issuer-processor-comparison": {
+      "target": "payment-provider-evaluator",
+      "support": [
+        "card-program-designer"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "cross-border-options": {
+      "planned": "cross-border-payment-designer",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "acquiring-architecture": {
+      "target": "payment-platform-architecture-reviewer",
+      "support": [
+        "merchant-acceptance-strategy-designer"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance.",
+        "Core architecture and cutover review; full Phase3 performance, incident and resilience modules remain separate."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "orchestration-strategy": {
+      "target": "merchant-acceptance-strategy-designer",
+      "support": [
+        "payment-platform-architecture-reviewer",
+        "merchant-acceptance-strategy-designer"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ],
+      "requires_role": [
+        "merchant",
+        "acquirer",
+        "bank",
+        "issuer",
+        "processor"
+      ],
+      "role_targets": {
+        "merchant": "merchant-acceptance-strategy-designer",
+        "acquirer": "merchant-acceptance-strategy-designer",
+        "bank": "payment-platform-architecture-reviewer",
+        "issuer": "payment-platform-architecture-reviewer",
+        "processor": "payment-platform-architecture-reviewer"
+      }
+    },
+    "payments-company": {
+      "planned": "payments-business-model-analyzer",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "stablecoin-opportunity": {
+      "planned": "stablecoin-settlement-assessor",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "ai-operations-strategy": {
+      "planned": "payment-operations-improvement-analyzer",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "agent-commerce": {
+      "planned": "payment-initiation-control-reviewer",
+      "limitation": "Core initiation review is available; advanced agent-commerce mandate/protocol modules remain a later-phase capability."
+    },
+    "routine-refund": {
+      "target": "payment-servicing-planner",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "bulk-initiation": {
+      "target": "payment-initiation-control-reviewer",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "payment-liquidity": {
+      "planned": "payment-liquidity-and-funding-analyzer",
+      "limitation": "Later-phase capability; installed supporting evidence tasks do not complete this requested job."
+    },
+    "payment-initiation": {
+      "target": "payment-initiation-control-reviewer",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "regulatory-applicability": {
+      "target": "payment-regulatory-applicability-reviewer",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "card-program-design": {
+      "target": "card-program-designer",
+      "support": [
+        "payment-regulatory-applicability-reviewer",
+        "payment-provider-evaluator"
+      ],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "payment-economics": {
+      "target": "payment-economics-modeler",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "provider-selection": {
+      "target": "payment-provider-evaluator",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "merchant-acceptance-design": {
+      "target": "merchant-acceptance-strategy-designer",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "platform-architecture": {
+      "target": "payment-platform-architecture-reviewer",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    },
+    "payment-servicing": {
+      "target": "payment-servicing-planner",
+      "support": [],
+      "required_inputs": [
+        "as-of, participant and supported jurisdiction",
+        "native target schema and registered source evidence",
+        "unresolved upstream issues"
+      ],
+      "limitations": [
+        "Initial US, euro-area and UK analysis/planning; national and institution overlays remain required.",
+        "No execution or deployment acceptance."
+      ],
+      "required_context": [
+        "participant",
+        "jurisdiction"
+      ]
+    }
+  }
+}

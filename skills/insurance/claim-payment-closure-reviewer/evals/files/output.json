@@ -1,0 +1,352 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "claim-payment-closure-reviewer",
+  "case_id": "REVIEW-001",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "insurer",
+    "represented_party": "Example Mutual",
+    "object_id": "C-001",
+    "jurisdiction": "US-NY",
+    "line_of_business": "commercial-property"
+  },
+  "status": "needs-review",
+  "findings": [
+    {
+      "code": "closure-unsettled",
+      "message": "PAY-1: settled claim-payment evidence unavailable",
+      "source_refs": [
+        "CLAIM",
+        "LEDGER"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "payment_review_status": "ready_for_authorized_review",
+    "closure_review_status": "blocked",
+    "payment_request": {
+      "payment_id": "PAY-1",
+      "claim_id": "C-001",
+      "payee_id": "PAYEE-1",
+      "amount": "5000",
+      "currency": "USD",
+      "source_refs": [
+        "CLAIM"
+      ],
+      "obligation_id": "OBL-1"
+    },
+    "duplicate_transactions": [],
+    "gate_matrix": [
+      {
+        "gate_id": "G-0",
+        "category": "coverage",
+        "state": "pass",
+        "source_refs": [
+          "EVIDENCE"
+        ]
+      },
+      {
+        "gate_id": "G-1",
+        "category": "payee_verification",
+        "state": "pass",
+        "source_refs": [
+          "EVIDENCE"
+        ]
+      },
+      {
+        "gate_id": "G-2",
+        "category": "sanctions",
+        "state": "pass",
+        "source_refs": [
+          "EVIDENCE"
+        ]
+      },
+      {
+        "gate_id": "G-3",
+        "category": "liens",
+        "state": "pass",
+        "source_refs": [
+          "EVIDENCE"
+        ]
+      },
+      {
+        "gate_id": "G-4",
+        "category": "settlement_document",
+        "state": "pass",
+        "source_refs": [
+          "EVIDENCE"
+        ]
+      },
+      {
+        "gate_id": "G-5",
+        "category": "bank_verification",
+        "state": "pass",
+        "source_refs": [
+          "EVIDENCE"
+        ]
+      },
+      {
+        "gate_id": "G-6",
+        "category": "authority",
+        "state": "pass",
+        "source_refs": [
+          "EVIDENCE"
+        ]
+      }
+    ],
+    "open_obligations": [],
+    "reconciled_payment_ids": [],
+    "reopen_triggers": [
+      {
+        "trigger": "New material damage evidence",
+        "owner": "Assigned claim owner",
+        "routing": "Claims reopening queue with claim identifier",
+        "source_refs": [
+          "CLAIM"
+        ]
+      }
+    ],
+    "payment_executed": false,
+    "claim_closed": false,
+    "claim_reopened": false
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [
+    "PAY-1: settled claim-payment evidence unavailable"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "REVIEW-001",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "insurer",
+      "represented_party": "Example Mutual",
+      "object_id": "C-001",
+      "jurisdiction": "US-NY",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source_ref": "RULES",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "POLICY",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "CLAIM",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "LEDGER",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "ASSUMPTIONS",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "EVIDENCE",
+        "version": "1",
+        "as_of": "2026-09-17"
+      }
+    ],
+    "unresolved_issues": [],
+    "upstream_artifacts": [],
+    "rule_profile": {
+      "profile_id": "SYNTHETIC-REVIEW",
+      "version": "1",
+      "source_refs": [
+        "RULES"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "jurisdictions": [
+        "US-NY"
+      ],
+      "lines_of_business": [
+        "commercial-property"
+      ]
+    },
+    "data": {
+      "payment_request": {
+        "payment_id": "PAY-1",
+        "claim_id": "C-001",
+        "payee_id": "PAYEE-1",
+        "amount": "5000",
+        "currency": "USD",
+        "source_refs": [
+          "CLAIM"
+        ],
+        "obligation_id": "OBL-1"
+      },
+      "authority": {
+        "claim_id": "C-001",
+        "payee_id": "PAYEE-1",
+        "limit": "10000",
+        "currency": "USD",
+        "approval_state": "approved",
+        "approver": "adjuster-manager",
+        "effective": "2026-09-01",
+        "expiry": "2026-09-30",
+        "source_refs": [
+          "EVIDENCE"
+        ]
+      },
+      "payment_history": [],
+      "history_review": {
+        "complete": true,
+        "source_refs": [
+          "LEDGER"
+        ]
+      },
+      "gates": [
+        {
+          "gate_id": "G-0",
+          "category": "coverage",
+          "state": "pass",
+          "source_refs": [
+            "EVIDENCE"
+          ]
+        },
+        {
+          "gate_id": "G-1",
+          "category": "payee_verification",
+          "state": "pass",
+          "source_refs": [
+            "EVIDENCE"
+          ]
+        },
+        {
+          "gate_id": "G-2",
+          "category": "sanctions",
+          "state": "pass",
+          "source_refs": [
+            "EVIDENCE"
+          ]
+        },
+        {
+          "gate_id": "G-3",
+          "category": "liens",
+          "state": "pass",
+          "source_refs": [
+            "EVIDENCE"
+          ]
+        },
+        {
+          "gate_id": "G-4",
+          "category": "settlement_document",
+          "state": "pass",
+          "source_refs": [
+            "EVIDENCE"
+          ]
+        },
+        {
+          "gate_id": "G-5",
+          "category": "bank_verification",
+          "state": "pass",
+          "source_refs": [
+            "EVIDENCE"
+          ]
+        },
+        {
+          "gate_id": "G-6",
+          "category": "authority",
+          "state": "pass",
+          "source_refs": [
+            "EVIDENCE"
+          ]
+        }
+      ],
+      "closure": {
+        "open_obligations": [],
+        "remaining_case_reserve": "0",
+        "payment_reconciled": true,
+        "reopen_triggers": [
+          {
+            "trigger": "New material damage evidence",
+            "owner": "Assigned claim owner",
+            "routing": "Claims reopening queue with claim identifier",
+            "source_refs": [
+              "CLAIM"
+            ]
+          }
+        ],
+        "source_refs": [
+          "CLAIM",
+          "LEDGER"
+        ],
+        "required_payment_ids": [
+          "PAY-1"
+        ]
+      }
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "claim-payment-closure-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "insurer",
+      "represented_party": "Example Mutual",
+      "object_id": "C-001",
+      "jurisdiction": "US-NY",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source_ref": "RULES",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "POLICY",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "CLAIM",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "LEDGER",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "ASSUMPTIONS",
+        "version": "1",
+        "as_of": "2026-09-17"
+      },
+      {
+        "source_ref": "EVIDENCE",
+        "version": "1",
+        "as_of": "2026-09-17"
+      }
+    ],
+    "input_hash": "77ea540c11443fb371fae491138bb66ce76b45aa3c4dace850c66b02ef35c4bf",
+    "output_hash": "8e1fb8cc7414e356265e72072faa66ec05707b03be98d7ece5e3c417cf899b0c",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [
+      "PAY-1: settled claim-payment evidence unavailable"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "68a659193142c6339baf0164e3c1aa6bc5754debac37867cc8c60569e5ba9d50"
+  }
+}

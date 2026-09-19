@@ -1,0 +1,1408 @@
+{
+  "version": "0.4.0",
+  "input_semantics": {
+    "line_of_business": "Routing family: pc, life, annuity, disability, long-term-care, health; retain detailed product in target input.",
+    "availability": "Catalog routes require separate installed inventory and native input validation."
+  },
+  "intents": {
+    "data-reconciliation": {
+      "target": "insurance-data-reconciler",
+      "required_inputs": [
+        "metrics with periods/bases/source versions",
+        "reconciliation configuration"
+      ]
+    },
+    "pc-reserving": {
+      "target": "pc-reserving-analysis-assistant",
+      "required_inputs": [
+        "paid or reported triangle",
+        "valuation date and currency",
+        "approved method and tail assumptions"
+      ],
+      "line_of_business": [
+        "pc"
+      ],
+      "limitations": [
+        "Chain-ladder methods only; not rate adequacy or life valuation."
+      ]
+    },
+    "rating-worksheet": {
+      "target": "insurance-rating-worksheet-builder",
+      "required_inputs": [
+        "approved rate/rule version",
+        "supplied classifications and factors"
+      ],
+      "line_of_business": [
+        "pc"
+      ],
+      "limitations": [
+        "Supplied-rate worksheet; not a quote issuance or pricing indication."
+      ]
+    },
+    "rate-form-filing": {
+      "target": "insurance-rate-form-filing-packager",
+      "required_inputs": [
+        "rate/form artifacts",
+        "applicable jurisdiction checklist",
+        "source citations"
+      ]
+    },
+    "submission-preparation": {
+      "target": "insurance-submission-preparer",
+      "required_inputs": [
+        "extracted submission facts",
+        "source documents and versions",
+        "required-field configuration"
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "broker",
+        "agent"
+      ],
+      "support": [
+        "insurance-data-reconciler"
+      ]
+    },
+    "underwriting-risk": {
+      "line_of_business": [
+        "pc",
+        "life",
+        "annuity",
+        "disability",
+        "long-term-care",
+        "health"
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu"
+      ],
+      "variant_field": "line_of_business",
+      "variants": {
+        "pc": {
+          "target": "insurance-underwriting-risk-reviewer",
+          "required_inputs": [
+            "commercial-property evidence sections",
+            "appetite and authority configuration"
+          ],
+          "support": [
+            "insurance-submission-preparer"
+          ],
+          "limitations": [
+            "Current commercial-property profile; other P&C profiles require specialist review."
+          ]
+        },
+        "life": {
+          "target": "life-underwriting-reviewer",
+          "required_inputs": [
+            "life application and medical/financial evidence",
+            "versioned applicable underwriting criteria and referral thresholds"
+          ],
+          "limitations": [
+            "Life evidence and referral review; no risk-class assignment, medical diagnosis or disability/health-payer underwriting."
+          ]
+        },
+        "annuity": {
+          "planned": "life-health-underwriting-reviewer",
+          "limitation": "This profile is not supplied by the life evidence-review package; use the actual product-specific workflow or preserve the capability gap.",
+          "evidence_options": []
+        },
+        "disability": {
+          "planned": "life-health-underwriting-reviewer",
+          "limitation": "This profile is not supplied by the life evidence-review package; use the actual product-specific workflow or preserve the capability gap.",
+          "evidence_options": []
+        },
+        "long-term-care": {
+          "planned": "life-health-underwriting-reviewer",
+          "limitation": "This profile is not supplied by the life evidence-review package; use the actual product-specific workflow or preserve the capability gap.",
+          "evidence_options": []
+        },
+        "health": {
+          "planned": "life-health-underwriting-reviewer",
+          "limitation": "This profile is not supplied by the life evidence-review package; use the actual product-specific workflow or preserve the capability gap.",
+          "evidence_options": []
+        }
+      }
+    },
+    "policy-explanation": {
+      "target": "policy-document-explainer",
+      "required_inputs": [
+        "operative document/version",
+        "source-located sections"
+      ],
+      "limitations": [
+        "Explains supplied text; does not decide coverage for a loss."
+      ]
+    },
+    "policy-wording": {
+      "target": "policy-wording-comparator",
+      "required_inputs": [
+        "aligned policy clauses and versions",
+        "approved review criteria"
+      ],
+      "limitations": [
+        "Treaty interpretation/comparison belongs to reinsurance contract review."
+      ]
+    },
+    "coverage-gaps": {
+      "target": "coverage-gap-analyzer",
+      "required_inputs": [
+        "stated protection needs",
+        "policy limits/exclusions and evidence"
+      ],
+      "support": [
+        "policy-document-explainer"
+      ],
+      "limitations": [
+        "Prospective needs-versus-terms comparison, not loss coverage."
+      ]
+    },
+    "quote-comparison": {
+      "target": "premium-quote-comparator",
+      "required_inputs": [
+        "structured premiums/fees/periods/currencies",
+        "coverage comparability evidence"
+      ],
+      "line_of_business": [
+        "pc"
+      ],
+      "limitations": [
+        "No ranking when comparability is unresolved; not a life illustration review."
+      ]
+    },
+    "policy-renewal": {
+      "target": "policy-renewal-reviewer",
+      "required_inputs": [
+        "expiring/proposed terms",
+        "exposure and aligned loss/premium history"
+      ],
+      "support": [
+        "policy-wording-comparator"
+      ]
+    },
+    "claim-intake": {
+      "target": "claim-intake-preparer",
+      "required_inputs": [
+        "notification and receipt evidence",
+        "source facts/documents",
+        "normalization and readiness configuration"
+      ],
+      "limitations": [
+        "Intake preparation preserves incomplete notice; no coverage decision."
+      ]
+    },
+    "claims-triage": {
+      "target": "claims-triage-assistant",
+      "required_inputs": [
+        "native claim records",
+        "as-of context and approved routing/SLA configuration"
+      ],
+      "participant": [
+        "carrier",
+        "tpa"
+      ],
+      "limitations": [
+        "Carrier/TPA operational triage; preserve unknown liability and urgent routes."
+      ]
+    },
+    "claim-file-quality": {
+      "target": "claim-file-quality-reviewer",
+      "required_inputs": [
+        "file events/documents",
+        "financial movement/stock basis",
+        "review requirements"
+      ]
+    },
+    "claim-cost-reconciliation": {
+      "target": "claim-cost-reconciler",
+      "required_inputs": [
+        "versioned cost lines, currency and units",
+        "resolved support references"
+      ]
+    },
+    "liability-evidence": {
+      "target": "liability-evidence-matrix-builder",
+      "required_inputs": [
+        "allegations/propositions",
+        "source passages and contrary evidence"
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "counsel"
+      ]
+    },
+    "settlement-authority-request": {
+      "target": "claim-settlement-authority-request-builder",
+      "required_inputs": [
+        "supported proposed amounts",
+        "coverage/evaluation evidence",
+        "authority matrix"
+      ],
+      "participant": [
+        "carrier",
+        "tpa"
+      ],
+      "limitations": [
+        "Draft request only; not valuation, approval, or payment."
+      ]
+    },
+    "fraud-referral": {
+      "target": "insurance-fraud-referral-reviewer",
+      "required_inputs": [
+        "claim indicators and sources",
+        "contrary evidence",
+        "configured referral thresholds"
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "siu"
+      ],
+      "limitations": [
+        "Single-case referral review, not fraud determination or external reporting."
+      ]
+    },
+    "recovery-screen": {
+      "target": "subrogation-opportunity-screener",
+      "required_inputs": [
+        "payments/parties/rights",
+        "waiver/prior-recovery/deadline evidence"
+      ],
+      "participant": [
+        "carrier",
+        "tpa"
+      ]
+    },
+    "claim-appeal": {
+      "line_of_business": [
+        "health",
+        "pc",
+        "life",
+        "disability",
+        "long-term-care"
+      ],
+      "participant": [
+        "claimant",
+        "member",
+        "advocate",
+        "benefits-staff"
+      ],
+      "variant_field": "line_of_business",
+      "variants": {
+        "health": {
+          "target": "health-benefit-appeal-packager",
+          "required_inputs": [
+            "denial/EOB",
+            "plan and appeal rules",
+            "evidence resolving specific criteria"
+          ]
+        },
+        "pc": {
+          "target": "claimant-dispute-packager",
+          "required_inputs": [
+            "Native source-bound schema for claimant-dispute-packager",
+            "Reviewed method/profile scope, dates, basis and unresolved issues"
+          ],
+          "limitations": [
+            "Prepare a claimant-owned dispute chronology, adverse-reason evidence matrix and concrete requests using the supplied notice and appeal route. Use to organize claimant reconsideration or information requests; no carrier response, legal merits decision, filing or invented deadline.",
+            "Offline bounded method; native input validation and professional review required."
+          ]
+        },
+        "life": {
+          "target": "claimant-dispute-packager",
+          "required_inputs": [
+            "Native source-bound schema for claimant-dispute-packager",
+            "Reviewed method/profile scope, dates, basis and unresolved issues"
+          ],
+          "limitations": [
+            "Prepare a claimant-owned dispute chronology, adverse-reason evidence matrix and concrete requests using the supplied notice and appeal route. Use to organize claimant reconsideration or information requests; no carrier response, legal merits decision, filing or invented deadline.",
+            "Offline bounded method; native input validation and professional review required."
+          ]
+        },
+        "disability": {
+          "target": "claimant-dispute-packager",
+          "required_inputs": [
+            "Claimant or claimant-representative native capacity, adverse notice, chronology, reason/evidence matrix and supplied appeal route rules"
+          ],
+          "limitations": [
+            "Claimant-side dispute preparation only; no clinical finding or carrier benefit decision."
+          ]
+        },
+        "long-term-care": {
+          "target": "claimant-dispute-packager",
+          "required_inputs": [
+            "Claimant or claimant-representative native capacity, adverse notice, chronology, reason/evidence matrix and supplied appeal route rules"
+          ],
+          "limitations": [
+            "Claimant-side dispute preparation only; no clinical finding or carrier benefit decision."
+          ]
+        }
+      }
+    },
+    "reinsurance-contract": {
+      "target": "reinsurance-contract-reviewer",
+      "required_inputs": [
+        "contract type and exact terms/versions",
+        "question and optional supported illustration"
+      ],
+      "participant": [
+        "cedant",
+        "reinsurer",
+        "reinsurance-broker",
+        "counsel"
+      ],
+      "limitations": [
+        "Contract interpretation/comparison; supplied ceded program scenarios and administration have separate installed owners. Assumed risk underwriting remains a gap."
+      ]
+    },
+    "cat-event-monitoring": {
+      "target": "catastrophe-exposure-monitor",
+      "required_inputs": [
+        "event/exposure/model bindings",
+        "feed completeness",
+        "prior alerts"
+      ],
+      "line_of_business": [
+        "pc"
+      ],
+      "limitations": [
+        "Current event monitor, not independent CAT modeling or portfolio PML."
+      ]
+    },
+    "pc-rate-adequacy": {
+      "target": "pc-rate-adequacy-analyzer",
+      "required_inputs": [
+        "aligned cohort earned premium, ultimate loss/LAE and exposure",
+        "reviewed on-level, trend, credibility and expense assumptions"
+      ],
+      "limitations": [
+        "Bounded single-cohort indication from reviewed ultimate losses; not reserve development, selected/filed rates or an individual quote."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "actuary"
+      ],
+      "line_of_business": [
+        "pc"
+      ],
+      "support": [
+        "insurance-data-reconciler",
+        "pc-reserving-analysis-assistant"
+      ]
+    },
+    "life-valuation": {
+      "target": "long-duration-liability-valuation-reviewer",
+      "required_inputs": [
+        "Native source-bound schema for long-duration-liability-valuation-reviewer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Recompute supplied long-duration liability cashflow present values and reconcile projected value, book adjustments and liability roll-forwards on a sourced accounting basis. Use to investigate valuation breaks; does not implement statutory, GAAP or IFRS reserve measurement.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "actuary",
+        "reinsurer"
+      ],
+      "line_of_business": [
+        "life",
+        "annuity"
+      ]
+    },
+    "life-annuity-pricing": {
+      "target": "life-annuity-pricing-modeler",
+      "required_inputs": [
+        "Native source-bound schema for life-annuity-pricing-modeler",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Model annual survival-weighted life or annuity cashflows from supplied mutually exclusive decrement probabilities, premiums, expenses and benefit schedules. Use for bounded deterministic pricing scenarios; excludes reserve generation, capital or tax modeling and product price approval.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "actuary",
+        "reinsurer"
+      ],
+      "line_of_business": [
+        "life",
+        "annuity"
+      ]
+    },
+    "claim-coverage": {
+      "target": "claim-coverage-reviewer",
+      "required_inputs": [
+        "claim facts with supporting and contrary passages",
+        "exact operative policy clauses and reviewed applicability criteria"
+      ],
+      "limitations": [
+        "P&C clause/fact review and hypotheses; no binding coverage verdict. Claimant disputes and life/health benefits have separate owners."
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "counsel"
+      ],
+      "line_of_business": [
+        "pc"
+      ],
+      "support": [
+        "policy-document-explainer",
+        "liability-evidence-matrix-builder"
+      ]
+    },
+    "claim-financial-evaluation": {
+      "target": "claim-financial-evaluation-assistant",
+      "required_inputs": [
+        "paid indemnity/expense and outstanding reserve balances",
+        "sourced future scenarios, recoveries and policy financial basis"
+      ],
+      "limitations": [
+        "Case-level financial scenarios; no selected/booked reserve or autonomous settlement valuation."
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "actuary"
+      ],
+      "line_of_business": [
+        "pc"
+      ],
+      "support": [
+        "claim-cost-reconciler",
+        "claim-coverage-reviewer"
+      ]
+    },
+    "loss-ratio-drivers": {
+      "target": "insurance-portfolio-performance-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-portfolio-performance-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconcile two comparable insurance calendar-period portfolios and analyze loss, expense, frequency and severity measures with an exact segment-mix loss-ratio bridge. Use for underwriting, claims-severity and combined-ratio diagnostics; no causal attribution, reserve selection or imputed segment data.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "actuary",
+        "tpa"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "underwriting-performance": {
+      "target": "insurance-portfolio-performance-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-portfolio-performance-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconcile two comparable insurance calendar-period portfolios and analyze loss, expense, frequency and severity measures with an exact segment-mix loss-ratio bridge. Use for underwriting, claims-severity and combined-ratio diagnostics; no causal attribution, reserve selection or imputed segment data.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "actuary",
+        "tpa"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "claims-severity-drivers": {
+      "target": "insurance-portfolio-performance-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-portfolio-performance-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconcile two comparable insurance calendar-period portfolios and analyze loss, expense, frequency and severity measures with an exact segment-mix loss-ratio bridge. Use for underwriting, claims-severity and combined-ratio diagnostics; no causal attribution, reserve selection or imputed segment data.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "actuary",
+        "tpa"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "suspicious-claims-spike": {
+      "target": "insurance-fraud-pattern-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-fraud-pattern-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Screen supplied insurance claim populations for shared exact identifiers and compare complete observation-window rates with mature outcome labels. Use for portfolio pattern and unusual-volume review before case referral; no fraud verdict, fuzzy identity inference or automated adverse action.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "siu"
+      ]
+    },
+    "fnol-process-design": {
+      "planned": "insurance-workflow-designer",
+      "limitation": "Process architecture is not implemented; intake and triage tools can inform the design.",
+      "evidence_options": [
+        "claim-intake-preparer",
+        "claims-triage-assistant"
+      ]
+    },
+    "automated-underwriting-comparison": {
+      "planned": "workflow-automation-assessor",
+      "limitation": "Shared automation economics/feasibility assessment is not installed; governance review alone does not complete it.",
+      "evidence_options": []
+    },
+    "cyber-product-strategy": {
+      "target": "insurance-market-strategy-researcher",
+      "required_inputs": [
+        "Native source-bound schema for insurance-market-strategy-researcher",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Compare source-backed insurance market and competitor evidence within a defined product, geography, period and premium basis; prepare strategic hypotheses, contrary evidence and research gaps. Use for product/market positioning, including specialty lines; no invented market totals, comparable prices or selected strategy.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "broker",
+        "advisor",
+        "actuary"
+      ]
+    },
+    "combined-ratio-drivers": {
+      "target": "insurance-portfolio-performance-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-portfolio-performance-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconcile two comparable insurance calendar-period portfolios and analyze loss, expense, frequency and severity measures with an exact segment-mix loss-ratio bridge. Use for underwriting, claims-severity and combined-ratio diagnostics; no causal attribution, reserve selection or imputed segment data.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "actuary",
+        "tpa"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "submission-ingestion-design": {
+      "planned": "insurance-workflow-designer",
+      "limitation": "Document ingestion architecture is not implemented by the submission preparer.",
+      "evidence_options": [
+        "insurance-submission-preparer"
+      ]
+    },
+    "core-modernization": {
+      "planned": "insurance-core-modernization-planner",
+      "limitation": "Insurance core options/migration planning is not implemented.",
+      "evidence_options": []
+    },
+    "cloud-architecture": {
+      "planned": "solution-architecture-planner",
+      "limitation": "Shared solution architecture is not installed; security posture review alone cannot design the system.",
+      "evidence_options": []
+    },
+    "insurance-data-strategy": {
+      "planned": "insurance-data-product-designer",
+      "limitation": "Insurance data strategy and semantic design are not implemented.",
+      "evidence_options": [
+        "data-lineage-documenter",
+        "data-quality-issue-investigator"
+      ]
+    },
+    "data-provider-value": {
+      "planned": "data-product-value-evaluator",
+      "limitation": "Incremental data value evaluation is not installed; procurement scores are not outcome evidence.",
+      "evidence_options": [
+        "procurement-sourcing-assistant",
+        "privacy-impact-assessment-assistant"
+      ]
+    },
+    "claims-data-platform": {
+      "planned": "data-product-value-evaluator",
+      "limitation": "Evaluate licensed platform evidence and incremental value through a provider-neutral workflow; no vendor-specific implementation exists.",
+      "evidence_options": [
+        "procurement-sourcing-assistant"
+      ]
+    },
+    "producer-copilot-design": {
+      "planned": "insurance-workflow-designer",
+      "limitation": "Producer copilot/process design is not installed.",
+      "evidence_options": [
+        "policy-document-explainer",
+        "premium-quote-comparator"
+      ]
+    },
+    "claims-ai-strategy": {
+      "planned": "insurance-workflow-designer",
+      "limitation": "Claims automation strategy is not installed; shared AI governance is an input, not the strategy.",
+      "evidence_options": [
+        "ai-use-case-intake-classifier"
+      ]
+    },
+    "underwriting-ai-strategy": {
+      "planned": "insurance-workflow-designer",
+      "limitation": "Underwriting automation strategy is not installed.",
+      "evidence_options": [
+        "ai-use-case-intake-classifier"
+      ]
+    },
+    "mga-business-model": {
+      "target": "insurance-product-economics-modeler",
+      "required_inputs": [
+        "Native source-bound schema for insurance-product-economics-modeler",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Model supplied carrier underwriting and reinsurance economics or non-risk-bearing MGA fee economics over a stated period. Use for product/program business cases and scenario comparisons; no universal profitability hurdle, pricing selection or capital allocation.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "actuary"
+      ]
+    },
+    "reinsurance-program": {
+      "target": "reinsurance-program-analyzer",
+      "required_inputs": [
+        "supplied event losses and eligibility",
+        "ordered reviewed ceded layers, participation, erosion and premiums"
+      ],
+      "limitations": [
+        "Compare supplied ceded scenarios; not CAT model generation, probability estimates, optimization or assumed risk underwriting."
+      ],
+      "participant": [
+        "cedant",
+        "reinsurance-broker"
+      ],
+      "support": [
+        "reinsurance-contract-reviewer"
+      ]
+    },
+    "assumed-reinsurance-underwriting": {
+      "target": "reinsurance-underwriting-reviewer",
+      "required_inputs": [
+        "Native source-bound schema for reinsurance-underwriting-reviewer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Review assumed occurrence excess-of-loss treaty scenarios, coverage scope, annual aggregate limits, signed participation and underwriting economics. Use for no-reinstatement assumed treaty review; excludes ceded placement, recoverable administration, legal risk-transfer determination and binding.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "reinsurer",
+        "actuary"
+      ]
+    },
+    "cat-reinsurance-requirements": {
+      "target": "catastrophe-scenario-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for catastrophe-scenario-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Analyze supplied catastrophe event losses as a joint annual sample for occurrence and aggregate exceedance probabilities and average annual loss, or as an annual event-rate table for additive AAL only. Use for source-bound scenario review; no model execution, marginal PML summation or invented dependence.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "reinsurer",
+        "reinsurance-broker",
+        "actuary"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "product-competitive-position": {
+      "target": "insurance-market-strategy-researcher",
+      "required_inputs": [
+        "Native source-bound schema for insurance-market-strategy-researcher",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Compare source-backed insurance market and competitor evidence within a defined product, geography, period and premium basis; prepare strategic hypotheses, contrary evidence and research gaps. Use for product/market positioning, including specialty lines; no invented market totals, comparable prices or selected strategy.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "broker",
+        "advisor",
+        "actuary"
+      ]
+    },
+    "agentic-workflow-suitability": {
+      "planned": "workflow-automation-assessor",
+      "limitation": "Shared workflow value/feasibility assessment is not installed; risk classification is not a business case.",
+      "evidence_options": [
+        "ai-use-case-intake-classifier"
+      ]
+    },
+    "insurance-360-design": {
+      "planned": "insurance-data-product-designer",
+      "limitation": "Insurance temporal semantic/360 design is not implemented.",
+      "evidence_options": [
+        "data-lineage-documenter",
+        "privacy-impact-assessment-assistant"
+      ]
+    },
+    "regulatory-change": {
+      "target": "regulatory-change-impact-analyzer",
+      "required_inputs": [
+        "actual regulatory source/version",
+        "entity/product/jurisdiction scope",
+        "current controls"
+      ],
+      "limitations": [
+        "Shared applicability review; insurance-specific professional interpretation may remain unresolved."
+      ]
+    },
+    "reinsurance-analysis": {
+      "participant": [
+        "cedant",
+        "reinsurer",
+        "reinsurance-broker"
+      ],
+      "variant_field": "participant",
+      "variants": {
+        "cedant": {
+          "target": "reinsurance-program-analyzer",
+          "required_inputs": [
+            "supplied event losses and eligibility",
+            "ordered reviewed ceded layers, participation, erosion and premiums"
+          ],
+          "limitations": [
+            "Compare supplied ceded scenarios; not CAT model generation, probability estimates, optimization or assumed risk underwriting."
+          ],
+          "support": [
+            "reinsurance-contract-reviewer"
+          ]
+        },
+        "reinsurer": {
+          "target": "reinsurance-underwriting-reviewer",
+          "required_inputs": [
+            "Native source-bound schema for reinsurance-underwriting-reviewer",
+            "Reviewed method/profile scope, dates, basis and unresolved issues"
+          ],
+          "limitations": [
+            "Review assumed occurrence excess-of-loss treaty scenarios, coverage scope, annual aggregate limits, signed participation and underwriting economics. Use for no-reinstatement assumed treaty review; excludes ceded placement, recoverable administration, legal risk-transfer determination and binding.",
+            "Offline bounded method; native input validation and professional review required."
+          ]
+        },
+        "reinsurance-broker": {
+          "target": "reinsurance-program-analyzer",
+          "required_inputs": [
+            "supplied event losses and eligibility",
+            "ordered reviewed ceded layers, participation, erosion and premiums"
+          ],
+          "limitations": [
+            "Compare supplied ceded scenarios; not CAT model generation, probability estimates, optimization or assumed risk underwriting."
+          ],
+          "support": [
+            "reinsurance-contract-reviewer"
+          ]
+        }
+      }
+    },
+    "product-design": {
+      "target": "insurance-product-design-reviewer",
+      "required_inputs": [
+        "proposed feature/requirement definitions",
+        "versioned wording, market, actuarial, filing and operating evidence"
+      ],
+      "limitations": [
+        "Offline native preparation; human review and actual source applicability remain required."
+      ],
+      "support": [
+        "policy-wording-comparator",
+        "insurance-rate-form-filing-packager"
+      ]
+    },
+    "product-economics": {
+      "target": "insurance-product-economics-modeler",
+      "required_inputs": [
+        "Native source-bound schema for insurance-product-economics-modeler",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Model supplied carrier underwriting and reinsurance economics or non-risk-bearing MGA fee economics over a stated period. Use for product/program business cases and scenario comparisons; no universal profitability hurdle, pricing selection or capital allocation.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "actuary"
+      ]
+    },
+    "portfolio-performance": {
+      "target": "insurance-portfolio-performance-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-portfolio-performance-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconcile two comparable insurance calendar-period portfolios and analyze loss, expense, frequency and severity measures with an exact segment-mix loss-ratio bridge. Use for underwriting, claims-severity and combined-ratio diagnostics; no causal attribution, reserve selection or imputed segment data.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "actuary",
+        "tpa"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "experience-study": {
+      "target": "insurance-experience-study-builder",
+      "required_inputs": [
+        "Native source-bound schema for insurance-experience-study-builder",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Build count-based death or first-lapse experience studies using dated risk intervals, left truncation, right censoring and supplied constant event intensities. Use for segment exposure and actual-to-expected review; excludes credibility certification, annual-probability table fitting and monetary claim severity.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "actuary",
+        "reinsurer"
+      ]
+    },
+    "insurance-alm": {
+      "target": "insurance-alm-scenario-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-alm-scenario-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Compare supplied life or health asset receipts and liability payments under consistent deterministic rate and cashflow shocks, including dated liquidity gaps. Use for static ALM sensitivity review; excludes stochastic adequacy opinions, reinvestment and option-response modeling.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "actuary",
+        "reinsurer"
+      ]
+    },
+    "policy-transaction": {
+      "target": "insurance-policy-transaction-packager",
+      "required_inputs": [
+        "current policy/version and sourced request",
+        "action-specific authority and jurisdiction profile",
+        "before/after values, notice plan and premium effects"
+      ],
+      "limitations": [
+        "Offline native preparation; human review and actual source applicability remain required."
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "mga",
+        "agent",
+        "broker"
+      ],
+      "line_of_business": [
+        "pc",
+        "life",
+        "annuity"
+      ],
+      "support": [
+        "policy-wording-comparator"
+      ]
+    },
+    "life-contract-service": {
+      "target": "life-annuity-contract-service-reviewer",
+      "required_inputs": [
+        "contract values and terms",
+        "requester/owner/beneficiary/assignee rights and consents",
+        "sourced withdrawal/surrender or beneficiary-change request"
+      ],
+      "limitations": [
+        "Supported withdrawal, surrender and beneficiary-change preparation; no mutation, tax opinion or universal value formula."
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "agent",
+        "advisor",
+        "policyholder"
+      ],
+      "line_of_business": [
+        "life",
+        "annuity"
+      ]
+    },
+    "premium-billing": {
+      "target": "insurance-premium-billing-reconciler",
+      "required_inputs": [
+        "account/policy/period/currency-bound opening and closing balances",
+        "complete transaction and invoice-allocation ledgers"
+      ],
+      "limitations": [
+        "Gross premium receivable reconciliation; does not determine earned premium, coverage lapse or cancellation rights."
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "mga",
+        "agent",
+        "broker"
+      ],
+      "support": [
+        "insurance-data-reconciler"
+      ]
+    },
+    "premium-audit": {
+      "target": "insurance-premium-audit-reviewer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-premium-audit-reviewer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconstruct audited premium from source-bound exposures, classifications, manual versions, unit rates and modifiers; compare the reported audit and deposit. Use for end-of-period premium audits, without changing classifications, billing or coverage.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "auditor"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "producer-onboarding": {
+      "target": "insurance-producer-onboarding-reviewer",
+      "required_inputs": [
+        "entity/jurisdiction/line license and appointment evidence",
+        "dated applicable requirements and insurer authority"
+      ],
+      "limitations": [
+        "Offline native preparation; human review and actual source applicability remain required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "agent",
+        "broker"
+      ]
+    },
+    "producer-compensation": {
+      "target": "insurance-producer-compensation-reconciler",
+      "required_inputs": [
+        "Native source-bound schema for insurance-producer-compensation-reconciler",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconcile earned producer compensation from contractual earning triggers, commission bases, split shares and linked chargebacks. Use for compensation ledger breaks; no inferred commission rules, payment, licensing determination or fiduciary withdrawal.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "broker",
+        "agent"
+      ]
+    },
+    "insurance-placement": {
+      "target": "insurance-placement-packager",
+      "required_inputs": [
+        "client requirements and complete versioned market response history",
+        "current quote selection, terms and subjectivities"
+      ],
+      "limitations": [
+        "Offline native preparation; human review and actual source applicability remain required."
+      ],
+      "participant": [
+        "broker",
+        "agent",
+        "wholesale-broker",
+        "mga"
+      ],
+      "support": [
+        "insurance-submission-preparer",
+        "premium-quote-comparator"
+      ]
+    },
+    "delegated-authority": {
+      "target": "insurance-delegated-authority-reviewer",
+      "required_inputs": [
+        "executed authority scope and parties",
+        "dated per-risk/aggregate capacity and bordereaux evidence"
+      ],
+      "limitations": [
+        "Offline native preparation; human review and actual source applicability remain required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "mgu",
+        "tpa",
+        "coverholder"
+      ]
+    },
+    "life-annuity-sales": {
+      "target": "life-annuity-sales-reviewer",
+      "required_inputs": [
+        "consumer needs and alternatives",
+        "product, charges, guarantees, replacement and applicability evidence"
+      ],
+      "limitations": [
+        "Offline native preparation; human review and actual source applicability remain required."
+      ],
+      "participant": [
+        "agent",
+        "broker",
+        "advisor",
+        "carrier"
+      ],
+      "line_of_business": [
+        "life",
+        "annuity"
+      ]
+    },
+    "claim-handling-plan": {
+      "target": "claim-handling-plan-builder",
+      "required_inputs": [
+        "claim objectives and tasks",
+        "source-backed dependencies, owners and dated handling profile"
+      ],
+      "limitations": [
+        "Offline native preparation; human review and actual source applicability remain required."
+      ],
+      "participant": [
+        "carrier",
+        "tpa"
+      ],
+      "support": [
+        "claims-triage-assistant",
+        "claim-coverage-reviewer"
+      ]
+    },
+    "claim-payment-closure": {
+      "target": "claim-payment-closure-reviewer",
+      "required_inputs": [
+        "reviewed claim/payee/obligation/amount/authority evidence",
+        "actual payment history and separate closure/reopening obligations"
+      ],
+      "limitations": [
+        "Payment preparation and closure checks remain separate; drafted payments never count as settled. No money movement or case closure."
+      ],
+      "participant": [
+        "carrier",
+        "tpa"
+      ],
+      "support": [
+        "claim-settlement-authority-request-builder",
+        "claim-financial-evaluation-assistant"
+      ]
+    },
+    "recovery-case": {
+      "target": "claim-recovery-case-reviewer",
+      "required_inputs": [
+        "Native source-bound schema for claim-recovery-case-reviewer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Prepare a source-bound claim recovery case with rights, supplied limitation dates, preservation tasks and collection allocation across explicit loss interests. Use for subrogation, contribution or salvage follow-through; no legal rights verdict, demand, settlement or disbursement.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "adjuster",
+        "counsel"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "life-benefit-claim": {
+      "target": "life-benefit-claim-reviewer",
+      "required_inputs": [
+        "death/contract/beneficiary evidence and chronology",
+        "supplied benefit components, deductions and claim requirements"
+      ],
+      "limitations": [
+        "Death-benefit evidence and benefit bridge; disputes and missing rights remain open, no pay/deny decision."
+      ],
+      "participant": [
+        "carrier",
+        "tpa"
+      ],
+      "line_of_business": [
+        "life"
+      ],
+      "support": [
+        "claim-intake-preparer"
+      ]
+    },
+    "disability-care-benefit": {
+      "target": "disability-care-benefit-reviewer",
+      "required_inputs": [
+        "Native source-bound schema for disability-care-benefit-reviewer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues",
+        "Native capacity carrier-benefits-review or benefits-administrator-review; claimant appeals use claimant-dispute"
+      ],
+      "limitations": [
+        "Review disability or long-term-care benefit criteria by period, qualified evidence, continuous calendar waiting periods, daily indemnity caps and policy offsets. Use for carrier or administrator benefit review; no diagnosis, medical adjudication, benefit decision or claimant appeal.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "tpa"
+      ],
+      "line_of_business": [
+        "disability",
+        "long-term-care"
+      ]
+    },
+    "claimant-dispute": {
+      "target": "claimant-dispute-packager",
+      "required_inputs": [
+        "Native source-bound schema for claimant-dispute-packager",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Prepare a claimant-owned dispute chronology, adverse-reason evidence matrix and concrete requests using the supplied notice and appeal route. Use to organize claimant reconsideration or information requests; no carrier response, legal merits decision, filing or invented deadline.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "claimant",
+        "member",
+        "advocate",
+        "benefits-staff"
+      ],
+      "line_of_business": [
+        "pc",
+        "life",
+        "disability",
+        "long-term-care"
+      ]
+    },
+    "siu-investigation": {
+      "target": "insurance-siu-investigation-assistant",
+      "required_inputs": [
+        "Native source-bound schema for insurance-siu-investigation-assistant",
+        "Reviewed method/profile scope, dates, basis and unresolved issues",
+        "Native insurer-siu-investigation capacity and case-scoped lawful authority evidence"
+      ],
+      "limitations": [
+        "Prepare an SIU hypothesis and contradictory-evidence matrix, source-bound custody register and lawful investigation task plan after triage. Use for insurer investigation casework; no fraud verdict, covert collection, autonomous referral or claim denial.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "tpa",
+        "siu"
+      ]
+    },
+    "reinsurance-administration": {
+      "target": "reinsurance-contract-administration-reviewer",
+      "required_inputs": [
+        "treaty/counterparty/period/currency-bound statements, bordereaux and cash",
+        "opening/closing recoverables, adjustments, collateral and notice terms"
+      ],
+      "limitations": [
+        "Offline native preparation; human review and actual source applicability remain required."
+      ],
+      "participant": [
+        "cedant",
+        "reinsurer",
+        "reinsurance-broker",
+        "tpa"
+      ],
+      "support": [
+        "reinsurance-contract-reviewer",
+        "insurance-data-reconciler"
+      ]
+    },
+    "exposure-aggregation": {
+      "target": "insurance-exposure-aggregation-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-exposure-aggregation-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Aggregate supplied policy-location total insured values by currency, account, location and covered peril, preserving duplicate identities, geocode and model-data quality gaps. Use for portfolio exposure schedules; no catastrophe loss estimate, underwriting acceptance or inferred FX.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "reinsurer",
+        "reinsurance-broker",
+        "actuary"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "cat-scenario": {
+      "target": "catastrophe-scenario-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for catastrophe-scenario-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Analyze supplied catastrophe event losses as a joint annual sample for occurrence and aggregate exceedance probabilities and average annual loss, or as an annual event-rate table for additive AAL only. Use for source-bound scenario review; no model execution, marginal PML summation or invented dependence.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "reinsurer",
+        "reinsurance-broker",
+        "actuary"
+      ],
+      "line_of_business": [
+        "pc"
+      ]
+    },
+    "financial-close": {
+      "target": "insurance-financial-close-reviewer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-financial-close-reviewer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconcile selected insurance subledger balances to general-ledger controls on an explicit approved accounting basis and review balanced proposed close adjustments. Use for insurance close breaks; no universal statutory entries, journal posting, accounting-policy selection or close certification.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "reinsurer",
+        "finance"
+      ]
+    },
+    "capital-solvency": {
+      "target": "insurance-capital-solvency-analyzer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-capital-solvency-analyzer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Reconcile supplied approved additive capital components, a named capital requirement and approved stress bridges, with labeled control-ratio comparisons. Use for insurer capital evidence review; no RBC or Solvency II formula engine, inferred diversification or solvency certification.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "reinsurer",
+        "actuary",
+        "risk"
+      ]
+    },
+    "orsa": {
+      "target": "insurance-orsa-packager",
+      "required_inputs": [
+        "Native source-bound schema for insurance-orsa-packager",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Build an ORSA review draft linking supplied material-risk assessments, prospective scenarios, capital and liquidity reconciliations, narrative sections and governance evidence. Use for insurer own-risk and solvency assessment preparation; no completion score, applicability determination, board approval or regulatory filing.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "reinsurer",
+        "risk"
+      ]
+    },
+    "market-conduct": {
+      "target": "insurance-market-conduct-reviewer",
+      "required_inputs": [
+        "Native source-bound schema for insurance-market-conduct-reviewer",
+        "Reviewed method/profile scope, dates, basis and unresolved issues"
+      ],
+      "limitations": [
+        "Review supplied insurance market-conduct samples against versioned control definitions and reconcile population metrics on consistent bases. Use for claims, underwriting or sales-control exceptions and examination preparation; no legal compliance opinion, population extrapolation or certified MCAS filing.",
+        "Offline bounded method; native input validation and professional review required."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "compliance",
+        "regulator"
+      ]
+    },
+    "workflow-design": {
+      "planned": "insurance-workflow-designer",
+      "limitation": "Insurance workflow design is not implemented in Phase 1."
+    },
+    "insurance-data-design": {
+      "planned": "insurance-data-product-designer",
+      "limitation": "Insurance semantic/data-product design is not implemented in Phase 1."
+    },
+    "parametric-trigger": {
+      "planned": "parametric-trigger-reviewer",
+      "limitation": "Parametric trigger verification (conditional extension) is not implemented in Phase 1."
+    },
+    "health-plan-pricing": {
+      "planned": "health-plan-pricing-reviewer",
+      "limitation": "Health payer pricing (conditional extension) is not implemented in Phase 1."
+    },
+    "health-utilization": {
+      "planned": "health-utilization-review-packager",
+      "limitation": "Health utilization/prior-authorization preparation (conditional extension) is not implemented in Phase 1."
+    },
+    "health-claim-payment": {
+      "planned": "health-claim-payment-reviewer",
+      "limitation": "Health coded-claim review (conditional extension) is not implemented in Phase 1."
+    },
+    "health-provider-network": {
+      "planned": "health-provider-network-reviewer",
+      "limitation": "Health provider/network review (conditional extension) is not implemented in Phase 1."
+    },
+    "life-underwriting": {
+      "target": "life-underwriting-reviewer",
+      "required_inputs": [
+        "life application and medical/financial evidence",
+        "versioned applicable underwriting criteria and referral thresholds"
+      ],
+      "limitations": [
+        "Life evidence and referral review; no risk-class assignment, medical diagnosis or disability/health-payer underwriting."
+      ],
+      "participant": [
+        "carrier",
+        "mga",
+        "underwriter"
+      ],
+      "line_of_business": [
+        "life"
+      ]
+    }
+  }
+}

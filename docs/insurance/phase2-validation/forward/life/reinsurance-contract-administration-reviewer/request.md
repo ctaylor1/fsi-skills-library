@@ -1,0 +1,1 @@
+I am Cedar Mutual's ceded reinsurance accountant. Reconcile the August paid-loss statement with the bordereau, cash and closing recoverable, and flag collateral and notice exceptions. Preserve claim-level breaks even if the total ties. Do not book entries or send notices.

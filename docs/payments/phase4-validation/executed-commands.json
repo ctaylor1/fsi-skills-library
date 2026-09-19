@@ -1,0 +1,75 @@
+{
+  "payment-package-evaluations": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "tools/run_selftests.py",
+      "skills/payments",
+      "skills/cybersecurity-operational-resilience/pci-dss-evidence-assistant"
+    ],
+    "exit": 0,
+    "log": "payment-package-evaluations.log"
+  },
+  "payment-integration-tests": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools",
+      "-p",
+      "test_payment*.py"
+    ],
+    "exit": 0,
+    "log": "payment-integration-tests.log"
+  },
+  "repository-package-evaluations": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "tools/run_selftests.py"
+    ],
+    "exit": 0,
+    "log": "repository-package-evaluations.log"
+  },
+  "repository-tests": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools"
+    ],
+    "exit": 1,
+    "log": "repository-tests.log"
+  },
+  "defect-lint": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/ruff",
+      "check",
+      "--config",
+      "ruff.toml",
+      "--select",
+      "E9,F",
+      "--no-cache",
+      "skills/payments",
+      "skills/cybersecurity-operational-resilience/pci-dss-evidence-assistant",
+      "shared/payments",
+      "tools/sync_payment_contract.py",
+      "tools/sync_payment_foundation.py",
+      "tools/check_payment_handoffs.py",
+      "tools/test_payment_contract.py",
+      "tools/test_payment_foundation.py",
+      "tools/test_payments_phase1.py",
+      "tools/test_payments_phase2.py",
+      "tools/test_payments_phase3.py",
+      "tools/test_payments_phase4.py"
+    ],
+    "exit": 0,
+    "log": "defect-lint.log"
+  }
+}

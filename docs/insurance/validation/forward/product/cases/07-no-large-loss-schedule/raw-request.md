@@ -1,0 +1,1 @@
+Develop this aggregate paid triangle and assess whether losses of USD 100,000 or more distort it. The unit is USD thousands and the large-loss threshold is 100. Only aggregate triangle values are supplied; no claim-level large-loss schedule or count is available.

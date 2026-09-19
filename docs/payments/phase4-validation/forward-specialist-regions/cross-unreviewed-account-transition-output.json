@@ -1,0 +1,424 @@
+{
+  "schema_version": "1.0",
+  "skill": "cross-border-payment-designer",
+  "request_id": "cross-unreviewed-account-transition",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "forward-reviewer",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "cross-unreviewed-account-transition",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "forward-reviewer",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "forward-evidence",
+        "reference": "synthetic://independently-authored-payment-contract-and-ledger",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "use_case": "consumer-remittance",
+      "principal": "1000",
+      "evaluate_at": "2026-09-18T12:00:00Z",
+      "accountable_reviewer": "corridor-operations",
+      "payer": {
+        "entity_id": "payer",
+        "account_ref": "payer-account",
+        "jurisdiction": "US",
+        "currency": "USD"
+      },
+      "payee": {
+        "entity_id": "payee",
+        "account_ref": "payee-account",
+        "jurisdiction": "UK",
+        "currency": "GBP"
+      },
+      "options": [
+        {
+          "option_id": "bank-corridor",
+          "charge_convention": "SHA",
+          "charge_convention_review_ref": "reviewed-fee-allocation",
+          "fees_complete": true,
+          "expected_delivery_review_ref": "recipient-window-reviewed",
+          "fees": [
+            {
+              "fee_id": "payer-charge",
+              "kind": "fee",
+              "charging_entity": "provider-us",
+              "currency": "USD",
+              "amount": "5",
+              "side": "payer-addition",
+              "jurisdiction": "US"
+            },
+            {
+              "fee_id": "principal-charge",
+              "kind": "fee",
+              "charging_entity": "provider-us",
+              "currency": "USD",
+              "amount": "2",
+              "side": "principal-deduction",
+              "jurisdiction": "US"
+            },
+            {
+              "fee_id": "recipient-charge",
+              "kind": "fee",
+              "charging_entity": "provider-uk",
+              "currency": "GBP",
+              "amount": "3",
+              "side": "recipient-deduction",
+              "jurisdiction": "UK"
+            }
+          ],
+          "fx_quote": {
+            "base_currency": "USD",
+            "quote_currency": "GBP",
+            "rate": "0.8",
+            "quoted_at": "2026-09-18T11:00:00Z",
+            "expires_at": "2026-09-18T13:00:00Z",
+            "kind": "firm",
+            "quote_ref": "forward-exact-principal-quote"
+          },
+          "legs": [
+            {
+              "leg_id": "collect",
+              "economic_id": "customer-collect-1",
+              "purpose": "customer-collection",
+              "from_entity": "payer",
+              "from_account_ref": "payer-account",
+              "to_entity": "provider-us",
+              "to_account_ref": "provider-us-account",
+              "jurisdiction": "US",
+              "currency": "USD",
+              "amount": "1005",
+              "method": "bank-credit",
+              "obligation_ref": "source-debit-contract",
+              "access_review_ref": "access-US",
+              "funding_review_ref": "collected-principal",
+              "timing_review_ref": "delivery-window"
+            },
+            {
+              "leg_id": "fx-correspondent",
+              "economic_id": "fx-correspondent-economic",
+              "purpose": "correspondent-delivery",
+              "from_entity": "provider-us",
+              "from_account_ref": "provider-us-gbp-position",
+              "to_entity": "provider-uk",
+              "to_account_ref": "provider-uk-account",
+              "jurisdiction": "UK",
+              "currency": "GBP",
+              "amount": "798.4",
+              "method": "correspondent-transfer",
+              "obligation_ref": "fx-principal-correspondent-obligation",
+              "access_review_ref": "reviewed-correspondent-access",
+              "funding_review_ref": "reviewed-fx-principal-funding",
+              "timing_review_ref": "reviewed-correspondent-window",
+              "previous_leg_id": "collect"
+            },
+            {
+              "leg_id": "deliver",
+              "economic_id": "recipient-credit-1",
+              "purpose": "local-payout",
+              "from_entity": "provider-uk",
+              "from_account_ref": "provider-uk-account",
+              "to_entity": "payee",
+              "to_account_ref": "payee-account",
+              "jurisdiction": "UK",
+              "currency": "GBP",
+              "amount": "795.4",
+              "method": "bank-credit",
+              "obligation_ref": "recipient-credit-contract",
+              "access_review_ref": "access-UK",
+              "funding_review_ref": "local-funded-account",
+              "timing_review_ref": "delivery-window",
+              "previous_leg_id": "fx-correspondent"
+            }
+          ],
+          "regulatory_reviews": [
+            {
+              "jurisdiction": "US",
+              "use_case": "consumer-remittance",
+              "reviewer": "corridor-specialist-US",
+              "reference": "local-reviewed-activity-US",
+              "rule_version": "forward-v1",
+              "activity_scope_ref": "consumer-remittance-scope",
+              "valid_from": "2026-09-01T00:00:00Z",
+              "valid_until": "2026-10-01T00:00:00Z",
+              "entity_ids": [
+                "payer",
+                "provider-us"
+              ]
+            },
+            {
+              "jurisdiction": "UK",
+              "use_case": "consumer-remittance",
+              "reviewer": "corridor-specialist-UK",
+              "reference": "local-reviewed-activity-UK",
+              "rule_version": "forward-v1",
+              "activity_scope_ref": "consumer-remittance-scope",
+              "valid_from": "2026-09-01T00:00:00Z",
+              "valid_until": "2026-10-01T00:00:00Z",
+              "entity_ids": [
+                "provider-us",
+                "provider-uk",
+                "payee"
+              ]
+            }
+          ],
+          "sanctions_review": {
+            "entity_ids": [
+              "payer",
+              "payee",
+              "provider-us",
+              "provider-uk"
+            ],
+            "jurisdictions": [
+              "US",
+              "UK"
+            ],
+            "reference": "reviewed-all-party-screening",
+            "reviewer": "sanctions-owner",
+            "policy_version": "forward-v1",
+            "valid_from": "2026-09-18T00:00:00Z",
+            "valid_until": "2026-09-19T00:00:00Z"
+          },
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "a6e61f1558f970b595a51ab7bc516ce88b3d3325523a20dc2bd6e084ae4d93fb",
+  "findings": [
+    {
+      "code": "intermediate-account-transition-unresolved",
+      "message": "bank-corridor: intermediate account transition unresolved",
+      "source_ids": [
+        "forward-evidence"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "module": "corridor-design",
+    "use_case": "consumer-remittance",
+    "payer": {
+      "entity_id": "payer",
+      "account_ref": "payer-account",
+      "jurisdiction": "US",
+      "currency": "USD"
+    },
+    "payee": {
+      "entity_id": "payee",
+      "account_ref": "payee-account",
+      "jurisdiction": "UK",
+      "currency": "GBP"
+    },
+    "accountable_reviewer": "corridor-operations",
+    "options": [
+      {
+        "option_id": "bank-corridor",
+        "payer_total_debit": {
+          "amount": "1005",
+          "currency": "USD"
+        },
+        "recipient_expected_receipt": {
+          "amount": "795.4",
+          "currency": "GBP"
+        },
+        "fx_quote": {
+          "base_currency": "USD",
+          "quote_currency": "GBP",
+          "rate": "0.8",
+          "quoted_at": "2026-09-18T11:00:00Z",
+          "expires_at": "2026-09-18T13:00:00Z",
+          "kind": "firm",
+          "quote_ref": "forward-exact-principal-quote"
+        },
+        "applied_recipient_units_per_payer_unit": "0.8",
+        "fees": [
+          {
+            "fee_id": "payer-charge",
+            "kind": "fee",
+            "charging_entity": "provider-us",
+            "currency": "USD",
+            "amount": "5",
+            "side": "payer-addition",
+            "jurisdiction": "US"
+          },
+          {
+            "fee_id": "principal-charge",
+            "kind": "fee",
+            "charging_entity": "provider-us",
+            "currency": "USD",
+            "amount": "2",
+            "side": "principal-deduction",
+            "jurisdiction": "US"
+          },
+          {
+            "fee_id": "recipient-charge",
+            "kind": "fee",
+            "charging_entity": "provider-uk",
+            "currency": "GBP",
+            "amount": "3",
+            "side": "recipient-deduction",
+            "jurisdiction": "UK"
+          }
+        ],
+        "charge_convention": "SHA",
+        "customer_delivery_legs": [
+          {
+            "leg_id": "collect",
+            "economic_id": "customer-collect-1",
+            "purpose": "customer-collection",
+            "from_entity": "payer",
+            "from_account_ref": "payer-account",
+            "to_entity": "provider-us",
+            "to_account_ref": "provider-us-account",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "amount": "1005",
+            "method": "bank-credit",
+            "obligation_ref": "source-debit-contract",
+            "access_review_ref": "access-US",
+            "funding_review_ref": "collected-principal",
+            "timing_review_ref": "delivery-window"
+          },
+          {
+            "leg_id": "fx-correspondent",
+            "economic_id": "fx-correspondent-economic",
+            "purpose": "correspondent-delivery",
+            "from_entity": "provider-us",
+            "from_account_ref": "provider-us-gbp-position",
+            "to_entity": "provider-uk",
+            "to_account_ref": "provider-uk-account",
+            "jurisdiction": "UK",
+            "currency": "GBP",
+            "amount": "798.4",
+            "method": "correspondent-transfer",
+            "obligation_ref": "fx-principal-correspondent-obligation",
+            "access_review_ref": "reviewed-correspondent-access",
+            "funding_review_ref": "reviewed-fx-principal-funding",
+            "timing_review_ref": "reviewed-correspondent-window",
+            "previous_leg_id": "collect"
+          },
+          {
+            "leg_id": "deliver",
+            "economic_id": "recipient-credit-1",
+            "purpose": "local-payout",
+            "from_entity": "provider-uk",
+            "from_account_ref": "provider-uk-account",
+            "to_entity": "payee",
+            "to_account_ref": "payee-account",
+            "jurisdiction": "UK",
+            "currency": "GBP",
+            "amount": "795.4",
+            "method": "bank-credit",
+            "obligation_ref": "recipient-credit-contract",
+            "access_review_ref": "access-UK",
+            "funding_review_ref": "local-funded-account",
+            "timing_review_ref": "delivery-window",
+            "previous_leg_id": "fx-correspondent"
+          }
+        ],
+        "separate_nostro_funding_obligations": [],
+        "comparison_ready": false,
+        "gaps": [
+          "intermediate-account-transition-unresolved"
+        ],
+        "source_ids": [
+          "forward-evidence"
+        ],
+        "compliance_determined": false,
+        "receipt_guaranteed": false
+      }
+    ],
+    "unlike_currency_totals_aggregated": false,
+    "selection_made": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-liquidity-and-funding-analyzer",
+      "reason": "Analyze each corridor funding obligation in the native corridor module by legal entity, account, currency and time; quoted FX does not create liquidity.",
+      "required_inputs": [
+        "corridor native accounts, obligations and separately evidenced funding events",
+        "source snapshot",
+        "unresolved corridor issues"
+      ],
+      "handoff_id": "fa8c01af5ba38afdc2b92a81133517266217ec59fd763efee50a48ea60277cd2",
+      "contract_version": "1.0.0",
+      "source_skill": "cross-border-payment-designer",
+      "case_id": "cross-unreviewed-account-transition",
+      "lead_owner": "forward-reviewer",
+      "requested_output": "Analyze each corridor funding obligation in the native corridor module by legal entity, account, currency and time; quoted FX does not create liquidity.",
+      "source_refs": [
+        "synthetic://independently-authored-payment-contract-and-ledger"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "intermediate-account-transition-unresolved",
+          "message": "bank-corridor: intermediate account transition unresolved",
+          "source_ids": [
+            "forward-evidence"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Prepare separate exact instructions only under a supported native jurisdiction adapter; retain unsupported regional and legal gaps.",
+      "required_inputs": [
+        "one exact instruction per economically distinct leg",
+        "access, consent and scoped legal/screening reviews",
+        "unresolved corridor findings"
+      ],
+      "handoff_id": "285665b902d9dfa0b6c8da492fa0eaa6f941e19c1ac4432f734d370b1a943ba0",
+      "contract_version": "1.0.0",
+      "source_skill": "cross-border-payment-designer",
+      "case_id": "cross-unreviewed-account-transition",
+      "lead_owner": "forward-reviewer",
+      "requested_output": "Prepare separate exact instructions only under a supported native jurisdiction adapter; retain unsupported regional and legal gaps.",
+      "source_refs": [
+        "synthetic://independently-authored-payment-contract-and-ledger"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "intermediate-account-transition-unresolved",
+          "message": "bank-corridor: intermediate account transition unresolved",
+          "source_ids": [
+            "forward-evidence"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Planning arithmetic is unrounded decimal scenario output, not a legally compliant customer disclosure, quote guarantee or payment instruction.",
+    "Only USD/US, EUR/euro-area, GBP/UK, BRL/Brazil, INR/India and CAD/Canada source-oriented corridors are modeled; intermediary access is always supplied evidence.",
+    "OUR/SHA/BEN are supplied contractual charging conventions and never establish which option a scheme permits or the amount actually delivered.",
+    "Normalized leg obligations do not implement SWIFT MT/ISO messages, funds-transfer execution, sanctions screening or local regulatory determination."
+  ]
+}

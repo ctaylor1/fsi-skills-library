@@ -1,0 +1,535 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "synthetic-family-governance-1",
+  "household_id": "family:FAMILY-EXAMPLE",
+  "scope_type": "family-group",
+  "family_id": "FAMILY-EXAMPLE",
+  "scope_source_ids": [
+    "case"
+  ],
+  "as_of": "2026-09-17",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "source_ids": [
+      "case"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "case",
+      "reference": "synthetic:family-council-records-v1",
+      "owner": "Synthetic family records custodian",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "policy",
+      "reference": "synthetic:family-discussion-policy-v2",
+      "owner": "Synthetic advisor; not institutional approval",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "upstream_issues": [],
+  "policy": {
+    "version": "synthetic-v2",
+    "owner": "Synthetic service policy owner",
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "effective_date": "2026-01-01",
+    "valid_until": "2026-12-31",
+    "decision_rules": [
+      {
+        "rule_id": "UNANIMOUS",
+        "description": "Record all eligible positions; unanimity only describes supplied family discussion support.",
+        "method": "unanimity",
+        "quorum_min": 2,
+        "source_ids": [
+          "policy"
+        ],
+        "access": {
+          "allowed_member_ids": [
+            "M-1",
+            "M-2",
+            "ADVISOR"
+          ],
+          "source_ids": [
+            "policy"
+          ]
+        }
+      },
+      {
+        "rule_id": "DISCUSS",
+        "description": "Discuss options without a decision.",
+        "method": "discussion-only",
+        "quorum_min": 2,
+        "source_ids": [
+          "policy"
+        ],
+        "access": {
+          "allowed_member_ids": [
+            "M-1",
+            "M-2",
+            "ADVISOR"
+          ],
+          "source_ids": [
+            "policy"
+          ]
+        }
+      }
+    ],
+    "succession_criteria": [
+      {
+        "criterion_id": "TRAINING",
+        "description": "Candidate completed the documented family council finance orientation.",
+        "source_ids": [
+          "policy"
+        ],
+        "access": {
+          "allowed_member_ids": [
+            "M-1",
+            "M-2",
+            "ADVISOR"
+          ],
+          "source_ids": [
+            "policy"
+          ]
+        }
+      },
+      {
+        "criterion_id": "HANDOVER",
+        "description": "Incumbent and candidate reviewed the role-specific handover checklist.",
+        "source_ids": [
+          "policy"
+        ],
+        "access": {
+          "allowed_member_ids": [
+            "M-1",
+            "M-2",
+            "ADVISOR"
+          ],
+          "source_ids": [
+            "policy"
+          ]
+        }
+      }
+    ],
+    "source_ids": [
+      "policy"
+    ],
+    "access": {
+      "allowed_member_ids": [
+        "M-1",
+        "M-2",
+        "ADVISOR"
+      ],
+      "source_ids": [
+        "policy"
+      ]
+    }
+  },
+  "members": [
+    {
+      "member_id": "M-1",
+      "household_id": "HH-A",
+      "label": "Family member A",
+      "kind": "family-member",
+      "participation_status": "willing",
+      "participation_as_of": "2026-09-16",
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    },
+    {
+      "member_id": "M-2",
+      "household_id": "HH-B",
+      "label": "Family member B",
+      "kind": "family-member",
+      "participation_status": "willing",
+      "participation_as_of": "2026-09-16",
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    },
+    {
+      "member_id": "ADVISOR",
+      "household_id": null,
+      "label": "Discussion facilitator",
+      "kind": "professional",
+      "participation_status": "willing",
+      "participation_as_of": "2026-09-16",
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    }
+  ],
+  "roles": [
+    {
+      "role_id": "COUNCIL-COORDINATOR",
+      "member_id": "M-1",
+      "label": "Family council coordinator",
+      "scope_description": "Organize family discussion agendas; no power over trust or account assets.",
+      "authority_type": "family-discussion-role",
+      "basis_reference": "Synthetic family meeting agreement v2 paragraph 3",
+      "reviewer_member_id": "ADVISOR",
+      "review_date": "2026-09-16",
+      "review_by": "2026-12-31",
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "T-PROCESS",
+      "title": "Family discussion process",
+      "question": "How should we prepare and record quarterly family discussions?",
+      "proposed_decision": "Use a written agenda and retain each participant\u2019s position.",
+      "decision_class": "family-discussion-agreement",
+      "sequence": 1,
+      "minutes": 20,
+      "eligible_member_ids": [
+        "M-1",
+        "M-2"
+      ],
+      "role_ids": [
+        "COUNCIL-COORDINATOR"
+      ],
+      "rule_id": "UNANIMOUS",
+      "responses": [
+        {
+          "member_id": "M-1",
+          "position": "support",
+          "participation": "written",
+          "recorded_on": "2026-09-16",
+          "statement": "I support the proposed written process.",
+          "source_ids": [
+            "case"
+          ],
+          "access": {
+            "allowed_member_ids": [
+              "M-1",
+              "M-2",
+              "ADVISOR"
+            ],
+            "source_ids": [
+              "case"
+            ]
+          }
+        },
+        {
+          "member_id": "M-2",
+          "position": "support",
+          "participation": "written",
+          "recorded_on": "2026-09-16",
+          "statement": "I support recording individual views.",
+          "source_ids": [
+            "case"
+          ],
+          "access": {
+            "allowed_member_ids": [
+              "M-1",
+              "M-2",
+              "ADVISOR"
+            ],
+            "source_ids": [
+              "case"
+            ]
+          }
+        }
+      ],
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    },
+    {
+      "topic_id": "T-HANDOVER",
+      "title": "Council coordinator succession discussion",
+      "question": "What evidence and preparation are needed for a coordinator handover?",
+      "proposed_decision": "Discuss a possible handover after orientation and checklist review; no appointment today.",
+      "decision_class": "discussion",
+      "sequence": 2,
+      "minutes": 25,
+      "eligible_member_ids": [
+        "M-1",
+        "M-2"
+      ],
+      "role_ids": [
+        "COUNCIL-COORDINATOR"
+      ],
+      "rule_id": "DISCUSS",
+      "responses": [
+        {
+          "member_id": "M-1",
+          "position": "abstain",
+          "participation": "written",
+          "recorded_on": "2026-09-16",
+          "statement": "I am participating to discuss a future handover.",
+          "source_ids": [
+            "case"
+          ],
+          "access": {
+            "allowed_member_ids": [
+              "M-1",
+              "M-2",
+              "ADVISOR"
+            ],
+            "source_ids": [
+              "case"
+            ]
+          }
+        },
+        {
+          "member_id": "M-2",
+          "position": "abstain",
+          "participation": "written",
+          "recorded_on": "2026-09-16",
+          "statement": "I want to discuss the responsibilities before any decision.",
+          "source_ids": [
+            "case"
+          ],
+          "access": {
+            "allowed_member_ids": [
+              "M-1",
+              "M-2",
+              "ADVISOR"
+            ],
+            "source_ids": [
+              "case"
+            ]
+          }
+        }
+      ],
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    }
+  ],
+  "succession": [
+    {
+      "succession_id": "SUCCESSION-1",
+      "topic_id": "T-HANDOVER",
+      "role_id": "COUNCIL-COORDINATOR",
+      "candidate_member_id": "M-2",
+      "candidate_interest": "confirmed",
+      "interest_as_of": "2026-09-16",
+      "target_date": "2026-12-01",
+      "criteria_evidence": [
+        {
+          "criterion_id": "TRAINING",
+          "status": "documented",
+          "observation": "Candidate completed the specified orientation on September 12.",
+          "reviewer_member_id": "ADVISOR",
+          "review_date": "2026-09-16",
+          "review_by": "2026-12-31",
+          "source_ids": [
+            "case"
+          ],
+          "access": {
+            "allowed_member_ids": [
+              "M-1",
+              "M-2",
+              "ADVISOR"
+            ],
+            "source_ids": [
+              "case"
+            ]
+          }
+        },
+        {
+          "criterion_id": "HANDOVER",
+          "status": "documented",
+          "observation": "Incumbent and candidate reviewed the coordinator checklist together.",
+          "reviewer_member_id": "ADVISOR",
+          "review_date": "2026-09-16",
+          "review_by": "2026-12-31",
+          "source_ids": [
+            "case"
+          ],
+          "access": {
+            "allowed_member_ids": [
+              "M-1",
+              "M-2",
+              "ADVISOR"
+            ],
+            "source_ids": [
+              "case"
+            ]
+          }
+        }
+      ],
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    }
+  ],
+  "education": [
+    {
+      "education_id": "EDU-1",
+      "topic_id": "T-HANDOVER",
+      "participant_member_ids": [
+        "M-2"
+      ],
+      "facilitator_member_id": "ADVISOR",
+      "learning_need_basis": "Candidate requested practice reading the family planning summary.",
+      "learning_objective": "Identify the difference between a discussion role and account authority.",
+      "proposed_activity": "Walk through a masked family planning summary and list questions for counsel.",
+      "minutes": 15,
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    }
+  ],
+  "followups": [
+    {
+      "followup_id": "FOLLOW-1",
+      "topic_id": "T-PROCESS",
+      "owner_member_id": "ADVISOR",
+      "description": "Prepare draft discussion minutes showing each participant\u2019s attributed position.",
+      "due_on": "2026-09-23",
+      "status": "proposed",
+      "owner_acceptance": "confirmed",
+      "completion_evidence": null,
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    },
+    {
+      "followup_id": "FOLLOW-2",
+      "topic_id": "T-HANDOVER",
+      "owner_member_id": "M-1",
+      "description": "Prepare a proposed coordinator handover checklist for discussion.",
+      "due_on": "2026-10-01",
+      "status": "agreed",
+      "owner_acceptance": "confirmed",
+      "completion_evidence": null,
+      "source_ids": [
+        "case"
+      ],
+      "access": {
+        "allowed_member_ids": [
+          "M-1",
+          "M-2",
+          "ADVISOR"
+        ],
+        "source_ids": [
+          "case"
+        ]
+      }
+    }
+  ],
+  "audience": {
+    "member_ids": [
+      "M-1",
+      "M-2"
+    ],
+    "purpose": "Review the family discussion process and coordinator preparation.",
+    "source_ids": [
+      "case"
+    ]
+  },
+  "meeting": {
+    "proposed_date": "2026-09-24",
+    "participant_member_ids": [
+      "M-1",
+      "M-2",
+      "ADVISOR"
+    ],
+    "facilitator_member_id": "ADVISOR",
+    "available_minutes": 90,
+    "source_ids": [
+      "case"
+    ]
+  }
+}

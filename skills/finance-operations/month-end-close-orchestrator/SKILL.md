@@ -51,7 +51,7 @@ that every journal, sign-off, and lock was authorized, verified, and reversible.
 
 ## Do not use
 - **Clearing reconciliation breaks** → route to `gl-reconciler` or
-  `transaction-reconciliation-helper`; this skill certifies a reconciliation only when its
+  `payment-transaction-reconciler`; this skill certifies a reconciliation only when its
   breaks are already zero.
 - **Resolving a sub-ledger exception** (e.g., duplicate/misapplied AP payment) →
   `accounts-payable-exception-resolver`.

@@ -1,0 +1,49 @@
+{
+  "schema_version": "wealth-p4-v1",
+  "case_id": "P4-02",
+  "title": "Conflicting household balances and goals competing for the same savings",
+  "skill_ids": [
+    "wealth-management-router",
+    "household-wealth-data-reconciler",
+    "investment-risk-profile-reviewer",
+    "household-financial-planning-assistant"
+  ],
+  "prompt": "Prepare an internal household balance-sheet reconciliation, risk-dimension review and initial goal-funding analysis for HH-BIRCH. The advisor wants to understand what can safely enter a planning conversation and which data must be resolved first. Provide a route/handoff plan and a concise client-discussion agenda; do not select investments or assign a risk rating.\n\nAll people, firms and records are synthetic. Review as of 2026-09-17. Use only this packet, distinguish source assertions from verified facts, cite source IDs at material claims, and prepare drafts for the stated audience. Report missing evidence and next owners rather than inventing data. Do not contact anyone or change any system. An incomplete but useful source-grounded report is acceptable; do not manufacture fields just to run a tool.",
+  "source_packet": [
+    {
+      "source_id": "B1",
+      "reference": "Scope and valuation policy BIRCH-REC v2, planner Imani, 2026-09-17; current through 2026-09-30",
+      "content": "US advisory engagement for household members B-A and B-B; USD only. Expected assets are JOINT-BANK, EXT-BROKER, HOME, LEGACY-ACCOUNT and HELD-AWAY-PENSION; expected liability MORTGAGE. Account IDs and ownership mapping are confirmed except facts explicitly unresolved below. Policy permits valuations at most seven days old. No independent household reference total was supplied."
+    },
+    {
+      "source_id": "B2",
+      "reference": "Bank and aggregator snapshots, custody operations, dated 2026-09-16; review copies current through 2026-09-30",
+      "content": "Bank statement record BK-1 and aggregator record AG-9 both describe the same JOINT-BANK, USD120,000, household share1.0, owned by B-A/B-B, not held away, September16 value. These are duplicate observations of one account. HOME is USD600,000, household share1.0, valued September16 in the supplied planning valuation. MORTGAGE is a positive USD200,000 liability, household share1.0, September16 balance."
+    },
+    {
+      "source_id": "B3",
+      "reference": "External-custodian and ownership records, planner Imani, 2026-09-16; current through 2026-09-30",
+      "content": "EXT-BROKER is held away, value USD300,000, September16; owners B-A and external person OUTSIDE-C. A signed ownership allocation record supplied for review assigns household share0.40; the record is not an authorization to transfer. LEGACY-ACCOUNT has two current September16 snapshots with otherwise matching identity/share1.0: one says USD90,000 and one USD95,000. Neither source is designated controlling. HELD-AWAY-PENSION is expected but no value, statement or ownership allocation was received."
+    },
+    {
+      "source_id": "B4",
+      "reference": "Risk interview and planner assessment, 2026-09-17; current review copy through 2026-09-30",
+      "content": "Risk profile RP-BIRCH: B-A recorded willingness to accept at most20% loss using questionnaire Q-W2 version2, administered by Imani with method record QA-22. A separate professional assessment CA-4 provisionally uses USD600,000 investable assets and USD60,000 assessed loss capacity; it predates reconciliation and needs confirmation against it. Liquidity evidence: USD40,000 available, USD70,000 required within6 months. Horizon for the proposed exposure is24 months; an offered instrument has36-month lockup and a supplied loss scenario ofUSD90,000. B-A has no private-credit experience, is experienced in listed equities, and requests no leverage. No common ordinal risk category has been assigned."
+    },
+    {
+      "source_id": "B5",
+      "reference": "Planning interview and goal worksheet, planner Imani, 2026-09-17; current through 2026-09-30",
+      "content": "After-tax monthly income USD12,000; non-debt living expense USD7,000; reserve contribution USD500. A separate USD12,000 zero-interest family loan requires USD1,000 monthly, with no extra payment. The goal pool GP-1 has USD50,000 and USD10,000 reserved. School goal G-SCHOOL, target September17,2027, USD50,000 nominal, is assigned USD30,000 from GP-1 plus USD1,500 month-end contributions. Renovation goal G-HOME, same target date, USD30,000 nominal, is assigned USD20,000 from GP-1 plus USD1,000 month-end contributions. Both scenario returns are explicitly0%, inflation0%; assumptions are illustrations, not forecasts. At-risk threshold0.90 and extension search12 months are supplied. No other goal pools or contributions were reported."
+    },
+    {
+      "source_id": "B6",
+      "reference": "Issue log, planner Imani, 2026-09-17; current through 2026-09-30",
+      "content": "Origin artifact REC-BIRCH-OPEN contains issue legacy-value-conflict: “LEGACY-ACCOUNT has competing September16 values; source owner has not reconciled them.” Status unresolved, supported by B3. It also records expected-pension-missing, same origin and sourceB3. Carry both to dependent analyses. The separate provisional capacity assessment must be revisited after reconciliation. Advisor is authorized only to prepare and review drafts."
+    }
+  ],
+  "conditions": [
+    "with-skill",
+    "without-skill"
+  ],
+  "rubric_id": "P4-02-R1"
+}

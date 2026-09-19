@@ -32,7 +32,7 @@ evidence; the review, approval, and posting happen outside it.
 ## Not this skill (route elsewhere)
 
 - **Payment / settlement reconciliation** (cash vs settlement network, nostro/vostro) →
-  `settlement-break-reconciler` or `transaction-reconciliation-helper` (Payments), not GL
+  `payment-settlement-reconciler` or `payment-transaction-reconciler` (Payments), not GL
   control-account reconciliation.
 
 ## Duplicate-execution prevention

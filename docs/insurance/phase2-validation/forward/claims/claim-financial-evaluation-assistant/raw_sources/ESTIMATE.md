@@ -1,0 +1,3 @@
+# SYNTHETIC SOURCE — invented for independent forward evaluation
+
+Adjuster scenario memo v1 dated 18 September. REPAIR: additional unpaid indemnity 36,920.50 and expense 5,150.00. Assumption: insured accepts agreed repair scope; expenses outside indemnity scope. Expected manufacturer recovery 4,500.00 separately identified, no recovery already netted from gross figures. CONTESTED: additional unpaid indemnity 52,600.00 and expense 11,200.00. Assumption: concealed damage accepted following expert inspection, with further expert/legal expense. Recovery amount is unknown pending manufacturer response. Both scenarios are USD, exclude amounts already paid and do not add existing case reserve stocks.

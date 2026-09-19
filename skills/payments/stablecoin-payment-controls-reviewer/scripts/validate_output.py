@@ -59,6 +59,14 @@ def _expected_disposition(evaluated: list[dict]) -> str:
 
 def validate(pack: dict) -> list[str]:
     errors: list[str] = []
+    try:
+        from calculate_or_transform import compute
+        expected_core = compute(pack["source_snapshot"])
+        if any(pack.get(k) != v for k,v in expected_core.items()):
+            errors.append("core output differs from source snapshot")
+    except (KeyError, TypeError, ValueError) as exc:
+        errors.append("missing or invalid source snapshot: " + str(exc))
+
     evaluated = pack.get("controls_evaluated") or []
     findings = [c for c in evaluated if c.get("status") in ("fail", "gap")]
 
@@ -70,7 +78,7 @@ def validate(pack: dict) -> list[str]:
             if not (row.get("citation") or "").strip():
                 errors.append(f"finding {f.get('id')} evidence row missing citation")
 
-    exp = _expected_disposition(evaluated)
+    exp = "Material Gaps - Escalate" if pack.get("policy_profile_issues") else _expected_disposition(evaluated)
     if pack.get("suggested_disposition") != exp:
         errors.append(
             f"suggested_disposition {pack.get('suggested_disposition')!r} != deterministic {exp!r}")

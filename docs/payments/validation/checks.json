@@ -1,0 +1,42 @@
+{
+  "validated_on": "2026-09-17",
+  "scope": "payments Phase 1",
+  "checks": [
+    {
+      "name": "structure",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /tmp/fsi-p0-venv/bin/python -B tools/validate_skills.py",
+      "exit_code": 0,
+      "output": "\nValidated 239 skill(s): 0 error(s), 0 warning(s).\n"
+    },
+    {
+      "name": "handoffs",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /tmp/fsi-p0-venv/bin/python -B tools/check_handoffs.py",
+      "exit_code": 0,
+      "output": "\n0 dangling adjacent-skill reference(s) across 239 skill(s).\n"
+    },
+    {
+      "name": "payment_handoffs",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /tmp/fsi-p0-venv/bin/python -B tools/check_payment_handoffs.py",
+      "exit_code": 0,
+      "output": "Payment routes/migrations: 0 error(s)\n"
+    },
+    {
+      "name": "payment_bundles",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /tmp/fsi-p0-venv/bin/python -B tools/sync_payment_contract.py --check",
+      "exit_code": 0,
+      "output": "Payment contracts verified in 19 packages\n"
+    },
+    {
+      "name": "defect_lint",
+      "command": "/tmp/fsi-p0-venv/bin/ruff check --config ruff.toml --select E9,F --no-cache skills/payments skills/cybersecurity-operational-resilience/pci-dss-evidence-assistant shared/payments tools/sync_payment_contract.py tools/check_payment_handoffs.py tools/test_payment_contract.py tools/test_payments_phase1.py tools/build_catalog_from_xlsx.py tools/check_handoffs.py tools/test_wealth_p3.py",
+      "exit_code": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "name": "whitespace",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "output": ""
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "config_version": "synthetic-v1",
+  "rules_version": "synthetic-v1",
+  "cases": [
+    {
+      "alert_id": "SYNTH-A1",
+      "case_id": "SYNTH-PHONE1",
+      "customer_id": "****0101",
+      "account_ref": "****1101",
+      "channel": "rtp",
+      "amount": "1000.00",
+      "currency": "USD",
+      "opened_at": "2026-09-17T10:00:00-04:00",
+      "primary_beneficiary_ref": "****2201",
+      "source_refs": {
+        "case": "synthetic:phone-scam-report"
+      },
+      "transactions": [
+        {
+          "txn_id": "SYNTH-RTP1",
+          "ts": "2026-09-17T09:30:00-04:00",
+          "direction": "outbound",
+          "amount": "1000.00",
+          "beneficiary_ref": "****2201",
+          "source_ref": "synthetic:payment-record"
+        }
+      ],
+      "timeline_events": [
+        {
+          "ts": "2026-09-17T09:10:00-04:00",
+          "type": "phone-scam-report",
+          "detail": "Customer reports a caller induced them to authorize the transfer. No email artifacts exist.",
+          "source_ref": "synthetic:phone-scam-report"
+        }
+      ],
+      "evidence": {},
+      "flags": {
+        "app_scam_reported": true,
+        "bec_indicator": false
+      },
+      "scam_evidence": {
+        "authorization_evidence": "synthetic:payment-consent",
+        "victim_account": "****1101",
+        "recovery_status": "unknown"
+      }
+    }
+  ]
+}

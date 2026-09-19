@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "request_id": "synthetic-phase2-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank",
+  "sources": [
+    {
+      "source_id": "s1",
+      "reference": "synthetic://phase2/bank-fixture",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-01"
+    }
+  ],
+  "upstream_issues": [],
+  "requested_action": "draft",
+  "data": {
+    "original_payment": {
+      "payment_id": "payment-1",
+      "state": "settled",
+      "amount": "100.00",
+      "currency": "USD",
+      "rail_profile_id": "US-FEDNOW",
+      "originator_account_ref": "account-origin",
+      "beneficiary_account_ref": "account-destination",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "service_request": {
+      "service_id": "service-3",
+      "payment_id": "payment-1",
+      "action": "return",
+      "amount": "50.00",
+      "currency": "USD",
+      "reason": "Duplicate customer payment confirmed by operator",
+      "destination_account_ref": "account-origin",
+      "original_binding": {
+        "payment_id": "payment-1",
+        "state": "settled",
+        "amount": "100.00",
+        "currency": "USD",
+        "rail_profile_id": "US-FEDNOW",
+        "originator_account_ref": "account-origin",
+        "beneficiary_account_ref": "account-destination"
+      },
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "prior_service_ledger_complete": true,
+    "prior_services": [
+      {
+        "service_id": "service-1",
+        "payment_id": "payment-1",
+        "action": "return",
+        "amount": "20.00",
+        "currency": "USD",
+        "status": "completed",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "service_id": "service-2",
+        "payment_id": "payment-1",
+        "action": "return",
+        "amount": "10.00",
+        "currency": "USD",
+        "status": "pending",
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "policy": {
+      "jurisdiction": "US",
+      "participants": [
+        "bank"
+      ],
+      "profile_ids": [
+        "US-FEDNOW"
+      ],
+      "approval_roles": [
+        "payments-operator"
+      ],
+      "permissions": [
+        {
+          "action": "return",
+          "currency": "USD",
+          "original_states": [
+            "settled",
+            "posted"
+          ],
+          "max_amount": "1000.00",
+          "deadline_date": "2026-10-31",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      ],
+      "effective_from": "2026-09-01",
+      "effective_until": "2026-10-31",
+      "revoked": false,
+      "source_ids": [
+        "s1"
+      ]
+    }
+  }
+}

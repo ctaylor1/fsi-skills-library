@@ -1,0 +1,918 @@
+Review the entire `skills/payments/` folder and develop a comprehensive plan for what the payments skill set should contain.
+
+Do not modify, create, delete, rename, or move any files yet. This phase is analysis and planning only.
+
+Your job is to determine whether the current skills accurately and comprehensively cover the payments industry, identify what is missing, redundant, misplaced, outdated, or overly generic, and recommend a coherent future-state architecture for the complete payments skill library.
+
+The goal is not to maximize the number of skills. The goal is to create a maintainable, well-structured skill system that covers the major business, operating, regulatory, technology, and strategic workflows across modern payments.
+
+### 1. Inventory the current state
+
+Review every skill in `skills/payments/`, including supporting files, references, templates, routing logic, and shared resources.
+
+For each skill, identify:
+
+- Skill name and purpose
+- Primary users and personas
+- Primary payments use cases and workflows
+- Payments segment or ecosystem participant supported
+- Inputs and outputs
+- External data, tools, APIs, or dependencies it expects
+- Dependencies on other skills
+- Overlap with other skills
+- Whether its scope is clear and appropriately sized
+- Whether it is too broad or too narrow
+- Whether it belongs in the payments domain at all
+- Whether it should instead be a shared/common capability
+- Any obvious gaps, duplication, outdated assumptions, or structural problems
+- Whether its current name clearly describes the job it performs
+
+Do not evaluate skills based only on filenames or short descriptions. Read the actual skill definitions and relevant supporting material.
+
+### 2. Define the modern payments domain
+
+Research the modern payments industry and establish a practical domain model covering the complete payments ecosystem.
+
+Cover at minimum:
+
+#### Payments ecosystem and participants
+
+- Consumers
+- Merchants
+- Enterprises
+- Marketplaces and platforms
+- Payment facilitators
+- Independent software vendors
+- Acquirers
+- Merchant acquirers
+- Issuers
+- Issuer processors
+- Acquirer processors
+- Payment processors
+- Payment gateways
+- Payment service providers
+- Orchestration platforms
+- Card networks
+- Alternative payment networks
+- Banks
+- FinTechs
+- Digital wallets
+- Super apps
+- Central banks and payment-system operators
+- Clearing and settlement operators
+- Correspondent banks
+- Money transmitters
+- Remittance providers
+- Embedded-finance providers
+- Banking-as-a-service providers
+- Payment infrastructure providers
+
+#### Merchant payments and acquiring
+
+- Merchant onboarding
+- Merchant underwriting
+- Merchant acquiring
+- Gateway services
+- Payment acceptance
+- Omnichannel payments
+- Card-present payments
+- Card-not-present payments
+- E-commerce payments
+- Mobile payments
+- In-app payments
+- Recurring payments
+- Subscription billing
+- Marketplace payments
+- Payment facilitation
+- Split payments
+- Merchant-of-record models
+- Payment orchestration
+- Smart routing
+- Authorization optimization
+- Tokenization
+- Network tokens
+- Account updater services
+- Retry logic
+- Decline management
+- Conversion optimization
+- Settlement
+- Merchant funding
+- Reconciliation
+- Disputes and chargebacks
+- Merchant reporting
+- Merchant pricing
+- Interchange
+- Assessments
+- Acquirer and processor fees
+
+#### Issuing and card programs
+
+- Credit cards
+- Debit cards
+- Prepaid cards
+- Commercial cards
+- Virtual cards
+- Fleet cards
+- Purchasing cards
+- Corporate cards
+- Card issuing platforms
+- BIN sponsorship
+- Program management
+- Card lifecycle management
+- Authorization
+- Clearing
+- Settlement
+- Rewards
+- Card controls
+- Spend controls
+- Token provisioning
+- Digital-wallet provisioning
+- Cardholder disputes
+- Fraud controls
+- Credit decisioning where applicable
+- Card portfolio economics
+
+#### Account-to-account and bank payments
+
+- ACH
+- Same-day ACH
+- RTP
+- FedNow
+- SEPA
+- SEPA Instant
+- Faster Payments
+- PIX
+- UPI
+- Interac
+- Open-banking payments
+- Pay-by-bank
+- Request-for-payment
+- Direct debit
+- Standing instructions
+- Bank transfers
+- Wire payments
+- Real-time payments
+- Instant payments
+- Cross-border account-to-account payments
+- ISO 20022 messaging
+- Alias and proxy services
+- Directory services
+- Confirmation-of-payee and account validation
+
+#### Cross-border payments
+
+- International payments
+- Correspondent banking
+- Remittances
+- Cross-border merchant acquiring
+- Foreign exchange
+- FX spreads and pricing
+- Multi-currency acceptance
+- Multi-currency settlement
+- Local acquiring
+- International treasury flows
+- Payment corridors
+- SWIFT
+- ISO 20022
+- Global payment networks
+- Cross-border compliance
+- Sanctions screening
+- Cross-border liquidity
+- Stablecoin-enabled settlement where relevant
+
+#### Digital wallets and alternative payment methods
+
+- Digital wallets
+- Mobile wallets
+- Stored-value wallets
+- Super-app payments
+- QR-code payments
+- Buy now, pay later
+- Real-time bank payment methods
+- Local payment methods
+- Mobile money
+- Carrier billing where relevant
+- Cash-based alternative payment methods
+- Wallet funding and withdrawal
+- Wallet interoperability
+- Tokenized credentials
+- Provisioning and lifecycle management
+
+#### Payment operations
+
+- Payment initiation
+- Authorization
+- Authentication
+- Routing
+- Clearing
+- Settlement
+- Funding
+- Posting
+- Reconciliation
+- Exception management
+- Returns
+- Refunds
+- Reversals
+- Representment
+- Chargebacks
+- Dispute resolution
+- Payment investigations
+- Repair queues
+- Straight-through processing
+- Operational controls
+- Payment observability
+- Service-level management
+- Payment incident management
+
+#### Fraud, risk, identity, and trust
+
+- Payment fraud
+- Card fraud
+- Account takeover
+- Authorized push payment fraud
+- Scam detection
+- Synthetic identity
+- First-party fraud
+- Friendly fraud
+- Merchant fraud
+- Transaction monitoring
+- Fraud scoring
+- Behavioral analytics
+- Device intelligence
+- Identity verification
+- Authentication
+- 3-D Secure
+- Strong customer authentication
+- Passkeys
+- Biometrics
+- Risk-based authentication
+- Payment credential security
+- Tokenization
+- PCI DSS
+- Fraud operations
+- Dispute fraud
+- Network fraud tools
+- Confirmation of payee
+- Mule-account detection
+- Scam reimbursement models where relevant
+
+#### Financial crime and compliance
+
+- KYC
+- KYB
+- AML
+- Transaction monitoring
+- Sanctions screening
+- OFAC requirements
+- Money transmission licensing
+- Payment institution licensing
+- Electronic money regulations
+- Consumer protection
+- Card-network rules
+- Reg E
+- Reg Z where relevant
+- PSD2
+- PSD3 / PSR developments
+- Strong customer authentication
+- AML rules affecting payments
+- Travel-rule implications where relevant
+- Recordkeeping
+- Regulatory reporting
+- Payment-system oversight
+
+#### Payment economics and pricing
+
+- Interchange
+- Network assessments
+- Processor fees
+- Gateway fees
+- Acquirer markup
+- Merchant discount rate
+- Scheme fees
+- Cross-border fees
+- FX economics
+- Authorization fees
+- Fraud costs
+- Chargeback costs
+- Cost of acceptance
+- Payment-method economics
+- Issuer economics
+- Acquirer economics
+- Network economics
+- Processor economics
+- Wallet economics
+- Payment-facilitator economics
+- SaaS plus payments models
+- Payments monetization
+- Revenue-share structures
+- Incentives and rebates
+
+#### Treasury, liquidity, and settlement
+
+- Settlement flows
+- Prefunding
+- Intraday liquidity
+- Correspondent balances
+- Nostro / vostro accounts
+- Merchant funding
+- Reserve management
+- Settlement risk
+- Counterparty risk
+- Working capital
+- Treasury integration
+- Cash positioning
+- Reconciliation
+- FX management
+- Liquidity optimization
+- Real-time treasury implications
+
+#### B2B and commercial payments
+
+- Accounts payable
+- Accounts receivable
+- Invoice payments
+- Commercial cards
+- Virtual cards
+- ACH
+- Wires
+- Real-time payments
+- Supplier payments
+- Procure-to-pay
+- Order-to-cash
+- Treasury payments
+- ERP integration
+- Payment automation
+- Supplier enablement
+- Straight-through reconciliation
+- Embedded B2B payments
+- Working-capital-related payment workflows
+
+#### Embedded payments and platform payments
+
+- Embedded payments
+- Embedded finance
+- Vertical SaaS payments
+- Marketplace payments
+- Platform monetization
+- Payment facilitation
+- Merchant-of-record models
+- Submerchant onboarding
+- Split settlement
+- Connected accounts
+- Payouts
+- Mass payouts
+- Seller disbursements
+- Contractor payments
+- Creator payments
+- Developer APIs
+- Payments-as-a-service
+
+#### Payment technology and architecture
+
+- Payment gateways
+- Payment switches
+- Payment hubs
+- Authorization systems
+- Issuer processors
+- Acquirer processors
+- Payment orchestration
+- Routing engines
+- Ledger systems
+- Token vaults
+- HSMs
+- Cryptographic key management
+- API-based payments
+- Event-driven payment architectures
+- ISO 8583
+- ISO 20022
+- PCI environments
+- High availability
+- Low-latency processing
+- Active-active architecture
+- Resilience
+- Disaster recovery
+- Observability
+- Payment data models
+- Cloud modernization
+- Mainframe modernization
+- Core payment platform modernization
+
+#### Payment data, analytics, AI, and automation
+
+- Payment analytics
+- Authorization analytics
+- Decline analytics
+- Fraud analytics
+- Merchant analytics
+- Customer behavior analytics
+- Payment-method optimization
+- Routing optimization
+- Predictive analytics
+- Revenue optimization
+- Cost optimization
+- Reconciliation automation
+- Exception-management automation
+- AI-enabled fraud detection
+- Generative AI
+- Agentic AI
+- Operations copilots
+- Developer copilots
+- AI-assisted dispute handling
+- AI-assisted merchant support
+- AI-enabled payment investigations
+- AI governance
+- Model risk
+- Explainability
+- Human oversight
+
+#### Emerging payment models
+
+- Instant payments
+- Open banking
+- Pay-by-bank
+- Request-to-pay
+- Stablecoins
+- Tokenized deposits
+- Deposit tokens
+- Blockchain-based settlement
+- Programmable payments
+- Central bank digital currency developments where relevant
+- Machine-to-machine payments
+- Agentic commerce
+- AI-agent-initiated payments
+- Delegated payment authorization
+- Digital identity integration
+- Credentialless payments
+
+Include other material capability areas identified through research.
+
+### 3. Build a future-state capability map
+
+Create a logical taxonomy for the payments skill library.
+
+Organize the domain into major capability areas and sub-capabilities.
+
+The taxonomy should be:
+
+- Comprehensive enough to cover the end-to-end payments lifecycle
+- Practical for skill discovery and routing
+- Modular enough that individual skills remain focused
+- Free from unnecessary duplication
+- Suitable for both business and technology use cases
+- Useful across banks, FinTechs, processors, networks, merchants, platforms, and payment infrastructure providers
+- Durable enough that short-term product trends do not dictate the architecture
+
+Potential top-level capability areas may include:
+
+- Payments strategy and ecosystem
+- Merchant acquiring and acceptance
+- Issuing
+- Account-to-account and real-time payments
+- Cross-border payments
+- Digital wallets and alternative payment methods
+- Payment operations
+- Fraud, identity, and risk
+- Financial crime and regulatory compliance
+- Disputes and chargebacks
+- Payment economics and monetization
+- Treasury, settlement, and liquidity
+- B2B and commercial payments
+- Embedded and platform payments
+- Payment architecture and modernization
+- Payment data and analytics
+- AI and automation
+- Emerging payment rails and models
+
+Do not assume these are necessarily the final categories. Validate and improve them based on the current repository and industry research.
+
+Distinguish between:
+
+- Core reusable skills
+- Specialized workflow skills
+- Research and analysis skills
+- Strategy skills
+- Merchant-facing skills
+- Issuer-facing skills
+- Operations skills
+- Risk and compliance skills
+- Technology and architecture skills
+- Data and analytics skills
+- AI and automation skills
+- Market and competitive intelligence skills
+
+### 4. Perform a gap and overlap analysis
+
+Map every existing skill against the future-state capability model.
+
+Identify:
+
+- Important missing skills
+- Missing payment segments
+- Missing lifecycle stages
+- Missing ecosystem participants
+- Skills that should be split
+- Skills that should be merged
+- Skills whose scope should be expanded
+- Skills whose scope should be narrowed
+- Duplicate or substantially overlapping skills
+- Skills that appear obsolete or low-value
+- Skills based on outdated payment architectures or business models
+- Skills that belong in another industry domain
+- Skills that are too generic and should become shared/common capabilities
+- Naming problems
+- Taxonomy problems
+- Missing routing or index skills
+- Missing shared references
+- Missing templates
+- Missing payment terminology or data-model resources
+- Missing regulatory references
+- Missing network or scheme references
+- Missing country- or region-specific overlays where those are justified
+
+For every recommendation, explain why the change is needed.
+
+Be particularly alert to places where one skill is trying to cover materially different payment workflows. For example, avoid treating merchant acquiring, card issuing, RTP, cross-border payments, fraud, and payment architecture as interchangeable forms of "payments."
+
+### 5. Research current industry changes
+
+Use current, authoritative sources to determine whether the skill library reflects how the payments industry operates in 2025–2026.
+
+Pay particular attention to:
+
+- Real-time and instant payments
+- FedNow adoption
+- RTP adoption
+- ISO 20022 migration
+- Open banking
+- Pay-by-bank
+- Request-for-payment
+- Account-to-account payments
+- Network tokenization
+- Click to Pay and credential modernization
+- Passkeys and next-generation authentication
+- 3-D Secure evolution
+- Authorization optimization
+- Payment orchestration
+- Smart routing
+- Payment-method proliferation
+- Digital wallets
+- Embedded payments
+- Vertical SaaS payments
+- Payment facilitation
+- Merchant-of-record models
+- Platform payments
+- B2B payments modernization
+- Cross-border modernization
+- Stablecoins
+- Tokenized deposits
+- Blockchain-based settlement
+- AI-enabled fraud prevention
+- Scam and authorized push payment fraud
+- Generative AI
+- Agentic AI
+- AI-enabled operations
+- AI-agent commerce and agent-initiated payments
+- Payment data platforms
+- Cloud modernization
+- Payment-hub modernization
+- Core payment processing modernization
+- Merchant consolidation
+- Processor consolidation
+- Payment-network changes
+- Regulatory developments
+- PCI DSS
+- PSD2 / PSD3 / PSR
+- U.S. consumer payment regulation
+- Money-transmission regulation
+- AML and sanctions requirements
+- Scam reimbursement and liability developments
+- Cybersecurity and operational resilience
+- Payment-system resilience
+- Interchange and merchant-fee developments
+- Cross-border payment initiatives
+- G20 cross-border payment objectives where relevant
+
+Separate durable industry capabilities from temporary trends.
+
+For emerging areas such as stablecoins, tokenized deposits, CBDCs, agentic commerce, and blockchain settlement, determine whether they justify:
+
+- A dedicated skill
+- A sub-capability within a broader skill
+- A research/reference module only
+- No skill yet
+
+Do not create skills solely because a technology is receiving industry attention.
+
+### 6. Recommend the target skill portfolio
+
+Produce a proposed future-state list of payments skills.
+
+For each proposed skill include:
+
+- Proposed skill name
+- One-sentence purpose
+- Primary users
+- Payments segment or ecosystem participants supported
+- Primary workflows supported
+- Key inputs
+- Key outputs
+- Whether it already exists
+- Recommended action:
+  - Keep
+  - Keep with revisions
+  - Rename
+  - Merge
+  - Split
+  - Move
+  - Retire
+  - Create
+- Priority:
+  - P0 — foundational / required
+  - P1 — high value
+  - P2 — useful expansion
+  - P3 — specialized / optional
+- Dependencies on other skills or shared resources
+- Brief rationale for the recommendation
+
+Be deliberate about skill granularity.
+
+Avoid creating dozens of narrowly scoped skills when a single coherent, reusable skill can perform the job effectively.
+
+At the same time, do not create generic "payments" skills whose scope spans unrelated workflows requiring materially different domain knowledge, inputs, outputs, regulatory frameworks, or operating models.
+
+### 7. Recommend folder and routing structure
+
+Propose the ideal structure for `skills/payments/`, including:
+
+- Top-level index/router skill
+- Subfolders, if they materially improve discoverability and maintainability
+- Naming conventions
+- Shared resources
+- Reference material
+- Templates
+- Glossaries
+- Data models
+- Payment-message references
+- Regulatory references
+- Scheme/network references
+- Regional overlays
+- Reusable workflow components
+- Cross-domain dependencies
+
+Define the boundaries between payments and adjacent domains, including:
+
+- Retail banking
+- Commercial banking
+- Transaction banking
+- Treasury services
+- Cash management
+- Lending
+- Credit cards
+- Consumer finance
+- FinTech
+- Capital markets
+- Wealth management
+- Insurance
+- Financial crime
+- Cybersecurity
+- Identity
+- E-commerce
+- Retail
+- Telecommunications
+- Blockchain / digital assets
+- Data and AI
+- Enterprise architecture
+
+Clearly explain where each boundary should be drawn.
+
+For example:
+
+- Determine which card capabilities belong in payments versus consumer lending.
+- Determine which treasury functions belong in payments versus transaction banking.
+- Determine whether KYC/AML should be implemented as payment-specific skills or shared financial-crime capabilities.
+- Determine whether fraud should be payment-specific, shared, or hybrid.
+- Determine whether stablecoins belong primarily in payments, digital assets, or both.
+- Determine which generic technology and AI capabilities should be referenced rather than duplicated inside payments.
+
+### 8. Evaluate routing and composability
+
+Assess whether the payment skill library can correctly route complex user requests.
+
+Test the proposed architecture conceptually against representative requests such as:
+
+- Analyze why a merchant's card authorization rate is declining.
+- Compare FedNow, RTP, ACH, and card rails for a specific use case.
+- Design an acquiring strategy for a global e-commerce merchant.
+- Model the economics of adding pay-by-bank.
+- Analyze interchange and payment acceptance costs.
+- Design an embedded-payments strategy for a vertical SaaS company.
+- Investigate a spike in chargebacks.
+- Design a fraud strategy for real-time payments.
+- Explain the lifecycle of a card authorization through clearing and settlement.
+- Assess whether a bank should modernize its payment hub.
+- Compare issuer processors.
+- Assess cross-border payment options.
+- Develop a merchant acquiring architecture.
+- Design a payment orchestration strategy.
+- Analyze a payments company or competitor.
+- Assess the opportunity for stablecoin settlement.
+- Develop an AI strategy for payment operations.
+- Design payment capabilities for AI-agent-driven commerce.
+
+Identify which skill or combination of skills should handle each example.
+
+Use this exercise to expose routing ambiguity, missing shared capabilities, overly broad skills, and unnecessary fragmentation.
+
+### 9. Prioritize the work
+
+Provide an implementation roadmap in logical phases.
+
+For example:
+
+**Phase 1 — Structural cleanup**
+
+- Correct taxonomy
+- Remove duplication
+- Clarify skill boundaries
+- Fix naming
+- Identify shared versus payments-specific capabilities
+- Address skills placed in the wrong domain
+- Establish routing/index structure
+
+**Phase 2 — Foundational payments coverage**
+
+- Fill critical gaps across the payment lifecycle
+- Ensure acquiring, issuing, bank payments, operations, risk, compliance, economics, and architecture are represented
+- Add essential shared references and terminology
+
+**Phase 3 — Modernization**
+
+- Update skills for real-time payments
+- ISO 20022
+- Open banking
+- Pay-by-bank
+- Network tokenization
+- Payment orchestration
+- Embedded payments
+- Modern fraud controls
+- Cloud and payment-platform modernization
+- Data and AI
+
+**Phase 4 — Advanced and specialized capabilities**
+
+- Cross-border optimization
+- B2B payments
+- Complex marketplace and platform models
+- Treasury and liquidity optimization
+- Stablecoins and tokenized money
+- Agentic commerce
+- Advanced merchant optimization
+- Regional specialization where justified
+
+For each phase include:
+
+- Recommended work
+- Dependencies
+- Expected benefit
+- Major risks or design decisions
+- Which skills should be addressed first
+
+### 10. Deliverables
+
+Return the analysis in the following structure:
+
+1. **Executive assessment**
+
+   - Overall quality and completeness of the current payments skill library
+   - Most important findings
+   - Largest structural problems
+   - Most important missing capabilities
+   - Highest-priority recommendations
+
+2. **Current-state inventory**
+
+   - Table of every existing payment skill
+   - Current purpose
+   - Domain placement
+   - Scope assessment
+   - Overlap
+   - Gaps
+   - Recommended disposition
+
+3. **Future-state payments capability map**
+
+   - Major capability areas
+   - Sub-capabilities
+   - Key ecosystem participants
+   - Major workflows
+
+4. **Gap and overlap analysis**
+
+   - Missing capabilities
+   - Duplicates
+   - Misplaced skills
+   - Overly broad skills
+   - Overly narrow skills
+   - Outdated skills
+   - Missing shared resources
+
+5. **Recommended target skill portfolio**
+
+   - Proposed skill
+   - Purpose
+   - Users
+   - Workflows
+   - Existing/new status
+   - Keep/change/create/move/retire recommendation
+   - Priority
+   - Dependencies
+   - Rationale
+
+6. **Recommended folder and taxonomy structure**
+
+   - Folder tree
+   - Router/index structure
+   - Naming conventions
+   - Shared references
+   - Cross-domain dependencies
+   - Domain boundaries
+
+7. **Routing and composability assessment**
+
+   - Show how representative payments requests would route through the proposed skill architecture
+   - Identify where multi-skill composition is appropriate
+
+8. **Prioritized implementation roadmap**
+
+   - Phase 1 through final phase
+   - Dependencies
+   - Expected benefits
+   - Recommended sequence
+
+9. **Open questions or design decisions**
+
+   - Include only genuine architectural or domain choices
+   - Do not create questions merely because additional detail would be convenient
+
+10. **Research sources**
+
+   Prioritize primary and authoritative sources, including where appropriate:
+
+   - Federal Reserve
+   - Federal Reserve Financial Services
+   - The Clearing House
+   - Nacha
+   - CFPB
+   - FinCEN
+   - OCC
+   - FDIC
+   - Federal Reserve Board
+   - European Commission
+   - European Central Bank
+   - European Payments Council
+   - Bank of England
+   - Financial Conduct Authority
+   - BIS
+   - CPMI
+   - Financial Stability Board
+   - SWIFT
+   - PCI Security Standards Council
+   - EMVCo
+   - Visa
+   - Mastercard
+   - American Express
+   - Discover
+   - Major real-time payment operators
+   - Leading processors and payment infrastructure providers
+   - Major acquiring and issuing platforms
+   - Credible payments-industry research firms
+   - Academic or standards-based sources where useful
+
+Vendor sources may be used to document vendor-specific capabilities but should not be treated as independent evidence for broad market claims.
+
+### Important constraints
+
+- Do not make any changes to the repository.
+- Do not create implementation files.
+- Do not modify skill definitions.
+- Do not assume the existing folder structure is correct.
+- Do not preserve a skill merely because it already exists.
+- Do not recommend a new skill unless there is a distinct, reusable job for it to perform.
+- Do not create skills solely around products, vendors, protocols, technologies, or trends unless they support a durable reusable workflow.
+- Prefer reusable capability-oriented skills over vendor-specific skills.
+- Avoid duplicating capabilities that should live in shared financial-services, risk, compliance, architecture, data, or AI libraries.
+- At the same time, preserve payments-specific knowledge where the workflow, data, economics, regulation, or operating model is materially different.
+- Optimize for a coherent, maintainable skill system rather than the largest possible number of skills.
+- Base recommendations on both the existing repository and current external research.
+- Clearly distinguish:
+  - Verified repository findings
+  - Verified industry facts
+  - Inferred design problems
+  - Architectural recommendations
+- Cite evidence for material industry, market, technical-standard, or regulatory claims.
+- Prefer primary sources for regulations, payment-system rules, technical standards, and scheme requirements.
+- Treat vendor claims as vendor claims unless independently verified.
+- Explicitly identify where recommendations are U.S.-specific versus globally applicable.
+- Do not overfit the architecture to 2025–2026 trends. The core structure should remain useful as payment technologies and providers change.
+
+The final output should give me a clear blueprint for what the complete payments skill architecture should look like before any implementation work begins.

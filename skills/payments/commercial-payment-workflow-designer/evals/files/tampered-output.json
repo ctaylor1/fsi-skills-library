@@ -1,0 +1,386 @@
+{
+  "schema_version": "1.0",
+  "skill": "commercial-payment-workflow-designer",
+  "request_id": "phase3-2-synthetic",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "enterprise-ap",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": true,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "phase3-2-synthetic",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "enterprise-ap",
+    "sources": [
+      {
+        "source_id": "ledger",
+        "reference": "synthetic://phase3-reviewed-ledger-v1",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "history_complete": true,
+      "approval_policy": {
+        "owner": "Synthetic AP controller",
+        "policy_ref": "synthetic-ap-policy-v1",
+        "effective_from": "2026-01-01",
+        "review_due": "2026-12-31"
+      },
+      "suppliers": [
+        {
+          "supplier_id": "supplier-1",
+          "legal_entity_id": "seller",
+          "payee_account_ref": "supplier-opaque-account",
+          "erp_supplier_ref": "ERP:S:1",
+          "enabled_methods": [
+            "US-ACH"
+          ],
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "invoices": [
+        {
+          "invoice_id": "invoice-1",
+          "invoice_number": "INV-1001",
+          "supplier_id": "supplier-1",
+          "buyer_entity_id": "buyer",
+          "currency": "USD",
+          "erp_invoice_ref": "ERP:I:1",
+          "due_date": "2026-09-22",
+          "amount": "1000.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "invoice_id": "invoice-2",
+          "invoice_number": "INV-1002",
+          "supplier_id": "supplier-1",
+          "buyer_entity_id": "buyer",
+          "currency": "USD",
+          "erp_invoice_ref": "ERP:I:2",
+          "due_date": "2026-09-22",
+          "amount": "500.00",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "credit_notes": [
+        {
+          "credit_note_id": "credit-1",
+          "invoice_id": "invoice-1",
+          "currency": "USD",
+          "erp_credit_ref": "ERP:C:1",
+          "amount": "100.00",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "payments": [
+        {
+          "payment_id": "payment-1",
+          "supplier_id": "supplier-1",
+          "payer_entity_id": "buyer",
+          "payee_account_ref": "supplier-opaque-account",
+          "currency": "USD",
+          "method": "US-ACH",
+          "state": "settled",
+          "erp_payment_ref": "ERP:P:1",
+          "amount": "400.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "payment_id": "payment-2",
+          "supplier_id": "supplier-1",
+          "payer_entity_id": "buyer",
+          "payee_account_ref": "supplier-opaque-account",
+          "currency": "USD",
+          "method": "US-ACH",
+          "state": "pending",
+          "erp_payment_ref": "ERP:P:2",
+          "amount": "200.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "payment_id": "payment-3",
+          "supplier_id": "supplier-1",
+          "payer_entity_id": "buyer",
+          "payee_account_ref": "supplier-opaque-account",
+          "currency": "USD",
+          "method": "US-ACH",
+          "state": "proposed",
+          "erp_payment_ref": "ERP:P:3",
+          "amount": "500.00",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "allocations": [
+        {
+          "allocation_id": "a1",
+          "payment_id": "payment-1",
+          "invoice_id": "invoice-1",
+          "currency": "USD",
+          "amount": "400.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "allocation_id": "a2",
+          "payment_id": "payment-2",
+          "invoice_id": "invoice-1",
+          "currency": "USD",
+          "amount": "200.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "allocation_id": "a3",
+          "payment_id": "payment-3",
+          "invoice_id": "invoice-1",
+          "currency": "USD",
+          "amount": "300.00",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "allocation_id": "a4",
+          "payment_id": "payment-3",
+          "invoice_id": "invoice-2",
+          "currency": "USD",
+          "amount": "200.00",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "remittances": [
+        {
+          "remittance_id": "r1",
+          "payment_id": "payment-1",
+          "supplier_id": "supplier-1",
+          "delivery_reference": "DRAFT:remit1",
+          "allocation_ids": [
+            "a1"
+          ],
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "remittance_id": "r2",
+          "payment_id": "payment-2",
+          "supplier_id": "supplier-1",
+          "delivery_reference": "DRAFT:remit2",
+          "allocation_ids": [
+            "a2"
+          ],
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "remittance_id": "r3",
+          "payment_id": "payment-3",
+          "supplier_id": "supplier-1",
+          "delivery_reference": "DRAFT:remit3",
+          "allocation_ids": [
+            "a3",
+            "a4"
+          ],
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "29edb05cc6ab4d87e5c696e380ec212d7d912403575c4773c10dd347a82893d4",
+  "findings": [],
+  "result": {
+    "invoice_balances": [
+      {
+        "invoice_id": "invoice-1",
+        "supplier_id": "supplier-1",
+        "buyer_entity_id": "buyer",
+        "currency": "USD",
+        "erp_invoice_ref": "ERP:I:1",
+        "credit_notes": "100.00",
+        "open_after_settled": "500.00",
+        "remaining_before_proposed": "300.00",
+        "settled": "400.00",
+        "pending": "200.00",
+        "proposed": "300.00"
+      },
+      {
+        "invoice_id": "invoice-2",
+        "supplier_id": "supplier-1",
+        "buyer_entity_id": "buyer",
+        "currency": "USD",
+        "erp_invoice_ref": "ERP:I:2",
+        "credit_notes": "0",
+        "open_after_settled": "500.00",
+        "remaining_before_proposed": "500.00",
+        "settled": "0",
+        "pending": "0",
+        "proposed": "200.00"
+      }
+    ],
+    "payment_remittance_ties": [
+      {
+        "payment_id": "payment-1",
+        "currency": "USD",
+        "amount": "400.00",
+        "allocated_amount": "400.00",
+        "state": "settled",
+        "remittance_tied": true,
+        "workflow_evidence_complete": true,
+        "initiation_authorized": false,
+        "erp_payment_ref": "ERP:P:1"
+      },
+      {
+        "payment_id": "payment-2",
+        "currency": "USD",
+        "amount": "200.00",
+        "allocated_amount": "200.00",
+        "state": "pending",
+        "remittance_tied": true,
+        "workflow_evidence_complete": true,
+        "initiation_authorized": false,
+        "erp_payment_ref": "ERP:P:2"
+      },
+      {
+        "payment_id": "payment-3",
+        "currency": "USD",
+        "amount": "500.00",
+        "allocated_amount": "500.00",
+        "state": "proposed",
+        "remittance_tied": true,
+        "workflow_evidence_complete": true,
+        "initiation_authorized": false,
+        "erp_payment_ref": "ERP:P:3"
+      }
+    ],
+    "supplier_enablement": [
+      {
+        "supplier_id": "supplier-1",
+        "legal_entity_id": "seller",
+        "payee_account_ref": "supplier-opaque-account",
+        "erp_supplier_ref": "ERP:S:1",
+        "enabled_methods": [
+          "US-ACH"
+        ],
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "approval_policy_reviewed": true,
+    "workflow": [
+      "ERP invoice and credit identity",
+      "AP exception and approval evidence",
+      "supplier and payee enablement",
+      "exact initiation review",
+      "payment status correlation",
+      "remittance delivery and supplier allocation",
+      "ERP reconciliation"
+    ],
+    "system_of_record_updated": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Review exact payment instruction separately from AP approval.",
+      "required_inputs": [
+        "supplier account reference",
+        "exact payment amount and currency",
+        "approval evidence",
+        "duplicate and mandate evidence"
+      ],
+      "handoff_id": "8a76e7541fcc3ca3fdd08a0a563847191f99b75aa85fc1da51809ff39e0deabe",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "phase3-2-synthetic",
+      "lead_owner": "enterprise-ap",
+      "requested_output": "Review exact payment instruction separately from AP approval.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "bank-payment-workflow-designer",
+      "reason": "Choose evidenced method and remittance transport for supplier requirements.",
+      "required_inputs": [
+        "supplier enablement",
+        "due dates",
+        "ERP linkage and remittance fields"
+      ],
+      "handoff_id": "15081526763c34b382540f8347220790dffda8aa11adea26aa37185cb066c675",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "phase3-2-synthetic",
+      "lead_owner": "enterprise-ap",
+      "requested_output": "Choose evidenced method and remittance transport for supplier requirements.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-lifecycle-diagnoser",
+      "reason": "Investigate pending or uncertain outcomes before issuing replacements.",
+      "required_inputs": [
+        "payment identity",
+        "native lifecycle events",
+        "settlement and ERP evidence"
+      ],
+      "handoff_id": "a393d4b6d22e17aea6981b8d4c8322d73e06a326a0f4e2c4612059f9c97d2b0d",
+      "contract_version": "1.0.0",
+      "source_skill": "commercial-payment-workflow-designer",
+      "case_id": "phase3-2-synthetic",
+      "lead_owner": "enterprise-ap",
+      "requested_output": "Investigate pending or uncertain outcomes before issuing replacements.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

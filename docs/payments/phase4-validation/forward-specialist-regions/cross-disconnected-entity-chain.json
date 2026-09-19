@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "request_id": "cross-disconnected-entity-chain",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "forward-reviewer",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "forward-evidence",
+      "reference": "synthetic://independently-authored-payment-contract-and-ledger",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-01"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "use_case": "consumer-remittance",
+    "principal": "1000",
+    "evaluate_at": "2026-09-18T12:00:00Z",
+    "accountable_reviewer": "corridor-operations",
+    "payer": {
+      "entity_id": "payer",
+      "account_ref": "payer-account",
+      "jurisdiction": "US",
+      "currency": "USD"
+    },
+    "payee": {
+      "entity_id": "payee",
+      "account_ref": "payee-account",
+      "jurisdiction": "UK",
+      "currency": "GBP"
+    },
+    "options": [
+      {
+        "option_id": "bank-corridor",
+        "charge_convention": "SHA",
+        "charge_convention_review_ref": "reviewed-fee-allocation",
+        "fees_complete": true,
+        "expected_delivery_review_ref": "recipient-window-reviewed",
+        "fees": [
+          {
+            "fee_id": "payer-charge",
+            "kind": "fee",
+            "charging_entity": "provider-us",
+            "currency": "USD",
+            "amount": "5",
+            "side": "payer-addition",
+            "jurisdiction": "US"
+          },
+          {
+            "fee_id": "principal-charge",
+            "kind": "fee",
+            "charging_entity": "provider-us",
+            "currency": "USD",
+            "amount": "2",
+            "side": "principal-deduction",
+            "jurisdiction": "US"
+          },
+          {
+            "fee_id": "recipient-charge",
+            "kind": "fee",
+            "charging_entity": "provider-uk",
+            "currency": "GBP",
+            "amount": "3",
+            "side": "recipient-deduction",
+            "jurisdiction": "UK"
+          }
+        ],
+        "fx_quote": {
+          "base_currency": "USD",
+          "quote_currency": "GBP",
+          "rate": "0.8",
+          "quoted_at": "2026-09-18T11:00:00Z",
+          "expires_at": "2026-09-18T13:00:00Z",
+          "kind": "firm",
+          "quote_ref": "forward-exact-principal-quote"
+        },
+        "legs": [
+          {
+            "leg_id": "collect",
+            "economic_id": "customer-collect-1",
+            "purpose": "customer-collection",
+            "from_entity": "payer",
+            "from_account_ref": "payer-account",
+            "to_entity": "provider-us",
+            "to_account_ref": "provider-us-account",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "amount": "1005",
+            "method": "bank-credit",
+            "obligation_ref": "source-debit-contract",
+            "access_review_ref": "access-US",
+            "funding_review_ref": "collected-principal",
+            "timing_review_ref": "delivery-window"
+          },
+          {
+            "leg_id": "fx-correspondent",
+            "economic_id": "fx-correspondent-economic",
+            "purpose": "correspondent-delivery",
+            "from_entity": "provider-us",
+            "from_account_ref": "provider-us-gbp-position",
+            "to_entity": "provider-uk",
+            "to_account_ref": "provider-uk-account",
+            "jurisdiction": "UK",
+            "currency": "GBP",
+            "amount": "798.4",
+            "method": "correspondent-transfer",
+            "obligation_ref": "fx-principal-correspondent-obligation",
+            "access_review_ref": "reviewed-correspondent-access",
+            "funding_review_ref": "reviewed-fx-principal-funding",
+            "timing_review_ref": "reviewed-correspondent-window",
+            "previous_leg_id": "collect",
+            "account_transition_review_ref": "reviewed-usd-to-gbp-owned-account-funding"
+          },
+          {
+            "leg_id": "deliver",
+            "economic_id": "recipient-credit-1",
+            "purpose": "local-payout",
+            "from_entity": "provider-us",
+            "from_account_ref": "provider-uk-account",
+            "to_entity": "payee",
+            "to_account_ref": "payee-account",
+            "jurisdiction": "UK",
+            "currency": "GBP",
+            "amount": "795.4",
+            "method": "bank-credit",
+            "obligation_ref": "recipient-credit-contract",
+            "access_review_ref": "access-UK",
+            "funding_review_ref": "local-funded-account",
+            "timing_review_ref": "delivery-window",
+            "previous_leg_id": "fx-correspondent"
+          }
+        ],
+        "regulatory_reviews": [
+          {
+            "jurisdiction": "US",
+            "use_case": "consumer-remittance",
+            "reviewer": "corridor-specialist-US",
+            "reference": "local-reviewed-activity-US",
+            "rule_version": "forward-v1",
+            "activity_scope_ref": "consumer-remittance-scope",
+            "valid_from": "2026-09-01T00:00:00Z",
+            "valid_until": "2026-10-01T00:00:00Z",
+            "entity_ids": [
+              "payer",
+              "provider-us"
+            ]
+          },
+          {
+            "jurisdiction": "UK",
+            "use_case": "consumer-remittance",
+            "reviewer": "corridor-specialist-UK",
+            "reference": "local-reviewed-activity-UK",
+            "rule_version": "forward-v1",
+            "activity_scope_ref": "consumer-remittance-scope",
+            "valid_from": "2026-09-01T00:00:00Z",
+            "valid_until": "2026-10-01T00:00:00Z",
+            "entity_ids": [
+              "provider-us",
+              "provider-uk",
+              "payee"
+            ]
+          }
+        ],
+        "sanctions_review": {
+          "entity_ids": [
+            "payer",
+            "payee",
+            "provider-us",
+            "provider-uk"
+          ],
+          "jurisdictions": [
+            "US",
+            "UK"
+          ],
+          "reference": "reviewed-all-party-screening",
+          "reviewer": "sanctions-owner",
+          "policy_version": "forward-v1",
+          "valid_from": "2026-09-18T00:00:00Z",
+          "valid_until": "2026-09-19T00:00:00Z"
+        },
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ]
+  }
+}

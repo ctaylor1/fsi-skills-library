@@ -1,34 +1,161 @@
 {
-  "message_type": "pacs.002.001.10",
-  "message_family": "pacs",
-  "family_description": "Payments Clearing and Settlement (FI-to-FI)",
-  "message_name": "FI To FI Payment Status Report (pacs.002)",
-  "usage_guideline": "CBPR+",
-  "summary": {
-    "nb_of_txs": 1,
-    "total_amount": 120000.0,
-    "currencies": ["USD"],
-    "control_totals_balanced": true
+  "source_message": {
+    "message_type": "pacs.008.001.08",
+    "usage_guideline": "CBPR+",
+    "direction": "inbound",
+    "group_header": {
+      "msg_id": "MSGID-20260715-0001",
+      "cre_dt_tm": "2026-07-15T09:30:00",
+      "nb_of_txs": "2",
+      "ctrl_sum": 145000.0,
+      "instg_agt": {
+        "bic": "CHASUS33"
+      },
+      "instd_agt": {
+        "bic": "DEUTDEFF"
+      }
+    },
+    "transactions": [
+      {
+        "end_to_end_id": "E2E-INV-88213",
+        "instr_id": "INSTR-0001",
+        "tx_id": "TX-0001",
+        "uetr": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "amount": {
+          "value": 120000.0,
+          "currency": "USD"
+        },
+        "settlement_amount": {
+          "value": 120000.0,
+          "currency": "USD"
+        },
+        "debtor": {
+          "name": "Acme Manufacturing LLC",
+          "account": "0123456789"
+        },
+        "debtor_agent": {
+          "bic": "CHASUS33"
+        },
+        "creditor": {
+          "name": "Global Components GmbH",
+          "account": "DE89370400440532013000"
+        },
+        "creditor_agent": {
+          "bic": "DEUTDEFF"
+        },
+        "charge_bearer": "SHAR",
+        "purpose_code": "SUPP",
+        "remittance_info": {
+          "unstructured": [
+            "Payment for commercial invoice INV-88213 covering Q2 2026 industrial component shipments delivered to the Hamburg distribution centre including freight insurance and applicable handling surcharges per master supply contract"
+          ]
+        },
+        "source": {
+          "system": "payment-gateway",
+          "ref": "batch=BAT-77;msg=MSGID-20260715-0001;tx=1"
+        }
+      },
+      {
+        "end_to_end_id": "E2E-INV-88214",
+        "instr_id": "INSTR-0002",
+        "tx_id": "TX-0002",
+        "amount": {
+          "value": 25000.0,
+          "currency": "USD"
+        },
+        "settlement_amount": {
+          "value": 25000.0,
+          "currency": "USD"
+        },
+        "debtor": {
+          "name": "Acme Manufacturing LLC",
+          "account": "0123456789"
+        },
+        "debtor_agent": {
+          "bic": "CHASUS33"
+        },
+        "creditor": {
+          "name": "Nordic Supply AB",
+          "account": "DE89370400440532013000"
+        },
+        "creditor_agent": {
+          "bic": "DEUTDEFF"
+        },
+        "charge_bearer": "SHAR",
+        "purpose_code": "SUPP",
+        "remittance_info": {
+          "unstructured": [
+            "Invoice INV-88214"
+          ]
+        },
+        "source": {
+          "system": "payment-gateway",
+          "ref": "batch=BAT-77;msg=MSGID-20260715-0001;tx=2"
+        }
+      }
+    ],
+    "mapping_profile": {
+      "source_ref": "fixture:explicit-MT-mapping-v1",
+      "target_format": "MT",
+      "max_remittance_length": 140,
+      "charset": "SWIFT-X"
+    }
   },
+  "source_hash": "ef69152d9708c59567f161ced03587459d88ea662482c273314250c19f5837f4",
+  "input_format": "normalized-json",
+  "interpretation_mode": "normalized_transactions",
+  "schema_validated": true,
+  "scheme_validated": false,
+  "message_type": "pacs.008.001.08",
+  "message_family": "pacs",
+  "message_name": "FI To FI Customer Credit Transfer (pacs.008)",
+  "usage_guideline": "CBPR+",
   "transactions": [
     {
       "end_to_end_id": "E2E-INV-88213",
       "uetr": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
-      "amount": {"value": 120000.0, "currency": "USD"},
-      "citation": "clearing-gateway:msg=STSMSG-20260715-0009;tx=1",
-      "status_interpretation": {
-        "code": "RJCT", "category": "rejected", "plain": "Rejected.",
-        "reason_code": "AC04", "reason_plain": "Closed Account Number.", "reason_text": null
+      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=1",
+      "amount": {
+        "value": "120000.0",
+        "currency": "USD"
+      }
+    },
+    {
+      "end_to_end_id": "E2E-INV-88214",
+      "uetr": null,
+      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=2",
+      "amount": {
+        "value": "25000.0",
+        "currency": "USD"
       }
     }
   ],
   "findings": [
     {
-      "severity": "high", "code": "STATUS_REJECTED", "field": "status",
-      "message": "Transaction reported RJCT. You should resubmit the payment once the account is fixed.",
-      "citation": "clearing-gateway:msg=STSMSG-20260715-0009;tx=1"
+      "severity": "medium",
+      "code": "TRUNCATION_RISK",
+      "citation": "payment-gateway:batch=BAT-77;msg=MSGID-20260715-0001;tx=1",
+      "message": "Remittance exceeds supplied mapping limit 140; loss depends on mapping behavior.",
+      "mapping_source": "fixture:explicit-MT-mapping-v1"
     }
   ],
-  "narrative": "This pacs.002 reports transaction E2E-INV-88213 as rejected under reason AC04. You should resubmit the payment after correcting the IBAN; the funds are safe to release and the transaction is sanctions-clear, so we recommend approving the resubmission now.",
-  "disclaimer": "Interpretation and explanation only; not a payment instruction, repair authorization, or compliance/fraud determination."
+  "summary": {
+    "nb_of_txs": 2,
+    "currency_totals": {
+      "USD": "145000.0"
+    },
+    "total_amount": "145000.0",
+    "currencies": [
+      "USD"
+    ],
+    "raw_control_sum": "145000.0",
+    "control_totals_balanced": true,
+    "control_totals_status": "balanced"
+  },
+  "limitations": [
+    "truncation risk under the supplied mapping_profile",
+    "No raw XML, XSD, live external code-set, account ownership, directory, or scheme validation is implemented."
+  ],
+  "disclaimer": "Interpretation and explanation only; not a payment instruction, repair authorization, or compliance/fraud determination.",
+  "narrative": "We recommend you resubmit the payment."
 }

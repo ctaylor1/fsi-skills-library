@@ -1,0 +1,287 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "life-underwriting-reviewer",
+  "case_id": "UW-71",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "carrier life underwriting case manager",
+    "represented_party": "Synthetic Carrier",
+    "object_id": "APP-71",
+    "jurisdiction": "NY",
+    "line_of_business": "term_life"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "evidence_gap",
+      "message": "No current identity-matched income_verification for F1",
+      "source_refs": [
+        "raw-source.md#criteria",
+        "raw-source.md#income-pending"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "evidence_exception",
+      "message": "Rejected evidence retained for F1",
+      "source_refs": [
+        "raw-source.md#income-pending"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "disclosure_conflict",
+      "message": "Reviewer must reconcile differing supplied values for specialist_follow_up; no medical inference made",
+      "source_refs": [
+        "raw-source.md#aps"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "financial_referral",
+      "message": "Total disclosed coverage / disclosed annual income exceeds supplied referral multiple; investigate financial justification",
+      "source_refs": [
+        "raw-source.md#application",
+        "raw-source.md#criteria"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "application_id": "APP-71",
+    "applicant_id": "SYN-A71",
+    "evidence_checks": [
+      {
+        "requirement_id": "M1",
+        "kind": "medical",
+        "document_type": "attending_physician_statement",
+        "status": "supported",
+        "matching": [
+          {
+            "evidence_id": "EV-M1",
+            "source_ref": "raw-source.md#aps",
+            "reasons": []
+          }
+        ],
+        "rejected": []
+      },
+      {
+        "requirement_id": "F1",
+        "kind": "financial",
+        "document_type": "income_verification",
+        "status": "missing_or_unusable",
+        "matching": [],
+        "rejected": [
+          {
+            "evidence_id": "EV-F1",
+            "source_ref": "raw-source.md#income-pending",
+            "reasons": [
+              "evidence not received or disputed"
+            ]
+          }
+        ]
+      }
+    ],
+    "disclosure_reconciliation": [
+      {
+        "topic": "specialist_follow_up",
+        "application_value": "no",
+        "evidence_value": "yes",
+        "evidence_id": "EV-M1",
+        "source_ref": "raw-source.md#aps",
+        "values_differ": true,
+        "identity_linked": true
+      }
+    ],
+    "financial_review": {
+      "currency": "USD",
+      "total_coverage_to_income": "20",
+      "supplied_referral_threshold": "15",
+      "basis": "disclosed amounts; no income authentication"
+    },
+    "referral_reasons": [
+      "evidence_gap",
+      "evidence_exception",
+      "disclosure_conflict",
+      "financial_referral"
+    ],
+    "risk_class": null,
+    "medical_diagnosis": null,
+    "issue_decision": null
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "No current identity-matched income_verification for F1",
+    "Rejected evidence retained for F1",
+    "Reviewer must reconcile differing supplied values for specialist_follow_up; no medical inference made",
+    "Total disclosed coverage / disclosed annual income exceeds supplied referral multiple; investigate financial justification"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "UW-71",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "carrier life underwriting case manager",
+      "represented_party": "Synthetic Carrier",
+      "object_id": "APP-71",
+      "jurisdiction": "NY",
+      "line_of_business": "term_life"
+    },
+    "sources": [
+      {
+        "source_ref": "raw-source.md#application",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "d5bf37a51bc976f03a1e98a9a1c2af4c469b154a994a01288dd3b98f16878105"
+      },
+      {
+        "source_ref": "raw-source.md#criteria",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "d5bf37a51bc976f03a1e98a9a1c2af4c469b154a994a01288dd3b98f16878105"
+      },
+      {
+        "source_ref": "raw-source.md#aps",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "d5bf37a51bc976f03a1e98a9a1c2af4c469b154a994a01288dd3b98f16878105"
+      },
+      {
+        "source_ref": "raw-source.md#income-pending",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "d5bf37a51bc976f03a1e98a9a1c2af4c469b154a994a01288dd3b98f16878105"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "application": {
+        "application_id": "APP-71",
+        "applicant_id": "SYN-A71",
+        "currency": "USD",
+        "purpose": "family income replacement",
+        "coverage_amount": "1450000",
+        "existing_coverage": "350000",
+        "annual_income": "90000",
+        "source_ref": "raw-source.md#application"
+      },
+      "criteria": {
+        "profile_id": "UW-NY-TERM-26",
+        "version": "3",
+        "source_refs": [
+          "raw-source.md#criteria"
+        ],
+        "source_ref": "raw-source.md#criteria",
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "jurisdictions": [
+          "NY"
+        ],
+        "lines_of_business": [
+          "term_life"
+        ],
+        "requirements": [
+          {
+            "requirement_id": "M1",
+            "kind": "medical",
+            "document_type": "attending_physician_statement",
+            "max_age_days": 180
+          },
+          {
+            "requirement_id": "F1",
+            "kind": "financial",
+            "document_type": "income_verification",
+            "max_age_days": 90
+          }
+        ],
+        "financial_multiple_limit": "15"
+      },
+      "evidence": [
+        {
+          "evidence_id": "EV-M1",
+          "application_id": "APP-71",
+          "applicant_id": "SYN-A71",
+          "document_type": "attending_physician_statement",
+          "as_of": "2026-08-20",
+          "status": "received",
+          "source_ref": "raw-source.md#aps"
+        },
+        {
+          "evidence_id": "EV-F1",
+          "application_id": "APP-71",
+          "applicant_id": "SYN-A71",
+          "document_type": "income_verification",
+          "as_of": "2026-09-15",
+          "status": "pending",
+          "source_ref": "raw-source.md#income-pending"
+        }
+      ],
+      "disclosures": [
+        {
+          "topic": "specialist_follow_up",
+          "application_value": "no",
+          "evidence_value": "yes",
+          "evidence_id": "EV-M1",
+          "source_ref": "raw-source.md#aps"
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "life-underwriting-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "carrier life underwriting case manager",
+      "represented_party": "Synthetic Carrier",
+      "object_id": "APP-71",
+      "jurisdiction": "NY",
+      "line_of_business": "term_life"
+    },
+    "sources": [
+      {
+        "source_ref": "raw-source.md#application",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "d5bf37a51bc976f03a1e98a9a1c2af4c469b154a994a01288dd3b98f16878105"
+      },
+      {
+        "source_ref": "raw-source.md#criteria",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "d5bf37a51bc976f03a1e98a9a1c2af4c469b154a994a01288dd3b98f16878105"
+      },
+      {
+        "source_ref": "raw-source.md#aps",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "d5bf37a51bc976f03a1e98a9a1c2af4c469b154a994a01288dd3b98f16878105"
+      },
+      {
+        "source_ref": "raw-source.md#income-pending",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "d5bf37a51bc976f03a1e98a9a1c2af4c469b154a994a01288dd3b98f16878105"
+      }
+    ],
+    "input_hash": "c64a72eb3db231c8346cd46a33b41758a26cc8c74b3a533e295cb1a3b82c5e3e",
+    "output_hash": "b23ac5ac77093491d059d22b2663841597812251d6b3218ea216b7274ce3e0af",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "No current identity-matched income_verification for F1",
+      "Rejected evidence retained for F1",
+      "Reviewer must reconcile differing supplied values for specialist_follow_up; no medical inference made",
+      "Total disclosed coverage / disclosed annual income exceeds supplied referral multiple; investigate financial justification"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "3696ff79276df04f846835f392fd1d46c104ccbc569b213940e2e42c11017f55"
+  }
+}

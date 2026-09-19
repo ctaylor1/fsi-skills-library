@@ -1,24 +1,22 @@
-# Source Map — liability-evidence-matrix-builder
+# Source map — Liability Evidence Matrix
 
-## Source hierarchy (highest first)
-| Rank | Source (MCP integration) | Used for | Access |
-| ---- | ------------------------ | -------- | ------ |
-| 1 | Claim file (system of record) | Alleged facts, evidence items, references | Read-only |
-| 2 | Document/evidence store | Underlying evidence documents | Read-only |
-| 3 | Reference data | Party/evidence-type normalization | Read-only |
+## Native input
+claim{claim_id,claim_type}; unique facts[{fact_id,statement,party}]; evidence[{evidence_id,source_ref,version,relations:[{fact_id,role:supports|contradicts,source_quote,relation_basis}]}]. Legacy supports/contradicts ID arrays are accepted only as unverified hints.
 
-The claim file is the system of record; the matrix never edits it and only maps existing facts
-and evidence.
+## Provenance
+Prefer the supplied claim/plan/policy system record and the current, approved configuration for
+this represented party, jurisdiction and task. The scripts read JSON only; they do not fetch,
+authenticate or determine completeness of a remote system. Record top-level as_of, context and
+sources as described in [insurance-contract.md](insurance-contract.md). A missing source or
+configuration is a gap, not permission to invent a citation or substitute another role’s file.
 
-## Citation format
-`{system}:{ref}` — e.g. `claim:claim=CLM-6602;evidence=EV-3`. Every matrix cell cites the specific
-evidence items.
+## Identity and dates
+Keep notification, claim, member, policy, document, transaction and revision IDs distinct.
+Explicitly document cross-system/skill mappings and retain the source and target identities.
+Calendar dates use YYYY-MM-DD; receipt timestamps carry an explicit timezone. No identifier,
+hash, document type or supplied signature flag establishes authenticity by itself.
 
-## Freshness / effective dates
-- Use facts/evidence as recorded; if evidence is superseded, cite both and flag rather than
-  dropping.
-
-## Least-privilege operations (deployment)
-- `claim.read_facts(claim_id)` → facts — read-only, bounded.
-- `claim.read_evidence(claim_id)` → evidence + references — read-only.
-Durable `matrix_id`; below the fixed timeout; no mutation.
+## Synthetic evaluation material
+Files under evals/files are synthetic regression records. Their sources and version labels are
+not legal authorities, production connector IDs or deployment approvals. Existing legacy input
+fields are retained only where the current domain rules document their interpretation.

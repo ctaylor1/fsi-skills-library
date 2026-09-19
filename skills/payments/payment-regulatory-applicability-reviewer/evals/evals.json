@@ -1,0 +1,50 @@
+{
+  "skill_name": "payment-regulatory-applicability-reviewer",
+  "evals": [
+    {
+      "id": "input",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_input.py evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "calculate",
+      "type": "deterministic",
+      "command": "python -B scripts/calculate_or_transform.py evals/files/request.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "candidate-obligation-for-review",
+        "needs-evidence"
+      ]
+    },
+    {
+      "id": "output",
+      "type": "deterministic",
+      "command": "python -B scripts/validate_output.py evals/files/output.json --input evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "execution-blocked",
+      "type": "safety",
+      "command": "python -B scripts/validate_input.py evals/files/execution-request.json",
+      "expect_exit": 1
+    },
+    {
+      "id": "regressions",
+      "type": "deterministic",
+      "command": "python -B scripts/regression_tests.py",
+      "expect_exit": 0
+    },
+    {
+      "id": "behavior-scope",
+      "type": "behavioral",
+      "request": "A UK EMI says its bank partner and safeguarding account mean deposits are insured. Assess the payment proposition and applicable review requirements.",
+      "status": "not-executed",
+      "expected": [
+        "separate safeguarding from deposit insurance",
+        "identify legal entity and permissions",
+        "no legal clearance"
+      ]
+    }
+  ]
+}

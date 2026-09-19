@@ -17,9 +17,10 @@ Usage:
 Prints the review JSON to stdout.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, math
 from datetime import datetime
 from pathlib import Path
+from payment_contract import validate_rule_profile
 
 CATEGORIES = ("reserve", "custody", "screening", "transaction",
               "operational", "reconciliation", "disclosure")
@@ -36,8 +37,8 @@ DEFAULT_CONFIG = {
     "min_backing_ratio": 1.0,
     "min_eligible_pct": 100.0,
     "max_attestation_age_days": 31,
-    "required_travel_rule_max": 1000.0,
-    "required_min_confirmations": 12,
+    "required_travel_rule_max": None,
+    "required_min_confirmations": None,
     "recon_break_tolerance_bps": 5.0,
     "required_report_cadence_days": 31,
     "escalate_fail_count": 3,
@@ -57,7 +58,10 @@ def _parse_date(s: str) -> datetime | None:
 
 def _num(v):
     try:
-        return float(v)
+        if isinstance(v, bool):
+            return None
+        result = float(v)
+        return result if math.isfinite(result) else None
     except (TypeError, ValueError):
         return None
 
@@ -69,7 +73,7 @@ def _bool(v):
 # Each rule returns (status, observed_dict, reason). status in pass|fail|gap|not_evaluable.
 def _r_backing(m, cfg, as_of):
     out, rmv = _num(m.get("outstanding_tokens")), _num(m.get("reserve_market_value"))
-    if out is None or rmv is None or out <= 0:
+    if out is None or rmv is None or out <= 0 or cfg["par_value"] <= 0:
         return "not_evaluable", {}, "missing outstanding_tokens or reserve_market_value"
     ratio = rmv / (out * cfg["par_value"])
     ok = ratio >= cfg["min_backing_ratio"]
@@ -91,7 +95,7 @@ def _r_attestation(m, cfg, as_of):
     if d is None or as_of is None:
         return "not_evaluable", {}, "missing last_attestation_date"
     age = (as_of - d).days
-    ok = age <= cfg["max_attestation_age_days"]
+    ok = 0 <= age <= cfg["max_attestation_age_days"]
     return ("pass" if ok else "fail"), {"attestation_age_days": age, "max": cfg["max_attestation_age_days"]}, \
         f"attestation age {age}d vs max {cfg['max_attestation_age_days']}d"
 
@@ -117,6 +121,8 @@ def _r_key_mgmt(m, cfg, as_of):
 
 
 def _r_travel_rule(m, cfg, as_of):
+    if cfg.get("required_travel_rule_max") is None:
+        return "not_evaluable", {}, "applicable travel-rule threshold and currency not supplied"
     en = _bool(m.get("enabled"))
     if en is None:
         return "not_evaluable", {}, "missing travel-rule 'enabled'"
@@ -142,6 +148,8 @@ def _r_txn_limits(m, cfg, as_of):
 
 
 def _r_confirmations(m, cfg, as_of):
+    if cfg.get("required_min_confirmations") is None:
+        return "not_evaluable", {}, "chain/instrument finality policy not supplied"
     c = _num(m.get("min_confirmations"))
     if c is None:
         return "not_evaluable", {}, "missing min_confirmations"
@@ -222,10 +230,34 @@ def _disposition(evaluated: list[dict], cfg: dict) -> str:
 
 def compute(doc: dict) -> dict:
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
+    config_requirements = {
+      "reserve_backing_ratio": ["par_value", "min_backing_ratio"],
+      "reserve_asset_quality": ["min_eligible_pct"],
+      "reserve_attestation_current": ["max_attestation_age_days"],
+      "travel_rule": ["required_travel_rule_max"],
+      "finality_confirmations": ["required_min_confirmations"],
+      "onchain_ledger_recon": ["recon_break_tolerance_bps"],
+      "reserve_reporting": ["required_report_cadence_days"]}
     as_of = _parse_date(doc.get("as_of"))
     evaluated, findings, not_evaluable = [], [], []
-
-    for ctrl in doc.get("controls", []):
+    profile = doc.get("policy_profile") or {}
+    profile_errors = validate_rule_profile(profile, str(doc.get("as_of", ""))[:10],
+                                          participant=doc.get("participant", "unknown"),
+                                          jurisdiction=doc.get("jurisdiction", "unknown"))
+    required = profile.get("required_controls")
+    if not isinstance(required, list) or not required:
+        profile_errors.append("explicit applicable required_controls list missing")
+        required = sorted(CRITICAL)
+    controls = list(doc.get("controls", []))
+    present = {c.get("id") for c in controls}
+    if len(present) != len(controls):
+        profile_errors.append("duplicate control identifiers; evidence ambiguous")
+    if any(cid not in CONTROL_CATALOG for cid in required):
+        profile_errors.append("required control outside supported catalog")
+    for cid in required:
+        if cid not in present:
+            controls.append({"id":cid, "attested":False, "source_ref":"missing-required-control:"+str(cid)})
+    for ctrl in controls:
         cid = ctrl.get("id")
         spec = CONTROL_CATALOG.get(cid)
         evidence = [{"citation": _cite(ctrl), "source_ref": ctrl.get("source_ref")}]
@@ -237,7 +269,19 @@ def compute(doc: dict) -> dict:
             not_evaluable.append({"id": cid, "why": "unknown control id"})
             continue
         category, requirement, fn = spec
-        if ctrl.get("attested") is False:
+        missing_config = [k for k in config_requirements.get(cid, []) if
+                          _num((doc.get("config") or {}).get(k)) is None]
+        if profile_errors:
+            status, observed, reason = "not_evaluable", {}, "; ".join(profile_errors)
+        elif missing_config:
+            status, observed, reason = "not_evaluable", {}, "explicit policy parameters missing: " + ", ".join(missing_config)
+        elif cid == "travel_rule" and not profile.get("threshold_currency"):
+            status, observed, reason = "not_evaluable", {}, "travel-rule threshold currency missing"
+        elif cid == "finality_confirmations" and not profile.get("chain_id"):
+            status, observed, reason = "not_evaluable", {}, "chain-specific finality profile missing"
+        elif cid not in required:
+            status, observed, reason = "not_evaluable", {}, "control applicability not established in supplied policy profile"
+        elif ctrl.get("attested") is not True or not ctrl.get("source_ref"):
             status, observed, reason = "gap", {}, "attested as not implemented / not evidenced"
         else:
             status, observed, reason = fn(ctrl.get("metrics") or {}, cfg, as_of)
@@ -254,7 +298,7 @@ def compute(doc: dict) -> dict:
         rows = [c for c in evaluated if c["category"] == cat and c["status"] in ("pass", "fail", "gap")]
         coverage[cat] = {"pass": sum(1 for c in rows if c["status"] == "pass"), "total": len(rows)}
 
-    disposition = _disposition(evaluated, cfg)
+    disposition = "Material Gaps - Escalate" if profile_errors else _disposition(evaluated, cfg)
 
     remediation = []
     if findings:
@@ -273,10 +317,13 @@ def compute(doc: dict) -> dict:
 
     program = str(doc.get("program", "program")).replace(" ", "-")
     return {
+        "source_snapshot": doc,
         "review_id": f"spcr-{program}-{doc.get('as_of', 'na')}-0001",
         "program": doc.get("program"),
         "as_of": doc.get("as_of"),
-        "jurisdiction": doc.get("jurisdiction", "US"),
+        "jurisdiction": doc.get("jurisdiction"),
+        "policy_profile_issues": profile_errors,
+        "evidence_status": "supplied; attestations not independently verified",
         "config_version": doc.get("config_version"),
         "controls_evaluated": evaluated,
         "findings": findings,

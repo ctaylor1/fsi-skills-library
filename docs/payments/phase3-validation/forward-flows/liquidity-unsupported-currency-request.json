@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0",
+  "request_id": "independent-weekend-funding",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "treasury",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "RAW",
+      "reference": "synthetic:independent-operating-ledger-20260918",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    },
+    {
+      "source_id": "POL",
+      "reference": "synthetic:independent-contract-and-policy-20260918",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "window_start": "2026-09-18T16:00:00-04:00",
+    "window_end": "2026-09-21T18:00:00-04:00",
+    "history_complete": true,
+    "accounts": [
+      {
+        "account_id": "FED",
+        "entity_id": "BANK-A",
+        "currency": "EUR",
+        "rail_profile_id": "US-FEDNOW",
+        "funding_model": "master-account",
+        "snapshot_at": "2026-09-18T16:00:00-04:00",
+        "balance": "1000",
+        "held": "100",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "account_id": "RTP",
+        "entity_id": "BANK-B",
+        "currency": "USD",
+        "rail_profile_id": "US-RTP",
+        "funding_model": "funding-agent-prefunded-position",
+        "snapshot_at": "2026-09-18T16:00:00-04:00",
+        "balance": "800",
+        "held": "0",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "event_id": "FSAT",
+        "economic_id": "ECON-FSAT",
+        "account_id": "FED",
+        "entity_id": "BANK-A",
+        "currency": "USD",
+        "kind": "settlement-obligation",
+        "certainty": "firm",
+        "due_at": "2026-09-19T12:00:00-04:00",
+        "amount": "700",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "event_id": "FSUN",
+        "economic_id": "ECON-FSUN",
+        "account_id": "FED",
+        "entity_id": "BANK-A",
+        "currency": "USD",
+        "kind": "outflow",
+        "certainty": "firm",
+        "due_at": "2026-09-20T12:00:00-04:00",
+        "amount": "500",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "event_id": "FMON",
+        "economic_id": "ECON-FMON",
+        "account_id": "FED",
+        "entity_id": "BANK-A",
+        "currency": "USD",
+        "kind": "inflow",
+        "certainty": "firm",
+        "due_at": "2026-09-21T10:00:00-04:00",
+        "amount": "600",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "event_id": "RSAT",
+        "economic_id": "ECON-RSAT",
+        "account_id": "RTP",
+        "entity_id": "BANK-B",
+        "currency": "USD",
+        "kind": "outflow",
+        "certainty": "firm",
+        "due_at": "2026-09-19T10:00:00-04:00",
+        "amount": "600",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "event_id": "RIN",
+        "economic_id": "ECON-RIN",
+        "account_id": "RTP",
+        "entity_id": "BANK-B",
+        "currency": "USD",
+        "kind": "inflow",
+        "certainty": "firm",
+        "due_at": "2026-09-18T17:00:00-04:00",
+        "amount": "200",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "event_id": "RFORE",
+        "economic_id": "ECON-RFORE",
+        "account_id": "RTP",
+        "entity_id": "BANK-B",
+        "currency": "USD",
+        "kind": "inflow",
+        "certainty": "forecast",
+        "due_at": "2026-09-19T11:00:00-04:00",
+        "amount": "900",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "event_id": "RSUN",
+        "economic_id": "ECON-RSUN",
+        "account_id": "RTP",
+        "entity_id": "BANK-B",
+        "currency": "USD",
+        "kind": "outflow",
+        "certainty": "firm",
+        "due_at": "2026-09-20T11:00:00-04:00",
+        "amount": "500",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "reservations": [
+      {
+        "reservation_id": "RES-F",
+        "account_id": "FED",
+        "event_id": "FSAT",
+        "currency": "USD",
+        "amount": "200",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "funding_windows": [
+      {
+        "window_id": "FWF",
+        "account_id": "FED",
+        "opens_at": "2026-09-21T09:00:00-04:00",
+        "closes_at": "2026-09-21T17:00:00-04:00",
+        "source_ids": [
+          "RAW"
+        ]
+      },
+      {
+        "window_id": "FWR",
+        "account_id": "RTP",
+        "opens_at": "2026-09-18T16:00:00-04:00",
+        "closes_at": "2026-09-18T16:30:00-04:00",
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ],
+    "stress_scenarios": [
+      {
+        "scenario_id": "FAILED-MONDAY",
+        "rationale": "Confirmed funding receipt fails while obligations increase20%",
+        "remove_inflow_ids": [
+          "FMON"
+        ],
+        "outflow_multiplier_bps": 12000,
+        "source_ids": [
+          "RAW"
+        ]
+      }
+    ]
+  }
+}

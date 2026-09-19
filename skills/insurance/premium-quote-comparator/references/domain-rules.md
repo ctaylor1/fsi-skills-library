@@ -17,7 +17,7 @@ converted to a **12-month annualized basis**.
 | `annualized_total_cost` | `annualized_premium + annualized_fees` |
 | `cost_spread` | `min`, `max`, and `delta` of `annualized_total_cost` across quotes |
 
-`lowest_annualized_total_cost_quote_id` is the deterministic argmin (tie-break by `quote_id`).
+`lowest_annualized_total_cost_quote_id` is null when any material comparability flag is present; otherwise it is the deterministic argmin (tie-break by `quote_id`).
 It is a **factual figure**, not a recommendation, and is never presented without the
 comparability flags below.
 
@@ -45,6 +45,11 @@ Each material difference raises a flag so a cheaper premium is never read in iso
 quotes. A lower annualized cost frequently reflects a higher deductible, a lower limit, a
 dropped coverage, or an extra exclusion — the flags make that explicit.
 
+An unknown limit or deductible raises `coverage_unknown`, including when the same field is
+missing from every quote. Retain the individual quoted premiums and coverage presence, but
+withhold overall comparability, the lowest-cost ID and cost spread. An explicit zero
+deductible is a supplied value, not missing data.
+
 ## Hard boundaries (fail closed)
 
 - Never **recommend, select, or rank-as-advice** a quote; report the lowest cost as a fact.
@@ -58,6 +63,6 @@ dropped coverage, or an extra exclusion — the flags make that explicit.
 - **Installment loading**: `monthly × 12` can exceed a pay-in-full annual premium because of
   installment fees; annualization compares payment schedules, not the pay-in-full price.
 - **ACV / unlimited limits**: non-numeric limit values (e.g. `"ACV"`) are compared as strings;
-  a `null` limit means the coverage is not included, not "unlimited".
+  a `null` limit is unknown, neither excluded nor unlimited.
 - **Service factors** (AM Best rating, NAIC complaint index) are shown for context and are
   **not** scored or weighted into any ranking.

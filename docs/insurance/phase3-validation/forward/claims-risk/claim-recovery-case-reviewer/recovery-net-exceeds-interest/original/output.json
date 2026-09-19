@@ -1,0 +1,345 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "claim-recovery-case-reviewer",
+  "case_id": "recovery-net-exceeds-interest",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "carrier-claims-recovery",
+    "represented_party": "SYN-INSURER-9",
+    "object_id": "CASE-SYN-421",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "property"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "limitation-review",
+      "message": "Supplied limitation date has arrived or passed; legal owner must review tolling and preservation. No right is declared extinguished.",
+      "source_refs": [
+        "synthetic-review-record"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "interest-overcollection",
+      "message": "Net collection exceeds total supplied loss interest; excess needs a separate allocation rule.",
+      "source_refs": [],
+      "severity": "gap"
+    },
+    {
+      "code": "task-after-limitation",
+      "message": "Task due date follows the supplied limitation date; preservation owner must resolve.",
+      "source_refs": [
+        "synthetic-review-record"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "rights_register": [
+      {
+        "right_id": "SUB-A",
+        "right_type": "subrogation",
+        "debtor_id": "SYN-DEBTOR",
+        "rights_basis": "Synthetic reviewed policy recovery clause, section 8, pro-rata allocation convention expressly permitted",
+        "limitation_date": "2026-10-05",
+        "days_to_supplied_limitation": 17,
+        "recoverable_limit": "15000",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      {
+        "right_id": "SAL-B",
+        "right_type": "salvage",
+        "debtor_id": "SYN-YARD",
+        "rights_basis": "Synthetic salvage ownership and pro-rata cost agreement, section 2",
+        "limitation_date": "2026-09-15",
+        "days_to_supplied_limitation": -3,
+        "recoverable_limit": "2000",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      }
+    ],
+    "collections": [
+      {
+        "collection_id": "COL-1",
+        "right_id": "SUB-A",
+        "gross_amount": "5500",
+        "cost_amount": "500",
+        "net_amount": "5000",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      {
+        "collection_id": "COL-2",
+        "right_id": "SUB-A",
+        "gross_amount": "6600",
+        "cost_amount": "400",
+        "net_amount": "6200",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      {
+        "collection_id": "COL-3",
+        "right_id": "SAL-B",
+        "gross_amount": "1500",
+        "cost_amount": "150",
+        "net_amount": "1350",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      }
+    ],
+    "allocation_schedule": null,
+    "currency": "USD",
+    "task_plan": [
+      {
+        "task_id": "T1",
+        "right_id": "SUB-A",
+        "task": "Check filing-preservation evidence",
+        "owner": "Synthetic recovery analyst",
+        "due_date": "2026-10-01",
+        "source_refs": [
+          "synthetic-review-record"
+        ],
+        "execution": "not_performed"
+      },
+      {
+        "task_id": "T2",
+        "right_id": "SAL-B",
+        "task": "Counsel review supplied elapsed date and tolling evidence",
+        "owner": "Synthetic counsel",
+        "due_date": "2026-09-20",
+        "source_refs": [
+          "synthetic-review-record"
+        ],
+        "execution": "not_performed"
+      }
+    ],
+    "legal_rights_determined": false,
+    "demand_or_disbursement_authorized": false,
+    "rounding": "unrounded-decimal; payment rounding requires reviewer"
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "Supplied limitation date has arrived or passed; legal owner must review tolling and preservation. No right is declared extinguished.",
+    "Net collection exceeds total supplied loss interest; excess needs a separate allocation rule.",
+    "Task due date follows the supplied limitation date; preservation owner must resolve."
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "recovery-net-exceeds-interest",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "carrier-claims-recovery",
+      "represented_party": "SYN-INSURER-9",
+      "object_id": "CASE-SYN-421",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "property"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-review-record",
+        "version": "frozen-synthetic-1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "SYNTHETIC-ONLY-INTERNAL-METHOD",
+        "version": "1",
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "property"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "reviewed_by": "Synthetic reviewer Morgan",
+        "method": "supplied-rights-net-pro-rata-interest",
+        "source_refs": [
+          "synthetic-review-record"
+        ]
+      },
+      "claim_id": "CASE-SYN-421",
+      "currency": "USD",
+      "rights_inventory_complete": true,
+      "collection_ledger_complete": true,
+      "rights": [
+        {
+          "right_id": "SUB-A",
+          "right_type": "subrogation",
+          "debtor_id": "SYN-DEBTOR",
+          "rights_basis": "Synthetic reviewed policy recovery clause, section 8, pro-rata allocation convention expressly permitted",
+          "reviewed_by": "Synthetic recovery counsel",
+          "recoverable_limit": 15000,
+          "limitation_date": "2026-10-05",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "right_id": "SAL-B",
+          "right_type": "salvage",
+          "debtor_id": "SYN-YARD",
+          "rights_basis": "Synthetic salvage ownership and pro-rata cost agreement, section 2",
+          "reviewed_by": "Synthetic recovery counsel",
+          "recoverable_limit": 2000,
+          "limitation_date": "2026-09-15",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "interests": [
+        {
+          "interest_id": "I1",
+          "right_id": "SUB-A",
+          "party_id": "SYN-INSURER-9",
+          "capacity": "insurer",
+          "interest_amount": 9000,
+          "currency": "USD",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "interest_id": "I2",
+          "right_id": "SUB-A",
+          "party_id": "SYN-CLAIMANT",
+          "capacity": "claimant",
+          "interest_amount": 1000,
+          "currency": "USD",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "interest_id": "I3",
+          "right_id": "SAL-B",
+          "party_id": "SYN-INSURER-9",
+          "capacity": "insurer",
+          "interest_amount": 1200,
+          "currency": "USD",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "interest_id": "I4",
+          "right_id": "SAL-B",
+          "party_id": "SYN-CLAIMANT",
+          "capacity": "claimant",
+          "interest_amount": 600,
+          "currency": "USD",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "collections": [
+        {
+          "collection_id": "COL-1",
+          "right_id": "SUB-A",
+          "date": "2026-09-01",
+          "gross_amount": 5500,
+          "cost_amount": 500,
+          "cost_deduction_reviewed": true,
+          "currency": "USD",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "collection_id": "COL-2",
+          "right_id": "SUB-A",
+          "date": "2026-09-12",
+          "gross_amount": 6600,
+          "cost_amount": 400,
+          "cost_deduction_reviewed": true,
+          "currency": "USD",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "collection_id": "COL-3",
+          "right_id": "SAL-B",
+          "date": "2026-09-10",
+          "gross_amount": 1500,
+          "cost_amount": 150,
+          "cost_deduction_reviewed": true,
+          "currency": "USD",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "task_id": "T1",
+          "right_id": "SUB-A",
+          "task": "Check filing-preservation evidence",
+          "owner": "Synthetic recovery analyst",
+          "due_date": "2026-10-01",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        },
+        {
+          "task_id": "T2",
+          "right_id": "SAL-B",
+          "task": "Counsel review supplied elapsed date and tolling evidence",
+          "owner": "Synthetic counsel",
+          "due_date": "2026-09-20",
+          "source_refs": [
+            "synthetic-review-record"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "claim-recovery-case-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "carrier-claims-recovery",
+      "represented_party": "SYN-INSURER-9",
+      "object_id": "CASE-SYN-421",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "property"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-review-record",
+        "version": "frozen-synthetic-1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "a1b5d552c3ab1527547a2f28ce93291a9f5b03ded67a0adf31af0511c9575cef",
+    "output_hash": "e54c69426953fab6b353c981fe6ed09ddb41f28e4bacf7edb10cc72ca41c88c0",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "Supplied limitation date has arrived or passed; legal owner must review tolling and preservation. No right is declared extinguished.",
+      "Net collection exceeds total supplied loss interest; excess needs a separate allocation rule.",
+      "Task due date follows the supplied limitation date; preservation owner must resolve."
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "161ec88ad3c5ac9a22f49b967a0e0af0f56015a17149a47268414ab02f10e460"
+  }
+}

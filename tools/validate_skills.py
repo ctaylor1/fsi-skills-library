@@ -81,10 +81,12 @@ def validate_skill(skill_dir: Path, catalog: dict):
         import yaml
         fm = yaml.safe_load(fm_raw)
     except ImportError:
-        return [], [f"{rel}: PyYAML not installed; skipped frontmatter parse (pip install pyyaml)"]
+        return [f"{rel}: PyYAML required for validation (pip install pyyaml); no validation performed"], []
     except Exception as e:
         return [f"{rel}: frontmatter is not valid YAML: {e}"], []
 
+    if not isinstance(fm, dict):
+        return [f"{rel}: frontmatter must be a mapping"], []
     name = fm.get("name")
     if not name:
         errors.append(f"{rel}: missing 'name'")

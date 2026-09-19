@@ -1,0 +1,119 @@
+{
+  "case_id": "P3-SYNTHETIC-001",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "carrier",
+    "represented_party": "Example Mutual",
+    "object_id": "BOOK-1",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "sources": [
+    {
+      "source_ref": "SRC",
+      "version": "synthetic-v1",
+      "as_of": "2026-09-18"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "profile": {
+      "profile_id": "SYNTHETIC-P3",
+      "version": "1",
+      "source_refs": [
+        "SRC"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "pc"
+      ],
+      "rules": [
+        {
+          "rule_id": "ACK",
+          "activity": "claim_acknowledgement",
+          "operator": "max_calendar_days",
+          "start_field": "received",
+          "end_field": "acknowledged",
+          "day_basis": "elapsed_calendar_excluding_start",
+          "value": 5,
+          "source_refs": [
+            "SRC"
+          ]
+        }
+      ]
+    },
+    "sampling": {
+      "method": "purposive",
+      "population_count": 100,
+      "source_refs": [
+        "SRC"
+      ]
+    },
+    "cases": [
+      {
+        "record_id": "R1",
+        "activity": "claim_acknowledgement",
+        "dates": {
+          "received": "2026-09-01",
+          "acknowledged": "2026-09-04"
+        },
+        "pending_events": [],
+        "source_refs": [
+          "SRC"
+        ]
+      },
+      {
+        "record_id": "R2",
+        "activity": "claim_acknowledgement",
+        "dates": {
+          "received": "2026-09-10",
+          "acknowledged": null
+        },
+        "pending_events": [
+          "acknowledged"
+        ],
+        "source_refs": [
+          "SRC"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "row_id": "M1",
+        "metric_id": "complaints-per-policy",
+        "partition_id": "A",
+        "definition_id": "INTERNAL-C1",
+        "definition_version": "1",
+        "period": "2026-08",
+        "unit": "complaints/policy",
+        "scope_id": "BOOK-1",
+        "numerator": 2,
+        "denominator": 10,
+        "inventory_complete": true,
+        "source_refs": [
+          "SRC"
+        ]
+      },
+      {
+        "row_id": "M2",
+        "metric_id": "complaints-per-policy",
+        "partition_id": "B",
+        "definition_id": "INTERNAL-C1",
+        "definition_version": "1",
+        "period": "2026-08",
+        "unit": "complaints/policy",
+        "scope_id": "BOOK-1",
+        "numerator": 4,
+        "denominator": 90,
+        "inventory_complete": true,
+        "source_refs": [
+          "SRC"
+        ]
+      }
+    ]
+  }
+}

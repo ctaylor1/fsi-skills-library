@@ -1,0 +1,153 @@
+{
+  "version": "1.0.1",
+  "contracts": {
+    "ach-entry-ccd-ppd": {
+      "format": "ach-94",
+      "supported_adapter": true,
+      "accepted_sec_codes": [
+        "CCD",
+        "PPD"
+      ],
+      "required_context": [
+        "sec_code",
+        "effective_entry_date",
+        "source_ref"
+      ],
+      "fields": [
+        "record_type=6",
+        "transaction_code",
+        "rdfi_routing_number",
+        "account",
+        "amount_in_cents",
+        "addenda_indicator",
+        "trace_number"
+      ],
+      "limitations": [
+        "Only one 94-character Entry Detail, credit/debit checking/savings codes 22/27/32/37.",
+        "Batch/file headers, control totals, addenda, SEC authorization, return deadlines and full-file conformance are not validated."
+      ],
+      "source_refs": [
+        "https://achdevguide.nacha.org/ach-file-details"
+      ]
+    },
+    "iso-credit-transfer": {
+      "format": "iso-xml",
+      "supported_adapter": true,
+      "namespaces": [
+        "urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08"
+      ],
+      "message_root": "FIToFICstmrCdtTrf",
+      "transaction_element": "CdtTrfTxInf",
+      "amount_element": "IntrBkSttlmAmt",
+      "required_fields": [
+        "GrpHdr/MsgId",
+        "PmtId/EndToEndId",
+        "PmtId/TxId",
+        "Dbtr",
+        "Cdtr",
+        "DbtrAgt",
+        "CdtrAgt"
+      ],
+      "limitations": [
+        "Structural subset only; approved rail usage/version must be supplied.",
+        "No business application header, signature, XSD, sanctions, reachability or settlement attestation."
+      ],
+      "source_refs": [
+        "https://www.frbservices.org/binaries/content/assets/crsocms/resources/rules-regulations/042826-fednow-service-operating-procedures.pdf",
+        "https://www.frbservices.org/news/press-releases/071525-iso20022-migration-announcement",
+        "https://www.theclearinghouse.org/payment-systems/rtp/document-library"
+      ]
+    },
+    "iso-customer-credit": {
+      "format": "iso-xml",
+      "supported_adapter": true,
+      "namespaces": [
+        "urn:iso:std:iso:20022:tech:xsd:pain.001.001.09"
+      ],
+      "message_root": "CstmrCdtTrfInitn",
+      "transaction_element": "CdtTrfTxInf",
+      "amount_element": "InstdAmt",
+      "required_fields": [
+        "GrpHdr/MsgId",
+        "PmtId/EndToEndId",
+        "Dbtr",
+        "DbtrAcct",
+        "Cdtr",
+        "CdtrAcct"
+      ],
+      "limitations": [
+        "Customer initiation subset; not an interbank settlement message.",
+        "No full EPC implementation-guideline or PSP acceptance validation."
+      ],
+      "source_refs": [
+        "https://www.europeanpaymentscouncil.eu/what-we-do/sepa-credit-transfer"
+      ]
+    },
+    "iso-customer-direct-debit": {
+      "format": "iso-xml",
+      "supported_adapter": true,
+      "namespaces": [
+        "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
+      ],
+      "message_root": "CstmrDrctDbtInitn",
+      "transaction_element": "DrctDbtTxInf",
+      "amount_element": "InstdAmt",
+      "required_fields": [
+        "GrpHdr/MsgId",
+        "PmtId/EndToEndId",
+        "MndtId",
+        "Cdtr",
+        "CdtrAcct",
+        "Dbtr",
+        "DbtrAcct"
+      ],
+      "limitations": [
+        "Mandate identifier presence is not valid consent or authorization.",
+        "SDD Core only; no B2B eligibility or full XSD/usage validation."
+      ],
+      "source_refs": [
+        "https://www.europeanpaymentscouncil.eu/what-we-do/sepa-direct-debit"
+      ]
+    },
+    "uk-fps-native": {
+      "format": "scheme-native",
+      "supported_adapter": false,
+      "required_fields": [
+        "scheme_message_version",
+        "payment_id",
+        "sort_code",
+        "account",
+        "GBP_amount",
+        "payer_authority",
+        "response_code",
+        "source_ref"
+      ],
+      "limitations": [
+        "FPS native profile requires authorized Pay.UK/participant specifications; do not relabel generic ISO JSON as native FPS validation."
+      ],
+      "source_refs": [
+        "https://www.wearepay.uk/what-we-do/payment-systems/faster-payment-system/how-faster-payments-work/"
+      ]
+    },
+    "uk-bacs-standard18": {
+      "format": "standard18",
+      "supported_adapter": false,
+      "required_fields": [
+        "record_type",
+        "destination_sort_code",
+        "destination_account",
+        "transaction_code",
+        "amount_pence",
+        "service_user",
+        "processing_date",
+        "source_ref"
+      ],
+      "limitations": [
+        "Standard 18 complete-file adapter is not supplied; sponsor rules and file control records remain mandatory."
+      ],
+      "source_refs": [
+        "https://www.wearepay.uk/wp-content/uploads/2026/02/Pay.UK-Bacs-System-Principles-V18-Jan-2026.pdf"
+      ]
+    }
+  }
+}

@@ -19,7 +19,7 @@ authorized-system actions performed with the pack as input.
 
 ## Upstream (may call this skill)
 
-`key-risk-indicator-monitor` breaches, `real-time-payment-risk-monitor` alerts, and
+`key-risk-indicator-monitor` breaches, `instant-payment-risk-monitor` alerts, and
 control-self-assessment work may surface an event that needs this analysis. A scheduled monitor
 is **not** used here (this skill is interactive, `aws-fsi-scheduled-agent: no`).
 

@@ -6,7 +6,7 @@ Enforces the draft-and-package guardrails before a follow-up package is presente
   2. Every material section carries a citation (no unsupported / unapproved assertions).
   3. Disclosure completeness: every recommendation flagged `requires_disclosure` is covered by a
      disclosure entry; every recommendation flagged `requires_suitability_review` has a recorded
-     route to suitability-reg-bi-reviewer (the draft never makes the determination itself).
+     route to investment-recommendation-evidence-reviewer (the draft never makes the determination itself).
   4. Every action item carries an owner, a due date, and a citation (completeness).
   5. Advisor and Supervisory Principal approvals are recorded and still `pending`.
   6. draft_status == "draft", delivery_status == "not-delivered", crm_write_status == "not-written".
@@ -21,6 +21,7 @@ Exit 0 if no errors, 1 otherwise.
 from __future__ import annotations
 import json, re, sys
 from pathlib import Path
+from calculate_or_transform import assemble
 
 REQUIRED_SECTIONS = [
     ("meeting-summary", "Meeting Summary"),
@@ -36,7 +37,7 @@ MATERIAL_SECTIONS = {
     "disclosures", "crm-update", "next-meeting",
 }
 APPROVAL_ROLES = ("Advisor", "Supervisory Principal")
-SUITABILITY_SKILL = "suitability-reg-bi-reviewer"
+SUITABILITY_SKILL = "investment-recommendation-evidence-reviewer"
 STANDING_NOTE = ("Draft follow-up package for human review only; nothing has been sent to the "
                  "client, no CRM or system of record has been updated, no trade has been placed, "
                  "and no suitability determination has been made.")
@@ -69,6 +70,16 @@ PROHIBITED = {
 
 def validate(doc: dict) -> list[str]:
     errors: list[str] = []
+    if not isinstance(doc, dict):
+        return ["output must be an object"]
+    try:
+        expected = assemble(doc.get("input_snapshot"))
+        if doc != expected:
+            errors.append("output differs from its source snapshot, substantive content, identities, or provenance")
+    except (ValueError, TypeError, KeyError, AttributeError) as exc:
+        errors.append(f"invalid or missing source snapshot: {exc}")
+    if doc.get("needs") or doc.get("disposition") != "draft-ready":
+        errors.append("incomplete draft cannot pass the ready-for-review output gate")
 
     # 1 + 2: required sections present + material sections cited
     sections = {s.get("key"): s for s in (doc.get("sections") or [])}
@@ -81,6 +92,8 @@ def validate(doc: dict) -> list[str]:
             errors.append(f"section '{key}': title {s.get('title')!r} != required {title!r}")
         if not s.get("present", False):
             errors.append(f"section '{key}': not present")
+        if not s.get("content"):
+            errors.append(f"section '{key}': substantive content missing")
         if key in MATERIAL_SECTIONS and not s.get("citations"):
             errors.append(f"section '{key}': material assertion has no citation (unsupported)")
 
@@ -106,7 +119,7 @@ def validate(doc: dict) -> list[str]:
 
     # 5: approvals recorded and pending
     appr = {a.get("role"): a for a in (doc.get("approvals") or [])}
-    for role in APPROVAL_ROLES:
+    for role in (doc.get("communication_policy") or {}).get("required_roles", APPROVAL_ROLES):
         a = appr.get(role)
         if not a:
             errors.append(f"approvals: missing '{role}' entry")
@@ -123,7 +136,7 @@ def validate(doc: dict) -> list[str]:
                       f"(CRM updates are proposed, never written)")
 
     # 7: prohibited language (scan everything EXCEPT the standing_note field)
-    scan_doc = {k: v for k, v in doc.items() if k != "standing_note"}
+    scan_doc = {k: v for k, v in doc.items() if k not in {"standing_note", "input_snapshot"}}
     scan = json.dumps(scan_doc) + " " + str(doc.get("narrative", ""))
     for family, pats in PROHIBITED.items():
         for pat in pats:

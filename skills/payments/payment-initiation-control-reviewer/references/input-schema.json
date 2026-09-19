@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "payment-initiation-control-reviewer request",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "request_id",
+    "as_of",
+    "jurisdiction",
+    "participant",
+    "sources",
+    "data"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date"
+    },
+    "jurisdiction": {
+      "type": "string"
+    },
+    "participant": {
+      "type": "string"
+    },
+    "requested_action": {
+      "enum": [
+        "analyze",
+        "draft"
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "reference",
+          "as_of"
+        ]
+      }
+    },
+    "upstream_issues": {
+      "type": "array"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "instructions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "intents": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "mandates": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "screenings": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "account_verifications": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "delegations": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "prior_instruction_bindings": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "policy": {
+          "type": "object"
+        },
+        "batch_controls": {
+          "type": "object"
+        },
+        "card_profile": {
+          "type": "object"
+        },
+        "prior_instruction_ledger_complete": {
+          "type": "boolean"
+        },
+        "prior_instruction_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "instructions"
+      ],
+      "description": "Domain validators enforce exact structural checks; missing business evidence produces explicit findings rather than invented defaults."
+    }
+  }
+}

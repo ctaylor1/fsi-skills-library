@@ -1,0 +1,7 @@
+# Method and limits
+
+The implemented financial profile compares one amount definition against a per-risk limit and a same-basis aggregate. It does not translate premium authority to insured-limit authority or model multiple currencies, layered limits, aggregate reinstatement, catastrophe caps, retroactive endorsements, reinstatements, claims authority or time-zone cutoffs implicitly. Configure a separate validated method when the contract requires them.
+
+`aggregate_remaining_before_request = aggregate_limit - used_amount`; `projected_aggregate_used = used_amount + request.amount`. A negative remaining amount is retained as an exception, not clamped to zero. No calculation grants authority. Reporting dates and limits are supplied contract configuration, not hardcoded regulatory deadlines. The exception list is disclosed without treating an exception assertion as an amendment.
+
+Bordereaux reconciliation has a separate financial basis: `reported_minus_expected = reported_total - expected_total` within the same report currency, amount definition and period. A premium control total does not need to share an insured-limit delegation's basis. Preserve side-specific mismatches, source/period gaps and parent-agreement conflicts; do not translate or add premium differences to insured-limit authority usage. A known aggregate overrun reports the calculated excess rather than asking for a ledger that is already complete.

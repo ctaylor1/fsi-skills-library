@@ -1,43 +1,12 @@
-# Source Map — portfolio-rebalancing-assistant
+# Source map
 
-## Source hierarchy (highest first)
+Use controlled engagement and mandate/IPS records, versioned model and approved-universe records,
+portfolio-accounting positions/cash/lots, dated market quotes, product fee/liquidity/constituent data
+and restriction/conflict reviews. Preserve each source's owner, stable reference, observed date and
+valid-until date. The human reviewer resolves conflicting source authority; scripts do not fetch or
+silently choose among documents. Synthetic fixture approvals and policy values are test data only.
 
-| Rank | Source (MCP integration) | Used for | Access |
-| ---- | ------------------------ | -------- | ------ |
-| 1 | **Portfolio accounting / OMS-EMS** (system of record) | Current holdings, cost basis, tax lots, cash, preconditions, and post-trade fill/position verification | Read for planning; **approval-gated write** to route/submit orders on execute |
-| 2 | **Planning engine / IPS + target model** (versioned) | Target allocation, drift bands, rebalance policy | Read-only |
-| 3 | **Restrictions & mandate service** | Client/legal restrictions, do-not-buy list, concentration and mandate limits | Read-only |
-| 4 | Approved **tax-assumption set** (versioned) | Realized gain/loss estimates, short-term budget, wash-sale window | Read-only |
-| 5 | **Product & market data** | Prices, security master, asset-class mapping, transaction-cost proxies | Read-only |
-| 6 | **CRM** | Account type (discretionary vs. non-discretionary), authorization contacts | Read-only |
-| 7 | **Permission / approval broker** | Advisor + client authorization tokens, role checks, execute gating, audit | Controlled |
-
-The planning engine, restrictions/mandate service, and tax-assumption set are **versioned
-contracts**; the plan records the versions it relied on. Where sources conflict, the system
-of record (portfolio accounting) governs current state and the planning engine governs the
-target — the plan never invents a target the model did not supply.
-
-## Least-privilege operations (deployment)
-
-Separate, single-purpose operations (never a combined "rebalance it"):
-
-- `portfolio.read(account_id)` / `positions.read` / `taxlots.read` — read-only.
-- `model.read(model_id)` → target weights + drift bands — read-only, versioned.
-- `restrictions.read(account_id)` → restricted symbols / mandate limits — read-only.
-- `tax.estimate(lots, actions)` → realized gain/loss + wash-sale flags — read-only, deterministic.
-- `approval.request(plan_hash, party)` → advisor token, then client token (human-in-the-loop).
-- `oms.submit(order, idempotency_key, advisor_token, client_token)` — **approval-gated,
-  idempotent write**; rejects a missing/invalid token pair or a stale plan hash.
-- `oms.verify(account_id, expected_post_state)` — read-only post-trade check of fills/weights.
-- `oms.cancel_or_reverse(order, idempotency_key, token)` — cancel an unfilled order or route
-  an offsetting trade (rollback).
-- `audit.record(plan_id, events)` — append-only audit.
-
-Each operation stays below the fixed timeout; multi-order execution is a **resumable staged**
-process keyed by `plan_id` + step idempotency keys. No hidden retries; no step-up assumed.
-
-## Citation / identifier format
-
-`portfolio:{acct=****NNNN};{symbol}@{state-read-time}` and
-`model:{model_id}@{policy_version}`. The plan records the exact pre-state reads (positions,
-cash, tax lots, restrictions) it relied on so verification and audit are reproducible.
+Every material model allocation, holding, lot, restriction and constituent needs source IDs resolving
+to the envelope registry. A source identifier is a reference, not proof of verified content. Registry
+dates must span the request as-of; deployed freshness policy must also fit the instrument and workflow.
+No outside return, tax, liquidity, fee or regulatory threshold is supplied by this package.

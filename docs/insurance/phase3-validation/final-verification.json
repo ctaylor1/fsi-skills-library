@@ -1,0 +1,156 @@
+{
+  "whitespace": {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      "skills/insurance",
+      "shared/insurance",
+      "catalog",
+      "docs/insurance",
+      "docs/SOURCES.md",
+      "README.md",
+      "STATUS.md",
+      "tools"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "new_package_trailing_whitespace": [],
+  "authored_local_links": [],
+  "preserved_files_verified": 671,
+  "replay": {
+    "cases": 46,
+    "commands": 138,
+    "failures": [],
+    "input_hashes_unchanged": true,
+    "reviewed_outputs_equal": 46,
+    "note": "Reproducibility and no-action checks; separate synthetic practitioner reviews are not a model benchmark, source authentication or professional acceptance."
+  },
+  "selftests-all": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "tools/run_selftests.py"
+    ],
+    "exit": 0,
+    "log": "selftests-all.log"
+  },
+  "selftests-insurance": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "tools/run_selftests.py",
+      "skills/insurance"
+    ],
+    "exit": 0,
+    "log": "selftests-insurance.log"
+  },
+  "tests-all": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit": 0,
+    "log": "tests-all.log"
+  },
+  "tests-insurance": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools",
+      "-p",
+      "test_insurance*.py",
+      "-v"
+    ],
+    "exit": 0,
+    "log": "tests-insurance.log"
+  },
+  "lint-insurance": {
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "skills/insurance",
+      "shared/insurance",
+      "tools/test_insurance_phase3.py",
+      "tools/run_insurance_phase3_forward.py",
+      "tools/check_insurance_handoffs.py",
+      "tools/sync_insurance_foundation.py",
+      "--select",
+      "E9,F"
+    ],
+    "exit": 0,
+    "log": "lint-insurance.log"
+  },
+  "structural_handoff_bundles": [
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/validate_skills.py"
+      ],
+      "exit": 0,
+      "stdout": "\nValidated 296 skill(s): 0 error(s), 0 warning(s).\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/check_handoffs.py"
+      ],
+      "exit": 0,
+      "stdout": "\n0 dangling adjacent-skill reference(s) across 296 skill(s).\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/check_insurance_handoffs.py"
+      ],
+      "exit": 0,
+      "stdout": "Insurance route/migration checks: 0 error(s)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/sync_insurance_contract.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "Insurance contract verified: 61 references, 61 helpers\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/fsi-p0-venv/bin/python",
+        "tools/sync_insurance_foundation.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "Insurance foundation: 38 expected bundles; 0 missing/drifted\n",
+      "stderr": ""
+    }
+  ],
+  "completed_at_utc": "2026-09-18T20:39:05.928361+00:00",
+  "phase": "Insurance Phase 3",
+  "insurance_packages": 61,
+  "new_packages": 21,
+  "global_packages": 296,
+  "source_files_verified": 1242,
+  "artifact_files_verified": 1022,
+  "artifact_manifest_sha256": "496e26c205cce589e0ce56fab7ff24f60b0caa2089d3911ec217641fff4280f4",
+  "source_manifest_sha256": "f310274a8bb1ec05d3735d15a321326cc43d7f7668e82585bb6061515f3eb1c6",
+  "acceptance": "Implementation and bounded synthetic verification only; no professional or production acceptance"
+}

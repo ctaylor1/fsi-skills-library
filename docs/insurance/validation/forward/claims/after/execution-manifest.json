@@ -1,0 +1,512 @@
+[
+  {
+    "label": "regenerate owned golden claims-triage-assistant/triage_example.json",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/scripts/calculate_or_transform.py",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/evals/files/claims_example.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "golden-triage_example.json",
+    "stderr": "golden-triage_example.json.stderr.txt"
+  },
+  {
+    "label": "regenerate owned golden claims-triage-assistant/triage_nondefault_config.json",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/scripts/calculate_or_transform.py",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/evals/files/claims_nondefault_config.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "golden-triage_nondefault_config.json",
+    "stderr": "golden-triage_nondefault_config.json.stderr.txt"
+  },
+  {
+    "label": "regenerate owned golden subrogation-opportunity-screener/screening_example.json",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts/calculate_or_transform.py",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/evals/files/claim_example.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "golden-screening_example.json",
+    "stderr": "golden-screening_example.json.stderr.txt"
+  },
+  {
+    "label": "01-urgent-unknown-liability input validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/scripts/validate_input.py",
+      "/tmp/insurance-claims-forward-20260918/01-urgent-unknown-liability.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "01-urgent-unknown-liability.input-validation.txt",
+    "stderr": "01-urgent-unknown-liability.input-validation.txt.stderr.txt"
+  },
+  {
+    "label": "01-urgent-unknown-liability calculation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/scripts/calculate_or_transform.py",
+      "/tmp/insurance-claims-forward-20260918/01-urgent-unknown-liability.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "01-urgent-unknown-liability.output.json",
+    "stderr": "01-urgent-unknown-liability.output.json.stderr.txt"
+  },
+  {
+    "label": "01-urgent-unknown-liability output validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/scripts/validate_output.py",
+      "/tmp/insurance-claims-forward-20260918/after/01-urgent-unknown-liability.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "01-urgent-unknown-liability.output-validation.txt",
+    "stderr": "01-urgent-unknown-liability.output-validation.txt.stderr.txt"
+  },
+  {
+    "label": "01-urgent-unknown-liability source-bound artifact validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-c",
+      "import json,sys;sys.path.insert(0,sys.argv[1]);from insurance_contract import validate_artifact;d=json.load(open(sys.argv[2]));o=json.load(open(sys.argv[3]));errors=validate_artifact(o[\"artifact\"],input_doc=d,output=o);print(json.dumps(errors));sys.exit(bool(errors))",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/scripts",
+      "/tmp/insurance-claims-forward-20260918/01-urgent-unknown-liability.native.json",
+      "/tmp/insurance-claims-forward-20260918/after/01-urgent-unknown-liability.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "01-urgent-unknown-liability.source-bound-validation.txt",
+    "stderr": "01-urgent-unknown-liability.source-bound-validation.txt.stderr.txt"
+  },
+  {
+    "label": "02-quoted-contrary-evidence input validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/liability-evidence-matrix-builder/scripts/validate_input.py",
+      "/tmp/insurance-claims-forward-20260918/02-quoted-contrary-evidence.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "02-quoted-contrary-evidence.input-validation.txt",
+    "stderr": "02-quoted-contrary-evidence.input-validation.txt.stderr.txt"
+  },
+  {
+    "label": "02-quoted-contrary-evidence calculation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/liability-evidence-matrix-builder/scripts/calculate_or_transform.py",
+      "/tmp/insurance-claims-forward-20260918/02-quoted-contrary-evidence.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "02-quoted-contrary-evidence.output.json",
+    "stderr": "02-quoted-contrary-evidence.output.json.stderr.txt"
+  },
+  {
+    "label": "02-quoted-contrary-evidence output validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/liability-evidence-matrix-builder/scripts/validate_output.py",
+      "/tmp/insurance-claims-forward-20260918/after/02-quoted-contrary-evidence.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "02-quoted-contrary-evidence.output-validation.txt",
+    "stderr": "02-quoted-contrary-evidence.output-validation.txt.stderr.txt"
+  },
+  {
+    "label": "02-quoted-contrary-evidence source-bound artifact validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-c",
+      "import json,sys;sys.path.insert(0,sys.argv[1]);from insurance_contract import validate_artifact;d=json.load(open(sys.argv[2]));o=json.load(open(sys.argv[3]));errors=validate_artifact(o[\"artifact\"],input_doc=d,output=o);print(json.dumps(errors));sys.exit(bool(errors))",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/liability-evidence-matrix-builder/scripts",
+      "/tmp/insurance-claims-forward-20260918/02-quoted-contrary-evidence.native.json",
+      "/tmp/insurance-claims-forward-20260918/after/02-quoted-contrary-evidence.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "02-quoted-contrary-evidence.source-bound-validation.txt",
+    "stderr": "02-quoted-contrary-evidence.source-bound-validation.txt.stderr.txt"
+  },
+  {
+    "label": "03-unknown-waiver-economics input validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts/validate_input.py",
+      "/tmp/insurance-claims-forward-20260918/03-unknown-waiver-economics.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03-unknown-waiver-economics.input-validation.txt",
+    "stderr": "03-unknown-waiver-economics.input-validation.txt.stderr.txt"
+  },
+  {
+    "label": "03-unknown-waiver-economics calculation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts/calculate_or_transform.py",
+      "/tmp/insurance-claims-forward-20260918/03-unknown-waiver-economics.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03-unknown-waiver-economics.output.json",
+    "stderr": "03-unknown-waiver-economics.output.json.stderr.txt"
+  },
+  {
+    "label": "03-unknown-waiver-economics output validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts/validate_output.py",
+      "/tmp/insurance-claims-forward-20260918/after/03-unknown-waiver-economics.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03-unknown-waiver-economics.output-validation.txt",
+    "stderr": "03-unknown-waiver-economics.output-validation.txt.stderr.txt"
+  },
+  {
+    "label": "03-unknown-waiver-economics source-bound artifact validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-c",
+      "import json,sys;sys.path.insert(0,sys.argv[1]);from insurance_contract import validate_artifact;d=json.load(open(sys.argv[2]));o=json.load(open(sys.argv[3]));errors=validate_artifact(o[\"artifact\"],input_doc=d,output=o);print(json.dumps(errors));sys.exit(bool(errors))",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts",
+      "/tmp/insurance-claims-forward-20260918/03-unknown-waiver-economics.native.json",
+      "/tmp/insurance-claims-forward-20260918/after/03-unknown-waiver-economics.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03-unknown-waiver-economics.source-bound-validation.txt",
+    "stderr": "03-unknown-waiver-economics.source-bound-validation.txt.stderr.txt"
+  },
+  {
+    "label": "03b-explicit-null-amounts input validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts/validate_input.py",
+      "/tmp/insurance-claims-forward-20260918/03b-explicit-null-amounts.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03b-explicit-null-amounts.input-validation.txt",
+    "stderr": "03b-explicit-null-amounts.input-validation.txt.stderr.txt"
+  },
+  {
+    "label": "03b-explicit-null-amounts calculation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts/calculate_or_transform.py",
+      "/tmp/insurance-claims-forward-20260918/03b-explicit-null-amounts.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03b-explicit-null-amounts.output.json",
+    "stderr": "03b-explicit-null-amounts.output.json.stderr.txt"
+  },
+  {
+    "label": "03b-explicit-null-amounts output validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts/validate_output.py",
+      "/tmp/insurance-claims-forward-20260918/after/03b-explicit-null-amounts.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03b-explicit-null-amounts.output-validation.txt",
+    "stderr": "03b-explicit-null-amounts.output-validation.txt.stderr.txt"
+  },
+  {
+    "label": "03b-explicit-null-amounts source-bound artifact validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-c",
+      "import json,sys;sys.path.insert(0,sys.argv[1]);from insurance_contract import validate_artifact;d=json.load(open(sys.argv[2]));o=json.load(open(sys.argv[3]));errors=validate_artifact(o[\"artifact\"],input_doc=d,output=o);print(json.dumps(errors));sys.exit(bool(errors))",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts",
+      "/tmp/insurance-claims-forward-20260918/03b-explicit-null-amounts.native.json",
+      "/tmp/insurance-claims-forward-20260918/after/03b-explicit-null-amounts.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03b-explicit-null-amounts.source-bound-validation.txt",
+    "stderr": "03b-explicit-null-amounts.source-bound-validation.txt.stderr.txt"
+  },
+  {
+    "label": "04-receipt-incomplete-package input validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claim-intake-preparer/scripts/validate_input.py",
+      "/tmp/insurance-claims-forward-20260918/04-receipt-incomplete-package.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "04-receipt-incomplete-package.input-validation.txt",
+    "stderr": "04-receipt-incomplete-package.input-validation.txt.stderr.txt"
+  },
+  {
+    "label": "04-receipt-incomplete-package calculation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claim-intake-preparer/scripts/calculate_or_transform.py",
+      "/tmp/insurance-claims-forward-20260918/04-receipt-incomplete-package.native.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "04-receipt-incomplete-package.output.json",
+    "stderr": "04-receipt-incomplete-package.output.json.stderr.txt"
+  },
+  {
+    "label": "04-receipt-incomplete-package output validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claim-intake-preparer/scripts/validate_output.py",
+      "/tmp/insurance-claims-forward-20260918/after/04-receipt-incomplete-package.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "04-receipt-incomplete-package.output-validation.txt",
+    "stderr": "04-receipt-incomplete-package.output-validation.txt.stderr.txt"
+  },
+  {
+    "label": "04-receipt-incomplete-package source-bound artifact validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "-c",
+      "import json,sys;sys.path.insert(0,sys.argv[1]);from insurance_contract import validate_artifact;d=json.load(open(sys.argv[2]));o=json.load(open(sys.argv[3]));errors=validate_artifact(o[\"artifact\"],input_doc=d,output=o);print(json.dumps(errors));sys.exit(bool(errors))",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claim-intake-preparer/scripts",
+      "/tmp/insurance-claims-forward-20260918/04-receipt-incomplete-package.native.json",
+      "/tmp/insurance-claims-forward-20260918/after/04-receipt-incomplete-package.output.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "04-receipt-incomplete-package.source-bound-validation.txt",
+    "stderr": "04-receipt-incomplete-package.source-bound-validation.txt.stderr.txt"
+  },
+  {
+    "label": "claims-triage-assistant focused regression",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant/scripts/test_phase1.py"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "claims-triage-assistant.regressions.txt",
+    "stderr": "claims-triage-assistant.regressions.txt.stderr.txt"
+  },
+  {
+    "label": "claims-triage-assistant generic skill structure",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/claims-triage-assistant"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 1,
+    "stdout": "claims-triage-assistant.generic-structure.txt",
+    "stderr": "claims-triage-assistant.generic-structure.txt.stderr.txt"
+  },
+  {
+    "label": "subrogation-opportunity-screener focused regression",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener/scripts/test_phase1.py"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "subrogation-opportunity-screener.regressions.txt",
+    "stderr": "subrogation-opportunity-screener.regressions.txt.stderr.txt"
+  },
+  {
+    "label": "subrogation-opportunity-screener generic skill structure",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/subrogation-opportunity-screener"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 1,
+    "stdout": "subrogation-opportunity-screener.generic-structure.txt",
+    "stderr": "subrogation-opportunity-screener.generic-structure.txt.stderr.txt"
+  },
+  {
+    "label": "owned repository structural validation",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/validate_skills.py",
+      "skills/insurance/claims-triage-assistant",
+      "skills/insurance/subrogation-opportunity-screener"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "owned-structural.txt",
+    "stderr": "owned-structural.txt.stderr.txt"
+  },
+  {
+    "label": "owned executable evaluations",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/run_selftests.py",
+      "skills/insurance/claims-triage-assistant",
+      "skills/insurance/subrogation-opportunity-screener"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "owned-executable-evals.txt",
+    "stderr": "owned-executable-evals.txt.stderr.txt"
+  },
+  {
+    "label": "owned defect-focused lint",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/ruff",
+      "check",
+      "--select",
+      "F,E9",
+      "skills/insurance/claims-triage-assistant/scripts",
+      "skills/insurance/subrogation-opportunity-screener/scripts"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "owned-lint-defects.txt",
+    "stderr": "owned-lint-defects.txt.stderr.txt"
+  },
+  {
+    "label": "strict lint current",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/ruff",
+      "check",
+      "--output-format",
+      "json",
+      "skills/insurance/claims-triage-assistant/scripts",
+      "skills/insurance/subrogation-opportunity-screener/scripts"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 1,
+    "stdout": "strict-lint-current.json",
+    "stderr": "strict-lint-current.json.stderr.txt"
+  },
+  {
+    "label": "strict lint before",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/ruff",
+      "check",
+      "--config",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/ruff.toml",
+      "--output-format",
+      "json",
+      "/tmp/insurance-claims-forward-20260918/source-before/claims-triage-assistant/scripts",
+      "/tmp/insurance-claims-forward-20260918/source-before/subrogation-opportunity-screener/scripts"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 1,
+    "stdout": "strict-lint-before.json",
+    "stderr": "strict-lint-before.json.stderr.txt"
+  },
+  {
+    "label": "final route replay 01-rate-adequacy",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-router/scripts/route.py",
+      "/tmp/insurance-claims-forward-20260918/router-after/01-rate-adequacy.request.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "01-rate-adequacy.route.json",
+    "stderr": "01-rate-adequacy.route.json.stderr.txt"
+  },
+  {
+    "label": "final route validation 01-rate-adequacy",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-router/scripts/route.py",
+      "--validate",
+      "/tmp/insurance-claims-forward-20260918/after/01-rate-adequacy.route.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "01-rate-adequacy.route-validation.txt",
+    "stderr": "01-rate-adequacy.route-validation.txt.stderr.txt"
+  },
+  {
+    "label": "final route replay 02-homeowners-appeal",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-router/scripts/route.py",
+      "/tmp/insurance-claims-forward-20260918/router-after/02-homeowners-appeal.request.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "02-homeowners-appeal.route.json",
+    "stderr": "02-homeowners-appeal.route.json.stderr.txt"
+  },
+  {
+    "label": "final route validation 02-homeowners-appeal",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-router/scripts/route.py",
+      "--validate",
+      "/tmp/insurance-claims-forward-20260918/after/02-homeowners-appeal.route.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "02-homeowners-appeal.route-validation.txt",
+    "stderr": "02-homeowners-appeal.route-validation.txt.stderr.txt"
+  },
+  {
+    "label": "final route replay 03-treaty-comparison",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-router/scripts/route.py",
+      "/tmp/insurance-claims-forward-20260918/router-after/03-treaty-comparison.request.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03-treaty-comparison.route.json",
+    "stderr": "03-treaty-comparison.route.json.stderr.txt"
+  },
+  {
+    "label": "final route validation 03-treaty-comparison",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-router/scripts/route.py",
+      "--validate",
+      "/tmp/insurance-claims-forward-20260918/after/03-treaty-comparison.route.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "03-treaty-comparison.route-validation.txt",
+    "stderr": "03-treaty-comparison.route-validation.txt.stderr.txt"
+  },
+  {
+    "label": "final route replay 04-portfolio-fraud-spike",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-router/scripts/route.py",
+      "/tmp/insurance-claims-forward-20260918/router-after/04-portfolio-fraud-spike.request.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "04-portfolio-fraud-spike.route.json",
+    "stderr": "04-portfolio-fraud-spike.route.json.stderr.txt"
+  },
+  {
+    "label": "final route validation 04-portfolio-fraud-spike",
+    "command": [
+      "/tmp/fsi-p0-venv/bin/python",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/insurance/insurance-router/scripts/route.py",
+      "--validate",
+      "/tmp/insurance-claims-forward-20260918/after/04-portfolio-fraud-spike.route.json"
+    ],
+    "cwd": "/Users/taylor/DevRepo/Skills/fsi-skills-library",
+    "exit_code": 0,
+    "stdout": "04-portfolio-fraud-spike.route-validation.txt",
+    "stderr": "04-portfolio-fraud-spike.route-validation.txt.stderr.txt"
+  }
+]

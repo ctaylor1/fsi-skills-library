@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.0",
+  "skill": "bank-payment-workflow-designer",
+  "request_id": "collection-fresh",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "independent-payment-team",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "collection-fresh",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "independent-payment-team",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "extract",
+        "reference": "synthetic://independent-raw-source/collection-fresh",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-15"
+      },
+      {
+        "source_id": "policy",
+        "reference": "synthetic://independent-reviewed-policy/collection-fresh",
+        "as_of": "2026-09-17",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "requests": [
+        {
+          "request_id": "utility-invoice-1",
+          "message_id": "rfp-message-1",
+          "requester_ref": "utility-opaque",
+          "payer_ref": "payer-opaque",
+          "beneficiary_ref": "utility-account-opaque",
+          "amount": "120.50",
+          "currency": "USD",
+          "rail_profile_id": "US-FEDNOW",
+          "channel": "request-for-payment",
+          "state": "open",
+          "issued_on": "2026-09-17",
+          "expires_on": "2026-09-17",
+          "source_ids": [
+            "extract"
+          ],
+          "access_review": {
+            "participant_reach_ref": "bank-participation-review",
+            "scheme_profile_ref": "fednow-v3.6",
+            "requester_legitimacy_ref": "utility-verified"
+          },
+          "payer_response": {
+            "response_id": "payer-response-1",
+            "decision": "accept",
+            "consent_ref": "invoice-specific-consent",
+            "review_ref": "response-scope-review",
+            "binding": {
+              "request_id": "utility-invoice-1",
+              "payer_ref": "payer-opaque",
+              "beneficiary_ref": "utility-account-opaque",
+              "amount": "120.50",
+              "currency": "USD"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "input_hash": "1d35ead019d2525084810b4a53a38129d55164f46c021c8aa0fdc90e224d0518",
+  "findings": [
+    {
+      "code": "collection-not-current-open",
+      "message": "utility-invoice-1: collection not current open",
+      "source_ids": [
+        "extract"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "module": "collection-design",
+    "requests": [
+      {
+        "request_id": "utility-invoice-1",
+        "message_id": "rfp-message-1",
+        "channel": "request-for-payment",
+        "rail_profile_id": "US-FEDNOW",
+        "exact_collection_binding": {
+          "request_id": "utility-invoice-1",
+          "payer_ref": "payer-opaque",
+          "beneficiary_ref": "utility-account-opaque",
+          "amount": "120.50",
+          "currency": "USD"
+        },
+        "payer_response": {
+          "response_id": "payer-response-1",
+          "decision": "accept",
+          "consent_ref": "invoice-specific-consent",
+          "review_ref": "response-scope-review",
+          "binding": {
+            "request_id": "utility-invoice-1",
+            "payer_ref": "payer-opaque",
+            "beneficiary_ref": "utility-account-opaque",
+            "amount": "120.50",
+            "currency": "USD"
+          }
+        },
+        "next_step": "resolve-evidence",
+        "gaps": [
+          "collection-not-current-open"
+        ],
+        "source_ids": [
+          "extract"
+        ],
+        "payment_authorized": false,
+        "payment_submitted": false,
+        "settlement_inferred": false
+      }
+    ],
+    "creates_funds_movement": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Prepare an exact separate credit instruction after scoped acceptance evidence; recheck intent, screening, account, duplicate and authority controls.",
+      "required_inputs": [
+        "native exact instruction",
+        "payer consent and bound request/response evidence",
+        "access and authority policy",
+        "unresolved collection issues"
+      ],
+      "handoff_id": "cc017da99831cee80fed4291b7a62a06d79ff9f5ae4db516d9d84ce5b6577fc0",
+      "contract_version": "1.0.0",
+      "source_skill": "bank-payment-workflow-designer",
+      "case_id": "collection-fresh",
+      "lead_owner": "independent-payment-team",
+      "requested_output": "Prepare an exact separate credit instruction after scoped acceptance evidence; recheck intent, screening, account, duplicate and authority controls.",
+      "source_refs": [
+        "synthetic://independent-raw-source/collection-fresh",
+        "synthetic://independent-reviewed-policy/collection-fresh"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "collection-not-current-open",
+          "message": "utility-invoice-1: collection not current open",
+          "source_ids": [
+            "extract"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Normalized request/response review only; no native pain.013 parser, signature verification or network participation check.",
+    "Request, customer acceptance, payment initiation and settlement are separate records. Request cancellation does not reverse an existing payment.",
+    "Pay-by-bank here is a supplied credit-push collection design; direct-debit mandates remain separate. No SEPA Request-to-Pay or UK Request-to-Pay adapter is implemented."
+  ]
+}

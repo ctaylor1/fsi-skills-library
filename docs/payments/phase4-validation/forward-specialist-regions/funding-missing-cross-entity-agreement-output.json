@@ -1,0 +1,333 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-liquidity-and-funding-analyzer",
+  "request_id": "funding-missing-cross-entity-agreement",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "forward-reviewer",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "funding-missing-cross-entity-agreement",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "forward-reviewer",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "forward-evidence",
+        "reference": "synthetic://independently-authored-payment-contract-and-ledger",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "window_start": "2026-09-18T09:00:00Z",
+      "window_end": "2026-09-18T18:00:00Z",
+      "history_complete": true,
+      "accountable_reviewer": "cross-currency-treasury",
+      "accounts": [
+        {
+          "account_id": "usd-source",
+          "entity_id": "provider",
+          "jurisdiction": "US",
+          "currency": "USD",
+          "account_role": "source-funding",
+          "snapshot_at": "2026-09-18T09:00:00Z",
+          "opening_balance": "3000",
+          "held": "0",
+          "ownership_review_ref": "exact-legal-account-review",
+          "funding_model_review_ref": "funding-model-reviewed",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        },
+        {
+          "account_id": "eur-payout",
+          "entity_id": "different-entity",
+          "jurisdiction": "EA",
+          "currency": "EUR",
+          "account_role": "local-payout",
+          "snapshot_at": "2026-09-18T09:00:00Z",
+          "opening_balance": "0",
+          "held": "0",
+          "ownership_review_ref": "exact-legal-account-review",
+          "funding_model_review_ref": "funding-model-reviewed",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "obligations": [
+        {
+          "economic_id": "recipient-obligation-1",
+          "account_id": "eur-payout",
+          "entity_id": "different-entity",
+          "currency": "EUR",
+          "purpose": "customer-payout",
+          "amount": "800",
+          "due_at": "2026-09-18T12:00:00Z",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "funding_transfers": [
+        {
+          "transfer_id": "fx-funding-1",
+          "economic_id": "funding-economic-1",
+          "source_account": "usd-source",
+          "destination_account": "eur-payout",
+          "source_entity_id": "provider",
+          "destination_entity_id": "different-entity",
+          "source_currency": "USD",
+          "destination_currency": "EUR",
+          "source_amount": "1000",
+          "destination_amount": "900",
+          "debit_at": "2026-09-18T10:00:00Z",
+          "credit_at": "2026-09-18T11:00:00Z",
+          "certainty": "firm",
+          "funding_contract_ref": "reviewed-fx-funding-contract",
+          "access_review_ref": "access-reviewed",
+          "limit_review_ref": "limits-reviewed",
+          "debit_window": {
+            "opens_at": "2026-09-18T09:00:00Z",
+            "closes_at": "2026-09-18T18:00:00Z",
+            "availability_review_ref": "source-window-review"
+          },
+          "credit_window": {
+            "opens_at": "2026-09-18T09:00:00Z",
+            "closes_at": "2026-09-18T18:00:00Z",
+            "availability_review_ref": "destination-window-review"
+          },
+          "fx_quote": {
+            "base_currency": "USD",
+            "quote_currency": "EUR",
+            "rate": "0.9",
+            "quoted_at": "2026-09-18T09:00:00Z",
+            "expires_at": "2026-09-18T10:30:00Z",
+            "kind": "firm",
+            "quote_ref": "firm-fx-evidence"
+          },
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "stress_scenarios": [
+        {
+          "scenario_id": "funding-unavailable",
+          "rationale": "Correspondent funding unavailable",
+          "remove_transfer_ids": [
+            "fx-funding-1"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "b70c30b4bfc7f95e98b2685ae8ae29c3b90695a238cd0e66f53ae0eaffc5445d",
+  "findings": [
+    {
+      "code": "corridor-funding-shortfall",
+      "message": "eur-payout has a time-specific funding shortfall.",
+      "source_ids": [
+        "forward-evidence"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "funding-excluded",
+      "message": "fx-funding-1: interentity-obligation-unresolved",
+      "source_ids": [
+        "forward-evidence"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "module": "corridor-funding",
+    "accountable_reviewer": "cross-currency-treasury",
+    "base": {
+      "positions": [
+        {
+          "account_id": "usd-source",
+          "entity_id": "provider",
+          "jurisdiction": "US",
+          "currency": "USD",
+          "account_role": "source-funding",
+          "ending_available": "3000",
+          "minimum_available": "3000",
+          "peak_shortfall": "0",
+          "first_shortfall_at": null,
+          "source_ids": [
+            "forward-evidence"
+          ]
+        },
+        {
+          "account_id": "eur-payout",
+          "entity_id": "different-entity",
+          "jurisdiction": "EA",
+          "currency": "EUR",
+          "account_role": "local-payout",
+          "ending_available": "-800",
+          "minimum_available": "-800",
+          "peak_shortfall": "800",
+          "first_shortfall_at": "2026-09-18T12:00:00+00:00",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "event_id": "recipient-obligation-1",
+          "kind": "obligation",
+          "at": "2026-09-18T12:00:00+00:00",
+          "account_id": "eur-payout",
+          "entity_id": "different-entity",
+          "currency": "EUR",
+          "change": "-800",
+          "available_after": "-800",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "excluded_funding_transfers": [
+        {
+          "transfer_id": "fx-funding-1",
+          "reasons": [
+            "interentity-obligation-unresolved"
+          ],
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "included_funding_transfer_ids": []
+    },
+    "stress_scenarios": [
+      {
+        "scenario_id": "funding-unavailable",
+        "rationale": "Correspondent funding unavailable",
+        "positions": [
+          {
+            "account_id": "usd-source",
+            "entity_id": "provider",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "account_role": "source-funding",
+            "ending_available": "3000",
+            "minimum_available": "3000",
+            "peak_shortfall": "0",
+            "first_shortfall_at": null,
+            "source_ids": [
+              "forward-evidence"
+            ]
+          },
+          {
+            "account_id": "eur-payout",
+            "entity_id": "different-entity",
+            "jurisdiction": "EA",
+            "currency": "EUR",
+            "account_role": "local-payout",
+            "ending_available": "-800",
+            "minimum_available": "-800",
+            "peak_shortfall": "800",
+            "first_shortfall_at": "2026-09-18T12:00:00+00:00",
+            "source_ids": [
+              "forward-evidence"
+            ]
+          }
+        ],
+        "timeline": [
+          {
+            "event_id": "recipient-obligation-1",
+            "kind": "obligation",
+            "at": "2026-09-18T12:00:00+00:00",
+            "account_id": "eur-payout",
+            "entity_id": "different-entity",
+            "currency": "EUR",
+            "change": "-800",
+            "available_after": "-800",
+            "source_ids": [
+              "forward-evidence"
+            ]
+          }
+        ],
+        "excluded_funding_transfers": [
+          {
+            "transfer_id": "fx-funding-1",
+            "reasons": [
+              "interentity-obligation-unresolved",
+              "stress-funding-unavailable"
+            ],
+            "source_ids": [
+              "forward-evidence"
+            ]
+          }
+        ],
+        "included_funding_transfer_ids": []
+      }
+    ],
+    "crosscurrency_or_interentity_netting": false,
+    "funding_instructions_created": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Review each distinct source debit and destination credit obligation with a supported local adapter; planning inclusion does not authorize funding.",
+      "required_inputs": [
+        "exact legal-entity account currency amounts and schedule",
+        "firm funding and FX contracts plus access windows",
+        "current liquidity and control evidence",
+        "unresolved corridor findings"
+      ],
+      "handoff_id": "7f21a9b9c32d864c4bd41050f7f6cb08e23131a81b9822a35a4c00534f89b010",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "funding-missing-cross-entity-agreement",
+      "lead_owner": "forward-reviewer",
+      "requested_output": "Review each distinct source debit and destination credit obligation with a supported local adapter; planning inclusion does not authorize funding.",
+      "source_refs": [
+        "synthetic://independently-authored-payment-contract-and-ledger"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "corridor-funding-shortfall",
+          "message": "eur-payout has a time-specific funding shortfall.",
+          "source_ids": [
+            "forward-evidence"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-excluded",
+          "message": "fx-funding-1: interentity-obligation-unresolved",
+          "source_ids": [
+            "forward-evidence"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Declared firm funding is an offline scenario assumption; no access, quote, balance or counterparty identity is authenticated.",
+    "Obligations are projected before funding debits and funding credits at equal timestamps; a later inflow never erases an earlier peak shortfall.",
+    "Opening held funds remain restricted throughout this module; model releases as a separately reviewed snapshot rather than silently releasing them.",
+    "FX transfers require strictly later credits and an exact supplied gross conversion; separate fees are explicit obligations. No FX rounding policy, credit line, unsecured overdraft, crosscurrency netting or interentity pooling is inferred."
+  ]
+}

@@ -1,0 +1,5 @@
+# Supported method
+
+Carrier underwriting result = earned premium minus incurred losses including LAE, acquisition/admin/fixed expenses and ceded premium, plus ceded recovery and ceding commission. Period pretax result adds investment income. Gross loss ratio uses earned premium; expense denominator is explicitly earned or written premium. MGA revenue = written premium times commission fraction plus service/profit fees; subtract producer/operating/fixed costs. Period return on capital is not annualized, IRR, statutory capital adequacy or cashflow NPV.
+
+CAS Basic Ratemaking ratio orientation distinguishes premium/expense bases. Carrier and MGA bridges are explicit repository modeling conventions, not actuarial selection or an accounting standard. See the primary [orientation source](https://www.casact.org/sites/default/files/2021-03/5_complete_textref.pdf), reviewed 2026-09-18. These references do not establish adoption, source access or an institution-approved model. Monetary arithmetic uses Decimal. Unknowns remain null; booleans and nonfinite numbers are invalid.

@@ -1,0 +1,104 @@
+{
+  "replayed_at": "2026-09-18T18:32:21.484992+00:00",
+  "runs": [
+    {
+      "case": "baseline",
+      "source_input": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/input.json",
+      "input_sha256_before": "6df61d0b3880da3ba458af946cce0b41130d75bfec18b1f12ea076e72a696d05",
+      "input_sha256_after": "6df61d0b3880da3ba458af946cce0b41130d75bfec18b1f12ea076e72a696d05",
+      "expected_closure": "blocked",
+      "before_closure": "ready_for_authorized_review",
+      "after_closure": "blocked",
+      "after_findings": [
+        {
+          "code": "duplicate-payment",
+          "message": "Payment identity already appears in a pending/submitted/settled transaction",
+          "source_refs": [
+            "PAYMENT-LEDGER"
+          ],
+          "severity": "review"
+        },
+        {
+          "code": "reopen-gap",
+          "message": "Reopening row 1: owner is unresolved",
+          "source_refs": [],
+          "severity": "gap"
+        },
+        {
+          "code": "reopen-gap",
+          "message": "Reopening row 1: routing is unresolved",
+          "source_refs": [],
+          "severity": "gap"
+        }
+      ],
+      "exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "assessment_matches": true,
+      "payment_status": "blocked",
+      "no_action": true
+    },
+    {
+      "case": "complete_reopening",
+      "source_input": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/variants/complete_reopening/input.json",
+      "input_sha256_before": "307f79a5c775731bd23666591ed18fa3590a0d382d2f093f4917e90e4e25d957",
+      "input_sha256_after": "307f79a5c775731bd23666591ed18fa3590a0d382d2f093f4917e90e4e25d957",
+      "expected_closure": "ready_for_authorized_review",
+      "before_closure": "ready_for_authorized_review",
+      "after_closure": "ready_for_authorized_review",
+      "after_findings": [
+        {
+          "code": "duplicate-payment",
+          "message": "Payment identity already appears in a pending/submitted/settled transaction",
+          "source_refs": [
+            "PAYMENT-LEDGER"
+          ],
+          "severity": "review"
+        }
+      ],
+      "exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "assessment_matches": true,
+      "payment_status": "blocked",
+      "no_action": true
+    },
+    {
+      "case": "blank_reopening",
+      "source_input": "/tmp/insurance-p2-forward-claims/claim-payment-closure-reviewer/variants/blank_reopening/input.json",
+      "input_sha256_before": "c24b23b3fbdd1990359a8ce3be0973170fc572856d3bf4f8c70406e74c94fa4e",
+      "input_sha256_after": "c24b23b3fbdd1990359a8ce3be0973170fc572856d3bf4f8c70406e74c94fa4e",
+      "expected_closure": "blocked",
+      "before_closure": "ready_for_authorized_review",
+      "after_closure": "blocked",
+      "after_findings": [
+        {
+          "code": "duplicate-payment",
+          "message": "Payment identity already appears in a pending/submitted/settled transaction",
+          "source_refs": [
+            "PAYMENT-LEDGER"
+          ],
+          "severity": "review"
+        },
+        {
+          "code": "reopen-gap",
+          "message": "Reopening row 1 requires trigger, owner, routing and source evidence",
+          "source_refs": [],
+          "severity": "gap"
+        }
+      ],
+      "exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "assessment_matches": true,
+      "payment_status": "blocked",
+      "no_action": true
+    }
+  ]
+}

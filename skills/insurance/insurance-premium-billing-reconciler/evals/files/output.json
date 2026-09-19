@@ -1,0 +1,297 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-premium-billing-reconciler",
+  "case_id": "SYNTHETIC-P2-001",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "carrier",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "A1",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "status": "ready-for-review",
+  "findings": [],
+  "results": {
+    "account_id": "A1",
+    "currency": "USD",
+    "basis": "gross-premium-receivable",
+    "period": {
+      "start": "2026-09-01",
+      "end": "2026-09-18"
+    },
+    "movement_register": [
+      {
+        "entry_id": "E1",
+        "kind": "invoice",
+        "amount": "1000",
+        "currency": "USD",
+        "policy_id": "P1",
+        "account_id": "A1",
+        "signed_receivable_effect": "1000",
+        "source_refs": [
+          "billing-export"
+        ]
+      },
+      {
+        "entry_id": "E2",
+        "kind": "receipt",
+        "amount": "700",
+        "currency": "USD",
+        "policy_id": "P1",
+        "account_id": "A1",
+        "signed_receivable_effect": "-700",
+        "source_refs": [
+          "cash-ledger"
+        ]
+      }
+    ],
+    "movement_total": "300",
+    "calculated_closing_balance": "800",
+    "reported_closing_balance": "800",
+    "difference": "0",
+    "excluded_entry_ids": [],
+    "invoice_aging": [
+      {
+        "invoice_id": "I0",
+        "policy_id": "P1",
+        "outstanding": "0",
+        "days_past_due": 29,
+        "source_refs": [
+          "billing-export"
+        ]
+      },
+      {
+        "invoice_id": "I1",
+        "policy_id": "P1",
+        "outstanding": "800",
+        "days_past_due": 8,
+        "source_refs": [
+          "billing-export"
+        ]
+      }
+    ],
+    "aging_buckets": {
+      "not_due": "0",
+      "1_30": "800",
+      "31_60": "0",
+      "61_plus": "0"
+    },
+    "unapplied_cash_credits": {
+      "E2": "0"
+    },
+    "policy_coverage_state": "not-determined",
+    "collection_or_cancellation_authorized": false
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "SYNTHETIC-P2-001",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "carrier",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "A1",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "policy-export",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "customer-request",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "authority-record",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "reviewed-profile",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "billing-export",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "cash-ledger",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "form-record",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "account_id": "A1",
+      "currency": "USD",
+      "basis": "gross-premium-receivable",
+      "policy_ids": [
+        "P1"
+      ],
+      "period": {
+        "start": "2026-09-01",
+        "end": "2026-09-18"
+      },
+      "ledger_complete": true,
+      "opening_balance": {
+        "account_id": "A1",
+        "amount": "500",
+        "currency": "USD",
+        "basis": "gross-premium-receivable",
+        "as_of": "2026-08-31",
+        "source_refs": [
+          "billing-export"
+        ]
+      },
+      "closing_balance": {
+        "account_id": "A1",
+        "amount": "800",
+        "currency": "USD",
+        "basis": "gross-premium-receivable",
+        "as_of": "2026-09-18",
+        "source_refs": [
+          "billing-export"
+        ]
+      },
+      "entries": [
+        {
+          "entry_id": "E1",
+          "invoice_id": "I1",
+          "account_id": "A1",
+          "policy_id": "P1",
+          "currency": "USD",
+          "kind": "invoice",
+          "amount": "1000",
+          "date": "2026-09-01",
+          "due_date": "2026-09-10",
+          "source_refs": [
+            "billing-export"
+          ]
+        },
+        {
+          "entry_id": "E2",
+          "account_id": "A1",
+          "policy_id": "P1",
+          "currency": "USD",
+          "kind": "receipt",
+          "amount": "700",
+          "date": "2026-09-15",
+          "source_refs": [
+            "cash-ledger"
+          ]
+        }
+      ],
+      "invoice_inventory_complete": true,
+      "opening_invoices": [
+        {
+          "invoice_id": "I0",
+          "policy_id": "P1",
+          "currency": "USD",
+          "remaining_amount": "500",
+          "due_date": "2026-08-20",
+          "source_refs": [
+            "billing-export"
+          ]
+        }
+      ],
+      "allocations": [
+        {
+          "allocation_id": "AL1",
+          "entry_id": "E2",
+          "invoice_id": "I0",
+          "amount": "500",
+          "currency": "USD",
+          "source_refs": [
+            "cash-ledger"
+          ]
+        },
+        {
+          "allocation_id": "AL2",
+          "entry_id": "E2",
+          "invoice_id": "I1",
+          "amount": "200",
+          "currency": "USD",
+          "source_refs": [
+            "cash-ledger"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-premium-billing-reconciler",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "carrier",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "A1",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "policy-export",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "customer-request",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "authority-record",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "reviewed-profile",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "billing-export",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "cash-ledger",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "form-record",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "a37ad270017de8caba7fd91b9d918944ba2e73ba630642bc78a91ff290d3196b",
+    "output_hash": "3a7f0d121c0a186bf29c3375ec12fd3c765ae170a6d9a73d927f196eef0c226c",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "691c907debb015a6dd24ca38d19cd648104c014427d06e6809de6cfd30ccb478"
+  }
+}

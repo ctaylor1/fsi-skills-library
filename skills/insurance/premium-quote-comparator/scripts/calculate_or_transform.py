@@ -48,6 +48,10 @@ def _limit_key(limit) -> str:
 
 
 def compute(doc: dict) -> dict:
+    from validate_input import validate
+    errors, _ = validate(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
     cfg = {**{"round_to": 2}, **(doc.get("config") or {})}
     as_of = doc["as_of"]
     quotes = doc["quotes"]
@@ -56,7 +60,7 @@ def compute(doc: dict) -> dict:
     # ---- normalize premium + fees to an annualized basis ----
     normalized = []
     for q in quotes:
-        q = {**q, "as_of": as_of}
+        q = {**q, "as_of": q.get("as_of")}
         prem = q.get("premium") or {}
         ppy = PAYMENTS_PER_YEAR.get(prem.get("frequency"), 1)
         annualized_premium = round(_num(prem.get("amount")) * ppy, cfg["round_to"])
@@ -75,6 +79,8 @@ def compute(doc: dict) -> dict:
             "annualized_fees": annualized_fees,
             "annualized_total_cost": total,
             "citation": _cite(q),
+            "source_as_of": q.get("as_of"),
+            "service_factors": q.get("service_factors") or {},
         })
 
     # ---- coverage comparison grid (union of coverage codes, first-seen order) ----
@@ -100,10 +106,10 @@ def compute(doc: dict) -> dict:
             if c is not None:
                 included_ids.append(qid)
                 cells.append({"quote_id": qid, "included": True, "limit": c.get("limit"),
-                              "deductible": c.get("deductible"), "citation": _cite({**q, "as_of": as_of})})
+                              "deductible": c.get("deductible"), "citation": _cite(q)})
             else:
                 cells.append({"quote_id": qid, "included": False, "limit": None,
-                              "deductible": None, "citation": _cite({**q, "as_of": as_of})})
+                              "deductible": None, "citation": _cite(q)})
         coverage_matrix.append({"code": code, "name": code_name[code], "cells": cells})
 
         if len(included_ids) != len(all_ids):
@@ -185,11 +191,25 @@ def compute(doc: dict) -> dict:
          all_ids if len(ccys) > 1 else [])
 
     # ---- factual cost spread + lowest cost (NOT a recommendation) ----
-    lowest = min(normalized, key=lambda n: (n["annualized_total_cost"], n["quote_id"]))
+    if any(not n["currency"] for n in normalized):
+        flag("currency_unknown", True, "currency is missing; costs cannot be compared", all_ids)
+    if any(not q.get("as_of") or not q.get("source_ref") for q in quotes):
+        flag("source_incomplete", True, "quote source date or reference is missing", all_ids)
+    unknown_coverage_ids = [q["quote_id"] for q in quotes if any(
+        c.get("limit") in (None, "") or c.get("deductible") in (None, "")
+        for c in q.get("coverages", []))]
+    if unknown_coverage_ids:
+        flag("coverage_unknown", True,
+             "a listed coverage has an unknown limit or deductible; equivalent terms are unconfirmed",
+             unknown_coverage_ids)
+    comparable = len(normalized) >= 2 and not flags
+    lowest = min(normalized, key=lambda n: (n["annualized_total_cost"], n["quote_id"])) if comparable else None
     costs = [n["annualized_total_cost"] for n in normalized]
     cost_spread = {"min": min(costs), "max": max(costs), "delta": round(max(costs) - min(costs), cfg["round_to"])}
 
     return {
+        "calculation_inputs": doc,
+        "cost_comparison_status": "comparable" if comparable else "not_comparable",
         "comparison_id": f"pqc-{doc.get('risk_type', 'na')}-{as_of}-0001",
         "as_of": as_of,
         "config_version": doc.get("config_version"),
@@ -200,10 +220,40 @@ def compute(doc: dict) -> dict:
         "coverage_matrix": coverage_matrix,
         "differences": differences,
         "comparability_flags": flags,
-        "lowest_annualized_total_cost_quote_id": lowest["quote_id"],
-        "cost_spread": cost_spread,
+        "lowest_annualized_total_cost_quote_id": lowest["quote_id"] if lowest else None,
+        "cost_spread": cost_spread if comparable else None,
         "disclaimer": DISCLAIMER,
     }
+
+
+
+# Bind native result and source snapshot to the portable insurance evidence contract.
+_native_compute = compute
+def compute(doc):
+    from insurance_contract import build_artifact, stable_hash
+    result = _native_compute(doc)
+    output = result[0] if isinstance(result, tuple) else result
+    issues = []
+    for field in ("not_evaluable", "data_gaps"):
+        for item in output.get(field, []):
+            issues.append(str(item))
+    if output.get("cost_comparison_status") == "not_comparable":
+        issues.append("quotes are not directly comparable; aggregate ranking suppressed")
+    for item in output.get("segments", []):
+        if not item.get("packageable"):
+            issues.append(f"segment {item.get('segment_id')}: {item.get('status')}")
+    for item in output.get("profiles", []):
+        if item.get("recommended_disposition") == "needs-data":
+            issues.append(f"submission {item.get('submission_id')} requires data")
+    for item in output.get("reconciliation", []):
+        if item.get("status") in {"mismatch", "unparseable"}:
+            issues.append(f"unresolved source conflict: {item.get('field')}")
+    for key in ("comparison_id", "analysis_id", "review_id", "packet_id", "worksheet_id", "triage_id", "interpretation_id"):
+        if key in output:
+            output[key] = "quote_comparison-" + stable_hash(doc)[:24]
+    output["artifact"] = build_artifact(doc, output, producer="premium-quote-comparator", artifact_type="quote_comparison",
+        completeness="partial" if issues else "complete", evaluability="partial" if issues else "evaluable", issues=issues)
+    return result
 
 
 def main(argv):

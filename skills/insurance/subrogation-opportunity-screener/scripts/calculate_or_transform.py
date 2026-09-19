@@ -1,33 +1,34 @@
 #!/usr/bin/env python3
-"""Deterministic, explainable subrogation-recovery screening for subrogation-opportunity-screener.
+"""Screen sourced recovery facts and explicit scenario economics. Unknown waiver, prior recovery or financial data require review. No entitlement, limitation or recovery action.
 
-Reads a claim file (see validate_input.py), computes the configured recovery signals, attaches
-evidence + citations to each, computes the referral economics, and maps the fired-signal set to
-a screening band (Refer / Review / No-Action). Emits a machine-readable core the SKILL wraps in
-a plain-language, source-linked referral for a licensed recovery/subrogation specialist.
-
-IMPORTANT: This produces explainable *recovery signals and a triage suggestion* only. It never
-makes a subrogation determination, a liability finding, or a limitation (time-bar) determination,
-and it never issues a demand, files, waives, or takes any recovery action. The band mapping is
-deterministic and documented in references/domain-rules.md.
-
-Usage:
-  python calculate_or_transform.py claim.json | --selftest
-Prints the screening JSON to stdout.
+Usage: python calculate_or_transform.py input.json | --selftest
 """
+
 from __future__ import annotations
-import json, sys
+
+import json
+import sys
 from datetime import datetime
 from pathlib import Path
 
+from insurance_contract import build_artifact
+
 DEFAULT_CONFIG = {
-    "referral_floor": 2500.0, "min_liability_pct": 50.0, "recovery_cost_estimate": 750.0,
-    "min_expected_net": 0.0, "limitation_buffer_days": 30, "limitation_urgent_days": 90,
-    "collectibility_insured": 1.0, "collectibility_assets": 0.6, "collectibility_unknown": 0.3,
+    "referral_floor": 2500.0,
+    "min_liability_pct": 50.0,
+    "recovery_cost_estimate": 750.0,
+    "min_expected_net": 0.0,
+    "limitation_buffer_days": 30,
+    "limitation_urgent_days": 90,
+    "collectibility_insured": 1.0,
+    "collectibility_assets": 0.6,
+    "collectibility_unknown": 0.3,
     "strong_evidence_types": ["police_report", "liability_admission", "expert_report"],
 }
-DISCLAIMER = ("Screening evidence only; not a subrogation, liability, or limitation "
-              "determination. No demand, filing, waiver, or recovery action has been taken.")
+DISCLAIMER = (
+    "Screening evidence only; not a subrogation, liability, or limitation "
+    "determination. No demand, filing, waiver, or recovery action has been taken."
+)
 CORE = {"third_party_liability_indicated", "recovery_above_floor", "positive_expected_recovery"}
 
 
@@ -63,7 +64,7 @@ def screening_band(fired: set, time_critical: bool) -> str:
     return band
 
 
-def compute(doc: dict) -> dict:
+def _calculate(doc: dict) -> dict:
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
     claim_id = doc["claim_id"]
     as_of = _parse_date(doc["as_of"])
@@ -74,10 +75,31 @@ def compute(doc: dict) -> dict:
     signals, not_evaluable = [], []
 
     def add(name, fired, reason, evidence, basis, contribution):
-        signals.append({"signal": name, "fired": bool(fired), "reason": reason,
-                        "evidence": evidence, "basis": basis, "contribution": contribution})
+        signals.append(
+            {
+                "signal": name,
+                "fired": bool(fired),
+                "reason": reason,
+                "evidence": evidence,
+                "basis": basis,
+                "contribution": contribution,
+            }
+        )
 
     # --- financials ---
+    financial_known = (
+        doc.get("paid_to_date") is not None
+        and doc.get("recovery_deductible") is not None
+        and bool(doc.get("financials_source_ref"))
+        and bool(doc.get("currency"))
+    )
+    if not financial_known:
+        not_evaluable.append(
+            {
+                "signal": "recovery_above_floor",
+                "why": "paid/deductible/currency/source unknown; economics not evaluable",
+            }
+        )
     paid = _num(doc.get("paid_to_date"))
     deductible = _num(doc.get("recovery_deductible"))
     net_incurred = _num(doc.get("net_incurred"), paid)
@@ -94,8 +116,13 @@ def compute(doc: dict) -> dict:
     if best is not None:
         insured = bool(best.get("insured"))
         assets = bool(best.get("assets_known"))
-        factor = (cfg["collectibility_insured"] if insured
-                  else cfg["collectibility_assets"] if assets else cfg["collectibility_unknown"])
+        factor = (
+            cfg["collectibility_insured"]
+            if insured
+            else cfg["collectibility_assets"]
+            if assets
+            else cfg["collectibility_unknown"]
+        )
     else:
         insured = assets = False
         factor = cfg["collectibility_unknown"]
@@ -105,24 +132,44 @@ def compute(doc: dict) -> dict:
     net_expected = round(gross_expected - cfg["recovery_cost_estimate"], 2)
 
     # 1) third_party_liability_indicated
-    add("third_party_liability_indicated", bool(liab.get("indicated")) and bool(qualifying),
+    add(
+        "third_party_liability_indicated",
+        bool(liab.get("indicated")) and bool(qualifying),
         f"claim facts indicate a responsible third party with liability share >= {cfg['min_liability_pct']}%"
-        if qualifying else "no responsible party at or above the liability-share floor",
-        [{"party": p.get("name"), "role": p.get("role"), "liability_pct": _num(p.get("liability_pct")),
-          "citation": cite("party", p.get("source_ref"))} for p in qualifying],
-        {"basis": liab.get("basis"), "min_liability_pct": cfg["min_liability_pct"]}, len(qualifying))
+        if qualifying
+        else "no responsible party at or above the liability-share floor",
+        [
+            {
+                "party": p.get("name"),
+                "role": p.get("role"),
+                "liability_pct": _num(p.get("liability_pct")),
+                "citation": cite("party", p.get("source_ref")),
+            }
+            for p in qualifying
+        ],
+        {"basis": liab.get("basis"), "min_liability_pct": cfg["min_liability_pct"]},
+        len(qualifying),
+    )
     if not parties:
-        not_evaluable.append({"signal": "third_party_liability_indicated",
-                              "why": "no responsible_parties on file — liability not evaluable"})
+        not_evaluable.append(
+            {
+                "signal": "third_party_liability_indicated",
+                "why": "no responsible_parties on file — liability not evaluable",
+            }
+        )
 
     # 2) recovery_above_floor
-    add("recovery_above_floor", recovery_base >= cfg["referral_floor"],
+    add(
+        "recovery_above_floor",
+        recovery_base >= cfg["referral_floor"],
         f"recoverable base {recovery_base:.2f} (paid {paid:.2f} + deductible {deductible:.2f}) "
         f">= referral floor {cfg['referral_floor']:.2f}"
         if recovery_base >= cfg["referral_floor"]
         else f"recoverable base {recovery_base:.2f} below referral floor {cfg['referral_floor']:.2f}",
         [{"recovery_base": recovery_base, "net_incurred": net_incurred, "citation": cite("financials", fin_ref)}],
-        {"referral_floor": cfg["referral_floor"]}, 1 if recovery_base >= cfg["referral_floor"] else 0)
+        {"referral_floor": cfg["referral_floor"]},
+        1 if recovery_base >= cfg["referral_floor"] else 0,
+    )
 
     # 3) limitation_window_open
     lim_raw = doc.get("limitation_date")
@@ -130,61 +177,139 @@ def compute(doc: dict) -> dict:
     if lim_raw:
         days_to_limitation = (_parse_date(lim_raw) - as_of).days
         open_ = days_to_limitation >= cfg["limitation_buffer_days"]
-        add("limitation_window_open", open_,
+        add(
+            "limitation_window_open",
+            open_,
             f"{days_to_limitation} day(s) to limitation date {lim_raw} (buffer {cfg['limitation_buffer_days']}d)",
-            [{"limitation_date": str(lim_raw), "days_to_limitation": days_to_limitation,
-              "citation": cite("limitation", doc.get("limitation_source_ref"))}] if open_ else [],
-            {"limitation_buffer_days": cfg["limitation_buffer_days"]}, 1 if open_ else 0)
+            [
+                {
+                    "limitation_date": str(lim_raw),
+                    "days_to_limitation": days_to_limitation,
+                    "citation": cite("limitation", doc.get("limitation_source_ref")),
+                }
+            ]
+            if open_
+            else [],
+            {"limitation_buffer_days": cfg["limitation_buffer_days"]},
+            1 if open_ else 0,
+        )
     else:
-        not_evaluable.append({"signal": "limitation_window_open",
-                              "why": "no limitation_date on file — resolve the controlling date before relying on the screen"})
+        not_evaluable.append(
+            {
+                "signal": "limitation_window_open",
+                "why": "no limitation_date on file — resolve the controlling date before relying on the screen",
+            }
+        )
 
     time_critical = days_to_limitation is not None and days_to_limitation <= cfg["limitation_urgent_days"]
 
     # 4) supporting_evidence_present
-    strong = [e for e in (doc.get("evidence") or [])
-              if e.get("present") and e.get("type") in set(cfg["strong_evidence_types"])]
-    add("supporting_evidence_present", bool(strong),
+    strong = [
+        e
+        for e in (doc.get("evidence") or [])
+        if e.get("present") and e.get("type") in set(cfg["strong_evidence_types"])
+    ]
+    add(
+        "supporting_evidence_present",
+        bool(strong),
         "strong liability evidence on file (" + ", ".join(sorted({e["type"] for e in strong})) + ")"
-        if strong else "no strong liability evidence (police report / liability admission / expert report) on file",
+        if strong
+        else "no strong liability evidence (police report / liability admission / expert report) on file",
         [{"type": e["type"], "citation": cite("evidence", e.get("source_ref"))} for e in strong],
-        {"strong_evidence_types": cfg["strong_evidence_types"]}, len(strong))
+        {"strong_evidence_types": cfg["strong_evidence_types"]},
+        len(strong),
+    )
     if not (doc.get("evidence")):
-        not_evaluable.append({"signal": "supporting_evidence_present",
-                              "why": "no evidence inventory on file — evidence completeness not evaluable"})
+        not_evaluable.append(
+            {
+                "signal": "supporting_evidence_present",
+                "why": "no evidence inventory on file — evidence completeness not evaluable",
+            }
+        )
 
     # 5) recovery_not_waived (fires = recovery is still available to pursue)
-    waived = bool(doc.get("waiver_of_subrogation"))
-    prior_status = ((doc.get("prior_recovery") or {}).get("status") or "none")
-    available = (not waived) and prior_status == "none"
-    add("recovery_not_waived", available,
+    waived = doc.get("waiver_of_subrogation")
+    prior_status = (doc.get("prior_recovery") or {}).get("status")
+    availability_known = (
+        isinstance(waived, bool)
+        and prior_status in {"none", "open", "recovered", "closed", "waived"}
+        and bool(doc.get("recovery_status_source_ref"))
+    )
+    available = availability_known and waived is False and prior_status == "none"
+    recovery_availability = "available" if available else "unavailable" if availability_known else "unknown"
+    if not availability_known:
+        not_evaluable.append(
+            {
+                "signal": "recovery_not_waived",
+                "why": "waiver, prior recovery status, or status evidence unknown; availability is not established",
+            }
+        )
+    add(
+        "recovery_not_waived",
+        available,
         "no waiver of subrogation and no prior/open recovery — recovery is available"
-        if available else f"recovery unavailable (waiver={waived}, prior_recovery_status={prior_status})",
-        [{"waiver_of_subrogation": waived, "prior_recovery_status": prior_status,
-          "citation": cite("recovery-status", doc.get("recovery_status_source_ref"))}] if available else [],
-        {"waiver_of_subrogation": waived, "prior_recovery_status": prior_status}, 1 if available else 0)
+        if available
+        else f"recovery availability {recovery_availability} (waiver={waived}, prior_recovery_status={prior_status})",
+        [
+            {
+                "waiver_of_subrogation": waived,
+                "prior_recovery_status": prior_status,
+                "citation": cite("recovery-status", doc.get("recovery_status_source_ref")),
+            }
+        ]
+        if available
+        else [],
+        {"waiver_of_subrogation": waived, "prior_recovery_status": prior_status},
+        1 if available else 0,
+    )
 
     # 6) collectible_responsible_party
-    add("collectible_responsible_party", (best is not None) and (insured or assets),
-        f"responsible party is {'insured' if insured else 'has known assets'}" if (best is not None and (insured or assets))
+    add(
+        "collectible_responsible_party",
+        (best is not None) and (insured or assets),
+        f"responsible party is {'insured' if insured else 'has known assets'}"
+        if (best is not None and (insured or assets))
         else "responsible-party collectibility unknown",
-        [{"party": best.get("name"), "insured": insured, "assets_known": assets,
-          "citation": cite("party", best.get("source_ref"))}] if (best is not None and (insured or assets)) else [],
-        {"collectibility_factor": factor}, 1 if (best is not None and (insured or assets)) else 0)
+        [
+            {
+                "party": best.get("name"),
+                "insured": insured,
+                "assets_known": assets,
+                "citation": cite("party", best.get("source_ref")),
+            }
+        ]
+        if (best is not None and (insured or assets))
+        else [],
+        {"collectibility_factor": factor},
+        1 if (best is not None and (insured or assets)) else 0,
+    )
     if best is None:
-        not_evaluable.append({"signal": "collectible_responsible_party",
-                              "why": "no responsible party — collectibility not evaluable"})
+        not_evaluable.append(
+            {"signal": "collectible_responsible_party", "why": "no responsible party — collectibility not evaluable"}
+        )
 
     # 7) positive_expected_recovery
-    add("positive_expected_recovery", net_expected > cfg["min_expected_net"],
+    add(
+        "positive_expected_recovery",
+        net_expected > cfg["min_expected_net"],
         f"net expected recovery {net_expected:.2f} > {cfg['min_expected_net']:.2f}"
         if net_expected > cfg["min_expected_net"]
         else f"net expected recovery {net_expected:.2f} not above {cfg['min_expected_net']:.2f}",
         [{"gross_expected": gross_expected, "net_expected": net_expected, "citation": cite("financials", fin_ref)}],
-        {"liability_share": liability_share, "collectibility_factor": factor}, 1 if net_expected > cfg["min_expected_net"] else 0)
+        {"liability_share": liability_share, "collectibility_factor": factor},
+        1 if net_expected > cfg["min_expected_net"] else 0,
+    )
 
+    economics_known = financial_known and best is not None and best.get("liability_pct") is not None
+    if not economics_known:
+        for signal in signals:
+            if signal["signal"] in {"positive_expected_recovery", "recovery_above_floor"}:
+                signal["fired"] = False
+                signal["reason"] = "economics not evaluable from supplied financial and liability inputs"
+                signal["evidence"] = []
+        recovery_base = gross_expected = net_expected = liability_share = None
     fired = {s["signal"] for s in signals if s["fired"]}
-    band = screening_band(fired, time_critical)
+    band = "Review" if not_evaluable else screening_band(fired, time_critical)
 
     consider = []
     if band != "No-Action":
@@ -203,20 +328,52 @@ def compute(doc: dict) -> dict:
         "as_of": doc["as_of"],
         "config_version": doc.get("config_version"),
         "line_of_business": doc.get("line_of_business"),
-        "context": {"loss_date": doc.get("loss_date"), "loss_state": doc.get("loss_state"),
-                    "limitation_date": lim_raw, "days_to_limitation": days_to_limitation},
+        "context": {
+            "loss_date": doc.get("loss_date"),
+            "loss_state": doc.get("loss_state"),
+            "limitation_date": lim_raw,
+            "days_to_limitation": days_to_limitation,
+        },
         "time_critical": time_critical,
+        "recovery_availability": recovery_availability,
+        "economics_basis": "supplied scenario assumptions; not an entitlement or collectibility determination",
         "signals": signals,
         "fired_signals": sorted(fired),
         "not_evaluable": not_evaluable,
         "referral_economics": {
-            "recovery_base": recovery_base, "liability_share": liability_share,
-            "collectibility_factor": factor, "gross_expected": gross_expected,
-            "recovery_cost": cfg["recovery_cost_estimate"], "net_expected": net_expected},
+            "currency": doc.get("currency"),
+            "evaluability": "evaluable" if economics_known else "not_evaluable",
+            "recovery_base": recovery_base,
+            "liability_share": liability_share,
+            "collectibility_factor": factor,
+            "gross_expected": gross_expected,
+            "recovery_cost": cfg["recovery_cost_estimate"],
+            "net_expected": net_expected,
+        },
         "screening_band": band,
         "consider_prompts": consider,
         "disclaimer": DISCLAIMER,
     }
+
+
+def compute(doc: dict) -> dict:
+    from validate_input import validate
+
+    errors, _ = validate(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
+    output = _calculate(doc)
+    issues = [str(x) for x in output.get("not_evaluable", [])]
+    output["artifact"] = build_artifact(
+        doc,
+        output,
+        producer="subrogation-opportunity-screener",
+        artifact_type="subrogation-opportunity-screener-review",
+        completeness="partial" if issues else "complete",
+        evaluability="partial" if issues else "evaluable",
+        issues=issues,
+    )
+    return output
 
 
 def main(argv):

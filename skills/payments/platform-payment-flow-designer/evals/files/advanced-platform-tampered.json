@@ -1,0 +1,723 @@
+{
+  "schema_version": "1.0",
+  "skill": "platform-payment-flow-designer",
+  "request_id": "synthetic-advanced-platform",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "platform",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": true,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-advanced-platform",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "platform",
+    "sources": [
+      {
+        "source_id": "ledger",
+        "reference": "synthetic://phase3-reviewed-ledger-v1",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "model": "marketplace",
+      "ledger_complete": true,
+      "entities": [
+        {
+          "entity_id": "platform",
+          "legal_name": "Synthetic Platform Ltd",
+          "role": "platform",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "entity_id": "seller",
+          "legal_name": "Synthetic Seller Ltd",
+          "role": "seller",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "entity_id": "processor",
+          "legal_name": "Synthetic Processor Ltd",
+          "role": "processor",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "entity_id": "seller2",
+          "legal_name": "Synthetic Second Seller",
+          "role": "seller",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "accounts": [
+        {
+          "account_id": "collection",
+          "owner_entity_id": "platform",
+          "currency": "USD",
+          "custody_role": "contract-declared-collection",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "account_id": "seller-account",
+          "owner_entity_id": "seller",
+          "currency": "USD",
+          "custody_role": "seller-owned",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "account_id": "platform-account",
+          "owner_entity_id": "platform",
+          "currency": "USD",
+          "custody_role": "platform-owned",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "account_id": "processor-account",
+          "owner_entity_id": "processor",
+          "currency": "USD",
+          "custody_role": "processor-owned",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "account_id": "seller2-account",
+          "owner_entity_id": "seller2",
+          "currency": "USD",
+          "custody_role": "seller-owned",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "account_id": "seller-leaf-account",
+          "owner_entity_id": "seller",
+          "currency": "USD",
+          "custody_role": "seller-owned",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "responsibilities": [
+        {
+          "activity": "seller-onboarding",
+          "entity_id": "platform",
+          "contract_ref": "synthetic-contract-v1",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "activity": "customer-contract",
+          "entity_id": "platform",
+          "contract_ref": "synthetic-contract-v1",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "activity": "refunds",
+          "entity_id": "platform",
+          "contract_ref": "synthetic-contract-v1",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "activity": "chargebacks",
+          "entity_id": "platform",
+          "contract_ref": "synthetic-contract-v1",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "activity": "payouts",
+          "entity_id": "platform",
+          "contract_ref": "synthetic-contract-v1",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "activity": "safeguarding-assessment",
+          "entity_id": "platform",
+          "contract_ref": "synthetic-contract-v1",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "charges": [
+        {
+          "charge_id": "charge-1",
+          "customer_contract_entity_id": "seller",
+          "collecting_account_id": "collection",
+          "currency": "USD",
+          "state": "settled",
+          "amount": "1000.00",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "allocations": [
+        {
+          "allocation_id": "seller-share",
+          "charge_id": "charge-1",
+          "beneficiary_entity_id": "seller",
+          "currency": "USD",
+          "type": "seller",
+          "amount": "900.00",
+          "source_ids": [
+            "ledger"
+          ],
+          "connected_id": "seller"
+        },
+        {
+          "allocation_id": "platform-fee",
+          "charge_id": "charge-1",
+          "beneficiary_entity_id": "platform",
+          "currency": "USD",
+          "type": "platform-fee",
+          "amount": "70.00",
+          "source_ids": [
+            "ledger"
+          ],
+          "connected_id": "platform"
+        },
+        {
+          "allocation_id": "processor-fee",
+          "charge_id": "charge-1",
+          "beneficiary_entity_id": "processor",
+          "currency": "USD",
+          "type": "processor-fee",
+          "amount": "30.00",
+          "source_ids": [
+            "ledger"
+          ],
+          "connected_id": "processor"
+        },
+        {
+          "allocation_id": "seller-leaf",
+          "charge_id": "charge-1",
+          "beneficiary_entity_id": "seller",
+          "currency": "USD",
+          "type": "seller",
+          "amount": "700",
+          "source_ids": [
+            "ledger"
+          ],
+          "connected_id": "seller-own-child",
+          "parent_allocation_id": "seller-share"
+        },
+        {
+          "allocation_id": "seller2-leaf",
+          "charge_id": "charge-1",
+          "beneficiary_entity_id": "seller2",
+          "currency": "USD",
+          "type": "seller",
+          "amount": "200",
+          "source_ids": [
+            "ledger"
+          ],
+          "connected_id": "seller2",
+          "parent_allocation_id": "seller-share",
+          "transfer_agreement_ref": "seller2-economic-assignment"
+        }
+      ],
+      "adjustments": [
+        {
+          "adjustment_id": "refund-1",
+          "allocation_id": "seller-leaf",
+          "currency": "USD",
+          "type": "refund",
+          "amount": "100.00",
+          "source_ids": [
+            "ledger"
+          ],
+          "economic_id": "economic-refund-1"
+        },
+        {
+          "adjustment_id": "dispute-1",
+          "allocation_id": "seller-leaf",
+          "currency": "USD",
+          "type": "chargeback",
+          "amount": "50.00",
+          "source_ids": [
+            "ledger"
+          ],
+          "economic_id": "economic-dispute-1"
+        },
+        {
+          "adjustment_id": "reserve-1",
+          "allocation_id": "seller-leaf",
+          "currency": "USD",
+          "type": "reserve",
+          "amount": "75.00",
+          "source_ids": [
+            "ledger"
+          ],
+          "economic_id": "economic-reserve-1"
+        }
+      ],
+      "payouts": [
+        {
+          "payout_id": "paid-1",
+          "allocation_id": "seller-leaf",
+          "destination_account_id": "seller-leaf-account",
+          "currency": "USD",
+          "state": "paid",
+          "amount": "200.00",
+          "source_ids": [
+            "ledger"
+          ],
+          "economic_id": "economic-paid-1"
+        },
+        {
+          "payout_id": "pending-1",
+          "allocation_id": "seller-leaf",
+          "destination_account_id": "seller-leaf-account",
+          "currency": "USD",
+          "state": "pending",
+          "amount": "50.00",
+          "source_ids": [
+            "ledger"
+          ],
+          "economic_id": "economic-pending-1"
+        },
+        {
+          "payout_id": "proposal-1",
+          "allocation_id": "seller-leaf",
+          "destination_account_id": "seller-leaf-account",
+          "currency": "USD",
+          "state": "proposed",
+          "amount": "200",
+          "source_ids": [
+            "ledger"
+          ],
+          "economic_id": "economic-proposal-1"
+        }
+      ],
+      "connections": [
+        {
+          "connected_id": "seller",
+          "owner_entity_id": "seller",
+          "account_id": "seller-account",
+          "agreement_ref": "reviewed-connection-agreement",
+          "refund_owner_ref": "reviewed-refund-owner",
+          "chargeback_owner_ref": "reviewed-dispute-owner",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "connected_id": "platform",
+          "owner_entity_id": "platform",
+          "account_id": "platform-account",
+          "agreement_ref": "reviewed-connection-agreement",
+          "refund_owner_ref": "reviewed-refund-owner",
+          "chargeback_owner_ref": "reviewed-dispute-owner",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "connected_id": "processor",
+          "owner_entity_id": "processor",
+          "account_id": "processor-account",
+          "agreement_ref": "reviewed-connection-agreement",
+          "refund_owner_ref": "reviewed-refund-owner",
+          "chargeback_owner_ref": "reviewed-dispute-owner",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "connected_id": "seller2",
+          "owner_entity_id": "seller2",
+          "parent_connected_id": "seller",
+          "account_id": "seller2-account",
+          "agreement_ref": "subseller-agreement",
+          "refund_owner_ref": "subseller-refund-review",
+          "chargeback_owner_ref": "subseller-dispute-review",
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "connected_id": "seller-own-child",
+          "owner_entity_id": "seller",
+          "parent_connected_id": "seller",
+          "account_id": "seller-leaf-account",
+          "agreement_ref": "retained-entitlement",
+          "refund_owner_ref": "seller-refund-review",
+          "chargeback_owner_ref": "seller-dispute-review",
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "batch_id": "seller-batch",
+          "owner_entity_id": "seller",
+          "currency": "USD",
+          "contract_ref": "seller-payout-contract",
+          "payout_ids": [
+            "paid-1",
+            "pending-1",
+            "proposal-1"
+          ],
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "401651eeb5e30433cae8cf59da59d83e99ddf0ab1ed70b57265c061ab33b76cc",
+  "findings": [],
+  "result": {
+    "model": "marketplace",
+    "role_and_responsibility_map": [
+      {
+        "activity": "seller-onboarding",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "customer-contract",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "refunds",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "chargebacks",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "payouts",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "safeguarding-assessment",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "account_ownership": [
+      {
+        "account_id": "collection",
+        "owner_entity_id": "platform",
+        "currency": "USD",
+        "custody_role": "contract-declared-collection",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "seller-account",
+        "owner_entity_id": "seller",
+        "currency": "USD",
+        "custody_role": "seller-owned",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "platform-account",
+        "owner_entity_id": "platform",
+        "currency": "USD",
+        "custody_role": "platform-owned",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "processor-account",
+        "owner_entity_id": "processor",
+        "currency": "USD",
+        "custody_role": "processor-owned",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "seller2-account",
+        "owner_entity_id": "seller2",
+        "currency": "USD",
+        "custody_role": "seller-owned",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "seller-leaf-account",
+        "owner_entity_id": "seller",
+        "currency": "USD",
+        "custody_role": "seller-owned",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "charge_reconciliation": [
+      {
+        "charge_id": "charge-1",
+        "currency": "USD",
+        "gross": "1000.00",
+        "allocated": "1000.00",
+        "difference": "0.00",
+        "state": "settled"
+      }
+    ],
+    "allocation_positions": [
+      {
+        "allocation_id": "platform-fee",
+        "beneficiary_entity_id": "platform",
+        "currency": "USD",
+        "allocation_type": "platform-fee",
+        "owed_after_paid": "70.00",
+        "reserve_held": "0",
+        "pending_payouts": "0",
+        "proposed_payouts": "0",
+        "available_before_proposed": "70.00"
+      },
+      {
+        "allocation_id": "processor-fee",
+        "beneficiary_entity_id": "processor",
+        "currency": "USD",
+        "allocation_type": "processor-fee",
+        "owed_after_paid": "30.00",
+        "reserve_held": "0",
+        "pending_payouts": "0",
+        "proposed_payouts": "0",
+        "available_before_proposed": "30.00"
+      },
+      {
+        "allocation_id": "seller-leaf",
+        "beneficiary_entity_id": "seller",
+        "currency": "USD",
+        "allocation_type": "seller",
+        "owed_after_paid": "350.00",
+        "reserve_held": "75.00",
+        "pending_payouts": "50.00",
+        "proposed_payouts": "200",
+        "available_before_proposed": "225.00"
+      },
+      {
+        "allocation_id": "seller2-leaf",
+        "beneficiary_entity_id": "seller2",
+        "currency": "USD",
+        "allocation_type": "seller",
+        "owed_after_paid": "200",
+        "reserve_held": "0",
+        "pending_payouts": "0",
+        "proposed_payouts": "0",
+        "available_before_proposed": "200"
+      }
+    ],
+    "permission_determination": "not-performed",
+    "mode": "advanced-platform",
+    "connection_ownership": [
+      {
+        "connected_id": "seller",
+        "owner_entity_id": "seller",
+        "account_id": "seller-account",
+        "agreement_ref": "reviewed-connection-agreement",
+        "refund_owner_ref": "reviewed-refund-owner",
+        "chargeback_owner_ref": "reviewed-dispute-owner",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "connected_id": "platform",
+        "owner_entity_id": "platform",
+        "account_id": "platform-account",
+        "agreement_ref": "reviewed-connection-agreement",
+        "refund_owner_ref": "reviewed-refund-owner",
+        "chargeback_owner_ref": "reviewed-dispute-owner",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "connected_id": "processor",
+        "owner_entity_id": "processor",
+        "account_id": "processor-account",
+        "agreement_ref": "reviewed-connection-agreement",
+        "refund_owner_ref": "reviewed-refund-owner",
+        "chargeback_owner_ref": "reviewed-dispute-owner",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "connected_id": "seller2",
+        "owner_entity_id": "seller2",
+        "parent_connected_id": "seller",
+        "account_id": "seller2-account",
+        "agreement_ref": "subseller-agreement",
+        "refund_owner_ref": "subseller-refund-review",
+        "chargeback_owner_ref": "subseller-dispute-review",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "connected_id": "seller-own-child",
+        "owner_entity_id": "seller",
+        "parent_connected_id": "seller",
+        "account_id": "seller-leaf-account",
+        "agreement_ref": "retained-entitlement",
+        "refund_owner_ref": "seller-refund-review",
+        "chargeback_owner_ref": "seller-dispute-review",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "allocation_tree_reconciliation": [
+      {
+        "parent_allocation_id": "seller-share",
+        "currency": "USD",
+        "children_total": "900",
+        "difference": "0.00"
+      }
+    ],
+    "batch_reviews": [
+      {
+        "batch_id": "seller-batch",
+        "owner_entity_id": "seller",
+        "currency": "USD",
+        "nominal_instruction_total": "450.00",
+        "released": false
+      }
+    ],
+    "batch_released": false,
+    "inter_entity_netting": "not-performed"
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-regulatory-applicability-reviewer",
+      "reason": "Review actual contracting, custody and entity roles before design adoption.",
+      "required_inputs": [
+        "entity and account ownership",
+        "contracts",
+        "funds-flow map"
+      ],
+      "handoff_id": "0a2c1c381a504c6072d1fbb3de35330af2f78bda7748a4f4dffaa16afb963e31",
+      "contract_version": "1.0.0",
+      "source_skill": "platform-payment-flow-designer",
+      "case_id": "synthetic-advanced-platform",
+      "lead_owner": "platform",
+      "requested_output": "Review actual contracting, custody and entity roles before design adoption.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Any eventual payout requires a separately validated exact instruction.",
+      "required_inputs": [
+        "payee and account",
+        "currency and amount",
+        "mandate and approval",
+        "remaining capacity"
+      ],
+      "handoff_id": "4d86dbaaca63c9640196afbb0cacd8340552847d66f58a0d8e4bb315ae940e75",
+      "contract_version": "1.0.0",
+      "source_skill": "platform-payment-flow-designer",
+      "case_id": "synthetic-advanced-platform",
+      "lead_owner": "platform",
+      "requested_output": "Any eventual payout requires a separately validated exact instruction.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "merchant-onboarding-risk-reviewer",
+      "reason": "Review onboarding and submerchant risk ownership.",
+      "required_inputs": [
+        "seller population",
+        "business model",
+        "sponsor contracts"
+      ],
+      "handoff_id": "0748b40a22d907b4266d272a2de73eed7ddf04b0bf33df9a6cc8e10d0014b4da",
+      "contract_version": "1.0.0",
+      "source_skill": "platform-payment-flow-designer",
+      "case_id": "synthetic-advanced-platform",
+      "lead_owner": "platform",
+      "requested_output": "Review onboarding and submerchant risk ownership.",
+      "source_refs": [
+        "synthetic://phase3-reviewed-ledger-v1"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

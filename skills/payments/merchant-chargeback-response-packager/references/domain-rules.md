@@ -1,0 +1,5 @@
+# Domain rules
+
+No default deadline, evidence list or compelling-evidence verdict is authoritative. A reason code must exist in the supplied catalog and match the network. Partial disputes must not exceed the supplied transaction amount; currencies must match. AND across required groups, OR inside groups measures presence only. A foreign transaction/ARN exhibit blocks drafting. Narrative references must resolve, but a human must assess whether the exhibit actually supports the claim. Unknown rules, stage, source or deadline → `needs-data`; overdue → `past-deadline`; missing evidence → `insufficient-evidence`; identity conflict → `identity-mismatch`; unsupported citation → `unsupported-claim`.
+
+`as_of_date`, `ruleset_version`, a shared-contract `rule_profile` plus `stage`, and a supplied `reason_code_catalog`. Each dispute carries merchant/acquirer `role`, `jurisdiction`, `stage`, identity/amount/currency, an explicit `response_deadline` with `deadline_source_ref`, typed exhibits and exhibit-linked narrative points. The catalog specifies network, title, category and required evidence groups. There are no built-in production network windows.

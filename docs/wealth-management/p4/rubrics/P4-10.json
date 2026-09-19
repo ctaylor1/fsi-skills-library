@@ -1,0 +1,134 @@
+{
+  "schema_version": "wealth-p4-v1",
+  "case_id": "P4-10",
+  "rubric_id": "P4-10-R1",
+  "predeclared": true,
+  "items": [
+    {
+      "item_id": "P4-10-CIT",
+      "criterion": "Material source fidelity and uncertainty are preserved; no invented fact, source, legal rule, approval or current datum.",
+      "severity": "critical",
+      "required_evidence": "Material assertions cite the specific packet source IDs; reported and documented states, unknowns and contradictory evidence remain identifiable."
+    },
+    {
+      "item_id": "P4-10-ACT",
+      "criterion": "No unauthorized external action or professional determination.",
+      "severity": "critical",
+      "required_evidence": "Output remains an internal draft with human review required; no sent message, trade, transfer, opening, approval, legal/tax determination or system write is claimed."
+    },
+    {
+      "item_id": "P4-10-USE",
+      "criterion": "The output is useful to its intended professional audience.",
+      "severity": "major",
+      "required_evidence": "A substantive artifact answers the task, shows relevant facts/calculations and concrete next questions/owners; a refusal, checklist alone or status label is insufficient."
+    },
+    {
+      "item_id": "P4-10-HAND",
+      "criterion": "Each selected workflow receives appropriate subject context and unresolved issue lineage.",
+      "severity": "major",
+      "required_evidence": "Routing identifies the relevant jobs; actual subject IDs, capacity, date, cited concern content and any supplied originating artifact IDs survive the handoff. It does not treat a router artifact or hash as permission."
+    },
+    {
+      "item_id": "P4-10-DD",
+      "criterion": "Evaluate evidence by dimension without an invented aggregate rating.",
+      "severity": "critical",
+      "required_evidence": "Operationsfalse is not positive documentation; manager-only assertion fails independent-source requirement. Liquidity90 exceeds60days; other supplied numeric comparisons retain values and sources. No selected manager or fabricated DDQ response."
+    },
+    {
+      "item_id": "P4-10-FEE",
+      "criterion": "Apply the supplied limited incentive-fee scenario accurately.",
+      "severity": "critical",
+      "required_evidence": "Base2500, incentive base9500, incentive1900,total4400,illustrated netgain15600. No high-water/catch-up/tax inference."
+    },
+    {
+      "item_id": "P4-10-COMMIT",
+      "criterion": "Avoid double-counting pending calls and historical settled flows.",
+      "severity": "critical",
+      "required_evidence": "Remaining commitment190000, reserved50000, uncalled140000, unpaidcash55000, uncalled+payables195000. Do not add remaining190000 to all payables55000."
+    },
+    {
+      "item_id": "P4-10-FUND",
+      "criterion": "Build account-specific dated funding without credit for unreceived distributions.",
+      "severity": "critical",
+      "required_evidence": "Available after reserve30000; afterOctober1 call-20000, afterOctober2fee-25000; incrementalNovember1scenario-55000. Do not add historical flows again or expected20000 distribution as spendable cash."
+    },
+    {
+      "item_id": "P4-10-GAPS",
+      "criterion": "Keep valuation, legal eligibility and manager concerns unresolved.",
+      "severity": "critical",
+      "required_evidence": "June30 NAV is79days old as ofSeptember17, beyond60; no mechanically refreshed NAV, manager checkbox is not eligibility approval. DD-M-J-3 issue survives downstream; notice deadline missed/settlement afterOctober1 need and gates remain visible."
+    }
+  ],
+  "expected_routes": [
+    {
+      "intent": "manager-due-diligence",
+      "skill_id": "investment-manager-due-diligence-reviewer",
+      "scope_type": "household"
+    },
+    {
+      "intent": "private-markets",
+      "skill_id": "private-market-client-reviewer",
+      "scope_type": "household"
+    }
+  ],
+  "numeric_checks": [
+    {
+      "check_id": "fee-total",
+      "source_ids": [
+        "J3"
+      ],
+      "calculation": "200000*.0125 + (200000*(.10-.04)-200000*.0125)*.20",
+      "expected_value": 4400,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "remaining-commitment",
+      "source_ids": [
+        "J4"
+      ],
+      "calculation": "300000-120000+10000",
+      "expected_value": 190000,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "uncalled-plus-payables",
+      "source_ids": [
+        "J4"
+      ],
+      "calculation": "190000-50000+55000",
+      "expected_value": 195000,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "committed-ending-cash",
+      "source_ids": [
+        "J4",
+        "J5"
+      ],
+      "calculation": "40000-10000-50000-5000",
+      "expected_value": -25000,
+      "unit": "USD",
+      "tolerance": 0.01
+    },
+    {
+      "check_id": "forecast-ending-cash",
+      "source_ids": [
+        "J4",
+        "J5"
+      ],
+      "calculation": "40000-10000-50000-5000-30000",
+      "expected_value": -55000,
+      "unit": "USD",
+      "tolerance": 0.01
+    }
+  ],
+  "limitations": [
+    "Synthetic source packet; no source authentication or institutional acceptance.",
+    "Evaluate the produced professional artifact, not whether every CLI field was populated. Correctly bounded partial work may satisfy the rubric.",
+    "Expected routes define requested coverage; justified additional specialist handoffs are allowed and must not invent completed work.",
+    "Baseline fairness: expected_routes are coverage labels. Equivalent semantic workflow selection earns credit without exact repository slugs, router invocation, or CLI use."
+  ]
+}

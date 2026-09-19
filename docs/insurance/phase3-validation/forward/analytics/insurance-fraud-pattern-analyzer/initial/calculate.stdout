@@ -1,0 +1,386 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-fraud-pattern-analyzer",
+  "case_id": "insurance-fraud-pattern-analyzer-forward-01",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "Fraud analytics analyst",
+    "represented_party": "Harbor Mutual (synthetic)",
+    "object_id": "SIU-SCREEN",
+    "jurisdiction": "SYNTHETIC-STATE",
+    "line_of_business": "commercial-package"
+  },
+  "status": "ready-for-review",
+  "findings": [],
+  "results": {
+    "signals": [
+      {
+        "entity_type": "bank_token",
+        "entity_id": "B-7",
+        "claim_ids": [
+          "C1",
+          "C2",
+          "C4"
+        ],
+        "claimed_amount": "5000",
+        "currency": "USD",
+        "interpretation": "Shared exact identifier; coincidence/common service provider remains a competing explanation"
+      },
+      {
+        "entity_type": "email_token",
+        "entity_id": "E-2",
+        "claim_ids": [
+          "C2",
+          "C4"
+        ],
+        "claimed_amount": "4200",
+        "currency": "USD",
+        "interpretation": "Shared exact identifier; coincidence/common service provider remains a competing explanation"
+      }
+    ],
+    "window_rates": [
+      {
+        "window_id": "May",
+        "claims": 3,
+        "flagged_claims": 2,
+        "exposure": "1000",
+        "days": 31,
+        "claim_rate_per_exposure": "0.003",
+        "flagged_claim_fraction": "0.6666666666666666666666666667",
+        "claims_per_day": "0.09677419354838709677419354839"
+      },
+      {
+        "window_id": "June",
+        "claims": 3,
+        "flagged_claims": 1,
+        "exposure": "1200",
+        "days": 30,
+        "claim_rate_per_exposure": "0.0025",
+        "flagged_claim_fraction": "0.3333333333333333333333333333",
+        "claims_per_day": "0.1"
+      }
+    ],
+    "flagged_claim_ids": [
+      "C1",
+      "C2",
+      "C4"
+    ],
+    "unique_flagged_claimed_amount": "5000",
+    "mature_flagged_outcomes": 2,
+    "pending_or_unknown_flagged": 1,
+    "confirmed_share_among_mature_flagged": "0.5",
+    "fraud_determination": "not_made",
+    "referral_sent": false,
+    "limits": "Exact identifiers only; no fuzzy identity inference, prediction, causal attribution or estimated fraud loss"
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "insurance-fraud-pattern-analyzer-forward-01",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "Fraud analytics analyst",
+      "represented_party": "Harbor Mutual (synthetic)",
+      "object_id": "SIU-SCREEN",
+      "jurisdiction": "SYNTHETIC-STATE",
+      "line_of_business": "commercial-package"
+    },
+    "sources": [
+      {
+        "source_ref": "profile",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "claims",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "outcomes",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "insurance-fraud-pattern-analyzer-local-study",
+        "version": "study-1",
+        "effective_from": "2025-01-01",
+        "effective_to": "2027-12-31",
+        "jurisdictions": [
+          "SYNTHETIC-STATE"
+        ],
+        "lines_of_business": [
+          "commercial-package"
+        ],
+        "reviewed_by": "Synthetic reviewer Morgan Vale",
+        "source_refs": [
+          "profile"
+        ],
+        "minimum_shared_claims": 2,
+        "entity_types": [
+          "bank_token",
+          "email_token",
+          "repairer_token"
+        ]
+      },
+      "currency": "USD",
+      "windows": [
+        {
+          "window_id": "May",
+          "start": "2026-05-01",
+          "end": "2026-05-31",
+          "exposure": "1000",
+          "exposure_unit": "insured-location-months",
+          "inventory_complete": true,
+          "source_refs": [
+            "claims"
+          ]
+        },
+        {
+          "window_id": "June",
+          "start": "2026-06-01",
+          "end": "2026-06-30",
+          "exposure": "1200",
+          "exposure_unit": "insured-location-months",
+          "inventory_complete": true,
+          "source_refs": [
+            "claims"
+          ]
+        }
+      ],
+      "common_entities": [
+        {
+          "entity_type": "repairer_token",
+          "entity_id": "R-COMMON",
+          "reason": "Authorized regional repair-network token across unrelated customers.",
+          "source_refs": [
+            "outcomes"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim_id": "C1",
+          "window_id": "May",
+          "reported_date": "2026-05-05",
+          "claimed_amount": "800",
+          "currency": "USD",
+          "entities": [
+            {
+              "entity_type": "bank_token",
+              "entity_id": "B-7"
+            },
+            {
+              "entity_type": "email_token",
+              "entity_id": "E-1"
+            },
+            {
+              "entity_type": "repairer_token",
+              "entity_id": "R-COMMON"
+            }
+          ],
+          "outcome": "confirmed",
+          "outcome_as_of": "2026-08-01",
+          "outcome_source_refs": [
+            "outcomes"
+          ],
+          "source_refs": [
+            "claims"
+          ]
+        },
+        {
+          "claim_id": "C2",
+          "window_id": "May",
+          "reported_date": "2026-05-12",
+          "claimed_amount": "1200",
+          "currency": "USD",
+          "entities": [
+            {
+              "entity_type": "bank_token",
+              "entity_id": "B-7"
+            },
+            {
+              "entity_type": "email_token",
+              "entity_id": "E-2"
+            },
+            {
+              "entity_type": "repairer_token",
+              "entity_id": "R-COMMON"
+            }
+          ],
+          "outcome": "cleared",
+          "outcome_as_of": "2026-08-12",
+          "outcome_source_refs": [
+            "outcomes"
+          ],
+          "source_refs": [
+            "claims"
+          ]
+        },
+        {
+          "claim_id": "C3",
+          "window_id": "May",
+          "reported_date": "2026-05-20",
+          "claimed_amount": "500",
+          "currency": "USD",
+          "entities": [
+            {
+              "entity_type": "bank_token",
+              "entity_id": "B-3"
+            },
+            {
+              "entity_type": "email_token",
+              "entity_id": "E-3"
+            },
+            {
+              "entity_type": "repairer_token",
+              "entity_id": "R-COMMON"
+            }
+          ],
+          "outcome": "cleared",
+          "outcome_as_of": "2026-08-15",
+          "outcome_source_refs": [
+            "outcomes"
+          ],
+          "source_refs": [
+            "claims"
+          ]
+        },
+        {
+          "claim_id": "C4",
+          "window_id": "June",
+          "reported_date": "2026-06-04",
+          "claimed_amount": "3000",
+          "currency": "USD",
+          "entities": [
+            {
+              "entity_type": "bank_token",
+              "entity_id": "B-7"
+            },
+            {
+              "entity_type": "email_token",
+              "entity_id": "E-2"
+            },
+            {
+              "entity_type": "repairer_token",
+              "entity_id": "R-COMMON"
+            }
+          ],
+          "outcome": "pending",
+          "outcome_as_of": "2026-09-18",
+          "outcome_source_refs": [
+            "outcomes"
+          ],
+          "source_refs": [
+            "claims"
+          ]
+        },
+        {
+          "claim_id": "C5",
+          "window_id": "June",
+          "reported_date": "2026-06-10",
+          "claimed_amount": "700",
+          "currency": "USD",
+          "entities": [
+            {
+              "entity_type": "bank_token",
+              "entity_id": "B-5"
+            },
+            {
+              "entity_type": "email_token",
+              "entity_id": "E-5"
+            },
+            {
+              "entity_type": "repairer_token",
+              "entity_id": "R-COMMON"
+            }
+          ],
+          "outcome": "cleared",
+          "outcome_as_of": "2026-08-20",
+          "outcome_source_refs": [
+            "outcomes"
+          ],
+          "source_refs": [
+            "claims"
+          ]
+        },
+        {
+          "claim_id": "C6",
+          "window_id": "June",
+          "reported_date": "2026-06-22",
+          "claimed_amount": "900",
+          "currency": "USD",
+          "entities": [
+            {
+              "entity_type": "bank_token",
+              "entity_id": "B-6"
+            },
+            {
+              "entity_type": "email_token",
+              "entity_id": "E-6"
+            },
+            {
+              "entity_type": "repairer_token",
+              "entity_id": "R-COMMON"
+            }
+          ],
+          "outcome": "pending",
+          "outcome_as_of": "2026-09-18",
+          "outcome_source_refs": [
+            "outcomes"
+          ],
+          "source_refs": [
+            "claims"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-fraud-pattern-analyzer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "Fraud analytics analyst",
+      "represented_party": "Harbor Mutual (synthetic)",
+      "object_id": "SIU-SCREEN",
+      "jurisdiction": "SYNTHETIC-STATE",
+      "line_of_business": "commercial-package"
+    },
+    "sources": [
+      {
+        "source_ref": "profile",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "claims",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      },
+      {
+        "source_ref": "outcomes",
+        "version": "v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "91b095346ea04c33380ba281b4e39321b5cf2aec85c4e72ba01e15c067bd4e37",
+    "output_hash": "c083d3602be31633a6339e1fc1556f2ec52e7cefc536e148b66975df13743bc6",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "5bc1d6cf2568781826ef7ad5abf332bee68241b064db2cf562d927f120d59bc9"
+  }
+}

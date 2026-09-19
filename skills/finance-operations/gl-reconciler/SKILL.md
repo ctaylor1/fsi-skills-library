@@ -57,7 +57,7 @@ posting itself stays human/authorized.
 - The break is an **AP subledger exception** needing a resolution workflow →
   `accounts-payable-exception-resolver`.
 - **Payment / settlement reconciliation** (cash vs settlement network, nostro/vostro) →
-  `settlement-break-reconciler` or `transaction-reconciliation-helper` (Payments).
+  `payment-settlement-reconciler` or `payment-transaction-reconciler` (Payments).
 - The reconciliation is being **packaged as audit evidence** → `audit-evidence-packager` /
   `financial-statement-audit-assistant`.
 

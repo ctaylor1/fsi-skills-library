@@ -1,71 +1,39 @@
-# Domain Rules — client-review-preparer
+# Client-review request v0.2
 
-Orientation references: SEC Regulation Best Interest (Reg BI) and Form CRS, IA fiduciary
-standard, FINRA supervision and communications rules, and firm advisory/WSP standards. The
-firm's review policy, disclosure config, and freshness thresholds take precedence and are
-**versioned contracts**. This skill prepares a review; it makes no recommendation and no
-suitability decision.
+## Request and applicability
+Required top-level values: `request_id`, `author_id`, `as_of_date` (ISO), `config_version`,
+`template_version`, `template_contract`, `engagement`, `disclosure_config`, explicit nonnegative
+`freshness_days`, `critical_freshness_days`, and nonempty `reviews[]`.
 
-## Assembly status precedence (first blocking condition wins)
+`engagement` supplies one capacity (advisory, brokerage, private-bank, trust) and jurisdiction US.
+`template_contract` records matching version, owner, approved_by and unexpired valid_until.
+`disclosure_config` records matching config version/capacity, owner, approved_by, valid_until,
+`required_roles` and `by_review_type` mapping annual/semiannual/ad-hoc to approved disclosure IDs.
+An explicit empty list means the approved policy requires none; an absent mapping is an error.
+The fixture policy is illustrative, not a legal rule or universal annual Reg BI/CRS requirement.
 
-| Order | Status | Condition |
-| ----- | ------ | --------- |
-| 1 | `needs-data` | Missing `household_name`, `advisor`, `accounts`, or `goals` |
-| 2 | `unresolved-entity` | `entity_resolved` is false — identity is never guessed |
-| 3 | `account-identity-gap` | A holding/performance/account references an unknown account, or an account lacks `type`/`registration` |
-| 4 | `unsupported-content` | A content item (or account) cites a `source_id` not in the inventory |
-| 5 | `stale-source` | A cited *critical* source (holdings/performance) is older than `critical_freshness_days` and unacknowledged |
-| 6 | `tieout-break` | Holdings do not sum to the reported account value, or accounts do not sum to the household total |
-| 7 | `disclosure-gap` | A required disclosure for the review type is missing |
-| — | `draft-review` | All invariants hold → packageable |
+## Household review records
+Each record has unique nonempty `client_id`, `review_id`, household_name, advisor, supported
+review_type, boolean entity_resolved, accounts, sources and the material content lists.
+Sources: unique source_id, system, ref, owner, date, valid_until. Require
+source.date <= request.as_of_date <= source.valid_until. Any age exception (`stale_ack`) requires
+`stale_ack_by` and `stale_ack_reason`; it cannot override invalid source validity.
+Accounts: unique account_id, type, registration, finite reported_value, source_id.
+Holdings: known account_id, security, asset_class, finite market_value, source_id.
+Performance: known account/household scope, period, finite return_pct, optional finite benchmark_pct,
+source_id. Other material rows are goals, plan_items, prior_notes, service_history, life_events,
+open_actions, discussion_questions and disclosures; each requires its substantive label and source_id.
+Open actions require owner, ISO due_date and status open/closed/cancelled. See the request fixture
+and `scripts/validate_input.py` for field names; blanks must not be silently coerced to zero.
 
-## Tie-out rules (deterministic)
+## Deterministic business states
+In order: needs-data (household/advisor/accounts/goals), unresolved-entity, account-identity-gap,
+unsupported-content, stale-source, tieout-break, disclosure-gap; otherwise draft-review.
+Holdings sum to each reported account value to two decimals; accounts sum to household value.
+No performance-return calculation is performed. The caller must provide aligned valuation/currency
+conventions; this package does not normalize FX, accrued-interest, held-away or private-asset data.
 
-- **Per-account:** sum of holding `market_value` for an account equals that account's
-  `reported_value` (rounded to 2 dp).
-- **Household roll-up:** the sum of account `reported_value` equals `total_value`; if
-  `household_reported_value` is provided it must equal that sum.
-- Values are **reported, never projected**; a mismatch fails closed.
-
-## Disclosure coverage (default config, overridable per deployment)
-
-| Review type | Required disclosures |
-| ----------- | -------------------- |
-| `annual` | `FORM-CRS`, `REG-BI-DISCLOSURE`, `FEE-SCHEDULE`, `PERFORMANCE-DISCLOSURE` |
-| `semiannual` | `FEE-SCHEDULE`, `PERFORMANCE-DISCLOSURE` |
-| `ad-hoc` | `PERFORMANCE-DISCLOSURE` |
-
-A packageable pack contains every required disclosure for its review type, each cited. The
-set is deployment config (`disclosure_config`), not the agent's judgment.
-
-## Action completeness
-
-Every prior/open action is carried into the pack; an `open` action past its `due_date`
-(relative to `as_of_date`) is flagged `overdue`. Actions are surfaced for the advisor; the
-skill closes none of them.
-
-## Routing flags (surfaced for a human — never actioned here)
-
-| Trigger | Route (surfaced) |
-| ------- | ---------------- |
-| `flags.recommendation_contemplated` | `suitability-reg-bi-reviewer` before any recommendation; advisor + supervisory approval |
-| `flags.drift_flag` | `portfolio-rebalancing-assistant` — any trade requires advisor and client authorization |
-| `flags.senior_investor` | `senior-investor-protection-screener` for trained human review |
-| `life_events` present | `financial-goal-progress-analyzer` to re-check goal progress |
-
-## Hard boundaries (fail closed)
-
-- No **investment recommendation**, **suitability determination**, or **trade** — the pack
-  surfaces sourced discussion points and options-to-consider, never a recommendation.
-- No **case closure**, **filing**, or **system-of-record / CRM write**.
-- No **send, submit, or delivery** of the pack — drafting only.
-- No **personalized investment, legal, or tax advice**.
-- Nothing enters the pack that a **cited source** does not support; identity is never guessed.
-
-## Review pack — required contents
-
-Household/account identity; portfolio summary with per-account and household tie-out;
-performance (cited); goals; plan items; prior meeting notes; service history; life events;
-open actions (with overdue flags); a discussion agenda; the required disclosures; surfaced
-routing flags; a citations index; `reviewer_signoff_required: true`; and a recorded
-`approvals` block. Every listed item carries a citation.
+Each package contains substantive review data plus a brief, discussion agenda and deck outline.
+The output validator recomputes from the retained input snapshot and checks full output equality,
+then applies content/identity/tie-out and prohibited-language screens. Reproducibility is not source
+truth or semantic entailment. Humans check underlying evidence and deployment applicability.

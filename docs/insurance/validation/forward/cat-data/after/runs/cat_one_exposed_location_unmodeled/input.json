@@ -1,0 +1,130 @@
+{
+  "as_of": "2026-09-18T12:00:00-04:00",
+  "config_version": "synthetic-cat-policy-1.0",
+  "exposure_snapshot_id": "portfolio-20260918-v1",
+  "context": {
+    "capacity": "catastrophe risk analyst",
+    "represented_party": "Synthetic Carrier A",
+    "object_id": "synthetic-coastal-property-portfolio",
+    "jurisdiction": "US-FL",
+    "line_of_business": "commercial property"
+  },
+  "financial_context": {
+    "currency": "USD",
+    "unit": "currency",
+    "financial_basis": "gross",
+    "limit_grain": "location"
+  },
+  "data_coverage": {
+    "events": "complete",
+    "exposures": "complete",
+    "models": "partial"
+  },
+  "events": [
+    {
+      "event_id": "HUR-SYN-01",
+      "name": "Synthetic Hurricane Rowan",
+      "peril": "hurricane",
+      "footprint_zones": [
+        "coast-A"
+      ],
+      "footprint_version": "rowan-footprint-v3",
+      "footprint_as_of": "2026-09-18T11:00:00-04:00",
+      "source_ref": "synthetic-event-feed-rowan"
+    }
+  ],
+  "locations": [
+    {
+      "location_id": "LOC-1",
+      "limit_id": "allocated-limit-1",
+      "zone": "coast-A",
+      "peril_exposed": [
+        "hurricane"
+      ],
+      "limit": 12000000,
+      "tiv": 16000000,
+      "geocoded": true,
+      "valuation_date": "2026-06-30",
+      "source_ref": "synthetic-exposure-feed/row/1",
+      "modeled_losses": [
+        {
+          "event_id": "HUR-SYN-01",
+          "peril": "hurricane",
+          "footprint_version": "rowan-footprint-v3",
+          "exposure_snapshot_id": "portfolio-20260918-v1",
+          "model_version": "synthetic-model-v5",
+          "model_run_id": "synthetic-model-run-42",
+          "currency": "USD",
+          "unit": "currency",
+          "financial_basis": "gross",
+          "statistic": "scenario_range",
+          "scenario_set_id": "rowan-aligned-scenarios-v1",
+          "scenario_ids": {
+            "low": "track-west",
+            "mid": "track-center",
+            "high": "track-east"
+          },
+          "low": 3000000,
+          "mid": 7000000,
+          "high": 12000000
+        }
+      ]
+    },
+    {
+      "location_id": "LOC-2",
+      "limit_id": "allocated-limit-2",
+      "zone": "coast-A",
+      "peril_exposed": [
+        "hurricane"
+      ],
+      "limit": 12000000,
+      "tiv": 16000000,
+      "geocoded": true,
+      "valuation_date": "2026-06-30",
+      "source_ref": "synthetic-exposure-feed/row/2",
+      "modeled_losses": []
+    }
+  ],
+  "prior_alerts": [
+    "HUR-SYN-01:coast-A:hurricane:zone_accumulation",
+    "HUR-SYN-01:EVENT:hurricane:modeled_loss"
+  ],
+  "sources": [
+    {
+      "source": "policy_admin",
+      "source_ref": "synthetic-exposure-feed",
+      "version": "portfolio-20260918-v1",
+      "as_of": "2026-09-18T11:30:00-04:00"
+    },
+    {
+      "source": "event_feed",
+      "source_ref": "synthetic-event-feed-rowan",
+      "version": "rowan-footprint-v3",
+      "as_of": "2026-09-18T11:00:00-04:00"
+    },
+    {
+      "source": "cat_model",
+      "source_ref": "synthetic-model-run-42",
+      "version": "synthetic-model-v5",
+      "as_of": "2026-09-18T11:45:00-04:00"
+    },
+    {
+      "source": "risk_policy",
+      "source_ref": "synthetic-cat-risk-owner-threshold-policy",
+      "version": "synthetic-cat-policy-1.0",
+      "as_of": "2026-09-01T09:00:00-04:00"
+    }
+  ],
+  "config": {
+    "zone_accum_limit": {
+      "default": 20000000
+    },
+    "single_location_max": 15000000,
+    "modeled_loss_appetite": 30000000,
+    "approaching_ratio": 0.9,
+    "stale_valuation_years": 3,
+    "max_source_staleness_hours": {
+      "default": 24
+    }
+  }
+}

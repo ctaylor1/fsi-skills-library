@@ -1,4 +1,108 @@
 {
+  "source_snapshot": {
+    "case_id": "MOR-2026-004821",
+    "as_of": "2026-07-15",
+    "config_version": "merchant-risk-cfg-2026.07",
+    "merchant": {
+      "legal_name": "Northbridge Direct Commerce LLC",
+      "dba": "Northbridge Deals",
+      "country": "US",
+      "mcc": "5967",
+      "business_model": "inbound_telemarketing_retail",
+      "website": "https://northbridge-deals.example",
+      "expected_monthly_volume": 1500000,
+      "expected_avg_ticket": 240,
+      "requested_processing_limit": 150000
+    },
+    "beneficial_owners": [
+      {
+        "name": "A. Rivera",
+        "ownership_pct": 60,
+        "country": "US",
+        "verified": true,
+        "pep": false,
+        "source_ref": "kyb=NB-LLC;ubo=UBO-1"
+      },
+      {
+        "name": "M. Okonkwo",
+        "ownership_pct": 40,
+        "country": "MM",
+        "verified": true,
+        "pep": true,
+        "source_ref": "kyb=NB-LLC;ubo=UBO-2"
+      }
+    ],
+    "screening": {
+      "sanctions": {
+        "status": "cleared",
+        "source_ref": "sanc=SCR-55120;list=OFAC+EU+UN@2026-07-14"
+      },
+      "adverse_media": {
+        "status": "unresolved",
+        "categories": [
+          "fraud",
+          "consumer_complaints"
+        ],
+        "source_ref": "am=AM-33417@2026-07-13"
+      },
+      "covered_subject_refs": [
+        "MOR-2026-004821",
+        "kyb=NB-LLC;ubo=UBO-1",
+        "kyb=NB-LLC;ubo=UBO-2"
+      ]
+    },
+    "credit": {
+      "assessment": "pass",
+      "source_ref": "credit=CR-77219@2026-07-12"
+    },
+    "evidence": {
+      "kyb_registration": "kyb=NB-LLC;doc=cert-of-formation@2026-07-10",
+      "ubo_verification": "kyb=NB-LLC;ubo-pack@2026-07-11",
+      "website_review": "web=WR-9021@2026-07-13",
+      "expected_activity": "app=MOR-2026-004821;pro-forma@2026-07-10",
+      "financials": "fin=FS-2025@2026-07-10"
+    },
+    "config": {
+      "prohibited_mccs": [
+        "7801",
+        "7995"
+      ],
+      "restricted_mccs": [
+        "5967",
+        "5966",
+        "5734",
+        "6211",
+        "4816"
+      ],
+      "high_risk_countries": [
+        "AF",
+        "IR",
+        "KP",
+        "SY",
+        "MM"
+      ],
+      "required_ubo_coverage_pct": 75,
+      "ubo_threshold_pct": 25,
+      "max_monthly_volume_no_edd": 1000000,
+      "credit_review_limit": 250000
+    },
+    "policy_profile": {
+      "profile_id": "synthetic-merchant-risk-policy",
+      "version": "merchant-risk-cfg-2026.07",
+      "source_ref": "synthetic-fixture-policy-not-production",
+      "authority": "synthetic institution policy",
+      "review_owner": "test-policy-owner",
+      "status": "active",
+      "effective_from": "2026-01-01",
+      "review_due": "2026-12-31",
+      "participants": [
+        "acquirer"
+      ],
+      "jurisdictions": [
+        "US"
+      ]
+    }
+  },
   "review_id": "mor-MOR-2026-004821-0001",
   "case_id": "MOR-2026-004821",
   "as_of": "2026-07-15",
@@ -11,8 +115,24 @@
   },
   "findings": [
     {
+      "finding": "policy_applicability_unknown",
+      "severity": "incomplete",
+      "fired": false,
+      "reason": "supplied scoped policy declaration present; authority not authenticated",
+      "evidence": [],
+      "rule_ref": "payment-contract.md#evidence-and-rules"
+    },
+    {
+      "finding": "screening_coverage_unknown",
+      "severity": "incomplete",
+      "fired": false,
+      "reason": "supplied subject coverage declaration present",
+      "evidence": [],
+      "rule_ref": "payment-contract.md#evidence-and-rules"
+    },
+    {
       "finding": "sanctions_screening",
-      "severity": "blocking",
+      "severity": "incomplete",
       "fired": false,
       "reason": "sanctions screening cleared",
       "evidence": [],
@@ -165,7 +285,5 @@
     "Confirm expected-activity substantiation and set volume/reserve limits before boarding"
   ],
   "adjudication_required": true,
-  "disclaimer": "Recommendation and evidence only; not an onboarding decision. No approval, decline, boarding, filing, or system-of-record change has been made. Human adjudication is required.",
-  "narrative": "Review of case MOR-2026-004821 (Northbridge Direct Commerce LLC) fired 5 elevated findings and no blocking findings; required onboarding evidence is complete. Recommendation: Recommend-Approve-with-Conditions, contingent on the listed conditions and human adjudication. The restricted MCC 5967, unresolved adverse media (fraud, consumer complaints), a beneficial owner in a high-risk jurisdiction (MM), a politically exposed owner, and expected monthly volume above the no-EDD threshold each drive a condition. This package is decision-support for the merchant-risk adjudicator and carries no onboarding action. See disclaimer.",
-  "notes": "Sanctions cleared; credit within appetite; UBO coverage 100% verified."
+  "disclaimer": "Recommendation and evidence only; not an onboarding decision. No approval, decline, boarding, filing, or system-of-record change has been made. Human adjudication is required."
 }

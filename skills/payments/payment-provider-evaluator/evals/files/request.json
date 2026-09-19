@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "request_id": "synthetic-commercial-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "merchant",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "merchant-brief",
+      "reference": "synthetic merchant scope and outcomes brief",
+      "as_of": "2026-09-18",
+      "review_due": "2027-09-18"
+    },
+    {
+      "source_id": "diligence",
+      "reference": "synthetic inspected provider scope and commercial schedule",
+      "as_of": "2026-09-18",
+      "review_due": "2027-09-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "requirements": [
+      {
+        "requirement_id": "market",
+        "description": "Contractual US entity and USD settlement eligibility",
+        "mandatory": true,
+        "weight": "70",
+        "source_ids": [
+          "merchant-brief"
+        ]
+      },
+      {
+        "requirement_id": "report",
+        "description": "Stable reconciliation identifiers at transaction and payout level",
+        "mandatory": false,
+        "weight": "30",
+        "source_ids": [
+          "merchant-brief"
+        ]
+      }
+    ],
+    "providers": [
+      {
+        "provider_id": "inspected-provider",
+        "role": "psp",
+        "evidence": [
+          {
+            "requirement_id": "market",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          },
+          {
+            "requirement_id": "report",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ],
+        "prices": [
+          {
+            "price_id": "attempt-charge",
+            "unit": "per_attempt",
+            "currency": "USD",
+            "scope": "US web card, excludes interchange/scheme fees",
+            "amount": "0.05",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ]
+      },
+      {
+        "provider_id": "proposal-provider",
+        "role": "psp",
+        "evidence": [
+          {
+            "requirement_id": "market",
+            "status": "supported",
+            "evidence_kind": "proposal",
+            "source_ids": [
+              "diligence"
+            ]
+          },
+          {
+            "requirement_id": "report",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ],
+        "prices": [
+          {
+            "price_id": "success-charge",
+            "unit": "per_success",
+            "currency": "EUR",
+            "scope": "US web card, excludes interchange/scheme fees",
+            "amount": "0.04",
+            "evidence_kind": "proposal",
+            "source_ids": [
+              "diligence"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

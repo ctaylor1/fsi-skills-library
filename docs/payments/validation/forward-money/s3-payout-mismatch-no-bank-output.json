@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-settlement-reconciler",
+  "input_hash": "6267dc8b77eef1bd2874a6c71417418df64edb35e6022edfff0f2f604b81705f",
+  "source_snapshot": {
+    "mode": "explain-payout",
+    "report_id": "SYNTH-PAYOUT-001",
+    "merchant_id": "****0101",
+    "as_of_date": "2026-09-17",
+    "config_version": "forward-v1",
+    "legal_entity_id": "merchant-synthetic",
+    "account_id": "****0101",
+    "currency": "USD",
+    "settlement_cycle": "2026-09-16",
+    "lines": [
+      {
+        "line_id": "gross",
+        "category": "gross_sales",
+        "description": "Gross card sales",
+        "gross_amount": "1000.00",
+        "source": {
+          "system": "processor-report",
+          "ref": "synthetic:report:001:row1"
+        }
+      },
+      {
+        "line_id": "fee",
+        "category": "processor_fees",
+        "description": "Processor fees",
+        "fee_amount": "30.00",
+        "source": {
+          "system": "processor-report",
+          "ref": "synthetic:report:001:row2"
+        }
+      },
+      {
+        "line_id": "net",
+        "category": "net_settlement",
+        "description": "Reported payout",
+        "net_amount": "950.00",
+        "source": {
+          "system": "processor-report",
+          "ref": "synthetic:report:001:row3"
+        }
+      }
+    ]
+  },
+  "config_version": "forward-v1",
+  "warnings": [],
+  "mode": "explain-payout",
+  "as_of_date": "2026-09-17",
+  "report_id": "SYNTH-PAYOUT-001",
+  "merchant_id": "****0101",
+  "partitions": [
+    {
+      "partition": {
+        "legal_entity_id": "merchant-synthetic",
+        "account_id": "****0101",
+        "currency": "USD",
+        "settlement_cycle": "2026-09-16"
+      },
+      "categories": [
+        {
+          "line_id": "fee",
+          "category": "processor_fees",
+          "amount": "-30.00",
+          "basis": "negative fee_amount",
+          "source_ref": "processor-report:synthetic:report:001:row2@2026-09-17",
+          "evidence_status": "supplied"
+        },
+        {
+          "line_id": "gross",
+          "category": "gross_sales",
+          "amount": "1000.00",
+          "basis": "signed gross_amount",
+          "source_ref": "processor-report:synthetic:report:001:row1@2026-09-17",
+          "evidence_status": "supplied"
+        }
+      ],
+      "reported_net_lines": [
+        {
+          "line_id": "net",
+          "category": "net_settlement",
+          "amount": "950.00",
+          "basis": "net_amount",
+          "source_ref": "processor-report:synthetic:report:001:row3@2026-09-17",
+          "evidence_status": "supplied"
+        }
+      ],
+      "known_line_subtotal": "970.00",
+      "calculated_net": "970.00",
+      "reported_net": "950.00",
+      "funding_expected_net": null,
+      "funding_source_ref": null,
+      "gross_sales": "1000.00",
+      "total_fees": "30.00",
+      "effective_fee_rate_pct": "3.000000",
+      "checks": [
+        {
+          "type": "calculated_vs_reported",
+          "right_minus_left": "-20.00",
+          "status": "mismatch"
+        },
+        {
+          "type": "calculated_vs_funding",
+          "right_minus_left": null,
+          "status": "not_evaluable"
+        },
+        {
+          "type": "reported_vs_funding",
+          "right_minus_left": null,
+          "status": "not_evaluable"
+        }
+      ],
+      "data_gaps": [],
+      "issues": [],
+      "status": "discrepancy"
+    }
+  ],
+  "summary": {
+    "partition_count": 1,
+    "bank_cash_confirmed": false,
+    "ledger_reconciled": false,
+    "discrepancy_count": 1
+  },
+  "disclaimer": "Informational payout explanation only; not fee advice, bank-cash confirmation, or ledger reconciliation."
+}

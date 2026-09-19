@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.0",
+  "request_id": "phase3-1-synthetic",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "platform",
+  "sources": [
+    {
+      "source_id": "ledger",
+      "reference": "synthetic://phase3-reviewed-ledger-v1",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "model": "marketplace",
+    "ledger_complete": true,
+    "entities": [
+      {
+        "entity_id": "platform",
+        "legal_name": "Synthetic Platform Ltd",
+        "role": "platform",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "entity_id": "seller",
+        "legal_name": "Synthetic Seller Ltd",
+        "role": "seller",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "entity_id": "processor",
+        "legal_name": "Synthetic Processor Ltd",
+        "role": "processor",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "accounts": [
+      {
+        "account_id": "collection",
+        "owner_entity_id": "platform",
+        "currency": "USD",
+        "custody_role": "contract-declared-collection",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "seller-account",
+        "owner_entity_id": "seller",
+        "currency": "USD",
+        "custody_role": "seller-owned",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "platform-account",
+        "owner_entity_id": "platform",
+        "currency": "USD",
+        "custody_role": "platform-owned",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "account_id": "processor-account",
+        "owner_entity_id": "processor",
+        "currency": "USD",
+        "custody_role": "processor-owned",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "responsibilities": [
+      {
+        "activity": "seller-onboarding",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "customer-contract",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "refunds",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "chargebacks",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "payouts",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "activity": "safeguarding-assessment",
+        "entity_id": "platform",
+        "contract_ref": "synthetic-contract-v1",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "charges": [
+      {
+        "charge_id": "charge-1",
+        "customer_contract_entity_id": "seller",
+        "collecting_account_id": "collection",
+        "currency": "USD",
+        "state": "settled",
+        "amount": "1000.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "allocations": [
+      {
+        "allocation_id": "seller-share",
+        "charge_id": "charge-1",
+        "beneficiary_entity_id": "seller",
+        "currency": "USD",
+        "type": "seller",
+        "amount": "900.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "allocation_id": "platform-fee",
+        "charge_id": "charge-1",
+        "beneficiary_entity_id": "platform",
+        "currency": "USD",
+        "type": "platform-fee",
+        "amount": "70.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "allocation_id": "processor-fee",
+        "charge_id": "charge-1",
+        "beneficiary_entity_id": "processor",
+        "currency": "USD",
+        "type": "processor-fee",
+        "amount": "30.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "refund-1",
+        "allocation_id": "seller-share",
+        "currency": "USD",
+        "type": "refund",
+        "amount": "100.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "adjustment_id": "dispute-1",
+        "allocation_id": "seller-share",
+        "currency": "USD",
+        "type": "chargeback",
+        "amount": "50.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "adjustment_id": "reserve-1",
+        "allocation_id": "seller-share",
+        "currency": "USD",
+        "type": "reserve",
+        "amount": "75.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ],
+    "payouts": [
+      {
+        "payout_id": "paid-1",
+        "allocation_id": "seller-share",
+        "destination_account_id": "seller-account",
+        "currency": "USD",
+        "state": "paid",
+        "amount": "200.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "payout_id": "pending-1",
+        "allocation_id": "seller-share",
+        "destination_account_id": "seller-account",
+        "currency": "USD",
+        "state": "pending",
+        "amount": "50.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "payout_id": "proposal-1",
+        "allocation_id": "seller-share",
+        "destination_account_id": "seller-account",
+        "currency": "USD",
+        "state": "proposed",
+        "amount": "400.00",
+        "source_ids": [
+          "ledger"
+        ]
+      },
+      {
+        "payout_id": "paid-1",
+        "allocation_id": "seller-share",
+        "destination_account_id": "seller-account",
+        "currency": "USD",
+        "state": "paid",
+        "amount": "200.00",
+        "source_ids": [
+          "ledger"
+        ]
+      }
+    ]
+  }
+}

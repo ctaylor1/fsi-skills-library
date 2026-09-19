@@ -1,0 +1,322 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "insurance-experience-study-builder",
+  "case_id": "FWD-ACT-EXPERIENCE",
+  "as_of": "2026-07-01",
+  "context": {
+    "capacity": "actuarial analyst",
+    "represented_party": "Fictional Cedar Assurance",
+    "object_id": "LIFE-COHORT-349",
+    "jurisdiction": "SYNTHETIC-INTERNAL",
+    "line_of_business": "life"
+  },
+  "status": "needs-data",
+  "findings": [],
+  "results": {
+    "method": "constant_intensity_act365_count",
+    "segments": [
+      {
+        "segment_id": "A",
+        "exposure_days": "288",
+        "exposure_years": "0.7890410958904109589041095890",
+        "observed_events": "1",
+        "expected_events": "0.07890410958904109589041095890",
+        "central_observed_rate": "1.267361111111111111111111111",
+        "actual_to_expected": "12.67361111111111111111111111",
+        "right_censored_intervals": 2,
+        "source_refs": [
+          "ADMIN",
+          "ASSUMPTIONS"
+        ]
+      },
+      {
+        "segment_id": "B",
+        "exposure_days": "61",
+        "exposure_years": "0.1671232876712328767123287671",
+        "observed_events": "1",
+        "expected_events": "0.03342465753424657534246575342",
+        "central_observed_rate": "5.983606557377049180327868853",
+        "actual_to_expected": "29.91803278688524590163934427",
+        "right_censored_intervals": 0,
+        "source_refs": [
+          "ADMIN",
+          "ASSUMPTIONS"
+        ]
+      }
+    ],
+    "risk_sets": [
+      {
+        "event_date": "2026-02-01",
+        "at_risk_before_event": 3,
+        "events": 1,
+        "life_ids": [
+          "X1",
+          "X2",
+          "X3"
+        ]
+      },
+      {
+        "event_date": "2026-06-01",
+        "at_risk_before_event": 2,
+        "events": 1,
+        "life_ids": [
+          "X2",
+          "X3"
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "record_id": "R1",
+        "life_id": "X1",
+        "segment_id": "A",
+        "risk_start": "2026-01-01",
+        "risk_end": "2026-02-01",
+        "exposure_days": 31,
+        "observed_event": true,
+        "source_ref": "ADMIN"
+      },
+      {
+        "record_id": "R2",
+        "life_id": "X2",
+        "segment_id": "A",
+        "risk_start": "2026-01-15",
+        "risk_end": "2026-07-01",
+        "exposure_days": 167,
+        "observed_event": false,
+        "source_ref": "ADMIN"
+      },
+      {
+        "record_id": "R3",
+        "life_id": "X3",
+        "segment_id": "A",
+        "risk_start": "2026-01-01",
+        "risk_end": "2026-04-01",
+        "exposure_days": 90,
+        "observed_event": false,
+        "source_ref": "ADMIN"
+      },
+      {
+        "record_id": "R4",
+        "life_id": "X3",
+        "segment_id": "B",
+        "risk_start": "2026-04-01",
+        "risk_end": "2026-06-01",
+        "exposure_days": 61,
+        "observed_event": true,
+        "source_ref": "ADMIN"
+      }
+    ],
+    "credibility_assessed": false
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "One late death notification has unknown identity/date; reporting completeness is unresolved."
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "FWD-ACT-EXPERIENCE",
+    "as_of": "2026-07-01",
+    "context": {
+      "capacity": "actuarial analyst",
+      "represented_party": "Fictional Cedar Assurance",
+      "object_id": "LIFE-COHORT-349",
+      "jurisdiction": "SYNTHETIC-INTERNAL",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-07-01",
+        "title": "PROFILE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#PROFILE",
+        "extraction_text": "Synthetic reviewed internal method: constant annual mortality intensity times actual elapsed days/365; count individual lives. Window (2026-01-01,2026-07-01]. Scope LIFE-COHORT-349, currency NONE, life, SYNTHETIC-INTERNAL. Effective 2026-01-01 through 2027-12-31. This is not adopted law or approval to change assumptions."
+      },
+      {
+        "source_ref": "ASSUMPTIONS",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-07-01",
+        "title": "ASSUMPTIONS synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#ASSUMPTIONS",
+        "extraction_text": "Segment A intensity 0.10; segment B intensity 0.20. Both apply 2026-01-01 through 2026-07-01, annual central intensities, not annual death probabilities."
+      },
+      {
+        "source_ref": "ADMIN",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-07-01",
+        "title": "ADMIN synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#ADMIN",
+        "extraction_text": "R1: life X1, A, 2025-12-01 to 2026-02-01, death. R2: life X2, A, 2026-01-15 to 2026-07-01, censored. R3: life X3, A, 2026-01-01 to 2026-04-01, censored segment transfer. R4: life X3, B, 2026-04-01 to 2026-06-01, death."
+      },
+      {
+        "source_ref": "REVIEW",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-07-01",
+        "title": "REVIEW synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#REVIEW",
+        "extraction_text": "Administrator warns an unallocated late death notification could belong to this cohort; identity and event date are unknown. Do not add a guessed event or amend any source system."
+      }
+    ],
+    "unresolved_issues": [
+      "One late death notification has unknown identity/date; reporting completeness is unresolved."
+    ],
+    "data": {
+      "scope": {
+        "object_id": "LIFE-COHORT-349",
+        "currency": "NONE",
+        "basis": "constant_intensity_act365_count",
+        "valuation_date": "2026-07-01"
+      },
+      "profile": {
+        "profile_id": "PROFILE-experience",
+        "version": "fresh-synthetic-v1",
+        "source_refs": [
+          "PROFILE"
+        ],
+        "jurisdictions": [
+          "SYNTHETIC-INTERNAL"
+        ],
+        "lines_of_business": [
+          "life"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2027-12-31",
+        "object_ids": [
+          "LIFE-COHORT-349"
+        ],
+        "currencies": [
+          "NONE"
+        ],
+        "method": "constant_intensity_act365_count"
+      },
+      "study_start": "2026-01-01",
+      "study_end": "2026-07-01",
+      "event_type": "death",
+      "segments": [
+        {
+          "segment_id": "A",
+          "expected_intensity": "0.10",
+          "effective_from": "2026-01-01",
+          "effective_to": "2026-07-01",
+          "source_ref": "ASSUMPTIONS"
+        },
+        {
+          "segment_id": "B",
+          "expected_intensity": "0.20",
+          "effective_from": "2026-01-01",
+          "effective_to": "2026-07-01",
+          "source_ref": "ASSUMPTIONS"
+        }
+      ],
+      "exposures": [
+        {
+          "record_id": "R1",
+          "life_id": "X1",
+          "segment_id": "A",
+          "entry_date": "2025-12-01",
+          "exit_date": "2026-02-01",
+          "exit_reason": "event",
+          "source_ref": "ADMIN"
+        },
+        {
+          "record_id": "R2",
+          "life_id": "X2",
+          "segment_id": "A",
+          "entry_date": "2026-01-15",
+          "exit_date": "2026-07-01",
+          "exit_reason": "censored",
+          "source_ref": "ADMIN"
+        },
+        {
+          "record_id": "R3",
+          "life_id": "X3",
+          "segment_id": "A",
+          "entry_date": "2026-01-01",
+          "exit_date": "2026-04-01",
+          "exit_reason": "censored",
+          "source_ref": "ADMIN"
+        },
+        {
+          "record_id": "R4",
+          "life_id": "X3",
+          "segment_id": "B",
+          "entry_date": "2026-04-01",
+          "exit_date": "2026-06-01",
+          "exit_reason": "event",
+          "source_ref": "ADMIN"
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "insurance-experience-study-builder",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-07-01",
+    "context": {
+      "capacity": "actuarial analyst",
+      "represented_party": "Fictional Cedar Assurance",
+      "object_id": "LIFE-COHORT-349",
+      "jurisdiction": "SYNTHETIC-INTERNAL",
+      "line_of_business": "life"
+    },
+    "sources": [
+      {
+        "source_ref": "PROFILE",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-07-01",
+        "title": "PROFILE synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#PROFILE",
+        "extraction_text": "Synthetic reviewed internal method: constant annual mortality intensity times actual elapsed days/365; count individual lives. Window (2026-01-01,2026-07-01]. Scope LIFE-COHORT-349, currency NONE, life, SYNTHETIC-INTERNAL. Effective 2026-01-01 through 2027-12-31. This is not adopted law or approval to change assumptions."
+      },
+      {
+        "source_ref": "ASSUMPTIONS",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-07-01",
+        "title": "ASSUMPTIONS synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#ASSUMPTIONS",
+        "extraction_text": "Segment A intensity 0.10; segment B intensity 0.20. Both apply 2026-01-01 through 2026-07-01, annual central intensities, not annual death probabilities."
+      },
+      {
+        "source_ref": "ADMIN",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-07-01",
+        "title": "ADMIN synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#ADMIN",
+        "extraction_text": "R1: life X1, A, 2025-12-01 to 2026-02-01, death. R2: life X2, A, 2026-01-15 to 2026-07-01, censored. R3: life X3, A, 2026-01-01 to 2026-04-01, censored segment transfer. R4: life X3, B, 2026-04-01 to 2026-06-01, death."
+      },
+      {
+        "source_ref": "REVIEW",
+        "version": "fresh-synthetic-v1",
+        "as_of": "2026-07-01",
+        "title": "REVIEW synthetic source",
+        "section": "Full supplied extract",
+        "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#REVIEW",
+        "extraction_text": "Administrator warns an unallocated late death notification could belong to this cohort; identity and event date are unknown. Do not add a guessed event or amend any source system."
+      }
+    ],
+    "input_hash": "42ffdef185aefa116b8c57b9e410a2a5439c09935262865d0d7b987ecb4e1378",
+    "output_hash": "d8ed186b29e989c4959dcae22a461fd5a618f213ce7f8a4adc3268304da0d66f",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "One late death notification has unknown identity/date; reporting completeness is unresolved."
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "9d4f87371f5db11c8bfac7e0dfa9b4b6ce7b0af80c69211531a3cb5bf5508feb"
+  }
+}

@@ -10,12 +10,12 @@ decide coverage or compliance, approve/file/bind a form, or close a review.
 | `policy-document-explainer` | The user actually wants a plain-language explanation of one policy, not a form-vs-form diff | form + section refs |
 | `coverage-gap-analyzer` | The question is whether the wording covers a stated need/exposure (adequacy), not what changed between forms | needs + policy terms |
 | `policy-renewal-reviewer` | The comparison is expiring-vs-proposed renewal terms for a customer explanation | expiring + proposed terms |
-| `reinsurance-treaty-interpreter` | The wording is a reinsurance treaty (attachment, reinstatements, recoverability) | treaty clauses |
+| `reinsurance-contract-reviewer` | Explain one reinsurance contract without comparing versions; treaty comparison remains here | native treaty input and sourced clauses |
 | `premium-quote-comparator` | The comparison is about premium/price across quotes, not wording | quotes |
 
 ## Upstream (may request a comparison pack)
 
-`underwriting-workbench-assistant`, `submission-intake-triager`, and `policy-renewal-reviewer` may
+`insurance-underwriting-risk-reviewer`, `insurance-submission-preparer`, and `policy-renewal-reviewer` may
 request a wording comparison when a manuscript endorsement or a new edition appears in casework. A
 scheduled monitor is **not** used here (this skill is interactive, `aws-fsi-scheduled-agent: no`).
 

@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-liquidity-and-funding-analyzer",
+  "request_id": "independent-eur-funding",
+  "as_of": "2026-09-18",
+  "jurisdiction": "EA",
+  "participant": "treasury",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "independent-eur-funding",
+    "as_of": "2026-09-18",
+    "jurisdiction": "EA",
+    "participant": "treasury",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "RAW",
+        "reference": "synthetic:independent-operating-ledger-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      },
+      {
+        "source_id": "POL",
+        "reference": "synthetic:independent-contract-and-policy-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "window_start": "2026-09-18T16:00:00+02:00",
+      "window_end": "2026-09-21T18:00:00+02:00",
+      "history_complete": true,
+      "accounts": [
+        {
+          "account_id": "EU",
+          "entity_id": "EU-BANK",
+          "currency": "EUR",
+          "rail_profile_id": "EA-SCT-INST",
+          "funding_model": "supplied-central-bank-arrangement",
+          "funding_model_evidence": "CONTRACT-EU-01",
+          "snapshot_at": "2026-09-18T16:00:00+02:00",
+          "balance": "5000",
+          "held": "0",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "event_id": "EUO",
+          "economic_id": "EU-ECON",
+          "account_id": "EU",
+          "entity_id": "EU-BANK",
+          "currency": "EUR",
+          "kind": "outflow",
+          "certainty": "firm",
+          "due_at": "2026-09-20T12:00:00+02:00",
+          "amount": "1000",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "reservations": [],
+      "funding_windows": [],
+      "stress_scenarios": []
+    }
+  },
+  "input_hash": "5caf77d4c0a408a09828cf95df6ded1728fec160b81af79747aaf826d5391be6",
+  "findings": [],
+  "result": {
+    "window_start": "2026-09-18T16:00:00+02:00",
+    "window_end": "2026-09-21T18:00:00+02:00",
+    "account_positions": [
+      {
+        "account_id": "EU",
+        "entity_id": "EU-BANK",
+        "currency": "EUR",
+        "funding_model": "supplied-central-bank-arrangement",
+        "excluded_inflows": [],
+        "scenario_paths": [
+          {
+            "scenario_id": "base",
+            "timeline": [
+              {
+                "at": "2026-09-18T16:00:00+02:00",
+                "event_ids": [],
+                "available": "5000"
+              },
+              {
+                "at": "2026-09-20T12:00:00+02:00",
+                "event_ids": [
+                  "EUO"
+                ],
+                "available": "4000"
+              }
+            ],
+            "minimum_available": "4000",
+            "peak_shortfall": "0",
+            "ending_available": "4000"
+          }
+        ]
+      }
+    ],
+    "aggregation": "No cross-account, legal-entity or currency netting",
+    "funding_options_for_owner_review": [
+      "Confirm actual usable balance and disjoint holds/reservations",
+      "Verify funding access and windows for the required settlement arrangement",
+      "Stage evidenced resources before earliest obligation",
+      "Review liquidity buffer and service limits under outage stress"
+    ],
+    "transfers_created": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "settlement-reconciliation-matcher",
+      "reason": "Reconcile source balances and settlement obligations before funding decisions.",
+      "required_inputs": [
+        "account statements",
+        "settlement ledgers",
+        "reservation identifiers"
+      ],
+      "handoff_id": "962516e90f64bd6a26bc1b917d78e9c4b13c27443eea465ec071821295f4b957",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "independent-eur-funding",
+      "lead_owner": "treasury",
+      "requested_output": "Reconcile source balances and settlement obligations before funding decisions.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Any funding movement requires a separately authorized exact instruction.",
+      "required_inputs": [
+        "source and destination accounts",
+        "amount and currency",
+        "funding window",
+        "approval and mandate"
+      ],
+      "handoff_id": "48c1dedecff2ffebf94f5f9583b3b29d53141e4f7fb53f3a60fa9abedc0e5b57",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "independent-eur-funding",
+      "lead_owner": "treasury",
+      "requested_output": "Any funding movement requires a separately authorized exact instruction.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-platform-architecture-reviewer",
+      "reason": "Review continuous funding monitoring, uncertain outcomes and recovery dependencies.",
+      "required_inputs": [
+        "timed shortfalls",
+        "failure assumptions",
+        "system and operational dependencies"
+      ],
+      "handoff_id": "e465ee00400db1efe378276382ba0fa03314c60c7b5ad12e632f2ee838a4a5ce",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "independent-eur-funding",
+      "lead_owner": "treasury",
+      "requested_output": "Review continuous funding monitoring, uncertain outcomes and recovery dependencies.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

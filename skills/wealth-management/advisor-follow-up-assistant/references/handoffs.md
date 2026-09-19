@@ -10,7 +10,7 @@ send the communication, write the CRM, or trade.
 | Upstream skill | Provides | Handoff artifact |
 | -------------- | -------- | ---------------- |
 | `client-review-preparer` | The review brief / meeting context that the follow-up summarizes | Review brief + meeting record |
-| `financial-goal-progress-analyzer` | Goal shortfalls / levers discussed in the meeting that inform action items | Documented objectives + gaps |
+| `household-financial-planning-assistant` | Goal shortfalls / levers discussed in the meeting that inform action items | Documented objectives + gaps |
 | `retirement-income-scenario-modeler` | Income/withdrawal ranges discussed that inform distribution action items | Modeled ranges (not guarantees) |
 
 The meeting record itself (CRM / notes) is the raw input. This skill is **interactive**
@@ -20,7 +20,8 @@ The meeting record itself (CRM / notes) is the raw input. This skill is **intera
 
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
-| `suitability-reg-bi-reviewer` | Any recommendation discussed in the meeting needs a suitability / Reg BI and supervision review (never approved here) | `followup_id` + recommendation ref + source map |
+| `investment-recommendation-evidence-reviewer` | Any recommendation discussed in the meeting needs a suitability / Reg BI and supervision review (never approved here) | `followup_id` + recommendation ref + source map |
+| `communications-compliance-reviewer` | Review the actual client communication under the supplied engagement/communications policy | `followup_id` + communication + source map + policy |
 | `investment-policy-statement-builder` | The follow-up calls for building or refreshing the IPS | `followup_id` + documented change triggers |
 | `portfolio-rebalancing-assistant` | An action item is to move a portfolio toward its targets (R4, advisor + client authorization) | `followup_id` + drift evidence + target bands |
 | `portfolio-proposal-comparator` | The client wants competing proposals weighed | `followup_id` + constraints |

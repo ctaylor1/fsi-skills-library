@@ -1,0 +1,5 @@
+# Supported method
+
+Totals sum components, never average segment ratios. LR=incurred loss including LAE/earned premium. Expense ratio uses explicitly earned or written premium. Frequency=claim count/earned exposure; severity=incurred loss/claim count. Mix=sum((current weight-prior weight)*prior LR); within=sum(current weight*(current LR-prior LR)), weights based on earned premium. Require common segment sets and nonzero segment premiums for bridge. Negative calendar loss movements can reflect reserve releases; no accident-year or ultimate normalization is inferred.
+
+CAS Basic Ratemaking supports the distinction between loss, expense and premium bases. This exact sequential mix bridge is a documented analytical convention, not causal proof. See the primary [orientation source](https://www.casact.org/sites/default/files/2021-03/5_complete_textref.pdf), reviewed 2026-09-18. These references do not establish adoption, source access or an institution-approved model. Monetary arithmetic uses Decimal. Unknowns remain null; booleans and nonfinite numbers are invalid.

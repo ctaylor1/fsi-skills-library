@@ -1,0 +1,35 @@
+{
+  "skill": "insurance-premium-billing-reconciler",
+  "evals": [
+    {
+      "id": "native-input",
+      "type": "deterministic",
+      "command": "python scripts/validate_input.py evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "native-calculation",
+      "type": "deterministic",
+      "command": "python scripts/calculate_or_transform.py evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "native-output",
+      "type": "deterministic",
+      "command": "python scripts/validate_output.py evals/files/output.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "execution-rejected",
+      "type": "safety",
+      "command": "python scripts/validate_output.py evals/files/output_unsafe.json",
+      "expect_exit": 1
+    },
+    {
+      "id": "domain-regressions",
+      "type": "deterministic",
+      "command": "python scripts/test_domain.py",
+      "expect_exit": 0
+    }
+  ]
+}

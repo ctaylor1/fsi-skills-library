@@ -1,0 +1,498 @@
+[
+  {
+    "case": "pricing",
+    "name": "source_document faithfully retained",
+    "kind": "source-fidelity",
+    "actual": {
+      "case_id": "FWD-ACT-PRICING",
+      "as_of": "2026-06-30",
+      "context": {
+        "capacity": "actuarial analyst",
+        "represented_party": "Fictional Cedar Assurance",
+        "object_id": "ENDOWMENT-MP-100",
+        "jurisdiction": "SYNTHETIC-INTERNAL",
+        "line_of_business": "life"
+      },
+      "sources": [
+        {
+          "source_ref": "PROFILE",
+          "version": "fresh-synthetic-v1",
+          "as_of": "2026-06-30",
+          "title": "PROFILE synthetic source",
+          "section": "Full supplied extract",
+          "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#PROFILE",
+          "extraction_text": "Internal deterministic annual projection, BOY premium/expense, EOY benefits, mutually exclusive unconditional death/lapse probabilities. ENDOWMENT-MP-100, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Exactly two years, 100 opening policies. No capital, taxes or reserve earnings."
+        },
+        {
+          "source_ref": "APPROVED-SCHEDULE",
+          "version": "fresh-synthetic-v1",
+          "as_of": "2026-06-30",
+          "title": "APPROVED-SCHEDULE synthetic source",
+          "section": "Full supplied extract",
+          "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#APPROVED-SCHEDULE",
+          "extraction_text": "Year 1: q=.02, lapse=.08, premium=100, expense=10, death=1000, surrender=50, survival=0, annual forward rate=.05. Year 2: q=.03, lapse=.07, premium=110, expense=12, death=1000, surrender=70, survival=20, annual forward rate=.04. Additional terminal benefit per final survivor=300; separate from year-2 survival benefit."
+        },
+        {
+          "source_ref": "AMENDMENT",
+          "version": "fresh-synthetic-v1",
+          "as_of": "2026-06-30",
+          "title": "AMENDMENT synthetic source",
+          "section": "Full supplied extract",
+          "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#AMENDMENT",
+          "extraction_text": "Unsigned proposed amendment would increase additional terminal benefit from 300 to 320. No effective approval evidence supplied; retain approved-schedule 300 as conditional arithmetic and flag unresolved proposal."
+        }
+      ],
+      "unresolved_issues": [
+        "Unsigned terminal-benefit amendment proposes 320 instead of the reviewed 300; no authority to adopt it."
+      ],
+      "data": {
+        "scope": {
+          "object_id": "ENDOWMENT-MP-100",
+          "currency": "USD",
+          "basis": "annual_mutually_exclusive_decrement_cashflow",
+          "valuation_date": "2026-06-30"
+        },
+        "profile": {
+          "profile_id": "PROFILE-pricing",
+          "version": "fresh-synthetic-v1",
+          "source_refs": [
+            "PROFILE"
+          ],
+          "jurisdictions": [
+            "SYNTHETIC-INTERNAL"
+          ],
+          "lines_of_business": [
+            "life"
+          ],
+          "effective_from": "2026-01-01",
+          "effective_to": "2027-12-31",
+          "object_ids": [
+            "ENDOWMENT-MP-100"
+          ],
+          "currencies": [
+            "USD"
+          ],
+          "method": "annual_mutually_exclusive_decrement_cashflow"
+        },
+        "initial_policies": 100,
+        "projection_end_year": 2,
+        "years": [
+          {
+            "object_id": "ENDOWMENT-MP-100",
+            "currency": "USD",
+            "basis": "annual_mutually_exclusive_decrement_cashflow",
+            "source_ref": "APPROVED-SCHEDULE",
+            "year": 1,
+            "mortality_probability": ".02",
+            "lapse_probability": ".08",
+            "premium": 100,
+            "expense_boy": 10,
+            "death_benefit": 1000,
+            "surrender_benefit": 50,
+            "survival_benefit": 0,
+            "discount_rate": ".05"
+          },
+          {
+            "object_id": "ENDOWMENT-MP-100",
+            "currency": "USD",
+            "basis": "annual_mutually_exclusive_decrement_cashflow",
+            "source_ref": "APPROVED-SCHEDULE",
+            "year": 2,
+            "mortality_probability": ".03",
+            "lapse_probability": ".07",
+            "premium": 110,
+            "expense_boy": 12,
+            "death_benefit": 1000,
+            "surrender_benefit": 70,
+            "survival_benefit": 20,
+            "discount_rate": ".04"
+          }
+        ],
+        "terminal_benefit_per_survivor": 300,
+        "terminal_source_ref": "APPROVED-SCHEDULE"
+      }
+    },
+    "expected": {
+      "case_id": "FWD-ACT-PRICING",
+      "as_of": "2026-06-30",
+      "context": {
+        "capacity": "actuarial analyst",
+        "represented_party": "Fictional Cedar Assurance",
+        "object_id": "ENDOWMENT-MP-100",
+        "jurisdiction": "SYNTHETIC-INTERNAL",
+        "line_of_business": "life"
+      },
+      "sources": [
+        {
+          "source_ref": "PROFILE",
+          "version": "fresh-synthetic-v1",
+          "as_of": "2026-06-30",
+          "title": "PROFILE synthetic source",
+          "section": "Full supplied extract",
+          "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#PROFILE",
+          "extraction_text": "Internal deterministic annual projection, BOY premium/expense, EOY benefits, mutually exclusive unconditional death/lapse probabilities. ENDOWMENT-MP-100, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Exactly two years, 100 opening policies. No capital, taxes or reserve earnings."
+        },
+        {
+          "source_ref": "APPROVED-SCHEDULE",
+          "version": "fresh-synthetic-v1",
+          "as_of": "2026-06-30",
+          "title": "APPROVED-SCHEDULE synthetic source",
+          "section": "Full supplied extract",
+          "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#APPROVED-SCHEDULE",
+          "extraction_text": "Year 1: q=.02, lapse=.08, premium=100, expense=10, death=1000, surrender=50, survival=0, annual forward rate=.05. Year 2: q=.03, lapse=.07, premium=110, expense=12, death=1000, surrender=70, survival=20, annual forward rate=.04. Additional terminal benefit per final survivor=300; separate from year-2 survival benefit."
+        },
+        {
+          "source_ref": "AMENDMENT",
+          "version": "fresh-synthetic-v1",
+          "as_of": "2026-06-30",
+          "title": "AMENDMENT synthetic source",
+          "section": "Full supplied extract",
+          "path": "/tmp/insurance-p3-forward-actuarial/pricing/raw_sources.json#AMENDMENT",
+          "extraction_text": "Unsigned proposed amendment would increase additional terminal benefit from 300 to 320. No effective approval evidence supplied; retain approved-schedule 300 as conditional arithmetic and flag unresolved proposal."
+        }
+      ],
+      "unresolved_issues": [
+        "Unsigned terminal-benefit amendment proposes 320 instead of the reviewed 300; no authority to adopt it."
+      ],
+      "data": {
+        "scope": {
+          "object_id": "ENDOWMENT-MP-100",
+          "currency": "USD",
+          "basis": "annual_mutually_exclusive_decrement_cashflow",
+          "valuation_date": "2026-06-30"
+        },
+        "profile": {
+          "profile_id": "PROFILE-pricing",
+          "version": "fresh-synthetic-v1",
+          "source_refs": [
+            "PROFILE"
+          ],
+          "jurisdictions": [
+            "SYNTHETIC-INTERNAL"
+          ],
+          "lines_of_business": [
+            "life"
+          ],
+          "effective_from": "2026-01-01",
+          "effective_to": "2027-12-31",
+          "object_ids": [
+            "ENDOWMENT-MP-100"
+          ],
+          "currencies": [
+            "USD"
+          ],
+          "method": "annual_mutually_exclusive_decrement_cashflow"
+        },
+        "initial_policies": 100,
+        "projection_end_year": 2,
+        "years": [
+          {
+            "object_id": "ENDOWMENT-MP-100",
+            "currency": "USD",
+            "basis": "annual_mutually_exclusive_decrement_cashflow",
+            "source_ref": "APPROVED-SCHEDULE",
+            "year": 1,
+            "mortality_probability": ".02",
+            "lapse_probability": ".08",
+            "premium": 100,
+            "expense_boy": 10,
+            "death_benefit": 1000,
+            "surrender_benefit": 50,
+            "survival_benefit": 0,
+            "discount_rate": ".05"
+          },
+          {
+            "object_id": "ENDOWMENT-MP-100",
+            "currency": "USD",
+            "basis": "annual_mutually_exclusive_decrement_cashflow",
+            "source_ref": "APPROVED-SCHEDULE",
+            "year": 2,
+            "mortality_probability": ".03",
+            "lapse_probability": ".07",
+            "premium": 110,
+            "expense_boy": 12,
+            "death_benefit": 1000,
+            "surrender_benefit": 70,
+            "survival_benefit": 20,
+            "discount_rate": ".04"
+          }
+        ],
+        "terminal_benefit_per_survivor": 300,
+        "terminal_source_ref": "APPROVED-SCHEDULE"
+      }
+    },
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "all supplied unresolved issues retained",
+    "kind": "missingness",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "all synthetic evidence dated no later than as_of",
+    "kind": "dates",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "profile effectiveness covers review date",
+    "kind": "dates",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "source content agrees with frozen raw source sections",
+    "kind": "source-fidelity",
+    "actual": {
+      "PROFILE": "Internal deterministic annual projection, BOY premium/expense, EOY benefits, mutually exclusive unconditional death/lapse probabilities. ENDOWMENT-MP-100, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Exactly two years, 100 opening policies. No capital, taxes or reserve earnings.",
+      "APPROVED-SCHEDULE": "Year 1: q=.02, lapse=.08, premium=100, expense=10, death=1000, surrender=50, survival=0, annual forward rate=.05. Year 2: q=.03, lapse=.07, premium=110, expense=12, death=1000, surrender=70, survival=20, annual forward rate=.04. Additional terminal benefit per final survivor=300; separate from year-2 survival benefit.",
+      "AMENDMENT": "Unsigned proposed amendment would increase additional terminal benefit from 300 to 320. No effective approval evidence supplied; retain approved-schedule 300 as conditional arithmetic and flag unresolved proposal."
+    },
+    "expected": {
+      "PROFILE": "Internal deterministic annual projection, BOY premium/expense, EOY benefits, mutually exclusive unconditional death/lapse probabilities. ENDOWMENT-MP-100, USD, life, SYNTHETIC-INTERNAL; effective 2026-01-01 through 2027-12-31. Exactly two years, 100 opening policies. No capital, taxes or reserve earnings.",
+      "APPROVED-SCHEDULE": "Year 1: q=.02, lapse=.08, premium=100, expense=10, death=1000, surrender=50, survival=0, annual forward rate=.05. Year 2: q=.03, lapse=.07, premium=110, expense=12, death=1000, surrender=70, survival=20, annual forward rate=.04. Additional terminal benefit per final survivor=300; separate from year-2 survival benefit.",
+      "AMENDMENT": "Unsigned proposed amendment would increase additional terminal benefit from 300 to 320. No effective approval evidence supplied; retain approved-schedule 300 as conditional arithmetic and flag unresolved proposal."
+    },
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "partial status preserves unresolved source review",
+    "kind": "missingness",
+    "actual": "needs-data",
+    "expected": "needs-data",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "partial completeness",
+    "kind": "missingness",
+    "actual": "partial",
+    "expected": "partial",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "partial evaluability",
+    "kind": "missingness",
+    "actual": "partial",
+    "expected": "partial",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "approval remains absent",
+    "kind": "authority",
+    "actual": "not_requested",
+    "expected": "not_requested",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "execution remains absent",
+    "kind": "authority",
+    "actual": "not_performed",
+    "expected": "not_performed",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "evidence not authenticated",
+    "kind": "authority",
+    "actual": "supplied_not_authenticated",
+    "expected": "supplied_not_authenticated",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "original raw/native/request/expectations/mapping hashes unchanged",
+    "kind": "freeze-integrity",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year1 opening_policies",
+    "kind": "arithmetic",
+    "actual": "100",
+    "expected": "100",
+    "absolute_difference": "0",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year1 expected_deaths",
+    "kind": "arithmetic",
+    "actual": "2.00",
+    "expected": "2",
+    "absolute_difference": "0.00",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year1 expected_lapses",
+    "kind": "arithmetic",
+    "actual": "8.00",
+    "expected": "8",
+    "absolute_difference": "0.00",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year1 closing_policies",
+    "kind": "arithmetic",
+    "actual": "90.00",
+    "expected": "90",
+    "absolute_difference": "0.00",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year1 total benefit",
+    "kind": "arithmetic",
+    "actual": "2400.00",
+    "expected": "2400",
+    "absolute_difference": "0.00",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year2 opening_policies",
+    "kind": "arithmetic",
+    "actual": "90.00",
+    "expected": "90",
+    "absolute_difference": "0.00",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year2 expected_deaths",
+    "kind": "arithmetic",
+    "actual": "2.7000",
+    "expected": "2.7",
+    "absolute_difference": "0.0000",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year2 expected_lapses",
+    "kind": "arithmetic",
+    "actual": "6.3000",
+    "expected": "6.3",
+    "absolute_difference": "0.0000",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year2 closing_policies",
+    "kind": "arithmetic",
+    "actual": "81.0000",
+    "expected": "81",
+    "absolute_difference": "0.0000",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "year2 total benefit",
+    "kind": "arithmetic",
+    "actual": "29061.0000",
+    "expected": "29061",
+    "absolute_difference": "0.0000",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "terminal paid once",
+    "kind": "arithmetic",
+    "actual": "24300.0000",
+    "expected": "24300",
+    "absolute_difference": "0.0000",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "pv_premiums",
+    "kind": "arithmetic",
+    "actual": "19428.57142857142857142857143",
+    "expected": "19428.57142857142857142857142857142857143",
+    "absolute_difference": "1.42857142857E-24",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "pv_expenses",
+    "kind": "arithmetic",
+    "actual": "2028.571428571428571428571429",
+    "expected": "2028.571428571428571428571428571428571429",
+    "absolute_difference": "4.28571428571E-25",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "pv_benefits",
+    "kind": "arithmetic",
+    "actual": "28898.35164835164835164835165",
+    "expected": "28898.35164835164835164835164835164835165",
+    "absolute_difference": "1.64835164835E-24",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "pv_net_cashflow",
+    "kind": "arithmetic",
+    "actual": "-11498.35164835164835164835165",
+    "expected": "-11498.35164835164835164835164835164835165",
+    "absolute_difference": "1.64835164835E-24",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "net_cashflow_margin",
+    "kind": "arithmetic",
+    "actual": "-0.5918269230769230769230769231",
+    "expected": "-0.5918269230769230769230769230769230769231",
+    "absolute_difference": "2.30769230769E-29",
+    "tolerance": "1e-20",
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "price not approved",
+    "kind": "authority",
+    "actual": false,
+    "expected": false,
+    "pass": true
+  },
+  {
+    "case": "pricing",
+    "name": "capital/tax/reserves not modeled",
+    "kind": "method-scope",
+    "actual": false,
+    "expected": false,
+    "pass": true
+  }
+]

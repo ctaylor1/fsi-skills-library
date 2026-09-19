@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "request_id": "synthetic-phase3-operations-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "payment-operations",
+  "requested_action": "execute",
+  "sources": [
+    {
+      "source_id": "s1",
+      "reference": "synthetic://operating-records/v1",
+      "as_of": "2026-09-18",
+      "review_due": "2026-12-31"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-18T00:00:00Z",
+      "population_complete": true,
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "cases": [
+      {
+        "case_id": "c1",
+        "task": "settlement-break-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "recon",
+        "currency": "USD",
+        "created_at": "2026-09-02T00:00:00Z",
+        "completed_at": "2026-09-03T00:00:00Z",
+        "status": "completed",
+        "handling_minutes": "60",
+        "rework_minutes": "10",
+        "automated": true,
+        "stp_eligible": true,
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "case_id": "c2",
+        "task": "settlement-break-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "recon",
+        "currency": "USD",
+        "created_at": "2026-09-02T00:00:00Z",
+        "completed_at": "2026-09-03T00:00:00Z",
+        "status": "completed",
+        "handling_minutes": "60",
+        "rework_minutes": "10",
+        "automated": false,
+        "stp_eligible": true,
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "case_id": "c3",
+        "task": "settlement-break-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "recon",
+        "currency": "USD",
+        "created_at": "2026-09-02T00:00:00Z",
+        "completed_at": "2026-09-03T00:00:00Z",
+        "status": "completed",
+        "handling_minutes": "60",
+        "rework_minutes": "10",
+        "automated": false,
+        "stp_eligible": true,
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "case_id": "c4",
+        "task": "settlement-break-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "recon",
+        "currency": "USD",
+        "created_at": "2026-09-02T00:00:00Z",
+        "completed_at": "2026-09-03T00:00:00Z",
+        "status": "completed",
+        "handling_minutes": "60",
+        "rework_minutes": "10",
+        "automated": false,
+        "stp_eligible": true,
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "case_id": "c5",
+        "task": "settlement-break-investigation",
+        "legal_entity_id": "bank-us",
+        "team": "recon",
+        "currency": "USD",
+        "created_at": "2026-08-30T00:00:00Z",
+        "status": "open",
+        "source_ids": [
+          "s1"
+        ]
+      }
+    ],
+    "staffing": {
+      "window": {
+        "start": "2026-09-01T00:00:00Z",
+        "end": "2026-09-18T00:00:00Z"
+      },
+      "legal_entity_id": "bank-us",
+      "team": "recon",
+      "currency": "USD",
+      "cost_per_hour": "60",
+      "available_hours": "80",
+      "source_ids": [
+        "s1"
+      ]
+    },
+    "opportunities": [
+      {
+        "opportunity_id": "evidence-summary",
+        "task": "settlement-break-investigation",
+        "case_ids": [
+          "c1",
+          "c2",
+          "c3",
+          "c4"
+        ],
+        "owner": "ops-lead",
+        "automation_fraction": "0.5",
+        "realization_fraction": "0.25",
+        "error_rate": "0.1",
+        "review_minutes_per_case": "5",
+        "error_minutes_per_case": "20",
+        "error_cost_per_case": "10",
+        "technology_cost": "3",
+        "implementation_cost": "2",
+        "cash_reduction_cap": "100",
+        "uses_ai": true,
+        "source_ids": [
+          "s1"
+        ],
+        "ai_controls": {
+          "task_definition": "Summarize matched settlement evidence for a human investigator; no closing/posting",
+          "evaluation_dataset_ref": "synthetic://cases/held-out",
+          "label_maturity": "Closed investigator decisions, 30 day re-open review",
+          "false_positive_cost": "Incorrect match: USD100 review scenario",
+          "false_negative_cost": "Missed evidence: 20 minutes",
+          "quality_threshold": "No unsupported monetary conclusions; at least 95% evidence citation precision",
+          "human_review_scope": "Every case and every monetary claim",
+          "escalation_owner": "ops-supervisor",
+          "pilot_scope": "20 closed synthetic cases in shadow mode",
+          "stop_conditions": [
+            "Any privacy leak",
+            "Any unsupported money claim",
+            "Precision below95%"
+          ],
+          "model_version": "candidate-v1",
+          "source_ids": [
+            "s1"
+          ]
+        }
+      }
+    ]
+  }
+}

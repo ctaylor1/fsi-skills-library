@@ -1,0 +1,799 @@
+{
+  "schema_version": "1.0",
+  "skill": "merchant-acceptance-strategy-designer",
+  "request_id": "forward-acceptance-recurring",
+  "as_of": "2026-09-18",
+  "jurisdiction": "UK",
+  "participant": "merchant",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "forward-acceptance-recurring",
+    "as_of": "2026-09-18",
+    "jurisdiction": "UK",
+    "participant": "merchant",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "merchant-brief",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-merchant-brief.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      },
+      {
+        "source_id": "gateway-deck",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-gateway-deck.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      },
+      {
+        "source_id": "card-test",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-card-test.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      },
+      {
+        "source_id": "bank-annex",
+        "reference": "/tmp/payments-phase2-forward-commercial/source-bank-annex.json",
+        "as_of": "2026-09-15",
+        "review_due": "2026-12-15"
+      }
+    ],
+    "upstream_issues": [
+      {
+        "code": "deck-contract-conflict",
+        "message": "Generic recurring support in the deck conflicts with the one-off-only bank contract annex.",
+        "source_ids": [
+          "gateway-deck",
+          "bank-annex"
+        ]
+      }
+    ],
+    "data": {
+      "segments": [
+        {
+          "segment_id": "desktop-recurring",
+          "market": "UK",
+          "channel": "desktop web",
+          "customer_type": "existing recurring subscriber",
+          "use_case": "recurring",
+          "currency": "GBP",
+          "required_methods": [
+            "card",
+            "pay-by-bank"
+          ],
+          "source_ids": [
+            "merchant-brief"
+          ]
+        },
+        {
+          "segment_id": "mobile-recurring",
+          "market": "UK",
+          "channel": "mobile web",
+          "customer_type": "existing recurring subscriber",
+          "use_case": "recurring",
+          "currency": "GBP",
+          "required_methods": [
+            "card",
+            "pay-by-bank"
+          ],
+          "source_ids": [
+            "merchant-brief"
+          ]
+        }
+      ],
+      "options": [
+        {
+          "option_id": "extend-pine",
+          "operating_model": "Retain current gateway and direct card-acquirer contract; proposed separate pay-by-bank service remains uncontracted.",
+          "merchant_entity": "Harbour Goods Ltd (synthetic)",
+          "gateway": "Gateway Pine (synthetic)",
+          "acquirer": "Card Acquirer Oak (synthetic)",
+          "psp": "Pay-by-bank PSP appointment unresolved",
+          "responsibilities": {
+            "checkout": "Harbour checkout team",
+            "authentication": "Acquirer Oak for card; pay-by-bank owner unresolved",
+            "screening": "Harbour compliance",
+            "settlement": "Acquirer Oak for cards; pay-by-bank owner unresolved",
+            "reconciliation": "Harbour finance",
+            "refunds": "Harbour support; PSP workflow untested",
+            "disputes": "Harbour card dispute team; bank-payment servicing unresolved"
+          },
+          "coverage": [
+            {
+              "segment_id": "desktop-recurring",
+              "method": "card",
+              "status": "supported",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "card-test"
+              ],
+              "presentment_currencies": [
+                "GBP"
+              ],
+              "settlement_currencies": [
+                "GBP"
+              ],
+              "entity_eligible": true,
+              "recurring_supported": true
+            },
+            {
+              "segment_id": "desktop-recurring",
+              "method": "pay-by-bank",
+              "status": "supported",
+              "evidence_kind": "proposal",
+              "source_ids": [
+                "gateway-deck"
+              ],
+              "presentment_currencies": [
+                "GBP"
+              ],
+              "settlement_currencies": [
+                "GBP"
+              ],
+              "entity_eligible": null,
+              "recurring_supported": null
+            },
+            {
+              "segment_id": "mobile-recurring",
+              "method": "card",
+              "status": "supported",
+              "evidence_kind": "proposal",
+              "source_ids": [
+                "gateway-deck"
+              ],
+              "presentment_currencies": [
+                "GBP"
+              ],
+              "settlement_currencies": [
+                "GBP"
+              ],
+              "entity_eligible": null,
+              "recurring_supported": null
+            },
+            {
+              "segment_id": "mobile-recurring",
+              "method": "pay-by-bank",
+              "status": "supported",
+              "evidence_kind": "proposal",
+              "source_ids": [
+                "gateway-deck"
+              ],
+              "presentment_currencies": [
+                "GBP"
+              ],
+              "settlement_currencies": [
+                "GBP"
+              ],
+              "entity_eligible": null,
+              "recurring_supported": null
+            }
+          ],
+          "constraints": [
+            {
+              "constraint_id": "pay-by-bank-contract",
+              "description": "Contract must cover UK entity and recurring customer authorization for both channels",
+              "mandatory": true,
+              "status": "unknown",
+              "evidence_kind": "inspected",
+              "source_ids": [
+                "bank-annex"
+              ]
+            }
+          ]
+        }
+      ],
+      "orchestration": {
+        "objective": "Evaluate customer choice without duplicate payments",
+        "success_metric": "Completed paid orders / unique eligible checkout attempts, segmented by channel and assigned method",
+        "guardrails": "No retry while prior attempt status remains unknown; retain refund, fraud and customer complaint counters",
+        "fallback_policy": "Offer cards only after lifecycle state is definitively known and fresh customer consent",
+        "experiment": "No rollout until contracted scope and inspection gaps close; then separately randomized channel cohorts"
+      }
+    }
+  },
+  "input_hash": "3fc0a993468af52a67b3968f19b9e597394618354b138bafd162997b43ff12e6",
+  "findings": [
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: desktop-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: desktop-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: desktop-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: mobile-recurring/card: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: mobile-recurring/card: Merchant entity eligibility is unresolved or unsupported.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: mobile-recurring/card: Recurring mandate/credential and consent support is unresolved or unsupported.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: mobile-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: mobile-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: mobile-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "acceptance-option-gate",
+      "message": "extend-pine: Resolve mandatory constraint: Contract must cover UK entity and recurring customer authorization for both channels",
+      "source_ids": [],
+      "severity": "gap"
+    },
+    {
+      "code": "upstream:deck-contract-conflict",
+      "message": "Generic recurring support in the deck conflicts with the one-off-only bank contract annex.",
+      "source_ids": [
+        "gateway-deck",
+        "bank-annex"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "segments": [
+      {
+        "segment_id": "desktop-recurring",
+        "market": "UK",
+        "channel": "desktop web",
+        "customer_type": "existing recurring subscriber",
+        "use_case": "recurring",
+        "currency": "GBP",
+        "required_methods": [
+          "card",
+          "pay-by-bank"
+        ],
+        "source_ids": [
+          "merchant-brief"
+        ]
+      },
+      {
+        "segment_id": "mobile-recurring",
+        "market": "UK",
+        "channel": "mobile web",
+        "customer_type": "existing recurring subscriber",
+        "use_case": "recurring",
+        "currency": "GBP",
+        "required_methods": [
+          "card",
+          "pay-by-bank"
+        ],
+        "source_ids": [
+          "merchant-brief"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "option_id": "extend-pine",
+        "operating_model": "Retain current gateway and direct card-acquirer contract; proposed separate pay-by-bank service remains uncontracted.",
+        "parties": {
+          "merchant_entity": "Harbour Goods Ltd (synthetic)",
+          "gateway": "Gateway Pine (synthetic)",
+          "acquirer": "Card Acquirer Oak (synthetic)",
+          "psp": "Pay-by-bank PSP appointment unresolved"
+        },
+        "responsibilities": {
+          "checkout": "Harbour checkout team",
+          "authentication": "Acquirer Oak for card; pay-by-bank owner unresolved",
+          "screening": "Harbour compliance",
+          "settlement": "Acquirer Oak for cards; pay-by-bank owner unresolved",
+          "reconciliation": "Harbour finance",
+          "refunds": "Harbour support; PSP workflow untested",
+          "disputes": "Harbour card dispute team; bank-payment servicing unresolved"
+        },
+        "coverage_matrix": [
+          {
+            "segment": {
+              "segment_id": "desktop-recurring",
+              "market": "UK",
+              "channel": "desktop web",
+              "customer_type": "existing recurring subscriber",
+              "use_case": "recurring",
+              "currency": "GBP",
+              "required_methods": [
+                "card",
+                "pay-by-bank"
+              ],
+              "source_ids": [
+                "merchant-brief"
+              ]
+            },
+            "method": "card",
+            "status": "supported",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "card-test"
+            ],
+            "evidence_gates": [],
+            "ready_for_option_review": true
+          },
+          {
+            "segment": {
+              "segment_id": "desktop-recurring",
+              "market": "UK",
+              "channel": "desktop web",
+              "customer_type": "existing recurring subscriber",
+              "use_case": "recurring",
+              "currency": "GBP",
+              "required_methods": [
+                "card",
+                "pay-by-bank"
+              ],
+              "source_ids": [
+                "merchant-brief"
+              ]
+            },
+            "method": "pay-by-bank",
+            "status": "supported",
+            "evidence_kind": "proposal",
+            "source_ids": [
+              "gateway-deck"
+            ],
+            "evidence_gates": [
+              "Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+              "Merchant entity eligibility is unresolved or unsupported.",
+              "Recurring mandate/credential and consent support is unresolved or unsupported."
+            ],
+            "ready_for_option_review": false
+          },
+          {
+            "segment": {
+              "segment_id": "mobile-recurring",
+              "market": "UK",
+              "channel": "mobile web",
+              "customer_type": "existing recurring subscriber",
+              "use_case": "recurring",
+              "currency": "GBP",
+              "required_methods": [
+                "card",
+                "pay-by-bank"
+              ],
+              "source_ids": [
+                "merchant-brief"
+              ]
+            },
+            "method": "card",
+            "status": "supported",
+            "evidence_kind": "proposal",
+            "source_ids": [
+              "gateway-deck"
+            ],
+            "evidence_gates": [
+              "Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+              "Merchant entity eligibility is unresolved or unsupported.",
+              "Recurring mandate/credential and consent support is unresolved or unsupported."
+            ],
+            "ready_for_option_review": false
+          },
+          {
+            "segment": {
+              "segment_id": "mobile-recurring",
+              "market": "UK",
+              "channel": "mobile web",
+              "customer_type": "existing recurring subscriber",
+              "use_case": "recurring",
+              "currency": "GBP",
+              "required_methods": [
+                "card",
+                "pay-by-bank"
+              ],
+              "source_ids": [
+                "merchant-brief"
+              ]
+            },
+            "method": "pay-by-bank",
+            "status": "supported",
+            "evidence_kind": "proposal",
+            "source_ids": [
+              "gateway-deck"
+            ],
+            "evidence_gates": [
+              "Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+              "Merchant entity eligibility is unresolved or unsupported.",
+              "Recurring mandate/credential and consent support is unresolved or unsupported."
+            ],
+            "ready_for_option_review": false
+          }
+        ],
+        "constraints": [
+          {
+            "constraint_id": "pay-by-bank-contract",
+            "description": "Contract must cover UK entity and recurring customer authorization for both channels",
+            "mandatory": true,
+            "status": "unknown",
+            "evidence_kind": "inspected",
+            "source_ids": [
+              "bank-annex"
+            ]
+          }
+        ],
+        "gating_questions": [
+          "desktop-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "desktop-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+          "desktop-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "mobile-recurring/card: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "mobile-recurring/card: Merchant entity eligibility is unresolved or unsupported.",
+          "mobile-recurring/card: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "mobile-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "mobile-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+          "mobile-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "Resolve mandatory constraint: Contract must cover UK entity and recurring customer authorization for both channels"
+        ],
+        "review_state": "evidence-gated",
+        "estimated_reach": null,
+        "conversion_uplift": null
+      }
+    ],
+    "orchestration": {
+      "objective": "Evaluate customer choice without duplicate payments",
+      "success_metric": "Completed paid orders / unique eligible checkout attempts, segmented by channel and assigned method",
+      "guardrails": "No retry while prior attempt status remains unknown; retain refund, fraud and customer complaint counters",
+      "fallback_policy": "Offer cards only after lifecycle state is definitively known and fresh customer consent",
+      "experiment": "No rollout until contracted scope and inspection gaps close; then separately randomized channel cohorts"
+    },
+    "selected_option": null,
+    "implementation_sequence": [
+      {
+        "stage": 1,
+        "work": "Resolve market/entity/method and mandatory constraint evidence for candidate options.",
+        "exit": "All chosen option gates resolved by accountable owners."
+      },
+      {
+        "stage": 2,
+        "work": "Diligence provider scope, contracting responsibilities, funds flows, pricing and service levels.",
+        "exit": "Documented provider and regulatory review; model comparable economics."
+      },
+      {
+        "stage": 3,
+        "work": "Design integration, reconciliation, refunds, servicing and operational fallback with explicit owners.",
+        "exit": "Inspectable acceptance criteria and test evidence."
+      },
+      {
+        "stage": 4,
+        "work": "Run a bounded pilot with agreed success denominator and loss/cost/customer guardrails.",
+        "exit": "Human launch decision based on pilot outcomes; no assumed conversion uplift."
+      }
+    ]
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-provider-evaluator",
+      "reason": "Diligence candidate operating requirements and evidence.",
+      "required_inputs": [
+        "options",
+        "coverage_matrix",
+        "gating_questions"
+      ],
+      "handoff_id": "4137e1e109d17ac7982446f7572b2b1a7c2c30fde305d3f9f8e336cc82341eb9",
+      "contract_version": "1.0.0",
+      "source_skill": "merchant-acceptance-strategy-designer",
+      "case_id": "forward-acceptance-recurring",
+      "lead_owner": "merchant",
+      "requested_output": "Diligence candidate operating requirements and evidence.",
+      "source_refs": [
+        "/tmp/payments-phase2-forward-commercial/source-merchant-brief.json",
+        "/tmp/payments-phase2-forward-commercial/source-gateway-deck.json",
+        "/tmp/payments-phase2-forward-commercial/source-card-test.json",
+        "/tmp/payments-phase2-forward-commercial/source-bank-annex.json"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: Resolve mandatory constraint: Contract must cover UK entity and recurring customer authorization for both channels",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "upstream:deck-contract-conflict",
+          "message": "Generic recurring support in the deck conflicts with the one-off-only bank contract annex.",
+          "source_ids": [
+            "gateway-deck",
+            "bank-annex"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-economics-modeler",
+      "reason": "Model participant-specific acceptance scenarios with adoption and displacement.",
+      "required_inputs": [
+        "segments",
+        "options"
+      ],
+      "handoff_id": "0a8ede4f1bb72583becfa9508085df050fc29dfade1b371cd9b5839a0e98aa36",
+      "contract_version": "1.0.0",
+      "source_skill": "merchant-acceptance-strategy-designer",
+      "case_id": "forward-acceptance-recurring",
+      "lead_owner": "merchant",
+      "requested_output": "Model participant-specific acceptance scenarios with adoption and displacement.",
+      "source_refs": [
+        "/tmp/payments-phase2-forward-commercial/source-merchant-brief.json",
+        "/tmp/payments-phase2-forward-commercial/source-gateway-deck.json",
+        "/tmp/payments-phase2-forward-commercial/source-card-test.json",
+        "/tmp/payments-phase2-forward-commercial/source-bank-annex.json"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: Resolve mandatory constraint: Contract must cover UK entity and recurring customer authorization for both channels",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "upstream:deck-contract-conflict",
+          "message": "Generic recurring support in the deck conflicts with the one-off-only bank contract annex.",
+          "source_ids": [
+            "gateway-deck",
+            "bank-annex"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-integration-readiness-reviewer",
+      "reason": "Review inspected/tested launch evidence after design.",
+      "required_inputs": [
+        "responsibilities",
+        "implementation_sequence"
+      ],
+      "handoff_id": "7be0d89f33ac79c26c07d47e6cd5b767027a595010f4f45a5c419e83c66e0d21",
+      "contract_version": "1.0.0",
+      "source_skill": "merchant-acceptance-strategy-designer",
+      "case_id": "forward-acceptance-recurring",
+      "lead_owner": "merchant",
+      "requested_output": "Review inspected/tested launch evidence after design.",
+      "source_refs": [
+        "/tmp/payments-phase2-forward-commercial/source-merchant-brief.json",
+        "/tmp/payments-phase2-forward-commercial/source-gateway-deck.json",
+        "/tmp/payments-phase2-forward-commercial/source-card-test.json",
+        "/tmp/payments-phase2-forward-commercial/source-bank-annex.json"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: desktop-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/card: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Obtain inspected scope-specific evidence; proposal or assumption is insufficient.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Merchant entity eligibility is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: mobile-recurring/pay-by-bank: Recurring mandate/credential and consent support is unresolved or unsupported.",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "acceptance-option-gate",
+          "message": "extend-pine: Resolve mandatory constraint: Contract must cover UK entity and recurring customer authorization for both channels",
+          "source_ids": [],
+          "severity": "gap"
+        },
+        {
+          "code": "upstream:deck-contract-conflict",
+          "message": "Generic recurring support in the deck conflicts with the one-off-only bank contract annex.",
+          "source_ids": [
+            "gateway-deck",
+            "bank-annex"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [
+    {
+      "code": "deck-contract-conflict",
+      "message": "Generic recurring support in the deck conflicts with the one-off-only bank contract annex.",
+      "source_ids": [
+        "gateway-deck",
+        "bank-annex"
+      ]
+    }
+  ],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

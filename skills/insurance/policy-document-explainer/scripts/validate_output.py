@@ -95,6 +95,21 @@ def validate(s: dict) -> list[str]:
     elif count != len(elements):
         errors.append(f"sections_explained_count {count} != number of elements {len(elements)}")
 
+    from insurance_contract import validate_artifact
+    source = s.get("source_document")
+    errors.extend(validate_artifact(s.get("artifact"), input_doc=source, output=s))
+    if not isinstance(source, dict):
+        errors.append("source_document required for source preservation")
+    else:
+        originals = {row["section_id"]: row for row in source.get("sections", [])}
+        for element in elements:
+            original = originals.get(element.get("section_id"), {})
+            if element.get("source_text") != original.get("text") or element.get("source") != original.get("source"):
+                errors.append("explanation source section not preserved")
+            ref = original.get("source") or {}
+            if not str(element.get("citation", "")).startswith(f"{ref.get('system')}:{ref.get('ref')}@"):
+                errors.append("explanation citation does not identify original source")
+
     # Language screen over all human-readable text in the explanation.
     text = " ".join(str(s.get(k, "")) for k in ("narrative", "notes"))
     text += " " + " ".join(str(e.get("plain_summary", "")) for e in elements)

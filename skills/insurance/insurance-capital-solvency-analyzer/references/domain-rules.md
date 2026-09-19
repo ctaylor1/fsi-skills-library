@@ -1,0 +1,9 @@
+# Native domain method and limits
+
+The only supported numerator method is approved-additive-components. The reviewed profile enumerates all unique signed components. Positive eligible items and negative approved deductions are summed exactly once; that sum is compared with a separately supplied available-capital control. Eligibility, caps, admissibility, concentration charges, covariance, tax offsets and diversification are supplied upstream, never invented here. A complete numerator bridge is not a reimplementation of RBC, SCR or another regime.
+
+The denominator is an independently supplied, positive, reviewed capital requirement whose name exactly matches the profile. Ratio percent = calculated available capital / supplied requirement × 100. Preserve denominator names: ACL RBC, CAL RBC, SCR and internal economic requirements are not interchangeable. Profile thresholds are supplied percentages with purpose/source; comparisons report only below or at-or-above. No regulatory intervention, exemption or action is inferred. A control difference is visible and requires human review, even when the ratio can be calculated.
+
+For each approved scenario, stressed available = base available + supplied signed available delta, and stressed requirement = base requirement + supplied signed requirement delta. Compare both with supplied stressed controls before interpreting the stress ratio; a zero/nonpositive stressed denominator withholds that ratio. Negative available capital remains visible. Scenario changes may embody nonlinear approved calculations done upstream; the helper only checks the bridge.
+
+The NAIC RBC overview explains its supervisory purpose and that formula families differ. Current-year manuals, entity type, legal adoption and exact denominator scope remain deployment inputs. An internal threshold or methodology source does not become law through the package profile.

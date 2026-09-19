@@ -1,0 +1,1 @@
+Reconcile this period’s earned producer commissions and linked chargeback using the agreement’s original splits. Show exact net earned and reported differences, flag rounding versus substantive breaks, and leave payment and licensing decisions to their owners.

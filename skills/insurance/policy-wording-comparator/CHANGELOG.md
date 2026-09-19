@@ -1,5 +1,12 @@
 # Changelog — policy-wording-comparator
 
+## [0.2.0] — 2026-09-18
+
+- Phase 1: corrected implemented scope, source preservation, typed result states, portable evidence contract and substantive output recomputation.
+- Added synthetic regression cases for observed correctness failures.
+- Domain professional review and production integration acceptance remain pending.
+
+
 ## [0.1.0] — 2026-07-18
 Initial authoring in the FSI Skills Library (baseline status: `new`). R3 read-only
 decision-support: cited wording findings + reviewer questions, mandatory human adjudication, no
@@ -24,8 +31,8 @@ autonomous regulated decision.
   edge, deterministic script checks, no-decision safety + injection, adjudication-required
   authorization.
 - **Handoffs:** downstream to `policy-document-explainer`, `coverage-gap-analyzer`,
-  `policy-renewal-reviewer`, `reinsurance-treaty-interpreter`, `premium-quote-comparator`; upstream
-  from `underwriting-workbench-assistant`, `submission-intake-triager`, `policy-renewal-reviewer`;
+  `policy-renewal-reviewer`, `reinsurance-contract-reviewer`, `premium-quote-comparator`; upstream
+  from `insurance-underwriting-risk-reviewer`, `insurance-submission-preparer`, `policy-renewal-reviewer`;
   filing/approval/coverage adjudication reserved for licensed humans and authorized systems.
 
 ### Pending before release

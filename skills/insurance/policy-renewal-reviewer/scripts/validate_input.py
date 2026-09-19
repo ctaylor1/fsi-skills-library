@@ -17,7 +17,8 @@ Usage:
 Exit 0 if no errors (warnings allowed), 1 otherwise.
 """
 from __future__ import annotations
-import json, re, sys
+import json, re, sys, math
+from datetime import date
 from pathlib import Path
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
@@ -26,7 +27,7 @@ REQUIRED_TOP = ("policy_id", "as_of", "config_version", "expiring", "proposed")
 
 def _num(v):
     try:
-        return float(v)
+        return float(v) if not isinstance(v, bool) and math.isfinite(float(v)) else None
     except (TypeError, ValueError):
         return None
 
@@ -68,6 +69,14 @@ def validate(doc: dict) -> tuple:
     if not DATE_RE.match(str(doc["as_of"])):
         errors.append(f"as_of must start YYYY-MM-DD, got {doc['as_of']!r}")
 
+    try:
+        date.fromisoformat(str(doc["as_of"]))
+        days = doc.get("review_window_days", 1095)
+        if isinstance(days, bool) or not isinstance(days, int) or days <= 0:
+            errors.append("review_window_days must be a positive integer")
+    except ValueError:
+        errors.append("as_of must be a real ISO date")
+
     _check_term("expiring", doc.get("expiring"), errors, warnings)
     _check_term("proposed", doc.get("proposed"), errors, warnings)
 
@@ -82,8 +91,12 @@ def validate(doc: dict) -> tuple:
             tag = f"claims[{i}] ({c.get('claim_id','?')})"
             if not c.get("claim_id"):
                 errors.append(f"{tag}: missing 'claim_id'")
+            try:
+                date.fromisoformat(str(c.get("date_of_loss")))
+            except ValueError:
+                errors.append(f"{tag}: valid date_of_loss required for time-window filtering")
             if _num(c.get("incurred")) is None:
-                warnings.append(f"{tag}: no numeric 'incurred' — treated as 0 in loss ratio")
+                warnings.append(f"{tag}: no numeric 'incurred' — loss ratio not evaluable")
             if not c.get("source_ref"):
                 warnings.append(f"{tag}: no 'source_ref' — claim evidence will be unanchored")
             cid = c.get("claim_id")

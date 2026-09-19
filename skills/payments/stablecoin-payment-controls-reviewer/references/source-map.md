@@ -42,3 +42,9 @@ specific `source_ref` that evidences (or fails to evidence) the control.
 All read-only, deterministic, bounded payloads, durable `review_id`, below the fixed
 timeout; page long control sets as resumable stages. No mutating or scheduled-agent
 operations — this skill is interactive and never writes.
+
+## Phase 1 implementation boundary
+
+Phase 1: control evidence only, not a stablecoin settlement opportunity assessment. policy_profile must identify authority, source, version, active dates, review owner, participant/jurisdiction and required_controls. Missing/expired/inapplicable policy remains not_evaluable and escalated. No universal travel-rule threshold or chain confirmation count exists in this engine; supply applicable values and currency/chain context. Issuer controls do not automatically apply to a merchant using settlement services. Firm policy cannot override law.
+
+policy_profile fields follow references/payment-contract.md and additionally required_controls (supported IDs), threshold_currency for travel_rule and chain_id for finality_confirmations. Explicit config values are required for each numeric control; absent values are not_evaluable.

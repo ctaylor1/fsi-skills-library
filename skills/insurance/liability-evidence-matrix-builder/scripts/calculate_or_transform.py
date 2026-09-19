@@ -1,73 +1,128 @@
 #!/usr/bin/env python3
-"""Deterministic evidence-matrix build for liability-evidence-matrix-builder.
+"""Map supplied fact-specific source passages into supporting/contrary evidence. Legacy ID links are unverified hints. No fault, liability or credibility finding.
 
-For each alleged fact, collects supporting and contradicting evidence, assigns a coverage status
-(supported / contested / unsupported), and flags unsupported facts and dangling evidence
-references. Evidence mapping only; never determines liability, fault, or apportionment.
-
-Usage: python calculate_or_transform.py claim.json | --selftest
+Usage: python calculate_or_transform.py input.json | --selftest
 """
+
 from __future__ import annotations
-import json, sys
+
+import json
+import sys
 from collections import defaultdict
 from pathlib import Path
 
-DISCLAIMER = ("Evidence mapping only; not a liability, fault, or negligence determination and not "
-              "a claim decision. No responsibility has been apportioned.")
+from insurance_contract import build_artifact
+
+DISCLAIMER = (
+    "Evidence mapping only; not a liability, fault, or negligence determination and not "
+    "a claim decision. No responsibility has been apportioned."
+)
+
+
+def _calculate(doc: dict) -> dict:
+    claim, facts = doc["claim"], doc["facts"]
+    ids = [f.get("fact_id") for f in facts]
+    evidence = doc.get("evidence", [])
+    eids = [e.get("evidence_id") for e in evidence]
+    supports, contradicts, gaps = defaultdict(list), defaultdict(list), []
+    if len(ids) != len(set(ids)) or len(eids) != len(set(eids)):
+        gaps.append({"type": "duplicate_identifier", "citation": "input:identifiers"})
+    for e in evidence:
+        # Legacy lists are mapping hints, never proof of a source-backed relationship.
+        for role in ("supports", "contradicts"):
+            for fid in e.get(role, []) or []:
+                gaps.append(
+                    {
+                        "type": "unverified_legacy_relation",
+                        "fact_id": fid,
+                        "evidence_id": e.get("evidence_id"),
+                        "citation": e.get("source_ref") or "input:evidence",
+                    }
+                )
+        for rel in e.get("relations", []) or []:
+            fid, role = rel.get("fact_id"), rel.get("role")
+            cell = {
+                "fact_id": fid,
+                "role": role,
+                "evidence_id": e.get("evidence_id"),
+                "citation": e.get("source_ref"),
+                "source_version": e.get("version"),
+                "source_quote": rel.get("source_quote"),
+                "relation_basis": rel.get("relation_basis"),
+                "assurance": "supplied_not_authenticated",
+            }
+            valid = (
+                fid in ids
+                and role in {"supports", "contradicts"}
+                and all(
+                    isinstance(cell.get(k), str) and cell[k].strip()
+                    for k in ("citation", "source_version", "source_quote", "relation_basis")
+                )
+                and ids.count(fid) == 1
+                and eids.count(e.get("evidence_id")) == 1
+            )
+            if not valid:
+                gaps.append(
+                    {
+                        "type": "unresolved_evidence_relation",
+                        "fact_id": fid,
+                        "evidence_id": e.get("evidence_id"),
+                        "citation": e.get("source_ref") or "input:evidence",
+                    }
+                )
+            else:
+                (supports if role == "supports" else contradicts)[fid].append(cell)
+    matrix, counts = [], defaultdict(int)
+    for f in facts:
+        fid = f.get("fact_id")
+        sup, con = supports[fid], contradicts[fid]
+        status = "contested" if sup and con else "supported" if sup else "contradicted" if con else "unsupported"
+        if status != "supported":
+            gaps.append(
+                {"type": status + "_fact", "fact_id": fid, "citation": f.get("source_ref") or f"input:fact={fid}"}
+            )
+        counts[status] += 1
+        matrix.append(
+            {
+                "fact_id": fid,
+                "statement": f.get("statement"),
+                "party": f.get("party"),
+                "supporting": sup,
+                "contradicting": con,
+                "status": status,
+            }
+        )
+    return {
+        "matrix_id": f"lemb-{claim.get('claim_id', 'UNKNOWN')}",
+        "claim_id": claim.get("claim_id"),
+        "claim_type": claim.get("claim_type"),
+        "fact_count": len(facts),
+        "status_counts": dict(counts),
+        "matrix": matrix,
+        "gaps": gaps,
+        "suggested_disposition": "gaps-for-review" if gaps else "matrix-complete",
+        "disclaimer": DISCLAIMER,
+    }
 
 
 def compute(doc: dict) -> dict:
-    claim = doc["claim"]
-    facts = doc["facts"]
-    evidence = doc.get("evidence", [])
-    fact_ids = {f.get("fact_id") for f in facts}
+    from validate_input import validate
 
-    supports = defaultdict(list)
-    contradicts = defaultdict(list)
-    dangling = []
-    for e in evidence:
-        eid = e.get("evidence_id")
-        ref = e.get("source_ref", eid)
-        for fid in e.get("supports", []) or []:
-            (supports[fid] if fid in fact_ids else dangling).append(
-                {"evidence_id": eid, "fact_id": fid, "role": "supports", "citation": f"claim:{ref}"})
-        for fid in e.get("contradicts", []) or []:
-            (contradicts[fid] if fid in fact_ids else dangling).append(
-                {"evidence_id": eid, "fact_id": fid, "role": "contradicts", "citation": f"claim:{ref}"})
-
-    matrix, gaps = [], []
-    status_counts = defaultdict(int)
-    for f in facts:
-        fid = f.get("fact_id")
-        sup = supports.get(fid, [])
-        con = contradicts.get(fid, [])
-        if not sup:
-            status = "unsupported"
-            gaps.append({"type": "unsupported_fact", "fact_id": fid,
-                         "citation": f"claim:claim={claim.get('claim_id')};fact={fid}"})
-        elif con:
-            status = "contested"
-        else:
-            status = "supported"
-        status_counts[status] += 1
-        matrix.append({"fact_id": fid, "statement": f.get("statement"), "party": f.get("party"),
-                       "supporting": sup, "contradicting": con, "status": status})
-
-    for d in dangling:
-        gaps.append({"type": "dangling_evidence", "evidence_id": d["evidence_id"],
-                     "fact_id": d["fact_id"], "citation": d["citation"]})
-
-    disposition = "matrix-complete" if not gaps else "gaps-for-review"
-    return {
-        "matrix_id": f"lemb-{claim.get('claim_id', 'UNKNOWN')}-0001",
-        "claim_id": claim.get("claim_id"), "claim_type": claim.get("claim_type"),
-        "fact_count": len(facts),
-        "status_counts": dict(status_counts),
-        "matrix": matrix,
-        "gaps": gaps,
-        "suggested_disposition": disposition,
-        "disclaimer": DISCLAIMER,
-    }
+    errors, _ = validate(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
+    output = _calculate(doc)
+    issues = [str(x) for x in output.get("gaps", [])]
+    output["artifact"] = build_artifact(
+        doc,
+        output,
+        producer="liability-evidence-matrix-builder",
+        artifact_type="liability-evidence-matrix-builder-review",
+        completeness="partial" if issues else "complete",
+        evaluability="partial" if issues else "evaluable",
+        issues=issues,
+    )
+    return output
 
 
 def main(argv):

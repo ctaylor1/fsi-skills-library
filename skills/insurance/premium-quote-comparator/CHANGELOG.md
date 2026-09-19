@@ -1,5 +1,12 @@
 # Changelog — premium-quote-comparator
 
+## [0.2.0] — 2026-09-18
+
+- Phase 1: corrected implemented scope, source preservation, typed result states, portable evidence contract and substantive output recomputation.
+- Added synthetic regression cases for observed correctness failures.
+- Domain professional review and production integration acceptance remain pending.
+
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `existing-updated` relative to
 the AWS baseline — stronger evidence, comparability-flag, and no-advice/no-determination
@@ -24,7 +31,7 @@ guardrails).
   mixed-currency edges, deterministic script checks, no-advice safety + injection,
   external-delivery authorization.
 - **Handoffs:** downstream to `coverage-gap-analyzer`, `policy-wording-comparator`,
-  `policy-document-explainer`, `policy-renewal-reviewer`, `submission-intake-triager`.
+  `policy-document-explainer`, `policy-renewal-reviewer`, `insurance-submission-preparer`.
 
 ### Pending before release
 - Domain SME (product/pricing) + control-owner blind review; conduct review of neutral,

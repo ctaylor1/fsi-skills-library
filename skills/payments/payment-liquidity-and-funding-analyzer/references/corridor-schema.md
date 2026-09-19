@@ -1,0 +1,19 @@
+# Optional corridor-funding module — Phase 4
+
+Use review_corridor.py explicitly; the original US/EA/UK core mode remains unchanged. Supply a foundation 1.0 envelope; this module permits US/EA/UK/BR/IN/CA planning. data has aware window_start/window_end, history_complete boolean, accountable_reviewer, accounts, obligations, funding_transfers and stress_scenarios lists.
+
+Accounts: unique account_id, entity_id, jurisdiction, currency (USD/EUR/GBP/BRL/INR/CAD), account_role nostro/local-payout/source-funding/settlement, snapshot_at exactly window start, opening_balance and held nonnegative decimal or null, ownership_review_ref, funding_model_review_ref and source_ids. Held is a separate restriction, not an event reservation; available begins at opening balance minus held. Missing balance/held remains unknown. Do not duplicate the same legal account under different identities or merge independent entity accounts.
+
+Obligations: globally unique economic_id, account_id, entity_id, currency, purpose customer-payout/nostro-obligation/fee/collateral, positive amount, aware due_at inside window and source_ids. Exact account/entity/currency binding is enforced. A single exposure appears once; customer payment and settlement records of that same obligation cannot be entered twice.
+
+Funding transfers: unique transfer_id and globally unique economic_id, source_account/destination_account (distinct registered accounts), source_entity_id/destination_entity_id, source_currency/destination_currency, positive source_amount/destination_amount, debit_at strictly before credit_at inside window, certainty firm, funding_contract_ref, access_review_ref, limit_review_ref and source_ids. Both debit_window and credit_window contain aware opens_at/closes_at and availability_review_ref. Cross-entity transfers require interentity_agreement_ref. Same-currency source and destination gross amounts must match; any fee is a separate obligation.
+
+Cross-currency funding adds fx_quote: base_currency, quote_currency, positive rate (quote units/base unit), quoted_at/expires_at, kind firm, quote_ref. Rate orientation and exact conversion must reconcile the two amounts and be current at debit. No quote, contract, access or balance is authenticated. Funding with missing evidence is excluded; no notional conversion creates liquidity. Supply fees as separate obligations and retain explicit institution rounding review outside this exact-gross model.
+
+Stress_scenarios: unique scenario_id, rationale, remove_transfer_ids referencing registered transfers. Each stress recomputes all dependencies. A removed source funding leg can prevent a later downstream transfer; source cash is assessed at its debit instant.
+
+At equal timestamps, projected obligations precede funding debits, then credits. Credits from future events cannot cure prior minima. Transfers with insufficient/unknown source cash are excluded entirely; a late subsequent receipt cannot backdate them. Accounts, entities and currencies are never netted. A funding deficit is a projection; it is not a permitted overdraft. All outputs remain draft-only and false authority/action.
+
+Commands: validate_corridor_input.py request.json; review_corridor.py request.json; validate_corridor_output.py output.json --input request.json; test_corridor.py. Professional Treasury/local jurisdiction review and authenticated deployment acceptance remain separate.
+
+Primary orientation reviewed 2026-09-18: [BIS FX risk](https://www.bis.org/committees/bcbs/basel-consolidated-guidelines/module/rma/20), [BIS liquidity bridges](https://www.bis.org/publications/liquidity-bridges-across-central-banks-cross-border-payments), and [BIS correspondent banking](https://www.bis.org/publications/correspondent-banking-final-report). These sources establish neither participant access nor any specific funding deadline, currency price or netting permission.

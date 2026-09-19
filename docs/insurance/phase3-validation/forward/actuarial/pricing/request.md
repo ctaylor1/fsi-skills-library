@@ -1,0 +1,1 @@
+Price a two-year synthetic endowment model point for 100 opening lives. Compare discounted premiums, expenses and benefits using the reviewed annual forward-rate schedule. Preserve the unresolved terminal-benefit amendment. Do not approve the premium.

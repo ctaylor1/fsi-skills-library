@@ -14,8 +14,9 @@ Usage: python calculate_or_transform.py request.json | --selftest
 Prints the draft follow-up package JSON to stdout.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, copy, hashlib
 from pathlib import Path
+from validate_input import validate as validate_input
 
 # The 7 required follow-up sections (key, title). Order and titles are the template contract.
 REQUIRED_SECTIONS = [
@@ -33,7 +34,7 @@ MATERIAL_SECTIONS = {
     "disclosures", "crm-update", "next-meeting",
 }
 APPROVAL_ROLES = ("Advisor", "Supervisory Principal")
-SUITABILITY_SKILL = "suitability-reg-bi-reviewer"
+SUITABILITY_SKILL = "investment-recommendation-evidence-reviewer"
 SENIOR_SKILL = "senior-investor-protection-screener"
 STANDING_NOTE = ("Draft follow-up package for human review only; nothing has been sent to the "
                  "client, no CRM or system of record has been updated, no trade has been placed, "
@@ -54,7 +55,8 @@ def _section_citations(key, doc):
         "meeting-summary": meeting_cite + _dp_citations(doc),
         "action-items": [ai.get("citation") for ai in (doc.get("action_items") or []) if ai.get("citation")],
         "client-communication": ([doc["client_communication"]["citation"]]
-                                 if (doc.get("client_communication") or {}).get("citation") else []),
+                                 if (doc.get("client_communication") or {}).get("citation") else []) +
+                                 [p.get("citation") for p in doc.get("client_communication", {}).get("key_points", []) if p.get("citation")],
         # If no product-specific disclosure applies, the meeting record cites the "none required" basis.
         "disclosures": disc_cites or meeting_cite,
         "crm-update": [f.get("citation") for f in (doc.get("crm_update") or {}).get("fields") or []
@@ -63,6 +65,10 @@ def _section_citations(key, doc):
                          if (doc.get("next_meeting") or {}).get("citation") else []),
         "approvals-and-delivery": [],  # approvals are a pending block, not a cited assertion
     }
+    if not m.get(key):
+        reason = (doc.get("not_applicable") or {}).get(key, {})
+        if reason.get("citation"):
+            m[key] = [reason["citation"]]
     # de-duplicate while preserving order
     seen, out = set(), []
     for c in m.get(key, []):
@@ -72,7 +78,17 @@ def _section_citations(key, doc):
 
 
 def assemble(doc: dict) -> dict:
-    needs, sections, source_map = [], [], {}
+    errors, warnings = validate_input(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
+    needs, sections, source_map = list(warnings), [], {}
+    content = {
+        "meeting-summary": {"client": doc["client"], "meeting": doc["meeting"], "discussion_points": doc["discussion_points"], "recommendations": doc["recommendations"]},
+        "action-items": doc["action_items"], "client-communication": doc["client_communication"],
+        "disclosures": doc["disclosures"] or {"reason": "No recommendation flagged for disclosure", "citation": doc["meeting"].get("citation")},
+        "crm-update": doc["crm_update"]["fields"], "next-meeting": doc["next_meeting"],
+        "approvals-and-delivery": {"required_roles": doc["communication_policy"]["required_roles"], "delivery_status": "not-delivered"},
+    }
 
     for key, title in REQUIRED_SECTIONS:
         cites = _section_citations(key, doc)
@@ -80,7 +96,8 @@ def assemble(doc: dict) -> dict:
         if key in MATERIAL_SECTIONS and not cites:
             gaps.append(f"missing citation for {title.lower()} (material assertion)")
             needs.append(f"{title}: source citation")
-        sections.append({"key": key, "title": title, "present": True,
+        body = content[key] or (doc.get("not_applicable") or {}).get(key)
+        sections.append({"key": key, "title": title, "present": bool(body), "content": copy.deepcopy(body),
                          "citations": cites, "gaps": gaps})
         source_map[key] = cites
 
@@ -109,26 +126,35 @@ def assemble(doc: dict) -> dict:
     if (doc.get("client") or {}).get("senior_or_vulnerable"):
         routes.append({"to": SENIOR_SKILL, "ref": (doc.get("client") or {}).get("household_id"),
                        "reason": "senior / vulnerable client indicator raised in the meeting"})
+    routes.append({"to": "communications-compliance-reviewer", "ref": doc["followup_id"],
+                   "reason": "review drafted client communication under the applicable engagement and communications policy"})
 
     # --- approvals: always recorded as pending; never granted by this skill ---
     existing = {a.get("role"): a for a in (doc.get("approvals") or [])}
     approvals = []
-    for role in APPROVAL_ROLES:
+    for role in doc["communication_policy"]["required_roles"]:
         a = existing.get(role, {})
         approvals.append({"role": role, "name_masked": a.get("name_masked", "TBD"), "status": "pending"})
 
     cited_material = sum(1 for s in sections if s["key"] in MATERIAL_SECTIONS and s["citations"])
     disposition = "needs-data" if needs else "draft-ready"
 
+    digest = hashlib.sha256(json.dumps(doc, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    communication = copy.deepcopy(doc["client_communication"])
+    communication["body"] = "\n\n".join(p.get("text", "") for p in communication["key_points"])
     return {
+        "request_id": doc["request_id"], "artifact_id": f"advisor-follow-up-assistant:{doc['request_id']}:{digest[:16]}",
+        "input_hash": digest, "input_snapshot": copy.deepcopy(doc), "prior_artifact_id": doc.get("prior_artifact_id"),
+        "as_of_date": doc["as_of_date"], "client": copy.deepcopy(doc["client"]),
+        "engagement": copy.deepcopy(doc["engagement"]), "communication_policy": copy.deepcopy(doc["communication_policy"]),
+        "source_inventory": copy.deepcopy(doc["source_inventory"]),
+        "human_review_required": True, "action_taken": False,
         "followup_id": doc.get("followup_id"),
         "config_version": doc.get("config_version"),
         "template_version": doc.get("template_version"),
         "disclosures_version": doc.get("disclosures_version"),
         "author_id": doc.get("author_id"),
-        "meeting": {"date": (doc.get("meeting") or {}).get("date"),
-                    "channel": (doc.get("meeting") or {}).get("channel"),
-                    "citation": (doc.get("meeting") or {}).get("citation")},
+        "meeting": copy.deepcopy(doc["meeting"]),
         "draft_status": "draft",
         "delivery_status": "not-delivered",
         "crm_write_status": "not-written",
@@ -136,7 +162,7 @@ def assemble(doc: dict) -> dict:
         "discussion_points": doc.get("discussion_points") or [],
         "recommendations": recommendations,
         "action_items": action_items,
-        "client_communication": doc.get("client_communication") or {},
+        "client_communication": communication,
         "disclosures": disclosures,
         "crm_update": doc.get("crm_update") or {"fields": []},
         "next_meeting": doc.get("next_meeting") or {},
@@ -165,7 +191,12 @@ def main(argv):
         doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
     else:
         doc = json.loads(sys.stdin.read())
-    print(json.dumps(assemble(doc), indent=2))
+    try:
+        result = assemble(doc)
+    except (ValueError, TypeError, KeyError) as exc:
+        print(json.dumps({"status": "needs-data", "errors": [str(exc)], "action_taken": False}))
+        return 1
+    print(json.dumps(result, indent=2, allow_nan=False))
     return 0
 
 

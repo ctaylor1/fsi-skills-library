@@ -1,0 +1,67 @@
+{
+  "case_id": "CASE-77310",
+  "payment_id": "****8842",
+  "type": "invalid_beneficiary_detail",
+  "as_of": "2026-07-16T15:00:00Z",
+  "catalog_version": "offline-field-repair-v1",
+  "exception_confirmation": {
+    "case_id": "CASE-77310",
+    "status": "confirmed",
+    "source_ref": "case-system:CASE-77310#defect-review"
+  },
+  "payment_snapshot": {
+    "payment_id": "****8842",
+    "end_to_end_id": "E2E-88231-7788",
+    "entity_id": "BANK-US-1",
+    "rail": "SWIFT",
+    "currency": "USD",
+    "amount": "12500.00",
+    "state": "held",
+    "source_ref": "payment-store:M-88231:v2",
+    "as_of": "2026-07-16T14:20:00Z",
+    "fields": {
+      "beneficiary_bic": "DEUTDEF",
+      "beneficiary_account": "****5566",
+      "remittance_info": "Invoice 77310"
+    }
+  },
+  "policy": {
+    "policy_id": "repair-policy-us",
+    "version": "2026.07",
+    "source_ref": "policy-register:repair-policy-us:2026.07",
+    "entity_id": "BANK-US-1",
+    "rails": [
+      "SWIFT"
+    ],
+    "currency": "USD",
+    "max_amount": "100000.00",
+    "allowed_fields": [
+      "beneficiary_bic"
+    ],
+    "allowed_exception_types": [
+      "invalid_beneficiary_detail"
+    ],
+    "required_approver_role": "payments-repair-supervisor",
+    "effective_at": "2026-07-01T00:00:00Z",
+    "expires_at": "2026-08-01T00:00:00Z"
+  },
+  "screening": {
+    "status": "clear",
+    "disposition_id": "SCR-4471",
+    "source_ref": "screening:SCR-4471",
+    "payment_id": "****8842",
+    "screened_at": "2026-07-16T14:22:00Z",
+    "repair_binding": "294387dac5b42ef27994b106375de3885831c54e0e35d5211160b6142303f867"
+  },
+  "evidence": {
+    "verification_source": "beneficiary-bank directory 2026.06; BIC DEUTDEFF confirmed by authorized analyst"
+  },
+  "proposed_repair": {
+    "action": "repair_and_resubmit",
+    "amount": "12500.00",
+    "currency": "USD",
+    "field": "beneficiary_bic",
+    "old_value": "DEUTDEF",
+    "new_value": "DEUTDEFF"
+  }
+}

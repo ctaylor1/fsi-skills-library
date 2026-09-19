@@ -1,0 +1,386 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "synthetic-book-quarter-review",
+  "household_id": "book:BOOK-SYNTHETIC",
+  "scope_type": "advisor-book",
+  "book_id": "BOOK-SYNTHETIC",
+  "as_of": "2026-09-17",
+  "currency": "USD",
+  "period_start": "2026-09-01",
+  "period_end": "2026-09-16",
+  "planning_end": "2026-09-21",
+  "population_complete": true,
+  "scope_source_ids": [
+    "case"
+  ],
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "source_ids": [
+      "case"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "case",
+      "reference": "synthetic:advisor-book-v1",
+      "owner": "Synthetic practice data owner",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "policy",
+      "reference": "synthetic:service-policy-v3",
+      "owner": "Synthetic practice supervisor; not institutional approval",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "upstream_issues": [
+    {
+      "artifact_id": "upstream-service-artifact",
+      "code": "unresolved-owner-authority",
+      "message": "Account service authority requires supervisor review.",
+      "status": "unresolved",
+      "source_ids": [
+        "case"
+      ]
+    }
+  ],
+  "policy": {
+    "version": "synthetic-v3",
+    "owner": "Synthetic practice supervisor",
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "effective_date": "2026-01-01",
+    "valid_until": "2026-12-31",
+    "review_owner_id": "ADVISOR-A",
+    "evidence_gap_effort_minutes": 30,
+    "effort_basis": "incremental-nonoverlapping-task-minutes",
+    "source_ids": [
+      "policy"
+    ],
+    "priority_rules": [
+      {
+        "trigger": "review-overdue",
+        "rank": 1,
+        "rationale": "Address overdue promised service.",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "trigger": "upstream-issue",
+        "rank": 1,
+        "rationale": "Resolve inherited evidence concerns before decisions.",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "trigger": "evidence-gap",
+        "rank": 2,
+        "rationale": "Obtain missing service evidence.",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "trigger": "life-event",
+        "rank": 2,
+        "rationale": "Review documented changes affecting client needs.",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "trigger": "service-request",
+        "rank": 3,
+        "rationale": "Respond to documented client service requests.",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "trigger": "retention-concern",
+        "rank": 3,
+        "rationale": "Understand the documented service concern.",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "trigger": "review-due",
+        "rank": 4,
+        "rationale": "Prepare the next policy-defined review.",
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "trigger": "client-requested-growth",
+        "rank": 10,
+        "rationale": "Discuss confirmed client interest after service work.",
+        "source_ids": [
+          "policy"
+        ]
+      }
+    ],
+    "service_tiers": [
+      {
+        "tier_id": "STANDARD",
+        "label": "Standard documented service agreement",
+        "review_interval_days": 30,
+        "initial_review_days": 10,
+        "review_effort_minutes": 60,
+        "source_ids": [
+          "policy"
+        ]
+      },
+      {
+        "tier_id": "COMPLEX",
+        "label": "Documented complex planning service",
+        "review_interval_days": 90,
+        "initial_review_days": 10,
+        "review_effort_minutes": 90,
+        "source_ids": [
+          "policy"
+        ]
+      }
+    ]
+  },
+  "owners": [
+    {
+      "owner_id": "ADVISOR-A",
+      "availability_complete": true,
+      "queue_overlap_reviewed": true,
+      "availability": [
+        {
+          "date": "2026-09-17",
+          "working_minutes": 180,
+          "unrelated_committed_minutes": 60,
+          "source_ids": [
+            "case"
+          ]
+        }
+      ],
+      "source_ids": [
+        "case"
+      ]
+    },
+    {
+      "owner_id": "ADVISOR-B",
+      "availability_complete": true,
+      "queue_overlap_reviewed": true,
+      "availability": [
+        {
+          "date": "2026-09-17",
+          "working_minutes": 150,
+          "unrelated_committed_minutes": 30,
+          "source_ids": [
+            "case"
+          ]
+        },
+        {
+          "date": "2026-09-18",
+          "working_minutes": 60,
+          "unrelated_committed_minutes": 0,
+          "source_ids": [
+            "case"
+          ]
+        }
+      ],
+      "source_ids": [
+        "case"
+      ]
+    }
+  ],
+  "households": [
+    {
+      "household_id": "HH-1",
+      "owner_id": "ADVISOR-A",
+      "tier_id": "STANDARD",
+      "segment_id": "ONGOING",
+      "segmentation_basis": "service-model",
+      "joined_on": "2020-01-01",
+      "departed_on": null,
+      "review_history": {
+        "status": "known",
+        "last_completed_on": "2026-07-01",
+        "source_ids": [
+          "case"
+        ]
+      },
+      "source_ids": [
+        "case"
+      ]
+    },
+    {
+      "household_id": "HH-2",
+      "owner_id": "ADVISOR-B",
+      "tier_id": "COMPLEX",
+      "segment_id": "COMPLEX-PLANNING",
+      "segmentation_basis": "service-model",
+      "joined_on": "2021-01-01",
+      "departed_on": null,
+      "review_history": {
+        "status": "known",
+        "last_completed_on": "2026-06-23",
+        "source_ids": [
+          "case"
+        ]
+      },
+      "source_ids": [
+        "case"
+      ]
+    },
+    {
+      "household_id": "HH-3",
+      "owner_id": "ADVISOR-A",
+      "tier_id": "STANDARD",
+      "segment_id": "FORMER",
+      "segmentation_basis": "service-model",
+      "joined_on": "2022-01-01",
+      "departed_on": "2026-09-10",
+      "review_history": {
+        "status": "known",
+        "last_completed_on": "2026-08-15",
+        "source_ids": [
+          "case"
+        ]
+      },
+      "source_ids": [
+        "case"
+      ]
+    },
+    {
+      "household_id": "HH-4",
+      "owner_id": "ADVISOR-A",
+      "tier_id": "STANDARD",
+      "segment_id": "NEW",
+      "segmentation_basis": "service-model",
+      "joined_on": "2026-09-10",
+      "departed_on": null,
+      "review_history": {
+        "status": "none",
+        "last_completed_on": null,
+        "source_ids": [
+          "case"
+        ]
+      },
+      "source_ids": [
+        "case"
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "signal_id": "RETENTION-1",
+      "household_id": "HH-1",
+      "kind": "retention-concern",
+      "description": "Client reported delayed responses and requested a service discussion.",
+      "observed_on": "2026-09-16",
+      "due_on": "2026-09-18",
+      "estimated_minutes": 30,
+      "source_ids": [
+        "case"
+      ]
+    },
+    {
+      "signal_id": "LIFE-4",
+      "household_id": "HH-4",
+      "kind": "life-event",
+      "description": "Client requested discussion of a documented housing change and related cash needs.",
+      "observed_on": "2026-09-16",
+      "due_on": "2026-09-18",
+      "estimated_minutes": 30,
+      "source_ids": [
+        "case"
+      ]
+    },
+    {
+      "signal_id": "GROWTH-2",
+      "household_id": "HH-2",
+      "kind": "client-requested-growth",
+      "description": "Client explicitly requested a discussion of consolidating a held-away account; no transfer is authorized.",
+      "observed_on": "2026-09-16",
+      "due_on": "2026-09-21",
+      "estimated_minutes": 45,
+      "client_interest_confirmed": null,
+      "source_ids": [
+        "case"
+      ]
+    }
+  ],
+  "economics": {
+    "status": "provided",
+    "definition_version": "asset-flow-and-direct-contribution-v1",
+    "period_start": "2026-09-01",
+    "period_end": "2026-09-16",
+    "household_records": [
+      {
+        "household_id": "HH-1",
+        "opening_assets": 100000,
+        "closing_assets": 108900,
+        "external_inflows": 2000,
+        "external_outflows": 1000,
+        "internal_net_transfer": 5000,
+        "market_change": 3000,
+        "fees_debited": 100,
+        "recognized_revenue": 100,
+        "direct_service_cost": 40,
+        "source_ids": [
+          "case"
+        ]
+      },
+      {
+        "household_id": "HH-2",
+        "opening_assets": 200000,
+        "closing_assets": 188800,
+        "external_inflows": 0,
+        "external_outflows": 5000,
+        "internal_net_transfer": -5000,
+        "market_change": -1000,
+        "fees_debited": 200,
+        "recognized_revenue": 200,
+        "direct_service_cost": 100,
+        "source_ids": [
+          "case"
+        ]
+      },
+      {
+        "household_id": "HH-3",
+        "opening_assets": 50000,
+        "closing_assets": 0,
+        "external_inflows": 0,
+        "external_outflows": 50000,
+        "internal_net_transfer": 0,
+        "market_change": 0,
+        "fees_debited": 0,
+        "recognized_revenue": 50,
+        "direct_service_cost": 25,
+        "source_ids": [
+          "case"
+        ]
+      },
+      {
+        "household_id": "HH-4",
+        "opening_assets": 0,
+        "closing_assets": 30000,
+        "external_inflows": 30000,
+        "external_outflows": 0,
+        "internal_net_transfer": 0,
+        "market_change": 0,
+        "fees_debited": 0,
+        "recognized_revenue": 30,
+        "direct_service_cost": 20,
+        "source_ids": [
+          "case"
+        ]
+      }
+    ],
+    "source_ids": [
+      "case"
+    ]
+  }
+}

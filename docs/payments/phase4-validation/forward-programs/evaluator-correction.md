@@ -1,0 +1,1 @@
+Initial evaluator assertion incorrectly required known liability to become unknown when only backing amount was missing. The wallet retained the independently reconciled 11000 KES liability and unknown backing/surplus. This is correct separation. Assertion corrected to check unknown backing and retained known liability; no target source was edited.

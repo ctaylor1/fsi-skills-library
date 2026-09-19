@@ -1,0 +1,212 @@
+{
+  "schema_version": "1.0",
+  "request_id": "phase4-synthetic-corridor",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "payment-design-owner",
+  "sources": [
+    {
+      "source_id": "case",
+      "reference": "synthetic://reviewed-case-snapshot-v1",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "use_case": "consumer-remittance",
+    "principal": "1000",
+    "evaluate_at": "2026-09-18T14:00:00Z",
+    "accountable_reviewer": "named-corridor-owner",
+    "payer": {
+      "entity_id": "us-sender",
+      "account_ref": "sender-usd",
+      "jurisdiction": "US",
+      "currency": "USD"
+    },
+    "payee": {
+      "entity_id": "br-beneficiary",
+      "account_ref": "beneficiary-brl",
+      "jurisdiction": "BR",
+      "currency": "BRL"
+    },
+    "options": [
+      {
+        "option_id": "us-br-pix",
+        "charge_convention": "SHA",
+        "charge_convention_review_ref": "contract-SHA-review",
+        "fees_complete": true,
+        "expected_delivery_review_ref": "delivery-window-case-review",
+        "fx_quote": {
+          "base_currency": "USD",
+          "quote_currency": "BRL",
+          "rate": "5",
+          "quoted_at": "2026-09-18T12:00:00Z",
+          "expires_at": "2026-09-18T15:00:00Z",
+          "kind": "firm",
+          "quote_ref": "case-firm-fx-1"
+        },
+        "fees": [
+          {
+            "fee_id": "sender",
+            "kind": "fee",
+            "charging_entity": "us-provider",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "amount": "10",
+            "side": "payer-addition"
+          },
+          {
+            "fee_id": "payout",
+            "kind": "fee",
+            "charging_entity": "br-provider",
+            "jurisdiction": "BR",
+            "currency": "BRL",
+            "amount": "5",
+            "side": "recipient-deduction"
+          }
+        ],
+        "legs": [
+          {
+            "leg_id": "collection",
+            "economic_id": "economic-collection",
+            "purpose": "customer-collection",
+            "from_entity": "us-sender",
+            "from_account_ref": "sender-usd",
+            "to_entity": "us-provider",
+            "to_account_ref": "collection-usd",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "amount": "1010",
+            "method": "supplied-bank-collection",
+            "obligation_ref": "obligation-review-collection",
+            "access_review_ref": "access-collection",
+            "funding_review_ref": "funding-collection",
+            "timing_review_ref": "timing-collection",
+            "source_ids": [
+              "case"
+            ]
+          },
+          {
+            "leg_id": "correspondent",
+            "economic_id": "economic-correspondent",
+            "purpose": "correspondent-delivery",
+            "from_entity": "us-provider",
+            "from_account_ref": "nostro-usd",
+            "to_entity": "br-provider",
+            "to_account_ref": "correspondent-usd",
+            "jurisdiction": "US",
+            "currency": "USD",
+            "amount": "1000",
+            "method": "supplied-correspondent",
+            "obligation_ref": "obligation-review-correspondent",
+            "access_review_ref": "access-correspondent",
+            "funding_review_ref": "funding-correspondent",
+            "timing_review_ref": "timing-correspondent",
+            "source_ids": [
+              "case"
+            ],
+            "previous_leg_id": "collection",
+            "account_transition_review_ref": "review-us-collection-to-nostro"
+          },
+          {
+            "leg_id": "funding",
+            "economic_id": "economic-funding",
+            "purpose": "nostro-funding",
+            "from_entity": "us-provider",
+            "from_account_ref": "funding-usd",
+            "to_entity": "br-provider",
+            "to_account_ref": "liquidity-brl",
+            "jurisdiction": "BR",
+            "currency": "BRL",
+            "amount": "5000",
+            "method": "supplied-fx-funding",
+            "obligation_ref": "obligation-review-funding",
+            "access_review_ref": "access-funding",
+            "funding_review_ref": "funding-funding",
+            "timing_review_ref": "timing-funding",
+            "source_ids": [
+              "case"
+            ]
+          },
+          {
+            "leg_id": "payout",
+            "economic_id": "economic-payout",
+            "purpose": "local-payout",
+            "from_entity": "br-provider",
+            "from_account_ref": "liquidity-brl",
+            "to_entity": "br-beneficiary",
+            "to_account_ref": "beneficiary-brl",
+            "jurisdiction": "BR",
+            "currency": "BRL",
+            "amount": "4995",
+            "method": "BR-PIX",
+            "obligation_ref": "obligation-review-payout",
+            "access_review_ref": "access-payout",
+            "funding_review_ref": "funding-payout",
+            "timing_review_ref": "timing-payout",
+            "source_ids": [
+              "case"
+            ],
+            "previous_leg_id": "correspondent",
+            "account_transition_review_ref": "review-br-correspondent-to-payout"
+          }
+        ],
+        "regulatory_reviews": [
+          {
+            "jurisdiction": "US",
+            "use_case": "consumer-remittance",
+            "reviewer": "named-local-reviewer-US",
+            "reference": "institution-review-US",
+            "rule_version": "institution-reviewed-2026-09",
+            "activity_scope_ref": "provider-role-scope-US",
+            "entity_ids": [
+              "us-sender",
+              "br-beneficiary",
+              "us-provider",
+              "br-provider"
+            ],
+            "valid_from": "2026-09-18T00:00:00Z",
+            "valid_until": "2026-09-19T00:00:00Z"
+          },
+          {
+            "jurisdiction": "BR",
+            "use_case": "consumer-remittance",
+            "reviewer": "named-local-reviewer-BR",
+            "reference": "institution-review-BR",
+            "rule_version": "institution-reviewed-2026-09",
+            "activity_scope_ref": "provider-role-scope-BR",
+            "entity_ids": [
+              "us-sender",
+              "br-beneficiary",
+              "us-provider",
+              "br-provider"
+            ],
+            "valid_from": "2026-09-18T00:00:00Z",
+            "valid_until": "2026-09-19T00:00:00Z"
+          }
+        ],
+        "sanctions_review": {
+          "entity_ids": [
+            "us-sender",
+            "br-beneficiary",
+            "us-provider",
+            "br-provider"
+          ],
+          "jurisdictions": [
+            "US",
+            "BR"
+          ],
+          "reference": "full-scope-screening-case",
+          "reviewer": "named-screening-reviewer",
+          "policy_version": "case-policy-v1",
+          "valid_from": "2026-09-18T00:00:00Z",
+          "valid_until": "2026-09-19T00:00:00Z"
+        },
+        "source_ids": [
+          "case"
+        ]
+      }
+    ]
+  }
+}

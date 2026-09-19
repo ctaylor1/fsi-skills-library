@@ -14,7 +14,7 @@ opaque composite "approval score".
 
 | Finding | Severity | Fires when (default config) | Evidence attached |
 | ------- | -------- | --------------------------- | ----------------- |
-| `sanctions_screening` | **blocking** | Sanctions screening status is not `cleared` (i.e., `hit` or `pending`) for entity or any owner | Screening status + `source_ref` |
+| `sanctions_screening` | **incomplete** | Sanctions screening status is not `cleared` (i.e., `hit` or `pending`) in the supplied aggregate screening result; separate owner coverage must be verified | Screening status + `source_ref` |
 | `prohibited_business_model` | **blocking** | MCC on the prohibited list (e.g., unlicensed gambling, shell) | MCC + business model + rule ref |
 | `restricted_business_model` | elevated | MCC on the restricted list (approvable only with conditions) | MCC + business model + rule ref |
 | `adverse_media` | elevated | Adverse-media status `unresolved` (financial-crime/fraud/consumer categories) | Categories + `source_ref` |
@@ -37,8 +37,8 @@ Evaluated in order; the first matching rule wins:
 
 | Recommendation band | Rule |
 | ------------------- | ---- |
-| **Recommend-Decline** | Any **blocking** finding fired (`sanctions_screening` or `prohibited_business_model`) |
-| **Escalate-Insufficient-Evidence** | No blocking finding, but `evidence_incomplete` fired |
+| **Recommend-Decline** | Any **blocking** finding fired (`prohibited_business_model`) |
+| **Escalate-Insufficient-Evidence** | No blocking finding, but `evidence_incomplete` or `sanctions_screening` fired |
 | **Recommend-Approve-with-Conditions** | No blocking / no incomplete, but >= 1 **elevated** finding fired; each fired elevated finding contributes a condition |
 | **Recommend-Approve** | No findings fired |
 
@@ -64,3 +64,9 @@ timeframe review for restricted MCC; adverse-media adjudication; UBO completion;
 high-risk geography; PEP/EDD sign-off; expected-activity substantiation and limits; credit
 sign-off; website/product confirmation). Conditions are for the adjudicator to impose and
 verify; the skill lists them, it does not enforce or sign them off.
+
+## Phase 1 implementation boundary
+
+Phase 1: pending/hit screening is unresolved and routes to the sanctions specialist, not Recommend-Decline. Default risk lists and ownership/volume thresholds are synthetic examples, not legal requirements or current sanctions lists. Production requires an institution-owned current policy and separate entity/owner screening coverage. Initial onboarding only; periodic/event underwriting is later work.
+
+Policy input: policy_profile must follow payment-contract.md, cover acquirer and merchant country, and match config_version. Supply all institution risk-config fields; absent policy cannot be replaced with synthetic defaults. screening.covered_subject_refs must explicitly include the entity case_id and each owner source_ref; an aggregate clear result does not prove owner coverage. These declarations remain unauthenticated until deployment review. Policy uncertainty overrides recommendation bands and escalates.

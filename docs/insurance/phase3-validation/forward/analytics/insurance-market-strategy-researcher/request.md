@@ -1,0 +1,1 @@
+As our market strategy analyst, summarize our 2025 small-commercial market, reconcile the supplied carrier shares and HHI, and give an evidence-based option for next research. Address the broker price claim; do not select a strategy.

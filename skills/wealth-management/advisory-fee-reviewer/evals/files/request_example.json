@@ -1,0 +1,174 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "FEE-DEMO",
+  "household_id": "HH-P1",
+  "as_of": "2026-09-16",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "scope",
+      "reference": "synthetic:scope",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "policy",
+      "reference": "synthetic:policy",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "ledger",
+      "reference": "synthetic:ledger",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "reference",
+      "reference": "synthetic:reference",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    },
+    {
+      "source_id": "research",
+      "reference": "synthetic:research",
+      "owner": "fixture-steward",
+      "as_of": "2026-09-15",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "unresolved_issues": [],
+  "currency": "USD",
+  "billing_period": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "accounts": [
+    {
+      "account_id": "A",
+      "source_ids": [
+        "scope"
+      ]
+    },
+    {
+      "account_id": "B",
+      "source_ids": [
+        "scope"
+      ]
+    }
+  ],
+  "agreement": {
+    "agreement_id": "AGR-1",
+    "version": "demo-v1",
+    "owner": "fixture-advisor",
+    "effective_from": "2025-01-01",
+    "effective_until": "2026-12-31",
+    "schedule_type": "marginal",
+    "day_basis": "actual/365",
+    "valuation_method": "segment-constant",
+    "minimum_period_fee": "0.00",
+    "minimum_applies_at_zero": false,
+    "tiers": [
+      {
+        "tier_id": "T1",
+        "up_to": "500000.00",
+        "annual_rate_bps": "100"
+      },
+      {
+        "tier_id": "T2",
+        "up_to": null,
+        "annual_rate_bps": "50"
+      }
+    ],
+    "source_ids": [
+      "policy"
+    ]
+  },
+  "valuation_segments": [
+    {
+      "segment_id": "YEAR",
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "accounts": [
+        {
+          "account_id": "A",
+          "reported_total": "800000.00",
+          "assets": [
+            {
+              "asset_id": "A-EQ",
+              "market_value": "600000.00",
+              "fee_eligible": true,
+              "source_ids": [
+                "ledger"
+              ]
+            },
+            {
+              "asset_id": "A-CASH",
+              "market_value": "200000.00",
+              "fee_eligible": false,
+              "exclusion_reason": "Contract excludes this cash sleeve",
+              "source_ids": [
+                "ledger"
+              ]
+            }
+          ],
+          "source_ids": [
+            "ledger"
+          ]
+        },
+        {
+          "account_id": "B",
+          "reported_total": "400000.00",
+          "assets": [
+            {
+              "asset_id": "B-EQ",
+              "market_value": "400000.00",
+              "fee_eligible": true,
+              "source_ids": [
+                "ledger"
+              ]
+            }
+          ],
+          "source_ids": [
+            "ledger"
+          ]
+        }
+      ]
+    }
+  ],
+  "assessed_charges": [
+    {
+      "charge_id": "C1",
+      "account_id": "A",
+      "amount": "5000.00",
+      "source_ids": [
+        "ledger"
+      ]
+    },
+    {
+      "charge_id": "C2",
+      "account_id": "B",
+      "amount": "2500.00",
+      "source_ids": [
+        "ledger"
+      ]
+    }
+  ],
+  "billing_records_complete": true,
+  "adjustments": [],
+  "conflict_review": {
+    "reviewed_by": "fixture-reviewer",
+    "reviewed_on": "2026-09-15",
+    "items": [],
+    "source_ids": [
+      "policy"
+    ]
+  }
+}

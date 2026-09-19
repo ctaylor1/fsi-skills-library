@@ -1,0 +1,774 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-economics-modeler",
+  "request_id": "synthetic-commercial-001",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "merchant",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "synthetic-commercial-001",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "merchant",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "merchant-brief",
+        "reference": "synthetic merchant scope and outcomes brief",
+        "as_of": "2026-09-18",
+        "review_due": "2027-09-18"
+      },
+      {
+        "source_id": "diligence",
+        "reference": "synthetic inspected provider scope and commercial schedule",
+        "as_of": "2026-09-18",
+        "review_due": "2027-09-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "perspective": "merchant",
+      "currency": "USD",
+      "period": "monthly",
+      "attempts": "10000",
+      "assumptions": [
+        {
+          "assumption_id": "outcomes",
+          "statement": "Synthetic monthly unique attempts; same average basket and completion rates in each cohort; no growth or repeat attempts.",
+          "source_ids": [
+            "merchant-brief"
+          ]
+        },
+        {
+          "assumption_id": "pricing",
+          "statement": "Synthetic disjoint fees, costs and merchandise contribution rates in USD; explicit zero funding/FX/incentive for this fixture only; amortized integration cost supplied per month.",
+          "source_ids": [
+            "diligence"
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "method_id": "card",
+          "success_rate": "0.95",
+          "average_value": "50",
+          "assumption_id": "outcomes",
+          "source_ids": [
+            "merchant-brief"
+          ],
+          "components": [
+            {
+              "component_id": "processing",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "1",
+              "coverage_keys": [
+                "processing"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "fraud_loss",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.001",
+              "coverage_keys": [
+                "fraud_loss"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "coverage_keys": [
+                "funding"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "coverage_keys": [
+                "fx"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "operations",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.03",
+              "coverage_keys": [
+                "operations"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "coverage_keys": [
+                "incentive"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "merchandise_margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.3",
+              "coverage_keys": [
+                "merchandise_margin"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            }
+          ]
+        },
+        {
+          "method_id": "pay_by_bank",
+          "success_rate": "0.94",
+          "average_value": "50",
+          "assumption_id": "outcomes",
+          "source_ids": [
+            "merchant-brief"
+          ],
+          "components": [
+            {
+              "component_id": "processing",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "0.20",
+              "coverage_keys": [
+                "processing"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "fraud_loss",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.001",
+              "coverage_keys": [
+                "fraud_loss"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "coverage_keys": [
+                "funding"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "coverage_keys": [
+                "fx"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "operations",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.03",
+              "coverage_keys": [
+                "operations"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "coverage_keys": [
+                "incentive"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "merchandise_margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.3",
+              "coverage_keys": [
+                "merchandise_margin"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            },
+            {
+              "component_id": "integration-amortized",
+              "category": "operations",
+              "side": "cost",
+              "basis": "period_fixed",
+              "rate": "100",
+              "coverage_keys": [
+                "integration-amortization"
+              ],
+              "currency": "USD",
+              "period": "monthly",
+              "assumption_id": "pricing",
+              "source_ids": [
+                "diligence"
+              ]
+            }
+          ]
+        }
+      ],
+      "baseline_mix": [
+        {
+          "method_id": "card",
+          "share": "1"
+        }
+      ],
+      "scenario": {
+        "new_method_id": "pay_by_bank",
+        "adoption_rate": "0.2",
+        "displacement": [
+          {
+            "method_id": "card",
+            "share": "1"
+          }
+        ]
+      },
+      "sensitivity_adoption_rates": [
+        "0",
+        "0.1",
+        "0.2",
+        "0.5",
+        "1"
+      ]
+    }
+  },
+  "input_hash": "f91368bc4b1718d05fe26f6a5e4b1a622383bff47ea32b59db55f8c6b3d4bddc",
+  "findings": [],
+  "result": {
+    "perspective": "merchant",
+    "currency": "USD",
+    "period": "monthly",
+    "assumptions": [
+      {
+        "assumption_id": "outcomes",
+        "statement": "Synthetic monthly unique attempts; same average basket and completion rates in each cohort; no growth or repeat attempts.",
+        "source_ids": [
+          "merchant-brief"
+        ]
+      },
+      {
+        "assumption_id": "pricing",
+        "statement": "Synthetic disjoint fees, costs and merchandise contribution rates in USD; explicit zero funding/FX/incentive for this fixture only; amortized integration cost supplied per month.",
+        "source_ids": [
+          "diligence"
+        ]
+      }
+    ],
+    "baseline": {
+      "method_economics": [
+        {
+          "method_id": "card",
+          "attempt_share": "1",
+          "attempts": "10000",
+          "expected_successes": "9500.00",
+          "expected_success_value": "475000.00",
+          "components": [
+            {
+              "component_id": "processing",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "1",
+              "amount": "10000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "fraud_loss",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.001",
+              "amount": "475.00000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.00",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.00",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "operations",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.03",
+              "amount": "285.0000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.00",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "merchandise_margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.3",
+              "amount": "142500.000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            }
+          ],
+          "cost": "10760.00000",
+          "revenue": "142500.000",
+          "contribution": "131740.00000"
+        }
+      ],
+      "attempts": "10000",
+      "expected_successes": "9500.00",
+      "cost": "10760.00000",
+      "revenue": "142500.000",
+      "contribution": "131740.00000",
+      "cost_per_attempt": "1.07600",
+      "cost_per_success": "1.132631578947368421052631578947368421053"
+    },
+    "scenario": {
+      "method_economics": [
+        {
+          "method_id": "card",
+          "attempt_share": "0.8",
+          "attempts": "8000.0",
+          "expected_successes": "7600.000",
+          "expected_success_value": "380000.000",
+          "components": [
+            {
+              "component_id": "processing",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "1",
+              "amount": "8000.0",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "fraud_loss",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.001",
+              "amount": "380.000000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "operations",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.03",
+              "amount": "228.00000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "merchandise_margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.3",
+              "amount": "114000.0000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            }
+          ],
+          "cost": "8608.000000",
+          "revenue": "114000.0000",
+          "contribution": "105392.000000"
+        },
+        {
+          "method_id": "pay_by_bank",
+          "attempt_share": "0.2",
+          "attempts": "2000.0",
+          "expected_successes": "1880.000",
+          "expected_success_value": "94000.000",
+          "components": [
+            {
+              "component_id": "processing",
+              "category": "processing",
+              "side": "cost",
+              "basis": "per_attempt",
+              "rate": "0.20",
+              "amount": "400.000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "fraud_loss",
+              "category": "fraud_loss",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0.001",
+              "amount": "94.000000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "funding",
+              "category": "funding",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "fx",
+              "category": "fx",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "operations",
+              "category": "operations",
+              "side": "cost",
+              "basis": "per_success",
+              "rate": "0.03",
+              "amount": "56.40000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "incentive",
+              "category": "incentive",
+              "side": "cost",
+              "basis": "success_value",
+              "rate": "0",
+              "amount": "0.000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "merchandise_margin",
+              "category": "merchandise_margin",
+              "side": "revenue",
+              "basis": "success_value",
+              "rate": "0.3",
+              "amount": "28200.0000",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            },
+            {
+              "component_id": "integration-amortized",
+              "category": "operations",
+              "side": "cost",
+              "basis": "period_fixed",
+              "rate": "100",
+              "amount": "100",
+              "source_ids": [
+                "diligence"
+              ],
+              "assumption_id": "pricing"
+            }
+          ],
+          "cost": "650.400000",
+          "revenue": "28200.0000",
+          "contribution": "27549.600000"
+        }
+      ],
+      "attempts": "10000",
+      "expected_successes": "9480.000",
+      "cost": "9258.400000",
+      "revenue": "142200.0000",
+      "contribution": "132941.600000",
+      "cost_per_attempt": "0.925840",
+      "cost_per_success": "0.9766244725738396624472573839662447257384"
+    },
+    "adoption_rate": "0.2",
+    "displacement": [
+      {
+        "method_id": "card",
+        "share": "1"
+      }
+    ],
+    "incremental_contribution": "1201.600000",
+    "sensitivity": [
+      {
+        "adoption_rate": "0",
+        "state": "modeled-assumption",
+        "incremental_contribution": "-100.00000",
+        "expected_successes": "9500.00",
+        "cost_per_success": "1.143157894736842105263157894736842105263"
+      },
+      {
+        "adoption_rate": "0.1",
+        "state": "modeled-assumption",
+        "incremental_contribution": "550.800000",
+        "expected_successes": "9490.000",
+        "cost_per_success": "1.059978925184404636459430979978925184405"
+      },
+      {
+        "adoption_rate": "0.2",
+        "state": "modeled-assumption",
+        "incremental_contribution": "1201.600000",
+        "expected_successes": "9480.000",
+        "cost_per_success": "0.9766244725738396624472573839662447257384"
+      },
+      {
+        "adoption_rate": "0.5",
+        "state": "modeled-assumption",
+        "incremental_contribution": "3154.000000",
+        "expected_successes": "9450.000",
+        "cost_per_success": "0.7255026455026455026455026455026455026455"
+      },
+      {
+        "adoption_rate": "1",
+        "state": "modeled-assumption",
+        "incremental_contribution": "6408.00000",
+        "expected_successes": "9400.00",
+        "cost_per_success": "0.3034042553191489361702127659574468085106"
+      }
+    ],
+    "break_even": {
+      "adoption_rate": "0.01536570374923171481253841425937307928703",
+      "max_feasible_adoption": "1",
+      "state": "within-feasible-range",
+      "incremental_fixed_contribution": "-100.00000",
+      "contribution_per_unit_adoption": "6508.00000"
+    },
+    "interpretation": "Expected outcomes from supplied assumptions; no guaranteed savings. Baseline contracts remain active and fixed charges remain incurred; adding the new method incurs its fixed charges even at zero adoption. Fixed volume, no automatic retries or customer-growth effects, no discounting, tax or currency conversion."
+  },
+  "handoffs": [
+    {
+      "target_skill": "merchant-payment-cost-analyzer",
+      "reason": "Validate incurred merchant fees separately from modeled scenarios.",
+      "required_inputs": [
+        "statement period",
+        "settled-sale transactions",
+        "fee and fixed-charge evidence"
+      ],
+      "handoff_id": "c98e8cac4719a6fe559754e689281c51d61d0908313657015928504eb419f802",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-economics-modeler",
+      "case_id": "synthetic-commercial-001",
+      "lead_owner": "merchant",
+      "requested_output": "Validate incurred merchant fees separately from modeled scenarios.",
+      "source_refs": [
+        "synthetic merchant scope and outcomes brief",
+        "synthetic inspected provider scope and commercial schedule"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

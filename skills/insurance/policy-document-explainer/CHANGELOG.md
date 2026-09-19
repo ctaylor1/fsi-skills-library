@@ -1,5 +1,12 @@
 # Changelog — policy-document-explainer
 
+## [0.2.0] — 2026-09-18
+
+- Phase 1: corrected implemented scope, source preservation, typed result states, portable evidence contract and substantive output recomputation.
+- Added synthetic regression cases for observed correctness failures.
+- Domain professional review and production integration acceptance remain pending.
+
+
 All notable changes to this skill package. Versions follow semver in `aws-fsi-version`.
 
 ## [0.1.0] — 2026-07-17
@@ -24,8 +31,8 @@ relative to the AWS baseline; authored fresh here).
 - **Evaluations:** trigger/routing, golden normal + multi-policy edge, deterministic
   script checks, no-determination/no-advice safety, prompt-injection, external-delivery
   authorization.
-- **Handoffs:** downstream to `coverage-gap-analyzer`, `claim-readiness-checker`,
-  `claim-denial-appeal-helper`, `premium-quote-comparator`, `policy-wording-comparator`.
+- **Handoffs:** downstream to `coverage-gap-analyzer`, `claim-intake-preparer`,
+  `health-benefit-appeal-packager`, `premium-quote-comparator`, `policy-wording-comparator`.
 
 ### Pending before release
 - Domain SME (underwriting/claims) + control-owner blind review; accessibility review of

@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0",
+  "request_id": "phase4-synthetic-corridor",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "payment-design-owner",
+  "sources": [
+    {
+      "source_id": "case",
+      "reference": "synthetic://reviewed-case-snapshot-v1",
+      "as_of": "2026-09-18",
+      "review_due": "2026-10-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "window_start": "2026-09-18T12:00:00Z",
+    "window_end": "2026-09-18T23:00:00Z",
+    "history_complete": true,
+    "accountable_reviewer": "named-corridor-treasury-owner",
+    "accounts": [
+      {
+        "account_id": "us-source",
+        "entity_id": "us-provider",
+        "jurisdiction": "US",
+        "currency": "USD",
+        "account_role": "source-funding",
+        "snapshot_at": "2026-09-18T12:00:00Z",
+        "opening_balance": "2000",
+        "held": "0",
+        "ownership_review_ref": "case-owned-us-source",
+        "funding_model_review_ref": "case-funding-us-source",
+        "source_ids": [
+          "case"
+        ]
+      },
+      {
+        "account_id": "br-nostro",
+        "entity_id": "us-provider",
+        "jurisdiction": "BR",
+        "currency": "BRL",
+        "account_role": "nostro",
+        "snapshot_at": "2026-09-18T12:00:00Z",
+        "opening_balance": "1000",
+        "held": "0",
+        "ownership_review_ref": "case-owned-br-nostro",
+        "funding_model_review_ref": "case-funding-br-nostro",
+        "source_ids": [
+          "case"
+        ]
+      },
+      {
+        "account_id": "br-payout",
+        "entity_id": "br-provider",
+        "jurisdiction": "BR",
+        "currency": "BRL",
+        "account_role": "local-payout",
+        "snapshot_at": "2026-09-18T12:00:00Z",
+        "opening_balance": "500",
+        "held": "0",
+        "ownership_review_ref": "case-owned-br-payout",
+        "funding_model_review_ref": "case-funding-br-payout",
+        "source_ids": [
+          "case"
+        ]
+      }
+    ],
+    "obligations": [
+      {
+        "economic_id": "econ-customer-payout",
+        "account_id": "br-payout",
+        "entity_id": "br-provider",
+        "currency": "BRL",
+        "purpose": "customer-payout",
+        "amount": "5200",
+        "due_at": "2026-09-18T17:00:00Z",
+        "source_ids": [
+          "case"
+        ]
+      }
+    ],
+    "funding_transfers": [
+      {
+        "transfer_id": "fx-funding",
+        "economic_id": "econ-fx-funding",
+        "source_account": "us-source",
+        "source_entity_id": "us-provider",
+        "source_currency": "USD",
+        "source_amount": "1000",
+        "destination_account": "br-nostro",
+        "destination_entity_id": "us-provider",
+        "destination_currency": "BRL",
+        "destination_amount": "5000",
+        "debit_at": "2026-09-18T13:00:00Z",
+        "credit_at": "2026-09-18T14:00:00Z",
+        "certainty": "firm",
+        "funding_contract_ref": "contract-fx-funding",
+        "access_review_ref": "access-fx-funding",
+        "limit_review_ref": "limit-fx-funding",
+        "debit_window": {
+          "opens_at": "2026-09-18T12:00:00Z",
+          "closes_at": "2026-09-18T23:00:00Z",
+          "availability_review_ref": "case-operational-window"
+        },
+        "credit_window": {
+          "opens_at": "2026-09-18T12:00:00Z",
+          "closes_at": "2026-09-18T23:00:00Z",
+          "availability_review_ref": "case-operational-window"
+        },
+        "source_ids": [
+          "case"
+        ],
+        "fx_quote": {
+          "base_currency": "USD",
+          "quote_currency": "BRL",
+          "rate": "5",
+          "quoted_at": "2026-09-18T12:00:00Z",
+          "expires_at": "2026-09-18T15:00:00Z",
+          "kind": "firm",
+          "quote_ref": "case-firm-fx-1"
+        }
+      },
+      {
+        "transfer_id": "local-funding",
+        "economic_id": "econ-local-funding",
+        "source_account": "br-nostro",
+        "source_entity_id": "us-provider",
+        "source_currency": "BRL",
+        "source_amount": "5000",
+        "destination_account": "br-payout",
+        "destination_entity_id": "br-provider",
+        "destination_currency": "BRL",
+        "destination_amount": "5000",
+        "debit_at": "2026-09-18T15:00:00Z",
+        "credit_at": "2026-09-18T16:00:00Z",
+        "certainty": "firm",
+        "funding_contract_ref": "contract-local-funding",
+        "access_review_ref": "access-local-funding",
+        "limit_review_ref": "limit-local-funding",
+        "debit_window": {
+          "opens_at": "2026-09-18T12:00:00Z",
+          "closes_at": "2026-09-18T23:00:00Z",
+          "availability_review_ref": "case-operational-window"
+        },
+        "credit_window": {
+          "opens_at": "2026-09-18T12:00:00Z",
+          "closes_at": "2026-09-18T23:00:00Z",
+          "availability_review_ref": "case-operational-window"
+        },
+        "source_ids": [
+          "case"
+        ],
+        "interentity_agreement_ref": "case-separate-entity-funding-agreement"
+      }
+    ],
+    "stress_scenarios": [
+      {
+        "scenario_id": "fx-unavailable",
+        "rationale": "upstream correspondent funding unavailable",
+        "remove_transfer_ids": [
+          "fx-funding"
+        ]
+      }
+    ]
+  },
+  "requested_action": "execute"
+}

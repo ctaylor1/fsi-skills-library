@@ -1,0 +1,94 @@
+{
+  "schema_version": "repair-plan-v1",
+  "source_request": {
+    "case_id": "CASE-77310",
+    "payment_id": "****8842",
+    "type": "invalid_beneficiary_detail",
+    "as_of": "2026-07-16T15:00:00Z",
+    "catalog_version": "offline-field-repair-v1",
+    "exception_confirmation": {
+      "case_id": "CASE-77310",
+      "status": "confirmed",
+      "source_ref": "case-system:CASE-77310#defect-review"
+    },
+    "payment_snapshot": {
+      "payment_id": "****8842",
+      "end_to_end_id": "E2E-88231-7788",
+      "entity_id": "BANK-US-1",
+      "rail": "SWIFT",
+      "currency": "USD",
+      "amount": "12500.00",
+      "state": "rejected",
+      "source_ref": "payment-store:M-88231:v2",
+      "as_of": "2026-07-16T14:20:00Z",
+      "fields": {
+        "beneficiary_bic": "DEUTDEF",
+        "beneficiary_account": "****5566",
+        "remittance_info": "Invoice 77310"
+      }
+    },
+    "policy": {
+      "policy_id": "repair-policy-us",
+      "version": "2026.07",
+      "source_ref": "policy-register:repair-policy-us:2026.07",
+      "entity_id": "BANK-US-1",
+      "rails": [
+        "SWIFT"
+      ],
+      "currency": "USD",
+      "max_amount": "100000.00",
+      "allowed_fields": [
+        "beneficiary_bic"
+      ],
+      "allowed_exception_types": [
+        "invalid_beneficiary_detail"
+      ],
+      "required_approver_role": "payments-repair-supervisor",
+      "effective_at": "2026-07-01T00:00:00Z",
+      "expires_at": "2026-08-01T00:00:00Z"
+    },
+    "screening": {
+      "status": "clear",
+      "disposition_id": "SCR-4471",
+      "source_ref": "screening:SCR-4471",
+      "payment_id": "****8842",
+      "screened_at": "2026-07-16T14:22:00Z",
+      "repair_binding": "c87bd76e50f2e1534bc3c58afd391db0c79f9b52e7952629050b68b9a7161555"
+    },
+    "evidence": {
+      "verification_source": "beneficiary-bank directory 2026.06; BIC DEUTDEFF confirmed by authorized analyst"
+    },
+    "proposed_repair": {
+      "action": "repair_and_resubmit",
+      "amount": "12500.00",
+      "currency": "USD",
+      "field": "beneficiary_bic",
+      "old_value": "DEUTDEF",
+      "new_value": "COBADEFF"
+    }
+  },
+  "source_hash": "e72402c9acecd57bc4c747ba0df3de12bef2aca6dd4d7b107de009cbb4526530",
+  "plan_id": "PLAN-e72402c9acecd57bc4c7",
+  "status": "rejected",
+  "reasons": [
+    "screening repair_binding does not bind the exact proposed instruction"
+  ],
+  "approval": {
+    "status": "pending",
+    "required_role": "payments-repair-supervisor",
+    "approver": null,
+    "token": null
+  },
+  "execution": {
+    "state": "blocked",
+    "executed_steps": []
+  },
+  "execution_supported": false,
+  "authority_evidence": "supplied-not-authenticated",
+  "steps": [],
+  "limitations": [
+    "Policy and screening are supplied evidence, not authenticated live authority; no execution is possible."
+  ],
+  "standing_note": "Offline repair proposal only. No approval has been granted or authenticated and no payment has been changed or submitted. A hash is an integrity identifier, not authorization. Settlement cannot be rolled back; a recall or compensation may fail.",
+  "plan_hash": "432d06d9a5229d4fe8ed90e15a0cc1716fbcce81d77fa930697c0cb255c79e38"
+}

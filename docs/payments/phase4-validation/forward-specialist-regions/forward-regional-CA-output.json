@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.0",
+  "skill": "bank-payment-workflow-designer",
+  "request_id": "forward-regional-CA",
+  "as_of": "2026-09-18",
+  "jurisdiction": "CA",
+  "participant": "forward-reviewer",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "forward-regional-CA",
+    "as_of": "2026-09-18",
+    "jurisdiction": "CA",
+    "participant": "forward-reviewer",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "forward-evidence",
+        "reference": "synthetic://independently-authored-payment-contract-and-ledger",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "proposals": [
+        {
+          "proposal_id": "native-credit-push",
+          "profile_id": "CA-INTERAC-ETRANSFER",
+          "use_case": "domestic-business-credit",
+          "accountable_reviewer": "local-specialist",
+          "intent_ref": "supplier-invoice-intent",
+          "payer_entity": "paying-company",
+          "payer_account_ref": "payer-account-opaque",
+          "payee_entity": "local-supplier",
+          "payee_account_ref": "payee-account-opaque",
+          "amount": "275.50",
+          "currency": "CAD",
+          "participant_review": {
+            "access_ref": "forward-reviewed-access_ref",
+            "payer_reach_ref": "forward-reviewed-payer_reach_ref",
+            "payee_reach_ref": "forward-reviewed-payee_reach_ref",
+            "funding_arrangement_ref": "forward-reviewed-funding_arrangement_ref",
+            "limits_review_ref": "forward-reviewed-limits_review_ref",
+            "fees_review_ref": "forward-reviewed-fees_review_ref",
+            "operational_support_ref": "forward-reviewed-operational_support_ref"
+          },
+          "rule_review": {
+            "reviewer": "local-specialist",
+            "reference": "current-local-product-review",
+            "rule_version": "forward-reviewed-2026",
+            "activity_scope_ref": "domestic-business-credit",
+            "profile_id": "CA-INTERAC-ETRANSFER",
+            "jurisdiction": "CA",
+            "use_case": "domestic-business-credit",
+            "reviewed_on": "2026-09-17",
+            "review_due": "2026-10-01"
+          },
+          "beneficiary_review": {
+            "verification_ref": "payee-identity-review",
+            "alias_resolution_ref": "opaque-alias-resolution-review",
+            "match_status": "matched",
+            "reviewed_on": "2026-09-17",
+            "review_due": "2026-10-01",
+            "binding": {
+              "payer_entity": "paying-company",
+              "payer_account_ref": "payer-account-opaque",
+              "payee_entity": "local-supplier",
+              "payee_account_ref": "payee-account-opaque",
+              "amount": "275.50",
+              "currency": "CAD"
+            }
+          },
+          "source_ids": [
+            "forward-evidence"
+          ],
+          "delivery_mode": "autodeposit",
+          "displayed_legal_name_review_ref": "displayed-name-reviewed"
+        }
+      ]
+    }
+  },
+  "input_hash": "e6c512614cc41468e25626599e7ca294657b5b7ff9193184ec8849da0a13336d",
+  "findings": [
+    {
+      "code": "interac-delivery-mode-unresolved",
+      "message": "native-credit-push: interac delivery mode unresolved",
+      "source_ids": [
+        "forward-evidence"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "module": "regional-design",
+    "proposals": [
+      {
+        "proposal_id": "native-credit-push",
+        "profile": {
+          "profile_id": "CA-INTERAC-ETRANSFER",
+          "jurisdiction": "CA",
+          "currency": "CAD",
+          "version": "2026-09-18.1",
+          "reviewed_on": "2026-09-18",
+          "review_due": "2026-10-18",
+          "supported_use_cases": [
+            "domestic-consumer-credit",
+            "domestic-business-credit"
+          ],
+          "accountable_owner_role": "Canada payment product and local compliance reviewer",
+          "required_case_reviewer": "Named individual or institution-accountable reviewer reference supplied in each request; no professional acceptance inferred.",
+          "source_basis": [
+            {
+              "title": "Interac e-Transfer FAQ",
+              "url": "https://www.interac.ca/en/resources/personal-resources/personal-faq/interac-e-transfer/",
+              "observed_on": "2026-09-18",
+              "version": "public page or indexed public document; binding current rules require case review"
+            },
+            {
+              "title": "Interac business getting started",
+              "url": "https://www.interac.ca/en/how-to-use/interac-e-transfer/how-to-get-started-with-interac-e-transfer-for-business/",
+              "observed_on": "2026-09-18",
+              "version": "public page or indexed public document; binding current rules require case review"
+            }
+          ],
+          "distinctions": [
+            "Email and mobile identifiers notify and address; money is not transmitted inside an email or text.",
+            "Autodeposit recipient name review and the security-question delivery path are distinct controls.",
+            "Interac e-Transfer domestic planning is separate from International Transfer by Mastercard and Interac; institution terms control access, limits and fees."
+          ],
+          "limits": [
+            "No raw network adapter, actual alias lookup, participant certification, rule compliance determination or execution.",
+            "No universal fee, value limit, cutoff, fraud reimbursement, finality or return deadline is supplied."
+          ]
+        },
+        "exact_binding": {
+          "payer_entity": "paying-company",
+          "payer_account_ref": "payer-account-opaque",
+          "payee_entity": "local-supplier",
+          "payee_account_ref": "payee-account-opaque",
+          "amount": "275.50",
+          "currency": "CAD"
+        },
+        "accountable_reviewer": "local-specialist",
+        "next_step": "resolve-evidence",
+        "gaps": [
+          "interac-delivery-mode-unresolved"
+        ],
+        "source_ids": [
+          "forward-evidence"
+        ],
+        "source_truth_authenticated": false,
+        "scheme_approval_granted": false,
+        "payment_submitted": false,
+        "settlement_inferred": false
+      }
+    ]
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Preserve local gaps and require a separately supported native initiation adapter; the current core US/EA/UK reviewer must not relabel BR/IN/CA instructions.",
+      "required_inputs": [
+        "exact local instruction and binding",
+        "current scoped specialist and participant evidence",
+        "supported downstream adapter or explicit unsupported result"
+      ],
+      "handoff_id": "78f9afd73d957370e45e4dd298bba7f3b41f5365e20e8611a5403b1e613d61ff",
+      "contract_version": "1.0.0",
+      "source_skill": "bank-payment-workflow-designer",
+      "case_id": "forward-regional-CA",
+      "lead_owner": "forward-reviewer",
+      "requested_output": "Preserve local gaps and require a separately supported native initiation adapter; the current core US/EA/UK reviewer must not relabel BR/IN/CA instructions.",
+      "source_refs": [
+        "synthetic://independently-authored-payment-contract-and-ledger"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "interac-delivery-mode-unresolved",
+          "message": "native-credit-push: interac delivery mode unresolved",
+          "source_ids": [
+            "forward-evidence"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "Normalized domestic credit-push planning only. No Pix automatic debit, UPI collect/mandate/international link or Interac international-transfer adapter.",
+    "Aliases and recipient displays do not prove authority; no DICT, UPI, Interac, QR, cryptographic or raw network validation.",
+    "Public method availability does not establish participant access, finality of this payment, rule compliance, limits or fees."
+  ]
+}

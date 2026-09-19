@@ -1,0 +1,9 @@
+# Method and decision boundaries
+
+The portfolio is a bounded OR of supplied predicates, with block > review > allow. Incomplete selected features yield unknown, even where a known predicate already triggers. Rule hits can overlap; portfolio rows and monetary exposures count once. Pairwise overlaps are diagnostics, not marginal causal contributions. Empty portfolios allow the retrospective sample only in the simulated output; this never means a live decision.
+
+Confusion counts retain block/review/allow separately for mature fraud and legitimate labels. Unknown labels, premature maturity and unknown features are excluded from these cells but retained in sample/action counts. Mature label selection can itself bias the evaluation; report censored/excluded population characteristics before extrapolation. Review rate over all sample is an observed lower bound if some actions are unknown; an upper bound includes unknown rows. No confidence interval is supplied because representative independent sampling is not established by the input.
+
+Observed mature fraud face value by replay action is not avoided loss. Observed net fraud loss remains distinct from face value, modeled review cost and legitimate-block friction. Missing loss stays null for affected action buckets. Different proposed rules do not retroactively change realized historical outcomes. No net savings, optimal rule, universal fraud threshold or production block recommendation is calculated.
+
+Control strategies require accountable human adjudication of threat coverage, risk appetite, operational capacity, fairness, privacy, label quality, testing, segregation of duties and change control. NIST AI RMF is voluntary methodological guidance where applicable; the EBA/ECB report is aggregate contextual research, not authority for this sample's thresholds or outcomes.

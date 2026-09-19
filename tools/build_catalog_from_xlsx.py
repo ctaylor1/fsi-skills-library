@@ -8,7 +8,7 @@ Usage:
     python tools/build_catalog_from_xlsx.py --source "<path-to>.xlsx"
 """
 from __future__ import annotations
-import argparse, csv, json, os, sys
+import argparse, csv, json, os, re, sys
 from pathlib import Path
 
 DEFAULT_SOURCE = os.environ.get(
@@ -100,30 +100,66 @@ def build(source: str) -> list[dict]:
     return skills
 
 
+def apply_changes(skills: list[dict], additions: list[dict], overrides: dict) -> list[dict]:
+    """Preserve approved additions/renames across workbook regeneration.
+
+    If a newer workbook includes both old and new names, the new row wins. Fields
+    in the explicit override remain authoritative until reconciled with the workbook.
+    """
+    merged = {s["name"]: dict(s) for s in skills}
+    for addition in additions:
+        prior = merged.get(addition["name"])
+        if prior is None or (prior.get("provisional") is True and prior.get("source") == addition.get("source")):
+            merged[addition["name"]] = dict(addition)
+    for old, new in overrides.get("renames", {}).items():
+        if old in merged:
+            row = merged.pop(old)
+            row["name"] = new
+            merged.setdefault(new, row)
+    for name, fields in overrides.get("updates", {}).items():
+        if name not in merged:
+            raise ValueError(f"override target absent from catalog: {name}")
+        if "name" in fields and fields["name"] != name:
+            raise ValueError("use renames, not a name update")
+        merged[name].update(fields)
+    # Handoff names can occur in workbook descriptions; keep those references current.
+    for row in merged.values():
+        for key, value in row.items():
+            if isinstance(value, str):
+                for old, new in overrides.get("renames", {}).items():
+                    # A renamed identifier can contain the entire former name
+                    # (payment-exception-investigator -> bank-payment-exception-investigator).
+                    # Replace whole skill identifiers so regeneration is idempotent.
+                    value = re.sub(r"(?<![a-z0-9-])" + re.escape(old) + r"(?![a-z0-9-])",
+                                   lambda match: new, value)
+                row[key] = value
+    return list(merged.values())
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--source", default=DEFAULT_SOURCE)
+    ap.add_argument("--from-current", action="store_true",
+                    help="Apply approved local additions/overrides to the current catalog without a workbook")
     args = ap.parse_args()
 
-    if not Path(args.source).exists():
+    if not args.from_current and not Path(args.source).exists():
         print(f"ERROR: source workbook not found: {args.source}", file=sys.stderr)
         return 2
 
-    skills = build(args.source)
     out_dir = REPO / "catalog"
+    skills = (json.loads((out_dir / "skills-catalog.json").read_text(encoding="utf-8"))["skills"]
+              if args.from_current else build(args.source))
     out_dir.mkdir(exist_ok=True)
 
     # Merge provisional additions (skills approved from a brief but not yet in the workbook).
     # These carry "provisional": true and survive a workbook regen until the workbook catches up.
     prov_path = out_dir / "provisional-additions.json"
-    n_prov = 0
-    if prov_path.exists():
-        have = {s["name"] for s in skills}
-        for e in json.loads(prov_path.read_text(encoding="utf-8")):
-            if e["name"] not in have:
-                skills.append(e)
-                have.add(e["name"])
-                n_prov += 1
+    additions = json.loads(prov_path.read_text(encoding="utf-8")) if prov_path.exists() else []
+    override_path = out_dir / "approved-overrides.json"
+    overrides = json.loads(override_path.read_text(encoding="utf-8")) if override_path.exists() else {}
+    skills = apply_changes(skills, additions, overrides)
+    n_prov = sum(bool(s.get("provisional")) for s in skills)
 
     (out_dir / "skills-catalog.json").write_text(
         json.dumps(
@@ -135,11 +171,11 @@ def main() -> int:
     )
     fieldnames = list(dict.fromkeys(k for s in skills for k in s))  # union, stable order
     with (out_dir / "skills-catalog.csv").open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore", lineterminator="\n")
         w.writeheader()
         w.writerows(skills)
     print(f"Wrote {len(skills)} skills to catalog/skills-catalog.json and .csv "
-          f"({len(skills) - n_prov} from workbook + {n_prov} provisional)")
+          f"({n_prov} provisional; approved overrides applied)")
     return 0
 
 

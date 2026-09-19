@@ -1,0 +1,139 @@
+{
+  "case_id": "FWD-ACT-EXPERIENCE",
+  "as_of": "2026-07-01",
+  "context": {
+    "capacity": "actuarial analyst",
+    "represented_party": "Fictional Cedar Assurance",
+    "object_id": "LIFE-COHORT-349",
+    "jurisdiction": "SYNTHETIC-INTERNAL",
+    "line_of_business": "life"
+  },
+  "sources": [
+    {
+      "source_ref": "PROFILE",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-07-01",
+      "title": "PROFILE synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#PROFILE",
+      "extraction_text": "Synthetic reviewed internal method: constant annual mortality intensity times actual elapsed days/365; count individual lives. Window (2026-01-01,2026-07-01]. Scope LIFE-COHORT-349, currency NONE, life, SYNTHETIC-INTERNAL. Effective 2026-01-01 through 2027-12-31. This is not adopted law or approval to change assumptions."
+    },
+    {
+      "source_ref": "ASSUMPTIONS",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-07-01",
+      "title": "ASSUMPTIONS synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#ASSUMPTIONS",
+      "extraction_text": "Segment A intensity 0.10; segment B intensity 0.20. Both apply 2026-01-01 through 2026-07-01, annual central intensities, not annual death probabilities."
+    },
+    {
+      "source_ref": "ADMIN",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-07-01",
+      "title": "ADMIN synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#ADMIN",
+      "extraction_text": "R1: life X1, A, 2025-12-01 to 2026-02-01, death. R2: life X2, A, 2026-01-15 to 2026-07-01, censored. R3: life X3, A, 2026-01-01 to 2026-04-01, censored segment transfer. R4: life X3, B, 2026-04-01 to 2026-06-01, death."
+    },
+    {
+      "source_ref": "REVIEW",
+      "version": "fresh-synthetic-v1",
+      "as_of": "2026-07-01",
+      "title": "REVIEW synthetic source",
+      "section": "Full supplied extract",
+      "path": "/tmp/insurance-p3-forward-actuarial/experience/raw_sources.json#REVIEW",
+      "extraction_text": "Administrator warns an unallocated late death notification could belong to this cohort; identity and event date are unknown. Do not add a guessed event or amend any source system."
+    }
+  ],
+  "unresolved_issues": [
+    "One late death notification has unknown identity/date; reporting completeness is unresolved."
+  ],
+  "data": {
+    "scope": {
+      "object_id": "LIFE-COHORT-349",
+      "currency": "NONE",
+      "basis": "constant_intensity_act365_count",
+      "valuation_date": "2026-07-01"
+    },
+    "profile": {
+      "profile_id": "PROFILE-experience",
+      "version": "fresh-synthetic-v1",
+      "source_refs": [
+        "PROFILE"
+      ],
+      "jurisdictions": [
+        "SYNTHETIC-INTERNAL"
+      ],
+      "lines_of_business": [
+        "life"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-12-31",
+      "object_ids": [
+        "LIFE-COHORT-349"
+      ],
+      "currencies": [
+        "NONE"
+      ],
+      "method": "constant_intensity_act365_count"
+    },
+    "study_start": "2026-01-01",
+    "study_end": "2026-07-01",
+    "event_type": "death",
+    "segments": [
+      {
+        "segment_id": "A",
+        "expected_intensity": "0.10",
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-07-01",
+        "source_ref": "ASSUMPTIONS"
+      },
+      {
+        "segment_id": "B",
+        "expected_intensity": "0.20",
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-07-01",
+        "source_ref": "ASSUMPTIONS"
+      }
+    ],
+    "exposures": [
+      {
+        "record_id": "R1",
+        "life_id": "X1",
+        "segment_id": "A",
+        "entry_date": "2025-12-01",
+        "exit_date": "2026-02-01",
+        "exit_reason": "event",
+        "source_ref": "ADMIN"
+      },
+      {
+        "record_id": "R2",
+        "life_id": "X2",
+        "segment_id": "A",
+        "entry_date": "2026-01-15",
+        "exit_date": "2026-07-01",
+        "exit_reason": "censored",
+        "source_ref": "ADMIN"
+      },
+      {
+        "record_id": "R3",
+        "life_id": "X3",
+        "segment_id": "A",
+        "entry_date": "2026-01-01",
+        "exit_date": "2026-04-01",
+        "exit_reason": "censored",
+        "source_ref": "ADMIN"
+      },
+      {
+        "record_id": "R4",
+        "life_id": "X3",
+        "segment_id": "B",
+        "entry_date": "2026-04-01",
+        "exit_date": "2026-06-01",
+        "exit_reason": "event",
+        "source_ref": "ADMIN"
+      }
+    ]
+  }
+}

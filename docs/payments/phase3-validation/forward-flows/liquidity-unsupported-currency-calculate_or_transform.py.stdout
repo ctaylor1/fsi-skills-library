@@ -1,0 +1,779 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-liquidity-and-funding-analyzer",
+  "request_id": "independent-weekend-funding",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "treasury",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "independent-weekend-funding",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "treasury",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "RAW",
+        "reference": "synthetic:independent-operating-ledger-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      },
+      {
+        "source_id": "POL",
+        "reference": "synthetic:independent-contract-and-policy-20260918",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "window_start": "2026-09-18T16:00:00-04:00",
+      "window_end": "2026-09-21T18:00:00-04:00",
+      "history_complete": true,
+      "accounts": [
+        {
+          "account_id": "FED",
+          "entity_id": "BANK-A",
+          "currency": "EUR",
+          "rail_profile_id": "US-FEDNOW",
+          "funding_model": "master-account",
+          "snapshot_at": "2026-09-18T16:00:00-04:00",
+          "balance": "1000",
+          "held": "100",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "account_id": "RTP",
+          "entity_id": "BANK-B",
+          "currency": "USD",
+          "rail_profile_id": "US-RTP",
+          "funding_model": "funding-agent-prefunded-position",
+          "snapshot_at": "2026-09-18T16:00:00-04:00",
+          "balance": "800",
+          "held": "0",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "event_id": "FSAT",
+          "economic_id": "ECON-FSAT",
+          "account_id": "FED",
+          "entity_id": "BANK-A",
+          "currency": "USD",
+          "kind": "settlement-obligation",
+          "certainty": "firm",
+          "due_at": "2026-09-19T12:00:00-04:00",
+          "amount": "700",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "event_id": "FSUN",
+          "economic_id": "ECON-FSUN",
+          "account_id": "FED",
+          "entity_id": "BANK-A",
+          "currency": "USD",
+          "kind": "outflow",
+          "certainty": "firm",
+          "due_at": "2026-09-20T12:00:00-04:00",
+          "amount": "500",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "event_id": "FMON",
+          "economic_id": "ECON-FMON",
+          "account_id": "FED",
+          "entity_id": "BANK-A",
+          "currency": "USD",
+          "kind": "inflow",
+          "certainty": "firm",
+          "due_at": "2026-09-21T10:00:00-04:00",
+          "amount": "600",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "event_id": "RSAT",
+          "economic_id": "ECON-RSAT",
+          "account_id": "RTP",
+          "entity_id": "BANK-B",
+          "currency": "USD",
+          "kind": "outflow",
+          "certainty": "firm",
+          "due_at": "2026-09-19T10:00:00-04:00",
+          "amount": "600",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "event_id": "RIN",
+          "economic_id": "ECON-RIN",
+          "account_id": "RTP",
+          "entity_id": "BANK-B",
+          "currency": "USD",
+          "kind": "inflow",
+          "certainty": "firm",
+          "due_at": "2026-09-18T17:00:00-04:00",
+          "amount": "200",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "event_id": "RFORE",
+          "economic_id": "ECON-RFORE",
+          "account_id": "RTP",
+          "entity_id": "BANK-B",
+          "currency": "USD",
+          "kind": "inflow",
+          "certainty": "forecast",
+          "due_at": "2026-09-19T11:00:00-04:00",
+          "amount": "900",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "event_id": "RSUN",
+          "economic_id": "ECON-RSUN",
+          "account_id": "RTP",
+          "entity_id": "BANK-B",
+          "currency": "USD",
+          "kind": "outflow",
+          "certainty": "firm",
+          "due_at": "2026-09-20T11:00:00-04:00",
+          "amount": "500",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "reservations": [
+        {
+          "reservation_id": "RES-F",
+          "account_id": "FED",
+          "event_id": "FSAT",
+          "currency": "USD",
+          "amount": "200",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "funding_windows": [
+        {
+          "window_id": "FWF",
+          "account_id": "FED",
+          "opens_at": "2026-09-21T09:00:00-04:00",
+          "closes_at": "2026-09-21T17:00:00-04:00",
+          "source_ids": [
+            "RAW"
+          ]
+        },
+        {
+          "window_id": "FWR",
+          "account_id": "RTP",
+          "opens_at": "2026-09-18T16:00:00-04:00",
+          "closes_at": "2026-09-18T16:30:00-04:00",
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ],
+      "stress_scenarios": [
+        {
+          "scenario_id": "FAILED-MONDAY",
+          "rationale": "Confirmed funding receipt fails while obligations increase20%",
+          "remove_inflow_ids": [
+            "FMON"
+          ],
+          "outflow_multiplier_bps": 12000,
+          "source_ids": [
+            "RAW"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "1359c1207ecfe9415bb25c856fcf6eff695b26fc87f9bfd33f8765de132f042c",
+  "findings": [
+    {
+      "code": "event-owner-or-currency",
+      "message": "FSAT",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "event-owner-or-currency",
+      "message": "FSUN",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "event-owner-or-currency",
+      "message": "FMON",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "invalid-or-overlapping-reservation",
+      "message": "RES-F",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "unsupported-rail-or-currency",
+      "message": "FED",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "outside-evidenced-funding-window",
+      "message": "RIN: excluded from conservative available funding.",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "forecast-not-firm",
+      "message": "RFORE: excluded from conservative available funding.",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "funding-shortfall",
+      "message": "RTP/base peak deficit 300 USD; later receipts cannot cure earlier missed obligations.",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "funding-shortfall",
+      "message": "RTP/FAILED-MONDAY peak deficit 520 USD; later receipts cannot cure earlier missed obligations.",
+      "source_ids": [
+        "RAW"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "window_start": "2026-09-18T16:00:00-04:00",
+    "window_end": "2026-09-21T18:00:00-04:00",
+    "account_positions": [
+      {
+        "account_id": "FED",
+        "entity_id": "BANK-A",
+        "currency": "EUR",
+        "funding_model": "master-account",
+        "excluded_inflows": [],
+        "scenario_paths": [
+          {
+            "scenario_id": "base",
+            "timeline": [
+              {
+                "at": "2026-09-18T16:00:00-04:00",
+                "event_ids": [],
+                "available": null
+              },
+              {
+                "at": "2026-09-19T12:00:00-04:00",
+                "event_ids": [
+                  "FSAT"
+                ],
+                "available": null
+              },
+              {
+                "at": "2026-09-20T12:00:00-04:00",
+                "event_ids": [
+                  "FSUN"
+                ],
+                "available": null
+              },
+              {
+                "at": "2026-09-21T10:00:00-04:00",
+                "event_ids": [
+                  "FMON"
+                ],
+                "available": null
+              }
+            ],
+            "minimum_available": null,
+            "peak_shortfall": null,
+            "ending_available": null
+          },
+          {
+            "scenario_id": "FAILED-MONDAY",
+            "timeline": [
+              {
+                "at": "2026-09-18T16:00:00-04:00",
+                "event_ids": [],
+                "available": null
+              },
+              {
+                "at": "2026-09-19T12:00:00-04:00",
+                "event_ids": [
+                  "FSAT"
+                ],
+                "available": null
+              },
+              {
+                "at": "2026-09-20T12:00:00-04:00",
+                "event_ids": [
+                  "FSUN"
+                ],
+                "available": null
+              },
+              {
+                "at": "2026-09-21T10:00:00-04:00",
+                "event_ids": [
+                  "FMON"
+                ],
+                "available": null
+              }
+            ],
+            "minimum_available": null,
+            "peak_shortfall": null,
+            "ending_available": null
+          }
+        ]
+      },
+      {
+        "account_id": "RTP",
+        "entity_id": "BANK-B",
+        "currency": "USD",
+        "funding_model": "funding-agent-prefunded-position",
+        "excluded_inflows": [
+          {
+            "event_id": "RIN",
+            "reason": "outside-evidenced-funding-window"
+          },
+          {
+            "event_id": "RFORE",
+            "reason": "forecast-not-firm"
+          }
+        ],
+        "scenario_paths": [
+          {
+            "scenario_id": "base",
+            "timeline": [
+              {
+                "at": "2026-09-18T16:00:00-04:00",
+                "event_ids": [],
+                "available": "800"
+              },
+              {
+                "at": "2026-09-18T17:00:00-04:00",
+                "event_ids": [
+                  "RIN"
+                ],
+                "available": "800"
+              },
+              {
+                "at": "2026-09-19T10:00:00-04:00",
+                "event_ids": [
+                  "RSAT"
+                ],
+                "available": "200"
+              },
+              {
+                "at": "2026-09-19T11:00:00-04:00",
+                "event_ids": [
+                  "RFORE"
+                ],
+                "available": "200"
+              },
+              {
+                "at": "2026-09-20T11:00:00-04:00",
+                "event_ids": [
+                  "RSUN"
+                ],
+                "available": "-300"
+              }
+            ],
+            "minimum_available": "-300",
+            "peak_shortfall": "300",
+            "ending_available": "-300"
+          },
+          {
+            "scenario_id": "FAILED-MONDAY",
+            "timeline": [
+              {
+                "at": "2026-09-18T16:00:00-04:00",
+                "event_ids": [],
+                "available": "800"
+              },
+              {
+                "at": "2026-09-18T17:00:00-04:00",
+                "event_ids": [
+                  "RIN"
+                ],
+                "available": "800"
+              },
+              {
+                "at": "2026-09-19T10:00:00-04:00",
+                "event_ids": [
+                  "RSAT"
+                ],
+                "available": "80"
+              },
+              {
+                "at": "2026-09-19T11:00:00-04:00",
+                "event_ids": [
+                  "RFORE"
+                ],
+                "available": "80"
+              },
+              {
+                "at": "2026-09-20T11:00:00-04:00",
+                "event_ids": [
+                  "RSUN"
+                ],
+                "available": "-520"
+              }
+            ],
+            "minimum_available": "-520",
+            "peak_shortfall": "520",
+            "ending_available": "-520"
+          }
+        ]
+      }
+    ],
+    "aggregation": "No cross-account, legal-entity or currency netting",
+    "funding_options_for_owner_review": [
+      "Confirm actual usable balance and disjoint holds/reservations",
+      "Verify funding access and windows for the required settlement arrangement",
+      "Stage evidenced resources before earliest obligation",
+      "Review liquidity buffer and service limits under outage stress"
+    ],
+    "transfers_created": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "settlement-reconciliation-matcher",
+      "reason": "Reconcile source balances and settlement obligations before funding decisions.",
+      "required_inputs": [
+        "account statements",
+        "settlement ledgers",
+        "reservation identifiers"
+      ],
+      "handoff_id": "31371c58d4302c8fa8496201b6d1d23bc741c278be62e573075f7d93e2a12947",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "independent-weekend-funding",
+      "lead_owner": "treasury",
+      "requested_output": "Reconcile source balances and settlement obligations before funding decisions.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "event-owner-or-currency",
+          "message": "FSAT",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "event-owner-or-currency",
+          "message": "FSUN",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "event-owner-or-currency",
+          "message": "FMON",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "invalid-or-overlapping-reservation",
+          "message": "RES-F",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "unsupported-rail-or-currency",
+          "message": "FED",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "outside-evidenced-funding-window",
+          "message": "RIN: excluded from conservative available funding.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "forecast-not-firm",
+          "message": "RFORE: excluded from conservative available funding.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "RTP/base peak deficit 300 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "RTP/FAILED-MONDAY peak deficit 520 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Any funding movement requires a separately authorized exact instruction.",
+      "required_inputs": [
+        "source and destination accounts",
+        "amount and currency",
+        "funding window",
+        "approval and mandate"
+      ],
+      "handoff_id": "c8c9614f749d111777d15a61f39e348f208529bf4ee59d0077b03134ad6e09cf",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "independent-weekend-funding",
+      "lead_owner": "treasury",
+      "requested_output": "Any funding movement requires a separately authorized exact instruction.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "event-owner-or-currency",
+          "message": "FSAT",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "event-owner-or-currency",
+          "message": "FSUN",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "event-owner-or-currency",
+          "message": "FMON",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "invalid-or-overlapping-reservation",
+          "message": "RES-F",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "unsupported-rail-or-currency",
+          "message": "FED",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "outside-evidenced-funding-window",
+          "message": "RIN: excluded from conservative available funding.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "forecast-not-firm",
+          "message": "RFORE: excluded from conservative available funding.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "RTP/base peak deficit 300 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "RTP/FAILED-MONDAY peak deficit 520 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-platform-architecture-reviewer",
+      "reason": "Review continuous funding monitoring, uncertain outcomes and recovery dependencies.",
+      "required_inputs": [
+        "timed shortfalls",
+        "failure assumptions",
+        "system and operational dependencies"
+      ],
+      "handoff_id": "941590c95f95a612f454384fcf6d0e972a2b0210367565380988427f31e3a1b6",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "independent-weekend-funding",
+      "lead_owner": "treasury",
+      "requested_output": "Review continuous funding monitoring, uncertain outcomes and recovery dependencies.",
+      "source_refs": [
+        "synthetic:independent-operating-ledger-20260918",
+        "synthetic:independent-contract-and-policy-20260918"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "event-owner-or-currency",
+          "message": "FSAT",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "event-owner-or-currency",
+          "message": "FSUN",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "event-owner-or-currency",
+          "message": "FMON",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "invalid-or-overlapping-reservation",
+          "message": "RES-F",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "unsupported-rail-or-currency",
+          "message": "FED",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "outside-evidenced-funding-window",
+          "message": "RIN: excluded from conservative available funding.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "forecast-not-firm",
+          "message": "RFORE: excluded from conservative available funding.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "RTP/base peak deficit 300 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "RTP/FAILED-MONDAY peak deficit 520 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "RAW"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

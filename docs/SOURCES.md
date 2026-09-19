@@ -12,7 +12,17 @@ The definitive plan is the source workbook, maintained outside this repository:
 > Plan Updates · Baseline Changes · Build Standards · Skill Template · Sources)
 
 `tools/build_catalog_from_xlsx.py` regenerates `catalog/skills-catalog.json` and `.csv`
-from that workbook.
+from that workbook, then applies approved repository additions and overrides.
+
+The 2026 industry expansion contributes 47 provisional additions. The user-approved
+wealth-management implementation contributes five P0 additions (2026-09-16), eight P1,
+four P2 and two P3 additions (2026-09-17), for 66 total in
+`catalog/provisional-additions.json`. Renames and revised metadata are maintained in
+`catalog/approved-overrides.json` and applied after additions, so workbook regeneration
+does not resurrect the old recommendation-review or goal-progress names. The workbook itself was not
+changed in this implementation. `--from-current` refreshes the catalog from these approved
+changes when the external workbook is unavailable. See
+[wealth P0 scope](wealth-management/P0-IMPLEMENTATION.md), [P1 scope](wealth-management/P1-IMPLEMENTATION.md), [P2 scope](wealth-management/P2-IMPLEMENTATION.md), and [P3 scope](wealth-management/P3-IMPLEMENTATION.md).
 
 ## Specification & authoring standard
 
@@ -48,3 +58,76 @@ from that workbook.
 > approved, jurisdiction-specific policy and rule sources. Each skill's source hierarchy
 > requires the firm's controlled sources to take precedence, with citations, effective
 > dates, versions, and owners.
+
+## Payments Phase 1 — 2026-09-17
+
+The user-approved implementation adds payment-specific aliases/merge/move records in [catalog/payments-phase1-migrations.json](../catalog/payments-phase1-migrations.json), durable overrides in approved-overrides.json and the router in provisional-additions.json. External workbook reconciliation remains pending; regeneration retains these approved changes. [Payments source governance](payments/SOURCE-GOVERNANCE.md) distinguishes orientation sources, current rule profiles, licensed distribution and deployment verification.
+
+## Payments Phase 2 — 2026-09-18
+
+Ten user-authorized packages are recorded in provisional-additions.json under
+Payments Phase 2. Router/dispute metadata changes are preserved by catalog additions
+and overrides. The external workbook is unchanged. Initial native rail/message and
+consumer-error/scheme profiles retain explicit scope, current source references,
+review intervals and unsupported adapters; see [source governance](payments/SOURCE-GOVERNANCE.md)
+and [implementation](payments/PHASE2-IMPLEMENTATION.md).
+
+## Insurance Phase 1 — 2026-09-18
+
+The user-approved implementation records 15 legacy aliases and two mergers in
+[insurance migrations](../catalog/insurance-phase1-migrations.json). The resulting
+23 packages include the new router. Approved overrides preserve names, scope and
+metadata when the catalog is regenerated; provisional additions include the router.
+These are repository-approved changes, not edits to the external workbook.
+[Insurance source governance](insurance/SOURCE-GOVERNANCE.md) separates primary
+orientation references, supplied source assertions, applicable institutional rules,
+licensed resources and professional acceptance. The common insurance artifact
+contract is an engineering convention, not a regulatory standard or authentication
+mechanism. See [implementation](insurance/PHASE1-IMPLEMENTATION.md) and
+[validation evidence](insurance/validation/README.md).
+
+## Payments Phase 3 — 2026-09-18
+
+Six additions, two expanded renames and existing module metadata are preserved in
+provisional additions/approved overrides and [migration records](../catalog/payments-phase3-migrations.json).
+The source workbook is unchanged; approved catalog regeneration is tested. Public
+FedNow orientation was refreshed to April 2026 v3.6 in the rail and native-message
+registries. Credential and operating references are documented in package source
+maps and [source governance](payments/SOURCE-GOVERNANCE.md). See
+[implementation](payments/PHASE3-IMPLEMENTATION.md) and [validation](payments/phase3-validation/README.md)
+for scope, retained evidence, corrected findings and outstanding acceptance gates.
+
+## Insurance Phase 2 — 2026-09-18
+
+Seventeen user-authorized operating foundations are recorded in
+[the phase manifest](../catalog/insurance-phase2-capabilities.json) and provisional
+additions; the router's Phase 2 metadata is preserved on catalog regeneration. The
+external workbook is unchanged. Native source profiles, shared context mappings,
+synthetic forward evaluation and remaining source/professional acceptance are
+separated in [source governance](insurance/SOURCE-GOVERNANCE.md),
+[implementation](insurance/PHASE2-IMPLEMENTATION.md) and
+[validation evidence](insurance/phase2-validation/README.md).
+
+## Payments Phase 4 — 2026-09-18
+
+Four new provisional additions and approved metadata overrides preserve the
+regional/corridor, wallet, stablecoin and business-model scope through catalog
+regeneration. Seven optional modules extend six installed packages without a
+rename or a source-workbook edit. The singular business-model package replaces an
+uninstalled proposal label only. Primary operator/regulator/protocol references
+and explicit review limits are recorded in [source governance](payments/SOURCE-GOVERNANCE.md)
+and the package source maps. Public references do not prove institution access,
+provider authorization or conformance. See [scope](payments/PHASE4-IMPLEMENTATION.md)
+and [validation](payments/phase4-validation/README.md).
+
+## Insurance Phase 3 — 2026-09-18
+
+Twenty-one user-authorized specialist packages are recorded in
+[the phase manifest](../catalog/insurance-phase3-capabilities.json) and provisional
+additions. Router metadata and four existing-package guide/version updates are
+preserved by approved overrides. The source workbook is unchanged. Source-bound
+native methods, independent synthetic evaluations, corrected interface/benefit
+findings and separate professional acceptance gates are recorded in
+[implementation](insurance/PHASE3-IMPLEMENTATION.md),
+[validation](insurance/phase3-validation/README.md) and
+[source governance](insurance/SOURCE-GOVERNANCE.md).

@@ -1,0 +1,213 @@
+{
+  "dataset_version": "synthetic-reserve-v1",
+  "calculation_inputs": {
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "P&C reserving actuary",
+      "represented_party": "Synthetic insurer or applicant; no live customer",
+      "object_id": "synthetic-paid-triangle"
+    },
+    "sources": [
+      {
+        "source_ref": "triangle-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "dataset_version": "synthetic-reserve-v1",
+    "valuation_date": "2026-09-18",
+    "currency": "USD",
+    "unit": "USD thousands",
+    "large_loss_threshold": 100,
+    "segments": [
+      {
+        "segment_id": "PROP-PAID",
+        "line_of_business": "P&C property",
+        "triangle_basis": "paid",
+        "development_ages": [
+          12,
+          24
+        ],
+        "triangle": {
+          "2024": [
+            100,
+            160
+          ],
+          "2025": [
+            250
+          ]
+        },
+        "factor_method": "volume-weighted",
+        "tail_factor": 1,
+        "source_ref": "triangle-v1"
+      }
+    ]
+  },
+  "valuation_date": "2026-09-18",
+  "document": {
+    "title": "Reserve Analysis Exhibit - DRAFT (for qualified actuarial review)",
+    "valuation_date": "2026-09-18",
+    "currency": "USD",
+    "unit": "USD thousands",
+    "sections": [
+      "Cover and valuation basis",
+      "Data sources and reconciliation",
+      "Development method and factors",
+      "Indicated ultimate and reserve measures",
+      "Severity, frequency, and large-loss analysis",
+      "Uncertainty and sensitivity",
+      "Assumptions and limitations",
+      "Actuarial review and approval"
+    ],
+    "approvals": [
+      {
+        "role": "Preparing analyst / actuarial associate",
+        "status": "pending"
+      },
+      {
+        "role": "Qualified (appointed) actuary - reserve review and selection",
+        "status": "pending"
+      },
+      {
+        "role": "Independent peer reviewer - actuarial review",
+        "status": "pending"
+      }
+    ]
+  },
+  "segments": [
+    {
+      "segment_id": "PROP-PAID",
+      "line_of_business": "P&C property",
+      "triangle_basis": "paid",
+      "method": "volume-weighted chain-ladder",
+      "tail_factor": 1.0,
+      "citations": [
+        "claims-datamart:triangle-v1"
+      ],
+      "reserve_measure": "total_unpaid",
+      "large_loss": {
+        "threshold": 100,
+        "count": 0,
+        "total": 0,
+        "claims": [],
+        "flagged": false
+      },
+      "development_factors": [
+        {
+          "from_age": 12,
+          "to_age": 24,
+          "factor": 1.6,
+          "basis": "volume-weighted"
+        }
+      ],
+      "cdf_to_ultimate": [
+        {
+          "age": 12,
+          "cdf": 1.6
+        },
+        {
+          "age": 24,
+          "cdf": 1.0
+        }
+      ],
+      "origin_results": [
+        {
+          "origin": "2024",
+          "latest_dev_age": 24,
+          "paid": 160.0,
+          "cdf_used": 1.0,
+          "ultimate": 160.0,
+          "total_unpaid": 0.0,
+          "citations": [
+            "claims-datamart:triangle-v1"
+          ]
+        },
+        {
+          "origin": "2025",
+          "latest_dev_age": 12,
+          "paid": 250.0,
+          "cdf_used": 1.6,
+          "ultimate": 400.0,
+          "total_unpaid": 150.0,
+          "citations": [
+            "claims-datamart:triangle-v1"
+          ]
+        }
+      ],
+      "totals": {
+        "paid": 410.0,
+        "ultimate": 560.0,
+        "total_unpaid": 150.0
+      },
+      "severity": null,
+      "frequency": null,
+      "uncertainty": {
+        "method": "min-max age-to-age link-ratio range (indicative sensitivity, NOT a statistical confidence interval)",
+        "low_ultimate": 560.0,
+        "selected_ultimate": 560.0,
+        "high_ultimate": 560.0,
+        "range_pct_of_selected": 0.0
+      },
+      "status": "draft-analysis",
+      "packageable": true,
+      "reserve_analysis": {
+        "segment_id": "PROP-PAID",
+        "line_of_business": "P&C property",
+        "triangle_basis": "paid",
+        "method": "volume-weighted chain-ladder",
+        "valuation_date": "2026-09-18",
+        "currency": "USD",
+        "unit": "USD thousands",
+        "indicated": {
+          "paid": 410.0,
+          "ultimate": 560.0,
+          "total_unpaid": 150.0
+        },
+        "selection_basis": "method indication only (chain-ladder); the appointed actuary reviews, selects the carried reserve, and approves before booking",
+        "large_loss_flagged": false,
+        "uncertainty_range": {
+          "low": 560.0,
+          "high": 560.0
+        },
+        "actuarial_review_required": true,
+        "reviewer_signoff_required": true
+      }
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "draft_analysis": 1,
+    "anomaly_flagged": 0,
+    "needs_data": 0,
+    "large_loss_segments": 0
+  },
+  "standing_note": "Draft reserving analysis for qualified actuarial review only; this skill computes method-indicated estimates from the supplied data, does not select or book carried reserves, does not issue or sign a Statement of Actuarial Opinion, and does not opine on reserve adequacy - a qualified actuary must review, select, and approve every figure before use.",
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "reserving-analysis-assistant",
+    "artifact_type": "reserve_analysis",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "P&C reserving actuary",
+      "represented_party": "Synthetic insurer or applicant; no live customer",
+      "object_id": "synthetic-paid-triangle"
+    },
+    "sources": [
+      {
+        "source_ref": "triangle-v1",
+        "version": "synthetic-v1",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "input_hash": "2d8e687a3eba5502aeecb11d3f08cd2fd78b54fc0d096a19a2bd6d4d17e4a91e",
+    "output_hash": "b1f8b9aaa6c10dc4c0a55a19896582a0dcde01cdc3eddb83818e3440a7e7591b",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "55e1c12eb1665123c6c1d69356e11e0f3388c834f511eb66514872833204b990"
+  },
+  "narrative": "Evaluation-only native output. The limitations and disposition are documented in findings.md; no unsupported comparative or large-loss conclusion is adopted."
+}

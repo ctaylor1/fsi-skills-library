@@ -9,8 +9,8 @@ the map via its durable `explanation_id`.
 | Downstream skill | When to route | Handoff artifact |
 | ---------------- | ------------- | ---------------- |
 | `coverage-gap-analyzer` | User asks whether they have enough coverage or where the gaps are vs. their needs/exposures (analytical, non-advice) | `explanation_id` + normalized element map |
-| `claim-readiness-checker` | User is preparing a claim and wants completeness/evidence/deadline checks | `explanation_id` + coverage/condition context |
-| `claim-denial-appeal-helper` | A claim was denied and the user wants to understand the denial and draft an appeal | `explanation_id` + cited denial-relevant clauses |
+| `claim-intake-preparer` | User is preparing a claim and wants completeness/evidence/deadline checks | `explanation_id` + coverage/condition context |
+| `health-benefit-appeal-packager` | A claim was denied and the user wants to understand the denial and draft an appeal | `explanation_id` + cited denial-relevant clauses |
 | `premium-quote-comparator` | User wants to compare policies, quotes, premiums, or deductibles | `explanation_id` per policy |
 | `policy-wording-comparator` | A professional needs a form/version/wording comparison against filed/approved forms (R3) | `explanation_id` + form edition/citations |
 
@@ -20,7 +20,7 @@ decision. Explain the relevant clause neutrally and direct the reader to the ins
 
 ## Upstream (may call this skill)
 
-`coverage-gap-analyzer`, `claim-readiness-checker`, `claim-denial-appeal-helper`, and
+`coverage-gap-analyzer`, `claim-intake-preparer`, `health-benefit-appeal-packager`, and
 `premium-quote-comparator` may request a fresh plain-language element map from this skill
 rather than re-parsing the policy themselves.
 

@@ -1,0 +1,280 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-business-model-analyzer",
+  "request_id": "business-tamper-original",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "forward-reviewer",
+  "status": "draft",
+  "action_mode": "draft-only",
+  "authority_granted": true,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "business-tamper-original",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "forward-reviewer",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "forward-evidence",
+        "reference": "synthetic://independently-authored-payment-contract-and-ledger",
+        "as_of": "2026-09-18",
+        "review_due": "2026-10-01"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "analysis_question": "Compare processor unit economics with matching scope",
+      "accountable_owner": "payments-strategy",
+      "companies": [
+        {
+          "company_id": "grossCo",
+          "roles": [
+            "processor"
+          ],
+          "customer": "business-merchants",
+          "value_proposition": "payment acceptance",
+          "monetization": "processing fee",
+          "dependencies": "sponsor and network",
+          "jurisdiction": "US",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        },
+        {
+          "company_id": "netCo",
+          "roles": [
+            "processor"
+          ],
+          "customer": "business-merchants",
+          "value_proposition": "payment acceptance",
+          "monetization": "processing fee",
+          "dependencies": "sponsor and network",
+          "jurisdiction": "US",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "segments": [
+        {
+          "segment_id": "gross-segment",
+          "company_id": "grossCo",
+          "economic_partition_id": "grossCo-distinct-processing",
+          "segment_name": "USprocessing",
+          "currency": "USD",
+          "period_start": "2026-01-01",
+          "period_end": "2026-06-30",
+          "period_basis": "six-months",
+          "volume_definition": "settled-merchant-volume",
+          "scope_definition": "US-domestic-card-processing",
+          "accounting_policy_ref": "principal-agent-reviewed",
+          "volume_unit": "currency-amount",
+          "revenue_basis": "gross-billings",
+          "costs_complete": true,
+          "payment_volume": "1000000",
+          "gross_billings": "25000",
+          "pass_through": "17000",
+          "incentives": "1000",
+          "reported_net_revenue": "7000",
+          "variable_cost": "3000",
+          "allocated_fixed_cost": "1200",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        },
+        {
+          "segment_id": "net-segment",
+          "company_id": "netCo",
+          "economic_partition_id": "netCo-distinct-processing",
+          "segment_name": "USprocessing",
+          "currency": "USD",
+          "period_start": "2026-01-01",
+          "period_end": "2026-06-30",
+          "period_basis": "six-months",
+          "volume_definition": "settled-merchant-volume",
+          "scope_definition": "US-domestic-card-processing",
+          "accounting_policy_ref": "principal-agent-reviewed",
+          "volume_unit": "currency-amount",
+          "revenue_basis": "net-revenue",
+          "costs_complete": true,
+          "payment_volume": "1000000",
+          "gross_billings": "25000",
+          "pass_through": "17000",
+          "incentives": "1000",
+          "reported_net_revenue": "7000",
+          "variable_cost": "3000",
+          "allocated_fixed_cost": "1200",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "peer-delta",
+          "left_segment": "gross-segment",
+          "right_segment": "net-segment",
+          "accounting_comparability_review_ref": "reviewed-accounting-and-scope",
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ],
+      "strategic_options": [
+        {
+          "option_id": "margin-test",
+          "hypothesis": "reduce processing costs",
+          "test": "measured supplier pilot",
+          "owner": "payments-operations",
+          "dependency": "issuer data",
+          "risk": "quality loss",
+          "segment_ids": [
+            "gross-segment"
+          ],
+          "source_ids": [
+            "forward-evidence"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "6606cad0727ad39dfff1304ba980bb9655d7057d509da1200ba0523e84680d49",
+  "findings": [],
+  "result": {
+    "analysis_question": "Compare processor unit economics with matching scope",
+    "value_chain": [
+      {
+        "company_id": "grossCo",
+        "roles": [
+          "processor"
+        ],
+        "customer": "business-merchants",
+        "value_proposition": "payment acceptance",
+        "monetization": "processing fee",
+        "dependencies": "sponsor and network",
+        "jurisdiction": "US",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      },
+      {
+        "company_id": "netCo",
+        "roles": [
+          "processor"
+        ],
+        "customer": "business-merchants",
+        "value_proposition": "payment acceptance",
+        "monetization": "processing fee",
+        "dependencies": "sponsor and network",
+        "jurisdiction": "US",
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "gross-segment",
+        "company_id": "grossCo",
+        "currency": "USD",
+        "period_start": "2026-01-01",
+        "period_end": "2026-06-30",
+        "volume_definition": "settled-merchant-volume",
+        "scope_definition": "US-domestic-card-processing",
+        "net_revenue": "7000",
+        "net_take_rate_bps": "70.000",
+        "contribution_before_fixed": "4000",
+        "contribution_after_allocated_fixed": "2800",
+        "is_accounting_profit": false,
+        "source_ids": [
+          "forward-evidence"
+        ]
+      },
+      {
+        "segment_id": "net-segment",
+        "company_id": "netCo",
+        "currency": "USD",
+        "period_start": "2026-01-01",
+        "period_end": "2026-06-30",
+        "volume_definition": "settled-merchant-volume",
+        "scope_definition": "US-domestic-card-processing",
+        "net_revenue": "7000",
+        "net_take_rate_bps": "70.000",
+        "contribution_before_fixed": "4000",
+        "contribution_after_allocated_fixed": "2800",
+        "is_accounting_profit": false,
+        "source_ids": [
+          "forward-evidence"
+        ]
+      }
+    ],
+    "comparisons": [
+      {
+        "comparison_id": "peer-delta",
+        "comparable_on_supplied_basis": true,
+        "mismatches": [],
+        "left_minus_right_net_take_rate_bps": "0.000",
+        "competitive_superiority_inferred": false
+      }
+    ],
+    "strategic_options": [
+      {
+        "option_id": "margin-test",
+        "hypothesis": "reduce processing costs",
+        "test": "measured supplier pilot",
+        "owner": "payments-operations",
+        "dependency": "issuer data",
+        "risk": "quality loss",
+        "segment_ids": [
+          "gross-segment"
+        ],
+        "source_ids": [
+          "forward-evidence"
+        ],
+        "status": "hypothesis-for-owner-review",
+        "approved": false
+      }
+    ],
+    "cross_currency_total": null,
+    "securities_recommendation": false,
+    "strategy_approved": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "payment-economics-modeler",
+      "reason": "Deepen method-specific economics using reconciled segment inputs.",
+      "required_inputs": [
+        "participant and payment method",
+        "currency and period",
+        "cost basis",
+        "unresolved accounting issues"
+      ],
+      "handoff_id": "59a4cfb7ef3519fe6ccb2d88523d74903f7e862e854b33c53fe61c018a0eec90",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-business-model-analyzer",
+      "case_id": "business-tamper-original",
+      "lead_owner": "forward-reviewer",
+      "requested_output": "Deepen method-specific economics using reconciled segment inputs.",
+      "source_refs": [
+        "synthetic://independently-authored-payment-contract-and-ledger"
+      ],
+      "unresolved_issues": [],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review.",
+    "All financial values are supplied evidence. No company filings are collected or authenticated by this helper.",
+    "Contribution and take rate are explicitly defined management measures, not accounting profit, valuation or investment recommendations.",
+    "Segment values remain separate by entity, currency and period; overlap checks use declared economic partitions and cannot discover undisclosed overlap."
+  ]
+}

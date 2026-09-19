@@ -1,0 +1,1 @@
+I am a ceded reinsurance analyst for synthetic Cedar Mutual. Compare Programs A and B under the supplied two-event stress and no-loss scenarios. Show layer recoveries, exhaustion, retained losses and supplied costs. These are deterministic comparisons, not a purchase recommendation or modeled probability.

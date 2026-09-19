@@ -16,7 +16,7 @@ price, decide credit, advise on investments, or enroll a service.
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
 | `fee-and-charge-reviewer` | The client wants existing account fees analyzed against disclosed terms | `advisory_id` + account list |
-| `merchant-fee-optimizer` | Card-acceptance / merchant-services cost review (payments) | `advisory_id` + card volume |
+| `merchant-payment-cost-analyzer` | Card-acceptance / merchant-services cost review (payments) | `advisory_id` + card volume |
 | `credit-application-packager` | The overdraft/liquidity **referral** proceeds to a formal commercial-lending review | referral note + activity evidence |
 | `kyc-customer-due-diligence-screener` | A new service/entity requires customer due diligence before enrollment | customer + entity context |
 | `account-anomaly-screener` | The review surfaces unusual account activity needing screening | account + focal activity |
