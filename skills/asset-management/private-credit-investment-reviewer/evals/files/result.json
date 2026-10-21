@@ -1,0 +1,81 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "private-credit-investment-reviewer",
+  "request_id": "SYNTHETIC-private-credit-investment-reviewer",
+  "object_id": "FUND-EXAMPLE",
+  "as_of": "2026-09-18",
+  "knowledge_cutoff": "2026-09-18",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "needs-review",
+  "draft": true,
+  "action_taken": false,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "supplied-credit-scenarios-covenant-basis/1",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "facility_id": "FAC-1",
+    "days_to_maturity": 178,
+    "balloon_amount": "100",
+    "scenarios": [
+      {
+        "scenario_id": "base",
+        "ratios": {
+          "net_leverage": "4.000000000000",
+          "interest_coverage": "5.000000000000",
+          "dscr": "1.800000000000"
+        },
+        "covenant_checks": [
+          {
+            "covenant_id": "LEV",
+            "metric": "net_leverage",
+            "value": "4.000000000000",
+            "headroom": "-0.500000000000",
+            "exact_cross_product_margin": "-12.5",
+            "state": "potential_exception",
+            "legal_default": null
+          },
+          {
+            "covenant_id": "IC",
+            "metric": "interest_coverage",
+            "value": "5.000000000000",
+            "headroom": "3.000000000000",
+            "exact_cross_product_margin": "15",
+            "state": "within_supplied_threshold",
+            "legal_default": null
+          },
+          {
+            "covenant_id": "DSCR",
+            "metric": "dscr",
+            "value": "1.800000000000",
+            "headroom": "0.300000000000",
+            "exact_cross_product_margin": "3.0",
+            "state": "within_supplied_threshold",
+            "legal_default": null
+          }
+        ],
+        "source_ref": "s1"
+      }
+    ],
+    "ratio_rounding_places": 12
+  },
+  "unresolved_issues": [
+    "facility maturity within watch horizon or past due; review refinancing evidence",
+    "base/LEV: potential covenant exception; no default determination"
+  ],
+  "limitations": [
+    "Supplied comparable financial definitions only; no issuer research extraction, cashflow forecast, valuation, recovery model, commitment, legal default or waiver decision.",
+    "Displayed ratios/headroom round to12 places; threshold flags use exact cross-products with positive denominators, so display rounding does not determine the flag."
+  ],
+  "handoffs": [],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "s1"
+  ],
+  "input_hash": "44d494124133e92bb3fdfd5cf744f06b5efd49679c02385fd0061be77ed3b3ad",
+  "source_truth": "unverified"
+}

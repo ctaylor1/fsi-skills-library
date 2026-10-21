@@ -1,6 +1,6 @@
 # Build Status
 
-Progress tracker for the 296-package FSI portfolio. The **live** built/pending list is
+Progress tracker for the cataloged FSI portfolio (395 packages at the IR Phase 4 checkpoint; concurrent work may change the live inventory). The **live** built/pending list is
 computed from the filesystem — run:
 
 ```bash
@@ -16,12 +16,214 @@ This file is the human narrative: conventions locked, what's done, and what's qu
 
 ## To do
 
-- [ ] **Insurance Phase 4 — architecture and measured automation.** Resume in a future
-  session from the completed Phase 3 checkpoint. Cover insurance workflow, data and
-  core modernization; shared solution architecture, automation assessment,
-  data-product value and operations performance. Follow the
-  [insurance roadmap](docs/insurance/IMPLEMENTATION-PLAN.md); validate source
-  integration, benefits and failure paths. Queued at the user's request; not started.
+- [x] Investment Research Phase 1 structural cleanup, native evidence repairs and
+  control boundaries; see [implementation](docs/investment-research/phase1-implementation.md)
+  and [verification](docs/investment-research/phase1-validation/README.md).
+- [x] Investment Research Phase 2 analytical expansion, model-reviewer parity and
+  reviewed adapters; see [implementation](docs/investment-research/phase2-implementation.md)
+  and [validation](docs/investment-research/phase2-validation/README.md).
+- [x] Investment Research Phase 3 controlled model updates, corporate events and research QA;
+  see [implementation](docs/investment-research/phase3-implementation.md) and
+  [validation](docs/investment-research/phase3-validation/README.md).
+- [x] Investment Research Phase 4 specialist research completes the 42 target packages;
+  see [implementation](docs/investment-research/phase4-implementation.md) and
+  [validation](docs/investment-research/phase4-validation/README.md).
+- [ ] Investment Research practitioner/institutional acceptance and live integration.
+
+- [x] Compliance & Financial Crime Phase 1 structure, correctness and evidence controls;
+  see [implementation](docs/compliance-financial-crime/PHASE1-IMPLEMENTATION.md).
+- [x] Compliance & Financial Crime Phase 2 foundations and CDD/EDD expansion;
+  see [implementation](docs/compliance-financial-crime/PHASE2-IMPLEMENTATION.md).
+- [x] Compliance & Financial Crime Phase3 native modernization and bounded evidence composition; see [implementation](docs/compliance-financial-crime/PHASE3-IMPLEMENTATION.md).
+- [ ] Compliance & Financial Crime Phase4 and professional/institutional acceptance;
+  see [implementation plan](docs/compliance-financial-crime/IMPLEMENTATION-PLAN.md).
+
+- [x] Asset Management Phase 1 structure, ownership and native correctness; see
+  [implementation](docs/asset-management/PHASE1-IMPLEMENTATION.md).
+- [x] Asset Management Phase 2 foundational implementation and bounded AM validation; see
+  [implementation](docs/asset-management/PHASE2-IMPLEMENTATION.md).
+- [x] Asset Management Phase 3 modernization library implementation; see
+  [implementation](docs/asset-management/PHASE3-IMPLEMENTATION.md).
+- [x] Asset Management Phase 4 bounded library implementation; see [delivery](docs/asset-management/PHASE4-IMPLEMENTATION.md).
+- [ ] AM live gateway/engine integration and independent institutional acceptance; see
+  [approved roadmap](docs/asset-management/IMPLEMENTATION-PLAN.md).
+
+- [x] **Insurance Phase 4 — architecture and measured automation.** Implementation
+  and bounded verification completed 2026-09-20; see the
+  [implementation record](docs/insurance/PHASE4-IMPLEMENTATION.md).
+- [x] **Insurance Phase 5 — bounded specialist extensions.** Five parametric and
+  health-payer review packages implemented 2026-10-04; Insurance now has 69 packages.
+  See [implementation](docs/insurance/PHASE5-IMPLEMENTATION.md) and
+  [verification](docs/insurance/phase5-validation/README.md).
+- [x] **Insurance Phase 6 — offline acceptance evidence preparation.** Tooling
+  completed: 73 isolated packages, 372 passing command checks and 156 Insurance
+  tooling/integration tests. Institution-specific reviews remain unestablished; see
+  [implementation](docs/insurance/PHASE6-IMPLEMENTATION.md) and
+  [dossier](docs/insurance/phase6-validation/reviewed-dossier/report.md).
+- [ ] Insurance practitioner/institution and deployment acceptance; source-workbook
+  reconciliation, comprehensive health-payer scope and additional regional methods.
+
+## Asset Management Phase 4 — 2026-10-04
+
+**Bounded library implementation is complete.** Six specialist packages and six explicit extensions bring AM to 64 packages. The 59-intent router separates derivatives from staged portfolio transitions. Neutral research ownership and earlier native schemas remain preserved. Canonical shared specialist resources are generated and pinned; nonlinear prices/risk remain supplied engine results with independent benchmark requirements.
+
+Repaired standalone verification passes 701 executable checks across 93 affected packages; 264 AM repository tests, 910 full repository tests and 2,245 whole-library executable checks also pass. Independent forward reviews covered all 12 authored methods and repaired eight retained initial defects. See [delivery](docs/asset-management/PHASE4-IMPLEMENTATION.md), [final validation](docs/asset-management/phase4-validation/README.md) and [preservation audit](docs/asset-management/phase4-validation/preservation-audit.md) for exact evidence and broad-check limits. Live sources/engines, professional/legal/model and production acceptance remain open. No commit, push, merge, release or live financial action was performed.
+
+## Asset Management Phase 3 — 2026-10-04
+
+**Library implementation and bounded AM verification are complete.** Four adapters
+cover data architecture, platform modernization, operating models and AI workflows,
+bringing AM to 58 packages. They reuse pinned shared methods; the data package adds
+an optional read-only approved-gateway client. The router has 48 intents, and six
+specialized Phase 4 capabilities remain planned. Live access, real-model evaluations
+and professional/institutional acceptance remain open.
+
+Verification passed 478 AM executable checks, 251 AM repository tests and 598 command
+checks across 87 isolated packages. All 58 AM packages pass structure. Independent
+fresh reviews cover every new package. Preservation checks verify 501 prior-phase/shared
+owner files and 1,177 existing AM files outside the updated router unchanged; the final
+source snapshot covers 1,399 AM runtime/dependency files.
+
+The final observed shared checkout passes 2,141 whole-library executable checks and
+structure for 364 packages. Its broad 804-test repository run has four failure records
+in concurrent Insurance/Wealth work, so global repository-test status remains partial.
+See [implementation](docs/asset-management/PHASE3-IMPLEMENTATION.md) and
+[validation](docs/asset-management/phase3-validation/README.md). No commit, push, merge,
+release, live source connection or operational action was performed.
+
+## Compliance & Financial Crime Phase3 — 2026-10-04
+
+Four new native skills bring CFC to 38 packages and all 36 target jobs to bounded native support. The router covers 41 declared intents. Existing generic technology/governance owners remain separate; two explicit review projections preserve source facts, dates, access and underlying subject/version links. Independent forward checks found and repaired projection linkage, screening timing, scenario prerequisite, operational quantity dependency and case-QA classification issues. See [implementation](docs/compliance-financial-crime/PHASE3-IMPLEMENTATION.md) and [verification](docs/compliance-financial-crime/phase3-validation/README.md) for exact checks and preserved failures.
+
+The combined checkout currently contains 364 packages across 15 categories, including nine unrelated packages added during this phase by concurrent work. This phase authors four CFC packages; unrelated changes are recorded separately in the preservation audit. Verification passed 804 repository tests and 2,142 library evaluations on frozen snapshots; final CFC checks passed 38 integration tests and 267 commands across 40 isolated packages. All 2,849 protected Phase1/2 files remain unchanged. Source authentication, approved institutional/legal profiles, practitioner/model and production acceptance remain open. Phase4 and external-workbook reconciliation remain pending. No commit, push, merge, release or live operation was performed.
+
+## Historical Compliance & Financial Crime Phase 2 checkpoint — 2026-10-03
+
+**Implementation and bounded software verification are complete.** Nineteen new
+foundations and two expanded customer modes are installed. The catalog
+contains 351 packages in 15 categories; CFC contains 34 including its router. All
+19 new and two expanded jobs have primary routes among 37 declared intents. Four
+of 36 target workflows remain Phase3 gaps; advanced Phase4 overlays remain future.
+External promotions have a cross-sector owner; Capital Markets retains its
+conditional supervision/records specialist. Existing Phase1 modes and evidence are
+preserved. Final verification passed 656 repository tests, 2,039 whole-library
+executable checks and 228 command checks across 36 isolated packages, including
+721 focused regressions. All 351 packages have zero structural errors/warnings
+and no dangling handoffs. Verification used an unchanged 6,874-file runtime-source
+snapshot; 12,991 protected baseline files, including Phase1 archives, are unchanged.
+
+Independent replay repaired ten semantic findings. Original partial intakes remain
+partial: four primary quantitative expectations are withheld, and eight customer
+fractional-numeric threshold intakes lack exact decimal evidence. Separately amended
+source-bound inputs verify the repaired calculations; original failures and
+expectations remain intact. Companion schemas and native rejection checks pass.
+
+See [implementation](docs/compliance-financial-crime/PHASE2-IMPLEMENTATION.md) and
+[validation](docs/compliance-financial-crime/phase2-validation/README.md).
+Source authentication, approved institutional legal/method packs, practitioner and
+production acceptance remain open. The external workbook remains unreconciled.
+No commit, push, merge, release or live operational action was performed.
+
+## Historical Compliance & Financial Crime Phase 1 checkpoint — 2026-09-21
+
+**Implementation and bounded software verification are complete.** Repaired all 15
+original packages, renamed six, moved generic privacy to Data, AI & Model Governance,
+and added the router. At that checkpoint, CFC contained 15 packages including its
+router; privacy was an adjacent supported workflow. The catalog contained 332 packages
+across 15 categories. Phases 2–4 were pending; the current Phase2 checkpoint is above.
+
+Final checks: **624 repository tests**, **1,900 library executable evaluations**, and
+**85 isolated commands across 16 affected packages**, including **394 focused tests**,
+passed. Counts overlap and are not additive. All 332 packages pass structural validation
+with zero errors/warnings; handoffs, migrations, resource locks and catalog regeneration
+pass. Independent forward review passed **49/49 expectations** after seven native
+findings were repaired; original failures and source snapshots are retained. Final
+verification used an unchanged 6,362-file source snapshot.
+
+See [implementation](docs/compliance-financial-crime/PHASE1-IMPLEMENTATION.md),
+[validation evidence](docs/compliance-financial-crime/phase1-validation/README.md) and
+[machine-readable results](docs/compliance-financial-crime/phase1-validation/validation-summary.json).
+These software checks do not establish source authenticity, legal/professional acceptance,
+current institutional rule packs, live integrations or deployment readiness. The external
+source workbook remains unreconciled. Other-domain work was retained; no commit, push,
+merge, release or live operational action was performed.
+
+## Asset Management Phase 2 — 2026-09-21
+
+**Implementation and bounded AM verification are complete.** Added 29 foundational
+packages and expanded institutional proposal, manager-diligence and committee modes.
+AM now has 54 packages; the integration checkpoint catalog has 331 across 15 categories.
+The router covers 46 declared intents, and all 40 new/expanded native modes are exercised
+through actual source-bound validators. Ten roadmap capabilities remain in Phases 3–4.
+
+Final AM checks: **443 native package evaluations**, **563 isolated checks across 83
+portable packages**, and **zero errors/warnings across 54 AM packages**. Cataloged
+ownership, aliases, handoffs, source locks and support matrix pass in explicit AM scope.
+Fresh independent reviews exposed and repaired provenance, scope, completion-status,
+precision and actual-event chronology gaps. The prior Phase 1 and unrelated Insurance,
+Payments and Wealth evidence matches protected baseline hashes.
+
+Whole-library validation is **not clean while concurrent compliance work is in progress**:
+606 of 609 repository tests passed; three inventory assertions failed because an added
+compliance router was not yet cataloged. A separate full-library executable snapshot had
+13 failures in changing compliance packages. Later structure checks also saw unfinished
+compliance metadata/references. These are retained in the validation record; no unrelated
+changes were reverted or repaired, and no clean release is claimed.
+
+See [implementation](docs/asset-management/PHASE2-IMPLEMENTATION.md),
+[validation evidence](docs/asset-management/phase2-validation/README.md) and
+[machine-readable results](docs/asset-management/phase2-validation/validation-summary.json).
+Source authentication, practitioner/institutional acceptance and approved production
+engines remain deployment work. This task did not commit, merge, push or release.
+
+## Historical Asset Management Phase 1 — 2026-09-20
+
+**Implementation and bounded verification are complete.** Phase 1 establishes 25 AM
+packages, a dedicated Investment Research owner with 18 packages, Investment Banking
+with nine packages, and two shared investment data utilities. All 30 original AM
+packages have explicit dispositions and aliases. The AM router reports supported,
+partial and planned scope; the 64-capability target portfolio remains a roadmap.
+
+Final verification: **1,605 whole-library package checks**, **497 repository tests**,
+and **289 isolated-installation checks across 54 affected packages** passed. Structure
+validation covers all 302 packages with zero errors/warnings; catalog regeneration,
+aliases, handoffs and pinned resources pass. Independent forward cases exposed and
+repaired precision and source-envelope defects; original evidence and repair replays
+are retained. These overlapping counts are technical checks, not source truth or
+institutional acceptance.
+
+See [implementation](docs/asset-management/PHASE1-IMPLEMENTATION.md),
+[validation and retained findings](docs/asset-management/phase1-validation/README.md),
+[support matrix](docs/asset-management/SUPPORT-MATRIX.md) and
+[remaining phases](docs/asset-management/IMPLEMENTATION-PLAN.md). Six native schemas
+remain explicitly unsupported for common envelopes. Phase 2–4 methods, specialist
+acceptance and deployment remain separate work. Existing Insurance changes are
+preserved; this work has not been committed, merged, pushed or released.
+
+## Insurance Phase 4 — 2026-09-20
+
+**Implementation and bounded verification are complete.** Three new Insurance
+packages cover workflow design, semantic/temporal data contracts and core migration
+planning. Four shared packages cover architecture, paired automation assessment,
+data-product value and operating performance. Insurance now has **64 packages**;
+the library has **303**. Native schemas, source/control references, output templates,
+portable resources and installed router targets are complete. Business execution
+remains outside these packages.
+
+Final verification: **1,552 package checks**, **377 repository tests** (including
+15 Phase 4 integration methods), and zero structure errors/warnings across 303
+packages. The seven new packages include 130 method tests within 35 package checks.
+All 44 new portable resources, 64 Insurance contracts/references and 38 earlier
+foundation bundles match. No dangling handoffs or Insurance route/migration errors.
+Two independent forward reviews cover all seven new jobs. The final replay matches
+**18 reviewed results across 54 native calls**. Original mapping failures, wrong
+outputs and exact-input repairs are preserved; source fidelity and professional or
+production acceptance are not inferred from these counts.
+
+See [implementation](docs/insurance/PHASE4-IMPLEMENTATION.md),
+[validation and remaining gates](docs/insurance/phase4-validation/README.md), and
+[roadmap](docs/insurance/IMPLEMENTATION-PLAN.md). Work remains on the existing feature
+branch, without a merge, release or portfolio version bump.
 
 ## Insurance Phase 3 — 2026-09-18
 
@@ -51,8 +253,7 @@ signoff, broader model benchmark or deployment acceptance is claimed.
 
 See [implementation and inventory](docs/insurance/PHASE3-IMPLEMENTATION.md),
 [validation evidence](docs/insurance/phase3-validation/README.md) and
-[roadmap](docs/insurance/IMPLEMENTATION-PLAN.md). **Next: Phase 4 architecture and
-measured automation.**
+[roadmap](docs/insurance/IMPLEMENTATION-PLAN.md). At that checkpoint Phase 4 was next; it is now completed above.
 
 ## Payments Phase 4 — 2026-09-18
 
@@ -213,6 +414,36 @@ See [implementation](docs/payments/PHASE1-IMPLEMENTATION.md),
 [validation and retained evidence](docs/payments/validation/README.md), and
 [source governance](docs/payments/SOURCE-GOVERNANCE.md). Phase 2–4 capabilities were
 not implemented at that checkpoint. Wealth-management package content and validation records were preserved.
+
+## Wealth-management P5 source and audience controls, 2026-10-04
+
+**P5 implementation and evaluation are complete; behavioral acceptance remains open.**
+Eleven existing skills gain portable source-field review, recipient projection and
+combined draft-review controls. No wealth skill or practitioner coverage was removed.
+Estate review now preserves unknown requirements, ownership and document links and
+avoids treating unknown designations as an established empty beneficiary list.
+
+Fourteen real-model writer sessions are retained with all 140 rubric decisions.
+Across six initial paired cases, skill-assisted drafts passed **48/60 criteria and
+0/6 complete cases**; baselines passed **52/60 and 3/6**. A separate estate follow-up
+scored **9/10 with skills and 10/10 without**: targeted unknown handling improved,
+but inferred ownership remained unsupported. Exact backend identity is unavailable;
+these are descriptive findings, not demonstrated uplift or professional acceptance.
+
+Final checks pass: **370 wealth test methods** (including **106 new P5 tests**),
+**173 executable package checks**, all **27 wealth package structure checks**, and
+eleven synchronized portable bundles. A separate actual-writer audit reviewed
+93 fields; the combined gate withheld the recipient draft after 11 fields failed
+qualification. Some were legitimate metadata that the narrow contract could not
+represent. Source fidelity, exact access assignments for working artifacts and
+handoff completeness remain behavioral blockers.
+
+Both P5 archives were extracted and validated. All 39 original P4 evidence files
+retain their hashes. Final estate version 0.2.2 has deterministic regression and
+unchanged-input replay evidence; its last comparison repair was not model-prompted.
+See [P5 implementation](docs/wealth-management/P5-IMPLEMENTATION.md),
+[validation and remaining priorities](docs/wealth-management/P5-VALIDATION.md), and
+[retained evidence](docs/wealth-management/p5/results/README.md).
 
 ## Wealth-management P4 quality validation, 2026-09-17
 
@@ -406,7 +637,8 @@ workflow**.
 
 ## Open items for the owner
 
-- [ ] Insurance Phase 4: architecture and measured automation, following [the agreed plan](docs/insurance/IMPLEMENTATION-PLAN.md). Deferred for a later session; not implemented yet.
+- [x] Insurance Phase 4 implementation and bounded verification; see [results and remaining acceptance gates](docs/insurance/phase4-validation/README.md).
+- [ ] Insurance follow-up: actual source/mapping, qualified practitioner/control-owner and deployment acceptance; reconcile the source workbook. Bounded Phase 5 implementation is complete; comprehensive health-payer and additional regional methods remain separate.
 - [ ] Payments Phase 4 follow-up: implementation is complete; finish human specialist review, institution/source acceptance, workbook reconciliation and deployment acceptance as applicable. See [remaining gates](docs/payments/phase4-validation/README.md#evidence-and-remaining-gates).
 - Licensing set to MIT to match the repo; the build template's default was "Proprietary."
   Confirm MIT is the intended license for published skills.

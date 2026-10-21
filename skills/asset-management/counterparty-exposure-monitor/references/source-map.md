@@ -45,3 +45,7 @@ each with the feed and its effective timestamp.
 All reads are read-only, deterministic, run under a durable `run_id`, and stay below the
 fixed timeout; page long exposure books as resumable stages. The monitor performs no
 position, limit, collateral, or trade write.
+
+## Executable input additions
+
+Use [phase1-contract.md](phase1-contract.md) for the current required fields, scope and detached-original validation. The service calls above are integration contracts; the bundled scripts do not implement those connectors. Source binding proves reproducibility against supplied records, not their authenticity.

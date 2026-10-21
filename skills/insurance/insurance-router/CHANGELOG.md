@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 — 2026-10-04
+
+Install five role/line-specific Phase 5 specialist routes; preserve individual underwriting and regional applicability gaps. No new execution authority.
+
+## 0.5.0 — 2026-09-20
+
+Route Phase 4 design and shared measurement jobs to installed native packages; validate portable workflow evidence handoffs while retaining legacy insurance support. Conditional specialist gaps and execution boundaries remain.
+
+
 ## 0.2.0 — 2026-09-18
 
 - Added the user-authorized Phase 1 insurance router and explicit capability gaps.

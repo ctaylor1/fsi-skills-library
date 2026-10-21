@@ -1,0 +1,202 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "research-quality-reviewer",
+  "method_version": "2.0.0",
+  "request_id": "forward-earnings-review",
+  "subject": {
+    "type": "issuer",
+    "id": "FRESH-EVENT-CO"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T17:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "packet_id": "fresh-internal-earnings-event",
+    "reviewed_checks": [
+      "arithmetic",
+      "claim_evidence",
+      "comparability",
+      "contradictions",
+      "disclosures",
+      "risks",
+      "sections"
+    ],
+    "excluded_checks": [],
+    "coverage": [
+      {
+        "requirement_type": "sections",
+        "requirement_id": "summary",
+        "covered": true
+      },
+      {
+        "requirement_type": "sections",
+        "requirement_id": "risk",
+        "covered": true
+      },
+      {
+        "requirement_type": "sections",
+        "requirement_id": "disclosure",
+        "covered": true
+      },
+      {
+        "requirement_type": "risks",
+        "requirement_id": "funding-risk",
+        "covered": true
+      },
+      {
+        "requirement_type": "disclosures",
+        "requirement_id": "scenario-uncertainty",
+        "covered": true
+      },
+      {
+        "requirement_type": "claim",
+        "requirement_id": "opening",
+        "covered": true
+      },
+      {
+        "requirement_type": "claim",
+        "requirement_id": "inflow",
+        "covered": true
+      },
+      {
+        "requirement_type": "claim",
+        "requirement_id": "outflow",
+        "covered": true
+      },
+      {
+        "requirement_type": "claim",
+        "requirement_id": "pre-outflow",
+        "covered": true
+      },
+      {
+        "requirement_type": "claim",
+        "requirement_id": "closing",
+        "covered": true
+      },
+      {
+        "requirement_type": "claim",
+        "requirement_id": "future-outflow",
+        "covered": true
+      },
+      {
+        "requirement_type": "claim",
+        "requirement_id": "judgment",
+        "covered": true
+      },
+      {
+        "requirement_type": "arithmetic",
+        "requirement_id": "before-payments",
+        "covered": true
+      },
+      {
+        "requirement_type": "arithmetic",
+        "requirement_id": "closing-bridge",
+        "covered": true
+      }
+    ],
+    "arithmetic_results": [
+      {
+        "check_id": "before-payments",
+        "operation": "sum",
+        "operand_claim_ids": [
+          "opening",
+          "inflow"
+        ],
+        "reported_claim_id": "pre-outflow",
+        "recomputed_value": 160.0,
+        "reported_value": 160,
+        "residual": 0.0,
+        "within_tolerance": true,
+        "unavailable_reason": null
+      },
+      {
+        "check_id": "closing-bridge",
+        "operation": "difference",
+        "operand_claim_ids": [
+          "pre-outflow",
+          "outflow"
+        ],
+        "reported_claim_id": "closing",
+        "recomputed_value": 112,
+        "reported_value": 112,
+        "residual": 0,
+        "within_tolerance": true,
+        "unavailable_reason": null
+      }
+    ],
+    "findings": [
+      {
+        "finding_id": "qa-1",
+        "severity": "high",
+        "check": "claim_evidence",
+        "subject_id": "opening",
+        "message": "Claim has no supplied evidence references.",
+        "adjudication_status": "open"
+      },
+      {
+        "finding_id": "qa-2",
+        "severity": "review",
+        "check": "claim_evidence",
+        "subject_id": "judgment",
+        "message": "Judgment rationale and textual evidence entailment require human assessment.",
+        "adjudication_status": "human-assessment-required"
+      }
+    ],
+    "findings_count": 2,
+    "readiness": "blocked",
+    "publication_approved": false,
+    "model_approved": false,
+    "native_producer_validation": "not-performed-by-this-method",
+    "textual_entailment": "human-review-required",
+    "inventory_assurance": "supplied-not-authenticated",
+    "scope": "Structured supplied packet metadata, requested coverage and declared arithmetic only; no hidden-claim discovery, textual truth assessment, source authentication or institutional sign-off."
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "method": "Independent declared arithmetic recomputation and explicit requested inventory coverage; retained source timing and basis checks.",
+      "arithmetic_checks_evaluated": 2
+    }
+  ],
+  "unresolved_issues": [
+    "high: claim_evidence/opening - Claim has no supplied evidence references.",
+    "review: claim_evidence/judgment - Judgment rationale and textual evidence entailment require human assessment."
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "release-20261020-v2",
+      "locator": "synthetic:release-v2#cash"
+    },
+    {
+      "source_id": "forecast-base-v1",
+      "locator": "synthetic:forecast-v1#operating-plan"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "release-20261020-v2",
+      "version": "v2",
+      "known_at": "2026-10-20T12:00:00Z",
+      "locator": "synthetic:release-v2",
+      "kind": "issuer_release"
+    },
+    {
+      "source_id": "forecast-base-v1",
+      "version": "v1",
+      "known_at": "2026-10-20T12:00:00Z",
+      "locator": "synthetic:forecast-v1",
+      "kind": "estimate"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "a046375af06dea48422eaac6312289593056f496b6cf8376e6e89c8a6e2cf586",
+  "source_truth": "unverified"
+}

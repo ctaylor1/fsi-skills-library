@@ -1,5 +1,10 @@
 # Changelog — investment-recommendation-evidence-reviewer
 
+## 0.3.0 — 2026-10-04
+
+- Add portable source-field review and exact-recipient draft gates for P5.
+- Preserve existing calculation modes; distinguish native validation from separately reviewed source fidelity and audience scope.
+
 ## [0.2.1] — 2026-09-17
 
 P4 live-model evaluation exposed unsupported evidence-reviewer/date attribution

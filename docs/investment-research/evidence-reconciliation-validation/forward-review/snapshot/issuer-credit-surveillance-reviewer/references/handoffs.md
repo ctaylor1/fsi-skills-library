@@ -1,0 +1,7 @@
+# Handoffs and ownership
+
+Changed covenant terms go to `credit-document-terms-reviewer` with retained instrument and governing-document context. Reassessing a thesis belongs to the later thesis workflow and its human research owner; this packet supplies deltas and never self-reinforces a thesis. Material credit conclusions require issuer fundamental, liquidity/refinancing, covenant and recovery methods when available. AM owns private-credit underwriting, servicing, lender rights and portfolio monitoring decisions. Banking/IB own credit approval, transaction advice and execution. Spread deltas here are not a pricing engine or relative-value conclusion.
+
+Preserve the immutable native artifact and separately retained original, input_hash, source_truth, legal issuer/instrument/document identifiers where present, source references and types, economic period, source knowledge cutoff/vintages, currency/units/accounting basis, coverage/missingness, method/profile versions, review gates and receiving owner. Receiving workflows validate applicability and availability before use; missing adapters are an integration limit, never an implicit schema match.
+
+IR research outputs do not authorize a trade, client communication, credit/lender decision, filing, publication or system-of-record write. Adjacent owners receive evidence with its limits; they do not inherit a fabricated approval. Later-phase target workflows remain planned until their native method and institutional integration gates are met.

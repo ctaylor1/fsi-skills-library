@@ -1,0 +1,141 @@
+{
+  "scope": "Bounded synthetic software checks; no source or professional acceptance",
+  "checks": [
+    {
+      "check": "repository-tests",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "repository-tests.log"
+    },
+    {
+      "check": "library-evals",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/run_selftests.py"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "library-evals.log"
+    },
+    {
+      "check": "portable-results",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/run_compliance_portable.py",
+        "--output",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/portable-results.json"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "portable-results.log"
+    },
+    {
+      "check": "structure",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/validate_skills.py"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "structure.log"
+    },
+    {
+      "check": "handoffs",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/check_handoffs.py"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "handoffs.log"
+    },
+    {
+      "check": "ownership",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/check_compliance_financial_crime.py"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "ownership.log"
+    },
+    {
+      "check": "resources",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/sync_cfc_resources.py",
+        "--check"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "resources.log"
+    },
+    {
+      "check": "investment-resources",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/sync_investment_resources.py",
+        "--check"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "investment-resources.log"
+    },
+    {
+      "check": "workflow-resources",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/sync_workflow_resources.py",
+        "--check"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "workflow-resources.log"
+    },
+    {
+      "check": "adjacent-ownership",
+      "command": [
+        "/private/tmp/cfc-phase2-venv/bin/python",
+        "-B",
+        "tools/check_asset_management.py"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "adjacent-ownership.log"
+    },
+    {
+      "check": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "passed": true,
+      "log": "diff-check.log"
+    }
+  ],
+  "source_files": 6874,
+  "changed_source_files": [],
+  "passed": true
+}

@@ -1,0 +1,186 @@
+{
+  "schema_version": "ir-phase2/1.0",
+  "request_id": "independent-forward-issuer-unknown-accounting-basis",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "HARBOR-SYNTHETIC-2026"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "credit-financials",
+      "version": "synthetic-independent-v1",
+      "kind": "financial_statement",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:credit-financials",
+      "subject_ids": [
+        "HARBOR-SYNTHETIC-2026"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    },
+    {
+      "source_id": "credit-debt",
+      "version": "synthetic-independent-v1",
+      "kind": "credit_document",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:credit-debt",
+      "subject_ids": [
+        "HARBOR-SYNTHETIC-2026"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    },
+    {
+      "source_id": "adjustment-A",
+      "version": "synthetic-independent-v1",
+      "kind": "research",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:adjustment-A",
+      "subject_ids": [
+        "HARBOR-SYNTHETIC-2026"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    },
+    {
+      "source_id": "adjustment-B",
+      "version": "synthetic-independent-v1",
+      "kind": "research",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:adjustment-B",
+      "subject_ids": [
+        "HARBOR-SYNTHETIC-2026"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "credit-financials",
+      "locator": "user-facts:2026-nine-month-financials"
+    },
+    {
+      "source_id": "credit-debt",
+      "locator": "user-facts:subject-debt-585"
+    },
+    {
+      "source_id": "adjustment-A",
+      "locator": "user-facts:restructuring-A"
+    },
+    {
+      "source_id": "adjustment-B",
+      "locator": "user-facts:separate-reversal-B"
+    }
+  ],
+  "unresolved_issues": [
+    "Synthetic exercise only: no authenticated source documents or institutional deployment profile supplied.",
+    "Accounting framework is unspecified; ratios are illustrative on one supplied synthetic accounting convention.",
+    "Nine-month EBITDA is unannualized; leverage ratios are period-denominator arithmetic, not LTM leverage."
+  ],
+  "issuer_profile": "nonfinancial-corporate",
+  "financials": {
+    "currency": "USD",
+    "unit": "USD_m",
+    "accounting_basis": "unknown",
+    "consolidation_scope": "consolidated",
+    "period": {
+      "start": "2026-01-01",
+      "end": "2026-09-30",
+      "fiscal_calendar_id": "SYNTHETIC-JAN-DEC"
+    },
+    "ebitda": 90,
+    "gross_debt": 585,
+    "unrestricted_cash": 45,
+    "interest_expense": 15,
+    "operating_cash_flow": 68,
+    "capex": 24,
+    "funds_from_operations": 60,
+    "evidence_refs": [
+      {
+        "source_id": "credit-financials",
+        "locator": "user-facts:2026-nine-month-financials"
+      }
+    ]
+  },
+  "instruments": [
+    {
+      "instrument_id": "HARBOR-SYNTHETIC-USD-NOTE",
+      "issuer_id": "HARBOR-SYNTHETIC-2026",
+      "estate_id": "SYNTHETIC-SUBJECT-ESTATE",
+      "seniority": "unknown",
+      "currency": "USD",
+      "principal": 585,
+      "guarantor_ids": [],
+      "evidence_refs": [
+        {
+          "source_id": "credit-debt",
+          "locator": "user-facts:subject-debt-585"
+        }
+      ]
+    }
+  ],
+  "ebitda_adjustments": [
+    {
+      "adjustment_id": "A",
+      "amount": 9,
+      "rationale": "Supplied restructuring addition A; recurrence and economic distinctness require analyst review.",
+      "evidence_refs": [
+        {
+          "source_id": "adjustment-A",
+          "locator": "user-facts:restructuring-A"
+        }
+      ]
+    },
+    {
+      "adjustment_id": "B",
+      "amount": -3,
+      "rationale": "Supplied separate reversal B; signed subtraction retained.",
+      "evidence_refs": [
+        {
+          "source_id": "adjustment-B",
+          "locator": "user-facts:separate-reversal-B"
+        }
+      ]
+    }
+  ],
+  "risk_observations": []
+}

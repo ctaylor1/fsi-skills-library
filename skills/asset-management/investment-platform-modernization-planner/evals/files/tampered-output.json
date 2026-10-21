@@ -1,0 +1,335 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "investment-platform-modernization-planner",
+  "request_id": "SYN-AM-T04-001",
+  "object_id": "ABOR-MIGRATION",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "draft",
+  "draft": true,
+  "action_taken": false,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "am-platform-migration-evidence-adapter",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "shared_architecture": {
+      "status": "ready-for-review",
+      "requirement_fit": [
+        {
+          "requirement_id": "CAP",
+          "observed": "120",
+          "threshold": "100",
+          "unit": "positions/hour",
+          "meets": true
+        }
+      ],
+      "supplied_period_cost": "300"
+    },
+    "platforms": [
+      {
+        "id": "source-abor",
+        "source_ref": "synthetic-record",
+        "component_id": "A",
+        "role": "ABOR",
+        "owner": "fund accounting",
+        "provider": "synthetic legacy provider",
+        "provider_contract_version": "v1",
+        "provider_contract_source_ref": "synthetic-record",
+        "licensed_purpose": "supplied synthetic rehearsal",
+        "record_identity": "fund/book/account/security/lot/day/measure/unit/currency",
+        "history_retention": "supplied retained versioned daily history",
+        "failure_owner": "legacy operations"
+      },
+      {
+        "id": "target-abor",
+        "source_ref": "synthetic-record",
+        "component_id": "B",
+        "role": "ABOR",
+        "owner": "fund accounting",
+        "provider": "synthetic candidate provider",
+        "provider_contract_version": "v2",
+        "provider_contract_source_ref": "synthetic-record",
+        "licensed_purpose": "supplied synthetic rehearsal",
+        "record_identity": "fund/book/account/security/lot/day/measure/unit/currency",
+        "history_retention": "supplied retained versioned daily history",
+        "failure_owner": "target operations"
+      }
+    ],
+    "excluded_roles": [
+      {
+        "id": "exclude-PMS",
+        "source_ref": "synthetic-record",
+        "role": "PMS",
+        "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+        "reviewed_by": "synthetic design owner"
+      },
+      {
+        "id": "exclude-OMS",
+        "source_ref": "synthetic-record",
+        "role": "OMS",
+        "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+        "reviewed_by": "synthetic design owner"
+      },
+      {
+        "id": "exclude-EMS",
+        "source_ref": "synthetic-record",
+        "role": "EMS",
+        "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+        "reviewed_by": "synthetic design owner"
+      },
+      {
+        "id": "exclude-IBOR",
+        "source_ref": "synthetic-record",
+        "role": "IBOR",
+        "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+        "reviewed_by": "synthetic design owner"
+      },
+      {
+        "id": "exclude-custodian",
+        "source_ref": "synthetic-record",
+        "role": "custodian",
+        "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+        "reviewed_by": "synthetic design owner"
+      },
+      {
+        "id": "exclude-market-data",
+        "source_ref": "synthetic-record",
+        "role": "market-data",
+        "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+        "reviewed_by": "synthetic design owner"
+      }
+    ],
+    "system_of_record_responsibilities": [
+      {
+        "id": "closing-ledger",
+        "source_ref": "synthetic-record",
+        "platform_id": "source-abor",
+        "domain": "official fund accounting close",
+        "book_scope": "F1/ABOR",
+        "authoritative_state": "pre-cutover",
+        "version": "v1",
+        "reconciliation_owner": "fund controller"
+      },
+      {
+        "id": "rehearsal-ledger",
+        "source_ref": "synthetic-record",
+        "platform_id": "target-abor",
+        "domain": "official fund accounting close",
+        "book_scope": "F1/ABOR",
+        "authoritative_state": "proposed-post-cutover",
+        "version": "v2",
+        "reconciliation_owner": "fund controller"
+      }
+    ],
+    "requirements": [
+      {
+        "id": "capacity",
+        "source_ref": "synthetic-record",
+        "architecture_requirement_id": "CAP",
+        "description": "Fund-close position throughput on the same declared workload",
+        "owner": "fund controller",
+        "mandatory": true,
+        "disposition": "met"
+      }
+    ],
+    "dependency_order": [
+      "B1"
+    ],
+    "migration_batches": [
+      {
+        "id": "B1",
+        "source_ref": "synthetic-record",
+        "owner": "migration owner",
+        "wave": 1,
+        "depends_on": [],
+        "mapping_version": "map-v1",
+        "source_snapshot": "S1",
+        "target_snapshot": "S2",
+        "rollback_owner": "operations owner",
+        "rollback_trigger": "Any unapproved per-grain break",
+        "rollback_runbook": "restore source, reconcile target, replay reviewed deltas",
+        "expected_grains": [
+          {
+            "fund_id": "F1",
+            "book_id": "ABOR",
+            "account_id": "CASH-USD",
+            "instrument_id": "USD",
+            "lot_id": "LOT1",
+            "valuation_date": "2026-10-03",
+            "measure": "balance",
+            "unit": "currency-amount",
+            "currency": "USD"
+          },
+          {
+            "fund_id": "F1",
+            "book_id": "ABOR",
+            "account_id": "CASH-USD",
+            "instrument_id": "USD",
+            "lot_id": "LOT2",
+            "valuation_date": "2026-10-03",
+            "measure": "balance",
+            "unit": "currency-amount",
+            "currency": "USD"
+          }
+        ],
+        "grain_inventory_reviewed": true,
+        "new_writes_after_cutover": false
+      }
+    ],
+    "reconciliation": [
+      {
+        "id": "R1",
+        "batch_id": "B1",
+        "grain": {
+          "fund_id": "F1",
+          "book_id": "ABOR",
+          "account_id": "CASH-USD",
+          "instrument_id": "USD",
+          "lot_id": "LOT1",
+          "valuation_date": "2026-10-03",
+          "measure": "balance",
+          "unit": "currency-amount",
+          "currency": "USD"
+        },
+        "difference": "0.01",
+        "within_tolerance": true
+      },
+      {
+        "id": "R2",
+        "batch_id": "B1",
+        "grain": {
+          "fund_id": "F1",
+          "book_id": "ABOR",
+          "account_id": "CASH-USD",
+          "instrument_id": "USD",
+          "lot_id": "LOT2",
+          "valuation_date": "2026-10-03",
+          "measure": "balance",
+          "unit": "currency-amount",
+          "currency": "USD"
+        },
+        "difference": "0.00",
+        "within_tolerance": true
+      }
+    ],
+    "parallel_runs": [
+      {
+        "id": "P1",
+        "source_ref": "synthetic-record",
+        "batch_id": "B1",
+        "mapping_version": "map-v1",
+        "source_snapshot": "S1",
+        "target_snapshot": "S2",
+        "window_start": "2026-10-02",
+        "window_end": "2026-10-03",
+        "owner": "migration owner",
+        "exception_ids": []
+      }
+    ],
+    "exceptions": [],
+    "recovery": [
+      {
+        "id": "REC1",
+        "run_id": "P1",
+        "rto_met": true,
+        "rpo_met": true,
+        "rollback_status": "passed"
+      }
+    ],
+    "human_gates": [
+      {
+        "id": "G-reconciliation",
+        "source_ref": "synthetic-record",
+        "batch_id": "B1",
+        "kind": "reconciliation",
+        "owner": "accountable reconciliation owner",
+        "status": "passed",
+        "reviewed_by": "synthetic owner",
+        "observed_on": "2026-10-04",
+        "evidence_ids": [
+          "R1",
+          "R2"
+        ]
+      },
+      {
+        "id": "G-parallel-run",
+        "source_ref": "synthetic-record",
+        "batch_id": "B1",
+        "kind": "parallel-run",
+        "owner": "accountable parallel-run owner",
+        "status": "passed",
+        "reviewed_by": "synthetic owner",
+        "observed_on": "2026-10-04",
+        "evidence_ids": [
+          "P1"
+        ]
+      },
+      {
+        "id": "G-rollback",
+        "source_ref": "synthetic-record",
+        "batch_id": "B1",
+        "kind": "rollback",
+        "owner": "accountable rollback owner",
+        "status": "passed",
+        "reviewed_by": "synthetic owner",
+        "observed_on": "2026-10-04",
+        "evidence_ids": [
+          "REC1"
+        ]
+      },
+      {
+        "id": "G-security",
+        "source_ref": "synthetic-record",
+        "batch_id": "B1",
+        "kind": "security",
+        "owner": "accountable security owner",
+        "status": "passed",
+        "reviewed_by": "synthetic owner",
+        "observed_on": "2026-10-04",
+        "evidence_ids": [
+          "supplied-security-review-v1"
+        ]
+      },
+      {
+        "id": "G-business-acceptance",
+        "source_ref": "synthetic-record",
+        "batch_id": "B1",
+        "kind": "business-acceptance",
+        "owner": "accountable business-acceptance owner",
+        "status": "passed",
+        "reviewed_by": "synthetic owner",
+        "observed_on": "2026-10-04",
+        "evidence_ids": [
+          "supplied-business-review-v1"
+        ]
+      }
+    ],
+    "readiness": "evidence-ready-for-human-review",
+    "cutover_authorized": true,
+    "migration_executed": false,
+    "production_access_verified": false
+  },
+  "unresolved_issues": [],
+  "limitations": [
+    "Source snapshots, permissions, licensing, test results and review identities are supplied declarations, not authenticated facts.",
+    "Each declared financial grain is reconciled independently; no cross-currency conversion, lot matching, netting or accounting adjudication.",
+    "No production access, cutover, rollback, order routing, accounting posting or vendor selection is performed."
+  ],
+  "handoffs": [
+    "solution-architecture-planner",
+    "investment-data-architecture-planner",
+    "investment-operating-model-planner"
+  ],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "synthetic-record"
+  ],
+  "input_hash": "f8523c6de902a8f68b6bc93219db0353432d0b4f318a73f999a30840721c60b8",
+  "source_truth": "unverified"
+}

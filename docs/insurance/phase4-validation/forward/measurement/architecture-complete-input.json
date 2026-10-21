@@ -1,0 +1,200 @@
+{
+  "case_id": "FWD-architecture",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "internal draft analyst",
+    "represented_party": "Harbor Test Mutual",
+    "object_id": "architecture-sandbox",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "personal-auto-test"
+  },
+  "sources": [
+    {
+      "source_ref": "ARC-17",
+      "version": "3",
+      "as_of": "2026-09-18",
+      "locator": "raw-evidence.json#/architecture",
+      "owner": "Mira Chen, solution architect"
+    },
+    {
+      "source_ref": "PROFILE-architecture",
+      "version": "1",
+      "as_of": "2026-09-18",
+      "locator": "raw-profiles.json#/architecture",
+      "owner": "Mira Chen, solution architect"
+    },
+    {
+      "source_ref": "SUP-1",
+      "version": "1",
+      "as_of": "2026-09-19",
+      "locator": "supplemental-evidence.json",
+      "owner": "Elena Moss"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "business_outcome": "Prepare draft intake for examiner review",
+    "owner": "Mira Chen, solution architect",
+    "currency": "USD",
+    "cost_period": "month; 2026-09 budget at stated sandbox load",
+    "scope": "Assisted first notice of loss intake sandbox only",
+    "inventory_complete": true,
+    "components": [
+      {
+        "component_id": "portal",
+        "responsibility": "Capture deidentified intake",
+        "owner": "Mira Chen",
+        "technology_choice": "Web form",
+        "alternative": "Examiner keyed form",
+        "tradeoff": "Faster capture; browser availability dependency",
+        "failure_domain": "edge",
+        "data_classification": "deidentified synthetic",
+        "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+        "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+        "currency": "USD",
+        "cost_period": "month; 2026-09 budget at stated sandbox load",
+        "cost": "280",
+        "source_refs": [
+          "ARC-17",
+          "SUP-1"
+        ]
+      },
+      {
+        "component_id": "draft-service",
+        "responsibility": "Validate and prepare intake draft",
+        "owner": "Noah Vale",
+        "technology_choice": "Stateless rules service",
+        "alternative": "Manual checklist",
+        "tradeoff": "Consistent validation; rules maintenance required",
+        "failure_domain": "service",
+        "data_classification": "deidentified synthetic",
+        "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+        "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+        "currency": "USD",
+        "cost_period": "month; 2026-09 budget at stated sandbox load",
+        "cost": "420",
+        "source_refs": [
+          "ARC-17",
+          "SUP-1"
+        ]
+      },
+      {
+        "component_id": "review-queue",
+        "responsibility": "Hold drafts for examiner acceptance",
+        "owner": "Elena Moss",
+        "technology_choice": "Durable queue",
+        "alternative": "Shared task list",
+        "tradeoff": "Replayable draft intake; queue administration required",
+        "failure_domain": "queue",
+        "data_classification": "deidentified synthetic",
+        "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+        "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+        "currency": "USD",
+        "cost_period": "month; 2026-09 budget at stated sandbox load",
+        "cost": "160",
+        "source_refs": [
+          "ARC-17",
+          "SUP-1"
+        ]
+      }
+    ],
+    "interfaces": [
+      {
+        "interface_id": "I1",
+        "from_component": "portal",
+        "to_component": "draft-service",
+        "contract_version": "1",
+        "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+        "purpose": "Prepare examiner-reviewed draft intake",
+        "authentication": "Mutual service identity",
+        "authorization_scope": "Sandbox draft-create only",
+        "encryption": "TLS in transit and managed encryption at rest",
+        "timeout": "5 seconds",
+        "failure_route": "Manual examiner intake queue with visible failure reason",
+        "trace_id": "intake-token",
+        "delivery": "at-least-once",
+        "operation": "proposed-write",
+        "purpose_reviewed": true,
+        "max_attempts": 3,
+        "idempotency_key": "intake-token",
+        "approval_owner": "Elena Moss",
+        "receipt_check": "Read back one draft ID and matching token",
+        "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+        "source_refs": [
+          "SUP-1"
+        ]
+      },
+      {
+        "interface_id": "I2",
+        "from_component": "draft-service",
+        "to_component": "review-queue",
+        "contract_version": "1",
+        "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+        "purpose": "Prepare examiner-reviewed draft intake",
+        "authentication": "Mutual service identity",
+        "authorization_scope": "Sandbox draft-create only",
+        "encryption": "TLS in transit and managed encryption at rest",
+        "timeout": "5 seconds",
+        "failure_route": "Manual examiner intake queue with visible failure reason",
+        "trace_id": "intake-token",
+        "delivery": "at-least-once",
+        "operation": "proposed-write",
+        "purpose_reviewed": true,
+        "max_attempts": 3,
+        "idempotency_key": "intake-token",
+        "approval_owner": "Elena Moss",
+        "receipt_check": "Read back one draft ID and matching token",
+        "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+        "source_refs": [
+          "SUP-1"
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "component_id": "draft-service",
+        "metric": "p95_response_latency",
+        "unit": "ms",
+        "owner": "Mira Chen, solution architect",
+        "workload_profile": "sandbox-40-requests-per-minute-2KB-v1",
+        "operator": "<=",
+        "threshold": 700,
+        "source_refs": [
+          "ARC-17"
+        ]
+      }
+    ],
+    "measurements": [
+      {
+        "requirement_id": "R1",
+        "component_id": "draft-service",
+        "metric": "p95_response_latency",
+        "unit": "ms",
+        "workload_profile": "sandbox-40-requests-per-minute-2KB-v1",
+        "observed_on": "2026-09-18",
+        "value": 640,
+        "source_refs": [
+          "ARC-17"
+        ]
+      }
+    ],
+    "profile": {
+      "profile_id": "FWD-architecture-profile",
+      "version": "1",
+      "reviewed_by": "Mira Chen, solution architect",
+      "source_refs": [
+        "PROFILE-architecture"
+      ],
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "personal-auto-test"
+      ],
+      "effective_from": "2026-09-01",
+      "effective_to": "2026-09-30",
+      "method": "component-interface-requirements-v1"
+    }
+  }
+}

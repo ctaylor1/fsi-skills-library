@@ -1,3 +1,8 @@
+## 0.2.0 — 2026-10-03
+
+- External cross-sector promotions route to financial-promotion-reviewer; retain broker-dealer supervision, records and internal-communication support.
+- Preserve the native schema and conditional historical US screen; no broader legal applicability or approval authority is added.
+
 # Changelog — communications-compliance-reviewer
 
 ## [0.1.0] — 2026-07-18

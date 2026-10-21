@@ -10,7 +10,7 @@ Every downstream route is a recommendation for a human to initiate.
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
 | `third-party-cyber-risk-reviewer` | A control-evidence or data finding needs deep security/cyber control testing | `assessment_id` + gapped controls |
-| `enhanced-due-diligence-packager` | Elevated financial-crime / ownership / jurisdiction exposure warrants EDD on the vendor or its owners | `assessment_id` + data/subcontractor findings |
+| `enhanced-due-diligence-assessor` | Elevated financial-crime / ownership / jurisdiction exposure warrants EDD on the vendor or its owners | `assessment_id` + data/subcontractor findings |
 | `operational-resilience-scenario-tester` | A critical-vendor resilience or exit finding needs scenario/severe-but-plausible testing | `assessment_id` + resilience/exit findings |
 | `concentration-risk-monitor` | Vendor/function concentration or a single point of failure should be tracked on an ongoing basis | vendor + function + share |
 | `operational-risk-event-analyzer` | A live loss event or incident is linked to the vendor | `assessment_id` + event refs |

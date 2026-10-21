@@ -1,57 +1,13 @@
-# Controls — customer-risk-rating-reviewer
+# Execution and human oversight controls
 
-- **Risk tier:** R3 — regulated/control decision support. **Action mode:** Read-only analysis.
-- **Human approval:** `required` — a qualified compliance officer / MLRO must adjudicate every
-  finding before any regulated decision, rating change, override approval, trigger disposition,
-  review/case closure, or filing.
+This package performs local supplied-record analysis only. It does not retrieve live records, write a system of record, approve or decline customers, set ratings, authorize an override, confirm identity/legal status, clear a hit, close cases, contact a customer, send a package or make a filing.
 
-## Prohibited (fail closed)
+The accountable owner function is Customer-risk methodology owner. A deployment must assign actual owners, reviewer roles, data access, audience and applicable confidentiality controls. The package metadata is not an appointment or authorization. Apply segregation of duties where the institution's policy requires it; this code does not enforce identity or role separation.
 
-- No **rating decision or write**: never set, change, confirm, or write a customer risk rating
-  to the system of record. The recomputation is a recommendation for a human.
-- No **override approval/validation**: never approve, validate, or extend a downgrade/upgrade
-  override. An override's validity is *assessed and evidenced*; approval is human.
-- No **trigger disposition**: never clear, dispose, or "assess-as-closed" a sanctions/PEP,
-  adverse-media, or monitoring trigger — route it to the specialist + human.
-- No **review/case closure** or suppression of a finding outside the deterministic logic.
-- No **filing** (SAR, regulatory report, CDD/KYC update) — route to the appropriate draft-only
-  skill and human.
-- No **threshold/weight/floor tuning to the individual**; use only the versioned methodology.
-- No **opaque scoring** presented as decisive; the score is an explainable weighted sum and
-  the band mapping is deterministic and documented.
+Protected SAR/STR information, investigations, personal data and ordinary CDD records may require different handling. Classify the supplied case and use least necessary disclosure. Do not reveal protected filings or investigations. Ordinary missing-document remediation is not inherently a prohibited disclosure; any communication must be separately authorized and performed outside this package.
 
-## Required output screens (`scripts/validate_output.py`)
+The complete native result must pass exact detached-input reconstruction. Missing original input, changed source data, embedded raw input, source-authentication claims and added native narrative are rejected. Never treat a rehashed self-consistent fabrication as authenticated evidence. The separate workflow envelope and downstream producer/receiver checks remain distinct.
 
-- Every finding has >= 1 cited evidence row (a source row or the methodology contract).
-- `recomputed_band` ties out to the deterministic mapping `max_band(band_for_score(score_pct),
-  floor_band)`.
-- `recommended_review_outcome` equals the deterministic precedence from the finding types
-  (escalate > remediate > re-rate > align).
-- A `rating_discrepancy` finding exists whenever `recomputed_band != rating_of_record.band`
-  (the review may never silently agree with a divergent record).
-- `adjudication_required` is `true`.
-- No decision/closure/filing/override-approval language (regex screen: "change the risk rating",
-  "set the risk rating", "we have re-rated the customer", "approved the override", "close the
-  case", "file a SAR", "update the system of record", "is a money launderer", etc.).
-- Standing disclaimer present (see `scripts/calculate_or_transform.py` `DISCLAIMER`).
-- `recommended_next_steps` (human/specialist routing) present for any non-align outcome.
+A supplied `approved` policy flag or approval reference is evidence metadata for a reviewer, not technical authentication of that approval. The scripts cannot certify legal applicability, source truth, effective AML/CTF/CPF controls, fairness or production readiness. Domain-owner acceptance and live operational integration remain pending.
 
-## Fairness / conduct
-
-- Use only the approved methodology factors; do not introduce protected-class attributes or
-  proxies as risk factors.
-- Describe factor values and patterns factually; avoid stigmatizing language about the customer.
-
-## Data classification, privacy, records
-
-- **Restricted (AML/BSA — SAR confidentiality; tipping-off controls).** Never disclose a
-  potential SAR-related concern to the customer.
-- Mask customer identifiers to the last 4 where feasible; minimize PII to what evidences a
-  finding.
-- Retain recomputation + citations + `methodology_version` per records policy; log the read and
-  any downstream adjudication/approval.
-
-## Reproducibility
-
-`review_id` binds the output to the exact inputs and **methodology version**; re-running with
-the same case and methodology reproduces the score, band, findings, and recommended outcome.
+Read [evidence contract](evidence-contract.md) and [source governance](source-governance.md).

@@ -1,0 +1,177 @@
+{
+  "request_id": "SYN-P4-INSTITUTION-LIABILITIES",
+  "object_id": "INSTITUTION-LIABILITIES",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "sources": [
+    {
+      "source_ref": "reviewed-fixture",
+      "version": "v1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-05",
+      "permitted_audiences": [
+        "internal-review"
+      ]
+    }
+  ],
+  "unresolved_issues": [],
+  "extension": "liability-real-assets",
+  "policy": {
+    "source_ref": "reviewed-fixture",
+    "version": "p1",
+    "reviewed_by": "synthetic asset-owner committee",
+    "objective": "Review supplied liabilities and illiquid allocation scenario",
+    "currency": "USD",
+    "discount_basis": "supplied-factors-by-dated-liability",
+    "effective_from": "2026-01-01",
+    "expires": "2027-12-31",
+    "maximum_illiquid_fraction": "0.5",
+    "maximum_valuation_age_days": 60,
+    "parallel_shift_bps": "100"
+  },
+  "inventory_source_ref": "reviewed-fixture",
+  "inventory_complete": true,
+  "opening_cash": "20",
+  "liability_cashflows": [
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "L1",
+      "currency": "USD",
+      "due_date": "2027-10-04",
+      "liability_basis": "supplied fixed amount",
+      "amount": "50"
+    },
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "L2",
+      "currency": "USD",
+      "due_date": "2028-10-04",
+      "liability_basis": "supplied fixed amount",
+      "amount": "50"
+    }
+  ],
+  "discount_factors": [
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "DF1",
+      "currency": "USD",
+      "liability_id": "L1",
+      "due_date": "2027-10-04",
+      "policy_version": "p1",
+      "base_factor": "0.8",
+      "down_factor": "0.82",
+      "up_factor": "0.78"
+    },
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "DF2",
+      "currency": "USD",
+      "liability_id": "L2",
+      "due_date": "2028-10-04",
+      "policy_version": "p1",
+      "base_factor": "1.2",
+      "down_factor": "1.22",
+      "up_factor": "1.18"
+    }
+  ],
+  "assets": [
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "REAL",
+      "currency": "USD",
+      "asset_class": "infrastructure",
+      "earliest_liquidation_date": "2028-10-04",
+      "valuation_date": "2026-09-30",
+      "valuation_basis": "supplied independent appraisal",
+      "illiquid": true,
+      "real_asset": true,
+      "market_value": "60",
+      "liquidation_fraction": "1"
+    },
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "BOND",
+      "currency": "USD",
+      "asset_class": "fixed-income",
+      "earliest_liquidation_date": "2027-10-04",
+      "valuation_date": "2026-10-04",
+      "valuation_basis": "supplied market valuation",
+      "illiquid": false,
+      "real_asset": false,
+      "market_value": "40",
+      "liquidation_fraction": "1"
+    }
+  ],
+  "asset_cashflows": [
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "bond-principal",
+      "asset_id": "BOND",
+      "date": "2027-10-04",
+      "kind": "principal",
+      "currency": "USD",
+      "amount": "40"
+    },
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "real-principal",
+      "asset_id": "REAL",
+      "date": "2028-10-04",
+      "kind": "principal",
+      "currency": "USD",
+      "amount": "60"
+    }
+  ],
+  "scenarios": [
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "base",
+      "currency": "USD",
+      "policy_version": "p1",
+      "discount_case": "base",
+      "liability_multiplier": "1",
+      "asset_shocks": [
+        {
+          "source_ref": "reviewed-fixture",
+          "asset_id": "REAL",
+          "price_return": "0",
+          "cashflow_multiplier": "1",
+          "delay_days": 0
+        },
+        {
+          "source_ref": "reviewed-fixture",
+          "asset_id": "BOND",
+          "price_return": "0",
+          "cashflow_multiplier": "1",
+          "delay_days": 0
+        }
+      ]
+    },
+    {
+      "source_ref": "reviewed-fixture",
+      "id": "illiquid-delay",
+      "currency": "USD",
+      "policy_version": "p1",
+      "discount_case": "down",
+      "liability_multiplier": "1",
+      "asset_shocks": [
+        {
+          "source_ref": "reviewed-fixture",
+          "asset_id": "REAL",
+          "price_return": "-0.2",
+          "cashflow_multiplier": "0.8",
+          "delay_days": 30
+        },
+        {
+          "source_ref": "reviewed-fixture",
+          "asset_id": "BOND",
+          "price_return": "0",
+          "cashflow_multiplier": "1",
+          "delay_days": 0
+        }
+      ]
+    }
+  ]
+}

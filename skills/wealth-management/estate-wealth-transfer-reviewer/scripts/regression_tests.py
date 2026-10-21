@@ -106,6 +106,74 @@ class Checks(unittest.TestCase):
         self.doc["intentions"][0]["beneficiaries"] = None
         self.assertIn("beneficiary-intention-unknown", self.codes())
 
+    def test_unestablished_designation_cannot_create_beneficiary_mismatch(self):
+        for status, record_status, expected_code in (
+            ("unknown", None, "designation-gap"),
+            ("unknown", "current", "designation-gap"),
+            ("documented", None, "designation-gap"),
+            ("documented", "unknown", "designation-conflict"),
+            ("none-recorded", "current", "designation-status-conflict"),
+        ):
+            with self.subTest(status=status, record_status=record_status):
+                doc = copy.deepcopy(self.doc)
+                doc["assets"][0]["designation_status"] = status
+                doc["intentions"][0]["beneficiaries"][0]["party_id"] = "P3"
+                if record_status is None:
+                    doc["designations"] = []
+                else:
+                    doc["designations"][0]["status"] = record_status
+                out = build(doc)
+                self.assertEqual(out["status"], "needs-data")
+                self.assertIn(expected_code, {f["code"] for f in out["findings"]})
+                self.assertEqual(out["result"]["asset_comparisons"][0]["literal_differences"], [])
+                self.assertEqual(validate_output(out), [])
+
+    def test_explicit_no_designation_still_compares_beneficiary_intention(self):
+        self.doc["assets"][0]["designation_status"] = "none-recorded"
+        self.doc["designations"] = []
+        out = build(self.doc)
+        self.assertEqual(out["status"], "needs-data")
+        self.assertEqual(out["result"]["asset_comparisons"][0]["literal_differences"],
+                         ["intended beneficiaries or shares differ from recorded designations"])
+        self.assertNotIn("designation-gap", self.codes())
+        self.assertEqual(validate_output(out), [])
+        self.doc["intentions"][0]["beneficiaries"] = []
+        out = build(self.doc)
+        self.assertEqual(out["result"]["asset_comparisons"][0]["literal_differences"], [])
+        self.assertEqual(validate_output(out), [])
+
+    def test_unknown_policy_does_not_invent_review_requirements(self):
+        self.doc["policy"].update(owner=None, required_document_kinds=None, required_beneficiary_tiers=None)
+        self.assertEqual(validate(self.doc), [])
+        out = build(self.doc)
+        self.assertEqual(out["status"], "needs-data")
+        self.assertEqual(out["result"]["input_snapshot"]["policy"], self.doc["policy"])
+        self.assertTrue({"policy-owner-unknown", "policy-requirements-unknown"} <= self.codes())
+        self.assertFalse({"missing-beneficiary-tier", "missing-document-kind"} & self.codes())
+        self.assertEqual(validate_output(out), [])
+
+    def test_unknown_recorded_links_cannot_create_a_mismatch(self):
+        self.doc["assets"][0]["document_ids"] = None
+        self.doc["assets"][0]["owner_party_ids"] = None
+        self.doc["designations"][0]["document_ids"] = None
+        out = build(self.doc)
+        self.assertEqual(out["status"], "needs-data")
+        self.assertIn("recorded-document-links-unknown", self.codes())
+        self.assertEqual(out["result"]["asset_comparisons"][0]["literal_differences"], [])
+        self.assertEqual(validate_output(out), [])
+
+    def test_explicit_empty_links_still_support_a_literal_comparison(self):
+        self.doc["assets"][0]["document_ids"] = []
+        out = build(self.doc)
+        self.assertIn("intended document links differ from recorded asset document links", out["result"]["asset_comparisons"][0]["literal_differences"])
+
+    def test_unknown_fields_must_be_explicit_not_omitted(self):
+        for scope, key in (("policy", "owner"), ("policy", "required_document_kinds"), ("policy", "required_beneficiary_tiers"), ("asset", "document_ids"), ("asset", "owner_party_ids")):
+            doc = copy.deepcopy(self.doc)
+            row = doc["policy"] if scope == "policy" else doc["assets"][0]
+            del row[key]
+            self.assertTrue(validate(doc), (scope, key))
+
     def test_duplicate_and_bad_share_rejected(self):
         self.doc["parties"].append(copy.deepcopy(self.doc["parties"][0]))
         self.assertTrue(validate(self.doc))

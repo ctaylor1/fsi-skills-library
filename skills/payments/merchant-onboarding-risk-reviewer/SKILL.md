@@ -54,10 +54,10 @@ and defensibly — the onboarding decision, and any boarding/filing action, rema
 - The user wants the **onboarding decision made**, the merchant **boarded/declined**, the
   case **closed**, or a **SAR/network submission filed** → out of scope. Provide the evidence
   package and route to the human adjudicator / authorized system.
-- **Adjudicate a sanctions or adverse-media hit** → `sanctions-match-adjudicator` /
+- **Adjudicate a sanctions or adverse-media hit** → `sanctions-match-investigator` /
   `adverse-media-investigator` (this skill consumes their status, it does not clear a hit).
-- **Verify beneficial ownership** to resolution, or run **CDD/EDD** → `beneficial-ownership-verifier`,
-  `kyc-customer-due-diligence-screener`, `enhanced-due-diligence-packager`.
+- **Verify beneficial ownership** to resolution, or run **CDD/EDD** → `beneficial-ownership-analyzer`,
+  `customer-due-diligence-reviewer`, `enhanced-due-diligence-assessor`.
 - **Material credit write-up** for a large requested limit → `credit-memo-drafter`.
 - **Post-boarding** transaction risk monitoring or fraud investigation →
   `instant-payment-risk-monitor` / `payment-fraud-and-scam-investigator`.

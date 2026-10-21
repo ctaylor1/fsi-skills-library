@@ -1,0 +1,19 @@
+# Data Product Value Evaluator — draft
+
+Case / scope / represented party / accountable owner / review date / source snapshot
+
+## Outcome and decision required
+
+State the requested business outcome and decision owner. Separate observed facts, proposed design and projected benefits.
+
+## Practitioner work product
+
+Provider/license purpose; paired outcome definition; coverage and leakage review; confusion matrices and costs; projection assumptions; limitations and procurement/benchmark next steps.
+
+## Evidence and native results
+
+Link each material figure or design assertion to the native result, source version and locator. Explain nulls, adverse results and untested assumptions. Preserve competing evidence.
+
+## Failure paths and acceptance
+
+Name manual fallback, review owners, evidence still needed and explicit next tests. Document source/privacy/authority boundaries. No implementation or business action has been authorized or performed.

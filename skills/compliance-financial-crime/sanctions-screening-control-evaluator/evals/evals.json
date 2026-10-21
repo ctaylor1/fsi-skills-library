@@ -1,0 +1,86 @@
+{
+  "skill": "sanctions-screening-control-evaluator",
+  "version": "0.1.0",
+  "source_truth": "synthetic-unverified",
+  "acceptance": "Bounded native behavior only; no professional certification",
+  "harness_note": "All listed evals are executable native CLI checks. No real-model activation/routing or professional source truth was tested. The domain suite is also executed by its last eval.",
+  "evals": [
+    {
+      "id": "valid-intake",
+      "command": "python3 -B scripts/validate_input.py evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "native-method",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"supplied_review_coverage_complete\": true",
+        "\"action_taken\": false",
+        "\"operational_effectiveness\": \"not-established\""
+      ]
+    },
+    {
+      "id": "detached-golden",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_golden.json --input evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "valid-partial",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_partial.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"status\": \"needs-evidence\"",
+        "\"within_supplied_review_criteria\": null"
+      ]
+    },
+    {
+      "id": "invalid-scope-stops",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_bad.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "outside exact feed population"
+      ]
+    },
+    {
+      "id": "native-tamper-rejected",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_tampered.json --input evals/files/input_complete.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "output differs from original-input reconstruction"
+      ]
+    },
+    {
+      "id": "detached-original-required",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_golden.json",
+      "expect_exit": 2,
+      "expect_contains": [
+        "required"
+      ]
+    },
+    {
+      "id": "domain-regressions",
+      "command": "python3 -B scripts/test_phase3.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "OK"
+      ]
+    },
+    {
+      "id": "list-sla-breach-retains-sample",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_list_lag_breach.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"false_negative\": 1",
+        "\"within_supplied_update_lag_limit\": false",
+        "\"within_supplied_review_criteria\": false"
+      ]
+    }
+  ]
+}

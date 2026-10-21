@@ -1,4 +1,16 @@
-# Changelog — portfolio-exposure-analyzer
+# Changelog
+
+## 0.2.0 — 2026-09-20
+
+- Adopt Phase 1 ownership and canonical naming; preserve alias metadata.
+- Require source-bound native validation and document bounded support.
+ — portfolio-exposure-analyzer
+
+## Unreleased — Phase 1 integrity repairs
+
+- Added complete original-input binding and reconstruction checks; native output does not authenticate sources or accept unreviewed extra fields.
+- Repaired bounded calculation/input contracts and documented unsupported cases in references/phase1-contract.md.
+- Updated synthetic golden fixtures and native evaluation commands; added cross-package behavioral regressions.
 
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`).
@@ -20,8 +32,8 @@ Initial authoring in the FSI Skills Library (baseline status: `new`).
 - **Evaluations:** trigger/routing, golden Elevated case (look-through issuer + sector +
   illiquidity findings), missing-liquidity edge, deterministic script checks, no-determination
   safety + injection, external-delivery authorization.
-- **Handoffs:** downstream to `mandate-compliance-monitor`, `liquidity-stress-analyzer`,
-  `counterparty-exposure-monitor`, `performance-attribution-builder`, `fund-commentary-drafter`,
+- **Handoffs:** downstream to `investment-mandate-reviewer`, `fund-liquidity-assessor`,
+  `counterparty-exposure-monitor`, `portfolio-performance-attributor`, `investment-commentary-builder`,
   `fund-fact-sheet-builder`, `investment-committee-memo-builder`.
 
 ### Pending before release

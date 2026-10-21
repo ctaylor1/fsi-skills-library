@@ -1,0 +1,5 @@
+# Evidence owners
+
+Use the COO's versioned service inventory and RACI, fund/book/system register, operations episode extract, provider contracts and subcontractor register, control library with actual test evidence, incident/exception register, access review, training records and transition rehearsal logs. Preserve exact source locators, dates, versions, audience restrictions and unresolved conflicts. Deidentify client and staff data in evaluation fixtures.
+
+The shared operating baseline needs an explicit observation window, population and definition version, opening/closing controls, arrivals/exits, supplied labor and monetary basis. Missing episodes or incompatible cohorts cannot be replaced by estimates. Source-known dates must describe actual availability, not document import dates. Licensed or institution-only records require approved access; see [gateway contract](gateway-contract.md) for the separate read-only client in investment-data-architecture-planner. Saved access receipts cannot authorize a new read.

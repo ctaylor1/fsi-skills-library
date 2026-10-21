@@ -1,0 +1,233 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "issuer-capital-structure-mapper",
+  "method_version": "2.0.0",
+  "request_id": "forward-ASTER-credit",
+  "subject": {
+    "type": "issuer",
+    "id": "ASTER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T16:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "instrument_inventory_complete": true,
+    "issuer_scope": "single-declared-issuer",
+    "instruments": [
+      {
+        "instrument_id": "bond-2027",
+        "issuer_id": "ASTER",
+        "estate_id": "ASTER-parent",
+        "security_id": "bond-2027-ISIN",
+        "priority_basis": "supplied unsecured pari passu",
+        "currency": "USD",
+        "unit": "millions",
+        "document_id": "bond-2027-indenture",
+        "document_version": "v1",
+        "evidence_refs": [
+          {
+            "source_id": "credit",
+            "locator": "debt footnote table3 and instrument terms"
+          }
+        ],
+        "principal": 100,
+        "coupon_pct": 0.05,
+        "maturity_date": "2027-02-28",
+        "secured": false,
+        "guarantee_inventory_complete": true,
+        "guarantor_ids": [],
+        "collateral_ids": []
+      },
+      {
+        "instrument_id": "bond-2029",
+        "issuer_id": "ASTER",
+        "estate_id": "ASTER-parent",
+        "security_id": "bond-2029-ISIN",
+        "priority_basis": "supplied unsecured pari passu",
+        "currency": "USD",
+        "unit": "millions",
+        "document_id": "bond-2029-indenture",
+        "document_version": "v1",
+        "evidence_refs": [
+          {
+            "source_id": "credit",
+            "locator": "debt footnote table3 and instrument terms"
+          }
+        ],
+        "principal": 150,
+        "coupon_pct": 0.05,
+        "maturity_date": "2029-06-30",
+        "secured": false,
+        "guarantee_inventory_complete": true,
+        "guarantor_ids": [],
+        "collateral_ids": []
+      },
+      {
+        "instrument_id": "euro-2028",
+        "issuer_id": "ASTER",
+        "estate_id": "ASTER-parent",
+        "security_id": "euro-2028-ISIN",
+        "priority_basis": "supplied unsecured pari passu",
+        "currency": "EUR",
+        "unit": "millions",
+        "document_id": "euro-2028-indenture",
+        "document_version": "v1",
+        "evidence_refs": [
+          {
+            "source_id": "credit",
+            "locator": "debt footnote table3 and instrument terms"
+          }
+        ],
+        "principal": 50,
+        "coupon_pct": 0.05,
+        "maturity_date": "2028-05-31",
+        "secured": false,
+        "guarantee_inventory_complete": true,
+        "guarantor_ids": [],
+        "collateral_ids": []
+      }
+    ],
+    "currency_unit_groups": [
+      {
+        "currency": "USD",
+        "unit": "millions",
+        "known_principal": 250.0,
+        "total_principal": 250.0,
+        "principal_complete": true,
+        "maturity_complete": true,
+        "maturities": [
+          {
+            "instrument_id": "bond-2027",
+            "date": "2027-02-28",
+            "amount": 100,
+            "evidence_refs": [
+              {
+                "source_id": "credit",
+                "locator": "debt footnote table3 and instrument terms"
+              }
+            ]
+          },
+          {
+            "instrument_id": "bond-2029",
+            "date": "2029-06-30",
+            "amount": 150,
+            "evidence_refs": [
+              {
+                "source_id": "credit",
+                "locator": "debt footnote table3 and instrument terms"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "currency": "EUR",
+        "unit": "millions",
+        "known_principal": 50.0,
+        "total_principal": 50.0,
+        "principal_complete": true,
+        "maturity_complete": true,
+        "maturities": [
+          {
+            "instrument_id": "euro-2028",
+            "date": "2028-05-31",
+            "amount": 50,
+            "evidence_refs": [
+              {
+                "source_id": "credit",
+                "locator": "debt footnote table3 and instrument terms"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "priority_links": [],
+    "guarantee_links": [
+      {
+        "instrument_id": "bond-2027",
+        "guarantor_ids": [],
+        "inventory_complete": true
+      },
+      {
+        "instrument_id": "bond-2029",
+        "guarantor_ids": [],
+        "inventory_complete": true
+      },
+      {
+        "instrument_id": "euro-2028",
+        "guarantor_ids": [],
+        "inventory_complete": true
+      }
+    ],
+    "legal_priority_established": false,
+    "refinancing_recommendation": "not-made",
+    "map_scope": "supplied instrument, estate, security, guarantee and priority assertions"
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "operation": "Principal sums by exact currency and unit; explicit identity and directed acyclic supplied priority links",
+      "input_binding": "complete-original-input-hash",
+      "input_fields": [
+        "as_of",
+        "audience",
+        "information_barrier",
+        "instrument_inventory_complete",
+        "instruments",
+        "knowledge_cutoff",
+        "priority_links",
+        "purpose",
+        "request_id",
+        "schema_version",
+        "subject",
+        "unresolved_issues",
+        "use_on"
+      ],
+      "output_fields": [
+        "currency_unit_groups",
+        "guarantee_links",
+        "instrument_inventory_complete",
+        "instruments",
+        "issuer_scope",
+        "legal_priority_established",
+        "map_scope",
+        "priority_links",
+        "refinancing_recommendation"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "credit",
+          "locator": "debt footnote table3 and instrument terms"
+        }
+      ]
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "credit",
+      "locator": "debt footnote table3 and instrument terms"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "credit",
+      "version": "debt-register-v2",
+      "known_at": "2026-10-01T12:00:00Z",
+      "locator": "capital structure register",
+      "kind": "credit_document"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "c099418fcfbfe1f26f462f063f25fe5019b78abc37196ed4273c99907dd7f0cc",
+  "source_truth": "unverified"
+}

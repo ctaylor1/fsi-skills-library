@@ -1,0 +1,141 @@
+{
+  "request_id": "fresh-macro-early",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "economy",
+    "id": "FRESH-ECONOMY"
+  },
+  "as_of": "2026-03-20",
+  "use_on": "2026-03-20",
+  "knowledge_cutoff": "2026-03-20T16:00:00Z",
+  "information_barrier": "public-side",
+  "unresolved_issues": [],
+  "sources": [
+    {
+      "source_id": "fresh-synthetic",
+      "version": "1",
+      "kind": "model",
+      "locator": "independent synthetic fixture, not authenticated economic releases",
+      "known_at": "2026-02-15T12:00:00Z",
+      "subject_ids": [
+        "FRESH-ECONOMY"
+      ],
+      "permission_status": "denied",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "fresh-synthetic",
+      "locator": "independent synthetic fixture inventory, rows1-9"
+    }
+  ],
+  "series_inventory_complete": true,
+  "requested_series_ids": [
+    "fresh-real-index"
+  ],
+  "series": [
+    {
+      "series_id": "fresh-real-index",
+      "label": "Fresh synthetic monthly real activity index",
+      "geography": "FRESH-ECONOMY",
+      "frequency": "monthly",
+      "measure_kind": "index",
+      "unit": "index",
+      "price_basis": "real",
+      "price_base": "2025=100",
+      "seasonal_adjustment": "seasonally-adjusted",
+      "annualization": "period-level",
+      "observations": [
+        {
+          "observation_id": "jan-first",
+          "period_end": "2026-01-31",
+          "release_at": "2026-02-15T12:00:00Z",
+          "vintage_id": "first-Jan",
+          "value": 120,
+          "evidence_refs": [
+            {
+              "source_id": "fresh-synthetic",
+              "locator": "independent synthetic fixture inventory, rows1-9"
+            }
+          ]
+        },
+        {
+          "observation_id": "feb-first",
+          "period_end": "2026-02-28",
+          "release_at": "2026-03-15T12:00:00Z",
+          "vintage_id": "first-Feb",
+          "value": 123,
+          "evidence_refs": [
+            {
+              "source_id": "fresh-synthetic",
+              "locator": "independent synthetic fixture inventory, rows1-9"
+            }
+          ]
+        },
+        {
+          "observation_id": "feb-revised",
+          "period_end": "2026-02-28",
+          "release_at": "2026-04-15T12:00:00Z",
+          "vintage_id": "revised-Feb",
+          "value": 124.5,
+          "evidence_refs": [
+            {
+              "source_id": "fresh-synthetic",
+              "locator": "independent synthetic fixture inventory, rows1-9"
+            }
+          ]
+        },
+        {
+          "observation_id": "feb-future-revision",
+          "period_end": "2026-02-28",
+          "release_at": "2026-05-15T12:00:00Z",
+          "vintage_id": "future-Feb",
+          "value": 125.7,
+          "evidence_refs": [
+            {
+              "source_id": "fresh-synthetic",
+              "locator": "independent synthetic fixture inventory, rows1-9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "calculation_id": "fresh-growth",
+      "series_id": "fresh-real-index",
+      "from_period": "2026-01-31",
+      "to_period": "2026-02-28",
+      "operation": "percent-change"
+    },
+    {
+      "calculation_id": "fresh-annualized",
+      "series_id": "fresh-real-index",
+      "from_period": "2026-01-31",
+      "to_period": "2026-02-28",
+      "operation": "annualized-percent-change"
+    }
+  ],
+  "outlooks": [],
+  "research_questions": [
+    {
+      "question_id": "fresh-growth-question",
+      "question": "How does the selected revision affect measured growth?",
+      "required_calculation_ids": [
+        "fresh-growth",
+        "fresh-annualized"
+      ],
+      "interpretation": "Supplied real activity increased on the comparable monthly base; annualization is a convention, not a prediction.",
+      "counter_evidence": "A single volatile monthly change and revisions do not establish a persistent regime."
+    }
+  ]
+}

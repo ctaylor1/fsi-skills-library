@@ -1,0 +1,777 @@
+{
+  "request_id": "SYN-AM-T04-001",
+  "object_id": "ABOR-MIGRATION",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "sources": [
+    {
+      "source_ref": "synthetic-record",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "permitted_audiences": [
+        "internal-review"
+      ]
+    }
+  ],
+  "unresolved_issues": [],
+  "shared_reviews": {
+    "architecture": {
+      "input": {
+        "case_id": "SYN-P4-01",
+        "as_of": "2026-10-04",
+        "context": {
+          "capacity": "design-review",
+          "represented_party": "SYNTHETIC-ASSET-MANAGER",
+          "object_id": "ABOR-MIGRATION",
+          "jurisdiction": "US-TEST",
+          "line_of_business": "asset-management"
+        },
+        "sources": [
+          {
+            "source_ref": "synthetic-record",
+            "version": "1",
+            "as_of": "2026-10-04",
+            "locator": "Synthetic local exercise; no live records"
+          }
+        ],
+        "unresolved_issues": [],
+        "data": {
+          "profile": {
+            "profile_id": "SYN-PROFILE",
+            "version": "1",
+            "reviewed_by": "Synthetic design owner",
+            "jurisdictions": [
+              "US-TEST"
+            ],
+            "lines_of_business": [
+              "asset-management"
+            ],
+            "effective_from": "2026-01-01",
+            "effective_to": "2026-12-31",
+            "method": "component-interface-requirements-v1",
+            "source_refs": [
+              "synthetic-record"
+            ]
+          },
+          "business_outcome": "Review ABOR parallel-run migration evidence",
+          "owner": "architect",
+          "currency": "USD",
+          "cost_period": "month",
+          "scope": "Two synthetic fund lots at the same valuation close",
+          "inventory_complete": true,
+          "components": [
+            {
+              "component_id": "A",
+              "responsibility": "source ABOR",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone1",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 100,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            },
+            {
+              "component_id": "B",
+              "responsibility": "target ABOR",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone2",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 200,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "interfaces": [
+            {
+              "interface_id": "I1",
+              "from_component": "A",
+              "to_component": "B",
+              "contract_version": "v1",
+              "payload_schema": "fund-lot-position-v1",
+              "purpose": "review source/target lot positions",
+              "authentication": "workload identity",
+              "authorization_scope": "synthetic read-only migration evidence",
+              "encryption": "reviewed transport",
+              "timeout": "10 seconds",
+              "failure_route": "human intake",
+              "trace_id": "notice request ID",
+              "delivery": "at-least-once",
+              "operation": "read",
+              "purpose_reviewed": true,
+              "max_attempts": 2,
+              "idempotency_key": "notice ID and version",
+              "approval_owner": "human reviewer",
+              "receipt_check": "durable queue receipt",
+              "recovery_plan": "dedupe then reconcile missing receipt",
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "requirements": [
+            {
+              "requirement_id": "CAP",
+              "component_id": "B",
+              "metric": "observed_capacity",
+              "unit": "positions/hour",
+              "owner": "platform owner",
+              "workload_profile": "fund-lot-position-v1",
+              "operator": ">=",
+              "threshold": 100,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "measurements": [
+            {
+              "requirement_id": "CAP",
+              "component_id": "B",
+              "metric": "observed_capacity",
+              "unit": "positions/hour",
+              "workload_profile": "fund-lot-position-v1",
+              "observed_on": "2026-10-03",
+              "value": 120,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ]
+        }
+      },
+      "output": {
+        "schema_version": "workflow-review-1.0",
+        "producer": "solution-architecture-planner",
+        "case_id": "SYN-P4-01",
+        "as_of": "2026-10-04",
+        "context": {
+          "capacity": "design-review",
+          "represented_party": "SYNTHETIC-ASSET-MANAGER",
+          "object_id": "ABOR-MIGRATION",
+          "jurisdiction": "US-TEST",
+          "line_of_business": "asset-management"
+        },
+        "status": "ready-for-review",
+        "findings": [],
+        "results": {
+          "components": [
+            {
+              "component_id": "A",
+              "responsibility": "source ABOR",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone1",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 100,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            },
+            {
+              "component_id": "B",
+              "responsibility": "target ABOR",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone2",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 200,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "interfaces": [
+            {
+              "interface_id": "I1",
+              "from_component": "A",
+              "to_component": "B",
+              "contract_version": "v1",
+              "payload_schema": "fund-lot-position-v1",
+              "purpose": "review source/target lot positions",
+              "authentication": "workload identity",
+              "authorization_scope": "synthetic read-only migration evidence",
+              "encryption": "reviewed transport",
+              "timeout": "10 seconds",
+              "failure_route": "human intake",
+              "trace_id": "notice request ID",
+              "delivery": "at-least-once",
+              "operation": "read",
+              "purpose_reviewed": true,
+              "max_attempts": 2,
+              "idempotency_key": "notice ID and version",
+              "approval_owner": "human reviewer",
+              "receipt_check": "durable queue receipt",
+              "recovery_plan": "dedupe then reconcile missing receipt",
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "requirement_fit": [
+            {
+              "requirement_id": "CAP",
+              "observed": "120",
+              "threshold": "100",
+              "unit": "positions/hour",
+              "meets": true
+            }
+          ],
+          "supplied_period_cost": "300",
+          "currency": "USD",
+          "cost_period": "month",
+          "deployment_authorized": false,
+          "provider_conformance": "not_assessed"
+        },
+        "completeness": "complete",
+        "evaluability": "evaluable",
+        "unresolved_issues": [],
+        "action_taken": false,
+        "human_review_required": true,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_document": {
+          "case_id": "SYN-P4-01",
+          "as_of": "2026-10-04",
+          "context": {
+            "capacity": "design-review",
+            "represented_party": "SYNTHETIC-ASSET-MANAGER",
+            "object_id": "ABOR-MIGRATION",
+            "jurisdiction": "US-TEST",
+            "line_of_business": "asset-management"
+          },
+          "sources": [
+            {
+              "source_ref": "synthetic-record",
+              "version": "1",
+              "as_of": "2026-10-04",
+              "locator": "Synthetic local exercise; no live records"
+            }
+          ],
+          "unresolved_issues": [],
+          "data": {
+            "profile": {
+              "profile_id": "SYN-PROFILE",
+              "version": "1",
+              "reviewed_by": "Synthetic design owner",
+              "jurisdictions": [
+                "US-TEST"
+              ],
+              "lines_of_business": [
+                "asset-management"
+              ],
+              "effective_from": "2026-01-01",
+              "effective_to": "2026-12-31",
+              "method": "component-interface-requirements-v1",
+              "source_refs": [
+                "synthetic-record"
+              ]
+            },
+            "business_outcome": "Review ABOR parallel-run migration evidence",
+            "owner": "architect",
+            "currency": "USD",
+            "cost_period": "month",
+            "scope": "Two synthetic fund lots at the same valuation close",
+            "inventory_complete": true,
+            "components": [
+              {
+                "component_id": "A",
+                "responsibility": "source ABOR",
+                "owner": "platform owner",
+                "technology_choice": "supplied service candidate",
+                "alternative": "retain current process",
+                "tradeoff": "evaluate measured fit",
+                "failure_domain": "zone1",
+                "data_classification": "confidential",
+                "retention_rule": "reviewed synthetic retention",
+                "recovery_runbook": "manual queue recovery",
+                "currency": "USD",
+                "cost_period": "month",
+                "cost": 100,
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              },
+              {
+                "component_id": "B",
+                "responsibility": "target ABOR",
+                "owner": "platform owner",
+                "technology_choice": "supplied service candidate",
+                "alternative": "retain current process",
+                "tradeoff": "evaluate measured fit",
+                "failure_domain": "zone2",
+                "data_classification": "confidential",
+                "retention_rule": "reviewed synthetic retention",
+                "recovery_runbook": "manual queue recovery",
+                "currency": "USD",
+                "cost_period": "month",
+                "cost": 200,
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              }
+            ],
+            "interfaces": [
+              {
+                "interface_id": "I1",
+                "from_component": "A",
+                "to_component": "B",
+                "contract_version": "v1",
+                "payload_schema": "fund-lot-position-v1",
+                "purpose": "review source/target lot positions",
+                "authentication": "workload identity",
+                "authorization_scope": "synthetic read-only migration evidence",
+                "encryption": "reviewed transport",
+                "timeout": "10 seconds",
+                "failure_route": "human intake",
+                "trace_id": "notice request ID",
+                "delivery": "at-least-once",
+                "operation": "read",
+                "purpose_reviewed": true,
+                "max_attempts": 2,
+                "idempotency_key": "notice ID and version",
+                "approval_owner": "human reviewer",
+                "receipt_check": "durable queue receipt",
+                "recovery_plan": "dedupe then reconcile missing receipt",
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              }
+            ],
+            "requirements": [
+              {
+                "requirement_id": "CAP",
+                "component_id": "B",
+                "metric": "observed_capacity",
+                "unit": "positions/hour",
+                "owner": "platform owner",
+                "workload_profile": "fund-lot-position-v1",
+                "operator": ">=",
+                "threshold": 100,
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              }
+            ],
+            "measurements": [
+              {
+                "requirement_id": "CAP",
+                "component_id": "B",
+                "metric": "observed_capacity",
+                "unit": "positions/hour",
+                "workload_profile": "fund-lot-position-v1",
+                "observed_on": "2026-10-03",
+                "value": 120,
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              }
+            ]
+          }
+        },
+        "artifact": {
+          "contract_version": "workflow-evidence/1.0",
+          "producer": "solution-architecture-planner",
+          "artifact_type": "workflow-review",
+          "as_of": "2026-10-04",
+          "context": {
+            "capacity": "design-review",
+            "represented_party": "SYNTHETIC-ASSET-MANAGER",
+            "object_id": "ABOR-MIGRATION",
+            "jurisdiction": "US-TEST",
+            "line_of_business": "asset-management"
+          },
+          "sources": [
+            {
+              "source_ref": "synthetic-record",
+              "version": "1",
+              "as_of": "2026-10-04",
+              "locator": "Synthetic local exercise; no live records"
+            }
+          ],
+          "input_hash": "3649da447069bdeabd4e9d162e702ce60cee7f877a4b9beb3c0fed910de921de",
+          "output_hash": "b95ca152a77c413c66980711787bc5ffaa2e0205a0a2901019ae2710268b1cff",
+          "completeness": "complete",
+          "evaluability": "evaluable",
+          "unresolved_issues": [],
+          "approval": "not_requested",
+          "execution": "not_performed",
+          "evidence_assurance": "supplied_not_authenticated",
+          "artifact_hash": "38a0ee92d981b554edb39f98bb65593cce2c63d0f0fc12972ffd4478297cc119"
+        }
+      },
+      "source_ref": "synthetic-record"
+    }
+  },
+  "platforms": [
+    {
+      "id": "source-abor",
+      "source_ref": "synthetic-record",
+      "component_id": "A",
+      "role": "ABOR",
+      "owner": "fund accounting",
+      "provider": "synthetic legacy provider",
+      "provider_contract_version": "v1",
+      "provider_contract_source_ref": "synthetic-record",
+      "licensed_purpose": "supplied synthetic rehearsal",
+      "record_identity": "fund/book/account/security/lot/day/measure/unit/currency",
+      "history_retention": "supplied retained versioned daily history",
+      "failure_owner": "legacy operations"
+    },
+    {
+      "id": "target-abor",
+      "source_ref": "synthetic-record",
+      "component_id": "B",
+      "role": "ABOR",
+      "owner": "fund accounting",
+      "provider": "synthetic candidate provider",
+      "provider_contract_version": "v2",
+      "provider_contract_source_ref": "synthetic-record",
+      "licensed_purpose": "supplied synthetic rehearsal",
+      "record_identity": "fund/book/account/security/lot/day/measure/unit/currency",
+      "history_retention": "supplied retained versioned daily history",
+      "failure_owner": "target operations"
+    }
+  ],
+  "excluded_roles": [
+    {
+      "id": "exclude-PMS",
+      "source_ref": "synthetic-record",
+      "role": "PMS",
+      "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+      "reviewed_by": "synthetic design owner"
+    },
+    {
+      "id": "exclude-OMS",
+      "source_ref": "synthetic-record",
+      "role": "OMS",
+      "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+      "reviewed_by": "synthetic design owner"
+    },
+    {
+      "id": "exclude-EMS",
+      "source_ref": "synthetic-record",
+      "role": "EMS",
+      "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+      "reviewed_by": "synthetic design owner"
+    },
+    {
+      "id": "exclude-IBOR",
+      "source_ref": "synthetic-record",
+      "role": "IBOR",
+      "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+      "reviewed_by": "synthetic design owner"
+    },
+    {
+      "id": "exclude-custodian",
+      "source_ref": "synthetic-record",
+      "role": "custodian",
+      "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+      "reviewed_by": "synthetic design owner"
+    },
+    {
+      "id": "exclude-market-data",
+      "source_ref": "synthetic-record",
+      "role": "market-data",
+      "rationale": "Outside this ABOR migration scope; retained existing service has no changes",
+      "reviewed_by": "synthetic design owner"
+    }
+  ],
+  "responsibilities": [
+    {
+      "id": "closing-ledger",
+      "source_ref": "synthetic-record",
+      "platform_id": "source-abor",
+      "domain": "official fund accounting close",
+      "book_scope": "F1/ABOR",
+      "authoritative_state": "pre-cutover",
+      "version": "v1",
+      "reconciliation_owner": "fund controller"
+    },
+    {
+      "id": "rehearsal-ledger",
+      "source_ref": "synthetic-record",
+      "platform_id": "target-abor",
+      "domain": "official fund accounting close",
+      "book_scope": "F1/ABOR",
+      "authoritative_state": "proposed-post-cutover",
+      "version": "v2",
+      "reconciliation_owner": "fund controller"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "capacity",
+      "source_ref": "synthetic-record",
+      "architecture_requirement_id": "CAP",
+      "description": "Fund-close position throughput on the same declared workload",
+      "owner": "fund controller",
+      "mandatory": true,
+      "disposition": "met"
+    }
+  ],
+  "snapshots": [
+    {
+      "id": "S1",
+      "source_ref": "synthetic-record",
+      "platform_id": "source-abor",
+      "version": "s1",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_on": "2026-10-03"
+    },
+    {
+      "id": "S2",
+      "source_ref": "synthetic-record",
+      "platform_id": "target-abor",
+      "version": "s2",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "observed_on": "2026-10-03"
+    }
+  ],
+  "batches": [
+    {
+      "id": "B1",
+      "source_ref": "synthetic-record",
+      "owner": "migration owner",
+      "wave": 1,
+      "depends_on": [],
+      "mapping_version": "map-v1",
+      "source_snapshot": "S1",
+      "target_snapshot": "S2",
+      "rollback_owner": "operations owner",
+      "rollback_trigger": "Any unapproved per-grain break",
+      "rollback_runbook": "restore source, reconcile target, replay reviewed deltas",
+      "expected_grains": [
+        {
+          "fund_id": "F1",
+          "book_id": "ABOR",
+          "account_id": "CASH-USD",
+          "instrument_id": "USD",
+          "lot_id": "LOT1",
+          "valuation_date": "2026-10-03",
+          "measure": "balance",
+          "unit": "currency-amount",
+          "currency": "USD"
+        },
+        {
+          "fund_id": "F1",
+          "book_id": "ABOR",
+          "account_id": "CASH-USD",
+          "instrument_id": "USD",
+          "lot_id": "LOT2",
+          "valuation_date": "2026-10-03",
+          "measure": "balance",
+          "unit": "currency-amount",
+          "currency": "USD"
+        }
+      ],
+      "grain_inventory_reviewed": true,
+      "new_writes_after_cutover": false
+    }
+  ],
+  "reconciliations": [
+    {
+      "id": "R1",
+      "source_ref": "synthetic-record",
+      "batch_id": "B1",
+      "mapping_version": "map-v1",
+      "tolerance": "0.01",
+      "tolerance_reviewed_by": "synthetic fund controller",
+      "tolerance_source_ref": "synthetic-record",
+      "source": {
+        "fund_id": "F1",
+        "book_id": "ABOR",
+        "account_id": "CASH-USD",
+        "instrument_id": "USD",
+        "lot_id": "LOT1",
+        "valuation_date": "2026-10-03",
+        "measure": "balance",
+        "unit": "currency-amount",
+        "currency": "USD",
+        "snapshot_id": "S1",
+        "source_ref": "synthetic-record",
+        "value": "100.00"
+      },
+      "target": {
+        "fund_id": "F1",
+        "book_id": "ABOR",
+        "account_id": "CASH-USD",
+        "instrument_id": "USD",
+        "lot_id": "LOT1",
+        "valuation_date": "2026-10-03",
+        "measure": "balance",
+        "unit": "currency-amount",
+        "currency": "USD",
+        "snapshot_id": "S2",
+        "source_ref": "synthetic-record",
+        "value": "100.01"
+      }
+    },
+    {
+      "id": "R2",
+      "source_ref": "synthetic-record",
+      "batch_id": "B1",
+      "mapping_version": "map-v1",
+      "tolerance": "0.01",
+      "tolerance_reviewed_by": "synthetic fund controller",
+      "tolerance_source_ref": "synthetic-record",
+      "source": {
+        "fund_id": "F1",
+        "book_id": "ABOR",
+        "account_id": "CASH-USD",
+        "instrument_id": "USD",
+        "lot_id": "LOT2",
+        "valuation_date": "2026-10-03",
+        "measure": "balance",
+        "unit": "currency-amount",
+        "currency": "USD",
+        "snapshot_id": "S1",
+        "source_ref": "synthetic-record",
+        "value": "50.00"
+      },
+      "target": {
+        "fund_id": "F1",
+        "book_id": "ABOR",
+        "account_id": "CASH-USD",
+        "instrument_id": "USD",
+        "lot_id": "LOT2",
+        "valuation_date": "2026-10-03",
+        "measure": "balance",
+        "unit": "currency-amount",
+        "currency": "USD",
+        "snapshot_id": "S2",
+        "source_ref": "synthetic-record",
+        "value": "50.00"
+      }
+    }
+  ],
+  "exceptions": [],
+  "parallel_runs": [
+    {
+      "id": "P1",
+      "source_ref": "synthetic-record",
+      "batch_id": "B1",
+      "mapping_version": "map-v1",
+      "source_snapshot": "S1",
+      "target_snapshot": "S2",
+      "window_start": "2026-10-02",
+      "window_end": "2026-10-03",
+      "owner": "migration owner",
+      "exception_ids": []
+    }
+  ],
+  "recoveries": [
+    {
+      "id": "REC1",
+      "source_ref": "synthetic-record",
+      "run_id": "P1",
+      "owner": "recovery owner",
+      "observed_on": "2026-10-05",
+      "threshold_reviewed_by": "synthetic continuity owner",
+      "threshold_source_ref": "synthetic-record",
+      "rollback_status": "passed",
+      "observed_rto_seconds": 60,
+      "rto_limit_seconds": 60,
+      "observed_rpo_seconds": 0,
+      "rpo_limit_seconds": 0
+    }
+  ],
+  "gates": [
+    {
+      "id": "G-reconciliation",
+      "source_ref": "synthetic-record",
+      "batch_id": "B1",
+      "kind": "reconciliation",
+      "owner": "accountable reconciliation owner",
+      "status": "passed",
+      "reviewed_by": "synthetic owner",
+      "observed_on": "2026-10-04",
+      "evidence_ids": [
+        "R1",
+        "R2"
+      ]
+    },
+    {
+      "id": "G-parallel-run",
+      "source_ref": "synthetic-record",
+      "batch_id": "B1",
+      "kind": "parallel-run",
+      "owner": "accountable parallel-run owner",
+      "status": "passed",
+      "reviewed_by": "synthetic owner",
+      "observed_on": "2026-10-04",
+      "evidence_ids": [
+        "P1"
+      ]
+    },
+    {
+      "id": "G-rollback",
+      "source_ref": "synthetic-record",
+      "batch_id": "B1",
+      "kind": "rollback",
+      "owner": "accountable rollback owner",
+      "status": "passed",
+      "reviewed_by": "synthetic owner",
+      "observed_on": "2026-10-04",
+      "evidence_ids": [
+        "REC1"
+      ]
+    },
+    {
+      "id": "G-security",
+      "source_ref": "synthetic-record",
+      "batch_id": "B1",
+      "kind": "security",
+      "owner": "accountable security owner",
+      "status": "passed",
+      "reviewed_by": "synthetic owner",
+      "observed_on": "2026-10-04",
+      "evidence_ids": [
+        "supplied-security-review-v1"
+      ]
+    },
+    {
+      "id": "G-business-acceptance",
+      "source_ref": "synthetic-record",
+      "batch_id": "B1",
+      "kind": "business-acceptance",
+      "owner": "accountable business-acceptance owner",
+      "status": "passed",
+      "reviewed_by": "synthetic owner",
+      "observed_on": "2026-10-04",
+      "evidence_ids": [
+        "supplied-business-review-v1"
+      ]
+    }
+  ]
+}

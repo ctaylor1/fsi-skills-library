@@ -1,0 +1,113 @@
+{
+  "schema_version": "ir-phase3-event/1.0",
+  "request_id": "forward-refinancing",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "security",
+    "id": "FORWARD-SYNTH-CO-A",
+    "issuer_id": "FORWARD-SYNTH-CO"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "quarter-3",
+      "version": "synthetic-v1",
+      "locator": "raw-source.json#quarter-3",
+      "kind": "financial_statement",
+      "known_at": "2026-10-15",
+      "subject_ids": [
+        "FORWARD-SYNTH-CO"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ]
+    },
+    {
+      "source_id": "refi-close",
+      "version": "synthetic-v1",
+      "locator": "raw-source.json#refi-close",
+      "kind": "issuer_release",
+      "known_at": "2026-10-19",
+      "subject_ids": [
+        "FORWARD-SYNTH-CO"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "quarter-3",
+      "locator": "raw-source.json#refinancing_release/baseline"
+    },
+    {
+      "source_id": "refi-close",
+      "locator": "raw-source.json#refinancing_release/terms"
+    }
+  ],
+  "unresolved_issues": [],
+  "financial_basis": {
+    "currency": "USD",
+    "units": "millions",
+    "share_units": "millions",
+    "accounting_basis": "US-GAAP",
+    "consolidation_scope": "consolidated"
+  },
+  "valuation_subject": {
+    "security_id": "FORWARD-SYNTH-CO-A",
+    "share_class": "common-A",
+    "share_count_basis": "point-in-time-common-A"
+  },
+  "baseline": {
+    "balance_date": "2026-09-30",
+    "known_at": "2026-10-15",
+    "cash": 40,
+    "debt": 200,
+    "shares": 50,
+    "evidence_refs": [
+      {
+        "source_id": "quarter-3",
+        "locator": "raw-source.json#refinancing_release/baseline"
+      }
+    ]
+  },
+  "event": {
+    "event_id": "refi-close",
+    "type": "refinancing",
+    "status": "completed",
+    "announcement_date": "2026-10-10",
+    "effective_date": "2026-11-01",
+    "known_at": "2026-10-19",
+    "scenario_label": null,
+    "evidence_refs": [
+      {
+        "source_id": "refi-close",
+        "locator": "raw-source.json#refinancing_release/terms"
+      }
+    ],
+    "terms": {
+      "principal_repaid": 60,
+      "new_debt_proceeds": 75,
+      "fees": 2,
+      "cash_funding": 0,
+      "cash_retained": 13,
+      "old_annual_rate": 0.08,
+      "new_annual_rate": 0.06
+    }
+  }
+}

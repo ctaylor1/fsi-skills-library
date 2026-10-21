@@ -1,0 +1,278 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "financial-model-update-preparer",
+  "method_version": "2.0.0",
+  "request_id": "independent-dcf-update",
+  "subject": {
+    "type": "issuer",
+    "id": "FINAL-SYNTH-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "model_id": "FINAL-SYNTH-DCF",
+    "model_kind": "dcf-modeler",
+    "base_version": "retained-v3",
+    "proposed_version": "proposed-v4",
+    "original_model_hash": "20355e8b886eb5882e628fc26bc0b5b019948348d81f95df7b224db54259e190",
+    "observed_current": {
+      "version": "retained-v3",
+      "input_hash": "20355e8b886eb5882e628fc26bc0b5b019948348d81f95df7b224db54259e190"
+    },
+    "candidate_input": {
+      "request_id": "independent-dcf-update",
+      "purpose": "internal-research",
+      "audience": "internal-review",
+      "subject": {
+        "type": "issuer",
+        "id": "FINAL-SYNTH-ISSUER"
+      },
+      "as_of": "2026-10-20",
+      "use_on": "2026-10-20",
+      "knowledge_cutoff": "2026-10-20",
+      "information_barrier": "public-side",
+      "sources": [
+        {
+          "source_id": "old-dcf",
+          "version": "synthetic-v1",
+          "locator": "raw-source.json#old-dcf",
+          "kind": "model",
+          "known_at": "2026-10-17",
+          "subject_ids": [
+            "FINAL-SYNTH-ISSUER"
+          ],
+          "permission_status": "supplied-allowed",
+          "classification": "public",
+          "permitted_audiences": [
+            "internal-review"
+          ],
+          "permitted_purposes": [
+            "internal-research"
+          ]
+        },
+        {
+          "source_id": "rate-review",
+          "version": "synthetic-v1",
+          "locator": "raw-source.json#rate-review",
+          "kind": "model",
+          "known_at": "2026-10-19",
+          "subject_ids": [
+            "FINAL-SYNTH-ISSUER"
+          ],
+          "permission_status": "supplied-allowed",
+          "classification": "public",
+          "permitted_audiences": [
+            "internal-review"
+          ],
+          "permitted_purposes": [
+            "internal-research"
+          ]
+        }
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "old-dcf",
+          "locator": "raw-source.json#model_update/original-snapshot"
+        },
+        {
+          "source_id": "rate-review",
+          "locator": "raw-source.json#model_update/current-rate-review"
+        }
+      ],
+      "unresolved_issues": [],
+      "schema_version": "ir-phase2/1.0",
+      "issuer_type": "nonfinancial-corporate",
+      "currency": "USD",
+      "units": "millions",
+      "accounting_basis": "US-GAAP",
+      "consolidation_scope": "consolidated",
+      "diluted_shares": 25,
+      "wacc": 0.105,
+      "terminal_growth": 0.025,
+      "discounting": "end_year",
+      "valuation_timing": "annual-period-index",
+      "valuation_subject": {
+        "security_id": "FINAL-SYNTH-A",
+        "share_class": "common-A",
+        "share_count_basis": "fully-diluted-common-A"
+      },
+      "bridge": {
+        "total_debt": 100,
+        "cash_and_equivalents": 30,
+        "minority_interest": 0,
+        "preferred_equity": 0,
+        "investments_associates": 0
+      },
+      "forecast_rows": [
+        {
+          "year": 2027,
+          "period_start": "2027-01-01",
+          "period_end": "2027-12-31",
+          "revenue": 500,
+          "ebit": 80,
+          "depreciation": 10,
+          "capex": 20,
+          "delta_nwc": 5,
+          "tax_rate": 0.25,
+          "nopat": 60.0,
+          "ufcf": 45.0,
+          "currency": "USD",
+          "units": "millions",
+          "accounting_basis": "US-GAAP",
+          "consolidation_scope": "consolidated"
+        },
+        {
+          "year": 2028,
+          "period_start": "2028-01-01",
+          "period_end": "2028-12-31",
+          "revenue": 550,
+          "ebit": 88,
+          "depreciation": 12,
+          "capex": 22,
+          "delta_nwc": 6,
+          "tax_rate": 0.25,
+          "nopat": 66.0,
+          "ufcf": 50.0,
+          "currency": "USD",
+          "units": "millions",
+          "accounting_basis": "US-GAAP",
+          "consolidation_scope": "consolidated"
+        }
+      ]
+    },
+    "candidate_input_hash": "11df6851a5b952f1a09393f1b638850d3179d99d1166ea18a861f7585fa16927",
+    "patch_ledger": [
+      {
+        "patch_id": "wacc-current-review",
+        "path": "/wacc",
+        "before": 0.09,
+        "after": 0.105,
+        "before_hash": "e0b251b07c5800bb057d5421b7fb9e398bc7f0cb759bb7f1dde9dfec2ba6c112",
+        "after_hash": "82a0a6803ae51f1972a7e0c6a0ca014351478d79077139dd48eb3880613d2d11",
+        "rationale": "Current supplied synthetic rate review.",
+        "evidence_refs": [
+          {
+            "source_id": "rate-review",
+            "locator": "raw-source.json#model_update/current-rate-review"
+          }
+        ]
+      }
+    ],
+    "context_transition": {
+      "mode": "advance-snapshot",
+      "from": {
+        "as_of": "2026-10-18",
+        "knowledge_cutoff": "2026-10-18",
+        "use_on": "2026-10-18"
+      },
+      "to": {
+        "as_of": "2026-10-20",
+        "knowledge_cutoff": "2026-10-20",
+        "use_on": "2026-10-20"
+      },
+      "rationale": "Explicit advancement to the current supplied rate review, preserving original source dates.",
+      "evidence_refs": [
+        {
+          "source_id": "rate-review",
+          "locator": "raw-source.json#model_update/current-rate-review"
+        }
+      ]
+    },
+    "generated_context_changes": [
+      {
+        "path": "/as_of",
+        "before_hash": "21d1b579b7a0841d97bb074f7fc02f025ada4443115c8006ba96a5395cf3a82d",
+        "after_hash": "29f81dedb1b691c8fc9ff32b6c7ab6d22d567b504d1b6007054a278642305329"
+      },
+      {
+        "path": "/knowledge_cutoff",
+        "before_hash": "21d1b579b7a0841d97bb074f7fc02f025ada4443115c8006ba96a5395cf3a82d",
+        "after_hash": "29f81dedb1b691c8fc9ff32b6c7ab6d22d567b504d1b6007054a278642305329"
+      },
+      {
+        "path": "/use_on",
+        "before_hash": "21d1b579b7a0841d97bb074f7fc02f025ada4443115c8006ba96a5395cf3a82d",
+        "after_hash": "29f81dedb1b691c8fc9ff32b6c7ab6d22d567b504d1b6007054a278642305329"
+      },
+      {
+        "path": "/request_id",
+        "before_hash": "34af544c99c78bd7114298d70d99e3ecd367b86aa0293f2919a0e941acd350e9",
+        "after_hash": "c99d1daa3c4f1a8e9dd82d76c5b2c9c60aca59bb0f60d16d6ce9f4e8adea9ae8"
+      },
+      {
+        "path": "/sources",
+        "before_hash": "d5c40157273d2ed6b6507b84d0a4cf8360bd4834dc3b6a9914556849f1857ca1",
+        "after_hash": "52acfa42489575f84e6391da4539c4c81ae57879cf7303649fa96381a171b9b2"
+      },
+      {
+        "path": "/evidence_refs",
+        "before_hash": "48df45f5474e7543c1e3c3840b558c114c1f6feb0b3ebaea567d02cafec643ef",
+        "after_hash": "b73eab4c2d665b00c897852ad83c04f3d5298b7d2e51f6cdf3f403f116dfc9c8"
+      }
+    ],
+    "required_update_paths": [
+      "/wacc"
+    ],
+    "coverage": {
+      "requested": 1,
+      "prepared": 1,
+      "scope": "Only the caller-declared update inventory; missing unrequested updates cannot be detected."
+    },
+    "native_validation": "not-performed",
+    "review_requirements": [
+      "Execute the actual target native input validator, calculation and original-bound output validator.",
+      "Review period completeness, financial plausibility and source fidelity under institution controls.",
+      "Obtain separate authorization immediately before any live model change."
+    ],
+    "validation_scope": "Structural immutable-original, version/hash conflict, field allowlist, explicit context and supplied-evidence checks. Native model semantics and economic effects require the actual target model.",
+    "live_model_updated": false,
+    "model_approved": false
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "formula": "candidate = deep copy(retained original) + disjoint explicit scalar replacements + declared current context/evidence; candidate_hash = canonical SHA-256(candidate)",
+      "original_model_hash": "20355e8b886eb5882e628fc26bc0b5b019948348d81f95df7b224db54259e190",
+      "candidate_input_hash": "11df6851a5b952f1a09393f1b638850d3179d99d1166ea18a861f7585fa16927"
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "old-dcf",
+      "locator": "raw-source.json#model_update/original-snapshot"
+    },
+    {
+      "source_id": "rate-review",
+      "locator": "raw-source.json#model_update/current-rate-review"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "old-dcf",
+      "version": "synthetic-v1",
+      "known_at": "2026-10-17",
+      "locator": "raw-source.json#old-dcf",
+      "kind": "model"
+    },
+    {
+      "source_id": "rate-review",
+      "version": "synthetic-v1",
+      "known_at": "2026-10-19",
+      "locator": "raw-source.json#rate-review",
+      "kind": "model"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "3d74de16a5ae23dc65dcd393199ae0c1735d819fe20e9f7eb639d733534943d4",
+  "source_truth": "unverified"
+}

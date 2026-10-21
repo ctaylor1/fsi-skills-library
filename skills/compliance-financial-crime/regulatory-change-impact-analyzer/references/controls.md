@@ -1,49 +1,12 @@
-# Controls — regulatory-change-impact-analyzer
+# Professional and output controls
 
-- **Risk tier:** R3 — regulated / control decision support. **Action mode:** Read-only analysis.
-- **Human approval:** `required` — a human must adjudicate applicability, disposition, and
-  closure before any regulated decision, filing, commitment, posting, or system-of-record
-  change. The skill produces evidence and a recommendation only.
+Accountable function: **Regulatory Compliance / Regulatory Change Management**. Data classification: **Confidential regulatory-change analysis; apply source-specific restrictions**.
 
-## Prohibited (fail closed)
+- This package produces a draft/review plan. Human professionals retain legal interpretation, regulated decisions, waivers, sign-off, filing and closure authority.
+- Do not execute writes, notifications, filings or approvals through this package. Neither source hashes nor supplied reviewer/token fields authorize an action.
+- Reject malformed inputs and non-finite numeric values. Preserve substantive missingness rather than turn it into a favorable result.
+- Reconstruct the exact native result with `validate_output.py OUTPUT --input ORIGINAL`. No ignored output fields, inline raw-source snapshot, edited finding, unsupported narrative, or self-rehashed substitute is accepted against the original.
+- Keep professional narrative/workflow envelopes separate. Match evidence to a defined audience and purpose; minimize employee/customer data and preserve applicable SAR, MNPI, privacy, privilege and retention restrictions only where warranted.
+- Use independently expected behavioral cases. Passing software/evaluation checks proves no source truth, independence, legal sufficiency, human acceptance, production readiness or live connector behavior.
 
-- No **compliance determination** — never state or imply the firm **is** (or is not)
-  compliant, that an obligation is satisfied, or that a gap does/does not create a violation.
-- No **applicability decision that closes scope** — recommend applicability with evidence; a
-  human confirms in-/out-of-scope and any exemption.
-- No **change/item closure**, disposition sign-off, or suppression of an obligation.
-- No **filing, submission, or attestation** to a regulator, and no certification of
-  compliance.
-- No **system-of-record write** (change register, policy, control, GRC record).
-- No **conflict resolution** — surface conflicting requirements across instruments or
-  jurisdictions and route to legal/compliance; do not pick a winner.
-- No **legal advice** — obtain a legal reading for interpretation questions.
-
-## Required output screens (`scripts/validate_output.py`)
-
-- Every raised finding has ≥1 cited evidence row.
-- `recommended_disposition` equals the deterministic mapping from `raised_findings`.
-- No prohibited decision / closure / filing / attestation language (regex screen: "the firm
-  is compliant", "no further action required", "closing this change", "certify compliance",
-  "file the report", "sign-off", etc.).
-- Standing disclaimer present (impact/evidence only; adjudication required; no decision/filing
-  made).
-- `mandatory_adjudication` is `true`.
-- `open_questions` (adjudication prompts) included whenever any obligation is applicable.
-
-A **non-compliant fixture** (`evals/files/change_with_decision.json`) exercises this screen
-and must exit non-zero (fail closed).
-
-## Data classification, privacy, records
-
-- **Restricted.** Instrument text is public; firm business lines, inventory, owners, and
-  implementation notes are internal. Minimize internal data to what evidences a finding.
-- Retain the assessment + citations + config version per records policy; log the read and
-  the human adjudication decision. Do not exfiltrate the inventory or owner data.
-
-## Reproducibility
-
-`assessment_id` binds the output to the exact instrument, obligations, firm profile,
-inventory snapshot, and **config version**; re-running with the same inputs reproduces the
-findings and disposition. Disposition is a **triage recommendation for a human adjudicator**,
-never an autonomous decision.
+No current regulatory corpus, horizon-monitoring scheduler, legal rule pack, operational integration or primary-text truth verification is bundled. All lifecycle and applicability evidence is supplied and subject to professional review.

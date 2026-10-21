@@ -13,7 +13,7 @@ description: >-
   personalized investment advice. Every escalation band is a triage suggestion a human decides
   and acts on.
 license: MIT
-compatibility: Amazon Quick Desktop; requires thesis-register/controlled-content, PMS/OMS, market-data, research/estimates, and versioned-config MCP integrations (all read-only).
+compatibility: Python 3.10+ offline JSON helpers; live source connectors and authenticated delivery require separate deployment integration.
 metadata:
   aws-fsi-category: "Asset Management"
   aws-fsi-skill-type: "System-interaction or operational skills"
@@ -23,15 +23,18 @@ metadata:
   aws-fsi-delivery-wave: "Wave 2 - analytical production"
   aws-fsi-action-mode: "Scheduled read-only; alert only"
   aws-fsi-scheduled-agent: "read-only-monitoring"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (MNPI / client-confidential)"
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Asset Management investment & product"
   aws-fsi-primary-user: "Research analyst / portfolio manager"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-20"
 ---
+
+Read [references/domain-rules.md](references/domain-rules.md) for the supplied-input validation boundary and current deterministic limits before using the scripts.
+
 
 # Investment Thesis Monitor
 
@@ -60,10 +63,10 @@ attention first. The decision and any action remain human.
 - A **deep earnings read-through** of a specific result → `earnings-results-analyzer`; a
   **re-model** under revised drivers → `scenario-sensitivity-generator` or `dcf-modeler`; a
   full **re-research** → `coverage-initiation-researcher`.
-- **Mandate / investment-guideline limit** monitoring → `mandate-compliance-monitor`;
+- **Mandate / investment-guideline limit** monitoring → `investment-mandate-reviewer`;
   **counterparty exposure** limits → `counterparty-exposure-monitor` (sibling monitors).
-- A **write-up** of the thesis for commentary → `fund-commentary-drafter`; performance
-  contribution → `performance-attribution-builder`.
+- A **write-up** of the thesis for commentary → `investment-commentary-builder`; performance
+  contribution → `portfolio-performance-attributor`.
 
 ## Adjacent-skill handoffs
 See [references/handoffs.md](references/handoffs.md). This monitor emits an alert queue with a
@@ -101,7 +104,7 @@ register's documented expectation.
    (Informational / Review / Elevated) per the documented mapping, and tag the thesis stance
    (confirming / challenging / mixed).
 5. **Deduplicate & queue** — compare each `alert_key` against open `prior_alerts`;
-   continuations are marked `duplicate` and routed to `queue.deduplicated` (not re-escalated);
+   only identical evidence and escalation continuations are marked `duplicate` and routed to `queue.deduplicated` (not re-escalated);
    new alerts go to `queue.new`; group all by band in `queue.by_escalation`.
 6. **Write the queue** — plain-language summary per alert + cited evidence + suggested band +
    freshness gaps + the standing disclaimer. Stage for the analyst; take no action.
@@ -164,3 +167,9 @@ exfiltrate thesis or position data.
   re-raising every run destroys the latency signal and creates alert fatigue.
 - **Do not tune tolerances to a name.** Tolerances come from the versioned config, not from
   guessing what "should" trigger for a favored position.
+
+## Phase 1 support boundary
+
+Supplied observation threshold review; no scheduler or feed integration
+
+This package performs only its documented local supplied-input operations. Live source access, authenticated permissions, production engines and professional acceptance are separate deployment requirements. Generated resources are pinned in `references/package-manifest.json`; maintain the canonical shared source. Legacy identifiers resolve through the repository migration registry.

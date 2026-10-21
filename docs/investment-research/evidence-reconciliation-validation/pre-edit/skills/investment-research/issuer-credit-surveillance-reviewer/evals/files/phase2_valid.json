@@ -1,0 +1,148 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "issuer-credit-surveillance-reviewer",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-credit-phase2",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "period_metrics": {
+      "prior": {
+        "gross_leverage_x": 3.3333333333333335,
+        "net_leverage_x": 2.8333333333333335,
+        "interest_coverage_x": 6.666666666666667,
+        "fixed_charge_proxy_x": 5.555555555555555,
+        "liquidity_to_known_maturity_x": 1.0
+      },
+      "current": {
+        "gross_leverage_x": 4.0,
+        "net_leverage_x": 3.5,
+        "interest_coverage_x": 5.0,
+        "fixed_charge_proxy_x": 3.5,
+        "liquidity_to_known_maturity_x": 0.9
+      }
+    },
+    "metric_changes": {
+      "gross_leverage_x": 0.6666666666666665,
+      "net_leverage_x": 0.6666666666666665,
+      "interest_coverage_x": -1.666666666666667,
+      "fixed_charge_proxy_x": -2.0555555555555554,
+      "liquidity_to_known_maturity_x": -0.09999999999999998
+    },
+    "spread_change_bps": 60,
+    "alerts": [
+      "net leverage increased beyond supplied threshold",
+      "interest coverage declined beyond supplied threshold",
+      "spread widened beyond supplied threshold"
+    ],
+    "reported_events": [
+      {
+        "kind": "rating-reported",
+        "text": "Supplied agency rating BBB; no agency action inferred",
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ]
+      }
+    ],
+    "rating_action": "reported-only",
+    "position_action": "none",
+    "thesis_action": "unchanged",
+    "dscr_calculated": false,
+    "coverage_limit": "fixed-charge EBITDA proxy is not a contractual debt-service ratio"
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "operation": "Reported comparable-period credit ratios; current minus prior; matching spread observations subject to observation chronology, economic as-of and supplied current-age policy",
+      "input_binding": "complete-original-input-hash",
+      "input_fields": [
+        "as_of",
+        "audience",
+        "current",
+        "current_spread",
+        "events",
+        "information_barrier",
+        "issuer_profile",
+        "knowledge_cutoff",
+        "prior",
+        "prior_spread",
+        "purpose",
+        "request_id",
+        "schema_version",
+        "spread_freshness_policy",
+        "subject",
+        "thresholds",
+        "unresolved_issues",
+        "use_on"
+      ],
+      "output_fields": [
+        "alerts",
+        "coverage_limit",
+        "dscr_calculated",
+        "metric_changes",
+        "period_metrics",
+        "position_action",
+        "rating_action",
+        "reported_events",
+        "spread_change_bps",
+        "thesis_action"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        },
+        {
+          "source_id": "synthetic-spreads",
+          "locator": "fixture:market-snapshot-2;observations"
+        }
+      ]
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    },
+    {
+      "source_id": "synthetic-spreads",
+      "locator": "fixture:market-snapshot-2;observations"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1",
+      "kind": "financial_statement"
+    },
+    {
+      "source_id": "synthetic-spreads",
+      "version": "fixture-v1",
+      "known_at": "2026-10-20T21:00:00Z",
+      "locator": "fixture:market-snapshot-2",
+      "kind": "market_data"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "b098a3786e3201a9ae6756556bec7c832180711fd144e8a2efd3f74047811062",
+  "source_truth": "unverified"
+}

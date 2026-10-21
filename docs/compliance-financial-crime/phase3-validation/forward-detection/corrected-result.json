@@ -1,0 +1,709 @@
+{
+  "evaluations": [
+    {
+      "id": "m1-new-complete-proposal-scope-adapted",
+      "expectation": "proposal-draft-no-execution",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-new-complete-proposal-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 0,
+      "stderr": "",
+      "output_file": "m1-new-complete-proposal-scope-adapted.stdout",
+      "status": "draft-for-human-review",
+      "result_keys": [
+        "risk_to_scenario_design",
+        "data_requirements",
+        "parameter_proposal",
+        "evaluation_plan",
+        "controlled_change_proposal",
+        "technology_control_requirements",
+        "engine_observations",
+        "benchmark_references",
+        "material_blockers",
+        "unknown_metrics",
+        "proposal_prerequisites_consistent",
+        "proposed_engine_configuration",
+        "backtest_executed",
+        "holdout_executed",
+        "identity_resolution",
+        "risk_or_legal_approval",
+        "activation"
+      ],
+      "issues": [],
+      "detached_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/validate_output.py",
+          "/tmp/cfc-phase3-forward-detection/m1-new-complete-proposal-scope-adapted.output.json",
+          "--input",
+          "/tmp/cfc-phase3-forward-detection/m1-new-complete-proposal-scope-adapted.json"
+        ],
+        "exit_code": 0,
+        "output": "{\"errors\": []}\n"
+      },
+      "summary": {
+        "proposal_prerequisites_consistent": true,
+        "proposed_engine_configuration": {
+          "proposal_only": true,
+          "scenario": {
+            "scenario_id": "RAPID-OUTFLOW-81",
+            "design_version": "proposal-4",
+            "risk_id": "RISK-WIRE-81",
+            "risk_hypothesis": "Source-bound unusual rapid movement of new inbound funds to external wires warrants investigation review; no suspicious-activity determination",
+            "typology": "rapid inbound-to-outbound movement hypothesis",
+            "target_behavior": "Distinct inbound events followed by gross same-currency external outflows in owner-defined rolling window",
+            "population_id": "RETAIL-WIRE-EVENTS-81",
+            "population_unit": "economic-event",
+            "eligibility_definition": "Supplied domestic retail USD wire events with retained event identity and reviewed customer crosswalk",
+            "engine_id": "MONITORING-ENGINE-81",
+            "engine_version": "release-2026.09",
+            "processing_mode": "batch",
+            "logic_spec": "Proposal uses gross USD credits/debits by exact distinct event ID and supplied customer crosswalk, rolling 3 calendar days in America/New_York, inclusive lower/upper amount/window bounds by event time; failed/duplicate copies excluded; missing amounts/identity retained as unknown and dependent aggregates withheld; no execution",
+            "window_value": "3",
+            "window_unit": "days",
+            "entity_mapping_ref": "CUSTOMER-CROSSWALK-81",
+            "entity_mapping_version": "crosswalk-6",
+            "mapping_dataset_id": "CROSSWALK-DATASET-81",
+            "identifier_namespace": "BANK-ENTITY-CUSTOMER-ID-81",
+            "ambiguous_link_count": 0,
+            "conflicting_link_count": 0,
+            "mapping_method": "Reviewed exact bank customer IDs within supplied namespace; no inferred graph merges",
+            "identity_limitations": "Crosswalk is supplied, not authenticated; aliases and repeated documents are not distinct economic events",
+            "graph_reference": "REVIEWED-GRAPH-81",
+            "graph_version": "graph-6",
+            "currency": "USD",
+            "amount_accounting": "gross"
+          },
+          "parameters": [
+            {
+              "parameter_id": "AMOUNT-CANDIDATE-81",
+              "name": "gross_outflow_candidate_amount",
+              "value": "25000.000000000000000001",
+              "unit": "currency",
+              "currency": "USD",
+              "rationale": "Owner-proposed candidate for sensitivity exploration; no regulatory amount default"
+            }
+          ],
+          "change_id": "CHANGE-PROPOSAL-81",
+          "configuration_reference": "WIRE-PARAMETERS-81",
+          "activation": "not-performed"
+        },
+        "material_blockers": [],
+        "activation": "not-performed",
+        "identity_resolution": "not-performed",
+        "backtest_executed": false,
+        "holdout_executed": false
+      },
+      "overall_comparison": true,
+      "action_controls": {
+        "draft": true,
+        "human_review_required": true,
+        "action_taken": false,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_truth": "unverified"
+      },
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-ambiguous-identity-scope-adapted",
+      "expectation": "proposal-withheld",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-ambiguous-identity-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 0,
+      "stderr": "",
+      "output_file": "m1-ambiguous-identity-scope-adapted.stdout",
+      "status": "needs-evidence",
+      "result_keys": [
+        "risk_to_scenario_design",
+        "data_requirements",
+        "parameter_proposal",
+        "evaluation_plan",
+        "controlled_change_proposal",
+        "technology_control_requirements",
+        "engine_observations",
+        "benchmark_references",
+        "material_blockers",
+        "unknown_metrics",
+        "proposal_prerequisites_consistent",
+        "proposed_engine_configuration",
+        "backtest_executed",
+        "holdout_executed",
+        "identity_resolution",
+        "risk_or_legal_approval",
+        "activation"
+      ],
+      "issues": [
+        "source-bound entity mapping retains ambiguous or conflicting links"
+      ],
+      "detached_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/validate_output.py",
+          "/tmp/cfc-phase3-forward-detection/m1-ambiguous-identity-scope-adapted.output.json",
+          "--input",
+          "/tmp/cfc-phase3-forward-detection/m1-ambiguous-identity-scope-adapted.json"
+        ],
+        "exit_code": 0,
+        "output": "{\"errors\": []}\n"
+      },
+      "summary": {
+        "proposal_prerequisites_consistent": false,
+        "proposed_engine_configuration": null,
+        "material_blockers": [
+          "source-bound entity mapping retains ambiguous or conflicting links"
+        ],
+        "activation": "not-performed",
+        "identity_resolution": "not-performed",
+        "backtest_executed": false,
+        "holdout_executed": false
+      },
+      "overall_comparison": false,
+      "action_controls": {
+        "draft": true,
+        "human_review_required": true,
+        "action_taken": false,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_truth": "unverified"
+      },
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-holdout-identity-leakage-scope-adapted",
+      "expectation": "proposal-withheld",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-holdout-identity-leakage-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 0,
+      "stderr": "",
+      "output_file": "m1-holdout-identity-leakage-scope-adapted.stdout",
+      "status": "needs-evidence",
+      "result_keys": [
+        "risk_to_scenario_design",
+        "data_requirements",
+        "parameter_proposal",
+        "evaluation_plan",
+        "controlled_change_proposal",
+        "technology_control_requirements",
+        "engine_observations",
+        "benchmark_references",
+        "material_blockers",
+        "unknown_metrics",
+        "proposal_prerequisites_consistent",
+        "proposed_engine_configuration",
+        "backtest_executed",
+        "holdout_executed",
+        "identity_resolution",
+        "risk_or_legal_approval",
+        "activation"
+      ],
+      "issues": [
+        "training and holdout item identities overlap"
+      ],
+      "detached_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/validate_output.py",
+          "/tmp/cfc-phase3-forward-detection/m1-holdout-identity-leakage-scope-adapted.output.json",
+          "--input",
+          "/tmp/cfc-phase3-forward-detection/m1-holdout-identity-leakage-scope-adapted.json"
+        ],
+        "exit_code": 0,
+        "output": "{\"errors\": []}\n"
+      },
+      "summary": {
+        "proposal_prerequisites_consistent": false,
+        "proposed_engine_configuration": null,
+        "material_blockers": [
+          "training and holdout item identities overlap"
+        ],
+        "activation": "not-performed",
+        "identity_resolution": "not-performed",
+        "backtest_executed": false,
+        "holdout_executed": false
+      },
+      "overall_comparison": false,
+      "action_controls": {
+        "draft": true,
+        "human_review_required": true,
+        "action_taken": false,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_truth": "unverified"
+      },
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-same-evaluation-dataset-scope-adapted",
+      "expectation": "proposal-withheld",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-same-evaluation-dataset-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 0,
+      "stderr": "",
+      "output_file": "m1-same-evaluation-dataset-scope-adapted.stdout",
+      "status": "needs-evidence",
+      "result_keys": [
+        "risk_to_scenario_design",
+        "data_requirements",
+        "parameter_proposal",
+        "evaluation_plan",
+        "controlled_change_proposal",
+        "technology_control_requirements",
+        "engine_observations",
+        "benchmark_references",
+        "material_blockers",
+        "unknown_metrics",
+        "proposal_prerequisites_consistent",
+        "proposed_engine_configuration",
+        "backtest_executed",
+        "holdout_executed",
+        "identity_resolution",
+        "risk_or_legal_approval",
+        "activation"
+      ],
+      "issues": [
+        "backtest and untouched holdout datasets share identity"
+      ],
+      "detached_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/validate_output.py",
+          "/tmp/cfc-phase3-forward-detection/m1-same-evaluation-dataset-scope-adapted.output.json",
+          "--input",
+          "/tmp/cfc-phase3-forward-detection/m1-same-evaluation-dataset-scope-adapted.json"
+        ],
+        "exit_code": 0,
+        "output": "{\"errors\": []}\n"
+      },
+      "summary": {
+        "proposal_prerequisites_consistent": false,
+        "proposed_engine_configuration": null,
+        "material_blockers": [
+          "backtest and untouched holdout datasets share identity"
+        ],
+        "activation": "not-performed",
+        "identity_resolution": "not-performed",
+        "backtest_executed": false,
+        "holdout_executed": false
+      },
+      "overall_comparison": false,
+      "action_controls": {
+        "draft": true,
+        "human_review_required": true,
+        "action_taken": false,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_truth": "unverified"
+      },
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-exact-total-mismatch-scope-adapted",
+      "expectation": "proposal-withheld",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-exact-total-mismatch-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 0,
+      "stderr": "",
+      "output_file": "m1-exact-total-mismatch-scope-adapted.stdout",
+      "status": "needs-evidence",
+      "result_keys": [
+        "risk_to_scenario_design",
+        "data_requirements",
+        "parameter_proposal",
+        "evaluation_plan",
+        "controlled_change_proposal",
+        "technology_control_requirements",
+        "engine_observations",
+        "benchmark_references",
+        "material_blockers",
+        "unknown_metrics",
+        "proposal_prerequisites_consistent",
+        "proposed_engine_configuration",
+        "backtest_executed",
+        "holdout_executed",
+        "identity_resolution",
+        "risk_or_legal_approval",
+        "activation"
+      ],
+      "issues": [
+        "WIRE-AMOUNT-DATA-81: supplied population/amount reconciliation differs"
+      ],
+      "detached_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/validate_output.py",
+          "/tmp/cfc-phase3-forward-detection/m1-exact-total-mismatch-scope-adapted.output.json",
+          "--input",
+          "/tmp/cfc-phase3-forward-detection/m1-exact-total-mismatch-scope-adapted.json"
+        ],
+        "exit_code": 0,
+        "output": "{\"errors\": []}\n"
+      },
+      "summary": {
+        "proposal_prerequisites_consistent": false,
+        "proposed_engine_configuration": null,
+        "material_blockers": [
+          "WIRE-AMOUNT-DATA-81: supplied population/amount reconciliation differs"
+        ],
+        "activation": "not-performed",
+        "identity_resolution": "not-performed",
+        "backtest_executed": false,
+        "holdout_executed": false
+      },
+      "overall_comparison": false,
+      "action_controls": {
+        "draft": true,
+        "human_review_required": true,
+        "action_taken": false,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_truth": "unverified"
+      },
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-mixed-accounting-basis-scope-adapted",
+      "expectation": "proposal-withheld",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-mixed-accounting-basis-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 0,
+      "stderr": "",
+      "output_file": "m1-mixed-accounting-basis-scope-adapted.stdout",
+      "status": "needs-evidence",
+      "result_keys": [
+        "risk_to_scenario_design",
+        "data_requirements",
+        "parameter_proposal",
+        "evaluation_plan",
+        "controlled_change_proposal",
+        "technology_control_requirements",
+        "engine_observations",
+        "benchmark_references",
+        "material_blockers",
+        "unknown_metrics",
+        "proposal_prerequisites_consistent",
+        "proposed_engine_configuration",
+        "backtest_executed",
+        "holdout_executed",
+        "identity_resolution",
+        "risk_or_legal_approval",
+        "activation"
+      ],
+      "issues": [
+        "WIRE-AMOUNT-DATA-81: incompatible currency/accounting basis"
+      ],
+      "detached_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/validate_output.py",
+          "/tmp/cfc-phase3-forward-detection/m1-mixed-accounting-basis-scope-adapted.output.json",
+          "--input",
+          "/tmp/cfc-phase3-forward-detection/m1-mixed-accounting-basis-scope-adapted.json"
+        ],
+        "exit_code": 0,
+        "output": "{\"errors\": []}\n"
+      },
+      "summary": {
+        "proposal_prerequisites_consistent": false,
+        "proposed_engine_configuration": null,
+        "material_blockers": [
+          "WIRE-AMOUNT-DATA-81: incompatible currency/accounting basis"
+        ],
+        "activation": "not-performed",
+        "identity_resolution": "not-performed",
+        "backtest_executed": false,
+        "holdout_executed": false
+      },
+      "overall_comparison": false,
+      "action_controls": {
+        "draft": true,
+        "human_review_required": true,
+        "action_taken": false,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_truth": "unverified"
+      },
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-engine-population-mismatch-scope-adapted",
+      "expectation": "proposal-withheld",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-engine-population-mismatch-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 1,
+      "stderr": "engine observation scope/version differs from design\n",
+      "output_file": "m1-engine-population-mismatch-scope-adapted.stdout",
+      "expectation_matched": false
+    },
+    {
+      "id": "m1-benchmark-only-scope-adapted",
+      "expectation": "proposal-withheld",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-benchmark-only-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 0,
+      "stderr": "",
+      "output_file": "m1-benchmark-only-scope-adapted.stdout",
+      "status": "draft-for-human-review",
+      "result_keys": [
+        "risk_to_scenario_design",
+        "data_requirements",
+        "parameter_proposal",
+        "evaluation_plan",
+        "controlled_change_proposal",
+        "technology_control_requirements",
+        "engine_observations",
+        "benchmark_references",
+        "material_blockers",
+        "unknown_metrics",
+        "proposal_prerequisites_consistent",
+        "proposed_engine_configuration",
+        "backtest_executed",
+        "holdout_executed",
+        "identity_resolution",
+        "risk_or_legal_approval",
+        "activation"
+      ],
+      "issues": [],
+      "detached_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/validate_output.py",
+          "/tmp/cfc-phase3-forward-detection/m1-benchmark-only-scope-adapted.output.json",
+          "--input",
+          "/tmp/cfc-phase3-forward-detection/m1-benchmark-only-scope-adapted.json"
+        ],
+        "exit_code": 0,
+        "output": "{\"errors\": []}\n"
+      },
+      "summary": {
+        "proposal_prerequisites_consistent": true,
+        "proposed_engine_configuration": {
+          "proposal_only": true,
+          "scenario": {
+            "scenario_id": "RAPID-OUTFLOW-81",
+            "design_version": "proposal-4",
+            "risk_id": "RISK-WIRE-81",
+            "risk_hypothesis": "Source-bound unusual rapid movement of new inbound funds to external wires warrants investigation review; no suspicious-activity determination",
+            "typology": "rapid inbound-to-outbound movement hypothesis",
+            "target_behavior": "Distinct inbound events followed by gross same-currency external outflows in owner-defined rolling window",
+            "population_id": "RETAIL-WIRE-EVENTS-81",
+            "population_unit": "economic-event",
+            "eligibility_definition": "Supplied domestic retail USD wire events with retained event identity and reviewed customer crosswalk",
+            "engine_id": "MONITORING-ENGINE-81",
+            "engine_version": "release-2026.09",
+            "processing_mode": "batch",
+            "logic_spec": "Proposal uses gross USD credits/debits by exact distinct event ID and supplied customer crosswalk, rolling 3 calendar days in America/New_York, inclusive lower/upper amount/window bounds by event time; failed/duplicate copies excluded; missing amounts/identity retained as unknown and dependent aggregates withheld; no execution",
+            "window_value": "3",
+            "window_unit": "days",
+            "entity_mapping_ref": "CUSTOMER-CROSSWALK-81",
+            "entity_mapping_version": "crosswalk-6",
+            "mapping_dataset_id": "CROSSWALK-DATASET-81",
+            "identifier_namespace": "BANK-ENTITY-CUSTOMER-ID-81",
+            "ambiguous_link_count": 0,
+            "conflicting_link_count": 0,
+            "mapping_method": "Reviewed exact bank customer IDs within supplied namespace; no inferred graph merges",
+            "identity_limitations": "Crosswalk is supplied, not authenticated; aliases and repeated documents are not distinct economic events",
+            "graph_reference": "REVIEWED-GRAPH-81",
+            "graph_version": "graph-6",
+            "currency": "USD",
+            "amount_accounting": "gross"
+          },
+          "parameters": [
+            {
+              "parameter_id": "AMOUNT-CANDIDATE-81",
+              "name": "gross_outflow_candidate_amount",
+              "value": "25000.000000000000000001",
+              "unit": "currency",
+              "currency": "USD",
+              "rationale": "Owner-proposed candidate for sensitivity exploration; no regulatory amount default"
+            }
+          ],
+          "change_id": "CHANGE-PROPOSAL-81",
+          "configuration_reference": "WIRE-PARAMETERS-81",
+          "activation": "not-performed"
+        },
+        "material_blockers": [],
+        "activation": "not-performed",
+        "identity_resolution": "not-performed",
+        "backtest_executed": false,
+        "holdout_executed": false
+      },
+      "overall_comparison": true,
+      "action_controls": {
+        "draft": true,
+        "human_review_required": true,
+        "action_taken": false,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_truth": "unverified"
+      },
+      "expectation_matched": false
+    },
+    {
+      "id": "m1-unknown-population-grain-scope-adapted",
+      "expectation": "proposal-withheld",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-unknown-population-grain-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 0,
+      "stderr": "",
+      "output_file": "m1-unknown-population-grain-scope-adapted.stdout",
+      "status": "needs-evidence",
+      "result_keys": [
+        "risk_to_scenario_design",
+        "data_requirements",
+        "parameter_proposal",
+        "evaluation_plan",
+        "controlled_change_proposal",
+        "technology_control_requirements",
+        "engine_observations",
+        "benchmark_references",
+        "material_blockers",
+        "unknown_metrics",
+        "proposal_prerequisites_consistent",
+        "proposed_engine_configuration",
+        "backtest_executed",
+        "holdout_executed",
+        "identity_resolution",
+        "risk_or_legal_approval",
+        "activation"
+      ],
+      "issues": [
+        "scenario.population_unit: value is unknown or missing",
+        "scenario.population_unit: unsupported or unknown design prerequisite"
+      ],
+      "detached_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/validate_output.py",
+          "/tmp/cfc-phase3-forward-detection/m1-unknown-population-grain-scope-adapted.output.json",
+          "--input",
+          "/tmp/cfc-phase3-forward-detection/m1-unknown-population-grain-scope-adapted.json"
+        ],
+        "exit_code": 0,
+        "output": "{\"errors\": []}\n"
+      },
+      "summary": {
+        "proposal_prerequisites_consistent": false,
+        "proposed_engine_configuration": null,
+        "material_blockers": [
+          "scenario.population_unit: unsupported or unknown design prerequisite"
+        ],
+        "activation": "not-performed",
+        "identity_resolution": "not-performed",
+        "backtest_executed": false,
+        "holdout_executed": false
+      },
+      "overall_comparison": false,
+      "action_controls": {
+        "draft": true,
+        "human_review_required": true,
+        "action_taken": false,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_truth": "unverified"
+      },
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-restricted-sar-source-scope-adapted",
+      "expectation": "intake-stops",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-restricted-sar-source-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 1,
+      "stderr": "sources[0] classification cannot flow into declared result; mixed restricted sources need a reviewed adapter\n",
+      "output_file": "m1-restricted-sar-source-scope-adapted.stdout",
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-native-context-mismatch-scope-adapted",
+      "expectation": "intake-stops",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-native-context-mismatch-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 1,
+      "stderr": "workflow context differs from native object_id\n",
+      "output_file": "m1-native-context-mismatch-scope-adapted.stdout",
+      "expectation_matched": true
+    },
+    {
+      "id": "m1-duplicate-parameter-identity-scope-adapted",
+      "expectation": "intake-stops",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/transaction-monitoring-scenario-designer/scripts/calculate_or_transform.py",
+        "/tmp/cfc-phase3-forward-detection/m1-duplicate-parameter-identity-scope-adapted.json"
+      ],
+      "cwd": "/tmp/cfc-phase3-forward-detection",
+      "exit_code": 1,
+      "stderr": "parameters: unique nonempty record IDs required\n",
+      "output_file": "m1-duplicate-parameter-identity-scope-adapted.stdout",
+      "expectation_matched": true
+    }
+  ],
+  "total": 12,
+  "matched": 10,
+  "changed_reviewed_package_files": [],
+  "limits": "Independent synthetic forward scenarios only; not practitioner acceptance or source authentication"
+}

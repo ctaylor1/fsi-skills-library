@@ -1,18 +1,13 @@
 ---
 name: communications-compliance-reviewer
 description: >-
-  Review a public or internal communication (email, social post, website, ad, letter,
-  research, chat, memo) against communications-compliance rules: classify it (retail
-  communication, correspondence, institutional, internal), then flag prohibited or promissory
-  claims, performance predictions, one-sided/unbalanced content, missing required disclosures
-  (member name, past-performance, BrokerCheck, testimonial), supervision gaps (principal
-  pre-approval/review), retention and off-channel gaps, and escalation needs (MNPI/market
-  abuse, complaints) — each with cited evidence and a recommended disposition. Use when a
-  rep, supervisor, or compliance analyst asks to review a communication, whether it needs
-  principal approval, whether a disclosure is adequate, or to flag compliance issues before
-  sending. HARD BOUNDARY: findings and evidence only for registered-principal adjudication;
-  NEVER approves or clears a communication, grants principal approval, files it, closes the
-  review, or asserts a confirmed violation.
+  Review broker-dealer written or electronic communications for supplied US
+  supervision, classification, retention, off-channel and escalation checks, with
+  cited findings for a registered principal. Use for broker-dealer WSP review and
+  internal communications records. For external cross-sector financial promotions,
+  use financial-promotion-reviewer as primary owner and compose this specialist only
+  where the supplied broker-dealer profile applies. Never approve, clear, publish,
+  file or close a communication, or assert a confirmed violation.
 license: MIT
 compatibility: Amazon Quick Desktop; requires communications-archive, supervision/approval, controlled-content-library (WSPs/disclosures), reference-data, and versioned-config MCP integrations (all read-only).
 metadata:
@@ -30,11 +25,23 @@ metadata:
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Capital Markets operations & compliance"
   aws-fsi-primary-user: "Registered principal / communications compliance analyst"
-  aws-fsi-version: "0.1.0"
+  aws-fsi-version: "0.2.0"
   aws-fsi-recertification-date: "2027-07-17"
 ---
 
 # Communications Compliance Reviewer
+
+## Phase 2 ownership and supported profile
+
+External financial-promotion assessment belongs to `financial-promotion-reviewer`.
+This package retains broker-dealer communication supervision, archive/retention,
+internal communications and conditional US specialist support. Its historical
+keyword, disclosure and recipient-count rules are a bounded supplied/configured
+broker-dealer screen. They do not establish applicability to banks, insurers,
+investment advisers, funds, UK promotions or other jurisdictions. Preserve the
+communication and configuration versions when composing the two reviews; findings
+and approvals stay with their respective professional owners. No schema or legacy
+fixture is converted into a general cross-sector legal profile.
 
 ## Purpose and outcome
 Given a single communication and its supervision/retention metadata, **classify** it under the
@@ -46,6 +53,7 @@ decision to approve, file, escalate, or close the review remains a human, princi
 action.
 
 ## Use when
+- A broker-dealer context and applicable supervision/WSP profile are supplied; external promotion review composes `financial-promotion-reviewer` as primary owner.
 - "Review this email / social post / advertisement for compliance before we send it."
 - "Does this retail communication need principal pre-approval?"
 - "Are the required disclosures (past performance, BrokerCheck, testimonial) present?"
@@ -61,7 +69,7 @@ action.
   `market-surveillance-alert-investigator`).
 - The material contains a **customer complaint** → `complaint-resolution-assistant`.
 - A drafting task ("write the disclosure for me") — this skill reviews; drafting skills such as
-  `advisor-follow-up-assistant` or `fund-commentary-drafter` produce content and route it here.
+  `advisor-follow-up-assistant` or `investment-commentary-builder` produce content and route it here.
 
 ## Adjacent-skill handoffs
 See [references/handoffs.md](references/handoffs.md). This skill emits a review pack with a

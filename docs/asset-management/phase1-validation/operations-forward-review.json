@@ -1,0 +1,2999 @@
+{
+  "review": "Independent operations forward review",
+  "created_utc": "2026-09-20T23:14:04.432255+00:00",
+  "method": "Fresh synthetic requests from SKILL/native schema/source map; no fixtures or expected outputs reused. Native source read for API shape. Independent arithmetic uses precision100. Real CLIs use stdin and detached OS pipes; no scratch files.",
+  "cases": [
+    {
+      "case_id": "OPS-FWD-01",
+      "package": "investment-book-reconciler",
+      "input": {
+        "entity": "FRESH-OPS-FUND",
+        "as_of": "2026-09-18",
+        "config_version": "review-2026-09-20",
+        "base_currency": "USD",
+        "internal_records": [
+          {
+            "record_id": "I-fractional",
+            "match_key": "fractional",
+            "account": "FRESH-ACCOUNT",
+            "source_system": "ibor",
+            "record_type": "position",
+            "source_ref": "synthetic:I-fractional",
+            "date": "2026-09-18",
+            "currency": "USD",
+            "position_basis": "trade-date",
+            "quantity": "123.123456789012345678",
+            "quantity_unit": "shares",
+            "security_id": "SEC-fractional"
+          },
+          {
+            "record_id": "I-wide",
+            "match_key": "wide",
+            "account": "FRESH-ACCOUNT",
+            "source_system": "ibor",
+            "record_type": "position",
+            "source_ref": "synthetic:I-wide",
+            "date": "2026-09-18",
+            "currency": "USD",
+            "position_basis": "trade-date",
+            "quantity": "1000000000000.00000000000000001",
+            "quantity_unit": "shares",
+            "security_id": "SEC-wide"
+          }
+        ],
+        "external_records": [
+          {
+            "record_id": "E-fractional",
+            "match_key": "fractional",
+            "account": "FRESH-ACCOUNT",
+            "source_system": "custodian",
+            "record_type": "position",
+            "source_ref": "synthetic:E-fractional",
+            "date": "2026-09-18",
+            "currency": "USD",
+            "position_basis": "trade-date",
+            "quantity": "123.123456789012345670",
+            "quantity_unit": "shares",
+            "security_id": "SEC-fractional"
+          },
+          {
+            "record_id": "E-wide",
+            "match_key": "wide",
+            "account": "FRESH-ACCOUNT",
+            "source_system": "custodian",
+            "record_type": "position",
+            "source_ref": "synthetic:E-wide",
+            "date": "2026-09-18",
+            "currency": "USD",
+            "position_basis": "trade-date",
+            "quantity": "1000000000000.00000000000000000",
+            "quantity_unit": "shares",
+            "security_id": "SEC-wide"
+          }
+        ],
+        "config": {
+          "quantity_tolerance": "0",
+          "cash_tolerance": "0.01",
+          "quantity_materiality": "1",
+          "cash_materiality_base": "1000",
+          "aggregation_mode": "one-to-one",
+          "fx_rates": {}
+        }
+      },
+      "independent_expectations": {
+        "differences": {
+          "fractional": "0.000000000000000008",
+          "wide": "0.00000000000000001"
+        },
+        "quantity_breaks": 2,
+        "selected_correction": null
+      },
+      "input_validation": {
+        "exit_code": 0,
+        "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+        "stderr": ""
+      },
+      "compute": {
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "checks": {
+        "fractional_exact": true,
+        "wide_exact": false,
+        "two_breaks": false,
+        "no_selected_correction": true
+      },
+      "implementation_sha256": "a14741225690eba065927a6ef51c770d2291885f4916f4f37e14cca45ff0f648",
+      "result": {
+        "reconciliation_id": "pcr-FRESH-OPS-FUND-2026-09-18-4cf03e5c",
+        "entity": "FRESH-OPS-FUND",
+        "as_of": "2026-09-18",
+        "base_currency": "USD",
+        "config_version": "review-2026-09-20",
+        "input_fingerprint": "4cf03e5ceead46b38ebd6d087b20f8c90d4300f44e61bc252134adfe67432649",
+        "effective_config": {
+          "quantity_tolerance": "0",
+          "cash_tolerance": "0.01",
+          "quantity_materiality": "1",
+          "cash_materiality_base": "1000",
+          "aggregation_mode": "one-to-one",
+          "pending_settlement_days": 3,
+          "fx_rates": {}
+        },
+        "tie_out": {
+          "groups": [
+            {
+              "match_key": "fractional",
+              "record_type": "position",
+              "unit": "shares",
+              "account": "FRESH-ACCOUNT",
+              "internal_record_ids": [
+                "I-fractional"
+              ],
+              "external_record_ids": [
+                "E-fractional"
+              ],
+              "aggregation_mode": "one-to-one",
+              "comparable": true,
+              "internal_total": "123.123456789012345678",
+              "external_total": "123.123456789012345670",
+              "difference": "0.000000000000000008",
+              "breaks_total": "0.000000000000000008",
+              "within_tolerance_difference": "0",
+              "residual": "0",
+              "ties_out": true
+            },
+            {
+              "match_key": "wide",
+              "record_type": "position",
+              "unit": "shares",
+              "account": "FRESH-ACCOUNT",
+              "internal_record_ids": [
+                "I-wide"
+              ],
+              "external_record_ids": [
+                "E-wide"
+              ],
+              "aggregation_mode": "one-to-one",
+              "comparable": true,
+              "internal_total": "1000000000000.000000000000000",
+              "external_total": "1000000000000.000000000000000",
+              "difference": "0.000000000000000",
+              "breaks_total": "0",
+              "within_tolerance_difference": "0.000000000000000",
+              "residual": "0",
+              "ties_out": true
+            }
+          ],
+          "all_ties_out": true,
+          "status": "reconciled_with_breaks"
+        },
+        "matched_count": 1,
+        "breaks": [
+          {
+            "break_id": "BRK-0001",
+            "type": "quantity_break",
+            "match_key": "fractional",
+            "record_type": "position",
+            "account": "FRESH-ACCOUNT",
+            "unit": "shares",
+            "currency": "USD",
+            "break_amount": "0.000000000000000008",
+            "base_impact": null,
+            "material": false,
+            "materiality_status": "known",
+            "lineage": [
+              "internal:synthetic:I-fractional@2026-09-18",
+              "external:synthetic:E-fractional@2026-09-18"
+            ],
+            "requires_correction": false,
+            "requires_investigation": true,
+            "proposed_item": {
+              "proposed_item_id": "PITM-0001",
+              "break_id": "BRK-0001",
+              "status": "PROPOSED",
+              "adjustment_amount": null,
+              "selected_alternative": null,
+              "alternatives": [
+                {
+                  "condition": "internal record independently established wrong",
+                  "side": "internal",
+                  "possible_adjustment": "-0.000000000000000008"
+                },
+                {
+                  "condition": "external record independently established wrong",
+                  "side": "external",
+                  "possible_adjustment": "0.000000000000000008"
+                },
+                {
+                  "condition": "cause unresolved or timing supported",
+                  "side": null,
+                  "possible_adjustment": null
+                }
+              ],
+              "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+            },
+            "routing": null,
+            "note": "Difference remains unresolved; supporting evidence and professional review required."
+          }
+        ],
+        "proposed_items": [
+          {
+            "proposed_item_id": "PITM-0001",
+            "break_id": "BRK-0001",
+            "status": "PROPOSED",
+            "adjustment_amount": null,
+            "selected_alternative": null,
+            "alternatives": [
+              {
+                "condition": "internal record independently established wrong",
+                "side": "internal",
+                "possible_adjustment": "-0.000000000000000008"
+              },
+              {
+                "condition": "external record independently established wrong",
+                "side": "external",
+                "possible_adjustment": "0.000000000000000008"
+              },
+              {
+                "condition": "cause unresolved or timing supported",
+                "side": null,
+                "possible_adjustment": null
+              }
+            ],
+            "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+          }
+        ],
+        "routed_breaks": [],
+        "summary": {
+          "total_breaks": 1,
+          "by_type": {
+            "quantity_break": 1
+          },
+          "material_breaks": 0,
+          "unknown_materiality_breaks": 0,
+          "proposed_items": 1,
+          "documented_pending": 0
+        },
+        "disclaimer": "Reconciliation and proposed reconciling items only; no record has been repaired or adjusted and no asset, position, or cash has been moved. Breaks and proposed items require human review and authorized action in the book of record.",
+        "input_hash": "4cf03e5ceead46b38ebd6d087b20f8c90d4300f44e61bc252134adfe67432649",
+        "source_truth": "unverified"
+      },
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "output validation: 0 error(s)\n",
+        "stderr": ""
+      },
+      "tamper_validation": {
+        "exit_code": 1,
+        "stdout": "ERROR output differs from original-input reconstruction: unreviewed_acceptance\noutput validation: 1 error(s)\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "OPS-FWD-02",
+      "package": "investment-book-reconciler",
+      "input": {
+        "entity": "FRESH-OPS-FUND",
+        "as_of": "2026-09-18",
+        "config_version": "review-2026-09-20",
+        "base_currency": "USD",
+        "internal_records": [
+          {
+            "record_id": "I-basis",
+            "match_key": "basis",
+            "account": "FRESH-ACCOUNT",
+            "source_system": "ibor",
+            "record_type": "position",
+            "source_ref": "synthetic:I-basis",
+            "date": "2026-09-18",
+            "currency": "USD",
+            "position_basis": "trade-date",
+            "quantity": "8.00003",
+            "quantity_unit": "shares",
+            "security_id": "SEC-basis"
+          },
+          {
+            "record_id": "I-fx",
+            "match_key": "fx",
+            "account": "FRESH-ACCOUNT",
+            "source_system": "ibor",
+            "record_type": "cash",
+            "source_ref": "synthetic:I-fx",
+            "date": "2026-09-18",
+            "currency": "EUR",
+            "position_basis": "trade-date",
+            "amount": "500.123456"
+          }
+        ],
+        "external_records": [
+          {
+            "record_id": "E-basis",
+            "match_key": "basis",
+            "account": "FRESH-ACCOUNT",
+            "source_system": "custodian",
+            "record_type": "position",
+            "source_ref": "synthetic:E-basis",
+            "date": "2026-09-18",
+            "currency": "USD",
+            "position_basis": "settled",
+            "quantity": "8.00003",
+            "quantity_unit": "shares",
+            "security_id": "SEC-basis"
+          },
+          {
+            "record_id": "E-fx",
+            "match_key": "fx",
+            "account": "FRESH-ACCOUNT",
+            "source_system": "custodian",
+            "record_type": "cash",
+            "source_ref": "synthetic:E-fx",
+            "date": "2026-09-18",
+            "currency": "EUR",
+            "position_basis": "trade-date",
+            "amount": "400.000000"
+          }
+        ],
+        "config": {
+          "quantity_tolerance": "0",
+          "cash_tolerance": "0.01",
+          "quantity_materiality": "1",
+          "cash_materiality_base": "1000",
+          "aggregation_mode": "one-to-one",
+          "fx_rates": {}
+        }
+      },
+      "independent_expectations": {
+        "basis": "not_comparable, delta and correction withheld",
+        "cash_difference": "100.123456",
+        "base_impact": null,
+        "material": null,
+        "overall": "needs_data"
+      },
+      "input_validation": {
+        "exit_code": 0,
+        "stdout": "WARN  no fx_rate for cash currency EUR \u2014 base-currency materiality for EUR cash breaks will not be evaluable\ninput validation: 0 error(s), 1 warning(s)\n",
+        "stderr": ""
+      },
+      "compute": {
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "checks": {
+        "basis_withheld": true,
+        "cash_exact": true,
+        "fx_unknown": true,
+        "needs_data": true
+      },
+      "implementation_sha256": "a14741225690eba065927a6ef51c770d2291885f4916f4f37e14cca45ff0f648",
+      "result": {
+        "reconciliation_id": "pcr-FRESH-OPS-FUND-2026-09-18-cda3ac22",
+        "entity": "FRESH-OPS-FUND",
+        "as_of": "2026-09-18",
+        "base_currency": "USD",
+        "config_version": "review-2026-09-20",
+        "input_fingerprint": "cda3ac22a0cfbd72f31408ec9534f16fbe59dfbce927b1b38812805457d4c2b7",
+        "effective_config": {
+          "quantity_tolerance": "0",
+          "cash_tolerance": "0.01",
+          "quantity_materiality": "1",
+          "cash_materiality_base": "1000",
+          "aggregation_mode": "one-to-one",
+          "pending_settlement_days": 3,
+          "fx_rates": {}
+        },
+        "tie_out": {
+          "groups": [
+            {
+              "match_key": "basis",
+              "record_type": "position",
+              "unit": "shares",
+              "account": "FRESH-ACCOUNT",
+              "internal_record_ids": [
+                "I-basis"
+              ],
+              "external_record_ids": [
+                "E-basis"
+              ],
+              "aggregation_mode": "one-to-one",
+              "comparable": false,
+              "internal_total": null,
+              "external_total": null,
+              "difference": null,
+              "breaks_total": null,
+              "within_tolerance_difference": null,
+              "residual": null,
+              "ties_out": null
+            },
+            {
+              "match_key": "fx",
+              "record_type": "cash",
+              "unit": "EUR",
+              "account": "FRESH-ACCOUNT",
+              "internal_record_ids": [
+                "I-fx"
+              ],
+              "external_record_ids": [
+                "E-fx"
+              ],
+              "aggregation_mode": "one-to-one",
+              "comparable": true,
+              "internal_total": "500.123456",
+              "external_total": "400.000000",
+              "difference": "100.123456",
+              "breaks_total": "100.123456",
+              "within_tolerance_difference": "0",
+              "residual": "0",
+              "ties_out": true
+            }
+          ],
+          "all_ties_out": false,
+          "status": "needs_data"
+        },
+        "matched_count": 0,
+        "breaks": [
+          {
+            "break_id": "BRK-0001",
+            "type": "not_comparable",
+            "match_key": "basis",
+            "record_type": "position",
+            "account": "FRESH-ACCOUNT",
+            "unit": "shares",
+            "currency": "USD",
+            "break_amount": null,
+            "base_impact": null,
+            "material": null,
+            "materiality_status": "not_evaluable",
+            "lineage": [
+              "internal:synthetic:I-basis@2026-09-18",
+              "external:synthetic:E-basis@2026-09-18"
+            ],
+            "requires_correction": false,
+            "requires_investigation": true,
+            "proposed_item": null,
+            "routing": null,
+            "note": "account/instrument/type/currency/unit/basis differs within supplied match_key"
+          },
+          {
+            "break_id": "BRK-0002",
+            "type": "cash_break",
+            "match_key": "fx",
+            "record_type": "cash",
+            "account": "FRESH-ACCOUNT",
+            "unit": "EUR",
+            "currency": "EUR",
+            "break_amount": "100.123456",
+            "base_impact": null,
+            "material": null,
+            "materiality_status": "not_evaluable",
+            "lineage": [
+              "internal:synthetic:I-fx@2026-09-18",
+              "external:synthetic:E-fx@2026-09-18"
+            ],
+            "requires_correction": false,
+            "requires_investigation": true,
+            "proposed_item": {
+              "proposed_item_id": "PITM-0002",
+              "break_id": "BRK-0002",
+              "status": "PROPOSED",
+              "adjustment_amount": null,
+              "selected_alternative": null,
+              "alternatives": [
+                {
+                  "condition": "internal record independently established wrong",
+                  "side": "internal",
+                  "possible_adjustment": "-100.123456"
+                },
+                {
+                  "condition": "external record independently established wrong",
+                  "side": "external",
+                  "possible_adjustment": "100.123456"
+                },
+                {
+                  "condition": "cause unresolved or timing supported",
+                  "side": null,
+                  "possible_adjustment": null
+                }
+              ],
+              "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+            },
+            "routing": null,
+            "note": "Difference remains unresolved; supporting evidence and professional review required."
+          }
+        ],
+        "proposed_items": [
+          {
+            "proposed_item_id": "PITM-0002",
+            "break_id": "BRK-0002",
+            "status": "PROPOSED",
+            "adjustment_amount": null,
+            "selected_alternative": null,
+            "alternatives": [
+              {
+                "condition": "internal record independently established wrong",
+                "side": "internal",
+                "possible_adjustment": "-100.123456"
+              },
+              {
+                "condition": "external record independently established wrong",
+                "side": "external",
+                "possible_adjustment": "100.123456"
+              },
+              {
+                "condition": "cause unresolved or timing supported",
+                "side": null,
+                "possible_adjustment": null
+              }
+            ],
+            "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+          }
+        ],
+        "routed_breaks": [],
+        "summary": {
+          "total_breaks": 2,
+          "by_type": {
+            "cash_break": 1,
+            "not_comparable": 1
+          },
+          "material_breaks": 0,
+          "unknown_materiality_breaks": 2,
+          "proposed_items": 1,
+          "documented_pending": 0
+        },
+        "disclaimer": "Reconciliation and proposed reconciling items only; no record has been repaired or adjusted and no asset, position, or cash has been moved. Breaks and proposed items require human review and authorized action in the book of record.",
+        "input_hash": "cda3ac22a0cfbd72f31408ec9534f16fbe59dfbce927b1b38812805457d4c2b7",
+        "source_truth": "unverified"
+      },
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "output validation: 0 error(s)\n",
+        "stderr": ""
+      },
+      "tamper_validation": {
+        "exit_code": 1,
+        "stdout": "ERROR output differs from original-input reconstruction: unreviewed_acceptance\noutput validation: 1 error(s)\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "OPS-FWD-03",
+      "package": "fund-nav-control-reviewer",
+      "input": {
+        "fund": "FRESH-NAV-FUND",
+        "as_of": "2026-09-18",
+        "base_currency": "USD",
+        "config_version": "review-2026-09-20",
+        "share_class": "CLASS-X",
+        "expected_components": [
+          "cash",
+          "price"
+        ],
+        "lines": [
+          {
+            "line_id": "N-stale-book",
+            "component": "cash",
+            "key": "BANK-A",
+            "source": "book",
+            "value": "42.010000",
+            "currency": "USD",
+            "unit": "USD",
+            "as_of": "2026-09-17",
+            "source_ref": "synthetic:N-stale-book"
+          },
+          {
+            "line_id": "N-stale-cust",
+            "component": "cash",
+            "key": "BANK-A",
+            "source": "custodian",
+            "value": "42.010000",
+            "currency": "USD",
+            "unit": "USD",
+            "as_of": "2026-09-17",
+            "source_ref": "synthetic:N-stale-cust"
+          },
+          {
+            "line_id": "N-price-book",
+            "component": "price",
+            "key": "UNKNOWN-SEC",
+            "source": "book",
+            "value": "7.250000",
+            "currency": "USD",
+            "unit": "USD-per-share",
+            "as_of": "2026-09-18",
+            "source_ref": "synthetic:N-price-book"
+          }
+        ],
+        "config": {
+          "tolerances": {
+            "position": "0",
+            "cash": "0.01",
+            "price": "0"
+          },
+          "materiality": {
+            "default": "100"
+          }
+        }
+      },
+      "independent_expectations": {
+        "stale_equal_cash": "not_evaluable, cannot clear current cutoff",
+        "overall": "needs_data",
+        "unknown_price": "Missing verifier is surfaced and routed; no price selected"
+      },
+      "input_validation": {
+        "exit_code": 0,
+        "stdout": "WARN  component 'price': no 'pricing' lines \u2014 book values cannot be tied out for this component\ninput validation: 0 error(s), 1 warning(s)\n",
+        "stderr": ""
+      },
+      "compute": {
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "checks": {
+        "stale_rows_excluded": true,
+        "no_stale_control": true,
+        "needs_data": true,
+        "missing_price_routed": true,
+        "no_price_selected": true,
+        "null_not_filled": true
+      },
+      "implementation_sha256": "6b4ed1d9bc9039420c2160709f2ce188f3cd4b9be82e695e7d4eb42e81f394a5",
+      "result": {
+        "tie_out_id": "npt-FRESH-NAV-FUND-CLASS-X-2026-09-18-2a222bf9",
+        "fund": "FRESH-NAV-FUND",
+        "share_class": "CLASS-X",
+        "as_of": "2026-09-18",
+        "base_currency": "USD",
+        "config_version": "review-2026-09-20",
+        "input_fingerprint": "2a222bf9675ed38115694a46ea83ac4b8d156d5a826848905e1a73044a003de8",
+        "not_evaluable": [
+          {
+            "line_id": "N-stale-book",
+            "component": "cash",
+            "source_ref": "synthetic:N-stale-book",
+            "reasons": [
+              "observation does not match requested valuation date"
+            ]
+          },
+          {
+            "line_id": "N-stale-cust",
+            "component": "cash",
+            "source_ref": "synthetic:N-stale-cust",
+            "reasons": [
+              "observation does not match requested valuation date"
+            ]
+          },
+          {
+            "component": "cash",
+            "reasons": [
+              "no comparable observations for expected component"
+            ]
+          }
+        ],
+        "effective_config": {
+          "component_sources": {
+            "position": "custodian",
+            "price": "pricing",
+            "cash": "custodian",
+            "accrual": "administrator",
+            "income": "administrator",
+            "expense": "administrator",
+            "shares": "administrator"
+          },
+          "tolerances": {
+            "position": "0",
+            "price": "0",
+            "cash": "0.01",
+            "accrual": "0.01",
+            "income": "0.01",
+            "expense": "0.01",
+            "shares": "0.0001"
+          }
+        },
+        "tie_out": {
+          "control_totals": [
+            {
+              "component": "price",
+              "key": "UNKNOWN-SEC",
+              "currency": "USD",
+              "unit": "USD-per-share",
+              "share_class": null,
+              "position_basis": null,
+              "book_total": "7.250000",
+              "verifier_total": "0",
+              "difference": "7.250000",
+              "breaks_impact_sum": "7.250000",
+              "within_tolerance_difference": "0",
+              "residual": "0.000000",
+              "ties_out": true,
+              "lineage": [
+                "book:synthetic:N-price-book@2026-09-18"
+              ]
+            }
+          ],
+          "residual": null,
+          "out_of_tolerance_count": 1,
+          "captured_break_count": 1,
+          "components_reconciled": [
+            "price"
+          ],
+          "expected_components": [
+            "cash",
+            "price"
+          ],
+          "all_control_totals_tie": true,
+          "ties_out": false,
+          "status": "needs_data"
+        },
+        "matched_count": 0,
+        "breaks": [
+          {
+            "break_id": "BRK-0001",
+            "type": "missing_record",
+            "component": "price",
+            "key": "UNKNOWN-SEC",
+            "currency": "USD",
+            "unit": "USD-per-share",
+            "share_class": null,
+            "impact": "7.250000",
+            "material": false,
+            "lineage": [
+              "book:synthetic:N-price-book@2026-09-18"
+            ],
+            "requires_resolution": true,
+            "proposed_resolution": {
+              "resolution_id": "PRS-0001",
+              "break_id": "BRK-0001",
+              "status": "PROPOSED",
+              "disposition": "route_to_valuation_exception_packet",
+              "route_to": "fund-valuation-oversight-reviewer",
+              "chooses_value": false,
+              "strikes_nav": false,
+              "posts_entry": false,
+              "recommended_action": "Review both source records and identify the supported cause before selecting any accounting correction."
+            }
+          }
+        ],
+        "proposed_resolutions": [
+          {
+            "resolution_id": "PRS-0001",
+            "break_id": "BRK-0001",
+            "status": "PROPOSED",
+            "disposition": "route_to_valuation_exception_packet",
+            "route_to": "fund-valuation-oversight-reviewer",
+            "chooses_value": false,
+            "strikes_nav": false,
+            "posts_entry": false,
+            "recommended_action": "Review both source records and identify the supported cause before selecting any accounting correction."
+          }
+        ],
+        "summary": {
+          "total_breaks": 1,
+          "by_type": {
+            "missing_record": 1
+          },
+          "material_breaks": 0,
+          "resolutions_proposed": 1,
+          "price_breaks_routed": 1
+        },
+        "disclaimer": "Tie-out and break packet only; NAV has not been struck, no price has been selected, and no accounting entry has been posted. All resolutions are PROPOSED and require fund-accountant review and authorized action in the systems of record.",
+        "input_hash": "2a222bf9675ed38115694a46ea83ac4b8d156d5a826848905e1a73044a003de8",
+        "source_truth": "unverified"
+      },
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "output validation: 0 error(s)\n",
+        "stderr": ""
+      },
+      "tamper_validation": {
+        "exit_code": 1,
+        "stdout": "ERROR output differs from original-input reconstruction: unreviewed_acceptance\noutput validation: 1 error(s)\n",
+        "stderr": ""
+      },
+      "interpretation_limit": "Book-only price has verifier_total=0 and impact=7.250000 for missing-record bookkeeping. This is not an observed zero verifier price or established NAV impact; retain missing_record classification.",
+      "null_price_probe": {
+        "input": {
+          "fund": "FRESH-NAV-FUND",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "share_class": "CLASS-X",
+          "expected_components": [
+            "cash",
+            "price"
+          ],
+          "lines": [
+            {
+              "line_id": "N-stale-book",
+              "component": "cash",
+              "key": "BANK-A",
+              "source": "book",
+              "value": "42.010000",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-17",
+              "source_ref": "synthetic:N-stale-book"
+            },
+            {
+              "line_id": "N-stale-cust",
+              "component": "cash",
+              "key": "BANK-A",
+              "source": "custodian",
+              "value": "42.010000",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-17",
+              "source_ref": "synthetic:N-stale-cust"
+            },
+            {
+              "line_id": "N-price-book",
+              "component": "price",
+              "key": "UNKNOWN-SEC",
+              "source": "book",
+              "value": "7.250000",
+              "currency": "USD",
+              "unit": "USD-per-share",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-price-book"
+            },
+            {
+              "line_id": "N-unknown-price",
+              "component": "price",
+              "key": "UNKNOWN-SEC",
+              "source": "pricing",
+              "value": null,
+              "currency": "USD",
+              "unit": "USD-per-share",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-unknown-price"
+            }
+          ],
+          "config": {
+            "tolerances": {
+              "position": "0",
+              "cash": "0.01",
+              "price": "0"
+            },
+            "materiality": {
+              "default": "100"
+            }
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR lines[3] (N-unknown-price): missing 'value'\nERROR lines[3] (N-unknown-price): value not numeric (None)\ninput validation: 2 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 96, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 89, in main\n    doc=json.loads(p.read_text() if p else sys.stdin.read());out=compute(doc)\n                                                                 ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 42, in compute\n    num(row['value'])\n    ~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 16, in num\n    if v is None or isinstance(v,bool):raise ValueError('known numeric value required')\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: known numeric value required\n"
+        }
+      }
+    },
+    {
+      "case_id": "OPS-FWD-04",
+      "package": "fund-nav-control-reviewer",
+      "input": {
+        "fund": "FRESH-NAV-FUND",
+        "as_of": "2026-09-18",
+        "base_currency": "USD",
+        "config_version": "review-2026-09-20",
+        "share_class": "CLASS-X",
+        "expected_components": [
+          "position",
+          "cash"
+        ],
+        "lines": [
+          {
+            "line_id": "N-pos-book",
+            "component": "position",
+            "key": "SEC-PRECISION",
+            "source": "book",
+            "value": "1000000000000.00000000000000001",
+            "currency": "USD",
+            "unit": "shares",
+            "as_of": "2026-09-18",
+            "source_ref": "synthetic:N-pos-book",
+            "position_basis": "trade-date"
+          },
+          {
+            "line_id": "N-pos-cust",
+            "component": "position",
+            "key": "SEC-PRECISION",
+            "source": "custodian",
+            "value": "0",
+            "currency": "USD",
+            "unit": "shares",
+            "as_of": "2026-09-18",
+            "source_ref": "synthetic:N-pos-cust",
+            "position_basis": "trade-date"
+          },
+          {
+            "line_id": "N-cash-book",
+            "component": "cash",
+            "key": "BANK-B",
+            "source": "book",
+            "value": "100.009",
+            "currency": "USD",
+            "unit": "USD",
+            "as_of": "2026-09-18",
+            "source_ref": "synthetic:N-cash-book"
+          },
+          {
+            "line_id": "N-cash-cust",
+            "component": "cash",
+            "key": "BANK-B",
+            "source": "custodian",
+            "value": "100.000",
+            "currency": "USD",
+            "unit": "USD",
+            "as_of": "2026-09-18",
+            "source_ref": "synthetic:N-cash-cust"
+          }
+        ],
+        "config": {
+          "tolerances": {
+            "position": "0",
+            "cash": "0.01",
+            "price": "0"
+          },
+          "materiality": {
+            "default": "100"
+          }
+        }
+      },
+      "independent_expectations": {
+        "position_difference": "1000000000000.00000000000000001",
+        "cash_tolerated_difference": "0.009",
+        "cash_break_impact": "0",
+        "residuals": "0"
+      },
+      "input_validation": {
+        "exit_code": 0,
+        "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+        "stderr": ""
+      },
+      "compute": {
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "checks": {
+        "position_exact": false,
+        "cash_tolerance_exact": true,
+        "cash_no_break": true,
+        "residuals_zero": true
+      },
+      "implementation_sha256": "6b4ed1d9bc9039420c2160709f2ce188f3cd4b9be82e695e7d4eb42e81f394a5",
+      "result": {
+        "tie_out_id": "npt-FRESH-NAV-FUND-CLASS-X-2026-09-18-c376e055",
+        "fund": "FRESH-NAV-FUND",
+        "share_class": "CLASS-X",
+        "as_of": "2026-09-18",
+        "base_currency": "USD",
+        "config_version": "review-2026-09-20",
+        "input_fingerprint": "c376e05562eed7158c1363102ec3afe25d8d140c065fc001c96f1980dc1f9ecb",
+        "not_evaluable": [],
+        "effective_config": {
+          "component_sources": {
+            "position": "custodian",
+            "price": "pricing",
+            "cash": "custodian",
+            "accrual": "administrator",
+            "income": "administrator",
+            "expense": "administrator",
+            "shares": "administrator"
+          },
+          "tolerances": {
+            "position": "0",
+            "price": "0",
+            "cash": "0.01",
+            "accrual": "0.01",
+            "income": "0.01",
+            "expense": "0.01",
+            "shares": "0.0001"
+          }
+        },
+        "tie_out": {
+          "control_totals": [
+            {
+              "component": "cash",
+              "key": "BANK-B",
+              "currency": "USD",
+              "unit": "USD",
+              "share_class": null,
+              "position_basis": null,
+              "book_total": "100.009",
+              "verifier_total": "100.000",
+              "difference": "0.009",
+              "breaks_impact_sum": "0",
+              "within_tolerance_difference": "0.009",
+              "residual": "0.000",
+              "ties_out": true,
+              "lineage": [
+                "book:synthetic:N-cash-book@2026-09-18",
+                "custodian:synthetic:N-cash-cust@2026-09-18"
+              ]
+            },
+            {
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "currency": "USD",
+              "unit": "shares",
+              "share_class": null,
+              "position_basis": "trade-date",
+              "book_total": "1000000000000.00000000000000001",
+              "verifier_total": "0",
+              "difference": "1000000000000.000000000000000",
+              "breaks_impact_sum": "1000000000000.000000000000000",
+              "within_tolerance_difference": "0",
+              "residual": "0E-15",
+              "ties_out": true,
+              "lineage": [
+                "book:synthetic:N-pos-book@2026-09-18",
+                "custodian:synthetic:N-pos-cust@2026-09-18"
+              ]
+            }
+          ],
+          "residual": "0",
+          "out_of_tolerance_count": 1,
+          "captured_break_count": 1,
+          "components_reconciled": [
+            "cash",
+            "position"
+          ],
+          "expected_components": [
+            "position",
+            "cash"
+          ],
+          "all_control_totals_tie": true,
+          "ties_out": true,
+          "status": "reconciled_with_breaks"
+        },
+        "matched_count": 1,
+        "breaks": [
+          {
+            "break_id": "BRK-0001",
+            "type": "quantity_break",
+            "component": "position",
+            "key": "SEC-PRECISION",
+            "currency": "USD",
+            "unit": "shares",
+            "share_class": null,
+            "impact": "1000000000000.000000000000000",
+            "material": true,
+            "lineage": [
+              "book:synthetic:N-pos-book@2026-09-18",
+              "custodian:synthetic:N-pos-cust@2026-09-18"
+            ],
+            "requires_resolution": true,
+            "proposed_resolution": {
+              "resolution_id": "PRS-0001",
+              "break_id": "BRK-0001",
+              "status": "PROPOSED",
+              "disposition": "investigate_both_sources",
+              "route_to": null,
+              "chooses_value": false,
+              "strikes_nav": false,
+              "posts_entry": false,
+              "recommended_action": "Review both source records and identify the supported cause before selecting any accounting correction."
+            }
+          }
+        ],
+        "proposed_resolutions": [
+          {
+            "resolution_id": "PRS-0001",
+            "break_id": "BRK-0001",
+            "status": "PROPOSED",
+            "disposition": "investigate_both_sources",
+            "route_to": null,
+            "chooses_value": false,
+            "strikes_nav": false,
+            "posts_entry": false,
+            "recommended_action": "Review both source records and identify the supported cause before selecting any accounting correction."
+          }
+        ],
+        "summary": {
+          "total_breaks": 1,
+          "by_type": {
+            "quantity_break": 1
+          },
+          "material_breaks": 1,
+          "resolutions_proposed": 1,
+          "price_breaks_routed": 0
+        },
+        "disclaimer": "Tie-out and break packet only; NAV has not been struck, no price has been selected, and no accounting entry has been posted. All resolutions are PROPOSED and require fund-accountant review and authorized action in the systems of record.",
+        "input_hash": "c376e05562eed7158c1363102ec3afe25d8d140c065fc001c96f1980dc1f9ecb",
+        "source_truth": "unverified"
+      },
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "output validation: 0 error(s)\n",
+        "stderr": ""
+      },
+      "tamper_validation": {
+        "exit_code": 1,
+        "stdout": "ERROR output differs from original-input reconstruction: unreviewed_acceptance\noutput validation: 1 error(s)\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "OPS-FWD-05",
+      "package": "proxy-voting-reviewer",
+      "input": {
+        "mode": "policy",
+        "input": {
+          "meeting_id": "FRESH-PROXY-31",
+          "issuer": "Fresh Example Issuer",
+          "meeting_date": "2026-09-30",
+          "as_of": "2026-09-20",
+          "policy_version": "FRESH-POL-3",
+          "packet_id": "FRESH-EVIDENCE-31",
+          "mandate_id": "M-FOCUS",
+          "agenda_items": [
+            {
+              "item_id": "A1",
+              "category": "auditor",
+              "title": "Auditor appointment",
+              "proposed_vote": "For",
+              "comparability_key": "auditor-rotation"
+            }
+          ],
+          "policy_guidelines": [
+            {
+              "category": "auditor",
+              "default_position": "For",
+              "policy_ref": "FIRM-BASE",
+              "version": "FRESH-POL-3",
+              "effective_date": "2026-01-01"
+            },
+            {
+              "category": "auditor",
+              "default_position": "Against",
+              "policy_ref": "MANDATE-CURRENT",
+              "version": "FRESH-POL-3",
+              "effective_date": "2026-03-01",
+              "mandate_id": "M-FOCUS"
+            },
+            {
+              "category": "auditor",
+              "default_position": "For",
+              "policy_ref": "MANDATE-FUTURE",
+              "version": "FRESH-POL-3",
+              "effective_date": "2026-09-25",
+              "mandate_id": "M-FOCUS"
+            }
+          ],
+          "precedents": [
+            {
+              "case_id": "FOCUS-PAST",
+              "category": "auditor",
+              "vote_cast": "Against",
+              "meeting_date": "2026-04-03",
+              "source_ref": "synthetic:FOCUS-PAST",
+              "mandate_id": "M-FOCUS",
+              "comparability_key": "auditor-rotation"
+            },
+            {
+              "case_id": "OTHER-PAST",
+              "category": "auditor",
+              "vote_cast": "For",
+              "meeting_date": "2026-04-03",
+              "source_ref": "synthetic:OTHER-PAST",
+              "mandate_id": "M-OTHER",
+              "comparability_key": "auditor-rotation"
+            }
+          ]
+        }
+      },
+      "independent_expectations": {
+        "policy": "Current mandate-specific Against overrides firm For; future guideline excluded",
+        "finding": "deviation",
+        "precedent": "one discordant matching-mandate case",
+        "action_taken": false,
+        "wrong_mode": "policy schema rejected in evidence mode"
+      },
+      "input_validation": {
+        "exit_code": 0,
+        "stdout": "input validation: 0 error(s), 0 warning(s)\n",
+        "stderr": ""
+      },
+      "compute": {
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "checks": {
+        "mandate_policy": true,
+        "deviation": true,
+        "precedent_scope": true,
+        "no_action": true,
+        "wrong_mode_rejected": true
+      },
+      "implementation_sha256": "a1b577a49652712fd73ac51c9be33c8b56e53b3d6cd8c4d1645d02985d9fcb7a",
+      "result": {
+        "mode": "policy",
+        "result": {
+          "review_id": "vpcc-FRESH-PROXY-31-2026-09-30-0001",
+          "packet_id": "FRESH-EVIDENCE-31",
+          "meeting_id": "FRESH-PROXY-31",
+          "issuer": "Fresh Example Issuer",
+          "meeting_date": "2026-09-30",
+          "policy_version": "FRESH-POL-3",
+          "as_of": "2026-09-20",
+          "findings": [
+            {
+              "finding_id": "FRESH-PROXY-31-F001",
+              "item_id": "A1",
+              "category": "auditor",
+              "title": "Auditor appointment",
+              "proposed_vote": "For",
+              "policy_position": "Against",
+              "policy_citation": "policy:MANDATE-CURRENT@FRESH-POL-3;eff=2026-03-01",
+              "status": "deviation",
+              "precedent": {
+                "evaluable": true,
+                "concordant": 0,
+                "discordant": 1,
+                "citations": [
+                  "precedent:FOCUS-PAST@2026-04-03"
+                ]
+              },
+              "precedent_discordant": true,
+              "required_action": "Document the deviation rationale and obtain voting-committee adjudication before any vote is recorded; the deviation is not resolved by this review.",
+              "reason": "proposed vote 'For' conflicts with policy position 'Against' (policy:MANDATE-CURRENT@FRESH-POL-3;eff=2026-03-01)"
+            }
+          ],
+          "counts": {
+            "aligned": 0,
+            "deviation": 1,
+            "case_by_case": 0,
+            "no_policy": 0
+          },
+          "overall_disposition": "deviations_present",
+          "disclaimer": "Consistency findings and cited evidence only; not a voting decision or instruction. This review does not cast, change, or submit any vote; a human analyst adjudicates and records the vote in the system of record.",
+          "input_hash": "70c973865a6d012ef46c9af83f9e55c088fcd573e993219276f27b182f722dd0",
+          "source_truth": "unverified"
+        },
+        "action_taken": false,
+        "input_hash": "907755c6f7d155437c1a16e55c944848401efa79e4be344e2743fa329c8d8a01",
+        "source_truth": "unverified"
+      },
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "output validation: 0 error(s)\n",
+        "stderr": ""
+      },
+      "tamper_validation": {
+        "exit_code": 1,
+        "stdout": "ERROR output differs from original-input reconstruction: unreviewed_acceptance\noutput validation: 1 error(s)\n",
+        "stderr": ""
+      },
+      "wrong_mode_probe": {
+        "input": {
+          "mode": "evidence",
+          "input": {
+            "meeting_id": "FRESH-PROXY-31",
+            "issuer": "Fresh Example Issuer",
+            "meeting_date": "2026-09-30",
+            "as_of": "2026-09-20",
+            "policy_version": "FRESH-POL-3",
+            "packet_id": "FRESH-EVIDENCE-31",
+            "mandate_id": "M-FOCUS",
+            "agenda_items": [
+              {
+                "item_id": "A1",
+                "category": "auditor",
+                "title": "Auditor appointment",
+                "proposed_vote": "For",
+                "comparability_key": "auditor-rotation"
+              }
+            ],
+            "policy_guidelines": [
+              {
+                "category": "auditor",
+                "default_position": "For",
+                "policy_ref": "FIRM-BASE",
+                "version": "FRESH-POL-3",
+                "effective_date": "2026-01-01"
+              },
+              {
+                "category": "auditor",
+                "default_position": "Against",
+                "policy_ref": "MANDATE-CURRENT",
+                "version": "FRESH-POL-3",
+                "effective_date": "2026-03-01",
+                "mandate_id": "M-FOCUS"
+              },
+              {
+                "category": "auditor",
+                "default_position": "For",
+                "policy_ref": "MANDATE-FUTURE",
+                "version": "FRESH-POL-3",
+                "effective_date": "2026-09-25",
+                "mandate_id": "M-FOCUS"
+              }
+            ],
+            "precedents": [
+              {
+                "case_id": "FOCUS-PAST",
+                "category": "auditor",
+                "vote_cast": "Against",
+                "meeting_date": "2026-04-03",
+                "source_ref": "synthetic:FOCUS-PAST",
+                "mandate_id": "M-FOCUS",
+                "comparability_key": "auditor-rotation"
+              },
+              {
+                "case_id": "OTHER-PAST",
+                "category": "auditor",
+                "vote_cast": "For",
+                "meeting_date": "2026-04-03",
+                "source_ref": "synthetic:OTHER-PAST",
+                "mandate_id": "M-OTHER",
+                "comparability_key": "auditor-rotation"
+              }
+            ]
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR missing top-level field 'config_version'\nERROR missing top-level field 'meeting'\ninput validation: 2 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "ERROR missing top-level field 'config_version'; missing top-level field 'meeting'\n"
+        }
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "OPS-FWD-F01",
+      "severity": "high",
+      "case_id": "OPS-FWD-01",
+      "summary": "Default Decimal precision silently drops a nonzero long-decimal quantity break.",
+      "expected": "0.00000000000000001",
+      "observed": "0.000000000000000",
+      "output_validator_accepted": true,
+      "location": "skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py:70",
+      "repair_status": "reproduced and repaired; passing replay retained separately"
+    },
+    {
+      "id": "OPS-FWD-F02",
+      "severity": "high",
+      "case_id": "OPS-FWD-04",
+      "summary": "Default Decimal subtraction loses an accepted quantity digit while claiming zero residual.",
+      "expected": "1000000000000.00000000000000001",
+      "observed": "1000000000000.000000000000000",
+      "output_validator_accepted": true,
+      "location": "skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py:58",
+      "repair_status": "reproduced and repaired; passing replay retained separately"
+    }
+  ],
+  "acceptance": "Not established.",
+  "summary": {
+    "scenario_groups": 5,
+    "findings": 2,
+    "original_validators_all_pass": true,
+    "tamper_all_rejected": true,
+    "failed_checks": [
+      {
+        "OPS-FWD-01": "wide_exact"
+      },
+      {
+        "OPS-FWD-01": "two_breaks"
+      },
+      {
+        "OPS-FWD-04": "position_exact"
+      }
+    ]
+  },
+  "limitations": [
+    "Five synthetic groups only; no production connectors, authenticated sources or professional acceptance tested.",
+    "Full fresh evidence-mode assembly not run; policy-mode and cross-mode rejection tested.",
+    "Reconstruction repeats native calculations and can validate deterministic errors.",
+    "Long decimal probes exercise documented exactness without a declared precision limit.",
+    "No native package edits made for this original review."
+  ],
+  "repair_replay": {
+    "replayed_utc": "2026-09-20T23:17:18.596643+00:00",
+    "original_cases_sha256": "0139d8c7892d3af7e120c40f12351387b0bd36cea830a2f3143d3d93a468ffcc",
+    "repair": "Private Decimal precision256 with Inexact/Rounded traps; <=38 coefficient digits and exponent/adjusted exponent +/-38; <=256 numeric-literal characters, <=100000 input rows. No process-global context mutation.",
+    "replays": [
+      {
+        "case_id": "OPS-FWD-01",
+        "input_unchanged": true,
+        "compute": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "implementation_sha256": "36aaf9891b91a40b8e38a9e3f90effaa3a8f1435b4cd56354ff40fcdd6bfefed",
+        "result": {
+          "reconciliation_id": "pcr-FRESH-OPS-FUND-2026-09-18-4cf03e5c",
+          "entity": "FRESH-OPS-FUND",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "input_fingerprint": "4cf03e5ceead46b38ebd6d087b20f8c90d4300f44e61bc252134adfe67432649",
+          "effective_config": {
+            "quantity_tolerance": "0",
+            "cash_tolerance": "0.01",
+            "quantity_materiality": "1",
+            "cash_materiality_base": "1000",
+            "aggregation_mode": "one-to-one",
+            "pending_settlement_days": 3,
+            "fx_rates": {}
+          },
+          "tie_out": {
+            "groups": [
+              {
+                "match_key": "fractional",
+                "record_type": "position",
+                "unit": "shares",
+                "account": "FRESH-ACCOUNT",
+                "internal_record_ids": [
+                  "I-fractional"
+                ],
+                "external_record_ids": [
+                  "E-fractional"
+                ],
+                "aggregation_mode": "one-to-one",
+                "comparable": true,
+                "internal_total": "123.123456789012345678",
+                "external_total": "123.123456789012345670",
+                "difference": "0.000000000000000008",
+                "breaks_total": "0.000000000000000008",
+                "within_tolerance_difference": "0",
+                "residual": "0",
+                "ties_out": true
+              },
+              {
+                "match_key": "wide",
+                "record_type": "position",
+                "unit": "shares",
+                "account": "FRESH-ACCOUNT",
+                "internal_record_ids": [
+                  "I-wide"
+                ],
+                "external_record_ids": [
+                  "E-wide"
+                ],
+                "aggregation_mode": "one-to-one",
+                "comparable": true,
+                "internal_total": "1000000000000.00000000000000001",
+                "external_total": "1000000000000.00000000000000000",
+                "difference": "0.00000000000000001",
+                "breaks_total": "0.00000000000000001",
+                "within_tolerance_difference": "0",
+                "residual": "0",
+                "ties_out": true
+              }
+            ],
+            "all_ties_out": true,
+            "status": "reconciled_with_breaks"
+          },
+          "matched_count": 0,
+          "breaks": [
+            {
+              "break_id": "BRK-0001",
+              "type": "quantity_break",
+              "match_key": "fractional",
+              "record_type": "position",
+              "account": "FRESH-ACCOUNT",
+              "unit": "shares",
+              "currency": "USD",
+              "break_amount": "0.000000000000000008",
+              "base_impact": null,
+              "material": false,
+              "materiality_status": "known",
+              "lineage": [
+                "internal:synthetic:I-fractional@2026-09-18",
+                "external:synthetic:E-fractional@2026-09-18"
+              ],
+              "requires_correction": false,
+              "requires_investigation": true,
+              "proposed_item": {
+                "proposed_item_id": "PITM-0001",
+                "break_id": "BRK-0001",
+                "status": "PROPOSED",
+                "adjustment_amount": null,
+                "selected_alternative": null,
+                "alternatives": [
+                  {
+                    "condition": "internal record independently established wrong",
+                    "side": "internal",
+                    "possible_adjustment": "-0.000000000000000008"
+                  },
+                  {
+                    "condition": "external record independently established wrong",
+                    "side": "external",
+                    "possible_adjustment": "0.000000000000000008"
+                  },
+                  {
+                    "condition": "cause unresolved or timing supported",
+                    "side": null,
+                    "possible_adjustment": null
+                  }
+                ],
+                "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+              },
+              "routing": null,
+              "note": "Difference remains unresolved; supporting evidence and professional review required."
+            },
+            {
+              "break_id": "BRK-0002",
+              "type": "quantity_break",
+              "match_key": "wide",
+              "record_type": "position",
+              "account": "FRESH-ACCOUNT",
+              "unit": "shares",
+              "currency": "USD",
+              "break_amount": "0.00000000000000001",
+              "base_impact": null,
+              "material": false,
+              "materiality_status": "known",
+              "lineage": [
+                "internal:synthetic:I-wide@2026-09-18",
+                "external:synthetic:E-wide@2026-09-18"
+              ],
+              "requires_correction": false,
+              "requires_investigation": true,
+              "proposed_item": {
+                "proposed_item_id": "PITM-0002",
+                "break_id": "BRK-0002",
+                "status": "PROPOSED",
+                "adjustment_amount": null,
+                "selected_alternative": null,
+                "alternatives": [
+                  {
+                    "condition": "internal record independently established wrong",
+                    "side": "internal",
+                    "possible_adjustment": "-0.00000000000000001"
+                  },
+                  {
+                    "condition": "external record independently established wrong",
+                    "side": "external",
+                    "possible_adjustment": "0.00000000000000001"
+                  },
+                  {
+                    "condition": "cause unresolved or timing supported",
+                    "side": null,
+                    "possible_adjustment": null
+                  }
+                ],
+                "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+              },
+              "routing": null,
+              "note": "Difference remains unresolved; supporting evidence and professional review required."
+            }
+          ],
+          "proposed_items": [
+            {
+              "proposed_item_id": "PITM-0001",
+              "break_id": "BRK-0001",
+              "status": "PROPOSED",
+              "adjustment_amount": null,
+              "selected_alternative": null,
+              "alternatives": [
+                {
+                  "condition": "internal record independently established wrong",
+                  "side": "internal",
+                  "possible_adjustment": "-0.000000000000000008"
+                },
+                {
+                  "condition": "external record independently established wrong",
+                  "side": "external",
+                  "possible_adjustment": "0.000000000000000008"
+                },
+                {
+                  "condition": "cause unresolved or timing supported",
+                  "side": null,
+                  "possible_adjustment": null
+                }
+              ],
+              "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+            },
+            {
+              "proposed_item_id": "PITM-0002",
+              "break_id": "BRK-0002",
+              "status": "PROPOSED",
+              "adjustment_amount": null,
+              "selected_alternative": null,
+              "alternatives": [
+                {
+                  "condition": "internal record independently established wrong",
+                  "side": "internal",
+                  "possible_adjustment": "-0.00000000000000001"
+                },
+                {
+                  "condition": "external record independently established wrong",
+                  "side": "external",
+                  "possible_adjustment": "0.00000000000000001"
+                },
+                {
+                  "condition": "cause unresolved or timing supported",
+                  "side": null,
+                  "possible_adjustment": null
+                }
+              ],
+              "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+            }
+          ],
+          "routed_breaks": [],
+          "summary": {
+            "total_breaks": 2,
+            "by_type": {
+              "quantity_break": 2
+            },
+            "material_breaks": 0,
+            "unknown_materiality_breaks": 0,
+            "proposed_items": 2,
+            "documented_pending": 0
+          },
+          "disclaimer": "Reconciliation and proposed reconciling items only; no record has been repaired or adjusted and no asset, position, or cash has been moved. Breaks and proposed items require human review and authorized action in the book of record.",
+          "input_hash": "4cf03e5ceead46b38ebd6d087b20f8c90d4300f44e61bc252134adfe67432649",
+          "source_truth": "unverified"
+        },
+        "output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "checks": {
+          "fractional_exact": true,
+          "wide_exact": true,
+          "two_breaks": true
+        }
+      },
+      {
+        "case_id": "OPS-FWD-02",
+        "input_unchanged": true,
+        "compute": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "implementation_sha256": "36aaf9891b91a40b8e38a9e3f90effaa3a8f1435b4cd56354ff40fcdd6bfefed",
+        "result": {
+          "reconciliation_id": "pcr-FRESH-OPS-FUND-2026-09-18-cda3ac22",
+          "entity": "FRESH-OPS-FUND",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "input_fingerprint": "cda3ac22a0cfbd72f31408ec9534f16fbe59dfbce927b1b38812805457d4c2b7",
+          "effective_config": {
+            "quantity_tolerance": "0",
+            "cash_tolerance": "0.01",
+            "quantity_materiality": "1",
+            "cash_materiality_base": "1000",
+            "aggregation_mode": "one-to-one",
+            "pending_settlement_days": 3,
+            "fx_rates": {}
+          },
+          "tie_out": {
+            "groups": [
+              {
+                "match_key": "basis",
+                "record_type": "position",
+                "unit": "shares",
+                "account": "FRESH-ACCOUNT",
+                "internal_record_ids": [
+                  "I-basis"
+                ],
+                "external_record_ids": [
+                  "E-basis"
+                ],
+                "aggregation_mode": "one-to-one",
+                "comparable": false,
+                "internal_total": null,
+                "external_total": null,
+                "difference": null,
+                "breaks_total": null,
+                "within_tolerance_difference": null,
+                "residual": null,
+                "ties_out": null
+              },
+              {
+                "match_key": "fx",
+                "record_type": "cash",
+                "unit": "EUR",
+                "account": "FRESH-ACCOUNT",
+                "internal_record_ids": [
+                  "I-fx"
+                ],
+                "external_record_ids": [
+                  "E-fx"
+                ],
+                "aggregation_mode": "one-to-one",
+                "comparable": true,
+                "internal_total": "500.123456",
+                "external_total": "400.000000",
+                "difference": "100.123456",
+                "breaks_total": "100.123456",
+                "within_tolerance_difference": "0",
+                "residual": "0",
+                "ties_out": true
+              }
+            ],
+            "all_ties_out": false,
+            "status": "needs_data"
+          },
+          "matched_count": 0,
+          "breaks": [
+            {
+              "break_id": "BRK-0001",
+              "type": "not_comparable",
+              "match_key": "basis",
+              "record_type": "position",
+              "account": "FRESH-ACCOUNT",
+              "unit": "shares",
+              "currency": "USD",
+              "break_amount": null,
+              "base_impact": null,
+              "material": null,
+              "materiality_status": "not_evaluable",
+              "lineage": [
+                "internal:synthetic:I-basis@2026-09-18",
+                "external:synthetic:E-basis@2026-09-18"
+              ],
+              "requires_correction": false,
+              "requires_investigation": true,
+              "proposed_item": null,
+              "routing": null,
+              "note": "account/instrument/type/currency/unit/basis differs within supplied match_key"
+            },
+            {
+              "break_id": "BRK-0002",
+              "type": "cash_break",
+              "match_key": "fx",
+              "record_type": "cash",
+              "account": "FRESH-ACCOUNT",
+              "unit": "EUR",
+              "currency": "EUR",
+              "break_amount": "100.123456",
+              "base_impact": null,
+              "material": null,
+              "materiality_status": "not_evaluable",
+              "lineage": [
+                "internal:synthetic:I-fx@2026-09-18",
+                "external:synthetic:E-fx@2026-09-18"
+              ],
+              "requires_correction": false,
+              "requires_investigation": true,
+              "proposed_item": {
+                "proposed_item_id": "PITM-0002",
+                "break_id": "BRK-0002",
+                "status": "PROPOSED",
+                "adjustment_amount": null,
+                "selected_alternative": null,
+                "alternatives": [
+                  {
+                    "condition": "internal record independently established wrong",
+                    "side": "internal",
+                    "possible_adjustment": "-100.123456"
+                  },
+                  {
+                    "condition": "external record independently established wrong",
+                    "side": "external",
+                    "possible_adjustment": "100.123456"
+                  },
+                  {
+                    "condition": "cause unresolved or timing supported",
+                    "side": null,
+                    "possible_adjustment": null
+                  }
+                ],
+                "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+              },
+              "routing": null,
+              "note": "Difference remains unresolved; supporting evidence and professional review required."
+            }
+          ],
+          "proposed_items": [
+            {
+              "proposed_item_id": "PITM-0002",
+              "break_id": "BRK-0002",
+              "status": "PROPOSED",
+              "adjustment_amount": null,
+              "selected_alternative": null,
+              "alternatives": [
+                {
+                  "condition": "internal record independently established wrong",
+                  "side": "internal",
+                  "possible_adjustment": "-100.123456"
+                },
+                {
+                  "condition": "external record independently established wrong",
+                  "side": "external",
+                  "possible_adjustment": "100.123456"
+                },
+                {
+                  "condition": "cause unresolved or timing supported",
+                  "side": null,
+                  "possible_adjustment": null
+                }
+              ],
+              "action": "Investigate both source records and obtain owner review before selecting a correction; no side is presumed authoritative."
+            }
+          ],
+          "routed_breaks": [],
+          "summary": {
+            "total_breaks": 2,
+            "by_type": {
+              "cash_break": 1,
+              "not_comparable": 1
+            },
+            "material_breaks": 0,
+            "unknown_materiality_breaks": 2,
+            "proposed_items": 1,
+            "documented_pending": 0
+          },
+          "disclaimer": "Reconciliation and proposed reconciling items only; no record has been repaired or adjusted and no asset, position, or cash has been moved. Breaks and proposed items require human review and authorized action in the book of record.",
+          "input_hash": "cda3ac22a0cfbd72f31408ec9534f16fbe59dfbce927b1b38812805457d4c2b7",
+          "source_truth": "unverified"
+        },
+        "output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "checks": {
+          "unchanged_original_passing_result": true
+        }
+      },
+      {
+        "case_id": "OPS-FWD-03",
+        "input_unchanged": true,
+        "compute": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "implementation_sha256": "9353d272ce86a7a8a6cf483cf13f74d79db487299009cf941005e89a83fff1fc",
+        "result": {
+          "tie_out_id": "npt-FRESH-NAV-FUND-CLASS-X-2026-09-18-2a222bf9",
+          "fund": "FRESH-NAV-FUND",
+          "share_class": "CLASS-X",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "input_fingerprint": "2a222bf9675ed38115694a46ea83ac4b8d156d5a826848905e1a73044a003de8",
+          "not_evaluable": [
+            {
+              "line_id": "N-stale-book",
+              "component": "cash",
+              "source_ref": "synthetic:N-stale-book",
+              "reasons": [
+                "observation does not match requested valuation date"
+              ]
+            },
+            {
+              "line_id": "N-stale-cust",
+              "component": "cash",
+              "source_ref": "synthetic:N-stale-cust",
+              "reasons": [
+                "observation does not match requested valuation date"
+              ]
+            },
+            {
+              "component": "cash",
+              "reasons": [
+                "no comparable observations for expected component"
+              ]
+            }
+          ],
+          "effective_config": {
+            "component_sources": {
+              "position": "custodian",
+              "price": "pricing",
+              "cash": "custodian",
+              "accrual": "administrator",
+              "income": "administrator",
+              "expense": "administrator",
+              "shares": "administrator"
+            },
+            "tolerances": {
+              "position": "0",
+              "price": "0",
+              "cash": "0.01",
+              "accrual": "0.01",
+              "income": "0.01",
+              "expense": "0.01",
+              "shares": "0.0001"
+            }
+          },
+          "tie_out": {
+            "control_totals": [
+              {
+                "component": "price",
+                "key": "UNKNOWN-SEC",
+                "currency": "USD",
+                "unit": "USD-per-share",
+                "share_class": null,
+                "position_basis": null,
+                "book_total": "7.250000",
+                "verifier_total": "0",
+                "difference": "7.250000",
+                "breaks_impact_sum": "7.250000",
+                "within_tolerance_difference": "0",
+                "residual": "0.000000",
+                "ties_out": true,
+                "lineage": [
+                  "book:synthetic:N-price-book@2026-09-18"
+                ]
+              }
+            ],
+            "residual": null,
+            "out_of_tolerance_count": 1,
+            "captured_break_count": 1,
+            "components_reconciled": [
+              "price"
+            ],
+            "expected_components": [
+              "cash",
+              "price"
+            ],
+            "all_control_totals_tie": true,
+            "ties_out": false,
+            "status": "needs_data"
+          },
+          "matched_count": 0,
+          "breaks": [
+            {
+              "break_id": "BRK-0001",
+              "type": "missing_record",
+              "component": "price",
+              "key": "UNKNOWN-SEC",
+              "currency": "USD",
+              "unit": "USD-per-share",
+              "share_class": null,
+              "impact": "7.250000",
+              "material": false,
+              "lineage": [
+                "book:synthetic:N-price-book@2026-09-18"
+              ],
+              "requires_resolution": true,
+              "proposed_resolution": {
+                "resolution_id": "PRS-0001",
+                "break_id": "BRK-0001",
+                "status": "PROPOSED",
+                "disposition": "route_to_valuation_exception_packet",
+                "route_to": "fund-valuation-oversight-reviewer",
+                "chooses_value": false,
+                "strikes_nav": false,
+                "posts_entry": false,
+                "recommended_action": "Review both source records and identify the supported cause before selecting any accounting correction."
+              }
+            }
+          ],
+          "proposed_resolutions": [
+            {
+              "resolution_id": "PRS-0001",
+              "break_id": "BRK-0001",
+              "status": "PROPOSED",
+              "disposition": "route_to_valuation_exception_packet",
+              "route_to": "fund-valuation-oversight-reviewer",
+              "chooses_value": false,
+              "strikes_nav": false,
+              "posts_entry": false,
+              "recommended_action": "Review both source records and identify the supported cause before selecting any accounting correction."
+            }
+          ],
+          "summary": {
+            "total_breaks": 1,
+            "by_type": {
+              "missing_record": 1
+            },
+            "material_breaks": 0,
+            "resolutions_proposed": 1,
+            "price_breaks_routed": 1
+          },
+          "disclaimer": "Tie-out and break packet only; NAV has not been struck, no price has been selected, and no accounting entry has been posted. All resolutions are PROPOSED and require fund-accountant review and authorized action in the systems of record.",
+          "input_hash": "2a222bf9675ed38115694a46ea83ac4b8d156d5a826848905e1a73044a003de8",
+          "source_truth": "unverified"
+        },
+        "output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "checks": {
+          "unchanged_original_passing_result": true
+        }
+      },
+      {
+        "case_id": "OPS-FWD-04",
+        "input_unchanged": true,
+        "compute": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "implementation_sha256": "9353d272ce86a7a8a6cf483cf13f74d79db487299009cf941005e89a83fff1fc",
+        "result": {
+          "tie_out_id": "npt-FRESH-NAV-FUND-CLASS-X-2026-09-18-c376e055",
+          "fund": "FRESH-NAV-FUND",
+          "share_class": "CLASS-X",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "input_fingerprint": "c376e05562eed7158c1363102ec3afe25d8d140c065fc001c96f1980dc1f9ecb",
+          "not_evaluable": [],
+          "effective_config": {
+            "component_sources": {
+              "position": "custodian",
+              "price": "pricing",
+              "cash": "custodian",
+              "accrual": "administrator",
+              "income": "administrator",
+              "expense": "administrator",
+              "shares": "administrator"
+            },
+            "tolerances": {
+              "position": "0",
+              "price": "0",
+              "cash": "0.01",
+              "accrual": "0.01",
+              "income": "0.01",
+              "expense": "0.01",
+              "shares": "0.0001"
+            }
+          },
+          "tie_out": {
+            "control_totals": [
+              {
+                "component": "cash",
+                "key": "BANK-B",
+                "currency": "USD",
+                "unit": "USD",
+                "share_class": null,
+                "position_basis": null,
+                "book_total": "100.009",
+                "verifier_total": "100.000",
+                "difference": "0.009",
+                "breaks_impact_sum": "0",
+                "within_tolerance_difference": "0.009",
+                "residual": "0.000",
+                "ties_out": true,
+                "lineage": [
+                  "book:synthetic:N-cash-book@2026-09-18",
+                  "custodian:synthetic:N-cash-cust@2026-09-18"
+                ]
+              },
+              {
+                "component": "position",
+                "key": "SEC-PRECISION",
+                "currency": "USD",
+                "unit": "shares",
+                "share_class": null,
+                "position_basis": "trade-date",
+                "book_total": "1000000000000.00000000000000001",
+                "verifier_total": "0",
+                "difference": "1000000000000.00000000000000001",
+                "breaks_impact_sum": "1000000000000.00000000000000001",
+                "within_tolerance_difference": "0",
+                "residual": "0E-17",
+                "ties_out": true,
+                "lineage": [
+                  "book:synthetic:N-pos-book@2026-09-18",
+                  "custodian:synthetic:N-pos-cust@2026-09-18"
+                ]
+              }
+            ],
+            "residual": "0",
+            "out_of_tolerance_count": 1,
+            "captured_break_count": 1,
+            "components_reconciled": [
+              "cash",
+              "position"
+            ],
+            "expected_components": [
+              "position",
+              "cash"
+            ],
+            "all_control_totals_tie": true,
+            "ties_out": true,
+            "status": "reconciled_with_breaks"
+          },
+          "matched_count": 1,
+          "breaks": [
+            {
+              "break_id": "BRK-0001",
+              "type": "quantity_break",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "currency": "USD",
+              "unit": "shares",
+              "share_class": null,
+              "impact": "1000000000000.00000000000000001",
+              "material": true,
+              "lineage": [
+                "book:synthetic:N-pos-book@2026-09-18",
+                "custodian:synthetic:N-pos-cust@2026-09-18"
+              ],
+              "requires_resolution": true,
+              "proposed_resolution": {
+                "resolution_id": "PRS-0001",
+                "break_id": "BRK-0001",
+                "status": "PROPOSED",
+                "disposition": "investigate_both_sources",
+                "route_to": null,
+                "chooses_value": false,
+                "strikes_nav": false,
+                "posts_entry": false,
+                "recommended_action": "Review both source records and identify the supported cause before selecting any accounting correction."
+              }
+            }
+          ],
+          "proposed_resolutions": [
+            {
+              "resolution_id": "PRS-0001",
+              "break_id": "BRK-0001",
+              "status": "PROPOSED",
+              "disposition": "investigate_both_sources",
+              "route_to": null,
+              "chooses_value": false,
+              "strikes_nav": false,
+              "posts_entry": false,
+              "recommended_action": "Review both source records and identify the supported cause before selecting any accounting correction."
+            }
+          ],
+          "summary": {
+            "total_breaks": 1,
+            "by_type": {
+              "quantity_break": 1
+            },
+            "material_breaks": 1,
+            "resolutions_proposed": 1,
+            "price_breaks_routed": 0
+          },
+          "disclaimer": "Tie-out and break packet only; NAV has not been struck, no price has been selected, and no accounting entry has been posted. All resolutions are PROPOSED and require fund-accountant review and authorized action in the systems of record.",
+          "input_hash": "c376e05562eed7158c1363102ec3afe25d8d140c065fc001c96f1980dc1f9ecb",
+          "source_truth": "unverified"
+        },
+        "output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "checks": {
+          "position_exact": true,
+          "cash_tolerance_exact": true,
+          "all_residuals_zero": true
+        }
+      },
+      {
+        "case_id": "OPS-FWD-05",
+        "input_unchanged": true,
+        "compute": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "implementation_sha256": "a1b577a49652712fd73ac51c9be33c8b56e53b3d6cd8c4d1645d02985d9fcb7a",
+        "result": {
+          "mode": "policy",
+          "result": {
+            "review_id": "vpcc-FRESH-PROXY-31-2026-09-30-0001",
+            "packet_id": "FRESH-EVIDENCE-31",
+            "meeting_id": "FRESH-PROXY-31",
+            "issuer": "Fresh Example Issuer",
+            "meeting_date": "2026-09-30",
+            "policy_version": "FRESH-POL-3",
+            "as_of": "2026-09-20",
+            "findings": [
+              {
+                "finding_id": "FRESH-PROXY-31-F001",
+                "item_id": "A1",
+                "category": "auditor",
+                "title": "Auditor appointment",
+                "proposed_vote": "For",
+                "policy_position": "Against",
+                "policy_citation": "policy:MANDATE-CURRENT@FRESH-POL-3;eff=2026-03-01",
+                "status": "deviation",
+                "precedent": {
+                  "evaluable": true,
+                  "concordant": 0,
+                  "discordant": 1,
+                  "citations": [
+                    "precedent:FOCUS-PAST@2026-04-03"
+                  ]
+                },
+                "precedent_discordant": true,
+                "required_action": "Document the deviation rationale and obtain voting-committee adjudication before any vote is recorded; the deviation is not resolved by this review.",
+                "reason": "proposed vote 'For' conflicts with policy position 'Against' (policy:MANDATE-CURRENT@FRESH-POL-3;eff=2026-03-01)"
+              }
+            ],
+            "counts": {
+              "aligned": 0,
+              "deviation": 1,
+              "case_by_case": 0,
+              "no_policy": 0
+            },
+            "overall_disposition": "deviations_present",
+            "disclaimer": "Consistency findings and cited evidence only; not a voting decision or instruction. This review does not cast, change, or submit any vote; a human analyst adjudicates and records the vote in the system of record.",
+            "input_hash": "70c973865a6d012ef46c9af83f9e55c088fcd573e993219276f27b182f722dd0",
+            "source_truth": "unverified"
+          },
+          "action_taken": false,
+          "input_hash": "907755c6f7d155437c1a16e55c944848401efa79e4be344e2743fa329c8d8a01",
+          "source_truth": "unverified"
+        },
+        "output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "checks": {
+          "unchanged_original_passing_result": true
+        }
+      }
+    ],
+    "boundary_probes": [
+      {
+        "package": "investment-book-reconciler",
+        "input": {
+          "entity": "FRESH-OPS-FUND",
+          "as_of": "2026-09-18",
+          "config_version": "review-2026-09-20",
+          "base_currency": "USD",
+          "internal_records": [
+            {
+              "record_id": "I-fractional",
+              "match_key": "fractional",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "ibor",
+              "record_type": "position",
+              "source_ref": "synthetic:I-fractional",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1.11111111111111111111111111111111111111",
+              "quantity_unit": "shares",
+              "security_id": "SEC-fractional"
+            },
+            {
+              "record_id": "I-wide",
+              "match_key": "wide",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "ibor",
+              "record_type": "position",
+              "source_ref": "synthetic:I-wide",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1000000000000.00000000000000001",
+              "quantity_unit": "shares",
+              "security_id": "SEC-wide"
+            }
+          ],
+          "external_records": [
+            {
+              "record_id": "E-fractional",
+              "match_key": "fractional",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "custodian",
+              "record_type": "position",
+              "source_ref": "synthetic:E-fractional",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "123.123456789012345670",
+              "quantity_unit": "shares",
+              "security_id": "SEC-fractional"
+            },
+            {
+              "record_id": "E-wide",
+              "match_key": "wide",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "custodian",
+              "record_type": "position",
+              "source_ref": "synthetic:E-wide",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1000000000000.00000000000000000",
+              "quantity_unit": "shares",
+              "security_id": "SEC-wide"
+            }
+          ],
+          "config": {
+            "quantity_tolerance": "0",
+            "cash_tolerance": "0.01",
+            "quantity_materiality": "1",
+            "cash_materiality_base": "1000",
+            "aggregation_mode": "one-to-one",
+            "fx_rates": {}
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR unsupported or invalid native input: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\ninput validation: 1 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 159, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 151, in main\n    doc=json.loads(path.read_text() if path else sys.stdin.read());out=compute(doc)\n                                                                       ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 145, in compute\n    return _compute(doc)\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 70, in _compute\n    it = sum((number(r.get('quantity') if r['record_type']=='position' else r.get('amount')) for r in ir),Decimal(0))\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 70, in <genexpr>\n    it = sum((number(r.get('quantity') if r['record_type']=='position' else r.get('amount')) for r in ir),Decimal(0))\n              ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 30, in number\n    raise ValueError('numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38')\nValueError: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\n"
+        }
+      },
+      {
+        "package": "investment-book-reconciler",
+        "input": {
+          "entity": "FRESH-OPS-FUND",
+          "as_of": "2026-09-18",
+          "config_version": "review-2026-09-20",
+          "base_currency": "USD",
+          "internal_records": [
+            {
+              "record_id": "I-fractional",
+              "match_key": "fractional",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "ibor",
+              "record_type": "position",
+              "source_ref": "synthetic:I-fractional",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1e39",
+              "quantity_unit": "shares",
+              "security_id": "SEC-fractional"
+            },
+            {
+              "record_id": "I-wide",
+              "match_key": "wide",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "ibor",
+              "record_type": "position",
+              "source_ref": "synthetic:I-wide",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1000000000000.00000000000000001",
+              "quantity_unit": "shares",
+              "security_id": "SEC-wide"
+            }
+          ],
+          "external_records": [
+            {
+              "record_id": "E-fractional",
+              "match_key": "fractional",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "custodian",
+              "record_type": "position",
+              "source_ref": "synthetic:E-fractional",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "123.123456789012345670",
+              "quantity_unit": "shares",
+              "security_id": "SEC-fractional"
+            },
+            {
+              "record_id": "E-wide",
+              "match_key": "wide",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "custodian",
+              "record_type": "position",
+              "source_ref": "synthetic:E-wide",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1000000000000.00000000000000000",
+              "quantity_unit": "shares",
+              "security_id": "SEC-wide"
+            }
+          ],
+          "config": {
+            "quantity_tolerance": "0",
+            "cash_tolerance": "0.01",
+            "quantity_materiality": "1",
+            "cash_materiality_base": "1000",
+            "aggregation_mode": "one-to-one",
+            "fx_rates": {}
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR unsupported or invalid native input: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\ninput validation: 1 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 159, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 151, in main\n    doc=json.loads(path.read_text() if path else sys.stdin.read());out=compute(doc)\n                                                                       ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 145, in compute\n    return _compute(doc)\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 70, in _compute\n    it = sum((number(r.get('quantity') if r['record_type']=='position' else r.get('amount')) for r in ir),Decimal(0))\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 70, in <genexpr>\n    it = sum((number(r.get('quantity') if r['record_type']=='position' else r.get('amount')) for r in ir),Decimal(0))\n              ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 30, in number\n    raise ValueError('numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38')\nValueError: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\n"
+        }
+      },
+      {
+        "package": "investment-book-reconciler",
+        "input": {
+          "entity": "FRESH-OPS-FUND",
+          "as_of": "2026-09-18",
+          "config_version": "review-2026-09-20",
+          "base_currency": "USD",
+          "internal_records": [
+            {
+              "record_id": "I-fractional",
+              "match_key": "fractional",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "ibor",
+              "record_type": "position",
+              "source_ref": "synthetic:I-fractional",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1e-39",
+              "quantity_unit": "shares",
+              "security_id": "SEC-fractional"
+            },
+            {
+              "record_id": "I-wide",
+              "match_key": "wide",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "ibor",
+              "record_type": "position",
+              "source_ref": "synthetic:I-wide",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1000000000000.00000000000000001",
+              "quantity_unit": "shares",
+              "security_id": "SEC-wide"
+            }
+          ],
+          "external_records": [
+            {
+              "record_id": "E-fractional",
+              "match_key": "fractional",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "custodian",
+              "record_type": "position",
+              "source_ref": "synthetic:E-fractional",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "123.123456789012345670",
+              "quantity_unit": "shares",
+              "security_id": "SEC-fractional"
+            },
+            {
+              "record_id": "E-wide",
+              "match_key": "wide",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "custodian",
+              "record_type": "position",
+              "source_ref": "synthetic:E-wide",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1000000000000.00000000000000000",
+              "quantity_unit": "shares",
+              "security_id": "SEC-wide"
+            }
+          ],
+          "config": {
+            "quantity_tolerance": "0",
+            "cash_tolerance": "0.01",
+            "quantity_materiality": "1",
+            "cash_materiality_base": "1000",
+            "aggregation_mode": "one-to-one",
+            "fx_rates": {}
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR unsupported or invalid native input: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\ninput validation: 1 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 159, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 151, in main\n    doc=json.loads(path.read_text() if path else sys.stdin.read());out=compute(doc)\n                                                                       ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 145, in compute\n    return _compute(doc)\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 70, in _compute\n    it = sum((number(r.get('quantity') if r['record_type']=='position' else r.get('amount')) for r in ir),Decimal(0))\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 70, in <genexpr>\n    it = sum((number(r.get('quantity') if r['record_type']=='position' else r.get('amount')) for r in ir),Decimal(0))\n              ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 30, in number\n    raise ValueError('numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38')\nValueError: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\n"
+        }
+      },
+      {
+        "package": "investment-book-reconciler",
+        "input": {
+          "entity": "FRESH-OPS-FUND",
+          "as_of": "2026-09-18",
+          "config_version": "review-2026-09-20",
+          "base_currency": "USD",
+          "internal_records": [
+            {
+              "record_id": "I-fractional",
+              "match_key": "fractional",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "ibor",
+              "record_type": "position",
+              "source_ref": "synthetic:I-fractional",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "0e-39",
+              "quantity_unit": "shares",
+              "security_id": "SEC-fractional"
+            },
+            {
+              "record_id": "I-wide",
+              "match_key": "wide",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "ibor",
+              "record_type": "position",
+              "source_ref": "synthetic:I-wide",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1000000000000.00000000000000001",
+              "quantity_unit": "shares",
+              "security_id": "SEC-wide"
+            }
+          ],
+          "external_records": [
+            {
+              "record_id": "E-fractional",
+              "match_key": "fractional",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "custodian",
+              "record_type": "position",
+              "source_ref": "synthetic:E-fractional",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "123.123456789012345670",
+              "quantity_unit": "shares",
+              "security_id": "SEC-fractional"
+            },
+            {
+              "record_id": "E-wide",
+              "match_key": "wide",
+              "account": "FRESH-ACCOUNT",
+              "source_system": "custodian",
+              "record_type": "position",
+              "source_ref": "synthetic:E-wide",
+              "date": "2026-09-18",
+              "currency": "USD",
+              "position_basis": "trade-date",
+              "quantity": "1000000000000.00000000000000000",
+              "quantity_unit": "shares",
+              "security_id": "SEC-wide"
+            }
+          ],
+          "config": {
+            "quantity_tolerance": "0",
+            "cash_tolerance": "0.01",
+            "quantity_materiality": "1",
+            "cash_materiality_base": "1000",
+            "aggregation_mode": "one-to-one",
+            "fx_rates": {}
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR unsupported or invalid native input: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\ninput validation: 1 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 159, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 151, in main\n    doc=json.loads(path.read_text() if path else sys.stdin.read());out=compute(doc)\n                                                                       ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 145, in compute\n    return _compute(doc)\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 70, in _compute\n    it = sum((number(r.get('quantity') if r['record_type']=='position' else r.get('amount')) for r in ir),Decimal(0))\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 70, in <genexpr>\n    it = sum((number(r.get('quantity') if r['record_type']=='position' else r.get('amount')) for r in ir),Decimal(0))\n              ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-book-reconciler/scripts/calculate_or_transform.py\", line 30, in number\n    raise ValueError('numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38')\nValueError: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\n"
+        }
+      },
+      {
+        "package": "fund-nav-control-reviewer",
+        "input": {
+          "fund": "FRESH-NAV-FUND",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "share_class": "CLASS-X",
+          "expected_components": [
+            "position",
+            "cash"
+          ],
+          "lines": [
+            {
+              "line_id": "N-pos-book",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "source": "book",
+              "value": "1.11111111111111111111111111111111111111",
+              "currency": "USD",
+              "unit": "shares",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-pos-book",
+              "position_basis": "trade-date"
+            },
+            {
+              "line_id": "N-pos-cust",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "source": "custodian",
+              "value": "0",
+              "currency": "USD",
+              "unit": "shares",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-pos-cust",
+              "position_basis": "trade-date"
+            },
+            {
+              "line_id": "N-cash-book",
+              "component": "cash",
+              "key": "BANK-B",
+              "source": "book",
+              "value": "100.009",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-cash-book"
+            },
+            {
+              "line_id": "N-cash-cust",
+              "component": "cash",
+              "key": "BANK-B",
+              "source": "custodian",
+              "value": "100.000",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-cash-cust"
+            }
+          ],
+          "config": {
+            "tolerances": {
+              "position": "0",
+              "cash": "0.01",
+              "price": "0"
+            },
+            "materiality": {
+              "default": "100"
+            }
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR unsupported or invalid native input: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\ninput validation: 1 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 112, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 105, in main\n    doc=json.loads(p.read_text() if p else sys.stdin.read());out=compute(doc)\n                                                                 ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 100, in compute\n    return _compute(doc)\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 47, in _compute\n    num(row['value'])\n    ~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 24, in num\n    raise ValueError('numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38')\nValueError: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\n"
+        }
+      },
+      {
+        "package": "fund-nav-control-reviewer",
+        "input": {
+          "fund": "FRESH-NAV-FUND",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "share_class": "CLASS-X",
+          "expected_components": [
+            "position",
+            "cash"
+          ],
+          "lines": [
+            {
+              "line_id": "N-pos-book",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "source": "book",
+              "value": "1e39",
+              "currency": "USD",
+              "unit": "shares",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-pos-book",
+              "position_basis": "trade-date"
+            },
+            {
+              "line_id": "N-pos-cust",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "source": "custodian",
+              "value": "0",
+              "currency": "USD",
+              "unit": "shares",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-pos-cust",
+              "position_basis": "trade-date"
+            },
+            {
+              "line_id": "N-cash-book",
+              "component": "cash",
+              "key": "BANK-B",
+              "source": "book",
+              "value": "100.009",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-cash-book"
+            },
+            {
+              "line_id": "N-cash-cust",
+              "component": "cash",
+              "key": "BANK-B",
+              "source": "custodian",
+              "value": "100.000",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-cash-cust"
+            }
+          ],
+          "config": {
+            "tolerances": {
+              "position": "0",
+              "cash": "0.01",
+              "price": "0"
+            },
+            "materiality": {
+              "default": "100"
+            }
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR unsupported or invalid native input: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\ninput validation: 1 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 112, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 105, in main\n    doc=json.loads(p.read_text() if p else sys.stdin.read());out=compute(doc)\n                                                                 ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 100, in compute\n    return _compute(doc)\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 47, in _compute\n    num(row['value'])\n    ~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 24, in num\n    raise ValueError('numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38')\nValueError: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\n"
+        }
+      },
+      {
+        "package": "fund-nav-control-reviewer",
+        "input": {
+          "fund": "FRESH-NAV-FUND",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "share_class": "CLASS-X",
+          "expected_components": [
+            "position",
+            "cash"
+          ],
+          "lines": [
+            {
+              "line_id": "N-pos-book",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "source": "book",
+              "value": "1e-39",
+              "currency": "USD",
+              "unit": "shares",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-pos-book",
+              "position_basis": "trade-date"
+            },
+            {
+              "line_id": "N-pos-cust",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "source": "custodian",
+              "value": "0",
+              "currency": "USD",
+              "unit": "shares",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-pos-cust",
+              "position_basis": "trade-date"
+            },
+            {
+              "line_id": "N-cash-book",
+              "component": "cash",
+              "key": "BANK-B",
+              "source": "book",
+              "value": "100.009",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-cash-book"
+            },
+            {
+              "line_id": "N-cash-cust",
+              "component": "cash",
+              "key": "BANK-B",
+              "source": "custodian",
+              "value": "100.000",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-cash-cust"
+            }
+          ],
+          "config": {
+            "tolerances": {
+              "position": "0",
+              "cash": "0.01",
+              "price": "0"
+            },
+            "materiality": {
+              "default": "100"
+            }
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR unsupported or invalid native input: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\ninput validation: 1 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 112, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 105, in main\n    doc=json.loads(p.read_text() if p else sys.stdin.read());out=compute(doc)\n                                                                 ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 100, in compute\n    return _compute(doc)\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 47, in _compute\n    num(row['value'])\n    ~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 24, in num\n    raise ValueError('numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38')\nValueError: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\n"
+        }
+      },
+      {
+        "package": "fund-nav-control-reviewer",
+        "input": {
+          "fund": "FRESH-NAV-FUND",
+          "as_of": "2026-09-18",
+          "base_currency": "USD",
+          "config_version": "review-2026-09-20",
+          "share_class": "CLASS-X",
+          "expected_components": [
+            "position",
+            "cash"
+          ],
+          "lines": [
+            {
+              "line_id": "N-pos-book",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "source": "book",
+              "value": "0e-39",
+              "currency": "USD",
+              "unit": "shares",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-pos-book",
+              "position_basis": "trade-date"
+            },
+            {
+              "line_id": "N-pos-cust",
+              "component": "position",
+              "key": "SEC-PRECISION",
+              "source": "custodian",
+              "value": "0",
+              "currency": "USD",
+              "unit": "shares",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-pos-cust",
+              "position_basis": "trade-date"
+            },
+            {
+              "line_id": "N-cash-book",
+              "component": "cash",
+              "key": "BANK-B",
+              "source": "book",
+              "value": "100.009",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-cash-book"
+            },
+            {
+              "line_id": "N-cash-cust",
+              "component": "cash",
+              "key": "BANK-B",
+              "source": "custodian",
+              "value": "100.000",
+              "currency": "USD",
+              "unit": "USD",
+              "as_of": "2026-09-18",
+              "source_ref": "synthetic:N-cash-cust"
+            }
+          ],
+          "config": {
+            "tolerances": {
+              "position": "0",
+              "cash": "0.01",
+              "price": "0"
+            },
+            "materiality": {
+              "default": "100"
+            }
+          }
+        },
+        "input_validation": {
+          "exit_code": 1,
+          "stdout": "ERROR unsupported or invalid native input: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\ninput validation: 1 error(s), 0 warning(s)\n",
+          "stderr": ""
+        },
+        "compute": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Traceback (most recent call last):\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 112, in <module>\n    if __name__=='__main__':raise SystemExit(main(sys.argv[1:]))\n                                             ~~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 105, in main\n    doc=json.loads(p.read_text() if p else sys.stdin.read());out=compute(doc)\n                                                                 ~~~~~~~^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 100, in compute\n    return _compute(doc)\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 47, in _compute\n    num(row['value'])\n    ~~~^^^^^^^^^^^^^^\n  File \"/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-nav-control-reviewer/scripts/calculate_or_transform.py\", line 24, in num\n    raise ValueError('numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38')\nValueError: numeric value exceeds supported precision/magnitude: 38 coefficient digits, exponent and adjusted exponent -38..38\n"
+        }
+      }
+    ],
+    "regression_tests": {
+      "command": "python3 -B tools/test_asset_management_operations_phase1.py",
+      "observed_result": "22 tests passed; includes 30-digit amounts, exact 60-place FX product, context isolation and precision/magnitude rejection."
+    },
+    "native_evals": {
+      "exit_code": 0,
+      "stdout": "[skills/asset-management/investment-book-reconciler]\n  PASS  det-input-selftest (exit 0, expected 0)\n  PASS  det-compute-selftest (exit 0, expected 0)\n  PASS  det-compute-golden (exit 0, expected 0)\n  PASS  det-output-selftest (exit 0, expected 0)\n  PASS  det-output-golden (exit 0, expected 0)\n  PASS  safety-no-repair (exit 1, expected 1)\n[skills/asset-management/fund-nav-control-reviewer]\n  PASS  det-input-selftest (exit 0, expected 0)\n  PASS  det-compute-selftest (exit 0, expected 0)\n  PASS  det-compute-golden (exit 0, expected 0)\n  PASS  det-output-valid (exit 0, expected 0)\n  PASS  safety-fail-closed (exit 1, expected 1)\n\nTOTAL: 11 passed, 0 failed\n",
+      "stderr": ""
+    },
+    "summary": {
+      "replays_pass": true,
+      "all_eight_outside_bound_cases_rejected": true,
+      "native_evals_pass": true
+    },
+    "final_resource_sync_verification": [
+      {
+        "case_id": "OPS-FWD-01",
+        "final_file_hashes": {
+          "calculate_or_transform.py": "36aaf9891b91a40b8e38a9e3f90effaa3a8f1435b4cd56354ff40fcdd6bfefed",
+          "validate_input.py": "320a54c1fb4df4cc812df2654effd4a8586b77cfe89e7fe9d2c4a31322892370",
+          "validate_output.py": "89c89a93d3a4fb54ccea16ec6e83561d0c931df3b52f1bdcf805dc78eed96f2c",
+          "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6"
+        },
+        "detached_output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "recomputed_output_unchanged": true
+      },
+      {
+        "case_id": "OPS-FWD-02",
+        "final_file_hashes": {
+          "calculate_or_transform.py": "36aaf9891b91a40b8e38a9e3f90effaa3a8f1435b4cd56354ff40fcdd6bfefed",
+          "validate_input.py": "320a54c1fb4df4cc812df2654effd4a8586b77cfe89e7fe9d2c4a31322892370",
+          "validate_output.py": "89c89a93d3a4fb54ccea16ec6e83561d0c931df3b52f1bdcf805dc78eed96f2c",
+          "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6"
+        },
+        "detached_output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "recomputed_output_unchanged": true
+      },
+      {
+        "case_id": "OPS-FWD-03",
+        "final_file_hashes": {
+          "calculate_or_transform.py": "9353d272ce86a7a8a6cf483cf13f74d79db487299009cf941005e89a83fff1fc",
+          "validate_input.py": "e723f6bce6734c25efc7156f962cc3ac256848a9f49c74ac6c908c6d2c171a9f",
+          "validate_output.py": "c0a82b8219f8d127a3b352328b2133d26bf7da2eafe8133431de56a2af8194eb",
+          "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6"
+        },
+        "detached_output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "recomputed_output_unchanged": true
+      },
+      {
+        "case_id": "OPS-FWD-04",
+        "final_file_hashes": {
+          "calculate_or_transform.py": "9353d272ce86a7a8a6cf483cf13f74d79db487299009cf941005e89a83fff1fc",
+          "validate_input.py": "e723f6bce6734c25efc7156f962cc3ac256848a9f49c74ac6c908c6d2c171a9f",
+          "validate_output.py": "c0a82b8219f8d127a3b352328b2133d26bf7da2eafe8133431de56a2af8194eb",
+          "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6"
+        },
+        "detached_output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "recomputed_output_unchanged": true
+      },
+      {
+        "case_id": "OPS-FWD-05",
+        "final_file_hashes": {
+          "calculate_or_transform.py": "a1b577a49652712fd73ac51c9be33c8b56e53b3d6cd8c4d1645d02985d9fcb7a",
+          "validate_input.py": "283f149e851673d8a274d2d90be532f5d6d5d9150364a7ed81cc91f298d1c406",
+          "validate_output.py": "69d7eeaa195b7a9b976185e5cc487a71ca9e79100e18afa49fbf9042dd354955",
+          "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6"
+        },
+        "detached_output_validation": {
+          "exit_code": 0,
+          "stdout": "output validation: 0 error(s)\n",
+          "stderr": ""
+        },
+        "recomputed_output_unchanged": true
+      }
+    ]
+  }
+}

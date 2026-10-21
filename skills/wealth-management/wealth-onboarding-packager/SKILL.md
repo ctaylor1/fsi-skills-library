@@ -37,8 +37,8 @@ relationship acceptance, perform specialist screening or open an account.
 - "Bring together the custodian/KYC/sanctions review outcomes for the onboarding reviewer."
 
 ## Do not use
-- KYC/CDD investigation or rating: `kyc-customer-due-diligence-screener`.
-- Sanctions-match adjudication: `sanctions-match-adjudicator` and the authorized specialist.
+- KYC/CDD investigation or rating: `customer-due-diligence-reviewer`.
+- Sanctions-match adjudication: `sanctions-match-investigator` and the authorized specialist.
 - Banking product documentation alone: `customer-onboarding-document-checker`.
 - Household planning discovery, investment recommendations, asset transfers or account opening.
 

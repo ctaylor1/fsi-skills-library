@@ -30,7 +30,7 @@ the AWS baseline; authored fresh here).
   external-delivery authorization.
 - **Handoffs:** downstream to `suitability-reg-bi-reviewer`,
   `portfolio-risk-diversification-check`, `fee-and-charge-reviewer`,
-  `fund-fact-sheet-builder` / `fund-commentary-drafter`,
+  `fund-fact-sheet-builder` / `investment-commentary-builder`,
   `senior-investor-protection-screener`; siblings `trade-confirmation-explainer` and
   `corporate-action-interpreter`.
 

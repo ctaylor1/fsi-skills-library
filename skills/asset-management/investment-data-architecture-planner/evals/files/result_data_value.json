@@ -1,0 +1,309 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "investment-data-architecture-planner",
+  "request_id": "AM-DATA-DESIGN-01",
+  "object_id": "AM-DATA-PLATFORM",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "draft",
+  "draft": true,
+  "action_taken": false,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "investment-grain-bitemporal-access-design/1",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "datasets": [
+      {
+        "dataset_id": "positions",
+        "owner": "investment-data-owner",
+        "classification": "client-confidential",
+        "retention_rule": "retain agreed history and corrections under reviewed contract",
+        "component_id": "B",
+        "license_id": "L1",
+        "grain_dimensions": [
+          "security",
+          "portfolio",
+          "account",
+          "benchmark",
+          "time_series"
+        ],
+        "source_ref": "synthetic-record"
+      }
+    ],
+    "semantic_contract": [
+      {
+        "field_id": "base_market_value",
+        "dataset_id": "positions",
+        "definition": "Supplied base-currency market value for the complete exact position and benchmark grain",
+        "unit": "currency",
+        "currency": "USD",
+        "source_system": "SYN-IBOR",
+        "source_field": "position.market_value_base",
+        "transformation": "identity; no FX or aggregation",
+        "transformation_version": "1",
+        "owner": "investment-data-owner",
+        "value_type": "decimal",
+        "nullable": false,
+        "source_ref": "synthetic-record"
+      }
+    ],
+    "identity_contract": [
+      {
+        "identity_id": "security-1",
+        "dimension": "security",
+        "namespace": "SYN-SEC-MASTER",
+        "native_key": "SEC-42",
+        "source_ref": "synthetic-record"
+      },
+      {
+        "identity_id": "portfolio-1",
+        "dimension": "portfolio",
+        "namespace": "SYN-IBOR",
+        "native_key": "PF-1",
+        "source_ref": "synthetic-record"
+      },
+      {
+        "identity_id": "account-1",
+        "dimension": "account",
+        "namespace": "SYN-CUSTODY",
+        "native_key": "A-1",
+        "source_ref": "synthetic-record"
+      },
+      {
+        "identity_id": "benchmark-1",
+        "dimension": "benchmark",
+        "namespace": "SYN-BENCHMARK-VENDOR",
+        "native_key": "IDX-1",
+        "source_ref": "synthetic-record"
+      },
+      {
+        "identity_id": "time_series-1",
+        "dimension": "time_series",
+        "namespace": "SYN-SERIES",
+        "native_key": "CLOSE-DAILY",
+        "source_ref": "synthetic-record"
+      }
+    ],
+    "access_evidence": [
+      {
+        "dataset_id": "positions",
+        "evidence_status": "declared-allowed-unverified",
+        "permission_verified": false,
+        "issues": [],
+        "source_refs": [
+          "synthetic-record",
+          "synthetic-record"
+        ]
+      }
+    ],
+    "resolved_sample": [
+      {
+        "query_id": "before-correction",
+        "field_id": "base_market_value",
+        "dimensions": {
+          "security": "security-1",
+          "portfolio": "portfolio-1",
+          "account": "account-1",
+          "benchmark": "benchmark-1",
+          "time_series": "time_series-1"
+        },
+        "valid_on": "2026-09-01",
+        "known_on": "2026-09-10",
+        "status": "resolved-supplied-sample",
+        "value": "100.25",
+        "unit": "currency",
+        "currency": "USD",
+        "record_ids": [
+          "original"
+        ],
+        "source_refs": [
+          "synthetic-record"
+        ],
+        "issues": []
+      },
+      {
+        "query_id": "after-correction",
+        "field_id": "base_market_value",
+        "dimensions": {
+          "security": "security-1",
+          "portfolio": "portfolio-1",
+          "account": "account-1",
+          "benchmark": "benchmark-1",
+          "time_series": "time_series-1"
+        },
+        "valid_on": "2026-09-01",
+        "known_on": "2026-09-20",
+        "status": "resolved-supplied-sample",
+        "value": "101.75",
+        "unit": "currency",
+        "currency": "USD",
+        "record_ids": [
+          "late-correction"
+        ],
+        "source_refs": [
+          "synthetic-record"
+        ],
+        "issues": []
+      }
+    ],
+    "observability": [
+      {
+        "monitor_id": "freshness",
+        "dataset_id": "positions",
+        "metric": "batch_arrival_delay",
+        "unit": "minutes",
+        "threshold": "15",
+        "observed_value": "7",
+        "projected_value": null,
+        "meets": true,
+        "incident_route": "investment-data incident queue",
+        "source_ref": "synthetic-record"
+      }
+    ],
+    "shared_reviews": [
+      {
+        "producer": "solution-architecture-planner",
+        "status": "ready-for-review",
+        "results": {
+          "components": [
+            {
+              "component_id": "A",
+              "responsibility": "licensed dataset reader",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone1",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 100,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            },
+            {
+              "component_id": "B",
+              "responsibility": "bitemporal research store",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone2",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 200,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "interfaces": [
+            {
+              "interface_id": "I1",
+              "from_component": "A",
+              "to_component": "B",
+              "contract_version": "v1",
+              "payload_schema": "investment-grain-v1",
+              "purpose": "read licensed research records",
+              "authentication": "workload identity",
+              "authorization_scope": "dataset.read:synthetic-am",
+              "encryption": "reviewed transport",
+              "timeout": "10 seconds",
+              "failure_route": "human intake",
+              "trace_id": "notice request ID",
+              "delivery": "at-least-once",
+              "operation": "read",
+              "purpose_reviewed": true,
+              "max_attempts": 2,
+              "idempotency_key": "notice ID and version",
+              "approval_owner": "human reviewer",
+              "receipt_check": "durable queue receipt",
+              "recovery_plan": "dedupe then reconcile missing receipt",
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "requirement_fit": [
+            {
+              "requirement_id": "CAP",
+              "observed": "120",
+              "threshold": "100",
+              "unit": "records/hour",
+              "meets": true
+            }
+          ],
+          "supplied_period_cost": "300",
+          "currency": "USD",
+          "cost_period": "month",
+          "deployment_authorized": false,
+          "provider_conformance": "not_assessed"
+        },
+        "source_ref": "synthetic-record"
+      },
+      {
+        "producer": "data-product-value-evaluator",
+        "status": "ready-for-review",
+        "results": {
+          "sample_size": 2,
+          "provider_matched_cases": 2,
+          "provider_coverage": "1",
+          "confusion_matrices": {
+            "baseline": {
+              "tp": 0,
+              "tn": 0,
+              "fp": 1,
+              "fn": 1,
+              "precision": "0",
+              "recall": "0"
+            },
+            "augmented": {
+              "tp": 1,
+              "tn": 1,
+              "fp": 0,
+              "fn": 0,
+              "precision": "1",
+              "recall": "1"
+            }
+          },
+          "observed_outcome_cost_reduction": "110",
+          "projected_annual_net": "40000",
+          "license_usable_for_stated_purpose": true,
+          "causal_uplift_established": false,
+          "provider_selected": false
+        },
+        "source_ref": "synthetic-record"
+      }
+    ],
+    "source_authentication": false,
+    "permission_verified": false,
+    "deployment_authorized": false,
+    "production_identity_resolution": false
+  },
+  "unresolved_issues": [],
+  "limitations": [
+    "Bitemporal sample selection uses explicit half-open intervals and exact identities; ambiguous assertions are withheld without latest-record selection.",
+    "Historical source times, licenses, permission observations and monitor measurements are supplied declarations, not authenticated facts.",
+    "The HTTPS connector runtime must obtain current policy-authorized access separately; this offline result never grants access.",
+    "No missing security identifiers, FX conversion, aggregation, benchmark restatement or valuation policy is inferred."
+  ],
+  "handoffs": [],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "synthetic-record"
+  ],
+  "input_hash": "b390d509193d973429e353d290dc5962cc51329112838e76a504dc0585407153",
+  "source_truth": "unverified"
+}

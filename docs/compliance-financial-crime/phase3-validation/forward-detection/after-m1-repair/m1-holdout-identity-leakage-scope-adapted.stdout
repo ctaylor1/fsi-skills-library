@@ -1,0 +1,1350 @@
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "transaction-monitoring-scenario-designer",
+  "method": "risk-lineage-logic-change-proposal/1.0",
+  "request_id": "FORWARD-WIRE-RAPID-OUTFLOW-DESIGN-81",
+  "object_id": "RAPID-OUTFLOW-81",
+  "object_type": "transaction_monitoring_scenario_design",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "context": {
+    "institution_id": "DEIDENTIFIED-REGIONAL-BANK",
+    "legal_entity_id": "BANK-LEGAL-ENTITY-01",
+    "capacity": "internal-control-review",
+    "represented_party": "institution",
+    "object_id": "RAPID-OUTFLOW-81",
+    "object_type": "transaction_monitoring_scenario_design",
+    "jurisdiction": "US-bank-supplied-profile",
+    "line_of_business": "retail-deposits-and-wire-operations",
+    "purpose": "scope-specific-forward-evaluation"
+  },
+  "role": "operational_qa",
+  "classification": "compliance_confidential",
+  "audience": "institution-testing-owner",
+  "status": "needs-evidence",
+  "results": {
+    "risk_to_scenario_design": {
+      "scenario_id": "RAPID-OUTFLOW-81",
+      "design_version": "proposal-4",
+      "risk_id": "RISK-WIRE-81",
+      "risk_hypothesis": "Source-bound unusual rapid movement of new inbound funds to external wires warrants investigation review; no suspicious-activity determination",
+      "typology": "rapid inbound-to-outbound movement hypothesis",
+      "target_behavior": "Distinct inbound events followed by gross same-currency external outflows in owner-defined rolling window",
+      "population_id": "RETAIL-WIRE-EVENTS-81",
+      "population_unit": "economic-event",
+      "eligibility_definition": "Supplied domestic retail USD wire events with retained event identity and reviewed customer crosswalk",
+      "engine_id": "MONITORING-ENGINE-81",
+      "engine_version": "release-2026.09",
+      "processing_mode": "batch",
+      "logic_spec": "Proposal uses gross USD credits/debits by exact distinct event ID and supplied customer crosswalk, rolling 3 calendar days in America/New_York, inclusive lower/upper amount/window bounds by event time; failed/duplicate copies excluded; missing amounts/identity retained as unknown and dependent aggregates withheld; no execution",
+      "window_value": "3",
+      "window_unit": "days",
+      "entity_mapping_ref": "CUSTOMER-CROSSWALK-81",
+      "entity_mapping_version": "crosswalk-6",
+      "mapping_dataset_id": "CROSSWALK-DATASET-81",
+      "identifier_namespace": "BANK-ENTITY-CUSTOMER-ID-81",
+      "ambiguous_link_count": 0,
+      "conflicting_link_count": 0,
+      "mapping_method": "Reviewed exact bank customer IDs within supplied namespace; no inferred graph merges",
+      "identity_limitations": "Crosswalk is supplied, not authenticated; aliases and repeated documents are not distinct economic events",
+      "graph_reference": "REVIEWED-GRAPH-81",
+      "graph_version": "graph-6",
+      "currency": "USD",
+      "amount_accounting": "gross"
+    },
+    "data_requirements": [
+      {
+        "requirement_id": "WIRE-AMOUNT-DATA-81",
+        "supplied_requirements": {
+          "field": "gross_wire_amount",
+          "source_system": "WIRE-CORE-81",
+          "source_version": "export-2026.09.28",
+          "lineage_reference": "WIRE-EVENT-LINEAGE-81",
+          "transformation": "Distinct economic-event IDs only; exclude document copies, retain source debit/credit direction, use gross USD",
+          "null_handling": "Missing identity/amount stays unknown; no filled zero",
+          "data_owner": "WIRE-DATA-OWNER-81",
+          "event_identity_rule": "Dataset81/version/export and explicit event ID in bank entity namespace; receipt document count is separate",
+          "reconciliation_definition": "Same event frame and gross USD accounting basis expected/loaded unique event counts and amount totals",
+          "expected_count": 240,
+          "loaded_count": 240,
+          "expected_total": "720000.000000000000000001",
+          "loaded_total": "720000.000000000000000001",
+          "currency": "USD",
+          "amount_accounting": "gross",
+          "data_available_through": "2026-10-03",
+          "freshness_criterion": "Reviewed extract through September28 suffices for proposed historical holdout; change owner rechecks fresh data before activation",
+          "freshness_met": true
+        },
+        "reconciliation_consistent": true
+      }
+    ],
+    "parameter_proposal": [
+      {
+        "parameter_id": "AMOUNT-CANDIDATE-81",
+        "name": "gross_outflow_candidate_amount",
+        "value": "25000.000000000000000001",
+        "unit": "currency",
+        "currency": "USD",
+        "rationale": "Owner-proposed candidate for sensitivity exploration; no regulatory amount default"
+      }
+    ],
+    "evaluation_plan": {
+      "backtest_dataset_id": "WIRE-BACKTEST-81",
+      "backtest_from": "2026-09-01",
+      "backtest_to": "2026-09-14",
+      "holdout_dataset_id": "WIRE-HOLDOUT-81",
+      "holdout_from": "2026-09-15",
+      "holdout_to": "2026-09-28",
+      "training_item_ids": [
+        "TRAIN-EVENT-8101",
+        "TRAIN-EVENT-8102"
+      ],
+      "holdout_item_ids": [
+        "TRAIN-EVENT-8101",
+        "HOLDOUT-EVENT-8122"
+      ],
+      "sampling_method": "Risk-stratified event frame including labeled and unlabeled/nonalerted cases; no population inference from convenience labels",
+      "label_definition": "Owner-adjudicated target behavior under protocol 81, not guilt or filing",
+      "label_reference": "ADJUDICATION-PROTOCOL-81",
+      "label_limitations": "Case labels have hindsight and coverage limits; unknown labels remain unmeasured",
+      "leakage_assessed": true,
+      "holdout_independent": true,
+      "bias_dimensions": [
+        "retail segment",
+        "wire channel",
+        "crosswalk availability"
+      ],
+      "metric_definitions": [
+        "Observed label precision TP/(TP+FP)",
+        "Observed reference recall TP/(TP+FN)",
+        "Coverage by exact distinct economic event",
+        "Unknown labels separately retained",
+        "Operational workload and false-negative review capacity"
+      ],
+      "acceptance_criteria": "Criteria owner reviews observed precision/recall/unknown/coverage by strata against separate written appetite; configuration draft does not establish acceptance",
+      "criteria_owner": "MONITORING-EVALUATION-OWNER-81",
+      "criteria_review_reference": "CRITERIA-OWNER-REVIEW-81",
+      "evaluation_limitations": "No backtest, holdout or uncertainty estimate has been executed here"
+    },
+    "controlled_change_proposal": {
+      "change_id": "CHANGE-PROPOSAL-81",
+      "prior_configuration_ref": "WIRE-PARAMETERS-80",
+      "proposed_configuration_ref": "WIRE-PARAMETERS-81",
+      "owner": "MONITORING-OWNER-81",
+      "approver_role": "Authorized institution change owner; role alone supplies no authority",
+      "planned_start": "2026-10-12",
+      "shadow_mode_plan": "Non-actioning shadow replay alongside incumbent; humans review before any deployment",
+      "reconciliation_gate": "Same event frame/namespace/count/currency/gross totals and labels reviewed before configuration decision",
+      "rollback_trigger": "Stop proposal on missing identity, adverse recall, reconciliation exception or operational capacity breach",
+      "rollback_configuration_ref": "WIRE-PARAMETERS-80",
+      "rollback_owner": "ENGINE-CONTROL-OWNER-81",
+      "review_cadence": "At every material data/mapping/engine change and owner-set recurring review"
+    },
+    "technology_control_requirements": [
+      {
+        "technology_requirement_id": "ENGINE-CONTROL-81",
+        "kind": "engine",
+        "profile_id": "MONITORING-ENGINE-PROFILE-81",
+        "profile_version": "profile-4",
+        "requirement": "Owner retains exact operators/event aggregation, access controls, explainability and immutable source lineage",
+        "owner": "ENGINE-OWNER-81",
+        "review_reference": "ENGINE-CONTROL-REVIEW-81",
+        "requirement_supported": true,
+        "limitation": "Supplied operator export only; execution/resilience/load behavior unverified"
+      }
+    ],
+    "engine_observations": [
+      {
+        "engine_observation_id": "ENGINE-WORKPAPER-81",
+        "evidence_kind": "engine-observation",
+        "engine_id": "MONITORING-ENGINE-81",
+        "engine_version": "release-2026.09",
+        "scenario_id": "RAPID-OUTFLOW-81",
+        "scenario_version": "proposal-4",
+        "observation": "Supplied operator/export workpaper identifies supported rolling calendar-day and distinct-event grouping; proposal remains non-actioning",
+        "observed_on": "2026-10-03",
+        "population_id": "RETAIL-WIRE-EVENTS-81"
+      }
+    ],
+    "benchmark_references": [
+      {
+        "benchmark_reference_id": "EXTERNAL-REFERENCE-81",
+        "evidence_kind": "benchmark-reference",
+        "reference_domain": "independent-rapid-outflow-research",
+        "reference_version": "paper-2025-v2",
+        "context": "External historical dataset from a different institution/entity/currency population",
+        "claim": "Reference discusses rapid fund movement patterns and label biases",
+        "limitation": "Not a bank engine observation, validated threshold, legal obligation or portable performance result"
+      }
+    ],
+    "material_blockers": [
+      "training and holdout item identities overlap"
+    ],
+    "unknown_metrics": [],
+    "proposal_prerequisites_consistent": false,
+    "proposed_engine_configuration": null,
+    "backtest_executed": false,
+    "holdout_executed": false,
+    "identity_resolution": "not-performed",
+    "risk_or_legal_approval": "not-issued",
+    "activation": "not-performed"
+  },
+  "unresolved_issues": [
+    "training and holdout item identities overlap"
+  ],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/scenario/scenario_id",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/design_version",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/risk_id",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/risk_hypothesis",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/typology",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/target_behavior",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/population_id",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/population_unit",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/eligibility_definition",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/engine_id",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/engine_version",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/processing_mode",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/logic_spec",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/window_value",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/window_unit",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/entity_mapping_ref",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/entity_mapping_version",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/mapping_dataset_id",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/identifier_namespace",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/ambiguous_link_count",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/conflicting_link_count",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/mapping_method",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/identity_limitations",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/graph_reference",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/graph_version",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/currency",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/amount_accounting",
+      "source_refs": [
+        "FORWARD-DESIGN-PACKET"
+      ],
+      "fact_ids": [
+        "FORWARD-DESIGN-PACKET-FACT-27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/backtest_dataset_id",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/backtest_from",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/backtest_to",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_dataset_id",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_from",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_to",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/training_item_ids",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_item_ids",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/sampling_method",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/label_definition",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/label_reference",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/label_limitations",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/leakage_assessed",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_independent",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/bias_dimensions",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/metric_definitions",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/acceptance_criteria",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/criteria_owner",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/criteria_review_reference",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/evaluation_limitations",
+      "source_refs": [
+        "FORWARD-EVALUATION-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-EVALUATION-PLAN-FACT-20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/change_id",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/prior_configuration_ref",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/proposed_configuration_ref",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/owner",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/approver_role",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/planned_start",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/shadow_mode_plan",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/reconciliation_gate",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/rollback_trigger",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/rollback_configuration_ref",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/rollback_owner",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/review_cadence",
+      "source_refs": [
+        "FORWARD-CHANGE-PLAN"
+      ],
+      "fact_ids": [
+        "FORWARD-CHANGE-PLAN-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/name",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/value",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/unit",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/currency",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/rationale",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/field",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/source_system",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/source_version",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/lineage_reference",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/transformation",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/null_handling",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/data_owner",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/event_identity_rule",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/reconciliation_definition",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/expected_count",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/loaded_count",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/expected_total",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/loaded_total",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/currency",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/amount_accounting",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/data_available_through",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/freshness_criterion",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/freshness_met",
+      "source_refs": [
+        "FORWARD-DATA-RECONCILIATION"
+      ],
+      "fact_ids": [
+        "FORWARD-DATA-RECONCILIATION-FACT-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/kind",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/profile_id",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/profile_version",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/requirement",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/owner",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/review_reference",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/requirement_supported",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/limitation",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/engine_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/engine_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/scenario_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/scenario_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/observation",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/observed_on",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/population_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/reference_domain",
+      "source_refs": [
+        "FORWARD-BENCHMARK"
+      ],
+      "fact_ids": [
+        "FORWARD-BENCHMARK-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/reference_version",
+      "source_refs": [
+        "FORWARD-BENCHMARK"
+      ],
+      "fact_ids": [
+        "FORWARD-BENCHMARK-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/context",
+      "source_refs": [
+        "FORWARD-BENCHMARK"
+      ],
+      "fact_ids": [
+        "FORWARD-BENCHMARK-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/claim",
+      "source_refs": [
+        "FORWARD-BENCHMARK"
+      ],
+      "fact_ids": [
+        "FORWARD-BENCHMARK-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/limitation",
+      "source_refs": [
+        "FORWARD-BENCHMARK"
+      ],
+      "fact_ids": [
+        "FORWARD-BENCHMARK-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Risk hypothesis, entity links and graph references are supplied assertions, not proven identity or crime.",
+    "Reconciliation consistency does not authenticate extracts or demonstrate detection effectiveness.",
+    "No threshold defaults, universal weights, approved legal profile or executable engine configuration is supplied.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "FORWARD-DESIGN-PACKET",
+    "FORWARD-EVALUATION-PLAN",
+    "FORWARD-CHANGE-PLAN",
+    "FORWARD-WORKPAPERS",
+    "FORWARD-DATA-RECONCILIATION",
+    "FORWARD-ENGINE-EXPORT",
+    "FORWARD-BENCHMARK"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "transaction-monitoring-effectiveness-reviewer",
+    "compliance-control-testing-assistant",
+    "financial-crime-technology-controls-reviewer",
+    "model-validation-assistant"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "c25104a99a39d413ed0d8ecc3e5251971201c015b5f99b8cc7480e1825467d5b",
+  "source_truth": "unverified"
+}

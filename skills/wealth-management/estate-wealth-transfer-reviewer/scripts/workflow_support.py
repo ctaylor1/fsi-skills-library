@@ -39,7 +39,7 @@ def rows(doc, key, errors, identifier=None):
     return value
 
 
-def base_errors(doc):
+def base_errors(doc, allow_unknown_policy_owner=False):
     errors = validate_envelope(doc)
     if errors:
         return errors
@@ -48,6 +48,8 @@ def base_errors(doc):
         errors.append("policy must be an object")
     else:
         for key in ("version", "owner"):
+            if key == "owner" and allow_unknown_policy_owner and key in policy and policy[key] is None:
+                continue
             if not nonempty(policy.get(key)):
                 errors.append(f"policy.{key} is required")
         if policy.get("capacity") != doc["engagement"]["capacity"] or policy.get("jurisdiction") != doc["engagement"]["jurisdiction"]:

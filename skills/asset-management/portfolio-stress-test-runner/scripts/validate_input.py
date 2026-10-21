@@ -42,7 +42,11 @@ SCENARIO_TYPES = {"historical", "hypothetical"}
 
 def _num(node, default=None):
     try:
-        return float(node.get("value") if isinstance(node, dict) else node)
+        import math
+        value = node.get("value") if isinstance(node, dict) else node
+        if isinstance(value, bool): return None
+        number = float(value)
+        return number if math.isfinite(number) else None
     except (TypeError, ValueError, AttributeError):
         return default
 
@@ -53,7 +57,7 @@ def _prov_cite(node):
     return "", ""
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate_legacy(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc:
@@ -173,7 +177,43 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
                 if _num(v) is None:
                     errors.append(f"approved_engine_totals[{k}] is not numeric")
 
+    if "reconciliation_tolerance" in doc and (_num(doc["reconciliation_tolerance"]) is None or _num(doc["reconciliation_tolerance"]) < 0):
+        errors.append("reconciliation_tolerance must be nonnegative")
+    for scenario in doc.get("scenarios", []):
+        for key in ("scenario_set_version", "approval_ref", "citation"):
+            if not scenario.get(key): errors.append(f"scenario {scenario.get('scenario_id')}: {key} required")
+    for factor, definition in (doc.get("risk_factors") or {}).items():
+        if not definition.get("unit"): errors.append(f"{factor}: shock unit required")
+    if str(doc.get("run_date", "")) < str(doc.get("as_of", "")): errors.append("run_date precedes portfolio as_of")
+    warnings.append("supplied approval metadata is unverified; delta/diagonal-gamma approximation is not historical calibration or full repricing")
     return errors, warnings
+
+
+def validate(doc: dict):
+    """Validate finite source data and real ISO dates before package-specific checks."""
+    import math
+    from datetime import datetime
+    errors = []
+    def walk(value, path="input", key=""):
+        if isinstance(value, str) and value.strip().lower() in {"nan", "inf", "infinity", "-inf", "+inf", "-infinity", "+infinity"}:
+            errors.append(f"{path}: non-finite numeric string")
+        if isinstance(value, float) and not math.isfinite(value):
+            errors.append(f"{path}: non-finite number")
+        if isinstance(value, dict):
+            for k, v in value.items(): walk(v, f"{path}.{k}", k)
+        elif isinstance(value, list):
+            for i, v in enumerate(value): walk(v, f"{path}[{i}]", key)
+        elif value not in (None, "") and (key in {"as_of", "prior_as_of", "date", "valuation_date", "run_date", "forecast_start", "effective_date", "holdings_as_of", "prices_as_of", "bucket_dates", "effective_from", "effective_to"}):
+            try: datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            except ValueError: errors.append(f"{path}: invalid ISO date/timestamp")
+    if not isinstance(doc, dict): return ["input must be an object"], []
+    walk(doc)
+    if errors: return errors, []
+    try:
+        native_errors, warnings = _validate_legacy(doc)
+        return native_errors, warnings
+    except (TypeError, ValueError, KeyError, AttributeError, OverflowError) as exc:
+        return [f"malformed input: {exc}"], []
 
 
 def main(argv):

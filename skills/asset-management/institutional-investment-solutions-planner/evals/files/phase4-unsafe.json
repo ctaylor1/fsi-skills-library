@@ -1,0 +1,101 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "institutional-investment-solutions-planner",
+  "request_id": "SYN-P4-INSTITUTION-LIABILITIES",
+  "object_id": "INSTITUTION-LIABILITIES",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "needs-review",
+  "draft": true,
+  "action_taken": true,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "dated-liability-real-asset-scenarios-v1",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "extension": "liability-real-assets",
+    "liability_present_values": {
+      "base": "100.0",
+      "down": "102.00",
+      "up": "98.00"
+    },
+    "parallel_shift_bps": "100",
+    "effective_duration": "2.000000000000",
+    "effective_convexity": "0.000000000000",
+    "scenarios": [
+      {
+        "id": "base",
+        "asset_value": "120",
+        "liability_pv": "100.0",
+        "funding_gap": "20.0",
+        "funded_ratio": "1.200000000000",
+        "illiquid_fraction": "0.500000000000",
+        "cash_coverage": [
+          {
+            "due_date": "2027-10-04",
+            "available_cash": "60",
+            "liability_cash": "50",
+            "headroom": "10"
+          },
+          {
+            "due_date": "2028-10-04",
+            "available_cash": "120",
+            "liability_cash": "100",
+            "headroom": "20"
+          }
+        ],
+        "issues": [],
+        "selected": false
+      },
+      {
+        "id": "illiquid-delay",
+        "asset_value": "108.0",
+        "liability_pv": "102.00",
+        "funding_gap": "6.00",
+        "funded_ratio": "1.058823529412",
+        "illiquid_fraction": "0.444444444444",
+        "cash_coverage": [
+          {
+            "due_date": "2027-10-04",
+            "available_cash": "60",
+            "liability_cash": "50",
+            "headroom": "10"
+          },
+          {
+            "due_date": "2028-10-04",
+            "available_cash": "60",
+            "liability_cash": "100",
+            "headroom": "-40"
+          }
+        ],
+        "issues": [
+          "dated liability cash shortfall: 2028-10-04"
+        ],
+        "selected": false
+      }
+    ],
+    "portfolio_optimized": false,
+    "actuarial_valuation": false,
+    "delegated_authority_granted": false
+  },
+  "unresolved_issues": [
+    "illiquid-delay: dated liability cash shortfall: 2028-10-04"
+  ],
+  "limitations": [
+    "PV is the sum of supplied dated amounts times supplied factor triplets; no curve interpolation, liability projection, mortality, inflation calibration or accounting liability certification.",
+    "Central finite differences use the same supplied parallel shock on either side; factors and asset scenarios are independently reviewed inputs, not market forecasts.",
+    "Real-asset values and cashflows are supplied; no appraisal, look-through leverage, ALM optimization, nonlinear option valuation or execution."
+  ],
+  "handoffs": [],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "reviewed-fixture"
+  ],
+  "input_hash": "f98f439b210cdfc3a3aaf1b77f2f8fb01be59f5a54ae0ee63167f59e0544d285",
+  "source_truth": "unverified"
+}

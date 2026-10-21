@@ -1,0 +1,801 @@
+{
+  "adapter_id": "forecast-to-dcf",
+  "producer_input": {
+    "schema_version": "ir-phase2/1.0",
+    "request_id": "forward-ASTER-models",
+    "purpose": "internal-research",
+    "audience": "internal-review",
+    "subject": {
+      "type": "issuer",
+      "id": "ASTER"
+    },
+    "as_of": "2026-10-20",
+    "use_on": "2026-10-20",
+    "knowledge_cutoff": "2026-10-20T16:00:00Z",
+    "information_barrier": "public-side",
+    "sources": [
+      {
+        "source_id": "statements",
+        "version": "fy2025-v1",
+        "kind": "financial_statement",
+        "known_at": "2026-10-01T12:00:00Z",
+        "locator": "annual financials FY2025",
+        "subject_ids": [
+          "ASTER"
+        ],
+        "permission_status": "supplied-allowed",
+        "permitted_audiences": [
+          "internal-review"
+        ],
+        "permitted_purposes": [
+          "internal-research"
+        ],
+        "classification": "public"
+      }
+    ],
+    "evidence_refs": [
+      {
+        "source_id": "statements",
+        "locator": "supplied annual financials notes 1-12"
+      }
+    ],
+    "unresolved_issues": [
+      "Source authenticity remains unverified by the analyst"
+    ],
+    "issuer_type": "nonfinancial-corporate",
+    "accounting_basis": "IFRS",
+    "consolidation_scope": "consolidated",
+    "currency": "USD",
+    "units": "millions",
+    "fiscal_calendar": "calendar",
+    "model_input": {
+      "company": "Aster Manufacturing",
+      "company_id": "ASTER",
+      "as_of": "2026-10-20",
+      "config_version": "forward-native-1",
+      "forecast_years": 3,
+      "currency": "USD",
+      "units": "millions",
+      "historical": {
+        "year": 2025,
+        "income_statement": {
+          "revenue": 200,
+          "cogs": 120,
+          "opex": 40,
+          "depreciation": 10,
+          "interest_expense": 6,
+          "tax": 6,
+          "net_income": 18
+        },
+        "balance_sheet": {
+          "cash": 50,
+          "accounts_receivable": 20,
+          "inventory": 10,
+          "other_current_assets": 0,
+          "ppe_net": 100,
+          "other_assets": 0,
+          "accounts_payable": 20,
+          "other_current_liabilities": 0,
+          "debt": 60,
+          "other_liabilities": 0,
+          "equity": 100
+        }
+      },
+      "drivers": {
+        "revenue_growth": {
+          "value": 0.05,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "gross_margin": {
+          "value": 0.4,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "opex_pct_revenue": {
+          "value": 0.2,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "depreciation_rate": {
+          "value": 0.1,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "capex_pct_revenue": {
+          "value": 0.1,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "dso": {
+          "value": 36.5,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "dio": {
+          "value": 30,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "dpo": {
+          "value": 45,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "other_current_assets_pct_revenue": {
+          "value": 0,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "other_current_liabilities_pct_revenue": {
+          "value": 0,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "tax_rate": {
+          "value": 0.25,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "interest_rate": {
+          "value": 0.1,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "debt_repayment": {
+          "value": 5,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        },
+        "dividend_payout_ratio": {
+          "value": 0.2,
+          "source": "supplied analyst assumptions memo cells A1:B20"
+        }
+      },
+      "scenarios": {
+        "base": {
+          "revenue_growth_delta": 0,
+          "gross_margin_delta": 0
+        },
+        "upside": {
+          "revenue_growth_delta": 0.01,
+          "gross_margin_delta": 0.01
+        },
+        "downside": {
+          "revenue_growth_delta": -0.01,
+          "gross_margin_delta": -0.01
+        }
+      }
+    }
+  },
+  "producer_output": {
+    "schema_version": "ir-analysis/2.0",
+    "method_id": "three-statement-model-builder",
+    "method_version": "2.0.0",
+    "request_id": "forward-ASTER-models",
+    "subject": {
+      "type": "issuer",
+      "id": "ASTER"
+    },
+    "as_of": "2026-10-20",
+    "knowledge_cutoff": "2026-10-20T16:00:00Z",
+    "use_on": "2026-10-20",
+    "purpose": "internal-research",
+    "audience": "internal-review",
+    "results": {
+      "issuer_type": "nonfinancial-corporate",
+      "native_model": {
+        "model_id": "3sm-astermanufac-2026-10-20-0001",
+        "company": "Aster Manufacturing",
+        "ticker": null,
+        "as_of": "2026-10-20",
+        "config_version": "forward-native-1",
+        "currency": "USD",
+        "units": "millions",
+        "inputs_hash": "01d51bf3b82133a0",
+        "base_year": 2025,
+        "forecast_years": [
+          2026,
+          2027,
+          2028
+        ],
+        "base_snapshot": {
+          "year": 2025,
+          "revenue": 200.0,
+          "balance_sheet": {
+            "cash": 50.0,
+            "accounts_receivable": 20.0,
+            "inventory": 10.0,
+            "other_current_assets": 0.0,
+            "ppe_net": 100.0,
+            "other_assets": 0.0,
+            "accounts_payable": 20.0,
+            "other_current_liabilities": 0.0,
+            "debt": 60.0,
+            "other_liabilities": 0.0,
+            "equity": 100.0
+          }
+        },
+        "assumptions": [
+          {
+            "driver": "capex_pct_revenue",
+            "value": 0.1,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "debt_repayment",
+            "value": 5.0,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "depreciation_rate",
+            "value": 0.1,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "dio",
+            "value": 30.0,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "dividend_payout_ratio",
+            "value": 0.2,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "dpo",
+            "value": 45.0,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "dso",
+            "value": 36.5,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "gross_margin",
+            "value": 0.4,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "interest_rate",
+            "value": 0.1,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "opex_pct_revenue",
+            "value": 0.2,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "other_current_assets_pct_revenue",
+            "value": 0.0,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "other_current_liabilities_pct_revenue",
+            "value": 0.0,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "revenue_growth",
+            "value": 0.05,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          },
+          {
+            "driver": "tax_rate",
+            "value": 0.25,
+            "source": "supplied analyst assumptions memo cells A1:B20"
+          }
+        ],
+        "income_statement": [
+          {
+            "year": 2026,
+            "revenue": 210.0,
+            "cogs": 126.0,
+            "gross_profit": 84.0,
+            "opex": 42.0,
+            "ebitda": 42.0,
+            "depreciation": 10.0,
+            "ebit": 32.0,
+            "interest_expense": 6.0,
+            "pretax_income": 26.0,
+            "tax": 6.5,
+            "net_income": 19.5
+          },
+          {
+            "year": 2027,
+            "revenue": 220.5,
+            "cogs": 132.3,
+            "gross_profit": 88.2,
+            "opex": 44.1,
+            "ebitda": 44.1,
+            "depreciation": 11.1,
+            "ebit": 33.0,
+            "interest_expense": 5.5,
+            "pretax_income": 27.5,
+            "tax": 6.875,
+            "net_income": 20.625
+          },
+          {
+            "year": 2028,
+            "revenue": 231.525,
+            "cogs": 138.915,
+            "gross_profit": 92.61,
+            "opex": 46.305,
+            "ebitda": 46.305,
+            "depreciation": 12.195,
+            "ebit": 34.11,
+            "interest_expense": 5.0,
+            "pretax_income": 29.11,
+            "tax": 7.2775,
+            "net_income": 21.8325
+          }
+        ],
+        "balance_sheet": [
+          {
+            "year": 2026,
+            "cash": 43.778082,
+            "accounts_receivable": 21.0,
+            "inventory": 10.356164,
+            "other_current_assets": 0.0,
+            "ppe_net": 111.0,
+            "other_assets": 0.0,
+            "total_assets": 186.134247,
+            "accounts_payable": 15.534247,
+            "other_current_liabilities": 0.0,
+            "debt": 55.0,
+            "other_liabilities": 0.0,
+            "total_liabilities": 70.534247,
+            "equity": 115.6,
+            "total_liabilities_and_equity": 186.134247
+          },
+          {
+            "year": 2027,
+            "cash": 43.536985,
+            "accounts_receivable": 22.05,
+            "inventory": 10.873973,
+            "other_current_assets": 0.0,
+            "ppe_net": 121.95,
+            "other_assets": 0.0,
+            "total_assets": 198.410958,
+            "accounts_payable": 16.310959,
+            "other_current_liabilities": 0.0,
+            "debt": 50.0,
+            "other_liabilities": 0.0,
+            "total_liabilities": 66.310959,
+            "equity": 132.1,
+            "total_liabilities_and_equity": 198.410959
+          },
+          {
+            "year": 2028,
+            "cash": 44.214835,
+            "accounts_receivable": 23.1525,
+            "inventory": 11.417671,
+            "other_current_assets": 0.0,
+            "ppe_net": 132.9075,
+            "other_assets": 0.0,
+            "total_assets": 211.692506,
+            "accounts_payable": 17.126507,
+            "other_current_liabilities": 0.0,
+            "debt": 45.0,
+            "other_liabilities": 0.0,
+            "total_liabilities": 62.126507,
+            "equity": 149.566,
+            "total_liabilities_and_equity": 211.692507
+          }
+        ],
+        "cash_flow": [
+          {
+            "year": 2026,
+            "net_income": 19.5,
+            "depreciation": 10.0,
+            "change_in_accounts_receivable": -1.0,
+            "change_in_inventory": -0.356164,
+            "change_in_other_current_assets": -0.0,
+            "change_in_accounts_payable": -4.465753,
+            "change_in_other_current_liabilities": 0.0,
+            "cfo": 23.678082,
+            "capex": -21.0,
+            "cfi": -21.0,
+            "debt_repayment": -5.0,
+            "dividends": -3.9,
+            "cff": -8.9,
+            "net_change_in_cash": -6.221918,
+            "beginning_cash": 50.0,
+            "ending_cash": 43.778082
+          },
+          {
+            "year": 2027,
+            "net_income": 20.625,
+            "depreciation": 11.1,
+            "change_in_accounts_receivable": -1.05,
+            "change_in_inventory": -0.517809,
+            "change_in_other_current_assets": -0.0,
+            "change_in_accounts_payable": 0.776712,
+            "change_in_other_current_liabilities": 0.0,
+            "cfo": 30.933903,
+            "capex": -22.05,
+            "cfi": -22.05,
+            "debt_repayment": -5.0,
+            "dividends": -4.125,
+            "cff": -9.125,
+            "net_change_in_cash": -0.241097,
+            "beginning_cash": 43.778082,
+            "ending_cash": 43.536985
+          },
+          {
+            "year": 2028,
+            "net_income": 21.8325,
+            "depreciation": 12.195,
+            "change_in_accounts_receivable": -1.1025,
+            "change_in_inventory": -0.543698,
+            "change_in_other_current_assets": -0.0,
+            "change_in_accounts_payable": 0.815548,
+            "change_in_other_current_liabilities": 0.0,
+            "cfo": 33.19685,
+            "capex": -23.1525,
+            "cfi": -23.1525,
+            "debt_repayment": -5.0,
+            "dividends": -4.3665,
+            "cff": -9.3665,
+            "net_change_in_cash": 0.67785,
+            "beginning_cash": 43.536985,
+            "ending_cash": 44.214835
+          }
+        ],
+        "schedules": {
+          "debt": [
+            {
+              "year": 2026,
+              "opening": 60.0,
+              "repayment": -5.0,
+              "closing": 55.0,
+              "interest_expense": 6.0
+            },
+            {
+              "year": 2027,
+              "opening": 55.0,
+              "repayment": -5.0,
+              "closing": 50.0,
+              "interest_expense": 5.5
+            },
+            {
+              "year": 2028,
+              "opening": 50.0,
+              "repayment": -5.0,
+              "closing": 45.0,
+              "interest_expense": 5.0
+            }
+          ],
+          "ppe": [
+            {
+              "year": 2026,
+              "opening": 100.0,
+              "capex": 21.0,
+              "depreciation": -10.0,
+              "closing": 111.0
+            },
+            {
+              "year": 2027,
+              "opening": 111.0,
+              "capex": 22.05,
+              "depreciation": -11.1,
+              "closing": 121.95
+            },
+            {
+              "year": 2028,
+              "opening": 121.95,
+              "capex": 23.1525,
+              "depreciation": -12.195,
+              "closing": 132.9075
+            }
+          ],
+          "working_capital": [
+            {
+              "year": 2026,
+              "accounts_receivable": 21.0,
+              "inventory": 10.356164,
+              "accounts_payable": 15.534247,
+              "net_working_capital": 15.821917
+            },
+            {
+              "year": 2027,
+              "accounts_receivable": 22.05,
+              "inventory": 10.873973,
+              "accounts_payable": 16.310959,
+              "net_working_capital": 16.613014
+            },
+            {
+              "year": 2028,
+              "accounts_receivable": 23.1525,
+              "inventory": 11.417671,
+              "accounts_payable": 17.126507,
+              "net_working_capital": 17.443664
+            }
+          ]
+        },
+        "checks": {
+          "balance": [
+            {
+              "year": 2026,
+              "total_assets": 186.134247,
+              "total_liabilities_and_equity": 186.134247,
+              "residual": 0.0,
+              "balanced": true
+            },
+            {
+              "year": 2027,
+              "total_assets": 198.410958,
+              "total_liabilities_and_equity": 198.410959,
+              "residual": -1e-06,
+              "balanced": true
+            },
+            {
+              "year": 2028,
+              "total_assets": 211.692506,
+              "total_liabilities_and_equity": 211.692507,
+              "residual": -1e-06,
+              "balanced": true
+            }
+          ],
+          "cash_tie": [
+            {
+              "year": 2026,
+              "cf_ending_cash": 43.778082,
+              "bs_cash": 43.778082,
+              "residual": 0.0,
+              "tied": true
+            },
+            {
+              "year": 2027,
+              "cf_ending_cash": 43.536985,
+              "bs_cash": 43.536985,
+              "residual": 0.0,
+              "tied": true
+            },
+            {
+              "year": 2028,
+              "cf_ending_cash": 44.214835,
+              "bs_cash": 44.214835,
+              "residual": 0.0,
+              "tied": true
+            }
+          ],
+          "equity_rollforward": [
+            {
+              "year": 2026,
+              "expected_equity": 115.6,
+              "reported_equity": 115.6,
+              "residual": 0.0,
+              "tied": true
+            },
+            {
+              "year": 2027,
+              "expected_equity": 132.1,
+              "reported_equity": 132.1,
+              "residual": 0.0,
+              "tied": true
+            },
+            {
+              "year": 2028,
+              "expected_equity": 149.566,
+              "reported_equity": 149.566,
+              "residual": 0.0,
+              "tied": true
+            }
+          ],
+          "ppe_rollforward": [
+            {
+              "year": 2026,
+              "expected_ppe_net": 111.0,
+              "reported_ppe_net": 111.0,
+              "residual": 0.0,
+              "tied": true
+            },
+            {
+              "year": 2027,
+              "expected_ppe_net": 121.95,
+              "reported_ppe_net": 121.95,
+              "residual": 0.0,
+              "tied": true
+            },
+            {
+              "year": 2028,
+              "expected_ppe_net": 132.9075,
+              "reported_ppe_net": 132.9075,
+              "residual": 0.0,
+              "tied": true
+            }
+          ]
+        },
+        "scenarios": [
+          {
+            "name": "base",
+            "final_year": 2028,
+            "revenue": 231.525,
+            "ebitda": 46.305,
+            "net_income": 21.8325,
+            "ending_cash": 44.214835
+          },
+          {
+            "name": "upside",
+            "final_year": 2028,
+            "revenue": 238.2032,
+            "ebitda": 50.022672,
+            "net_income": 24.575604,
+            "ending_cash": 47.953375
+          },
+          {
+            "name": "downside",
+            "final_year": 2028,
+            "revenue": 224.9728,
+            "ebitda": 42.744832,
+            "net_income": 19.207224,
+            "ending_cash": 40.618628
+          }
+        ],
+        "all_balanced": true,
+        "financing_feasibility": "not-assessed-no-funding-engine",
+        "negative_cash_years": [],
+        "limitations": [
+          "Annual nonfinancial corporate model; constant drivers; opening-debt interest; no new borrowing or revolver; negative cash is a funding gap, not feasible financing.",
+          "No bank, insurer or REIT specialist accounting/valuation engine."
+        ],
+        "narrative": "Integrated three-statement model for Aster Manufacturing built from base-year 2025 actuals across 3 forecast year(s) (2026-2028) using explicit, sourced driver assumptions. Interest is computed on opening debt so the model is non-circular and reproducible. Structural balance checks are reported separately from financing feasibility. Cash-flow ending cash is compared to balance-sheet cash; equity and PP&E roll-forwards are checked. No new funding is modeled. The scenario summary reflects driver deltas only. Model output for analytical support only; not investment advice or a recommendation to buy, sell, or hold any security.",
+        "disclaimer": "Model output for analytical support only; not investment advice or a recommendation to buy, sell, or hold any security.",
+        "validation_warnings": [],
+        "method_id": "three-statement-model-builder",
+        "method_version": "0.3.0",
+        "result_origin": "local-analysis",
+        "review_status": "not-requested",
+        "execution_status": "not-performed",
+        "method_scope": "three-statement-model-builder: bounded supplied-input local analysis; no source authentication, approval or execution",
+        "input_hash": "01d51bf3b82133a045c0700b7c06da306ab8f29fe407ff5774570427359e293e",
+        "source_truth": "unverified"
+      },
+      "forecast_rows": [
+        {
+          "year": 2026,
+          "period_start": "2026-01-01",
+          "period_end": "2026-12-31",
+          "revenue": 210.0,
+          "ebit": 32.0,
+          "depreciation": 10.0,
+          "capex": 21.0,
+          "delta_nwc": 5.821916999999999,
+          "tax_rate": 0.25,
+          "nopat": 24.0,
+          "ufcf": 7.178083000000001,
+          "currency": "USD",
+          "units": "millions",
+          "accounting_basis": "IFRS",
+          "consolidation_scope": "consolidated"
+        },
+        {
+          "year": 2027,
+          "period_start": "2027-01-01",
+          "period_end": "2027-12-31",
+          "revenue": 220.5,
+          "ebit": 33.0,
+          "depreciation": 11.1,
+          "capex": 22.05,
+          "delta_nwc": 0.7910970000000042,
+          "tax_rate": 0.25,
+          "nopat": 24.75,
+          "ufcf": 13.008902999999997,
+          "currency": "USD",
+          "units": "millions",
+          "accounting_basis": "IFRS",
+          "consolidation_scope": "consolidated"
+        },
+        {
+          "year": 2028,
+          "period_start": "2028-01-01",
+          "period_end": "2028-12-31",
+          "revenue": 231.525,
+          "ebit": 34.11,
+          "depreciation": 12.195,
+          "capex": 23.1525,
+          "delta_nwc": 0.8306499999999986,
+          "tax_rate": 0.25,
+          "nopat": 25.5825,
+          "ufcf": 13.794350000000005,
+          "currency": "USD",
+          "units": "millions",
+          "accounting_basis": "IFRS",
+          "consolidation_scope": "consolidated"
+        }
+      ],
+      "method_scope": "Annual nonfinancial operating model; forecast rows derived from each integrated year, no flat-margin conversion; no revolver/funding solution."
+    },
+    "status": "partial",
+    "calculation_lineage": [
+      {
+        "formula": "UFCF = EBIT*(1-tax_rate) + depreciation - capex - change(non-cash operating NWC)",
+        "producer_input_hash": "01d51bf3b82133a045c0700b7c06da306ab8f29fe407ff5774570427359e293e"
+      }
+    ],
+    "unresolved_issues": [
+      "Source authenticity remains unverified by the analyst"
+    ],
+    "evidence_refs": [
+      {
+        "source_id": "statements",
+        "locator": "supplied annual financials notes 1-12"
+      }
+    ],
+    "source_register": [
+      {
+        "source_id": "statements",
+        "version": "fy2025-v1",
+        "known_at": "2026-10-01T12:00:00Z",
+        "locator": "annual financials FY2025",
+        "kind": "financial_statement"
+      }
+    ],
+    "source_assurance": "supplied-not-authenticated",
+    "coverage_assurance": "supplied-inventory-only",
+    "professional_acceptance": "not-established",
+    "authority_granted": false,
+    "action_taken": false,
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "input_hash": "8ef47ab236e600e53c0d83212379fe12923dca5e79512493219b84e603155110",
+    "source_truth": "unverified"
+  },
+  "receiver_input": {
+    "schema_version": "ir-phase2/1.0",
+    "request_id": "forward-ASTER-valuation",
+    "purpose": "internal-research",
+    "audience": "internal-review",
+    "subject": {
+      "type": "issuer",
+      "id": "OTHER"
+    },
+    "as_of": "2026-10-20",
+    "use_on": "2026-10-20",
+    "knowledge_cutoff": "2026-10-20T16:00:00Z",
+    "information_barrier": "public-side",
+    "sources": [
+      {
+        "source_id": "assumptions",
+        "version": "scenario-1",
+        "kind": "research",
+        "known_at": "2026-10-19T18:00:00Z",
+        "locator": "analyst valuation assumptions memo",
+        "subject_ids": [
+          "ASTER"
+        ],
+        "permission_status": "supplied-allowed",
+        "permitted_audiences": [
+          "internal-review"
+        ],
+        "permitted_purposes": [
+          "internal-research"
+        ],
+        "classification": "public"
+      }
+    ],
+    "evidence_refs": [
+      {
+        "source_id": "assumptions",
+        "locator": "memo B1:B8"
+      }
+    ],
+    "unresolved_issues": [
+      "Discount rate is an analyst scenario"
+    ],
+    "issuer_type": "nonfinancial-corporate",
+    "accounting_basis": "IFRS",
+    "consolidation_scope": "consolidated",
+    "currency": "USD",
+    "units": "millions",
+    "forecast_rows": [],
+    "valuation_timing": "annual-period-index",
+    "valuation_subject": {
+      "security_id": "ASTER-A",
+      "share_class": "common-A",
+      "share_count_basis": "fully-diluted-common-A"
+    },
+    "diluted_shares": 40,
+    "wacc": 0.1,
+    "terminal_growth": 0.02,
+    "discounting": "end_year",
+    "bridge": {
+      "total_debt": 60,
+      "cash_and_equivalents": 50,
+      "minority_interest": 0,
+      "preferred_equity": 0,
+      "investments_associates": 0
+    }
+  },
+  "selection": {}
+}

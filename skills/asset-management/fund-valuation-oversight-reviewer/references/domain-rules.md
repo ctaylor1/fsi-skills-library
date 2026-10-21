@@ -1,0 +1,5 @@
+# Bounded Phase 1 method
+
+Source provenance, evidence_kind, valuation method, accounting hierarchy and approval are separate fields. No Level 1/2/3 or liquidity category is inferred from source or asset class. An approved model estimate is eligible pricing evidence, not automatically missing. Invalid/future/mismatched price dates, currency and units withhold affected comparisons. Dispersion uses only observations at the same latest date. Prior move requires a dated comparable prior and explicitly selected comparison_source_id; this selection is analytical input, not an official price selection. Staleness counts weekdays only; no holiday calendar is implemented. Indicative/carry-forward evidence is not an approved substitute. No full private-asset valuation method engine is implemented.
+
+This is an offline draft evidence method, not a production source of record. Read [schema](schema.md) before mapping inputs. Native output is reconstructed from the separately retained input; independent expected results and professional review remain necessary.

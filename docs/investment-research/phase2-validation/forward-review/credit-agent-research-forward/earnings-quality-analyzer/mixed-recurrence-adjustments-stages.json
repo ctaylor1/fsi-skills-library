@@ -1,0 +1,29 @@
+[
+  {
+    "command": [
+      "python3",
+      "-B",
+      "scripts/validate_input.py",
+      "/private/tmp/ir-phase2-research-forward-credit-20261020/earnings-quality-analyzer/mixed-recurrence-adjustments-input.json"
+    ],
+    "exit": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "-B",
+      "scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase2-research-forward-credit-20261020/earnings-quality-analyzer/mixed-recurrence-adjustments-input.json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"earnings-quality-analyzer\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"independent-credit-lane-forward\",\n  \"subject\": {\n    \"type\": \"issuer\",\n    \"id\": \"FRESH-ISSUER\"\n  },\n  \"as_of\": \"2026-10-20\",\n  \"knowledge_cutoff\": \"2026-10-20T22:00:00Z\",\n  \"use_on\": \"2026-10-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": {\n    \"period_id\": \"FY2025\",\n    \"basis\": {\n      \"currency\": \"USD\",\n      \"unit\": \"USD_m\",\n      \"accounting_basis\": \"supplied-GAAP\",\n      \"consolidation_scope\": \"consolidated\"\n    },\n    \"net_income\": 20,\n    \"operating_cash_flow\": 8,\n    \"average_assets\": 110.0,\n    \"total_accruals\": 12,\n    \"accrual_ratio\": 0.10909090909090909,\n    \"cash_conversion\": 0.4,\n    \"supplied_adjustment_total\": 14,\n    \"supplied_adjusted_income\": 34,\n    \"evidence_supported_nonrecurring_adjustments\": [\n      \"A1\"\n    ],\n    \"provisional_normalized_income\": 24,\n    \"adjustment_review\": [\n      {\n        \"adjustment_id\": \"A2\",\n        \"reasons\": [\n          \"recurrence-recurring\"\n        ]\n      },\n      {\n        \"adjustment_id\": \"A3\",\n        \"reasons\": [\n          \"recurrence-unknown\",\n          \"unknown-cash-effect\"\n        ]\n      }\n    ],\n    \"limitations\": [\n      \"Nonrecurrence and cash classifications are supplied claims, not authenticated accounting conclusions\",\n      \"Cash conversion and accruals are diagnostic indicators; no fraud conclusion, quality rating or non-GAAP compliance clearance\"\n    ]\n  },\n  \"status\": \"partial\",\n  \"calculation_lineage\": [\n    {\n      \"formula\": \"total_accruals = net_income - operating_cash_flow; accrual_ratio = total_accruals / mean(beginning_assets,ending_assets); normalized_income = net_income + eligible signed after-tax adjustments\",\n      \"period_id\": \"FY2025\"\n    }\n  ],\n  \"unresolved_issues\": [\n    \"A2: adjustment requires review\",\n    \"A3: adjustment requires review\"\n  ],\n  \"evidence_refs\": [\n    {\n      \"source_id\": \"FRESH-SUPPLIED\",\n      \"locator\": \"forward:raw-tables;rows-1-4\"\n    }\n  ],\n  \"source_register\": [\n    {\n      \"source_id\": \"FRESH-SUPPLIED\",\n      \"version\": \"forward-original-v1\",\n      \"known_at\": \"2026-10-19T14:00:00Z\",\n      \"locator\": \"forward:raw-tables\",\n      \"kind\": \"filing\"\n    }\n  ],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"f4dcbfe0ae0d0471ec947857191f374aab87cbf72d0e870900f897ae67b8ad8e\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "exit": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  }
+]

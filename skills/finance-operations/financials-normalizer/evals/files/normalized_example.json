@@ -56,27 +56,6 @@
       ]
     },
     {
-      "std_account": "operating_income",
-      "statement": "income_statement",
-      "period": "FY2025",
-      "mapped_value": 0.0,
-      "adjustments": [
-        {
-          "adj_id": "ADJ-1",
-          "type": "non_recurring_addback",
-          "amount": 300.0
-        },
-        {
-          "adj_id": "ADJ-2",
-          "type": "reclass",
-          "amount": -150.0
-        }
-      ],
-      "adjustment_total": 150.0,
-      "normalized_value": 150.0,
-      "provenance": []
-    },
-    {
       "std_account": "receivables",
       "statement": "balance_sheet",
       "period": "FY2025",
@@ -93,9 +72,21 @@
       "statement": "income_statement",
       "period": "FY2025",
       "mapped_value": -300.0,
-      "adjustments": [],
-      "adjustment_total": 0,
-      "normalized_value": -300.0,
+      "adjustments": [
+        {
+          "adj_id": "ADJ-1",
+          "type": "non_recurring_addback",
+          "statement": "income_statement",
+          "period": "FY2025",
+          "amount": 300.0,
+          "rationale": "add back one-time restructuring charge disclosed in note 12",
+          "source_ref": "notes;note=12",
+          "approver": "controller",
+          "citation": "fs:notes;note=12@2026-07-15"
+        }
+      ],
+      "adjustment_total": 300.0,
+      "normalized_value": 0.0,
       "provenance": [
         "IS-4"
       ]
@@ -117,9 +108,21 @@
       "statement": "income_statement",
       "period": "FY2025",
       "mapped_value": -2000.0,
-      "adjustments": [],
-      "adjustment_total": 0,
-      "normalized_value": -2000.0,
+      "adjustments": [
+        {
+          "adj_id": "ADJ-2",
+          "type": "reclass",
+          "statement": "income_statement",
+          "period": "FY2025",
+          "amount": -150.0,
+          "rationale": "",
+          "source_ref": "notes;note=12",
+          "approver": null,
+          "citation": "fs:notes;note=12@2026-07-15"
+        }
+      ],
+      "adjustment_total": -150.0,
+      "normalized_value": -2150.0,
       "provenance": [
         "IS-3"
       ]
@@ -145,6 +148,25 @@
       "diff": 300.0,
       "within_tolerance": false
     }
+  ],
+  "reported_balance_sheet_checks": [
+    {
+      "period": "FY2025",
+      "total_assets": 9000.0,
+      "total_liabilities": 4000.0,
+      "total_equity": 5100.0,
+      "diff": -100.0,
+      "within_tolerance": false,
+      "citation": "fs:BS;row=Total assets;FY2025@2026-07-15"
+    }
+  ],
+  "normalized_balance_sheet_checks": [],
+  "readiness_config": {
+    "escalate_finding_count": 4
+  },
+  "limitations": [
+    "Incomplete normalized identity coverage is not model-ready; reported anchor checks do not prove adjusted statements balance.",
+    "Maps supplied extracts only; no accounting opinion or general framework conversion."
   ],
   "findings": [
     {
@@ -218,19 +240,23 @@
       }
     },
     {
-      "check": "balance_sheet_identity_break",
+      "check": "reported_balance_sheet_identity_break",
       "fired": true,
       "severity": "high",
-      "reason": "total assets 9000.0 != total liabilities + equity 9100.0 (off by -100.0)",
+      "reason": "Reported balance-sheet anchor identity for FY2025",
       "evidence": [
         {
+          "period": "FY2025",
           "total_assets": 9000.0,
-          "total_liabilities_plus_equity": 9100.0,
+          "total_liabilities": 4000.0,
+          "total_equity": 5100.0,
           "diff": -100.0,
+          "within_tolerance": false,
           "citation": "fs:BS;row=Total assets;FY2025@2026-07-15"
         }
       ],
       "context": {
+        "period": "FY2025",
         "tie_out_tolerance": 1.0
       }
     }
@@ -240,9 +266,15 @@
     "unmapped_line_item",
     "unexplained_adjustment",
     "subtotal_tie_out_break",
-    "balance_sheet_identity_break"
+    "reported_balance_sheet_identity_break"
   ],
-  "not_evaluable": [],
+  "not_evaluable": [
+    {
+      "check": "balance_sheet_identity_break",
+      "period": "FY2025",
+      "why": "complete disjoint mapped detail/component coverage is required for normalized identity; raw anchors do not prove it"
+    }
+  ],
   "suggested_readiness": "Hold - tie-out break",
   "review_considerations": [
     "a source subtotal that legitimately includes line items not in this extract (capture completeness)",
@@ -252,5 +284,17 @@
     "a source cell whose reference is available in a later extract - confirm provenance"
   ],
   "disclaimer": "Normalization output only; not an accounting, audit, or investment judgment, and not a system-of-record posting. Source figures are mapped and tied out, not restated or re-booked; a human reviewer must accept the normalized mapping before use.",
-  "narrative": "Normalization of ACME-CORP source financial statements for as-of 2026-07-15 mapped 8 detail line items to standard accounts and applied 2 documented adjustments. Two tie-outs did not reconcile within tolerance: reported total current assets (5,000) exceeds the sum of its captured components (4,700) by 300, and total assets (9,000) do not equal total liabilities plus equity (9,100) by 100. One mapped line item is untraceable (no source reference), one source line ('Equity in earnings of affiliates') is unmapped, and one adjustment lacks a rationale. Suggested readiness: Hold - tie-out break; a human reviewer must resolve the mapping and tie-out gaps before this dataset is used in a downstream model or report. Normalization output only; not an accounting, audit, or investment judgment, and not a system-of-record posting. Source figures are mapped and tied out, not restated or re-booked; a human reviewer must accept the normalized mapping before use."
+  "validation_warnings": [
+    "line_items[4] (IS-9): no source_ref — missing_provenance will fire (untraceable)",
+    "1 detail line(s) have no mapping — unmapped_line_item will fire",
+    "adjustments[1] (ADJ-2): missing rationale/source — will be flagged"
+  ],
+  "method_id": "financials-normalizer",
+  "method_version": "0.2.0",
+  "result_origin": "local-analysis",
+  "review_status": "not-requested",
+  "execution_status": "not-performed",
+  "method_scope": "financials-normalizer: bounded supplied-input local analysis; no source authentication, approval or execution",
+  "input_hash": "25a215e07733351e41252ba9020cff9f32146c22b666fb01a05e452f4b60fffc",
+  "source_truth": "unverified"
 }

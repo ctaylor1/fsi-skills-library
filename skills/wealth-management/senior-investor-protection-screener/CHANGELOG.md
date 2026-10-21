@@ -1,5 +1,9 @@
 # Changelog — senior-investor-protection-screener
 
+## 0.3.0 — 2026-10-04
+
+- Add detached field review and exact-recipient draft gates; preserve unknown observations and distinguish recording from professional review.
+
 ## [0.2.0] — 2026-09-16
 - Adopt the wealth-p0-v1 source/context contract and input-bound draft identity.
 - Bound baselines by as-of/lookback and pre-focal timestamps; enforce coverage and limits.

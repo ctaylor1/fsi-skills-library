@@ -1,0 +1,99 @@
+{
+  "id": "OPF-O02-NAV",
+  "package": "fund-accounting-preparer",
+  "input": {
+    "request_id": "OPF-O02-NAV",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "nav_workpaper",
+    "assets": [
+      {
+        "line_id": "INV",
+        "amount": "1000",
+        "source_ref": "ind-source"
+      },
+      {
+        "line_id": "CASH",
+        "amount": "200",
+        "source_ref": "ind-source"
+      }
+    ],
+    "liabilities": [
+      {
+        "line_id": "LIAB",
+        "amount": "100",
+        "source_ref": "ind-source"
+      }
+    ],
+    "classes": [
+      {
+        "class_id": "CLASS-A",
+        "allocation_weight": "0.6",
+        "shares_outstanding": "50",
+        "class_specific_expense": "10",
+        "source_ref": "ind-source"
+      },
+      {
+        "class_id": "CLASS-B",
+        "allocation_weight": "0.4",
+        "shares_outstanding": "30",
+        "class_specific_expense": "5",
+        "source_ref": "ind-source"
+      }
+    ],
+    "system_of_record_benchmark": {
+      "engine_id": "DECLARED-BOOK-ENGINE",
+      "engine_version": "v4",
+      "run_id": "SEP18-1",
+      "source_ref": "ind-source",
+      "object_id": "INDEPENDENT-FUND-Z",
+      "as_of": "2026-09-18",
+      "currency": "USD",
+      "nav": "1085"
+    },
+    "nav_tolerance": "0"
+  },
+  "expected": {
+    "common_nav": "1100",
+    "class_nav": [
+      "650",
+      "435"
+    ],
+    "nav_per_share": [
+      "13",
+      "14.5"
+    ],
+    "total_nav": "1085",
+    "benchmark_difference": "0"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "6698b1855be5b3c63a4293d098be3155aa2b8cea36b0e166afbacfa1c7f38356",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"system-of-record benchmark identity/version/source required\"]}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "system-of-record benchmark identity/version/source required\n"
+  },
+  "assessment": "Initial input rejected after a concurrently published schema added benchmark contract/acceptance refs; corrected request and independently unchanged numeric expectation preserved separately as OPF-O02-NAV-CONTRACT.",
+  "independent_checks": []
+}

@@ -59,7 +59,7 @@ def _expected_run_severity(alerts):
     return max(sevs, key=lambda s: SEVERITY_RANK[s])
 
 
-def validate(pack: dict) -> list[str]:
+def _validate_legacy(pack: dict) -> list[str]:
     errors: list[str] = []
     alerts = pack.get("alerts") or []
 
@@ -123,6 +123,19 @@ def validate(pack: dict) -> list[str]:
     return errors
 
 
+def validate(pack: dict, source_doc: dict | None = None) -> list[str]:
+    """Require detached original input; do not authenticate it or approve narrative."""
+    import runpy
+    try:
+        errors = _validate_legacy(pack)
+    except (TypeError, ValueError, KeyError, AttributeError, OverflowError) as exc:
+        return [f"malformed output: {exc}"]
+    engine = runpy.run_path(str(Path(__file__).with_name("calculate_or_transform.py")))
+    integrity = runpy.run_path(str(Path(__file__).with_name("native_integrity.py")))
+    integrity["validate_reconstruction"](pack, engine["compute"], errors, original_input=source_doc)
+    return errors
+
+
 def main(argv):
     if "--selftest" in argv:
         p = Path(__file__).resolve().parents[1] / "evals" / "files" / "pack_example.json"
@@ -131,7 +144,10 @@ def main(argv):
         pack = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
     else:
         pack = json.loads(sys.stdin.read())
-    errors = validate(pack)
+    source_doc = None
+    if "--input" in argv:
+        source_doc = json.loads(Path(argv[argv.index("--input") + 1]).read_text(encoding="utf-8"))
+    errors = validate(pack, source_doc)
     for e in errors:
         print("ERROR", e)
     print(f"output validation: {len(errors)} error(s)")

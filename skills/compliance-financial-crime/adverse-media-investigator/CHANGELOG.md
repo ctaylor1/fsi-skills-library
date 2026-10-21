@@ -1,5 +1,13 @@
 # Changelog — adverse-media-investigator
 
+## [0.1.1] — 2026-09-21
+
+Phase 1 repairs the bounded supplied-evidence implementation. Explicit applicable policy profiles replace silent approved defaults; unknown evidence remains unknown. Native output requires detached original-input reconstruction, rejects unvalidated additions and states source truth as unverified.
+
+No live search, complete corpus certification, source authentication, alias/transliteration inference, independent identity determination or legal culpability determination is implemented. The source category describes reported allegations/findings, not proof of the named crime. Low-reliability reports require reliable independent evidence before material conclusions.
+
+Domain rules, fixtures, handoffs and input/output contracts now match the implementation. Added 24 adversarial regression cases covering policy provenance, source binding and domain failure modes. Source pointers and synthetic fixtures are not independent verification or production acceptance. Human domain/control-owner review and any live integration remain pending. Earlier 0.1.0 claims below are historical and superseded where inconsistent with this entry and current rules.
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`). Created as the
 casework skill that turns adverse-media / negative-news hits into a durable case with a cited

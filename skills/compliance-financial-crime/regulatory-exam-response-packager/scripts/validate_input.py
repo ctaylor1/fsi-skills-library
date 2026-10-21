@@ -20,6 +20,7 @@ Exit 0 if no errors (warnings allowed), 1 otherwise.
 from __future__ import annotations
 import json, sys
 from pathlib import Path
+from native_integrity import canonical_hash
 
 REQUIRED_TOP = ("package_version", "exam", "requests")
 REQUIRED_EXAM = ("exam_id", "regulator", "period")
@@ -27,7 +28,7 @@ REQUIRED_REQUEST = ("request_id", "prompt", "category")
 CATEGORIES = {"document", "information", "question", "finding-response"}
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate_impl(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc:
@@ -64,7 +65,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
             warnings.append(f"{tag}: evidence_required not set -> defaulting to true")
 
     if not doc.get("required_approver_roles"):
-        warnings.append("required_approver_roles empty -> no approval gate can be enforced")
+        errors.append("required_approver_roles empty -> approval policy is required")
 
     responses = doc.get("responses") or []
     resp_ids = set()
@@ -93,6 +94,48 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     for rid in req_ids - resp_ids:
         warnings.append(f"request {rid} has no response -> will be a gap in the package")
     return errors, warnings
+
+
+INPUT_SHAPE = {
+    "package_version": str, "as_of": str,
+    "exam": {"period": {"from": str, "to": str}},
+    "requests": [{"request_id": str, "prompt": str, "category": str}],
+    "required_approver_roles": [str],
+    "responses": [{"request_id": str, "narrative": str,
+                   "assertions": [{"assertion_id": str, "text": str, "period": {"from": str, "to": str}}],
+                   "evidence": [{"evidence_id": str, "description": str, "period": {"from": str, "to": str}}],
+                   "approvals": [{}]}],
+}
+
+def _shape_errors(value, shape, path="$", optional=False):
+    """Reject malformed supplied containers; absent evidence remains a domain gap."""
+    if value is None and optional:
+        return []
+    if isinstance(shape, dict):
+        if not isinstance(value, dict):
+            return [f"{path} must be an object"]
+        return [error for key, child in shape.items() if key in value
+                for error in _shape_errors(value[key], child, f"{path}.{key}", optional=True)]
+    if isinstance(shape, list):
+        if not isinstance(value, list):
+            return [f"{path} must be a list"]
+        return [error for index, item in enumerate(value)
+                for error in _shape_errors(item, shape[0], f"{path}[{index}]")]
+    if not isinstance(value, shape) or (shape == (int, float) and isinstance(value, bool)):
+        return [f"{path} has an invalid type"]
+    return []
+
+
+def validate(doc):
+    """Validate the same intake boundary used by public calculators and native replay."""
+    try:
+        canonical_hash(doc)  # Reject non-finite and non-JSON values, including optional fields.
+        errors = _shape_errors(doc, INPUT_SHAPE)
+        if errors:
+            return errors, []
+        return _validate_impl(doc)
+    except (ValueError, TypeError, KeyError, AttributeError, IndexError, ArithmeticError) as exc:
+        return ["malformed input: " + str(exc)], []
 
 
 def main(argv):

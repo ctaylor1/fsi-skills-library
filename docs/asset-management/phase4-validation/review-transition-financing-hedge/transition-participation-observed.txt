@@ -1,0 +1,155 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "portfolio-transition-planner",
+  "request_id": "REVIEW-NEW-SCHEDULE",
+  "object_id": "SYN-PORTFOLIO",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "needs-review",
+  "draft": true,
+  "action_taken": false,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "supplied-staged-transition-v1",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "slices": [
+      {
+        "slice_id": "SELL-1",
+        "security_id": "OLD",
+        "side": "sell",
+        "quantity": "5",
+        "trade_date": "2026-10-05",
+        "settlement_date": "2026-10-06",
+        "estimated_notional": "210",
+        "explicit_cost": "3",
+        "estimated_reference_slippage": "-10",
+        "source_ref": "schedule"
+      },
+      {
+        "slice_id": "BUY-1",
+        "security_id": "NEW",
+        "side": "buy",
+        "quantity": "2",
+        "trade_date": "2026-10-06",
+        "settlement_date": "2026-10-07",
+        "estimated_notional": "184",
+        "explicit_cost": "2",
+        "estimated_reference_slippage": "4",
+        "source_ref": "schedule"
+      }
+    ],
+    "participation": [
+      {
+        "security_id": "NEW",
+        "trade_date": "2026-10-06",
+        "gross_quantity": "2",
+        "market_volume": "1000",
+        "participation": "0.002000000000",
+        "maximum": "0.1",
+        "within_cap": true
+      },
+      {
+        "security_id": "OLD",
+        "trade_date": "2026-10-05",
+        "gross_quantity": "5",
+        "market_volume": "40",
+        "participation": "0.125000000000",
+        "maximum": "0.1",
+        "within_cap": false
+      }
+    ],
+    "settlement_cash_path": [
+      {
+        "settlement_date": "2026-10-06",
+        "opening_cash": "750",
+        "outflows": "3",
+        "inflows": "210",
+        "conservative_minimum_cash": "747",
+        "closing_cash": "957"
+      },
+      {
+        "settlement_date": "2026-10-07",
+        "opening_cash": "957",
+        "outflows": "186",
+        "inflows": "0",
+        "conservative_minimum_cash": "771",
+        "closing_cash": "771"
+      }
+    ],
+    "delivery_checks": [
+      {
+        "security_id": "OLD",
+        "settlement_date": "2026-10-06",
+        "opening_settled_quantity": "8",
+        "deliver_quantity": "5",
+        "receive_quantity": "0",
+        "deliverable_before_receipts": true
+      },
+      {
+        "security_id": "NEW",
+        "settlement_date": "2026-10-07",
+        "opening_settled_quantity": "0",
+        "deliver_quantity": "0",
+        "receive_quantity": "2",
+        "deliverable_before_receipts": true
+      }
+    ],
+    "target_reconciliation": [
+      {
+        "security_id": "OLD",
+        "projected_quantity": "3",
+        "target_quantity": "3",
+        "difference": "0"
+      },
+      {
+        "security_id": "NEW",
+        "projected_quantity": "2",
+        "target_quantity": "2",
+        "difference": "0"
+      }
+    ],
+    "estimated_explicit_cost": "5",
+    "estimated_reference_slippage": "-6",
+    "estimated_combined_cost": "-1",
+    "projected_final_cash": "771",
+    "schedule_candidate": false,
+    "execution_authorized": false
+  },
+  "unresolved_issues": [
+    "OLD/2026-10-05: aggregate gross participation exceeds supplied cap"
+  ],
+  "limitations": [
+    "Human-supplied schedule only; no optimizer, order creation, execution or settlement instruction.",
+    "Daily outflows and deliveries precede same-day inflows/receipts conservatively; no intraday or cross-account netting is inferred.",
+    "Single-currency long-only cash-equity/ETF shares, initially settled and freely deliverable; no shorts, derivatives, FX, tax, corporate actions or financing.",
+    "Reference slippage is a supplied-price planning estimate, not realized implementation shortfall or market-impact prediction. Opportunity costs of incomplete trades are excluded.",
+    "Settlement dates, volume, mandate permissions and costs are supplied assumptions; no market-calendar or legal settlement-cycle inference."
+  ],
+  "handoffs": [
+    "buy-side-trading-planner",
+    "investment-mandate-reviewer"
+  ],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "policy",
+    "holdings",
+    "market",
+    "schedule",
+    "cash",
+    "agreement",
+    "collateral",
+    "recall",
+    "engine-input",
+    "engine-acceptance",
+    "engine-result",
+    "independent-benchmark"
+  ],
+  "input_hash": "2e82718fd04da6ab4c3d063178eef5a4bbe3c9f6f6cc5003ee908a3a702c5b5e",
+  "source_truth": "unverified"
+}

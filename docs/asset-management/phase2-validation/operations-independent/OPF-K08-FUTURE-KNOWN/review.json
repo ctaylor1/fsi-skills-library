@@ -1,0 +1,72 @@
+{
+  "package": "portfolio-performance-measurer",
+  "input": {
+    "request_id": "OPF-K08-FUTURE-KNOWN",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-19"
+      }
+    ],
+    "mode": "twr",
+    "return_basis": "net-of-management-fees",
+    "period_start": "2026-01-01",
+    "period_end": "2026-02-28",
+    "external_flow_coverage": "complete_at_boundaries",
+    "subperiods": [
+      {
+        "start": "2026-01-01",
+        "end": "2026-01-31",
+        "begin_value_after_flow": "100",
+        "end_value_before_flow": "110",
+        "net_flow_after": "10",
+        "source_ref": "ind-source"
+      },
+      {
+        "start": "2026-01-31",
+        "end": "2026-02-28",
+        "begin_value_after_flow": "120",
+        "end_value_before_flow": "114",
+        "net_flow_after": "0",
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "id": "OPF-K08-FUTURE-KNOWN",
+  "expected": {
+    "exit_nonzero": true,
+    "reason": "future must reject calculation"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "50eb338db44aa51502b8f27d05dd4655d7aba7f8662dc6e0513e124c1b053abb",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+    "scripts/foundation_contract.py": "c1b5d69195b24ea1a2c65f4f0357fd03fa1703665582e08beca29749ec66b682",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"source known after knowledge cutoff: ind-source; source not known at cutoff: ind-source\"]}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "source known after knowledge cutoff: ind-source; source not known at cutoff: ind-source\n"
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-K08-FUTURE-KNOWN",
+      "check": "invalid request rejected by input and compute CLIs",
+      "passed": true
+    }
+  ]
+}

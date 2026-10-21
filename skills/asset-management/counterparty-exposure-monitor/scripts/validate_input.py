@@ -31,21 +31,22 @@ REQUIRED_EXP = ("counterparty_id", "exposure_type", "current_exposure", "feed", 
 
 def _num(v):
     try:
-        return float(v)
+        import math
+        if isinstance(v, bool): return None
+        number = float(v)
+        return number if math.isfinite(number) else None
     except (TypeError, ValueError):
         return None
 
 
-def _parse_dt(s):
-    for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M", "%Y-%m-%d"):
-        try:
-            return datetime.strptime(str(s), fmt)
-        except ValueError:
-            continue
-    return None
+def _parse_dt(value):
+    try:
+        return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return None
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate_legacy(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc:
@@ -109,7 +110,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         if e.get("counterparty_id") and e["counterparty_id"] not in cp_ids:
             errors.append(f"{tag}: references counterparty not in counterparties list")
         if feed_names and e.get("feed") and e["feed"] not in feed_names:
-            warnings.append(f"{tag}: feed '{e.get('feed')}' has no freshness record — treated as current")
+            warnings.append(f"{tag}: feed '{e.get('feed')}' has no freshness record — calculation will reject incomplete freshness coverage")
         if e.get("collateral") is None:
             warnings.append(f"{tag}: no collateral field — treated as uncollateralized")
         exp_cps.add(e.get("counterparty_id"))
@@ -141,7 +142,53 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     if not doc.get("config"):
         warnings.append("no 'config' block — default thresholds will be used; record the config_version")
 
+    feed_map = {f["feed"]: f for f in doc.get("feeds", [])}
+    if doc.get("counterparties") and "credit" not in feed_map: errors.append("credit assessment requires credit feed freshness")
+    for row in doc.get("exposures", []):
+        if row.get("feed") not in feed_map: errors.append("every exposure requires a feed freshness record")
+        for key in ("current_exposure", "collateral", "pfe_addon"):
+            if row.get(key) is None or _num(row.get(key)) is None: errors.append(f"exposure requires explicit numeric {key}")
+        for key in ("collateral", "pfe_addon"):
+            if _num(row.get(key)) is not None and _num(row[key]) < 0: errors.append(f"negative {key} unsupported")
+    from datetime import datetime
+    for f in doc.get("feeds", []):
+        try:
+            age = (datetime.fromisoformat(str(doc["as_of"]).replace("Z", "+00:00")) - datetime.fromisoformat(str(f["as_of"]).replace("Z", "+00:00"))).total_seconds()
+            if age < 0: errors.append("feed timestamp cannot be after run timestamp")
+        except (ValueError, TypeError): errors.append("feed and run timestamps require compatible timezone conventions")
+        if float(f.get("max_age_hours", 24)) < 0: errors.append("negative feed freshness threshold")
+    cfg = doc.get("config") or {}
+    if not 0 <= float(cfg.get("warn_pct", .8)) <= float(cfg.get("breach_pct", 1)) <= float(cfg.get("critical_pct", 1.1)):
+        errors.append("counterparty utilization thresholds must be ordered and nonnegative")
+    if any(float(l.get("limit", 0)) <= 0 for l in doc.get("limits", [])): errors.append("limits must be positive")
     return errors, warnings
+
+
+def validate(doc: dict):
+    """Validate finite source data and real ISO dates before package-specific checks."""
+    import math
+    from datetime import datetime
+    errors = []
+    def walk(value, path="input", key=""):
+        if isinstance(value, str) and value.strip().lower() in {"nan", "inf", "infinity", "-inf", "+inf", "-infinity", "+infinity"}:
+            errors.append(f"{path}: non-finite numeric string")
+        if isinstance(value, float) and not math.isfinite(value):
+            errors.append(f"{path}: non-finite number")
+        if isinstance(value, dict):
+            for k, v in value.items(): walk(v, f"{path}.{k}", k)
+        elif isinstance(value, list):
+            for i, v in enumerate(value): walk(v, f"{path}[{i}]", key)
+        elif value not in (None, "") and (key in {"as_of", "prior_as_of", "date", "valuation_date", "run_date", "forecast_start", "effective_date", "holdings_as_of", "prices_as_of", "bucket_dates", "effective_from", "effective_to"}):
+            try: datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            except ValueError: errors.append(f"{path}: invalid ISO date/timestamp")
+    if not isinstance(doc, dict): return ["input must be an object"], []
+    walk(doc)
+    if errors: return errors, []
+    try:
+        native_errors, warnings = _validate_legacy(doc)
+        return native_errors, warnings
+    except (TypeError, ValueError, KeyError, AttributeError, OverflowError) as exc:
+        return [f"malformed input: {exc}"], []
 
 
 def main(argv):

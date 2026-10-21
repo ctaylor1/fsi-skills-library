@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 — 2026-10-04
+
+- Add portable source-field review and exact-recipient draft gates for P5.
+- Preserve existing calculation modes; distinguish native validation from separately reviewed source fidelity and audience scope.
+
 ## 0.1.0 — 2026-09-17
 - Added family discussion preparation with actual household/member mapping and an
   explicit family-group collection marker.

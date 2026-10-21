@@ -1,0 +1,163 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "issuer-credit-researcher",
+  "method_version": "2.0.0",
+  "request_id": "independent-forward-issuer-different-instrument-issuer",
+  "subject": {
+    "type": "issuer",
+    "id": "HARBOR-SYNTHETIC-2026"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "financial_context": {
+      "currency": "USD",
+      "unit": "USD_m",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-09-30",
+        "fiscal_calendar_id": "SYNTHETIC-JAN-DEC"
+      },
+      "accounting_basis": "supplied-synthetic-convention-framework-unspecified",
+      "consolidation_scope": "consolidated"
+    },
+    "credit_metrics": {
+      "reported_ebitda": {
+        "ebitda": 90,
+        "gross_leverage_x": 6.5,
+        "net_leverage_x": 6.0,
+        "interest_coverage_x": 6.0
+      },
+      "analyst_adjusted_ebitda": {
+        "ebitda": 96,
+        "gross_leverage_x": 6.09375,
+        "net_leverage_x": 5.625,
+        "interest_coverage_x": 6.4
+      }
+    },
+    "cash_flow": {
+      "free_cash_flow": 44,
+      "ffo_to_debt": 0.10256410256410256
+    },
+    "structural_risks": [
+      {
+        "instrument_id": "HARBOR-SYNTHETIC-USD-NOTE",
+        "issue": "separate legal issuer; no supplied upstream guarantee to subject",
+        "estate_id": "SYNTHETIC-SUBJECT-ESTATE",
+        "evidence_refs": [
+          {
+            "source_id": "credit-debt",
+            "locator": "user-facts:subject-debt-585"
+          }
+        ]
+      }
+    ],
+    "risk_observations": [],
+    "ebitda_adjustments": [
+      {
+        "adjustment_id": "A",
+        "amount": 9,
+        "rationale": "Supplied restructuring addition A; recurrence and economic distinctness require analyst review.",
+        "evidence_refs": [
+          {
+            "source_id": "adjustment-A",
+            "locator": "user-facts:restructuring-A"
+          }
+        ]
+      },
+      {
+        "adjustment_id": "B",
+        "amount": -3,
+        "rationale": "Supplied separate reversal B; signed subtraction retained.",
+        "evidence_refs": [
+          {
+            "source_id": "adjustment-B",
+            "locator": "user-facts:separate-reversal-B"
+          }
+        ]
+      }
+    ],
+    "rating_assigned": false,
+    "credit_decision": "not-made",
+    "legal_priority": "supplied-assertions-only"
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "metric": "gross_leverage_x",
+      "formula": "gross_debt / EBITDA; positive EBITDA required",
+      "evidence_refs": [
+        {
+          "source_id": "credit-financials",
+          "locator": "user-facts:2026-nine-month-financials"
+        }
+      ]
+    }
+  ],
+  "unresolved_issues": [
+    "Accounting framework is unspecified; ratios are illustrative on one supplied synthetic accounting convention.",
+    "HARBOR-SYNTHETIC-USD-NOTE: legal priority unresolved",
+    "Nine-month EBITDA is unannualized; leverage ratios are period-denominator arithmetic, not LTM leverage.",
+    "Synthetic exercise only: no authenticated source documents or institutional deployment profile supplied."
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "credit-financials",
+      "locator": "user-facts:2026-nine-month-financials"
+    },
+    {
+      "source_id": "credit-debt",
+      "locator": "user-facts:subject-debt-585"
+    },
+    {
+      "source_id": "adjustment-A",
+      "locator": "user-facts:restructuring-A"
+    },
+    {
+      "source_id": "adjustment-B",
+      "locator": "user-facts:separate-reversal-B"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "credit-financials",
+      "version": "synthetic-independent-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:credit-financials",
+      "kind": "financial_statement"
+    },
+    {
+      "source_id": "credit-debt",
+      "version": "synthetic-independent-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:credit-debt",
+      "kind": "credit_document"
+    },
+    {
+      "source_id": "adjustment-A",
+      "version": "synthetic-independent-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:adjustment-A",
+      "kind": "research"
+    },
+    {
+      "source_id": "adjustment-B",
+      "version": "synthetic-independent-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:adjustment-B",
+      "kind": "research"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "2df20fcb2f51cd97a11e8e73dbab40f558a83445b4dd5d191ac3f027316188d9",
+  "source_truth": "unverified"
+}

@@ -1,0 +1,7 @@
+# Handoffs and ownership
+
+After release, route to `earnings-results-analyzer`; pass issuer, fiscal period, source references and frozen pre-event vintages explicitly, not a mutable live consensus value. Results does not consume the preview packet directly without a reviewed adapter. Scenario/model work remains its own workflow; publication control preparation is `research-publication-preparation-assistant`, with source rights, jurisdiction, audience and institutional applicability re-established. All distribution stays with authorized humans and institutional systems.
+
+Preserve the immutable native artifact and separately retained original, input_hash, source_truth, legal issuer/instrument/document identifiers where present, source references and types, economic period, source knowledge cutoff/vintages, currency/units/accounting basis, coverage/missingness, method/profile versions, review gates and receiving owner. Receiving workflows validate applicability and availability before use; missing adapters are an integration limit, never an implicit schema match.
+
+IR research outputs do not authorize a trade, client communication, credit/lender decision, filing, publication or system-of-record write. Adjacent owners receive evidence with its limits; they do not inherit a fabricated approval. Later-phase target workflows remain planned until their native method and institutional integration gates are met.

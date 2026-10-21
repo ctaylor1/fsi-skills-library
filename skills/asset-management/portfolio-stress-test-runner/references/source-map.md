@@ -52,3 +52,7 @@ assumption missing provenance or citation, and any scenario not marked approved.
 All read-only, deterministic, durable `run_id`, below the fixed timeout. This skill makes
 **no writes**; delivery to a committee, board pack, or risk system is a separate,
 human-approved step.
+
+## Executable input additions
+
+Use [phase1-contract.md](phase1-contract.md) for the current required fields, scope and detached-original validation. The service calls above are integration contracts; the bundled scripts do not implement those connectors. Source binding proves reproducibility against supplied records, not their authenticity.

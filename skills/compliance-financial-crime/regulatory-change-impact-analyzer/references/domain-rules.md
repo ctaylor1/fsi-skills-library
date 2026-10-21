@@ -1,65 +1,17 @@
-# Domain Rules — regulatory-change-impact-analyzer
+# Regulatory Change Impact Analyzer — Phase 1 method
 
-Explainable impact **findings** and how they map to a recommended **disposition band**.
-Thresholds are configuration (versioned, owned by the compliance change-management function),
-not hard-coded judgments. The primary regulatory text and the firm's regulatory-change
-standard take precedence over this reference.
+- Record authority type, lifecycle (`proposed`, `adopted`, `effective`, `stayed`, `withdrawn`, `superseded`, `unknown`), status-as-of and publication date. Keep commencement and compliance deadlines separate. Approved/adopted does not mean currently applicable.
+- Entity, activity, product, threshold, exemption and cross-border nexus require an explicit supplied applicability assessment. Jurisdiction/business-line matching is only a screening hint. Missing review evidence remains `unknown`, including mismatching or absent scope facts.
+- Review policy, control, system, data, training and owner mappings for applicable or unresolved obligations. A justified mapping exception is not silently treated as missing coverage.
+- Only an active binding requirement, supplied applicable assessment, elapsed compliance deadline and sourced incomplete implementation produce an elapsed-deadline finding. Already effective is not synonymous with overdue; unknown implementation is unevaluable. Guidance and proposed/stayed changes do not generate legal-breach conclusions.
+- Future deadlines produce readiness analysis. Declared authority conflicts are routed, not resolved or independently discovered by the calculator.
 
-## Applicability test (deterministic)
+## Supplied schema
 
-An obligation is **applicable** when BOTH hold:
+`change_id`, `as_of`, `config_version`, `instrument`, extracted `obligations`, `firm_profile`, and optional `inventory.mappings`. Each non-unknown applicability assessment records status, rationale, source reference, reviewer and review date. Implementation assertions require a source reference.
 
-- **Jurisdiction:** the instrument's jurisdiction is one the firm operates in
-  (`instrument.jurisdiction ∈ firm_profile.jurisdictions`).
-- **Business line:** the obligation's `applies_to_lines` overlaps the firm's business lines,
-  OR the obligation is firm-wide (`applies_to_lines` empty or `["all"]`).
+The authoritative executable shape check is `scripts/validate_input.py`. `scripts/calculate_or_transform.py`
+contains the bounded calculation. The worked source fixture is `evals/files/change_example.json`;
+it is explicitly synthetic and must not be used as current law or institutional policy.
 
-Applicability is a **recommendation with cited basis**, not a decision — a human confirms
-scope and any exemption. If nothing is applicable on the data, the disposition is
-`Informational` and the analyst must confirm the scoping rationale before the item is
-dispositioned (the skill never auto-closes an "out of scope" change).
-
-## Finding taxonomy
-
-| Finding | Raised when | Evidence attached |
-| ------- | ----------- | ----------------- |
-| `applicable_in_scope` | ≥1 obligation is applicable to the firm | Applicable obligations + type + citation |
-| `mapping_gap` | An applicable obligation lacks a required policy or control in the inventory (`require_policy`/`require_control`) | Obligation + what is missing |
-| `owner_gap` | An applicable obligation has no named owner (`require_owner`) | Obligation + citation |
-| `overdue_or_retroactive` | `effective_date ≤ as_of` (already effective/overdue) OR `effective_date < publication_date` (retroactive) | Instrument dates |
-| `short_lead_time` | Future effective date with `lead_days < near_term_days` (default 30) | Instrument dates + lead days |
-| `authority_conflict` | An applicable obligation declares a `conflicts_with` entry (another instrument/jurisdiction) | Obligation + both requirements |
-
-Findings are **additive and independent**; each raised finding carries its own evidence.
-There is no opaque composite "compliance score".
-
-## Disposition mapping (deterministic, documented)
-
-Let `raised` = the set of raised findings. `escalators = {overdue_or_retroactive, authority_conflict}`.
-
-| Recommended band | Rule |
-| ---------------- | ---- |
-| **Informational** | No obligation applicable (out of scope on the data — human confirms rationale) |
-| **Assess** | Applicable, and 1–2 findings raised with no escalator |
-| **Priority** | Applicable AND (any escalator raised, OR ≥ 3 findings raised) |
-
-Disposition is a **triage recommendation for a human adjudicator**. It is not a compliance
-determination and it never closes the change, files, or attests.
-
-## Hard boundaries (fail closed)
-
-- Never state or imply the firm **is / is not compliant**, that an obligation is satisfied, or
-  that a gap is/creates a violation — describe findings factually and attribute conclusions to
-  the human adjudicator.
-- Never **decide applicability to close scope**, **close/disposition** the change, **file** or
-  **attest**, or **resolve a conflict** — surface and route.
-- Never tune thresholds to force a disposition; use only the versioned config.
-- `authority_conflict` describes a **conflict to be read by legal**, not a resolved position.
-
-## Adjudication prompts (always include when any obligation is applicable)
-
-Confirm authoritative text and effective date against the primary source; confirm business-line
-applicability and exemptions with the owner; for each mapping gap decide whether a new/updated
-policy or control is required (route to gap analysis); obtain a legal reading for any conflict;
-record the implementation decision, owner, and target date. A human adjudicates disposition and
-closure.
+No current regulatory corpus, horizon-monitoring scheduler, legal rule pack, operational integration or primary-text truth verification is bundled. All lifecycle and applicability evidence is supplied and subject to professional review.

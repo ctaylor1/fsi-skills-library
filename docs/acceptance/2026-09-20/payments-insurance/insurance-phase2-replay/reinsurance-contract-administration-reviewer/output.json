@@ -1,0 +1,482 @@
+{
+  "schema_version": "insurance-foundation-1.0",
+  "producer": "reinsurance-contract-administration-reviewer",
+  "case_id": "RA-26",
+  "as_of": "2026-09-18",
+  "context": {
+    "capacity": "ceded reinsurance accountant",
+    "represented_party": "Cedar Mutual",
+    "object_id": "TR-26",
+    "jurisdiction": "US",
+    "line_of_business": "property_cat"
+  },
+  "status": "needs-review",
+  "findings": [
+    {
+      "code": "claim_statement_break",
+      "message": "CL-1: statement charges do not tie to supplied bordereaux",
+      "source_refs": [
+        "raw-source.md#bordereau",
+        "raw-source.md#statement"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "claim_statement_break",
+      "message": "CL-2: statement charges do not tie to supplied bordereaux",
+      "source_refs": [
+        "raw-source.md#bordereau",
+        "raw-source.md#statement"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "collateral_shortfall",
+      "message": "Held eligible collateral is below supplied required amount",
+      "source_refs": [
+        "raw-source.md#collateral"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "notice_exception",
+      "message": "Notice N1: sent_late; no dispatch performed",
+      "source_refs": [
+        "raw-source.md#dispatch",
+        "raw-source.md#notice-terms"
+      ],
+      "severity": "review"
+    },
+    {
+      "code": "notice_exception",
+      "message": "Notice N2: overdue_no_dispatch_evidence; no dispatch performed",
+      "source_refs": [
+        "raw-source.md#notice-terms"
+      ],
+      "severity": "review"
+    }
+  ],
+  "results": {
+    "scope": {
+      "treaty_id": "TR-26",
+      "counterparty_id": "RE-SYN",
+      "period_start": "2026-08-01",
+      "period_end": "2026-08-31",
+      "currency": "USD",
+      "basis": "ceded_paid_recoverable"
+    },
+    "ledger_checks": {
+      "statements": {
+        "records": 2,
+        "usable": true,
+        "exceptions": [],
+        "source_refs": [
+          "raw-source.md#statement"
+        ]
+      },
+      "bordereaux": {
+        "records": 2,
+        "usable": true,
+        "exceptions": [],
+        "source_refs": [
+          "raw-source.md#bordereau"
+        ]
+      },
+      "cash": {
+        "records": 1,
+        "usable": true,
+        "exceptions": [],
+        "source_refs": [
+          "raw-source.md#cash"
+        ]
+      },
+      "adjustments": {
+        "records": 1,
+        "usable": true,
+        "exceptions": [],
+        "source_refs": [
+          "raw-source.md#adjustment"
+        ]
+      }
+    },
+    "claim_tieouts": [
+      {
+        "claim_id": "CL-1",
+        "statement": "70000",
+        "bordereau": "65000",
+        "difference": "5000",
+        "source_refs": [
+          "raw-source.md#bordereau",
+          "raw-source.md#statement"
+        ]
+      },
+      {
+        "claim_id": "CL-2",
+        "statement": "60000",
+        "bordereau": "65000",
+        "difference": "-5000",
+        "source_refs": [
+          "raw-source.md#bordereau",
+          "raw-source.md#statement"
+        ]
+      }
+    ],
+    "recoverable_rollforward": {
+      "opening": "240000",
+      "statement_charges": "130000",
+      "cash_receipts": "100000",
+      "signed_adjustments": "-1250",
+      "expected_closing": "268750",
+      "supplied_closing": "268750",
+      "difference": "0"
+    },
+    "collateral_comparison": {
+      "supplied_required": "300000",
+      "supplied_held_eligible": "275000",
+      "shortfall": "25000"
+    },
+    "notice_checks": [
+      {
+        "notice_id": "N1",
+        "status": "sent_late",
+        "due_date": "2026-09-05",
+        "sent_date": "2026-09-08",
+        "source_ref": "raw-source.md#notice-terms",
+        "evidence_source_ref": "raw-source.md#dispatch"
+      },
+      {
+        "notice_id": "N2",
+        "status": "overdue_no_dispatch_evidence",
+        "due_date": "2026-09-15",
+        "sent_date": null,
+        "source_ref": "raw-source.md#notice-terms",
+        "evidence_source_ref": null
+      }
+    ],
+    "credit_for_reinsurance_determined": false,
+    "posting_instructions": null
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [
+    "CL-1: statement charges do not tie to supplied bordereaux",
+    "CL-2: statement charges do not tie to supplied bordereaux",
+    "Held eligible collateral is below supplied required amount",
+    "Notice N1: sent_late; no dispatch performed",
+    "Notice N2: overdue_no_dispatch_evidence; no dispatch performed"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "RA-26",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "ceded reinsurance accountant",
+      "represented_party": "Cedar Mutual",
+      "object_id": "TR-26",
+      "jurisdiction": "US",
+      "line_of_business": "property_cat"
+    },
+    "sources": [
+      {
+        "source_ref": "raw-source.md#scope",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#balances",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#statement",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#bordereau",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#cash",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#adjustment",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#collateral",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#notice-terms",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#dispatch",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "scope": {
+        "treaty_id": "TR-26",
+        "counterparty_id": "RE-SYN",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "currency": "USD",
+        "basis": "ceded_paid_recoverable"
+      },
+      "administration_terms": {
+        "profile_id": "RA-US-26",
+        "version": "2",
+        "source_refs": [
+          "raw-source.md#scope"
+        ],
+        "source_ref": "raw-source.md#scope",
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "jurisdictions": [
+          "US"
+        ],
+        "lines_of_business": [
+          "property_cat"
+        ],
+        "notice_inventory_complete": true
+      },
+      "opening_recoverable": {
+        "treaty_id": "TR-26",
+        "counterparty_id": "RE-SYN",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "currency": "USD",
+        "basis": "ceded_paid_recoverable",
+        "amount": "240000",
+        "source_ref": "raw-source.md#balances"
+      },
+      "closing_recoverable": {
+        "treaty_id": "TR-26",
+        "counterparty_id": "RE-SYN",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "currency": "USD",
+        "basis": "ceded_paid_recoverable",
+        "amount": "268750",
+        "source_ref": "raw-source.md#balances"
+      },
+      "statements": [
+        {
+          "treaty_id": "TR-26",
+          "counterparty_id": "RE-SYN",
+          "period_start": "2026-08-01",
+          "period_end": "2026-08-31",
+          "currency": "USD",
+          "basis": "ceded_paid_recoverable",
+          "record_id": "S1",
+          "claim_id": "CL-1",
+          "amount": "70000",
+          "source_ref": "raw-source.md#statement"
+        },
+        {
+          "treaty_id": "TR-26",
+          "counterparty_id": "RE-SYN",
+          "period_start": "2026-08-01",
+          "period_end": "2026-08-31",
+          "currency": "USD",
+          "basis": "ceded_paid_recoverable",
+          "record_id": "S2",
+          "claim_id": "CL-2",
+          "amount": "60000",
+          "source_ref": "raw-source.md#statement"
+        }
+      ],
+      "bordereaux": [
+        {
+          "treaty_id": "TR-26",
+          "counterparty_id": "RE-SYN",
+          "period_start": "2026-08-01",
+          "period_end": "2026-08-31",
+          "currency": "USD",
+          "basis": "ceded_paid_recoverable",
+          "record_id": "B1",
+          "claim_id": "CL-1",
+          "amount": "65000",
+          "source_ref": "raw-source.md#bordereau"
+        },
+        {
+          "treaty_id": "TR-26",
+          "counterparty_id": "RE-SYN",
+          "period_start": "2026-08-01",
+          "period_end": "2026-08-31",
+          "currency": "USD",
+          "basis": "ceded_paid_recoverable",
+          "record_id": "B2",
+          "claim_id": "CL-2",
+          "amount": "65000",
+          "source_ref": "raw-source.md#bordereau"
+        }
+      ],
+      "cash": [
+        {
+          "treaty_id": "TR-26",
+          "counterparty_id": "RE-SYN",
+          "period_start": "2026-08-01",
+          "period_end": "2026-08-31",
+          "currency": "USD",
+          "basis": "ceded_paid_recoverable",
+          "record_id": "R1",
+          "claim_id": "CL-1",
+          "amount": "100000",
+          "source_ref": "raw-source.md#cash"
+        }
+      ],
+      "adjustments": [
+        {
+          "treaty_id": "TR-26",
+          "counterparty_id": "RE-SYN",
+          "period_start": "2026-08-01",
+          "period_end": "2026-08-31",
+          "currency": "USD",
+          "basis": "ceded_paid_recoverable",
+          "record_id": "J1",
+          "claim_id": "CL-2",
+          "amount": "-1250",
+          "source_ref": "raw-source.md#adjustment"
+        }
+      ],
+      "collateral": {
+        "treaty_id": "TR-26",
+        "counterparty_id": "RE-SYN",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "currency": "USD",
+        "basis": "ceded_paid_recoverable",
+        "required_amount": "300000",
+        "held_eligible_amount": "275000",
+        "source_ref": "raw-source.md#collateral"
+      },
+      "notices": [
+        {
+          "notice_id": "N1",
+          "treaty_id": "TR-26",
+          "counterparty_id": "RE-SYN",
+          "due_date": "2026-09-05",
+          "sent_date": "2026-09-08",
+          "evidence_source_ref": "raw-source.md#dispatch",
+          "source_ref": "raw-source.md#notice-terms"
+        },
+        {
+          "notice_id": "N2",
+          "treaty_id": "TR-26",
+          "counterparty_id": "RE-SYN",
+          "due_date": "2026-09-15",
+          "sent_date": null,
+          "evidence_source_ref": null,
+          "source_ref": "raw-source.md#notice-terms"
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "insurance-evidence/1.0",
+    "producer": "reinsurance-contract-administration-reviewer",
+    "artifact_type": "insurance-workflow-review",
+    "as_of": "2026-09-18",
+    "context": {
+      "capacity": "ceded reinsurance accountant",
+      "represented_party": "Cedar Mutual",
+      "object_id": "TR-26",
+      "jurisdiction": "US",
+      "line_of_business": "property_cat"
+    },
+    "sources": [
+      {
+        "source_ref": "raw-source.md#scope",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#balances",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#statement",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#bordereau",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#cash",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#adjustment",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#collateral",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#notice-terms",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      },
+      {
+        "source_ref": "raw-source.md#dispatch",
+        "version": "1",
+        "as_of": "2026-09-18",
+        "sha256": "99cd178c1faf5d7aa55c4ca3d34e15cb9aee0c8e2bf26a02e9ef44576693f0b2"
+      }
+    ],
+    "input_hash": "26804571209b8b5c4706b3d135716947169c2796245891e139d1086e22bda4a0",
+    "output_hash": "54d2b4a8780444fd568f0890ab78f405122aeafc08fd7c356b2e872736688f60",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [
+      "CL-1: statement charges do not tie to supplied bordereaux",
+      "CL-2: statement charges do not tie to supplied bordereaux",
+      "Held eligible collateral is below supplied required amount",
+      "Notice N1: sent_late; no dispatch performed",
+      "Notice N2: overdue_no_dispatch_evidence; no dispatch performed"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "14332f50fdb65f7112e17291e0d16d39fcc936882bba67054be3a9af8694725a"
+  }
+}

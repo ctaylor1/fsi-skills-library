@@ -66,11 +66,16 @@ def _attributions(positions: list[dict], as_of: str) -> list[dict]:
                 rows.append({
                     "issuer": c.get("issuer"), "sector": c.get("sector"),
                     "country": c.get("country"), "currency": c.get("currency"),
-                    "asset_class": p.get("asset_class"),
+                    "asset_class": c.get("asset_class", p.get("asset_class")),
                     "market_value": mv * float(c["weight"]),
                     "position_id": p.get("position_id"),
                     "cite": _cite_lt(p, c, as_of), "look_through": True,
                 })
+            remainder = 1 - sum(float(c["weight"]) for c in lt)
+            if remainder > 1e-10:
+                rows.append({"issuer": None, "sector": None, "country": None, "currency": None,
+                             "asset_class": p.get("asset_class"), "market_value": mv * remainder,
+                             "position_id": p.get("position_id"), "cite": _cite(p, as_of), "look_through": False})
         else:
             rows.append({
                 "issuer": p.get("issuer"), "sector": p.get("sector"),
@@ -88,8 +93,9 @@ def _agg(rows, dim, nav, exempt_ac=(), exempt_values=()):
         if r["asset_class"] in exempt_ac:
             continue
         v = r.get(dim)
-        if not v or v in exempt_values:
+        if v in exempt_values:
             continue
+        v = v or "UNKNOWN"
         b = buckets.setdefault(v, {"bucket": v, "market_value": 0.0, "evidence": []})
         b["market_value"] += r["market_value"]
         b["evidence"].append({"position_id": r["position_id"],
@@ -104,25 +110,32 @@ def _agg(rows, dim, nav, exempt_ac=(), exempt_values=()):
     return out
 
 
-def compute(doc: dict) -> dict:
+def _compute(doc: dict) -> dict:
     lim = {**DEFAULT_LIMITS, **(doc.get("limits") or {})}
     positions = doc["positions"]
     as_of = doc["as_of"]
-    nav = round(sum(float(p["market_value"]) for p in positions), 2)
+    nav = float(doc["nav"])
+    holdings_value = sum(float(p["market_value"]) for p in positions)
     exempt_ac = tuple(lim["issuer_sector_exempt_asset_classes"])
     home = lim.get("home_country")
 
     rows = _attributions(positions, as_of)
 
-    issuer_exp = _agg(rows, "issuer", nav, exempt_ac=exempt_ac)
-    sector_exp = _agg(rows, "sector", nav, exempt_ac=exempt_ac)
-    country_exp = _agg(rows, "country", nav, exempt_values=(home,) if home else ())
+    issuer_exp = _agg(rows, "issuer", nav)
+    sector_exp = _agg(rows, "sector", nav)
+    country_exp = _agg(rows, "country", nav)
     currency_exp = _agg(rows, "currency", nav)
-    asset_class_exp = _agg(rows, "asset_class", nav)
+    asset_class_exp = _agg(_attributions([{k: v for k, v in p.items() if k != "look_through"} for p in positions], as_of), "asset_class", nav)
+    coverage_by_dimension = {dim: {"known_market_value": sum(r["market_value"] for r in rows if r.get(dim)),
+                                  "unknown_market_value": sum(r["market_value"] for r in rows if not r.get(dim))}
+                             for dim in ("issuer", "sector", "country", "currency")}
+    issuer_screen = _agg(rows, "issuer", nav, exempt_ac=exempt_ac)
+    sector_screen = _agg(rows, "sector", nav, exempt_ac=exempt_ac)
+    country_screen = _agg(rows, "country", nav, exempt_values=(home,) if home else ())
 
     # non-base currency aggregate
     base = doc["base_currency"]
-    non_base_mv = sum(b["market_value"] for b in currency_exp if b["bucket"] != base)
+    non_base_mv = sum(b["market_value"] for b in currency_exp if b["bucket"] not in (base, "UNKNOWN"))
     non_base_pct = round(non_base_mv / nav * 100, 2)
 
     # liquidity (position-level, not look-through split)
@@ -161,6 +174,8 @@ def compute(doc: dict) -> dict:
         sleeve_dur = round(wdur / sleeve_mv, 3) if sleeve_mv else 0.0
         duration = {
             "fi_sleeve_market_value": round(sleeve_mv, 2),
+            "coverage_basis": "only supplied durations for corp_bond/govt_bond positions",
+            "missing_duration_position_ids": [p["position_id"] for p in positions if p.get("asset_class") in ("corp_bond", "govt_bond") and p.get("modified_duration") is None],
             "fi_sleeve_modified_duration": sleeve_dur,
             "portfolio_duration_contribution": round(wdur / nav, 3),
             "target": lim["duration_target"], "tolerance": lim["duration_tolerance"],
@@ -188,7 +203,8 @@ def compute(doc: dict) -> dict:
     # ---- concentration screen -> findings ----
     findings = []
 
-    for b in issuer_exp:
+    for b in issuer_screen:
+        if b["bucket"] == "UNKNOWN": continue
         if b["pct"] > lim["single_issuer_hard_pct"]:
             band, limit = "over_hard", lim["single_issuer_hard_pct"]
         elif b["pct"] > lim["single_issuer_max_pct"]:
@@ -201,7 +217,8 @@ def compute(doc: dict) -> dict:
                          "reason": f"issuer exposure {b['pct']}% exceeds the documented limit of {limit}% (look-through applied)",
                          "evidence": b["evidence"]})
 
-    for b in sector_exp:
+    for b in sector_screen:
+        if b["bucket"] == "UNKNOWN": continue
         if b["pct"] > lim["sector_max_pct"]:
             findings.append({"dimension": "sector", "bucket": b["bucket"], "pct": b["pct"],
                              "limit_pct": lim["sector_max_pct"], "band": "over_soft",
@@ -209,7 +226,8 @@ def compute(doc: dict) -> dict:
                              "reason": f"sector exposure {b['pct']}% exceeds the documented limit of {lim['sector_max_pct']}%",
                              "evidence": b["evidence"]})
 
-    for b in country_exp:
+    for b in country_screen:
+        if b["bucket"] == "UNKNOWN": continue
         if b["pct"] > lim["country_max_pct"]:
             findings.append({"dimension": "country", "bucket": b["bucket"], "pct": b["pct"],
                              "limit_pct": lim["country_max_pct"], "band": "over_soft",
@@ -237,7 +255,7 @@ def compute(doc: dict) -> dict:
                          "reason": f"{illiquid_pct}% of NAV liquidatable only beyond the {horizon}-day horizon, exceeding the documented limit of {lim['illiquid_max_pct']}%",
                          "evidence": illiquid_ev})
 
-    if duration is not None:
+    if duration is not None and not duration["missing_duration_position_ids"]:
         lo = lim["duration_target"] - lim["duration_tolerance"]
         hi = lim["duration_target"] + lim["duration_tolerance"]
         sd = duration["fi_sleeve_modified_duration"]
@@ -253,6 +271,13 @@ def compute(doc: dict) -> dict:
         not_evaluable.append({"dimension": "liquidity",
                               "why": "one or more positions missing liquidity_days"})
 
+    for dimension, coverage in coverage_by_dimension.items():
+        if coverage["unknown_market_value"]:
+            not_evaluable.append({"dimension": dimension, "why": "incomplete classification; UNKNOWN bucket retained"})
+    missing_duration = [p["position_id"] for p in positions if p.get("asset_class") in ("corp_bond", "govt_bond") and p.get("modified_duration") is None]
+    if missing_duration: not_evaluable.append({"dimension": "duration", "why": "incomplete fixed-income sleeve", "positions": missing_duration})
+    if abs(holdings_value - nav) > 0.01:
+        not_evaluable.append({"dimension": "nav_reconciliation", "why": "holdings value differs from authoritative NAV; residual is not inferred as cash"})
     priority = expected_priority(findings)
     fired = [f"{f['dimension']}:{f['bucket']}" for f in findings]
 
@@ -275,6 +300,9 @@ def compute(doc: dict) -> dict:
         "config_version": doc.get("config_version"),
         "benchmark_id": doc.get("benchmark_id"),
         "nav": nav,
+        "nav_source_ref": doc["nav_source_ref"],
+        "nav_reconciliation": {"holdings_value": holdings_value, "difference": holdings_value - nav, "reconciled": abs(holdings_value - nav) <= 0.01},
+        "dimension_coverage": coverage_by_dimension,
         "limits": lim,
         "exposures": {
             "issuer": issuer_exp,
@@ -284,7 +312,7 @@ def compute(doc: dict) -> dict:
             "asset_class": asset_class_exp,
             "non_base_currency_pct": non_base_pct,
             "liquidity": {"horizon_days": horizon, "buckets": {k: round(v, 2) for k, v in liq_buckets.items()},
-                          "illiquid_pct": illiquid_pct},
+                          "illiquid_pct": illiquid_pct if liq_evaluable else None, "known_illiquid_pct": illiquid_pct},
             "duration": duration,
             "factor": factor_exp,
         },
@@ -295,6 +323,28 @@ def compute(doc: dict) -> dict:
         "considerations": considerations,
         "disclaimer": DISCLAIMER,
     }
+
+
+def compute(doc: dict) -> dict:
+    """Fail on invalid inputs; bind the complete supplied evidence and configuration."""
+    import runpy
+    validator = runpy.run_path(str(Path(__file__).with_name("validate_input.py")))
+    errors, warnings = validator["validate"](doc)
+    if errors: raise ValueError("; ".join(errors))
+    result = _compute(doc)
+    integrity = runpy.run_path(str(Path(__file__).with_name("native_integrity.py")))
+    digest = integrity["canonical_hash"](doc)
+    result["inputs_hash"] = digest
+    result["calculation_version"] = "phase1-1"
+    result["analysis_status"] = "draft"
+    result["professional_approval"] = "not_established_by_script"
+    result["input_warnings"] = warnings
+    for key in ("packet_id", "analysis_id", "forecast_id", "exposure_id", "run_id", "attribution_id"):
+        if key in result:
+            result["source_" + key] = result[key]
+            result[key] = str(result[key]) + "-" + digest[:16]
+            break
+    return integrity["attach_source"](result, doc)
 
 
 def main(argv):

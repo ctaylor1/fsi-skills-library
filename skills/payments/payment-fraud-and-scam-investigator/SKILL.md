@@ -44,7 +44,7 @@ Versioned configuration and cases with alert/case IDs, masked parties, channel, 
 Case owner, supplied or local-derived case reference, cited chronology, masked parties, score/band/basis, evidence bundle, scam evidence gaps, bounded consultation requests and recommendation. APP/BEC currently yields `needs-evidence` for human scam review even when technical fields are populated. This is intentional triage, not autonomous scam adjudication.
 
 ## Adjacent-skill handoffs
-`instant-payment-risk-monitor` can supply alerts. `phishing-and-bec-investigator` examines email artifacts only; return evidence here. Sanctions match → `sanctions-match-adjudicator`; adverse media → `adverse-media-investigator`; suspicious patterns → AML triage/investigation. Keep restricted financial-crime evidence appropriately scoped. Issuer statutory redress → `issuer-payment-dispute-reviewer`; merchant/acquirer dispute response → `merchant-chargeback-response-packager`; operational repair planning → `payment-repair-planner`. A handoff is a review request, not execution authority.
+`instant-payment-risk-monitor` can supply alerts. `phishing-and-bec-investigator` examines email artifacts only; return evidence here. Sanctions match → `sanctions-match-investigator`; adverse media → `adverse-media-investigator`; suspicious patterns → AML triage/investigation. Keep restricted financial-crime evidence appropriately scoped. Issuer statutory redress → `issuer-payment-dispute-reviewer`; merchant/acquirer dispute response → `merchant-chargeback-response-packager`; operational repair planning → `payment-repair-planner`. A handoff is a review request, not execution authority.
 Read [handoffs](references/handoffs.md) before transferring evidence.
 
 ## Source hierarchy and rules

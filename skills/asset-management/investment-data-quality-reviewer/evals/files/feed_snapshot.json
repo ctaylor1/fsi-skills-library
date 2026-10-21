@@ -1,0 +1,232 @@
+{
+  "portfolio_id": "FUND-DELTA",
+  "as_of": "2026-07-17",
+  "config_version": "dq-cfg-2026.07",
+  "config": {
+    "price_max_age_days": 5,
+    "price_unchanged_max_days": 5,
+    "move_band": {
+      "equity": 0.25,
+      "bond": 0.1,
+      "default": 0.2
+    },
+    "required_factors": {
+      "equity": [
+        "beta",
+        "sector"
+      ],
+      "bond": [
+        "duration",
+        "rating"
+      ]
+    },
+    "severity": {
+      "broken_mapping": "High",
+      "implausible_move": "High",
+      "stale_price": "Medium",
+      "conflicting_classification": "Medium",
+      "duplicate_instrument": "Medium",
+      "absent_factor": "Low"
+    },
+    "p1_high_count": 3
+  },
+  "instruments": [
+    {
+      "instrument_key": "INS-1001",
+      "name": "Apple Inc",
+      "asset_class": "equity",
+      "held": true,
+      "weight_pct": 5.0,
+      "nav_impacting": true,
+      "required_factors": [
+        "beta",
+        "sector"
+      ],
+      "identifiers": {
+        "isin": "US0378331005",
+        "ticker": "AAPL"
+      },
+      "source_ref": "sec-master:inst=INS-1001@2026-07-17"
+    },
+    {
+      "instrument_key": "INS-1002",
+      "name": "Microsoft Corp",
+      "asset_class": "equity",
+      "held": true,
+      "weight_pct": 4.0,
+      "nav_impacting": true,
+      "required_factors": [
+        "beta",
+        "sector"
+      ],
+      "identifiers": {
+        "isin": "US5949181045",
+        "ticker": "MSFT"
+      },
+      "source_ref": "sec-master:inst=INS-1002@2026-07-17"
+    },
+    {
+      "instrument_key": "INS-1003",
+      "name": "US Treasury 3.5% 2032",
+      "asset_class": "bond",
+      "held": true,
+      "weight_pct": 3.0,
+      "nav_impacting": true,
+      "required_factors": [
+        "duration",
+        "rating"
+      ],
+      "identifiers": {
+        "isin": "US912828ABC1"
+      },
+      "source_ref": "sec-master:inst=INS-1003@2026-07-17"
+    },
+    {
+      "instrument_key": "INS-1004",
+      "name": "Apple Inc (duplicate record)",
+      "asset_class": "equity",
+      "held": false,
+      "weight_pct": 0.0,
+      "nav_impacting": false,
+      "required_factors": [],
+      "identifiers": {
+        "isin": "US0378331005",
+        "ticker": "AAPL"
+      },
+      "source_ref": "sec-master:inst=INS-1004@2026-07-17"
+    },
+    {
+      "instrument_key": "INS-1005",
+      "name": "USD Cash Sweep",
+      "asset_class": "cash",
+      "held": true,
+      "weight_pct": 2.0,
+      "nav_impacting": true,
+      "required_factors": [],
+      "identifiers": {},
+      "source_ref": "sec-master:inst=INS-1005@2026-07-17"
+    }
+  ],
+  "prices": [
+    {
+      "instrument_key": "INS-1001",
+      "price": 195.0,
+      "prev_price": 193.5,
+      "currency": "USD",
+      "price_asof": "2026-07-16",
+      "source": "vendorA",
+      "prev_price_asof": "2026-07-15",
+      "comparison_basis_reviewed": true
+    },
+    {
+      "instrument_key": "INS-1002",
+      "price": 340.0,
+      "prev_price": 250.0,
+      "currency": "USD",
+      "price_asof": "2026-07-16",
+      "source": "vendorA",
+      "prev_price_asof": "2026-07-15",
+      "comparison_basis_reviewed": true
+    },
+    {
+      "instrument_key": "INS-1003",
+      "price": 98.5,
+      "prev_price": 98.4,
+      "currency": "USD",
+      "price_asof": "2026-07-07",
+      "source": "vendorA",
+      "prev_price_asof": "2026-07-06",
+      "comparison_basis_reviewed": true
+    },
+    {
+      "instrument_key": "INS-1005",
+      "price": 100.0,
+      "prev_price": 100.0,
+      "currency": "USD",
+      "price_asof": "2026-07-16",
+      "source": "custodian",
+      "prev_price_asof": "2026-07-15",
+      "comparison_basis_reviewed": true
+    }
+  ],
+  "factors": [
+    {
+      "instrument_key": "INS-1001",
+      "factor": "beta",
+      "value": 1.2,
+      "source": "vendorB",
+      "as_of": "2026-07-17"
+    },
+    {
+      "instrument_key": "INS-1001",
+      "factor": "sector",
+      "value": "Information Technology",
+      "source": "vendorB",
+      "as_of": "2026-07-17"
+    },
+    {
+      "instrument_key": "INS-1002",
+      "factor": "beta",
+      "value": 1.1,
+      "source": "vendorB",
+      "as_of": "2026-07-17"
+    },
+    {
+      "instrument_key": "INS-1003",
+      "factor": "duration",
+      "value": 6.5,
+      "source": "vendorB",
+      "as_of": "2026-07-17"
+    }
+  ],
+  "classifications": [
+    {
+      "instrument_key": "INS-1001",
+      "scheme": "gics_sector",
+      "value": "Information Technology",
+      "feed": "vendorA",
+      "as_of": "2026-07-17"
+    },
+    {
+      "instrument_key": "INS-1001",
+      "scheme": "gics_sector",
+      "value": "Financials",
+      "feed": "vendorB",
+      "as_of": "2026-07-17"
+    },
+    {
+      "instrument_key": "INS-7777",
+      "scheme": "gics_sector",
+      "value": "Energy",
+      "feed": "vendorA",
+      "as_of": "2026-07-17"
+    }
+  ],
+  "mappings": [
+    {
+      "instrument_key": "INS-1001",
+      "target": "security_master",
+      "resolved": true
+    },
+    {
+      "instrument_key": "INS-1002",
+      "target": "security_master",
+      "resolved": true
+    },
+    {
+      "instrument_key": "INS-1003",
+      "target": "security_master",
+      "resolved": true
+    },
+    {
+      "instrument_key": "INS-1004",
+      "target": "security_master",
+      "resolved": true
+    },
+    {
+      "instrument_key": "INS-1005",
+      "target": "security_master",
+      "resolved": false
+    }
+  ]
+}

@@ -1,0 +1,475 @@
+[
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-early-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-early-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"macroeconomic-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-macro-early\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-03-20\",\n  \"knowledge_cutoff\": \"2026-03-20T16:00:00Z\",\n  \"use_on\": \"2026-03-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": {\n    \"selected_observations\": [\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\",\n        \"observation_id\": \"jan-first\",\n        \"period_end\": \"2026-01-31\",\n        \"release_at\": \"2026-02-15T12:00:00Z\",\n        \"vintage_id\": \"first-Jan\",\n        \"value\": 120,\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      },\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\",\n        \"observation_id\": \"feb-first\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-03-15T12:00:00Z\",\n        \"vintage_id\": \"first-Feb\",\n        \"value\": 123,\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"excluded_observations\": [\n      {\n        \"observation_id\": \"feb-revised\",\n        \"series_id\": \"fresh-real-index\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-04-15T12:00:00Z\",\n        \"reason\": \"release postdates research cutoff or economic as_of\"\n      },\n      {\n        \"observation_id\": \"feb-future-revision\",\n        \"series_id\": \"fresh-real-index\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-05-15T12:00:00Z\",\n        \"reason\": \"release postdates research cutoff or economic as_of\"\n      }\n    ],\n    \"revisions\": [],\n    \"calculations\": [\n      {\n        \"calculation_id\": \"fresh-growth\",\n        \"series_id\": \"fresh-real-index\",\n        \"from_period\": \"2026-01-31\",\n        \"to_period\": \"2026-02-28\",\n        \"operation\": \"percent-change\",\n        \"value\": 2.499999999999991,\n        \"unit\": \"percent\",\n        \"unavailable_reason\": null,\n        \"from_observation_id\": \"jan-first\",\n        \"to_observation_id\": \"feb-first\"\n      },\n      {\n        \"calculation_id\": \"fresh-annualized\",\n        \"series_id\": \"fresh-real-index\",\n        \"from_period\": \"2026-01-31\",\n        \"to_period\": \"2026-02-28\",\n        \"operation\": \"annualized-percent-change\",\n        \"value\": 34.48888242462971,\n        \"unit\": \"percent\",\n        \"unavailable_reason\": null,\n        \"from_observation_id\": \"jan-first\",\n        \"to_observation_id\": \"feb-first\"\n      }\n    ],\n    \"requested_coverage\": [\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"eligible_observation_supplied\": true\n      }\n    ],\n    \"outlooks\": [],\n    \"research_questions\": [\n      {\n        \"question_id\": \"fresh-growth-question\",\n        \"question\": \"How does the selected revision affect measured growth?\",\n        \"required_calculation_ids\": [\n          \"fresh-growth\",\n          \"fresh-annualized\"\n        ],\n        \"interpretation\": \"Supplied real activity increased on the comparable monthly base; annualization is a convention, not a prediction.\",\n        \"counter_evidence\": \"A single volatile monthly change and revisions do not establish a persistent regime.\",\n        \"review_status\": \"supplied-interpretation-for-review\",\n        \"gaps\": []\n      }\n    ],\n    \"selection_scope\": \"latest eligible supplied release per series and period; external release inventory not authenticated\",\n    \"limitations\": [\n      \"No cross-series arithmetic, rebasing, currency conversion, interpolation or automatic seasonal adjustment.\",\n      \"Annualized growth is a compounding comparison convention; it is not a forecast.\",\n      \"Supplied interpretations, consensus and scenarios remain unverified judgments; no probabilities inferred.\"\n    ]\n  },\n  \"status\": \"complete-for-supplied-scope\",\n  \"calculation_lineage\": [\n    {\n      \"calculation_id\": \"fresh-growth\",\n      \"formula\": \"100 * (end / start - 1)\",\n      \"basis\": {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\"\n      }\n    },\n    {\n      \"calculation_id\": \"fresh-annualized\",\n      \"formula\": \"100 * ((end / start) ** (12 / elapsed_calendar_months) - 1)\",\n      \"basis\": {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\"\n      }\n    }\n  ],\n  \"unresolved_issues\": [],\n  \"evidence_refs\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n    }\n  ],\n  \"source_register\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"version\": \"1\",\n      \"known_at\": \"2026-02-15T12:00:00Z\",\n      \"locator\": \"independent synthetic fixture, not authenticated economic releases\",\n      \"kind\": \"model\"\n    }\n  ],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"77e37a50ba2eab07efc95c1257a0378ebf3ea24974024c59fb0176730aae171e\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-early-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-early-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-late-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-late-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"macroeconomic-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-macro-late\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-04-20\",\n  \"knowledge_cutoff\": \"2026-04-20T16:00:00Z\",\n  \"use_on\": \"2026-04-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": {\n    \"selected_observations\": [\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\",\n        \"observation_id\": \"jan-first\",\n        \"period_end\": \"2026-01-31\",\n        \"release_at\": \"2026-02-15T12:00:00Z\",\n        \"vintage_id\": \"first-Jan\",\n        \"value\": 120,\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      },\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\",\n        \"observation_id\": \"feb-revised\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-04-15T12:00:00Z\",\n        \"vintage_id\": \"revised-Feb\",\n        \"value\": 124.5,\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"excluded_observations\": [\n      {\n        \"observation_id\": \"feb-future-revision\",\n        \"series_id\": \"fresh-real-index\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-05-15T12:00:00Z\",\n        \"reason\": \"release postdates research cutoff or economic as_of\"\n      },\n      {\n        \"observation_id\": \"feb-first\",\n        \"series_id\": \"fresh-real-index\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-03-15T12:00:00Z\",\n        \"reason\": \"superseded by latest eligible supplied release\"\n      }\n    ],\n    \"revisions\": [\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"period_end\": \"2026-02-28\",\n        \"first_observation_id\": \"feb-first\",\n        \"latest_observation_id\": \"feb-revised\",\n        \"value_change\": 1.5,\n        \"unit\": \"index\",\n        \"scope\": \"first-to-latest eligible supplied releases; not necessarily initial publication\"\n      }\n    ],\n    \"calculations\": [\n      {\n        \"calculation_id\": \"fresh-growth\",\n        \"series_id\": \"fresh-real-index\",\n        \"from_period\": \"2026-01-31\",\n        \"to_period\": \"2026-02-28\",\n        \"operation\": \"percent-change\",\n        \"value\": 3.750000000000009,\n        \"unit\": \"percent\",\n        \"unavailable_reason\": null,\n        \"from_observation_id\": \"jan-first\",\n        \"to_observation_id\": \"feb-revised\"\n      },\n      {\n        \"calculation_id\": \"fresh-annualized\",\n        \"series_id\": \"fresh-real-index\",\n        \"from_period\": \"2026-01-31\",\n        \"to_period\": \"2026-02-28\",\n        \"operation\": \"annualized-percent-change\",\n        \"value\": 55.545433137247514,\n        \"unit\": \"percent\",\n        \"unavailable_reason\": null,\n        \"from_observation_id\": \"jan-first\",\n        \"to_observation_id\": \"feb-revised\"\n      }\n    ],\n    \"requested_coverage\": [\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"eligible_observation_supplied\": true\n      }\n    ],\n    \"outlooks\": [],\n    \"research_questions\": [\n      {\n        \"question_id\": \"fresh-growth-question\",\n        \"question\": \"How does the selected revision affect measured growth?\",\n        \"required_calculation_ids\": [\n          \"fresh-growth\",\n          \"fresh-annualized\"\n        ],\n        \"interpretation\": \"Supplied real activity increased on the comparable monthly base; annualization is a convention, not a prediction.\",\n        \"counter_evidence\": \"A single volatile monthly change and revisions do not establish a persistent regime.\",\n        \"review_status\": \"supplied-interpretation-for-review\",\n        \"gaps\": []\n      }\n    ],\n    \"selection_scope\": \"latest eligible supplied release per series and period; external release inventory not authenticated\",\n    \"limitations\": [\n      \"No cross-series arithmetic, rebasing, currency conversion, interpolation or automatic seasonal adjustment.\",\n      \"Annualized growth is a compounding comparison convention; it is not a forecast.\",\n      \"Supplied interpretations, consensus and scenarios remain unverified judgments; no probabilities inferred.\"\n    ]\n  },\n  \"status\": \"complete-for-supplied-scope\",\n  \"calculation_lineage\": [\n    {\n      \"calculation_id\": \"fresh-growth\",\n      \"formula\": \"100 * (end / start - 1)\",\n      \"basis\": {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\"\n      }\n    },\n    {\n      \"calculation_id\": \"fresh-annualized\",\n      \"formula\": \"100 * ((end / start) ** (12 / elapsed_calendar_months) - 1)\",\n      \"basis\": {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\"\n      }\n    }\n  ],\n  \"unresolved_issues\": [],\n  \"evidence_refs\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n    }\n  ],\n  \"source_register\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"version\": \"1\",\n      \"known_at\": \"2026-02-15T12:00:00Z\",\n      \"locator\": \"independent synthetic fixture, not authenticated economic releases\",\n      \"kind\": \"model\"\n    }\n  ],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"eeaa3edc0c35644db42dd6fa1bd1797a1552519fc37425a1213d067657b288a1\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-late-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-late-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"cross-asset-theme-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-theme\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-10-20\",\n  \"knowledge_cutoff\": \"2026-10-20T16:00:00Z\",\n  \"use_on\": \"2026-10-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": {\n    \"theme_id\": \"fresh-higher-yields\",\n    \"hypothesis\": {\n      \"statement\": \"Higher relative yields could pressure bond and equity prices while supporting USD in the stated quote.\",\n      \"driver\": \"parallel relative yield rise\",\n      \"transmission\": \"Discount rates pressure local valuations; relative policy yields may support USD, conditional on unchanged cash-flow and risk assumptions.\",\n      \"horizon_date\": \"2027-04-20\"\n    },\n    \"driver_observations\": [],\n    \"evidence\": [\n      {\n        \"evidence_id\": \"fresh-support\",\n        \"role\": \"support\",\n        \"statement\": \"Supplied duration and sensitivities describe a conditional discount-rate and relative-yield channel.\",\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      },\n      {\n        \"evidence_id\": \"fresh-counter\",\n        \"role\": \"counter\",\n        \"statement\": \"Higher earnings or risk-premium compression may offset discount pressure; FX depends on relative policies and funding flows.\",\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"falsifiers\": [\n      {\n        \"test_id\": \"fresh-falsifier\",\n        \"description\": \"Earnings expansion offsets discount pressure despite higher yields.\",\n        \"monitor\": \"Compare fresh earnings revisions with relative yields.\",\n        \"due_on\": \"2027-04-20\",\n        \"status\": \"not-tested\",\n        \"known_at\": null,\n        \"evidence_refs\": []\n      }\n    ],\n    \"scenarios\": [\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"label\": \"Conditional100basis-point parallel relative yield rise\",\n        \"horizon_date\": \"2027-04-20\",\n        \"assumptions\": [\n          \"Supplied fixed sensitivities and parallel move; no convexity, carry, repricing path or coefficient estimation.\"\n        ],\n        \"shocks\": [\n          {\n            \"driver_id\": \"relative-yield\",\n            \"value\": 100,\n            \"unit\": \"basis-point\"\n          }\n        ],\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"scenario_responses\": [\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-bond\",\n        \"asset_class\": \"rates\",\n        \"instrument_id\": \"fresh-bond-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"modified-duration\",\n        \"sensitivity\": 6.2,\n        \"value\": -6.2,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": null,\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      },\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-equity\",\n        \"asset_class\": \"equity\",\n        \"instrument_id\": \"fresh-equity-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"linear\",\n        \"sensitivity\": -0.035,\n        \"value\": -3.5000000000000004,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": null,\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      },\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-fx\",\n        \"asset_class\": \"fx\",\n        \"instrument_id\": \"fresh-fx-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"linear\",\n        \"sensitivity\": 0.012,\n        \"value\": 1.2,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": \"EUR per USD\",\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      }\n    ],\n    \"coverage\": {\n      \"required_asset_classes\": [\n        \"rates\",\n        \"equity\",\n        \"fx\"\n      ],\n      \"supplied_asset_classes\": [\n        \"equity\",\n        \"fx\",\n        \"rates\"\n      ],\n      \"missing_asset_classes\": []\n    },\n    \"hypothesis_status\": \"supplied-hypothesis-for-review\",\n    \"causality_established\": false,\n    \"probabilities_estimated\": false,\n    \"portfolio_allocation_proposed\": false,\n    \"limitations\": [\n      \"Supplied sensitivities are assumptions, not estimated coefficients or authenticated market facts.\",\n      \"Responses are conditional local approximations per instrument; no aggregation, portfolio weighting, covariance, convexity, carry or dynamic path modeled.\",\n      \"Historical driver observations do not establish shocks, causal direction, forecasts or probability.\",\n      \"A not-observed falsifier is evidence for the declared review scope only, not proof of the hypothesis.\"\n    ]\n  },\n  \"status\": \"complete-for-supplied-scope\",\n  \"calculation_lineage\": [\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-bond\",\n      \"formula\": \"percent price change approximately -modified_duration * yield_shock_bp / 100\"\n    },\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-equity\",\n      \"formula\": \"supplied response units per shock unit * supplied shock units\"\n    },\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-fx\",\n      \"formula\": \"supplied response units per shock unit * supplied shock units\"\n    }\n  ],\n  \"unresolved_issues\": [],\n  \"evidence_refs\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n    }\n  ],\n  \"source_register\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"version\": \"1\",\n      \"known_at\": \"2026-02-15T12:00:00Z\",\n      \"locator\": \"independent synthetic fixture, not authenticated economic releases\",\n      \"kind\": \"model\"\n    }\n  ],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"80a070776c917d2eda3ff313657eede757e6c53e3b2c73e54dee1ed3e9ab427c\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-duplicate-observation-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: observations duplicate observation_id\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-nonperiod-end-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: period_end must be a calendar period end\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-unknown-real-base-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: unknown price_base cannot establish series comparability\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-boolean-number-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: observation value must be a finite JSON number\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-missing-fx-quote-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: FX exposure requires explicit quote_convention; positive response means quoted price increases\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-negative-modified-duration-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: modified duration must be nonnegative\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-unsupported-portfolio-weight-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: exposure contains unsupported fields\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-unsupported-probability-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: scenario contains unsupported fields\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-future-evidence-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: row knowledge/release must precede cutoff with matching time precision\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-future-source-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: source knowledge must precede the cited row release/knowledge time with matching precision\ninput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-null-endpoint-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-null-endpoint-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"macroeconomic-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-macro-early\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-03-20\",\n  \"knowledge_cutoff\": \"2026-03-20T16:00:00Z\",\n  \"use_on\": \"2026-03-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": {\n    \"selected_observations\": [\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\",\n        \"observation_id\": \"jan-first\",\n        \"period_end\": \"2026-01-31\",\n        \"release_at\": \"2026-02-15T12:00:00Z\",\n        \"vintage_id\": \"first-Jan\",\n        \"value\": null,\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      },\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\",\n        \"observation_id\": \"feb-first\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-03-15T12:00:00Z\",\n        \"vintage_id\": \"first-Feb\",\n        \"value\": 123,\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"excluded_observations\": [\n      {\n        \"observation_id\": \"feb-revised\",\n        \"series_id\": \"fresh-real-index\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-04-15T12:00:00Z\",\n        \"reason\": \"release postdates research cutoff or economic as_of\"\n      },\n      {\n        \"observation_id\": \"feb-future-revision\",\n        \"series_id\": \"fresh-real-index\",\n        \"period_end\": \"2026-02-28\",\n        \"release_at\": \"2026-05-15T12:00:00Z\",\n        \"reason\": \"release postdates research cutoff or economic as_of\"\n      }\n    ],\n    \"revisions\": [],\n    \"calculations\": [\n      {\n        \"calculation_id\": \"fresh-growth\",\n        \"series_id\": \"fresh-real-index\",\n        \"from_period\": \"2026-01-31\",\n        \"to_period\": \"2026-02-28\",\n        \"operation\": \"percent-change\",\n        \"value\": null,\n        \"unit\": \"percent\",\n        \"unavailable_reason\": \"missing or unavailable eligible endpoints; no interpolation or substitution\",\n        \"from_observation_id\": \"jan-first\",\n        \"to_observation_id\": \"feb-first\"\n      },\n      {\n        \"calculation_id\": \"fresh-annualized\",\n        \"series_id\": \"fresh-real-index\",\n        \"from_period\": \"2026-01-31\",\n        \"to_period\": \"2026-02-28\",\n        \"operation\": \"annualized-percent-change\",\n        \"value\": null,\n        \"unit\": \"percent\",\n        \"unavailable_reason\": \"missing or unavailable eligible endpoints; no interpolation or substitution\",\n        \"from_observation_id\": \"jan-first\",\n        \"to_observation_id\": \"feb-first\"\n      }\n    ],\n    \"requested_coverage\": [\n      {\n        \"series_id\": \"fresh-real-index\",\n        \"eligible_observation_supplied\": true\n      }\n    ],\n    \"outlooks\": [],\n    \"research_questions\": [\n      {\n        \"question_id\": \"fresh-growth-question\",\n        \"question\": \"How does the selected revision affect measured growth?\",\n        \"required_calculation_ids\": [\n          \"fresh-growth\",\n          \"fresh-annualized\"\n        ],\n        \"interpretation\": \"Supplied real activity increased on the comparable monthly base; annualization is a convention, not a prediction.\",\n        \"counter_evidence\": \"A single volatile monthly change and revisions do not establish a persistent regime.\",\n        \"review_status\": \"needs-review\",\n        \"gaps\": [\n          \"fresh-growth\",\n          \"fresh-annualized\"\n        ]\n      }\n    ],\n    \"selection_scope\": \"latest eligible supplied release per series and period; external release inventory not authenticated\",\n    \"limitations\": [\n      \"No cross-series arithmetic, rebasing, currency conversion, interpolation or automatic seasonal adjustment.\",\n      \"Annualized growth is a compounding comparison convention; it is not a forecast.\",\n      \"Supplied interpretations, consensus and scenarios remain unverified judgments; no probabilities inferred.\"\n    ]\n  },\n  \"status\": \"partial\",\n  \"calculation_lineage\": [\n    {\n      \"calculation_id\": \"fresh-growth\",\n      \"formula\": \"100 * (end / start - 1)\",\n      \"basis\": {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\"\n      }\n    },\n    {\n      \"calculation_id\": \"fresh-annualized\",\n      \"formula\": \"100 * ((end / start) ** (12 / elapsed_calendar_months) - 1)\",\n      \"basis\": {\n        \"series_id\": \"fresh-real-index\",\n        \"label\": \"Fresh synthetic monthly real activity index\",\n        \"geography\": \"FRESH-ECONOMY\",\n        \"frequency\": \"monthly\",\n        \"measure_kind\": \"index\",\n        \"unit\": \"index\",\n        \"price_basis\": \"real\",\n        \"price_base\": \"2025=100\",\n        \"seasonal_adjustment\": \"seasonally-adjusted\",\n        \"annualization\": \"period-level\"\n      }\n    }\n  ],\n  \"unresolved_issues\": [\n    \"fresh-annualized: missing or unavailable eligible endpoints; no interpolation or substitution\",\n    \"fresh-growth-question: incomplete research response: fresh-growth, fresh-annualized\",\n    \"fresh-growth: missing or unavailable eligible endpoints; no interpolation or substitution\",\n    \"fresh-real-index 2026-01-31: latest eligible observation is explicitly unavailable; earlier release is not substituted\"\n  ],\n  \"evidence_refs\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n    }\n  ],\n  \"source_register\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"version\": \"1\",\n      \"known_at\": \"2026-02-15T12:00:00Z\",\n      \"locator\": \"independent synthetic fixture, not authenticated economic releases\",\n      \"kind\": \"model\"\n    }\n  ],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"a855cb0594d31d36378978892b7cb3efed46f703d8717cfa164fa21869b0c092\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-null-endpoint-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-null-endpoint-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-unit-mismatch-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-unit-mismatch-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: scenario shock unit differs from supplied sensitivity denominator; no automatic conversion\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-large-shock-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-large-shock-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"cross-asset-theme-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-theme\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-10-20\",\n  \"knowledge_cutoff\": \"2026-10-20T16:00:00Z\",\n  \"use_on\": \"2026-10-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": {\n    \"theme_id\": \"fresh-higher-yields\",\n    \"hypothesis\": {\n      \"statement\": \"Higher relative yields could pressure bond and equity prices while supporting USD in the stated quote.\",\n      \"driver\": \"parallel relative yield rise\",\n      \"transmission\": \"Discount rates pressure local valuations; relative policy yields may support USD, conditional on unchanged cash-flow and risk assumptions.\",\n      \"horizon_date\": \"2027-04-20\"\n    },\n    \"driver_observations\": [],\n    \"evidence\": [\n      {\n        \"evidence_id\": \"fresh-support\",\n        \"role\": \"support\",\n        \"statement\": \"Supplied duration and sensitivities describe a conditional discount-rate and relative-yield channel.\",\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      },\n      {\n        \"evidence_id\": \"fresh-counter\",\n        \"role\": \"counter\",\n        \"statement\": \"Higher earnings or risk-premium compression may offset discount pressure; FX depends on relative policies and funding flows.\",\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"falsifiers\": [\n      {\n        \"test_id\": \"fresh-falsifier\",\n        \"description\": \"Earnings expansion offsets discount pressure despite higher yields.\",\n        \"monitor\": \"Compare fresh earnings revisions with relative yields.\",\n        \"due_on\": \"2027-04-20\",\n        \"status\": \"not-tested\",\n        \"known_at\": null,\n        \"evidence_refs\": []\n      }\n    ],\n    \"scenarios\": [\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"label\": \"Conditional100basis-point parallel relative yield rise\",\n        \"horizon_date\": \"2027-04-20\",\n        \"assumptions\": [\n          \"Supplied fixed sensitivities and parallel move; no convexity, carry, repricing path or coefficient estimation.\"\n        ],\n        \"shocks\": [\n          {\n            \"driver_id\": \"relative-yield\",\n            \"value\": 2000,\n            \"unit\": \"basis-point\"\n          }\n        ],\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"scenario_responses\": [\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-bond\",\n        \"asset_class\": \"rates\",\n        \"instrument_id\": \"fresh-bond-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 2000,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"modified-duration\",\n        \"sensitivity\": 6.2,\n        \"value\": null,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": \"local approximation outside positive-price range\",\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": null,\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      },\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-equity\",\n        \"asset_class\": \"equity\",\n        \"instrument_id\": \"fresh-equity-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 2000,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"linear\",\n        \"sensitivity\": -0.035,\n        \"value\": -70.0,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": null,\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      },\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-fx\",\n        \"asset_class\": \"fx\",\n        \"instrument_id\": \"fresh-fx-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 2000,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"linear\",\n        \"sensitivity\": 0.012,\n        \"value\": 24.0,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": \"EUR per USD\",\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      }\n    ],\n    \"coverage\": {\n      \"required_asset_classes\": [\n        \"rates\",\n        \"equity\",\n        \"fx\"\n      ],\n      \"supplied_asset_classes\": [\n        \"equity\",\n        \"fx\",\n        \"rates\"\n      ],\n      \"missing_asset_classes\": []\n    },\n    \"hypothesis_status\": \"supplied-hypothesis-for-review\",\n    \"causality_established\": false,\n    \"probabilities_estimated\": false,\n    \"portfolio_allocation_proposed\": false,\n    \"limitations\": [\n      \"Supplied sensitivities are assumptions, not estimated coefficients or authenticated market facts.\",\n      \"Responses are conditional local approximations per instrument; no aggregation, portfolio weighting, covariance, convexity, carry or dynamic path modeled.\",\n      \"Historical driver observations do not establish shocks, causal direction, forecasts or probability.\",\n      \"A not-observed falsifier is evidence for the declared review scope only, not proof of the hypothesis.\"\n    ]\n  },\n  \"status\": \"partial\",\n  \"calculation_lineage\": [\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-bond\",\n      \"formula\": \"percent price change approximately -modified_duration * yield_shock_bp / 100\"\n    },\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-equity\",\n      \"formula\": \"supplied response units per shock unit * supplied shock units\"\n    },\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-fx\",\n      \"formula\": \"supplied response units per shock unit * supplied shock units\"\n    }\n  ],\n  \"unresolved_issues\": [\n    \"fresh-100bp/fresh-bond: local approximation implies a nonpositive price; response is outside usable range\"\n  ],\n  \"evidence_refs\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n    }\n  ],\n  \"source_register\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"version\": \"1\",\n      \"known_at\": \"2026-02-15T12:00:00Z\",\n      \"locator\": \"independent synthetic fixture, not authenticated economic releases\",\n      \"kind\": \"model\"\n    }\n  ],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"08d19082b4f54c9fcef9a240e656c65e8d009d6348c30817cf0e6517b76a46a3\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-large-shock-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-large-shock-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-coverage-countergap-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-coverage-countergap-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"cross-asset-theme-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-theme\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-10-20\",\n  \"knowledge_cutoff\": \"2026-10-20T16:00:00Z\",\n  \"use_on\": \"2026-10-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": {\n    \"theme_id\": \"fresh-higher-yields\",\n    \"hypothesis\": {\n      \"statement\": \"Higher relative yields could pressure bond and equity prices while supporting USD in the stated quote.\",\n      \"driver\": \"parallel relative yield rise\",\n      \"transmission\": \"Discount rates pressure local valuations; relative policy yields may support USD, conditional on unchanged cash-flow and risk assumptions.\",\n      \"horizon_date\": \"2027-04-20\"\n    },\n    \"driver_observations\": [],\n    \"evidence\": [\n      {\n        \"evidence_id\": \"fresh-support\",\n        \"role\": \"support\",\n        \"statement\": \"Supplied duration and sensitivities describe a conditional discount-rate and relative-yield channel.\",\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"falsifiers\": [\n      {\n        \"test_id\": \"fresh-falsifier\",\n        \"description\": \"Earnings expansion offsets discount pressure despite higher yields.\",\n        \"monitor\": \"Compare fresh earnings revisions with relative yields.\",\n        \"due_on\": \"2027-04-20\",\n        \"status\": \"not-tested\",\n        \"known_at\": null,\n        \"evidence_refs\": []\n      }\n    ],\n    \"scenarios\": [\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"label\": \"Conditional100basis-point parallel relative yield rise\",\n        \"horizon_date\": \"2027-04-20\",\n        \"assumptions\": [\n          \"Supplied fixed sensitivities and parallel move; no convexity, carry, repricing path or coefficient estimation.\"\n        ],\n        \"shocks\": [\n          {\n            \"driver_id\": \"relative-yield\",\n            \"value\": 100,\n            \"unit\": \"basis-point\"\n          }\n        ],\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"scenario_responses\": [\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-bond\",\n        \"asset_class\": \"rates\",\n        \"instrument_id\": \"fresh-bond-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"modified-duration\",\n        \"sensitivity\": 6.2,\n        \"value\": -6.2,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": null,\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      },\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-equity\",\n        \"asset_class\": \"equity\",\n        \"instrument_id\": \"fresh-equity-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"linear\",\n        \"sensitivity\": -0.035,\n        \"value\": -3.5000000000000004,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": null,\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      },\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-fx\",\n        \"asset_class\": \"fx\",\n        \"instrument_id\": \"fresh-fx-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"linear\",\n        \"sensitivity\": 0.012,\n        \"value\": 1.2,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": \"EUR per USD\",\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      }\n    ],\n    \"coverage\": {\n      \"required_asset_classes\": [\n        \"rates\",\n        \"equity\",\n        \"fx\",\n        \"credit\"\n      ],\n      \"supplied_asset_classes\": [\n        \"equity\",\n        \"fx\",\n        \"rates\"\n      ],\n      \"missing_asset_classes\": [\n        \"credit\"\n      ]\n    },\n    \"hypothesis_status\": \"supplied-hypothesis-for-review\",\n    \"causality_established\": false,\n    \"probabilities_estimated\": false,\n    \"portfolio_allocation_proposed\": false,\n    \"limitations\": [\n      \"Supplied sensitivities are assumptions, not estimated coefficients or authenticated market facts.\",\n      \"Responses are conditional local approximations per instrument; no aggregation, portfolio weighting, covariance, convexity, carry or dynamic path modeled.\",\n      \"Historical driver observations do not establish shocks, causal direction, forecasts or probability.\",\n      \"A not-observed falsifier is evidence for the declared review scope only, not proof of the hypothesis.\"\n    ]\n  },\n  \"status\": \"partial\",\n  \"calculation_lineage\": [\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-bond\",\n      \"formula\": \"percent price change approximately -modified_duration * yield_shock_bp / 100\"\n    },\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-equity\",\n      \"formula\": \"supplied response units per shock unit * supplied shock units\"\n    },\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-fx\",\n      \"formula\": \"supplied response units per shock unit * supplied shock units\"\n    }\n  ],\n  \"unresolved_issues\": [\n    \"No supplied counter-evidence; confirmation bias review remains open\",\n    \"Requested asset class has no supplied exposure analysis: credit\"\n  ],\n  \"evidence_refs\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n    }\n  ],\n  \"source_register\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"version\": \"1\",\n      \"known_at\": \"2026-02-15T12:00:00Z\",\n      \"locator\": \"independent synthetic fixture, not authenticated economic releases\",\n      \"kind\": \"model\"\n    }\n  ],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"a86e6ae412e6b2ccfdc1d799333c07d46833ab9577b2fa23865bd0becd183548\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-coverage-countergap-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-coverage-countergap-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-falsifier-observed-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-falsifier-observed-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"cross-asset-theme-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-theme\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-10-20\",\n  \"knowledge_cutoff\": \"2026-10-20T16:00:00Z\",\n  \"use_on\": \"2026-10-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": {\n    \"theme_id\": \"fresh-higher-yields\",\n    \"hypothesis\": {\n      \"statement\": \"Higher relative yields could pressure bond and equity prices while supporting USD in the stated quote.\",\n      \"driver\": \"parallel relative yield rise\",\n      \"transmission\": \"Discount rates pressure local valuations; relative policy yields may support USD, conditional on unchanged cash-flow and risk assumptions.\",\n      \"horizon_date\": \"2027-04-20\"\n    },\n    \"driver_observations\": [],\n    \"evidence\": [\n      {\n        \"evidence_id\": \"fresh-support\",\n        \"role\": \"support\",\n        \"statement\": \"Supplied duration and sensitivities describe a conditional discount-rate and relative-yield channel.\",\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      },\n      {\n        \"evidence_id\": \"fresh-counter\",\n        \"role\": \"counter\",\n        \"statement\": \"Higher earnings or risk-premium compression may offset discount pressure; FX depends on relative policies and funding flows.\",\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"falsifiers\": [\n      {\n        \"test_id\": \"fresh-falsifier\",\n        \"description\": \"Earnings expansion offsets discount pressure despite higher yields.\",\n        \"monitor\": \"Compare fresh earnings revisions with relative yields.\",\n        \"due_on\": \"2027-04-20\",\n        \"status\": \"observed\",\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"scenarios\": [\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"label\": \"Conditional100basis-point parallel relative yield rise\",\n        \"horizon_date\": \"2027-04-20\",\n        \"assumptions\": [\n          \"Supplied fixed sensitivities and parallel move; no convexity, carry, repricing path or coefficient estimation.\"\n        ],\n        \"shocks\": [\n          {\n            \"driver_id\": \"relative-yield\",\n            \"value\": 100,\n            \"unit\": \"basis-point\"\n          }\n        ],\n        \"known_at\": \"2026-10-20T16:00:00Z\",\n        \"evidence_refs\": [\n          {\n            \"source_id\": \"fresh-synthetic\",\n            \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n          }\n        ]\n      }\n    ],\n    \"scenario_responses\": [\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-bond\",\n        \"asset_class\": \"rates\",\n        \"instrument_id\": \"fresh-bond-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"modified-duration\",\n        \"sensitivity\": 6.2,\n        \"value\": -6.2,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": null,\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      },\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-equity\",\n        \"asset_class\": \"equity\",\n        \"instrument_id\": \"fresh-equity-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"linear\",\n        \"sensitivity\": -0.035,\n        \"value\": -3.5000000000000004,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": null,\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      },\n      {\n        \"scenario_id\": \"fresh-100bp\",\n        \"exposure_id\": \"fresh-fx\",\n        \"asset_class\": \"fx\",\n        \"instrument_id\": \"fresh-fx-instrument\",\n        \"driver_id\": \"relative-yield\",\n        \"shock\": {\n          \"driver_id\": \"relative-yield\",\n          \"value\": 100,\n          \"unit\": \"basis-point\"\n        },\n        \"method\": \"linear\",\n        \"sensitivity\": 0.012,\n        \"value\": 1.2,\n        \"response_unit\": \"percent-price-change\",\n        \"unavailable_reason\": null,\n        \"conditional_qualitative_response\": null,\n        \"quote_convention\": \"EUR per USD\",\n        \"limitations\": [\n          \"Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance.\"\n        ]\n      }\n    ],\n    \"coverage\": {\n      \"required_asset_classes\": [\n        \"rates\",\n        \"equity\",\n        \"fx\"\n      ],\n      \"supplied_asset_classes\": [\n        \"equity\",\n        \"fx\",\n        \"rates\"\n      ],\n      \"missing_asset_classes\": []\n    },\n    \"hypothesis_status\": \"challenged-by-supplied-falsifier\",\n    \"causality_established\": false,\n    \"probabilities_estimated\": false,\n    \"portfolio_allocation_proposed\": false,\n    \"limitations\": [\n      \"Supplied sensitivities are assumptions, not estimated coefficients or authenticated market facts.\",\n      \"Responses are conditional local approximations per instrument; no aggregation, portfolio weighting, covariance, convexity, carry or dynamic path modeled.\",\n      \"Historical driver observations do not establish shocks, causal direction, forecasts or probability.\",\n      \"A not-observed falsifier is evidence for the declared review scope only, not proof of the hypothesis.\"\n    ]\n  },\n  \"status\": \"partial\",\n  \"calculation_lineage\": [\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-bond\",\n      \"formula\": \"percent price change approximately -modified_duration * yield_shock_bp / 100\"\n    },\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-equity\",\n      \"formula\": \"supplied response units per shock unit * supplied shock units\"\n    },\n    {\n      \"scenario_id\": \"fresh-100bp\",\n      \"exposure_id\": \"fresh-fx\",\n      \"formula\": \"supplied response units per shock unit * supplied shock units\"\n    }\n  ],\n  \"unresolved_issues\": [\n    \"Supplied falsifier observed; hypothesis requires reassessment: fresh-falsifier\"\n  ],\n  \"evidence_refs\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"locator\": \"independent synthetic fixture inventory, rows1-9\"\n    }\n  ],\n  \"source_register\": [\n    {\n      \"source_id\": \"fresh-synthetic\",\n      \"version\": \"1\",\n      \"known_at\": \"2026-02-15T12:00:00Z\",\n      \"locator\": \"independent synthetic fixture, not authenticated economic releases\",\n      \"kind\": \"model\"\n    }\n  ],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"e6fd7e703a2f60dd54a1cdae8612d1a48914e82e9fd70455d7f47389a00faddf\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-falsifier-observed-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-falsifier-observed-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-denied-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-denied-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"macroeconomic-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-macro-early\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-03-20\",\n  \"knowledge_cutoff\": \"2026-03-20T16:00:00Z\",\n  \"use_on\": \"2026-03-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": null,\n  \"status\": \"partial\",\n  \"calculation_lineage\": [],\n  \"unresolved_issues\": [\n    \"fresh-synthetic: permission denied or unknown\"\n  ],\n  \"evidence_refs\": [],\n  \"source_register\": [],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"f52ad0d149d35e3d3bfbe20468c0fa5e336c11853518c9b02b0b2693ae9a0b32\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-denied-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-denied-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/macroeconomic-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-tampered-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/macro-original-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: output differs from original-input reconstruction: authority_granted\noutput validation: 1 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_input.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-denied-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "input validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/calculate_or_transform.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-denied-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"schema_version\": \"ir-analysis/2.0\",\n  \"method_id\": \"cross-asset-theme-researcher\",\n  \"method_version\": \"2.0.0\",\n  \"request_id\": \"fresh-theme\",\n  \"subject\": {\n    \"type\": \"economy\",\n    \"id\": \"FRESH-ECONOMY\"\n  },\n  \"as_of\": \"2026-10-20\",\n  \"knowledge_cutoff\": \"2026-10-20T16:00:00Z\",\n  \"use_on\": \"2026-10-20\",\n  \"purpose\": \"internal-research\",\n  \"audience\": \"internal-review\",\n  \"results\": null,\n  \"status\": \"partial\",\n  \"calculation_lineage\": [],\n  \"unresolved_issues\": [\n    \"fresh-synthetic: permission denied or unknown\"\n  ],\n  \"evidence_refs\": [],\n  \"source_register\": [],\n  \"source_assurance\": \"supplied-not-authenticated\",\n  \"coverage_assurance\": \"supplied-inventory-only\",\n  \"professional_acceptance\": \"not-established\",\n  \"authority_granted\": false,\n  \"action_taken\": false,\n  \"approval\": \"not_requested\",\n  \"execution\": \"not_performed\",\n  \"input_hash\": \"cadb48630dc32ade6bbc8f3642288f6c8e4abd29c9204b23bdff14b16bfa37eb\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-denied-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-denied-input.json"
+    ],
+    "exit_code": 0,
+    "stdout": "output validation: 0 error(s)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/cross-asset-theme-researcher/scripts/validate_output.py",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-tampered-output.json",
+      "--input",
+      "/private/tmp/ir-phase4-structured-forward-macro-theme-20261020/theme-original-input.json"
+    ],
+    "exit_code": 1,
+    "stdout": "ERROR: output differs from original-input reconstruction: authority_granted\noutput validation: 1 error(s)\n",
+    "stderr": ""
+  }
+]

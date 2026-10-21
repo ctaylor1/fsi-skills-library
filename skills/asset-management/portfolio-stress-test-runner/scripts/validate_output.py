@@ -66,7 +66,7 @@ def _num(v, default=None):
         return default
 
 
-def _check_scenario(s: dict, base_value: float) -> list[str]:
+def _check_scenario(s: dict, base_value: float, reconciliation_tolerance: float = TOL) -> list[str]:
     errors = []
     sid = s.get("scenario_id", "?")
 
@@ -119,7 +119,7 @@ def _check_scenario(s: dict, base_value: float) -> list[str]:
     if recon:
         at = _num(recon.get("approved_engine_total"))
         ct = _num(recon.get("computed_total"))
-        if at is not None and ct is not None and abs(ct - at) > TOL:
+        if at is not None and ct is not None and abs(ct - at) > reconciliation_tolerance:
             errors.append(f"scenario {sid}: computed total {ct} does not reconcile to approved "
                           f"engine total {at} (difference {round(ct - at, 4)})")
         if recon.get("within_tolerance") is False:
@@ -128,7 +128,7 @@ def _check_scenario(s: dict, base_value: float) -> list[str]:
     return errors
 
 
-def validate(pack: dict) -> list[str]:
+def _validate_legacy(pack: dict) -> list[str]:
     errors: list[str] = []
     base_value = _num(pack.get("portfolio_base_value"), 0.0) or 0.0
     scenarios = pack.get("scenarios") or []
@@ -136,7 +136,7 @@ def validate(pack: dict) -> list[str]:
         errors.append("pack has no scenarios")
 
     for s in scenarios:
-        errors += _check_scenario(s, base_value)
+        errors += _check_scenario(s, base_value, float(pack.get("reconciliation_tolerance", TOL)))
 
     # assumption provenance + scenario-definition approval (HARD BOUNDARY, register side)
     register = pack.get("assumptions_register") or []
@@ -173,6 +173,19 @@ def validate(pack: dict) -> list[str]:
     return errors
 
 
+def validate(pack: dict, source_doc: dict | None = None) -> list[str]:
+    """Require detached original input; do not authenticate it or approve narrative."""
+    import runpy
+    try:
+        errors = _validate_legacy(pack)
+    except (TypeError, ValueError, KeyError, AttributeError, OverflowError) as exc:
+        return [f"malformed output: {exc}"]
+    engine = runpy.run_path(str(Path(__file__).with_name("calculate_or_transform.py")))
+    integrity = runpy.run_path(str(Path(__file__).with_name("native_integrity.py")))
+    integrity["validate_reconstruction"](pack, engine["compute"], errors, original_input=source_doc)
+    return errors
+
+
 def main(argv):
     if "--selftest" in argv:
         p = Path(__file__).resolve().parents[1] / "evals" / "files" / "stress_pack_example.json"
@@ -181,7 +194,10 @@ def main(argv):
         pack = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
     else:
         pack = json.loads(sys.stdin.read())
-    errors = validate(pack)
+    source_doc = None
+    if "--input" in argv:
+        source_doc = json.loads(Path(argv[argv.index("--input") + 1]).read_text(encoding="utf-8"))
+    errors = validate(pack, source_doc)
     for e in errors:
         print("ERROR", e)
     print(f"output validation: {len(errors)} error(s)")

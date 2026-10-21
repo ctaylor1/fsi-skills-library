@@ -1,0 +1,216 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "macroeconomic-researcher",
+  "method_version": "2.0.0",
+  "request_id": "macro-example",
+  "subject": {
+    "type": "economy",
+    "id": "SYNTH-ECONOMY"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "selected_observations": [
+      {
+        "series_id": "real-output",
+        "label": "Synthetic real output",
+        "geography": "SYNTH-ECONOMY",
+        "frequency": "quarterly",
+        "measure_kind": "level",
+        "unit": "USD billions",
+        "price_basis": "real",
+        "price_base": "2020 chained dollars",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "annual-rate",
+        "observation_id": "q1-revised",
+        "period_end": "2026-03-31",
+        "release_at": "2026-09-01",
+        "vintage_id": "revision-1",
+        "value": 101,
+        "evidence_refs": [
+          {
+            "source_id": "economic-v1",
+            "locator": "synthetic:release#table1"
+          }
+        ]
+      },
+      {
+        "series_id": "real-output",
+        "label": "Synthetic real output",
+        "geography": "SYNTH-ECONOMY",
+        "frequency": "quarterly",
+        "measure_kind": "level",
+        "unit": "USD billions",
+        "price_basis": "real",
+        "price_base": "2020 chained dollars",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "annual-rate",
+        "observation_id": "q2-first",
+        "period_end": "2026-06-30",
+        "release_at": "2026-09-01",
+        "vintage_id": "advance",
+        "value": 103.02,
+        "evidence_refs": [
+          {
+            "source_id": "economic-v1",
+            "locator": "synthetic:release#table1"
+          }
+        ]
+      }
+    ],
+    "excluded_observations": [
+      {
+        "observation_id": "q1-first",
+        "series_id": "real-output",
+        "period_end": "2026-03-31",
+        "release_at": "2026-07-30",
+        "reason": "superseded by latest eligible supplied release"
+      }
+    ],
+    "revisions": [
+      {
+        "series_id": "real-output",
+        "period_end": "2026-03-31",
+        "first_observation_id": "q1-first",
+        "latest_observation_id": "q1-revised",
+        "value_change": 1,
+        "unit": "USD billions",
+        "scope": "first-to-latest eligible supplied releases; not necessarily initial publication"
+      }
+    ],
+    "calculations": [
+      {
+        "calculation_id": "quarter-growth",
+        "series_id": "real-output",
+        "from_period": "2026-03-31",
+        "to_period": "2026-06-30",
+        "operation": "percent-change",
+        "value": 2.0000000000000018,
+        "unit": "percent",
+        "unavailable_reason": null,
+        "from_observation_id": "q1-revised",
+        "to_observation_id": "q2-first"
+      },
+      {
+        "calculation_id": "annualized-growth",
+        "series_id": "real-output",
+        "from_period": "2026-03-31",
+        "to_period": "2026-06-30",
+        "operation": "annualized-percent-change",
+        "value": 8.243215999999997,
+        "unit": "percent",
+        "unavailable_reason": null,
+        "from_observation_id": "q1-revised",
+        "to_observation_id": "q2-first"
+      }
+    ],
+    "requested_coverage": [
+      {
+        "series_id": "real-output",
+        "eligible_observation_supplied": true
+      }
+    ],
+    "outlooks": [
+      {
+        "outlook_id": "slowdown",
+        "kind": "scenario",
+        "series_id": "real-output",
+        "period_end": "2026-12-31",
+        "value": 102,
+        "known_at": "2026-10-20",
+        "assumptions": [
+          "Hypothetical demand slowdown; not a forecast probability."
+        ],
+        "evidence_refs": [
+          {
+            "source_id": "economic-v1",
+            "locator": "synthetic:release#table1"
+          }
+        ]
+      }
+    ],
+    "research_questions": [
+      {
+        "question_id": "growth",
+        "question": "Has supplied real output accelerated?",
+        "required_calculation_ids": [
+          "quarter-growth",
+          "annualized-growth"
+        ],
+        "interpretation": "Supplied latest-vintage output grew 2 percent quarter over quarter; annualization is a comparison convention, not a forecast.",
+        "counter_evidence": "One quarter and a revision do not establish a persistent trend.",
+        "review_status": "supplied-interpretation-for-review",
+        "gaps": []
+      }
+    ],
+    "selection_scope": "latest eligible supplied release per series and period; external release inventory not authenticated",
+    "limitations": [
+      "No cross-series arithmetic, rebasing, currency conversion, interpolation or automatic seasonal adjustment.",
+      "Annualized growth is a compounding comparison convention; it is not a forecast.",
+      "Supplied interpretations, consensus and scenarios remain unverified judgments; no probabilities inferred."
+    ]
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "calculation_id": "quarter-growth",
+      "formula": "100 * (end / start - 1)",
+      "basis": {
+        "series_id": "real-output",
+        "label": "Synthetic real output",
+        "geography": "SYNTH-ECONOMY",
+        "frequency": "quarterly",
+        "measure_kind": "level",
+        "unit": "USD billions",
+        "price_basis": "real",
+        "price_base": "2020 chained dollars",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "annual-rate"
+      }
+    },
+    {
+      "calculation_id": "annualized-growth",
+      "formula": "100 * ((end / start) ** (12 / elapsed_calendar_months) - 1)",
+      "basis": {
+        "series_id": "real-output",
+        "label": "Synthetic real output",
+        "geography": "SYNTH-ECONOMY",
+        "frequency": "quarterly",
+        "measure_kind": "level",
+        "unit": "USD billions",
+        "price_basis": "real",
+        "price_base": "2020 chained dollars",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "annual-rate"
+      }
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "economic-v1",
+      "locator": "synthetic:release#table1"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "economic-v1",
+      "version": "1",
+      "known_at": "2026-07-30",
+      "locator": "synthetic:release",
+      "kind": "economic_release"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "5ead8316531d8f52b04b8a95141512297ae047445565dd8cff3fd68780daac88",
+  "source_truth": "unverified"
+}

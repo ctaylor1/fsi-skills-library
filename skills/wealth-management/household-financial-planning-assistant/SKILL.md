@@ -19,7 +19,7 @@ metadata:
   aws-fsi-jurisdictions: "US; explicit professional-capacity and firm-policy applicability required"
   aws-fsi-owner: "Wealth Management advisory & compliance"
   aws-fsi-primary-user: "Advisor / financial planner"
-  aws-fsi-version: "0.2.1"
+  aws-fsi-version: "0.3.0"
   aws-fsi-recertification-date: "2027-09-16"
 ---
 
@@ -76,6 +76,20 @@ unknown fields to obtain a successful validation. Before handing off, compare th
 structured input and readable draft back to the source statements. Output
 reconstruction validates calculations from input; it cannot detect fabricated
 facts that were already inserted into that input.
+
+## P5 source and recipient quality gate
+Before treating model-created structured input or a recipient draft as reviewed,
+follow [references/quality-gate.md](references/quality-gate.md). Inventory every
+input field against detached source evidence and obtain a separate reviewer’s
+field decisions. Preserve unknowns as null; a missing review stays pending.
+Never create your own independent reviewer identity or approval to pass a gate.
+Create one draft per exact recipient set, including internal colleagues, from the
+supplied access registry. Keep the full input, review receipt and withheld details
+in a separate restricted work area. Run the combined gate and verify the actual
+final bytes before handoff; native calculator validation alone is insufficient.
+If no independent reviewer or permission registry is available, deliver a clearly
+pending internal working draft and the missing-evidence list to the authorized
+reviewer. Do not describe it as cleared for any wider audience.
 
 ## Workflow
 1. Confirm the selected mode, household scope, currency, de-identified account IDs and dated evidence.

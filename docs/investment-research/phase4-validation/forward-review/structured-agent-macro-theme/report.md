@@ -1,0 +1,13 @@
+# Independent forward review: macro and cross-asset theme
+
+Used current SKILL/schema to construct fresh synthetic raw inputs, then validated, calculated and verified each result against its retained full original. Original inputs/outputs, command transcripts, package-code hashes, independent check assertions and scripts are retained here. No reviewed package was edited.
+
+Monthly real index: Jan120 and first-Feb123 produce2.5%monthly and34.4888824%annualized at March20 cutoff. At April20 cutoff, eligible Feb revision124.5 produces3.75%monthly and55.5454331%annualized; revision delta is1.5index points. The May15 hypothetical revision125.7 is excluded at both cutoffs with identity/reason only and no excluded value leakage. Selected rows preserve monthly real/index/2025=100/seasonally-adjusted/period-level basis and the exact observation/release/vintage IDs. Annualization is explicitly a comparison convention, not a forecast.
+
+This selection test uses an explicitly synthetic model-fixture source known before the hypothetical releases. It proves selection math, not that a real source could know future observations. A separate adverse source-known-after-row case is rejected, and denied sources withhold all results. Actual current source authentication and empirical interpretation remain outside the bounded checks.
+
+Separate theme:100bp supplied parallel relative-yield shock, modified duration6.2 gives−6.2%price; supplied equity−0.035%price/bp gives−3.5%; FX+0.012%quoted-price/bp gives+1.2%with quote EURperUSD preserved. Support, counter-evidence, falsifier monitoring and requested rates/equity/FX coverage remain visible. No causality, probabilities, portfolio aggregation/allocation or authority is claimed.
+
+Twenty-one fresh/adverse checks pass. They include missing endpoint/null preservation; duplicate observations; invalid period end and real base; boolean numbers; missing FX quote; negative duration; unsupported weights/probabilities; future evidence; missing asset/counter-evidence gaps; observed falsifier reassessment; impossible positive-price responses withheld; denied-source withholding; and original-bound tamper rejection.
+
+One safe boundary inconsistency was observed and reported: shock-unit mismatch passes intake validation but fails calculation with a controlled error. It produces no numerical projection or implicit conversion. This is not a financial correctness bypass; reviewers should not interpret intake shape validation alone as completion of numerical computation. All final results remain supplied-scope consistency, not real-data/source fidelity or professional acceptance.

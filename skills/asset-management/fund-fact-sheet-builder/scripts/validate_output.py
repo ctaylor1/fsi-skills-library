@@ -23,6 +23,8 @@ Exit 0 if no errors, 1 otherwise.
 from __future__ import annotations
 import json, re, sys
 from pathlib import Path
+import importlib.util
+from native_integrity import validate_reconstruction
 
 # Canonical fact-sheet sections; the human-facing render in assets/output-template.md mirrors
 # these (versioned contract).
@@ -31,7 +33,7 @@ REQUIRED_SECTIONS = [
     "reconciliation", "disclosures", "sources",
 ]
 CONTENT_SECTIONS = ["performance", "holdings", "risk", "fees", "esg"]
-ASSERTED_STATUSES = {"included", "stale", "unresolved"}
+ASSERTED_STATUSES = {"included"}
 DEFAULT_TOLERANCE = 0.05
 
 STANDING_NOTE = ("Draft fund fact sheet for human review only. Every figure is source-cited "
@@ -84,7 +86,7 @@ def _scan_text(doc: dict, sections: dict) -> str:
     return " \n ".join(parts)
 
 
-def validate(doc: dict) -> list[str]:
+def _validate_native(doc: dict) -> list[str]:
     errors: list[str] = []
     sections = doc.get("sections")
     if not isinstance(sections, dict):
@@ -164,6 +166,15 @@ def validate(doc: dict) -> list[str]:
 
 
 def main(argv):
+    original_input = None
+    argv = list(argv)
+    for option in ("--input", "--source"):
+        if option in argv:
+            index = argv.index(option)
+            original_input = json.loads(Path(argv[index + 1]).read_text(encoding="utf-8"))
+            del argv[index:index + 2]
+    if "--selftest" in argv:
+        original_input = json.loads((Path(__file__).resolve().parents[1] / "evals/files/factsheet_intake_example.json").read_text())
     if "--selftest" in argv:
         p = Path(__file__).resolve().parents[1] / "evals" / "files" / "factsheet_example.json"
         doc = json.loads(p.read_text(encoding="utf-8"))
@@ -171,12 +182,31 @@ def main(argv):
         doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
     else:
         doc = json.loads(sys.stdin.read())
-    errors = validate(doc)
+    errors = validate(doc, original_input)
     for e in errors:
         print("ERROR", e)
     print(f"output validation: {len(errors)} error(s)")
     return 1 if errors else 0
 
+
+
+
+def validate(doc: dict, original_input=None) -> list[str]:
+    try:
+        errors = _validate_native(doc)
+    except (KeyError, TypeError, ValueError, ArithmeticError) as exc:
+        errors = ["invalid output: " + str(exc)]
+    if original_input is not None:
+        input_spec = importlib.util.spec_from_file_location("_input_validation", Path(__file__).with_name("validate_input.py"))
+        input_module = importlib.util.module_from_spec(input_spec)
+        input_spec.loader.exec_module(input_module)
+        input_errors, _ = input_module.validate(original_input)
+        errors.extend("source input: " + error for error in input_errors)
+    spec = importlib.util.spec_from_file_location("_native_calculation_fund_fact_sheet_builder", Path(__file__).with_name("calculate_or_transform.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    validate_reconstruction(doc, module.assemble, errors, original_input)
+    return errors
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

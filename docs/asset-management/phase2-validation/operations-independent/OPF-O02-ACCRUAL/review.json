@@ -1,0 +1,135 @@
+{
+  "id": "OPF-O02-ACCRUAL",
+  "package": "fund-accounting-preparer",
+  "input": {
+    "request_id": "OPF-O02-ACCRUAL",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "accrual",
+    "accruals": [
+      {
+        "accrual_id": "MGMT-FEE",
+        "principal": "1000",
+        "annual_rate": "0.02",
+        "start": "2026-08-01",
+        "end": "2026-08-31",
+        "day_count": "ACT/365",
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "expected": {
+    "accrual": "1.64383562",
+    "days": 30
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "6698b1855be5b3c63a4293d098be3155aa2b8cea36b0e166afbacfa1c7f38356",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"fund-accounting-preparer\",\n  \"request_id\": \"OPF-O02-ACCRUAL\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"single-currency-workpaper-accrual-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"accrual_workpaper\": [\n      {\n        \"accrual_id\": \"MGMT-FEE\",\n        \"days_excluding_start\": 30,\n        \"expense_accrual\": \"1.64383562\",\n        \"source_ref\": \"ind-source\"\n      }\n    ],\n    \"total_expense_accrual\": \"1.64383562\",\n    \"rounding\": \"8 decimal places per accrual; no currency minor-unit booking implied\",\n    \"posting_performed\": false\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"Draft workpaper only; enterprise accounting engine and administrator remain authoritative. No posting, striking or release.\",\n    \"No trade capture, FX, tax, fair-value or ledger-to-NAV engine. Class allocation weights and values are supplied; class expenses must not duplicate common liabilities.\",\n    \"Journal and cash sums are exact Decimal; accruals and NAV/share use explicitly rounded8-place ratios.\"\n  ],\n  \"handoffs\": [\n    \"fund-nav-control-reviewer\",\n    \"fund-valuation-oversight-reviewer\",\n    \"investment-book-reconciler\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"982df85352489fe7a35b4076e29c71b1b1ce73aea38aaa536c30f823b09a52d6\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "fund-accounting-preparer",
+    "request_id": "OPF-O02-ACCRUAL",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "draft",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "single-currency-workpaper-accrual-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "accrual_workpaper": [
+        {
+          "accrual_id": "MGMT-FEE",
+          "days_excluding_start": 30,
+          "expense_accrual": "1.64383562",
+          "source_ref": "ind-source"
+        }
+      ],
+      "total_expense_accrual": "1.64383562",
+      "rounding": "8 decimal places per accrual; no currency minor-unit booking implied",
+      "posting_performed": false
+    },
+    "unresolved_issues": [],
+    "limitations": [
+      "Draft workpaper only; enterprise accounting engine and administrator remain authoritative. No posting, striking or release.",
+      "No trade capture, FX, tax, fair-value or ledger-to-NAV engine. Class allocation weights and values are supplied; class expenses must not duplicate common liabilities.",
+      "Journal and cash sums are exact Decimal; accruals and NAV/share use explicitly rounded8-place ratios."
+    ],
+    "handoffs": [
+      "fund-nav-control-reviewer",
+      "fund-valuation-oversight-reviewer",
+      "investment-book-reconciler"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "982df85352489fe7a35b4076e29c71b1b1ce73aea38aaa536c30f823b09a52d6",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-O02-ACCRUAL",
+      "check": "1000*.02*30/365 at8places",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-ACCRUAL",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-ACCRUAL",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-ACCRUAL",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    }
+  ]
+}

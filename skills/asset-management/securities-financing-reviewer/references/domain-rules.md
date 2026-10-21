@@ -1,0 +1,14 @@
+# Agreement-bound financing method
+
+Supported perspectives are `repo-cash-borrower` and `securities-lender-noncash`. All current trade/collateral/funding observations use the review date and one currency. The agreement must state its convention and rate basis; no common market percentage is inserted by the calculator.
+
+For a haircut h, the collateral requirement is basis/(1-h), and eligible collateral provides exact credit MV*(1-h). For an initial margin m, required collateral is basis*m. A 2% haircut on collateral is not the same ratio as 102% initial margin on principal. The basis is repo cash principal or loaned-security market value. Sufficiency uses unrounded products; divided display requirements round to 12 places.
+
+Each allocated collateral market value is tied to one identified asset and trade. Custody-account/source-position identity is unique across collateral IDs, preventing a renamed source position from duplicating inventory. Only explicitly eligible allocations count. Aggregate all allocations against the asset's supplied available market value. Any overallocated asset conservatively makes coverage conclusions insufficient; no duplicate collateral can support independent passing conclusions. Asset market values and eligibility remain supplied, and no collateral price/FX engine runs.
+
+Require an explicit supplied constant-basis assertion for the full interval; a current lending-security mark alone does not establish historical fee accrual. Future unchanged basis remains a projection assumption. For the supplied constant annual rate r and actual calendar-day count d, simple accrual is basis*r*d/360 or basis*r*d/365 according to ACT/360 or ACT/365F. Start is included and end excluded through date subtraction. Signed rates are retained. Repo maturity payment is principal plus full-term simple interest. Securities-lender fees are receivables on loaned market value; they are not included as committed funding. Full-term calculations are projections and require the single rate to cover the entire interval. Resets, compounding, cash rebates and manufactured income are unsupported.
+
+A recall binds one securities-lender trade. Unreturned quantity is requested minus observed returned quantity. Due dates before review with remaining quantities are overdue. Aggregate open recalls cannot exceed the supplied current outstanding loan quantity. Contractual notice rules and live return settlement are not inferred.
+
+The repo funding path subtracts each day's maturity payments from prior available cash before adding same-day supplied committed receipts. Proposed funding is excluded. This conservative daily view does not establish intraday liquidity, legal netting or actual payment obligations. No offset is inferred from another counterparty's surplus collateral.
+

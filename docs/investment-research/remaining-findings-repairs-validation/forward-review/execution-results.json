@@ -1,0 +1,1307 @@
+[
+  {
+    "case": "issuer_base",
+    "package": "issuer-credit-researcher",
+    "started_at": "2026-10-21T00:18:57.343892+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_base/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_base/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "output-check",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_output.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_base/output.json",
+          "--input",
+          "/private/tmp/ir-remaining-findings-independent/issuer_base/original.json"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "status": "partial",
+    "results": {
+      "financial_context": {
+        "currency": "USD",
+        "unit": "USD_m",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "Atlas-calendar"
+        },
+        "accounting_basis": "US-GAAP-supplied",
+        "consolidation_scope": "consolidated"
+      },
+      "credit_metrics": {
+        "reported_ebitda": {
+          "ebitda": 96,
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0
+        },
+        "analyst_adjusted_ebitda": {
+          "ebitda": 96.0,
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0
+        }
+      },
+      "cash_flow": {
+        "free_cash_flow": 36,
+        "ffo_to_debt": 0.11666666666666667
+      },
+      "structural_risks": [],
+      "risk_observations": [],
+      "ebitda_adjustments": [],
+      "evidence_reconciliation": {
+        "ebitda_adjustments": {
+          "status": "reconciled",
+          "reasons": [],
+          "signed_adjustment_total": 0.0,
+          "events": [],
+          "selected_adjustments": []
+        },
+        "debt_inventory": {
+          "status": "reconciled",
+          "reasons": [],
+          "included_instrument_ids": [
+            "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+          ],
+          "excluded_instrument_ids": [],
+          "included_principal_total": 366.0,
+          "carrying_value_bridge_total": -6.0,
+          "reconstructed_gross_debt": 360.0,
+          "reported_gross_debt": 360,
+          "inventory_evidence": {
+            "currency": "USD",
+            "unit": "USD_m",
+            "accounting_basis": "US-GAAP-supplied",
+            "consolidation_scope": "consolidated",
+            "period": {
+              "start": "2026-01-01",
+              "end": "2026-09-30",
+              "fiscal_calendar_id": "Atlas-calendar"
+            },
+            "inventory_coverage": "complete-for-supplied-scope",
+            "coverage_description": "Supplied synthetic complete contractual principal inventory 366 for Atlas consolidated debt at 2026-09-30, with cited carrying bridge -6.",
+            "source_binding": {
+              "source_id": "atlas-debt-note",
+              "version": "atlas-synthetic-v1",
+              "known_at": "2026-10-20T20:00:00Z",
+              "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge",
+              "subject_issuer_id": "ATLAS-COMPONENTS",
+              "economic_event_key": "atlas-debt-inventory-20260930"
+            },
+            "evidence_refs": [
+              {
+                "source_id": "atlas-debt-note",
+                "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+              }
+            ],
+            "bridge": [
+              {
+                "bridge_id": "ATLAS-CARRYING-BRIDGE",
+                "economic_event_id": "ATLAS-PRINCIPAL-TO-CARRYING-20260930",
+                "amount": -6,
+                "bridge_type": "principal-to-carrying-value",
+                "instrument_ids": [
+                  "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+                ],
+                "rationale": "Supplied signed carrying-value bridge of -6; no particular accounting component inferred.",
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "source_binding": {
+                  "source_id": "atlas-debt-note",
+                  "version": "atlas-synthetic-v1",
+                  "known_at": "2026-10-20T20:00:00Z",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge",
+                  "subject_issuer_id": "ATLAS-COMPONENTS",
+                  "economic_event_key": "atlas-principal-carrying-bridge-20260930"
+                },
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            ]
+          },
+          "instrument_evidence": [
+            {
+              "instrument_id": "ATLAS-CONTRACTUAL-DEBT-INVENTORY",
+              "issuer_id": "ATLAS-COMPONENTS",
+              "estate_id": "ATLAS-ISSUER-ESTATE",
+              "seniority": "unknown",
+              "principal": 366,
+              "guarantor_ids": [],
+              "currency": "USD",
+              "unit": "USD_m",
+              "accounting_basis": "US-GAAP-supplied",
+              "consolidation_scope": "consolidated",
+              "period": {
+                "start": "2026-01-01",
+                "end": "2026-09-30",
+                "fiscal_calendar_id": "Atlas-calendar"
+              },
+              "principal_basis": "contractual-principal",
+              "evidence_refs": [
+                {
+                  "source_id": "atlas-debt-note",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                }
+              ],
+              "debt_inclusion": {
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "treatment": "included",
+                "reason": "Complete supplied consolidated contractual principal inventory; synthetic aggregate identity, no seniority inferred.",
+                "subject_issuer_id": "ATLAS-COMPONENTS",
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "rating_assigned": false,
+      "credit_decision": "not-made",
+      "legal_priority": "supplied-assertions-only"
+    },
+    "issues": [
+      "ATLAS-CONTRACTUAL-DEBT-INVENTORY: legal priority unresolved"
+    ]
+  },
+  {
+    "case": "issuer_capex_zero",
+    "package": "issuer-credit-researcher",
+    "started_at": "2026-10-21T00:18:57.478190+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_capex_zero/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_capex_zero/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "output-check",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_output.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_capex_zero/output.json",
+          "--input",
+          "/private/tmp/ir-remaining-findings-independent/issuer_capex_zero/original.json"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "status": "partial",
+    "results": {
+      "financial_context": {
+        "currency": "USD",
+        "unit": "USD_m",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "Atlas-calendar"
+        },
+        "accounting_basis": "US-GAAP-supplied",
+        "consolidation_scope": "consolidated"
+      },
+      "credit_metrics": {
+        "reported_ebitda": {
+          "ebitda": 96,
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0
+        },
+        "analyst_adjusted_ebitda": {
+          "ebitda": 96.0,
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0
+        }
+      },
+      "cash_flow": {
+        "free_cash_flow": 54,
+        "ffo_to_debt": 0.11666666666666667
+      },
+      "structural_risks": [],
+      "risk_observations": [],
+      "ebitda_adjustments": [],
+      "evidence_reconciliation": {
+        "ebitda_adjustments": {
+          "status": "reconciled",
+          "reasons": [],
+          "signed_adjustment_total": 0.0,
+          "events": [],
+          "selected_adjustments": []
+        },
+        "debt_inventory": {
+          "status": "reconciled",
+          "reasons": [],
+          "included_instrument_ids": [
+            "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+          ],
+          "excluded_instrument_ids": [],
+          "included_principal_total": 366.0,
+          "carrying_value_bridge_total": -6.0,
+          "reconstructed_gross_debt": 360.0,
+          "reported_gross_debt": 360,
+          "inventory_evidence": {
+            "currency": "USD",
+            "unit": "USD_m",
+            "accounting_basis": "US-GAAP-supplied",
+            "consolidation_scope": "consolidated",
+            "period": {
+              "start": "2026-01-01",
+              "end": "2026-09-30",
+              "fiscal_calendar_id": "Atlas-calendar"
+            },
+            "inventory_coverage": "complete-for-supplied-scope",
+            "coverage_description": "Supplied synthetic complete contractual principal inventory 366 for Atlas consolidated debt at 2026-09-30, with cited carrying bridge -6.",
+            "source_binding": {
+              "source_id": "atlas-debt-note",
+              "version": "atlas-synthetic-v1",
+              "known_at": "2026-10-20T20:00:00Z",
+              "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge",
+              "subject_issuer_id": "ATLAS-COMPONENTS",
+              "economic_event_key": "atlas-debt-inventory-20260930"
+            },
+            "evidence_refs": [
+              {
+                "source_id": "atlas-debt-note",
+                "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+              }
+            ],
+            "bridge": [
+              {
+                "bridge_id": "ATLAS-CARRYING-BRIDGE",
+                "economic_event_id": "ATLAS-PRINCIPAL-TO-CARRYING-20260930",
+                "amount": -6,
+                "bridge_type": "principal-to-carrying-value",
+                "instrument_ids": [
+                  "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+                ],
+                "rationale": "Supplied signed carrying-value bridge of -6; no particular accounting component inferred.",
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "source_binding": {
+                  "source_id": "atlas-debt-note",
+                  "version": "atlas-synthetic-v1",
+                  "known_at": "2026-10-20T20:00:00Z",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge",
+                  "subject_issuer_id": "ATLAS-COMPONENTS",
+                  "economic_event_key": "atlas-principal-carrying-bridge-20260930"
+                },
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            ]
+          },
+          "instrument_evidence": [
+            {
+              "instrument_id": "ATLAS-CONTRACTUAL-DEBT-INVENTORY",
+              "issuer_id": "ATLAS-COMPONENTS",
+              "estate_id": "ATLAS-ISSUER-ESTATE",
+              "seniority": "unknown",
+              "principal": 366,
+              "guarantor_ids": [],
+              "currency": "USD",
+              "unit": "USD_m",
+              "accounting_basis": "US-GAAP-supplied",
+              "consolidation_scope": "consolidated",
+              "period": {
+                "start": "2026-01-01",
+                "end": "2026-09-30",
+                "fiscal_calendar_id": "Atlas-calendar"
+              },
+              "principal_basis": "contractual-principal",
+              "evidence_refs": [
+                {
+                  "source_id": "atlas-debt-note",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                }
+              ],
+              "debt_inclusion": {
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "treatment": "included",
+                "reason": "Complete supplied consolidated contractual principal inventory; synthetic aggregate identity, no seniority inferred.",
+                "subject_issuer_id": "ATLAS-COMPONENTS",
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "rating_assigned": false,
+      "credit_decision": "not-made",
+      "legal_priority": "supplied-assertions-only"
+    },
+    "issues": [
+      "ATLAS-CONTRACTUAL-DEBT-INVENTORY: legal priority unresolved"
+    ]
+  },
+  {
+    "case": "issuer_debt_reconciliation_omitted",
+    "package": "issuer-credit-researcher",
+    "started_at": "2026-10-21T00:18:57.613907+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_debt_reconciliation_omitted/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_debt_reconciliation_omitted/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "output-check",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_output.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_debt_reconciliation_omitted/output.json",
+          "--input",
+          "/private/tmp/ir-remaining-findings-independent/issuer_debt_reconciliation_omitted/original.json"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "status": "partial",
+    "results": {
+      "financial_context": {
+        "currency": "USD",
+        "unit": "USD_m",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "Atlas-calendar"
+        },
+        "accounting_basis": "US-GAAP-supplied",
+        "consolidation_scope": "consolidated"
+      },
+      "credit_metrics": {
+        "reported_ebitda": {
+          "ebitda": 96,
+          "gross_leverage_x": null,
+          "net_leverage_x": null,
+          "interest_coverage_x": 8.0
+        },
+        "analyst_adjusted_ebitda": {
+          "ebitda": 96.0,
+          "gross_leverage_x": null,
+          "net_leverage_x": null,
+          "interest_coverage_x": 8.0
+        }
+      },
+      "cash_flow": {
+        "free_cash_flow": 36,
+        "ffo_to_debt": null
+      },
+      "structural_risks": [],
+      "risk_observations": [],
+      "ebitda_adjustments": [],
+      "evidence_reconciliation": {
+        "ebitda_adjustments": {
+          "status": "reconciled",
+          "reasons": [],
+          "signed_adjustment_total": 0.0,
+          "events": [],
+          "selected_adjustments": []
+        },
+        "debt_inventory": {
+          "status": "unavailable",
+          "reasons": [
+            "debt inventory coverage is missing or incomplete",
+            "debt inventory lacks a coverage description",
+            "debt inventory lacks source-bound coverage and principal-to-carrying-value reconciliation",
+            "debt inventory requires an explicit cited principal-to-carrying-value bridge, including a zero bridge when equal",
+            "debt inventory: missing accounting_basis",
+            "debt inventory: missing consolidation_scope",
+            "debt inventory: missing currency",
+            "debt inventory: missing period",
+            "debt inventory: missing source_binding",
+            "debt inventory: missing unit",
+            "included principal plus carrying-value bridge does not equal reported gross debt",
+            "principal-to-carrying-value bridge does not cover the included instrument inventory"
+          ],
+          "included_instrument_ids": [
+            "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+          ],
+          "excluded_instrument_ids": [],
+          "included_principal_total": 366.0,
+          "carrying_value_bridge_total": 0.0,
+          "reconstructed_gross_debt": 366.0,
+          "reported_gross_debt": 360,
+          "inventory_evidence": {},
+          "instrument_evidence": [
+            {
+              "instrument_id": "ATLAS-CONTRACTUAL-DEBT-INVENTORY",
+              "issuer_id": "ATLAS-COMPONENTS",
+              "estate_id": "ATLAS-ISSUER-ESTATE",
+              "seniority": "unknown",
+              "principal": 366,
+              "guarantor_ids": [],
+              "currency": "USD",
+              "unit": "USD_m",
+              "accounting_basis": "US-GAAP-supplied",
+              "consolidation_scope": "consolidated",
+              "period": {
+                "start": "2026-01-01",
+                "end": "2026-09-30",
+                "fiscal_calendar_id": "Atlas-calendar"
+              },
+              "principal_basis": "contractual-principal",
+              "evidence_refs": [
+                {
+                  "source_id": "atlas-debt-note",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                }
+              ],
+              "debt_inclusion": {
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "treatment": "included",
+                "reason": "Complete supplied consolidated contractual principal inventory; synthetic aggregate identity, no seniority inferred.",
+                "subject_issuer_id": "ATLAS-COMPONENTS",
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "rating_assigned": false,
+      "credit_decision": "not-made",
+      "legal_priority": "supplied-assertions-only"
+    },
+    "issues": [
+      "ATLAS-CONTRACTUAL-DEBT-INVENTORY: legal priority unresolved",
+      "analyst_adjusted_ebitda: missing, incomparable or nonpositive evidence; dependent ratios withheld",
+      "cash_flow.ffo_to_debt: reconciled positive gross debt is unavailable; ratio withheld",
+      "debt inventory coverage is missing or incomplete",
+      "debt inventory lacks a coverage description",
+      "debt inventory lacks source-bound coverage and principal-to-carrying-value reconciliation",
+      "debt inventory requires an explicit cited principal-to-carrying-value bridge, including a zero bridge when equal",
+      "debt inventory: missing accounting_basis",
+      "debt inventory: missing consolidation_scope",
+      "debt inventory: missing currency",
+      "debt inventory: missing period",
+      "debt inventory: missing source_binding",
+      "debt inventory: missing unit",
+      "included principal plus carrying-value bridge does not equal reported gross debt",
+      "principal-to-carrying-value bridge does not cover the included instrument inventory",
+      "reported_ebitda: missing, incomparable or nonpositive evidence; dependent ratios withheld"
+    ]
+  },
+  {
+    "case": "issuer_ffo_unknown",
+    "package": "issuer-credit-researcher",
+    "started_at": "2026-10-21T00:18:57.769604+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_ffo_unknown/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_ffo_unknown/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "output-check",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_output.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_ffo_unknown/output.json",
+          "--input",
+          "/private/tmp/ir-remaining-findings-independent/issuer_ffo_unknown/original.json"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "status": "partial",
+    "results": {
+      "financial_context": {
+        "currency": "USD",
+        "unit": "USD_m",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "Atlas-calendar"
+        },
+        "accounting_basis": "US-GAAP-supplied",
+        "consolidation_scope": "consolidated"
+      },
+      "credit_metrics": {
+        "reported_ebitda": {
+          "ebitda": 96,
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0
+        },
+        "analyst_adjusted_ebitda": {
+          "ebitda": 96.0,
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0
+        }
+      },
+      "cash_flow": {
+        "free_cash_flow": 36,
+        "ffo_to_debt": null
+      },
+      "structural_risks": [],
+      "risk_observations": [],
+      "ebitda_adjustments": [],
+      "evidence_reconciliation": {
+        "ebitda_adjustments": {
+          "status": "reconciled",
+          "reasons": [],
+          "signed_adjustment_total": 0.0,
+          "events": [],
+          "selected_adjustments": []
+        },
+        "debt_inventory": {
+          "status": "reconciled",
+          "reasons": [],
+          "included_instrument_ids": [
+            "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+          ],
+          "excluded_instrument_ids": [],
+          "included_principal_total": 366.0,
+          "carrying_value_bridge_total": -6.0,
+          "reconstructed_gross_debt": 360.0,
+          "reported_gross_debt": 360,
+          "inventory_evidence": {
+            "currency": "USD",
+            "unit": "USD_m",
+            "accounting_basis": "US-GAAP-supplied",
+            "consolidation_scope": "consolidated",
+            "period": {
+              "start": "2026-01-01",
+              "end": "2026-09-30",
+              "fiscal_calendar_id": "Atlas-calendar"
+            },
+            "inventory_coverage": "complete-for-supplied-scope",
+            "coverage_description": "Supplied synthetic complete contractual principal inventory 366 for Atlas consolidated debt at 2026-09-30, with cited carrying bridge -6.",
+            "source_binding": {
+              "source_id": "atlas-debt-note",
+              "version": "atlas-synthetic-v1",
+              "known_at": "2026-10-20T20:00:00Z",
+              "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge",
+              "subject_issuer_id": "ATLAS-COMPONENTS",
+              "economic_event_key": "atlas-debt-inventory-20260930"
+            },
+            "evidence_refs": [
+              {
+                "source_id": "atlas-debt-note",
+                "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+              }
+            ],
+            "bridge": [
+              {
+                "bridge_id": "ATLAS-CARRYING-BRIDGE",
+                "economic_event_id": "ATLAS-PRINCIPAL-TO-CARRYING-20260930",
+                "amount": -6,
+                "bridge_type": "principal-to-carrying-value",
+                "instrument_ids": [
+                  "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+                ],
+                "rationale": "Supplied signed carrying-value bridge of -6; no particular accounting component inferred.",
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "source_binding": {
+                  "source_id": "atlas-debt-note",
+                  "version": "atlas-synthetic-v1",
+                  "known_at": "2026-10-20T20:00:00Z",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge",
+                  "subject_issuer_id": "ATLAS-COMPONENTS",
+                  "economic_event_key": "atlas-principal-carrying-bridge-20260930"
+                },
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            ]
+          },
+          "instrument_evidence": [
+            {
+              "instrument_id": "ATLAS-CONTRACTUAL-DEBT-INVENTORY",
+              "issuer_id": "ATLAS-COMPONENTS",
+              "estate_id": "ATLAS-ISSUER-ESTATE",
+              "seniority": "unknown",
+              "principal": 366,
+              "guarantor_ids": [],
+              "currency": "USD",
+              "unit": "USD_m",
+              "accounting_basis": "US-GAAP-supplied",
+              "consolidation_scope": "consolidated",
+              "period": {
+                "start": "2026-01-01",
+                "end": "2026-09-30",
+                "fiscal_calendar_id": "Atlas-calendar"
+              },
+              "principal_basis": "contractual-principal",
+              "evidence_refs": [
+                {
+                  "source_id": "atlas-debt-note",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                }
+              ],
+              "debt_inclusion": {
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "treatment": "included",
+                "reason": "Complete supplied consolidated contractual principal inventory; synthetic aggregate identity, no seniority inferred.",
+                "subject_issuer_id": "ATLAS-COMPONENTS",
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "rating_assigned": false,
+      "credit_decision": "not-made",
+      "legal_priority": "supplied-assertions-only"
+    },
+    "issues": [
+      "ATLAS-CONTRACTUAL-DEBT-INVENTORY: legal priority unresolved",
+      "financials.funds_from_operations: missing evidence; dependent calculations withheld"
+    ]
+  },
+  {
+    "case": "issuer_ocf_omitted",
+    "package": "issuer-credit-researcher",
+    "started_at": "2026-10-21T00:18:57.906198+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_ocf_omitted/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_ocf_omitted/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "output-check",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-researcher/scripts/validate_output.py",
+          "/private/tmp/ir-remaining-findings-independent/issuer_ocf_omitted/output.json",
+          "--input",
+          "/private/tmp/ir-remaining-findings-independent/issuer_ocf_omitted/original.json"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "status": "partial",
+    "results": {
+      "financial_context": {
+        "currency": "USD",
+        "unit": "USD_m",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "Atlas-calendar"
+        },
+        "accounting_basis": "US-GAAP-supplied",
+        "consolidation_scope": "consolidated"
+      },
+      "credit_metrics": {
+        "reported_ebitda": {
+          "ebitda": 96,
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0
+        },
+        "analyst_adjusted_ebitda": {
+          "ebitda": 96.0,
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0
+        }
+      },
+      "cash_flow": {
+        "free_cash_flow": null,
+        "ffo_to_debt": 0.11666666666666667
+      },
+      "structural_risks": [],
+      "risk_observations": [],
+      "ebitda_adjustments": [],
+      "evidence_reconciliation": {
+        "ebitda_adjustments": {
+          "status": "reconciled",
+          "reasons": [],
+          "signed_adjustment_total": 0.0,
+          "events": [],
+          "selected_adjustments": []
+        },
+        "debt_inventory": {
+          "status": "reconciled",
+          "reasons": [],
+          "included_instrument_ids": [
+            "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+          ],
+          "excluded_instrument_ids": [],
+          "included_principal_total": 366.0,
+          "carrying_value_bridge_total": -6.0,
+          "reconstructed_gross_debt": 360.0,
+          "reported_gross_debt": 360,
+          "inventory_evidence": {
+            "currency": "USD",
+            "unit": "USD_m",
+            "accounting_basis": "US-GAAP-supplied",
+            "consolidation_scope": "consolidated",
+            "period": {
+              "start": "2026-01-01",
+              "end": "2026-09-30",
+              "fiscal_calendar_id": "Atlas-calendar"
+            },
+            "inventory_coverage": "complete-for-supplied-scope",
+            "coverage_description": "Supplied synthetic complete contractual principal inventory 366 for Atlas consolidated debt at 2026-09-30, with cited carrying bridge -6.",
+            "source_binding": {
+              "source_id": "atlas-debt-note",
+              "version": "atlas-synthetic-v1",
+              "known_at": "2026-10-20T20:00:00Z",
+              "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge",
+              "subject_issuer_id": "ATLAS-COMPONENTS",
+              "economic_event_key": "atlas-debt-inventory-20260930"
+            },
+            "evidence_refs": [
+              {
+                "source_id": "atlas-debt-note",
+                "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+              }
+            ],
+            "bridge": [
+              {
+                "bridge_id": "ATLAS-CARRYING-BRIDGE",
+                "economic_event_id": "ATLAS-PRINCIPAL-TO-CARRYING-20260930",
+                "amount": -6,
+                "bridge_type": "principal-to-carrying-value",
+                "instrument_ids": [
+                  "ATLAS-CONTRACTUAL-DEBT-INVENTORY"
+                ],
+                "rationale": "Supplied signed carrying-value bridge of -6; no particular accounting component inferred.",
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "source_binding": {
+                  "source_id": "atlas-debt-note",
+                  "version": "atlas-synthetic-v1",
+                  "known_at": "2026-10-20T20:00:00Z",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge",
+                  "subject_issuer_id": "ATLAS-COMPONENTS",
+                  "economic_event_key": "atlas-principal-carrying-bridge-20260930"
+                },
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            ]
+          },
+          "instrument_evidence": [
+            {
+              "instrument_id": "ATLAS-CONTRACTUAL-DEBT-INVENTORY",
+              "issuer_id": "ATLAS-COMPONENTS",
+              "estate_id": "ATLAS-ISSUER-ESTATE",
+              "seniority": "unknown",
+              "principal": 366,
+              "guarantor_ids": [],
+              "currency": "USD",
+              "unit": "USD_m",
+              "accounting_basis": "US-GAAP-supplied",
+              "consolidation_scope": "consolidated",
+              "period": {
+                "start": "2026-01-01",
+                "end": "2026-09-30",
+                "fiscal_calendar_id": "Atlas-calendar"
+              },
+              "principal_basis": "contractual-principal",
+              "evidence_refs": [
+                {
+                  "source_id": "atlas-debt-note",
+                  "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                }
+              ],
+              "debt_inclusion": {
+                "currency": "USD",
+                "unit": "USD_m",
+                "accounting_basis": "US-GAAP-supplied",
+                "consolidation_scope": "consolidated",
+                "period": {
+                  "start": "2026-01-01",
+                  "end": "2026-09-30",
+                  "fiscal_calendar_id": "Atlas-calendar"
+                },
+                "treatment": "included",
+                "reason": "Complete supplied consolidated contractual principal inventory; synthetic aggregate identity, no seniority inferred.",
+                "subject_issuer_id": "ATLAS-COMPONENTS",
+                "evidence_refs": [
+                  {
+                    "source_id": "atlas-debt-note",
+                    "locator": "synthetic:Atlas-2026-nine-month:debt-principal-carrying-bridge"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "rating_assigned": false,
+      "credit_decision": "not-made",
+      "legal_priority": "supplied-assertions-only"
+    },
+    "issues": [
+      "ATLAS-CONTRACTUAL-DEBT-INVENTORY: legal priority unresolved",
+      "financials.operating_cash_flow: missing evidence; dependent calculations withheld"
+    ]
+  },
+  {
+    "case": "surveillance_base",
+    "package": "issuer-credit-surveillance-reviewer",
+    "started_at": "2026-10-21T00:18:58.038011+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_base/request.json"
+        ],
+        "exit_code": 1
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_base/request.json"
+        ],
+        "exit_code": 1
+      }
+    ]
+  },
+  {
+    "case": "surveillance_comparable",
+    "package": "issuer-credit-surveillance-reviewer",
+    "started_at": "2026-10-21T00:18:58.108446+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_comparable/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_comparable/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "output-check",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/validate_output.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_comparable/output.json",
+          "--input",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_comparable/original.json"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "status": "partial",
+    "results": {
+      "period_metrics": {
+        "prior": {
+          "gross_leverage_x": 3.6666666666666665,
+          "net_leverage_x": 3.422222222222222,
+          "interest_coverage_x": 8.181818181818182,
+          "fixed_charge_proxy_x": 6.7272727272727275,
+          "liquidity_to_known_maturity_x": null
+        },
+        "current": {
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0,
+          "fixed_charge_proxy_x": 6.5,
+          "liquidity_to_known_maturity_x": null
+        }
+      },
+      "metric_changes": {
+        "gross_leverage_x": 0.08333333333333348,
+        "net_leverage_x": 0.07777777777777795,
+        "interest_coverage_x": -0.18181818181818166,
+        "fixed_charge_proxy_x": -0.22727272727272751,
+        "liquidity_to_known_maturity_x": null
+      },
+      "spread_change_bps": 44.75,
+      "spread_reconciliation": {
+        "status": "reconciled-supplied-evidence",
+        "observations": [
+          {
+            "observation_id": "ATLAS-OAS-20261019",
+            "security_id": "ATLAS-USD-NOTE",
+            "issuer_id": "ATLAS-COMPONENTS",
+            "currency": "USD",
+            "basis": "OAS-supplied",
+            "spread_bps": 135.5,
+            "observed_at": "2026-10-19T18:00:00Z",
+            "role": "spread-observation",
+            "evidence_ref": {
+              "source_id": "atlas-quote-prior",
+              "locator": "synthetic:Atlas-OAS-20261019:structured-observation",
+              "source_version": "atlas-synthetic-v1"
+            }
+          },
+          {
+            "observation_id": "ATLAS-OAS-20261020",
+            "security_id": "ATLAS-USD-NOTE",
+            "issuer_id": "ATLAS-COMPONENTS",
+            "currency": "USD",
+            "basis": "OAS-supplied",
+            "spread_bps": 180.25,
+            "observed_at": "2026-10-20T18:00:00Z",
+            "role": "spread-observation",
+            "evidence_ref": {
+              "source_id": "atlas-quote-current",
+              "locator": "synthetic:Atlas-OAS-20261020:structured-observation",
+              "source_version": "atlas-synthetic-v1"
+            }
+          }
+        ],
+        "instrument_mapping": {
+          "role": "security-issuer-mapping",
+          "security_id": "ATLAS-USD-NOTE",
+          "issuer_id": "ATLAS-COMPONENTS",
+          "currency": "USD",
+          "valid_from": "2019-01-01",
+          "valid_to": "2030-12-31",
+          "evidence_ref": {
+            "source_id": "atlas-instrument-map",
+            "locator": "synthetic:Atlas-USD-note:issuer-currency-validity",
+            "source_version": "atlas-synthetic-v1"
+          }
+        }
+      },
+      "alerts": [
+        "spread widened beyond supplied threshold"
+      ],
+      "reported_events": [],
+      "rating_action": "reported-only",
+      "position_action": "none",
+      "thesis_action": "unchanged",
+      "dscr_calculated": false,
+      "coverage_limit": "fixed-charge EBITDA proxy is not a contractual debt-service ratio"
+    },
+    "issues": [
+      "current: dependent metrics withheld for missing/nonpositive values or incomplete maturities",
+      "prior: dependent metrics withheld for missing/nonpositive values or incomplete maturities"
+    ]
+  },
+  {
+    "case": "surveillance_comparable_current_evidence_omitted",
+    "package": "issuer-credit-surveillance-reviewer",
+    "started_at": "2026-10-21T00:18:58.216961+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_comparable_current_evidence_omitted/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_comparable_current_evidence_omitted/request.json"
+        ],
+        "exit_code": 0
+      },
+      {
+        "step": "output-check",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/validate_output.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_comparable_current_evidence_omitted/output.json",
+          "--input",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_comparable_current_evidence_omitted/original.json"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "status": "partial",
+    "results": {
+      "period_metrics": {
+        "prior": {
+          "gross_leverage_x": 3.6666666666666665,
+          "net_leverage_x": 3.422222222222222,
+          "interest_coverage_x": 8.181818181818182,
+          "fixed_charge_proxy_x": 6.7272727272727275,
+          "liquidity_to_known_maturity_x": null
+        },
+        "current": {
+          "gross_leverage_x": 3.75,
+          "net_leverage_x": 3.5,
+          "interest_coverage_x": 8.0,
+          "fixed_charge_proxy_x": 6.5,
+          "liquidity_to_known_maturity_x": null
+        }
+      },
+      "metric_changes": {
+        "gross_leverage_x": 0.08333333333333348,
+        "net_leverage_x": 0.07777777777777795,
+        "interest_coverage_x": -0.18181818181818166,
+        "fixed_charge_proxy_x": -0.22727272727272751,
+        "liquidity_to_known_maturity_x": null
+      },
+      "spread_change_bps": null,
+      "spread_reconciliation": {
+        "status": "withheld",
+        "observations": [],
+        "instrument_mapping": null
+      },
+      "alerts": [],
+      "reported_events": [],
+      "rating_action": "reported-only",
+      "position_action": "none",
+      "thesis_action": "unchanged",
+      "dscr_calculated": false,
+      "coverage_limit": "fixed-charge EBITDA proxy is not a contractual debt-service ratio"
+    },
+    "issues": [
+      "current: dependent metrics withheld for missing/nonpositive values or incomplete maturities",
+      "prior: dependent metrics withheld for missing/nonpositive values or incomplete maturities",
+      "spread change withheld: current_spread requires exactly one selected spread evidence observation_id"
+    ]
+  },
+  {
+    "case": "surveillance_current_evidence_omitted",
+    "package": "issuer-credit-surveillance-reviewer",
+    "started_at": "2026-10-21T00:18:58.319358+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_current_evidence_omitted/request.json"
+        ],
+        "exit_code": 1
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_current_evidence_omitted/request.json"
+        ],
+        "exit_code": 1
+      }
+    ]
+  },
+  {
+    "case": "surveillance_legacy_received",
+    "package": "issuer-credit-surveillance-reviewer",
+    "started_at": "2026-10-21T00:18:58.385401+00:00",
+    "steps": [
+      {
+        "step": "input",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/validate_input.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_legacy_received/request.json"
+        ],
+        "exit_code": 1
+      },
+      {
+        "step": "calculate",
+        "argv": [
+          "/Users/taylor/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py",
+          "/private/tmp/ir-remaining-findings-independent/surveillance_legacy_received/request.json"
+        ],
+        "exit_code": 1
+      }
+    ]
+  }
+]

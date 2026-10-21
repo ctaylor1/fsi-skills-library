@@ -1,27 +1,14 @@
 #!/usr/bin/env python3
-"""Deterministic SAR draft-package assembler for suspicious-activity-report-drafter.
+"""Phase 1 assembles exact supplied evidence facts into six narrative fields. It does not verify that a cited source is true or that a paraphrase is entailed. Human reviewers must assess suspicion, narrative coherence, completeness, lawful disclosure and current entity-specific requirements. This implementation accepts transaction-based US intake; attempted-activity, STR and filing-lifecycle workflows require specialist preparation outside this calculator. Do not delay required reporting while awaiting case closure.
 
-Marshals an approved-investigation SAR case-intake file into a controlled, source-mapped
-draft SAR package that maps to assets/output-template.md. It builds the subjects, accounts/
-instruments, activity summary, dated chronology, amount + chronology tie-outs, typology
-assessment (declared typologies vs. the approved typology library), the 5W+H narrative,
-an evidence index, and the investigation rationale; it computes a packaging status, an
-advisory recommended review path, and an approval ledger.
-
-Hard boundaries (fail closed): if the case is NOT approved/adjudicated for SAR drafting
-(`case_approved_for_sar` != true) the package is `blocked` and routed back to the
-investigator — the suspicion determination is never made here. Any tie-out break, uncovered
-party, unsupported typology, incomplete 5W+H, or uncited fact forces `needs-evidence`. The
-assembler NEVER makes the file/no-file determination, files/e-files a SAR, submits anything
-to FinCEN, closes or dispositions the case, writes a system of record, sends the package,
-or adds speculation beyond the evidenced facts.
-
-Usage: python calculate_or_transform.py case.json | --selftest
-Prints the SAR draft-package JSON to stdout.
+Offline Phase 1 calculation; see references/domain-rules.md.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, math
+from datetime import date
 from pathlib import Path
+from native_integrity import attach_source
+from native_integrity import canonical_hash
 
 WHO_WHAT = ("who", "what", "when", "where", "why", "how")
 STANDING_NOTE = (
@@ -35,7 +22,7 @@ STANDING_NOTE = (
 )
 
 
-def _mask(ref: str) -> str:
+def _supplied_reference(ref: str) -> str:
     return ref or "****"
 
 
@@ -43,7 +30,8 @@ def _amount_tie_out(doc: dict) -> dict:
     txns = doc.get("transactions") or []
     act = doc.get("activity") or {}
     per = act.get("period") or {}
-    computed_total = round(sum(float(t.get("amount") or 0) for t in txns), 2)
+    amounts_valid = all(isinstance(t.get("amount"), (int, float)) and not isinstance(t.get("amount"), bool) and math.isfinite(t["amount"]) and t["amount"] >= 0 for t in txns)
+    computed_total = round(sum(t["amount"] for t in txns), 2) if amounts_valid else 0
     declared_total = float(act.get("aggregate_amount") or 0)
     dates = sorted([t.get("date") for t in txns if t.get("date")])
     computed_period = {"from": dates[0] if dates else None, "to": dates[-1] if dates else None}
@@ -52,6 +40,29 @@ def _amount_tie_out(doc: dict) -> dict:
     declared_count = act.get("transaction_count")
 
     breaks = []
+    if not amounts_valid:
+        breaks.append("missing, invalid or negative transaction amount")
+    try:
+        assessed = date.fromisoformat(doc["as_of"])
+        first, last = date.fromisoformat(per["from"]), date.fromisoformat(per["to"])
+        if assessed.isoformat() != doc["as_of"] or first.isoformat() != per["from"] or last.isoformat() != per["to"]:
+            raise ValueError("noncanonical assessment/activity date")
+        if first > last: breaks.append("activity period starts after it ends")
+        if first > assessed or last > assessed: breaks.append("activity period is after assessment as_of")
+        for day in dates:
+            parsed = date.fromisoformat(day)
+            if parsed.isoformat() != day: raise ValueError("noncanonical transaction date")
+            if parsed > assessed: breaks.append("transaction after assessment as_of: " + day)
+    except (ValueError, TypeError, KeyError):
+        breaks.append("real YYYY-MM-DD transaction, activity period and assessment dates required")
+    if not txns or len({t.get("txn_id") for t in txns}) != len(txns):
+        breaks.append("empty or duplicate transaction population")
+    if not act.get("currency") or any(t.get("currency") != act.get("currency") for t in txns):
+        breaks.append("mixed/missing transaction currency; FX conversion is not implemented")
+    if act.get("amount_basis") != "gross-listed-transactions":
+        breaks.append("amount basis must explicitly identify gross listed transaction legs, not unique proceeds")
+    if not math.isfinite(computed_total) or not math.isfinite(declared_total):
+        breaks.append("non-finite monetary value")
     if abs(computed_total - declared_total) > 0.005:
         breaks.append(f"amount: sum(transactions)={computed_total:g} != aggregate_amount={declared_total:g}")
     if computed_period != declared_period:
@@ -87,7 +98,7 @@ def _subjects(doc: dict) -> dict:
         "subject_ref": s.get("subject_ref"),
         "role": s.get("role"),
         "type": s.get("type"),
-        "name_masked": _mask(s.get("name_masked")),
+        "name_masked": _supplied_reference(s.get("name_masked")),
         "identifiers_masked": list(s.get("identifiers_masked") or []),
         "relationship": s.get("relationship"),
     } for s in subjects]
@@ -130,7 +141,8 @@ def _typology_assessment(doc: dict) -> dict:
     lib = doc.get("typology_library") or {}
     declared = doc.get("typologies") or []
     assessed = []
-    all_supported = bool(declared) and bool(lib)
+    all_supported = True
+    ev_by_id = {e.get("evidence_id"): e for e in doc.get("evidence") or [] if e.get("evidence_id")}
     for ty in declared:
         code = ty.get("code")
         observed = set(ty.get("observed_indicators") or [])
@@ -138,7 +150,9 @@ def _typology_assessment(doc: dict) -> dict:
         required = set(entry.get("required_indicators") or [])
         in_library = code in lib
         missing = sorted(required - observed)
-        supported = in_library and not missing
+        support = ty.get("indicator_evidence") or {}
+        unsupported_indicators = [i for i in observed if not support.get(i) or any(not ev_by_id.get(e, {}).get("citation") for e in support[i])]
+        supported = in_library and not missing and not unsupported_indicators
         if not supported:
             all_supported = False
         assessed.append({
@@ -148,8 +162,9 @@ def _typology_assessment(doc: dict) -> dict:
             "observed_indicators": sorted(observed),
             "required_indicators": sorted(required),
             "missing_indicators": missing,
+            "unsupported_indicators": unsupported_indicators,
             "supported": supported,
-            "citations": [f"config:typology-library={doc.get('config_version')}"] if in_library else [],
+            "citations": sorted({ev_by_id[e]["citation"] for ids in support.values() for e in ids if ev_by_id.get(e, {}).get("citation")}),
         })
     return {
         "title": "Typology Assessment",
@@ -161,10 +176,21 @@ def _typology_assessment(doc: dict) -> dict:
 
 def _narrative(doc: dict) -> dict:
     ni = doc.get("narrative_inputs") or {}
-    fields = {w: str(ni.get(w) or "").strip() for w in WHO_WHAT}
-    missing = [w for w in WHO_WHAT if not fields[w]]
-    ev = doc.get("evidence") or []
-    citations = sorted({e.get("citation") for e in ev if e.get("citation")})
+    evidence = {e.get("evidence_id"): e for e in doc.get("evidence") or [] if e.get("evidence_id")}
+    mapping = doc.get("narrative_evidence_ids") or {}
+    fields, citations, missing, claims = {}, set(), [], []
+    for key in WHO_WHAT:
+        ids = mapping.get(key) or []
+        valid = bool(ids) and all(evidence.get(i, {}).get("fact") and evidence.get(i, {}).get("citation") for i in ids)
+        text = " ".join(evidence[i]["fact"] for i in ids) if valid else ""
+        # Phase 1 assembles exact supplied facts; it cannot verify freeform paraphrases.
+        if not valid or (ni.get(key) and ni[key].strip() != text):
+            missing.append(key)
+            text = ""
+        fields[key] = text
+        if text:
+            citations.update(evidence[i]["citation"] for i in ids)
+            claims.append({"field": key, "evidence_ids": ids, "source_truth": "unverified"})
     return {
         "title": "SAR Narrative (5W + How)",
         "status": "present" if (not missing and citations) else "gap",
@@ -176,7 +202,8 @@ def _narrative(doc: dict) -> dict:
         "how": fields["how"],
         "complete": not missing,
         "missing": missing,
-        "citations": citations,
+        "citations": sorted(citations),
+        "claim_map": claims,
     }
 
 
@@ -198,23 +225,35 @@ def _evidence_index(doc: dict) -> dict:
 
 def _investigation_rationale(doc: dict) -> dict:
     r = doc.get("investigation_rationale") or {}
-    cites = list(r.get("citations") or [])
+    evidence = {e.get("evidence_id"): e for e in doc.get("evidence") or [] if e.get("evidence_id")}
+    ids = r.get("evidence_ids") or []
+    valid = (isinstance(ids, list) and bool(ids) and all(isinstance(i, str) and evidence.get(i, {}).get("fact") and evidence.get(i, {}).get("citation") for i in ids))
+    text = " ".join(evidence[i]["fact"] for i in ids) if valid else ""
+    cites = sorted({evidence[i]["citation"] for i in ids}) if valid else []
+    issues = []
+    if not valid: issues.append("rationale requires evidence_ids resolving to cited facts")
+    if not isinstance(r.get("summary"), str) or r["summary"].strip() != text:
+        issues.append("rationale summary must exactly match its mapped supplied facts")
+    declared = r.get("citations")
+    if declared is not None and (not isinstance(declared, list) or any(not isinstance(c, str) for c in declared) or set(declared) != set(cites)):
+        issues.append("rationale citations do not match mapped evidence")
+    supported = not issues
     return {
-        "title": "Investigation Rationale",
-        "status": "present" if (r.get("summary") and cites) else "gap",
-        "summary": r.get("summary"),
+        "title": "Investigation Rationale", "status": "present" if supported else "gap",
+        "summary": text if supported else "", "evidence_ids": ids if valid else [],
         "approving_investigation": doc.get("approving_investigation"),
-        "citations": cites,
-        "note": "Fact-based rationale for why the activity is suspicious; not a conclusion of guilt.",
+        "citations": cites if supported else [], "gaps": issues,
+        "note": "Exact supplied evidence facts only; source truth and substantive suspicion rationale require human review. No conclusion of guilt is made.",
     }
 
 
 def _recommendation(status: str, hard: bool) -> dict:
     if hard:
         path = "hold-pending-investigation"
-        note = ("Hard boundary: the case is not approved/adjudicated for SAR drafting. Recommend "
-                "the package be held and routed to transaction-monitoring-alert-investigator to "
-                "conclude the investigation. No suspicion or filing determination is made here.")
+        note = ("Required evidence for authorized SAR drafting is missing. Recommend FIU investigator "
+                "review through the accountable human process; the financial-crime-case-investigator "
+                "skill is planned, not installed. Do not delay required reporting while awaiting "
+                "case closure. No suspicion or filing determination is made here.")
     elif status == "needs-evidence":
         path = "return-for-evidence"
         note = ("Gaps remain (tie-out break, uncovered party, unsupported typology, incomplete "
@@ -228,14 +267,31 @@ def _recommendation(status: str, hard: bool) -> dict:
     return {"title": "Recommended Review Path", "recommended_review_path": path, "note": note}
 
 
-def _approvals(required: list, recorded: list) -> dict:
+def approval_digest(doc):
+    return canonical_hash({k: v for k, v in doc.items() if k not in {"recorded_approvals", "drafting_authorization"}})
+
+
+def _approval_valid(rec, doc):
+    try:
+        dated = date.fromisoformat(rec["date"]) <= date.fromisoformat(doc["as_of"])
+    except (TypeError, ValueError, KeyError):
+        return False
+    return bool(dated and rec.get("status") == "approved" and rec.get("approver")
+                and rec.get("source_ref") and rec.get("role")
+                and rec.get("case_id") == doc.get("case_id")
+                and rec.get("input_sha256") == approval_digest(doc))
+
+
+def _approvals(required: list, recorded: list, doc: dict) -> dict:
     by_role = {r.get("role"): r for r in (recorded or []) if isinstance(r, dict)}
     ledger = []
     for role in required:
         rec = by_role.get(role)
-        if rec and rec.get("approver") and rec.get("date"):
+        if rec and _approval_valid(rec, doc):
             ledger.append({"role": role, "status": "obtained",
-                           "approver": rec.get("approver"), "date": rec.get("date")})
+                           "approver": rec.get("approver"), "date": rec.get("date"),
+                           "source_ref": rec.get("source_ref"), "input_sha256": rec.get("input_sha256"),
+                           "authorization_truth": "unverified"})
         else:
             ledger.append({"role": role, "status": "pending"})
     return {"title": "Approvals & Sign-off", "required": list(required), "ledger": ledger,
@@ -246,8 +302,10 @@ def _approvals(required: list, recorded: list) -> dict:
 def _routes(doc: dict, hard: bool) -> list[dict]:
     routes = []
     if hard:
-        routes.append({"skill": "transaction-monitoring-alert-investigator",
-                       "reason": "case not adjudicated for SAR — conclude the investigation first"})
+        routes.append({"skill": "financial-crime-case-investigator",
+                       "support_status": "planned",
+                       "fallback_owner": "accountable FIU investigator / BSA officer",
+                       "reason": "missing drafting evidence needs human investigation review; no installed investigative skill or case-closure prerequisite is implied"})
     return routes
 
 
@@ -269,7 +327,7 @@ def _filing_header(doc: dict, status: str) -> dict:
 
 def _accounts_instruments(doc: dict) -> dict:
     items = [{
-        "account_ref": _mask(a.get("account_ref")),
+        "account_ref": _supplied_reference(a.get("account_ref")),
         "type": a.get("type"),
         "instruments": list(a.get("instruments") or []),
     } for a in (doc.get("accounts_instruments") or [])]
@@ -288,20 +346,25 @@ def _activity_summary(doc: dict, tie: dict) -> dict:
     }
 
 
-def package(doc: dict) -> dict:
-    hard = doc.get("case_approved_for_sar") is not True
+def _compute_unbound(doc: dict) -> dict:
+    hard = doc.get("case_approved_for_sar") is not True or not _approval_valid(doc.get("drafting_authorization") or {}, doc)
 
     sections: dict = {}
     tie = _amount_tie_out(doc)
     subjects = _subjects(doc)
     chronology = _chronology(doc)
     typ = _typology_assessment(doc)
-    narrative = _narrative(doc)
+    narrative = _narrative(doc) if not hard else {"title": "SAR Narrative (5W + How)", "status": "withheld", "complete": False, "missing": list(WHO_WHAT), "citations": [], "claim_map": [], **{w: "" for w in WHO_WHAT}}
     ev_index = _evidence_index(doc)
     rationale = _investigation_rationale(doc)
 
     # Determine status.
     gaps = []
+    evidence_ids = [e.get("evidence_id") for e in doc.get("evidence") or []]
+    if not all(evidence_ids) or len(set(evidence_ids)) != len(evidence_ids):
+        gaps.append("missing or duplicate evidence identity")
+    if not doc.get("required_approvals"):
+        gaps.append("required review roles not configured")
     if tie["status"] != "pass":
         gaps.append("amount/chronology tie-out break")
     if not subjects["covered"]:
@@ -335,7 +398,7 @@ def package(doc: dict) -> dict:
     sections["evidence_index"] = ev_index
     sections["investigation_rationale"] = rationale
     sections["recommendation"] = _recommendation(status, hard)
-    sections["approvals"] = _approvals(doc.get("required_approvals") or [], doc.get("recorded_approvals") or [])
+    sections["approvals"] = _approvals(doc.get("required_approvals") or [], doc.get("recorded_approvals") or [], doc)
 
     all_cites = sorted(set(
         subjects["citations"]
@@ -347,12 +410,13 @@ def package(doc: dict) -> dict:
     sections["sources_citations"] = {
         "title": "Sources & Citations",
         "citations": all_cites,
-        "note": "Every asserted fact is mapped to an approved source above.",
+        "note": "Source references and exact supplied narrative facts are mapped; source truth, masking and issuer authority remain unverified.",
     }
     sections["standing_note_limitations"] = {"title": "Standing Note / Limitations", "text": STANDING_NOTE}
 
     return {
         "config_version": doc.get("config_version"),
+        "as_of": doc.get("as_of"),
         "template_version": doc.get("template_version") or "sar-package-v1",
         "case_id": doc.get("case_id"),
         "jurisdiction": doc.get("jurisdiction"),
@@ -365,6 +429,18 @@ def package(doc: dict) -> dict:
     }
 
 
+def package(doc):
+    """Reject invalid intake before producing a native result; warnings remain partial."""
+    from validate_input import validate as validate_input
+    errors, _warnings = validate_input(doc)
+    if errors:
+        raise ValueError("invalid suspicious-activity-report-drafter input: " + "; ".join(errors))
+    try:
+        return attach_source(_compute_unbound(doc), doc)
+    except (ValueError, TypeError, KeyError, AttributeError, IndexError, ArithmeticError) as exc:
+        raise ValueError("invalid suspicious-activity-report-drafter input: " + str(exc)) from exc
+
+
 def main(argv):
     if "--selftest" in argv:
         p = Path(__file__).resolve().parents[1] / "evals" / "files" / "sar_case_example.json"
@@ -373,7 +449,12 @@ def main(argv):
         doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
     else:
         doc = json.loads(sys.stdin.read())
-    print(json.dumps(package(doc), indent=2))
+    try:
+        result = package(doc)
+    except ValueError as exc:
+        print("ERROR " + str(exc), file=sys.stderr)
+        return 1
+    print(json.dumps(result, indent=2))
     return 0
 
 

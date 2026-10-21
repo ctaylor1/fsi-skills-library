@@ -1,0 +1,253 @@
+{
+  "schema_version": "workflow-review-1.0",
+  "producer": "insurance-data-product-designer",
+  "case_id": "CH-DATA-EARLY",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "Owen Diaz",
+    "represented_party": "Cedar Harbor Mutual (fictional)",
+    "object_id": "FNOL-SANDBOX",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "commercial-property"
+  },
+  "status": "ready-for-review",
+  "findings": [],
+  "results": {
+    "semantic_contract": [
+      {
+        "field_id": "policy.form_code",
+        "entity_type": "policy",
+        "definition": "Exact form edition code issued on this policy; not coverage interpretation",
+        "unit": "form code",
+        "source_system": "PolicySandbox",
+        "source_field": "PolicySandbox.form_edition",
+        "transformation": "identity string, preserve edition suffix",
+        "owner": "Owen Diaz",
+        "classification": "synthetic",
+        "access_rule": "named data and claims sandbox reviewers only",
+        "quality_rule": "nonblank exact edition code",
+        "version": "2",
+        "purpose_reviewed": true,
+        "required": true,
+        "source_refs": [
+          "DICT-2"
+        ]
+      }
+    ],
+    "relationship_samples": [
+      {
+        "link_id": "CL9-CH20",
+        "relation_id": "CLAIM-POLICY",
+        "left_entity_id": "claim:CL-9",
+        "right_entity_id": "policy:CH-20",
+        "source_refs": [
+          "DICT-2"
+        ],
+        "relationship_evaluable": true
+      }
+    ],
+    "resolved_sample": [
+      {
+        "entity_id": "policy:CH-20",
+        "field_id": "policy.form_code",
+        "value": "CP-2026",
+        "record_ids": [
+          "A2"
+        ],
+        "source_refs": [
+          "DICT-2"
+        ]
+      }
+    ],
+    "valid_on": "2026-07-01",
+    "known_on": "2026-06-10",
+    "deployment_approved": false,
+    "acord_conformance": "not_assessed",
+    "production_identity_resolution": false
+  },
+  "completeness": "complete",
+  "evaluability": "evaluable",
+  "unresolved_issues": [],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "CH-DATA-EARLY",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "Owen Diaz",
+      "represented_party": "Cedar Harbor Mutual (fictional)",
+      "object_id": "FNOL-SANDBOX",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source_ref": "REV-4",
+        "version": "4",
+        "as_of": "2026-09-19",
+        "locator": "raw-sources.json#review_register"
+      },
+      {
+        "source_ref": "DICT-2",
+        "version": "2",
+        "as_of": "2026-09-18",
+        "locator": "raw-sources.json#data_dictionary"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "CH-design-review",
+        "version": "4",
+        "reviewed_by": "Owen Diaz",
+        "source_refs": [
+          "REV-4"
+        ],
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "commercial-property"
+        ],
+        "effective_from": "2026-09-01",
+        "effective_to": "2026-09-30",
+        "method": "insurance-temporal-data-contract-v1"
+      },
+      "valid_on": "2026-07-01",
+      "known_on": "2026-06-10",
+      "sample_inventory_complete": true,
+      "purpose": "Reproduce draft claim-policy context at loss date and knowledge cutoff",
+      "owner": "Owen Diaz",
+      "grain": "one assertion per exact namespaced entity, field, valid interval and recording date",
+      "retention_rule": "Synthetic acceptance artifacts retained through owner review; production retention undecided",
+      "entities": [
+        {
+          "entity_id": "policy:CH-20",
+          "entity_type": "policy",
+          "identity_namespace": "PolicySandbox",
+          "source_key": "CH-20",
+          "source_refs": [
+            "DICT-2"
+          ]
+        },
+        {
+          "entity_id": "claim:CL-9",
+          "entity_type": "claim",
+          "identity_namespace": "ClaimsSandbox",
+          "source_key": "CL-9",
+          "source_refs": [
+            "DICT-2"
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "field_id": "policy.form_code",
+          "entity_type": "policy",
+          "definition": "Exact form edition code issued on this policy; not coverage interpretation",
+          "unit": "form code",
+          "source_system": "PolicySandbox",
+          "source_field": "PolicySandbox.form_edition",
+          "transformation": "identity string, preserve edition suffix",
+          "owner": "Owen Diaz",
+          "classification": "synthetic",
+          "access_rule": "named data and claims sandbox reviewers only",
+          "quality_rule": "nonblank exact edition code",
+          "version": "2",
+          "purpose_reviewed": true,
+          "required": true,
+          "source_refs": [
+            "DICT-2"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "relation_id": "CLAIM-POLICY",
+          "from_type": "claim",
+          "to_type": "policy",
+          "definition": "Each claim references exactly one supplied policy; many claims may reference the same policy",
+          "cardinality": "many-to-one",
+          "source_refs": [
+            "DICT-2"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "link_id": "CL9-CH20",
+          "relation_id": "CLAIM-POLICY",
+          "left_entity_id": "claim:CL-9",
+          "right_entity_id": "policy:CH-20",
+          "source_refs": [
+            "DICT-2"
+          ]
+        }
+      ],
+      "records": [
+        {
+          "record_id": "A1",
+          "entity_id": "policy:CH-20",
+          "field_id": "policy.form_code",
+          "valid_from": "2026-01-01",
+          "valid_to": "2026-06-01",
+          "recorded_on": "2026-01-02",
+          "value": "CP-2025",
+          "source_refs": [
+            "DICT-2"
+          ]
+        },
+        {
+          "record_id": "A2",
+          "entity_id": "policy:CH-20",
+          "field_id": "policy.form_code",
+          "valid_from": "2026-06-01",
+          "valid_to": null,
+          "recorded_on": "2026-06-03",
+          "value": "CP-2026",
+          "source_refs": [
+            "DICT-2"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "workflow-evidence/1.0",
+    "producer": "insurance-data-product-designer",
+    "artifact_type": "workflow-review",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "Owen Diaz",
+      "represented_party": "Cedar Harbor Mutual (fictional)",
+      "object_id": "FNOL-SANDBOX",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source_ref": "REV-4",
+        "version": "4",
+        "as_of": "2026-09-19",
+        "locator": "raw-sources.json#review_register"
+      },
+      {
+        "source_ref": "DICT-2",
+        "version": "2",
+        "as_of": "2026-09-18",
+        "locator": "raw-sources.json#data_dictionary"
+      }
+    ],
+    "input_hash": "6711d82042e68bf5053fa634a7488b6575be812bc37f4db8a2becc9586ee7c5c",
+    "output_hash": "27b4c83d846c1489850b59432af5c77087fdc56eb21211658e8480e9376f68f5",
+    "completeness": "complete",
+    "evaluability": "evaluable",
+    "unresolved_issues": [],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "309ffb8f491f41817ce636cab55a33e4cad64ef05a4828be176df272220a7f4a"
+  }
+}

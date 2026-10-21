@@ -1,0 +1,248 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "cross-asset-theme-researcher",
+  "method_version": "2.0.0",
+  "request_id": "independent-theme-case",
+  "subject": {
+    "type": "economy",
+    "id": "SYNTHETIC-REGION-B"
+  },
+  "as_of": "2026-10-18",
+  "knowledge_cutoff": "2026-10-18",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "theme_id": "inflation-and-funding",
+    "hypothesis": {
+      "statement": "Sticky inflation could sustain funding pressure across rates and credit.",
+      "driver": "conditional policy-rate path",
+      "transmission": "Discount rates affect bond prices while growth and credit supply can offset the channel.",
+      "horizon_date": "2027-01-31"
+    },
+    "driver_observations": [
+      {
+        "series_id": "price-index",
+        "label": "Synthetic regional price index",
+        "geography": "SYNTHETIC-REGION-B",
+        "frequency": "monthly",
+        "measure_kind": "index",
+        "unit": "index-points",
+        "price_basis": "not-applicable",
+        "price_base": "2020=100",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "period-level",
+        "observation_id": "sep-initial",
+        "period_end": "2026-09-30",
+        "release_at": "2026-10-15",
+        "vintage_id": "v1",
+        "value": 121.8,
+        "evidence_refs": [
+          {
+            "source_id": "sep-initial",
+            "locator": "synthetic:sep-initial#table"
+          }
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "evidence_id": "rate-channel",
+        "role": "support",
+        "statement": "Supplied first-order duration gives a conditional price channel.",
+        "known_at": "2026-10-18",
+        "evidence_refs": [
+          {
+            "source_id": "assumptions",
+            "locator": "synthetic:assumptions#table"
+          }
+        ]
+      },
+      {
+        "evidence_id": "growth-offset",
+        "role": "counter",
+        "statement": "Slower growth could reverse rate pressure and offset the scenario.",
+        "known_at": "2026-10-18",
+        "evidence_refs": [
+          {
+            "source_id": "assumptions",
+            "locator": "synthetic:assumptions#table"
+          }
+        ]
+      }
+    ],
+    "falsifiers": [
+      {
+        "test_id": "funding-eases",
+        "description": "Funding costs ease despite the hypothesized inflation pressure.",
+        "monitor": "Next supplied funding survey and policy release",
+        "due_on": "2026-11-30",
+        "status": "not-tested",
+        "known_at": null,
+        "evidence_refs": []
+      }
+    ],
+    "scenarios": [
+      {
+        "scenario_id": "policy-up",
+        "label": "Hypothetical 50 bp upward yield move",
+        "horizon_date": "2027-01-31",
+        "known_at": "2026-10-18",
+        "assumptions": [
+          "Parallel yield shift; no spread or convexity estimate."
+        ],
+        "shocks": [
+          {
+            "driver_id": "yield",
+            "value": 50,
+            "unit": "basis-point"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "source_id": "assumptions",
+            "locator": "synthetic:assumptions#table"
+          }
+        ]
+      }
+    ],
+    "scenario_responses": [
+      {
+        "scenario_id": "policy-up",
+        "exposure_id": "four-year-duration",
+        "asset_class": "rates",
+        "instrument_id": "SYNTHETIC-BOND-B",
+        "driver_id": "yield",
+        "shock": {
+          "driver_id": "yield",
+          "value": 50,
+          "unit": "basis-point"
+        },
+        "method": "modified-duration",
+        "sensitivity": 4,
+        "value": -2.0,
+        "response_unit": "percent-price-change",
+        "unavailable_reason": null,
+        "conditional_qualitative_response": null,
+        "quote_convention": null,
+        "limitations": [
+          "Local approximation only."
+        ]
+      },
+      {
+        "scenario_id": "policy-up",
+        "exposure_id": "credit-funding",
+        "asset_class": "credit",
+        "instrument_id": "SYNTHETIC-CREDIT-B",
+        "driver_id": "yield",
+        "shock": {
+          "driver_id": "yield",
+          "value": 50,
+          "unit": "basis-point"
+        },
+        "method": "qualitative",
+        "sensitivity": null,
+        "value": null,
+        "response_unit": "qualitative",
+        "unavailable_reason": null,
+        "conditional_qualitative_response": "Conditional funding pressure; spread and default effects remain uncertain.",
+        "quote_convention": null,
+        "limitations": [
+          "Credit spread and liquidity estimates are unavailable."
+        ]
+      }
+    ],
+    "coverage": {
+      "required_asset_classes": [
+        "rates",
+        "credit"
+      ],
+      "supplied_asset_classes": [
+        "credit",
+        "rates"
+      ],
+      "missing_asset_classes": []
+    },
+    "hypothesis_status": "supplied-hypothesis-for-review",
+    "causality_established": false,
+    "probabilities_estimated": false,
+    "portfolio_allocation_proposed": false,
+    "limitations": [
+      "Supplied sensitivities are assumptions, not estimated coefficients or authenticated market facts.",
+      "Responses are conditional local approximations per instrument; no aggregation, portfolio weighting, covariance, convexity, carry or dynamic path modeled.",
+      "Historical driver observations do not establish shocks, causal direction, forecasts or probability.",
+      "A not-observed falsifier is evidence for the declared review scope only, not proof of the hypothesis."
+    ]
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "scenario_id": "policy-up",
+      "exposure_id": "four-year-duration",
+      "formula": "percent price change approximately -modified_duration * yield_shock_bp / 100"
+    },
+    {
+      "scenario_id": "policy-up",
+      "exposure_id": "credit-funding",
+      "formula": "supplied conditional narrative; no numeric response"
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "assumptions",
+      "locator": "synthetic:assumptions#table"
+    },
+    {
+      "source_id": "aug-initial",
+      "locator": "synthetic:aug-initial#table"
+    },
+    {
+      "source_id": "aug-revised",
+      "locator": "synthetic:aug-revised#table"
+    },
+    {
+      "source_id": "sep-initial",
+      "locator": "synthetic:sep-initial#table"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "assumptions",
+      "version": "1",
+      "known_at": "2026-10-18",
+      "locator": "synthetic:assumptions",
+      "kind": "economic_release"
+    },
+    {
+      "source_id": "aug-initial",
+      "version": "1",
+      "known_at": "2026-09-15",
+      "locator": "synthetic:aug-initial",
+      "kind": "economic_release"
+    },
+    {
+      "source_id": "aug-revised",
+      "version": "1",
+      "known_at": "2026-10-10",
+      "locator": "synthetic:aug-revised",
+      "kind": "economic_release"
+    },
+    {
+      "source_id": "sep-initial",
+      "version": "1",
+      "known_at": "2026-10-15",
+      "locator": "synthetic:sep-initial",
+      "kind": "economic_release"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "855acfc48cc8de50ad72542d30415abbfd7560876e14ba63b9dd47616e2fe5f8",
+  "source_truth": "unverified"
+}

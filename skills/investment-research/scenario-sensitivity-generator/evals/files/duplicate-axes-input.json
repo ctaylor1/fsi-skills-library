@@ -1,0 +1,51 @@
+{
+  "model_id": "NONMONOTONIC-ROOTS",
+  "as_of": "2026-10-20",
+  "config_version": "phase1-root-regression",
+  "drivers": [
+    {
+      "name": "units",
+      "base": 200,
+      "source_ref": "synthetic:units"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "profit",
+      "formula": "(units - 100) * (300 - units)"
+    }
+  ],
+  "breakevens": [
+    {
+      "driver": "units",
+      "output": "profit",
+      "target": 0,
+      "lo": 0,
+      "hi": 400
+    }
+  ],
+  "decision_thresholds": [
+    {
+      "driver": "units",
+      "output": "profit",
+      "target": 0,
+      "lo": 0,
+      "hi": 400
+    }
+  ],
+  "two_way": [
+    {
+      "row_driver": "units",
+      "col_driver": "units",
+      "output": "profit",
+      "row_points": [
+        100,
+        200
+      ],
+      "col_points": [
+        200,
+        300
+      ]
+    }
+  ]
+}

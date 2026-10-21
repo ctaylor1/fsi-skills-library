@@ -1,0 +1,11 @@
+# Native output schema — transaction_monitoring_effectiveness_review
+
+The immutable native object uses `contract_version: compliance-foundation/2.0` and `method: source-bound-population-label-effectiveness-review/1.0`. It retains request/object identity, as-of/cutoff, institution context, role, audience/classification, source refs/claim bindings, unresolved issues and integrity envelope. `status` is draft-for-human-review or needs-evidence, never an approval or operational decision. `draft` and `human_review_required` are true; `action_taken` is false; approval is not_requested and execution is not_performed.
+
+The `results` object has exactly these method-owned fields:
+
+`scope`, `sample_selection_and_label_method`, `population_reconciliation_consistent`, `supplied_independence_evidence_consistent`, `observations`, `observed_engine_counts`, `observed_detection_fraction`, `population_engine_observation_coverage`, `missing_population_observations`, `selected_sample_counts`, `missing_selected_observations`, `sample_precision`, `sample_recall`, `supplied_criteria`, `within_supplied_criteria`, `operational_evidence`, `operational_scope_comparable`, `operational_unit_measures`, `technology_control_requirements`, `benchmark_references`, `material_blockers`, `unknown_metrics`, `population_statistical_inference`, `effectiveness_verdict`, `identity_resolution`, `sar_conversion`, `assurance_opinion`.
+
+Null is a withheld/unknown measure or proposal, never zero, pass, negative or approved. Material blockers explain unresolved prerequisites; unknown metrics retain separately unmeasured dependent quantities. Counts and fractions retain exact integer numerator/denominator; decimal display is 12-place half-even and does not drive institutional threshold comparison. Precision-bound input amounts remain exact strings.
+
+Retain the detached original. `validate_output.py OUTPUT --input INPUT` reconstructs and compares the entire native object, rejecting edits, added narratives, changed versions/IDs and self-rehashed replacement results. A synthetic golden is a software expectation, not professional evidence. Read [domain rules](domain-rules.md) for the specific meaning and withholding of each measure.

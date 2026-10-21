@@ -9,12 +9,18 @@ Enforces the triage guardrails before the queue/escalations are presented:
   5. No closure/exoneration/filing or tipping-off language.
   6. The standing note is present.
 
+Native output must match exact reconstruction from the separately retained, validated input.
+Additional narrative or fields require a separate reviewed artifact.
+
 Usage: python validate_output.py triage.json | --selftest
 Exit 0 if no errors, 1 otherwise.
 """
 from __future__ import annotations
 import json, re, sys
 from pathlib import Path
+from native_integrity import validate_reconstruction
+from validate_input import validate as validate_source
+from calculate_or_transform import triage
 
 ALLOWED_DISPOSITIONS = {"escalate-to-investigation", "approved-suppressed", "needs-data", "possible-duplicate"}
 APPROVED_SUPPRESSIONS = {"SUP-DUP-01", "SUP-WL-INTERNAL", "SUP-SEASONAL-01"}
@@ -32,13 +38,13 @@ TIPPING_PATTERNS = [
 ]
 
 
-def _expected_band(score, sanctions):
-    if score >= 7 or sanctions:
+def _expected_band(score, sanctions, thresholds):
+    if score >= thresholds.get("p1_min", 7) or sanctions:
         return "P1 (Elevated)"
-    return "P2 (Standard)" if score >= 3 else "P3 (Low)"
+    return "P2 (Standard)" if score >= thresholds.get("p2_min", 3) else "P3 (Low)"
 
 
-def validate(doc: dict) -> list[str]:
+def _validate_structure(doc: dict) -> list[str]:
     errors: list[str] = []
     records = doc.get("triage") or []
     if not records:
@@ -65,7 +71,9 @@ def validate(doc: dict) -> list[str]:
                 errors.append(f"{aid}: escalation_bundle missing citations")
         # priority band consistency
         sanctions = bool(((r.get("escalation_bundle") or {}).get("flags") or {}).get("sanctions_adverse_media"))
-        exp = _expected_band(r.get("priority_score", 0), sanctions)
+        exp = _expected_band(r.get("priority_score", 0), sanctions, doc.get("priority_thresholds") or {})
+        if r.get("priority_complete") is False and not sanctions:
+            exp = "Unrated"
         if r.get("priority_band") != exp:
             errors.append(f"{aid}: priority_band {r.get('priority_band')!r} != expected {exp!r} for score {r.get('priority_score')}")
 
@@ -84,17 +92,39 @@ def validate(doc: dict) -> list[str]:
     return errors
 
 
+
+def validate(doc, original_input=None):
+    try:
+        errors = _validate_structure(doc)
+    except (TypeError, ValueError, KeyError, AttributeError, IndexError) as exc:
+        errors = [f"malformed native output: {exc}"]
+    if isinstance(original_input, dict):
+        try:
+            input_errors, _ = validate_source(original_input)
+            errors.extend("original input: " + error for error in input_errors)
+        except (TypeError, ValueError, KeyError, AttributeError, IndexError) as exc:
+            errors.append(f"malformed original input: {exc}")
+    validate_reconstruction(doc, triage, errors, original_input=original_input)
+    return errors
+
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "triage_example.json"
-        doc = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        doc = json.loads(sys.stdin.read())
-    errors = validate(doc)
-    for e in errors:
-        print("ERROR", e)
+    import argparse
+    parser = argparse.ArgumentParser(description="Validate against separately retained original input; no source authentication is claimed.")
+    parser.add_argument("output", nargs="?")
+    parser.add_argument("--input", dest="original")
+    parser.add_argument("--selftest", action="store_true")
+    args = parser.parse_args(argv)
+    folder = Path(__file__).resolve().parents[1] / "evals" / "files"
+    path = folder / "triage_example.json" if args.selftest else args.output
+    source = folder / "alerts_example.json" if args.selftest else args.original
+    try:
+        doc = json.loads(Path(path).read_text()) if path else json.loads(sys.stdin.read())
+        original = json.loads(Path(source).read_text()) if source else None
+        errors = validate(doc, original)
+    except (OSError, ValueError, TypeError) as exc:
+        errors = [str(exc)]
+    for error in errors:
+        print("ERROR", error)
     print(f"output validation: {len(errors)} error(s)")
     return 1 if errors else 0
 

@@ -1,0 +1,656 @@
+{
+  "fixture_status": "synthetic; hand-authored expected routing behavior",
+  "cases": [
+    {
+      "intent": "manager_economics",
+      "subject_type": "manager",
+      "primary": "asset-manager-economics-analyzer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-product-lifecycle-planner",
+        "investment-distribution-planner"
+      ],
+      "query": "Explain fee-revenue change from flows, markets and product mix."
+    },
+    {
+      "intent": "portfolio_underperformance",
+      "subject_type": "portfolio",
+      "primary": "portfolio-performance-attributor",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-performance-measurer",
+        "portfolio-exposure-analyzer",
+        "portfolio-risk-contribution-analyzer",
+        "investment-commentary-builder"
+      ],
+      "query": "Explain why this portfolio underperformed its stated benchmark this quarter."
+    },
+    {
+      "intent": "mandate_review",
+      "subject_type": "mandate",
+      "primary": "investment-mandate-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "institutional-investment-policy-builder",
+        "portfolio-construction-analyzer",
+        "portfolio-exposure-analyzer",
+        "portfolio-risk-contribution-analyzer",
+        "investment-regulatory-obligation-reviewer"
+      ],
+      "query": "Check applicable issuer limits and proposed-state mandate exposures."
+    },
+    {
+      "intent": "tax_aware_sma_rebalancing",
+      "subject_type": "account",
+      "primary": "tax-aware-portfolio-implementation-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-rebalancing-planner",
+        "portfolio-construction-analyzer",
+        "buy-side-trading-planner",
+        "index-portfolio-reviewer"
+      ],
+      "query": "Plan a tax-aware rebalance for this separately managed account."
+    },
+    {
+      "intent": "fund_liquidity_stress",
+      "subject_type": "fund",
+      "primary": "fund-liquidity-assessor",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-cashflow-forecaster",
+        "portfolio-stress-test-runner",
+        "fund-investor-operations-reviewer"
+      ],
+      "query": "Assess redemptions against fund asset liquidity and cash needs."
+    },
+    {
+      "intent": "trading_cost_review",
+      "subject_type": "portfolio",
+      "primary": "transaction-cost-estimator",
+      "status": "bounded_route",
+      "supporting": [
+        "best-execution-reviewer",
+        "buy-side-trading-planner"
+      ],
+      "query": "Review portfolio fills against supplied execution benchmarks."
+    },
+    {
+      "intent": "etf_launch",
+      "subject_type": "fund",
+      "primary": "investment-product-lifecycle-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "etf-operations-reviewer",
+        "index-portfolio-reviewer",
+        "fund-accounting-preparer",
+        "investment-regulatory-obligation-reviewer",
+        "investment-distribution-planner"
+      ],
+      "query": "Evaluate the operating and commercial requirements for launching an ETF."
+    },
+    {
+      "intent": "index_tracking",
+      "subject_type": "fund",
+      "primary": "index-portfolio-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-performance-measurer",
+        "portfolio-performance-attributor",
+        "portfolio-rebalancing-planner",
+        "buy-side-trading-planner"
+      ],
+      "query": "Diagnose index-fund tracking and reconstitution."
+    },
+    {
+      "intent": "institutional_manager_due_diligence",
+      "subject_type": "manager_candidate",
+      "primary": "investment-manager-due-diligence-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "performance-composite-reviewer",
+        "private-fund-performance-analyzer",
+        "fund-service-provider-oversight-reviewer",
+        "investment-regulatory-obligation-reviewer"
+      ],
+      "query": "Review the institutional manager candidate organization, process and track record.",
+      "native_mode": "institutional"
+    },
+    {
+      "intent": "private_credit_review",
+      "subject_type": "security",
+      "primary": "private-credit-investment-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "private-investment-due-diligence-reviewer",
+        "credit-document-terms-reviewer",
+        "issuer-credit-surveillance-reviewer",
+        "portfolio-cashflow-forecaster"
+      ],
+      "query": "Review a private-credit investment covenant, terms and credit risks."
+    },
+    {
+      "intent": "private_fund_performance",
+      "subject_type": "investor",
+      "primary": "private-fund-performance-analyzer",
+      "status": "bounded_route",
+      "supporting": [
+        "fund-valuation-oversight-reviewer",
+        "private-fund-capital-activity-reviewer",
+        "private-fund-waterfall-reviewer",
+        "private-fund-financing-reviewer"
+      ],
+      "query": "Calculate LP net performance and facility effects in a private fund."
+    },
+    {
+      "intent": "private_capital_activity_and_pacing",
+      "subject_type": "fund",
+      "primary": "private-fund-capital-activity-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "private-capital-commitment-planner",
+        "private-fund-waterfall-reviewer",
+        "portfolio-cashflow-forecaster",
+        "fund-investor-operations-reviewer"
+      ],
+      "query": "Review fund capital calls, distributions and future commitment pacing."
+    },
+    {
+      "intent": "nav_discrepancy",
+      "subject_type": "share_class",
+      "primary": "fund-nav-control-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "fund-accounting-preparer",
+        "investment-book-reconciler",
+        "fund-valuation-oversight-reviewer",
+        "investment-asset-servicing-reviewer",
+        "fund-investor-operations-reviewer"
+      ],
+      "query": "Investigate NAV control breaks for a fund share class."
+    },
+    {
+      "intent": "institutional_rfp",
+      "subject_type": "manager",
+      "primary": "institutional-proposal-responder",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-commentary-builder",
+        "fund-fact-sheet-builder",
+        "investment-investor-report-builder",
+        "performance-composite-reviewer",
+        "investment-disclosure-reviewer"
+      ],
+      "query": "Prepare a sourced institutional RFP response using approved answers.",
+      "native_mode": "rfp"
+    },
+    {
+      "intent": "product_lifecycle_economics",
+      "subject_type": "fund",
+      "primary": "investment-product-lifecycle-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "asset-manager-economics-analyzer",
+        "investment-distribution-planner",
+        "fund-service-provider-oversight-reviewer",
+        "investment-regulatory-obligation-reviewer"
+      ],
+      "query": "Compare closing, merging or continuing an investment product."
+    },
+    {
+      "intent": "investment_data_platform",
+      "subject_type": "platform",
+      "primary": "investment-data-architecture-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-data-quality-reviewer",
+        "investment-reference-data-reviewer",
+        "research-source-indexer",
+        "investment-record-normalizer",
+        "solution-architecture-planner",
+        "data-lineage-documenter",
+        "data-product-value-evaluator"
+      ],
+      "query": "Design point-in-time investment data ownership, lineage and book interfaces."
+    },
+    {
+      "intent": "investment_platform_modernization",
+      "subject_type": "platform",
+      "primary": "investment-platform-modernization-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-data-architecture-planner",
+        "investment-operating-model-planner",
+        "solution-architecture-planner",
+        "procurement-sourcing-assistant"
+      ],
+      "query": "Plan investment-platform replacement and reconciliation cutover."
+    },
+    {
+      "intent": "investment_ai_workflow",
+      "subject_type": "platform",
+      "primary": "investment-ai-workflow-designer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-data-architecture-planner",
+        "workflow-automation-assessor",
+        "ai-evaluation-benchmark-builder"
+      ],
+      "query": "Design a controlled AI-assisted investment workflow and evaluations."
+    },
+    {
+      "intent": "investment_regulatory_change",
+      "subject_type": "fund",
+      "primary": "investment-regulatory-obligation-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-mandate-reviewer",
+        "investment-disclosure-reviewer"
+      ],
+      "query": "Assess a rule change for fund jurisdiction, activity and effective date."
+    },
+    {
+      "intent": "asset_owner_solution",
+      "subject_type": "investor",
+      "primary": "institutional-investment-solutions-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "institutional-investment-policy-builder",
+        "asset-allocation-planner",
+        "investment-manager-due-diligence-reviewer",
+        "portfolio-cashflow-forecaster",
+        "private-capital-commitment-planner",
+        "portfolio-exposure-analyzer"
+      ],
+      "query": "Structure an asset-owner mandate, manager oversight and spending framework."
+    },
+    {
+      "intent": "household_retirement",
+      "subject_type": "investor",
+      "primary": "household-financial-planning-assistant",
+      "status": "out_of_domain",
+      "supporting": [],
+      "query": "Plan our household retirement goals and savings."
+    },
+    {
+      "intent": "asset_manager_stock_valuation",
+      "subject_type": "issuer",
+      "primary": "coverage-initiation-researcher",
+      "status": "out_of_domain",
+      "supporting": [
+        "dcf-modeler",
+        "asset-manager-economics-analyzer"
+      ],
+      "query": "Value the listed shares of an asset manager as an investment."
+    },
+    {
+      "intent": "manager_corporate_acquisition",
+      "subject_type": "manager",
+      "primary": "merger-model-builder",
+      "status": "out_of_domain",
+      "supporting": [
+        "due-diligence-packager"
+      ],
+      "query": "Model the corporate acquisition of an asset-management company."
+    },
+    {
+      "intent": "company_laptop_inventory",
+      "subject_type": "platform",
+      "primary": null,
+      "status": "out_of_domain",
+      "supporting": [],
+      "query": "Count and track the company laptop inventory."
+    },
+    {
+      "intent": "institutional_policy",
+      "subject_type": "institution",
+      "primary": "institutional-investment-policy-builder",
+      "status": "bounded_route",
+      "supporting": [
+        "asset-allocation-planner",
+        "institutional-investment-solutions-planner"
+      ],
+      "query": "Prepare an endowment investment policy draft with liquidity and allocation ranges."
+    },
+    {
+      "intent": "asset_allocation",
+      "subject_type": "institution",
+      "primary": "asset-allocation-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "institutional-investment-policy-builder",
+        "investment-committee-memo-builder"
+      ],
+      "query": "Compare the feasibility of these supplied institutional asset-allocation candidates."
+    },
+    {
+      "intent": "portfolio_construction",
+      "subject_type": "portfolio",
+      "primary": "portfolio-construction-analyzer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-mandate-reviewer",
+        "portfolio-risk-contribution-analyzer"
+      ],
+      "query": "Check these supplied security-weight portfolios against risk and liquidity constraints."
+    },
+    {
+      "intent": "portfolio_rebalancing",
+      "subject_type": "portfolio",
+      "primary": "portfolio-rebalancing-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-mandate-reviewer",
+        "buy-side-trading-planner"
+      ],
+      "query": "Draft lot-rounded rebalance quantities and reconcile cash after quoted fees."
+    },
+    {
+      "intent": "buy_side_trade_planning",
+      "subject_type": "portfolio",
+      "primary": "buy-side-trading-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-rebalancing-planner"
+      ],
+      "query": "Review proposed buy-side order participation and funding readiness."
+    },
+    {
+      "intent": "portfolio_performance_measurement",
+      "subject_type": "portfolio",
+      "primary": "portfolio-performance-measurer",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-performance-attributor",
+        "performance-composite-reviewer"
+      ],
+      "query": "Calculate time-weighted and money-weighted returns from supplied valuations and flows."
+    },
+    {
+      "intent": "fund_accounting_preparation",
+      "subject_type": "fund",
+      "primary": "fund-accounting-preparer",
+      "status": "bounded_route",
+      "supporting": [
+        "fund-valuation-oversight-reviewer",
+        "fund-nav-control-reviewer",
+        "investment-book-reconciler"
+      ],
+      "query": "Prepare balanced fund accounting workpapers and compare supplied class NAV."
+    },
+    {
+      "intent": "asset_servicing",
+      "subject_type": "portfolio",
+      "primary": "investment-asset-servicing-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-book-reconciler"
+      ],
+      "query": "Reconcile a cash dividend entitlement against the received payment."
+    },
+    {
+      "intent": "fund_investor_operations",
+      "subject_type": "fund",
+      "primary": "fund-investor-operations-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-regulatory-obligation-reviewer",
+        "investment-client-service-preparer"
+      ],
+      "query": "Review subscription dealing readiness and indicative share units."
+    },
+    {
+      "intent": "fund_provider_oversight",
+      "subject_type": "provider",
+      "primary": "fund-service-provider-oversight-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "fund-nav-control-reviewer"
+      ],
+      "query": "Review fund administrator SLA misses and outstanding assurance gaps."
+    },
+    {
+      "intent": "etf_operations",
+      "subject_type": "fund",
+      "primary": "etf-operations-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "index-portfolio-reviewer",
+        "investment-asset-servicing-reviewer",
+        "fund-investor-operations-reviewer"
+      ],
+      "query": "Check a supplied ETF creation basket and cash component."
+    },
+    {
+      "intent": "private_investment_diligence",
+      "subject_type": "security",
+      "primary": "private-investment-due-diligence-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-committee-memo-builder",
+        "private-credit-investment-reviewer"
+      ],
+      "query": "Review a private investment sources-and-uses model and dilution scenarios."
+    },
+    {
+      "intent": "private_investment_monitoring",
+      "subject_type": "security",
+      "primary": "private-investment-monitor",
+      "status": "bounded_route",
+      "supporting": [
+        "private-credit-investment-reviewer"
+      ],
+      "query": "Review a private investment KPI watchlist and upcoming covenant evidence."
+    },
+    {
+      "intent": "systematic_research_review",
+      "subject_type": "strategy",
+      "primary": "systematic-investment-research-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-construction-analyzer"
+      ],
+      "query": "Review a proposed quantitative strategy study for leakage and net-return assumptions."
+    },
+    {
+      "intent": "private_fund_waterfall",
+      "subject_type": "fund",
+      "primary": "private-fund-waterfall-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "private-fund-capital-activity-reviewer",
+        "private-fund-performance-analyzer"
+      ],
+      "query": "Review a simple whole-fund LP/GP distribution waterfall."
+    },
+    {
+      "intent": "investment_distribution",
+      "subject_type": "manager",
+      "primary": "investment-distribution-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-product-lifecycle-planner",
+        "investment-disclosure-reviewer"
+      ],
+      "query": "Compare institutional distribution-channel eligibility and fee economics."
+    },
+    {
+      "intent": "investment_client_service",
+      "subject_type": "manager",
+      "primary": "investment-client-service-preparer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-investor-report-builder"
+      ],
+      "query": "Prepare an institutional client service review and outstanding action list."
+    },
+    {
+      "intent": "investment_investor_reporting",
+      "subject_type": "fund",
+      "primary": "investment-investor-report-builder",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-performance-measurer",
+        "investment-disclosure-reviewer"
+      ],
+      "query": "Draft an institutional investor report from approved performance and capital data."
+    },
+    {
+      "intent": "investment_disclosure_review",
+      "subject_type": "manager",
+      "primary": "investment-disclosure-reviewer",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-regulatory-obligation-reviewer"
+      ],
+      "query": "Check an investment marketing draft against approved claims and disclosures."
+    },
+    {
+      "intent": "public_security_committee",
+      "subject_type": "security",
+      "primary": "investment-committee-memo-builder",
+      "status": "bounded_route",
+      "supporting": [
+        "portfolio-construction-analyzer"
+      ],
+      "query": "Prepare a public-security investment committee decision packet.",
+      "native_mode": "public-security"
+    },
+    {
+      "intent": "manager_committee",
+      "subject_type": "manager_candidate",
+      "primary": "investment-committee-memo-builder",
+      "status": "bounded_route",
+      "supporting": [
+        "investment-manager-due-diligence-reviewer"
+      ],
+      "query": "Prepare a committee packet on an institutional manager candidate.",
+      "native_mode": "manager"
+    },
+    {
+      "intent": "allocation_committee",
+      "subject_type": "portfolio",
+      "primary": "investment-committee-memo-builder",
+      "status": "bounded_route",
+      "supporting": [
+        "asset-allocation-planner"
+      ],
+      "query": "Prepare a committee packet comparing institutional allocation candidates.",
+      "native_mode": "allocation"
+    },
+    {
+      "intent": "investment_operating_model",
+      "subject_type": "manager",
+      "primary": "investment-operating-model-planner",
+      "status": "bounded_route",
+      "supporting": [
+        "operations-performance-analyzer",
+        "investment-platform-modernization-planner",
+        "fund-service-provider-oversight-reviewer"
+      ],
+      "query": "Design the target middle-office operating model, retained provider oversight and transition controls."
+    },
+    {
+      "intent": "derivatives_implementation",
+      "subject_type": "portfolio",
+      "primary": "portfolio-hedge-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Design specialized derivatives implementation using approved pricing and risk engines.",
+      "native_extension": "advanced-derivatives"
+    },
+    {
+      "intent": "portfolio_transition",
+      "subject_type": "portfolio",
+      "primary": "portfolio-transition-planner",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Review staged cash-equity transition participation, deliveries and settlement cash."
+    },
+    {
+      "intent": "securities_financing",
+      "subject_type": "portfolio",
+      "primary": "securities-financing-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Review securities lending and repo collateral, recalls, funding and supplied accrual bases."
+    },
+    {
+      "intent": "private_fund_financing",
+      "subject_type": "fund",
+      "primary": "private-fund-financing-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Review subscription and NAV facility credit bases, covenants and financing costs."
+    },
+    {
+      "intent": "private_fund_restructuring",
+      "subject_type": "fund",
+      "primary": "private-fund-restructuring-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Review LP secondary proceeds or GP continuation elections, conflicts and expenses."
+    },
+    {
+      "intent": "tokenized_fund_operations",
+      "subject_type": "fund",
+      "primary": "tokenized-fund-operations-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Reconcile legal fund register, token native units and wallet or omnibus custody records."
+    },
+    {
+      "intent": "sustainability_mandate",
+      "subject_type": "mandate",
+      "primary": "sustainability-mandate-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Review supplied sustainability metrics, coverage and exclusions against a mandate."
+    },
+    {
+      "intent": "specialist_attribution",
+      "subject_type": "portfolio",
+      "primary": "portfolio-performance-attributor",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Explain fixed-income, currency or factor contributions and link complete periods.",
+      "native_extension": "specialist-attribution"
+    },
+    {
+      "intent": "walk_forward_research",
+      "subject_type": "strategy",
+      "primary": "systematic-investment-research-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Review purged walk-forward samples, historical universes, costs and trial inventory.",
+      "native_extension": "walk-forward"
+    },
+    {
+      "intent": "specialized_etf_basket",
+      "subject_type": "fund",
+      "primary": "etf-operations-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Review multicurrency bond and custom ETF basket values and delivery conditions.",
+      "native_extension": "specialized-basket"
+    },
+    {
+      "intent": "institutional_liability_real_assets",
+      "subject_type": "institution",
+      "primary": "institutional-investment-solutions-planner",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Compare dated liability and real-asset cashflow scenarios using supplied discount factors.",
+      "native_extension": "liability-real-assets"
+    },
+    {
+      "intent": "jurisdiction_profile_comparison",
+      "subject_type": "manager",
+      "primary": "investment-regulatory-obligation-reviewer",
+      "status": "bounded_route",
+      "supporting": [],
+      "query": "Compare reviewed jurisdiction profiles for exact entity, product, investor and activity scope.",
+      "native_extension": "jurisdiction-profile-comparison"
+    }
+  ]
+}

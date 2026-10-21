@@ -18,7 +18,7 @@ values are **strings** (the spec requires a string→string map).
 
 | Key | Values / format | Source |
 | --- | --------------- | ------ |
-| `aws-fsi-category` | One of the 14 category display names. | Catalog |
+| `aws-fsi-category` | One of the current category display names in the catalog. | Catalog |
 | `aws-fsi-skill-type` | One of the six skill types (see below). | Derived (archetype + overrides) |
 | `aws-fsi-risk-tier` | `R1` \| `R2` \| `R3` \| `R4`. | Build Matrix |
 | `aws-fsi-archetype` | One of the 9 archetypes. | Build Matrix |

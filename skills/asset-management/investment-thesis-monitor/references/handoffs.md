@@ -12,15 +12,15 @@ Downstream analysis/drafting skills — and the covering analyst/PM — consume 
 | `scenario-sensitivity-generator` | Consensus estimates moved and the thesis needs re-testing under revised drivers | `alert_key` + estimate-revision evidence |
 | `dcf-modeler` | The valuation case needs rebuilding after a target/stop breach or estimate cut | security + revised drivers |
 | `coverage-initiation-researcher` | The thesis is materially broken and warrants fresh, deep re-research | `alert_key` + challenging evidence |
-| `performance-attribution-builder` | The PM wants the position's contribution attributed for a review | position + period |
+| `portfolio-performance-attributor` | The PM wants the position's contribution attributed for a review | position + period |
 | `investment-committee-memo-builder` | A materially challenged thesis needs an IC memo for a position review/decision | `alert_key` + evidence bundle |
-| `fund-commentary-drafter` | Confirming or challenging evidence needs write-up for periodic fund commentary | `alert_key` + stance + evidence |
+| `investment-commentary-builder` | Confirming or challenging evidence needs write-up for periodic fund commentary | `alert_key` + stance + evidence |
 
 ## Sibling monitors (do not duplicate — route by scope)
 
 | Sibling skill | Owns |
 | ------------- | ---- |
-| `mandate-compliance-monitor` | Fund mandate / investment-guideline limit monitoring (not thesis KPIs) |
+| `investment-mandate-reviewer` | Fund mandate / investment-guideline limit monitoring (not thesis KPIs) |
 | `counterparty-exposure-monitor` | Counterparty exposure limits (not single-name thesis health) |
 
 If the request is really about a guideline/mandate limit or counterparty exposure, route to

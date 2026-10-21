@@ -1,0 +1,130 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "credit-relative-value-analyzer",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-credit-phase2",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "target_security_id": "ACME-BOND",
+    "included_peers": [
+      {
+        "security_id": "PEER-A",
+        "issuer_id": "PEER-A-ISSUER",
+        "currency": "USD",
+        "option_profile": "noncallable",
+        "rating_group": "BBB-supplied",
+        "spread_basis": "OAS-supplied",
+        "unit": "bps",
+        "spread_bps": 150,
+        "duration": 4,
+        "price_date": "2026-10-19",
+        "known_at": "2026-10-19T21:00:00Z",
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ]
+      },
+      {
+        "security_id": "PEER-B",
+        "issuer_id": "PEER-B-ISSUER",
+        "currency": "USD",
+        "option_profile": "noncallable",
+        "rating_group": "BBB-supplied",
+        "spread_basis": "OAS-supplied",
+        "unit": "bps",
+        "spread_bps": 170,
+        "duration": 5,
+        "price_date": "2026-10-19",
+        "known_at": "2026-10-19T21:00:00Z",
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ]
+      }
+    ],
+    "excluded_peers": [],
+    "peer_median_spread_bps": 160.0,
+    "target_minus_peer_median_bps": 20.0,
+    "assessment": "descriptive-spread-difference-only",
+    "rating_assigned": false,
+    "investment_recommendation": "not-made",
+    "duration_method": "eligibility tolerance; no curve interpolation or option model"
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "operation": "Unweighted median of eligible matched peer spreads; target spread minus median",
+      "input_binding": "complete-original-input-hash",
+      "input_fields": [
+        "as_of",
+        "audience",
+        "duration_tolerance",
+        "information_barrier",
+        "knowledge_cutoff",
+        "max_price_age_days",
+        "peers",
+        "purpose",
+        "request_id",
+        "schema_version",
+        "subject",
+        "target",
+        "unresolved_issues",
+        "use_on"
+      ],
+      "output_fields": [
+        "assessment",
+        "duration_method",
+        "excluded_peers",
+        "included_peers",
+        "investment_recommendation",
+        "peer_median_spread_bps",
+        "rating_assigned",
+        "target_minus_peer_median_bps",
+        "target_security_id"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1",
+      "kind": "financial_statement"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "0a21ca419f499f2b88de5d16b8b5218a189acd3c6fcb99b178fd87aeb61b5d2e",
+  "source_truth": "unverified"
+}

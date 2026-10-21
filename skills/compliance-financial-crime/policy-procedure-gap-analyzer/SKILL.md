@@ -1,19 +1,9 @@
 ---
 name: policy-procedure-gap-analyzer
 description: >-
-  Compare an organization's internal policies and procedures against authoritative
-  requirements (laws, regulations, supervisory guidance, standards) and against actual
-  operations, and produce cited findings — coverage gaps, parameter conflicts,
-  obsolete/version-drift steps, evidence gaps, and stale reviews — each with a remediation
-  recommendation and a deterministic severity. Use when a compliance advisor, policy owner,
-  or auditor asks "where does our policy not cover this rule", "does our procedure conflict
-  with the regulation", "which steps are obsolete", "what evidence is missing", or needs a
-  gap-analysis pack for a policy refresh, exam prep, or issue log. HARD BOUNDARY: this skill
-  evidences and recommends only; it NEVER states or implies the firm is compliant,
-  attests/certifies, closes a finding, signs off remediation, files or submits to a
-  regulator, or rewrites the policy system of record — those require human adjudication (R3).
+  Compare supplied applicable requirements with documented policies and control design; identify coverage, parameter, evidence-pointer, version and review gaps. Supports current design and future readiness, not operating-effectiveness testing, compliance certification or policy approval.
 license: MIT
-compatibility: Amazon Quick Desktop; requires regulatory-corpus, controlled-content-library (policies), records-archive/case-management, and approved-calculation MCP integrations (all read-only).
+compatibility: Offline Python 3.10+ standard-library helpers and supplied evidence; no live connector or operational adapter is bundled.
 metadata:
   aws-fsi-category: "Compliance & Financial Crime"
   aws-fsi-skill-type: "Analysis and evaluation skills"
@@ -23,143 +13,61 @@ metadata:
   aws-fsi-delivery-wave: "Wave 3 - regulated casework"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "required"
-  aws-fsi-data-classification: "Restricted (AML/BSA — SAR confidentiality; tipping-off controls)"
-  aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
-  aws-fsi-owner: "Compliance & Financial Crime (FIU)"
+  aws-fsi-data-classification: "Confidential policy and control design evidence; apply source-specific restrictions"
+  aws-fsi-jurisdictions: "Supplied institution/jurisdiction profile; no default legal applicability or bundled current-law pack"
+  aws-fsi-owner: "Regulatory Compliance Advisory / Policy Owners"
   aws-fsi-primary-user: "Compliance advisory / policy owner / audit"
-  aws-fsi-version: "0.1.0"
+  aws-fsi-version: "0.1.1"
   aws-fsi-recertification-date: "2027-07-17"
 ---
 
-# Policy & Procedure Gap Analyzer
+# Policy Procedure Gap Analyzer
 
-## Purpose and outcome
-Given a set of authoritative **requirements** (laws, regulations, supervisory guidance,
-standards) and the organization's internal **policy/procedure controls** that claim to
-satisfy them, deterministically map controls to requirements and surface **explainable
-findings** — coverage gaps, parameter conflicts, obsolete/version-drift steps, evidence
-gaps, and stale reviews. Each finding carries cited evidence, a deterministic severity, and
-a remediation **recommendation**. A successful output lets a compliance advisor, policy
-owner, or auditor see exactly where policy diverges from requirement (or from actual
-operations) and what to fix — the compliance judgment, remediation, and any filing remain
-human.
+Use for requirement-to-policy/control design analysis. Compliance advisory and policy owners review the substantive gaps. Auditors may consume the draft but this workflow does not provide independent assurance or certify controls operated.
 
-## Use when
-- "Where does our policy not cover this rule / regulation / standard?"
-- "Does our procedure conflict with the requirement (thresholds, retention, frequency)?"
-- "Which procedure steps are obsolete after the rule changed?"
-- "What evidence is missing to show this control operates?"
-- Building a gap-analysis pack for a policy refresh, exam preparation, or an issue log.
-
-## Do not use
-- The user wants a **compliance determination**, **attestation**, **remediation sign-off**,
-  a **finding closed**, or a **regulatory filing** → out of scope. Provide findings and
-  route to the accountable compliance officer / policy owner / internal audit.
-- The user wants the **impact of a new/changed regulation itself** (what changed, where it
-  applies) → `regulatory-change-impact-analyzer` (may feed this skill).
-- The user wants to **draft or rewrite** the corrected policy/procedure →
-  `policy-document-assistant`.
-- The user wants to **package an exam response** or **collect the evidence artifact** →
-  `regulatory-exam-response-packager` / `audit-evidence-packager`.
-- The user wants an **RCSA** or an **enterprise risk assessment** →
-  `risk-control-self-assessment-assistant` / `enterprise-risk-assessment-builder`.
-
-## Adjacent-skill handoffs
-See [references/handoffs.md](references/handoffs.md). This skill emits a gap-analysis pack
-with a durable `analysis_id`; upstream change/obligation skills feed it, and downstream
-drafting/packaging/RCSA skills consume its findings. It must not duplicate their drafting,
-attestation, or filing steps.
-
-## Inputs and prerequisites
-- **Requirements** for the framework/jurisdiction in scope: each with `req_id`, source,
-  citation, obligation text, `criticality` (`mandatory`|`guidance`), `effective_date`,
-  `version`, `evidence_expected`, and an optional structured `parameter` (kind + value).
-- **Policy/procedure controls**: each with `control_id`, doc/section, `maps_to` (requirement
-  ids), `status` (`active`|`retired`), `last_reviewed`, optional `references_version`,
-  `evidence_ref`, and an optional structured `parameter`.
-- `as_of` date and the versioned `config` (review window, comparators, mapping). Schema:
-  [scripts/validate_input.py](scripts/validate_input.py).
-- Read access to the regulatory corpus, controlled policy library, and records archive.
-
-## Source hierarchy
-See [references/source-map.md](references/source-map.md). The **regulatory corpus is the
-requirement of record**; an internal policy never overrides it. When policy and requirement
-conflict, cite both and raise a finding; when the documented procedure and observed
-operations conflict, cite both for the reviewer to adjudicate.
+Read [domain rules](references/domain-rules.md) for the bounded method and schema,
+[source map](references/source-map.md) for evidence requirements, and
+[controls](references/controls.md) before preparing a result.
 
 ## Workflow
-1. **Scope** — confirm the framework/jurisdiction, `as_of`, and `config_version`; load the
-   in-effect requirements and the mapped policy/procedure controls.
-2. **Validate input** — run `validate_input`; resolve structural errors, note evaluability
-   warnings (unknown mappings, missing evidence flags, uncovered requirements).
-3. **Compute findings (deterministic)** — run
-   [scripts/calculate_or_transform.py](scripts/calculate_or_transform.py) to map controls to
-   requirements and emit findings (`coverage_gap`, `parameter_conflict`, `evidence_gap`,
-   `version_drift`, `stale_review`), each with evidence, a deterministic severity, and a
-   recommendation. Requirements not yet in effect or not applicable are reported as
-   informational, never gaps; unmatched parameter kinds are `not_evaluable`, never passed.
-4. **Assemble the pack** — findings + cited evidence + severity_counts + a triage
-   `remediation_priority`, plus the clean requirements, informational items, and reviewer
-   prompts (documented-vs-actual operations, pending exceptions, accepted risks).
-5. **Write the narrative** — plain-language summary per severity band, each finding's reason
-   and recommendation, explicit uncertainties, and the standing disclaimer.
 
-## Validation loop
-Run `validate_input` before and [scripts/validate_output.py](scripts/validate_output.py)
-after. The output check (the R3 prohibited-decision screen) confirms: every finding has
-cited evidence; each severity equals the deterministic mapping; counts and priority tie out;
-**no determination/attestation/closure/filing language** is present; and the standing
-disclaimer is included. Fail closed on any miss.
+- Explicit applicability is required for a clean result. Unknown applicability stays unevaluable; a supplied false value is informational and retains its review responsibility.
+- Future-effective requirements are assessed for readiness; findings carry `future_readiness` instead of being discarded. Present findings carry `current_design`. Neither is an adjudicated regulatory breach.
+- The three supported comparator pairs are retention minimum years versus retention years, maximum reporting threshold USD versus reporting threshold USD, and maximum training interval months versus training interval months. They are supplied requirement parameters, not universal legal thresholds.
+- Missing or unsupported control parameters remain unevaluable. Such requirements cannot appear in `clean_requirements`. Missing/future control-review dates and other control findings also prevent a clean label for mapped requirements.
+- An evidence pointer records where an artifact is said to exist. It never proves source truth, design sufficiency beyond these checks, operating effectiveness, sampling adequacy or control execution. `operating_effectiveness_status` is always `not_assessed`.
 
-## Human approval
-`required` (R3): a human must adjudicate every finding before any regulated decision,
-remediation sign-off, attestation, filing, or system-of-record change. No approval is needed
-for the reviewer's own read of the pack. The skill never decides, closes, drafts the
-remediated policy, attests, or files.
+## Input, output and verification
 
-## Failure handling
-- **Missing/duplicate ids or bad dates** → `validate_input` fails closed; stop and fix.
-- **Mapping references an unknown requirement** → warn and ignore that mapping; do not
-  fabricate coverage.
-- **Requirement parameter with no matching control parameter** → report `not_evaluable`; do
-  not assume the control satisfies it.
-- **Requirement not yet in effect / not applicable** → informational only; never a gap.
-- **Stale or conflicting sources** → cite both (corpus and policy); never silently reconcile.
-- **Tool timeout / long corpus** → return findings computed so far with an "incomplete" flag
-  and the requirements not yet evaluated; page as resumable stages.
+Supplied framework/jurisdiction, assessment date/config version, requirements with citations/criticality/applicability/effective dates, policy-control mappings, review dates and optional parameter objects. Numeric parameters must be finite. `clean_requirements` means no detected design issue within supported checks, not compliance.
 
-## Output contract
-1. **Summary** — framework, `as_of`, severity_counts (High/Medium/Low), `remediation_priority`.
-2. **Findings** — per finding: `finding_type`, `req_id`/`control_id`, severity, plain-language
-   reason, cited evidence rows, and a remediation recommendation.
-3. **Clean / informational / not-evaluable** — covered requirements, not-yet-effective or
-   inapplicable requirements, and unmatched-parameter cases (transparency, not silence).
-4. **Reviewer prompts** — documented-vs-actual operations, pending exceptions, accepted risks.
-5. **Machine-readable** — findings + evidence + `analysis_id` + `config_version` for
-   downstream skills and reproducibility.
-6. **Standing disclaimer** — "Gap-analysis findings and recommendations only; not a
-   compliance determination, attestation, or filing. Human adjudication required."
-See [references/controls.md](references/controls.md).
+The script returns an immutable native draft with `input_hash` and `source_truth=unverified`.
+Retain the original input separately; raw source embedding and added narrative fields are
+rejected. Hashing proves repeatability against supplied input, not authenticity or approval.
+Human narrative, legal reasoning and any workflow envelope stay separate and need their own
+source, audience and professional review.
 
-## Privacy and records
-Restricted (AML/BSA — SAR confidentiality; tipping-off controls). Do not reproduce SAR
-contents or name subjects; reference records by pointer, not payload. Paraphrase regulatory
-text (short) rather than reproducing it. Minimize data to what evidences a finding. Retain
-the analysis + citations + `config_version` per records policy; log the read and the human
-adjudication decision.
+```sh
+python -B scripts/validate_input.py INPUT.json
+python -B scripts/calculate_or_transform.py INPUT.json
+python -B scripts/validate_output.py OUTPUT.json --input INPUT.json
+python -B scripts/test_phase1.py
+```
 
-## Gotchas
-- **A finding is not a determination.** Gaps and conflicts justify *review and remediation
-  planning*, never a statement that the firm is (non-)compliant. That conclusion is human.
-- **Retired controls do not count as coverage.** A requirement mapped only to a retired
-  control is a coverage gap — do not credit inactive documents.
-- **Weaker parameters are conflicts even when a control "exists".** A retention period below
-  the minimum or a reporting threshold above the maximum is a real gap, not a match.
-- **Version drift = obsolete steps.** A control citing a superseded requirement version
-  likely contains obsolete procedure steps; flag it even if the topic is "covered".
-- **Guidance vs mandatory changes severity, not existence.** A guidance-level gap still fires;
-  it is simply one band lower. Do not suppress it.
-- **Do not tune the config to erase a gap.** Comparators, the review window, and the severity
-  mapping come from the versioned config, never from what would make a finding disappear.
+Do not present a native result until detached-input reconstruction passes. Invalid structural
+inputs stop calculation; substantive unknowns stay visible. Software tests and synthetic
+fixtures establish bounded behavior only, not legal correctness or production acceptance.
+
+## Boundaries and handoffs
+
+Regulatory changes come from `regulatory-change-impact-analyzer`; approved drafting requirements go to enterprise `policy-document-assistant`. RCSA remains first-line assessment. Operating control testing, independent assurance and issue closure need separately authorized owners/workflows; do not describe this package as continuous monitoring.
+
+Only the documented comparator types and document/mapping checks are implemented. No operational samples are evaluated; no wording is approved, finding closed, report filed or policy edited.
+
+Read [handoffs](references/handoffs.md) before transferring evidence. Apply source-specific
+confidentiality, minimization and audience controls; SAR restrictions attach only when the
+actual source/use warrants them, not to every generic compliance artifact.
+
+Shared [evidence contract](references/evidence-contract.md) and [source governance](references/source-governance.md) define cross-workflow provenance and authority boundaries.

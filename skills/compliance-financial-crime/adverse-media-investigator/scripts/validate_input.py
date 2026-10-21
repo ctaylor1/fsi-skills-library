@@ -1,112 +1,65 @@
-#!/usr/bin/env python3
-"""Deterministic input validation for adverse-media-investigator.
+"""Validate the explicitly supplied policy and bounded native input."""
+from policy_contract import *
+CONFIG_KEYS=('category_weight','assertion_addend','source_tier_addend','recency','material_min','watch_min','coverage_max_age_days')
 
-Validates a screening batch before investigation. Fails closed on structural problems; warns
-on data gaps that force a `needs-data` disposition or weaken entity resolution / chronology.
-
-Input schema (JSON): see references/source-map.md. Key fields:
-  config_version, as_of_date, case_batch_id, subjects[
-    {subject_id, name, type(person|entity), dob, nationality, country, known_identifiers[],
-     hits[{hit_id, source, source_ref, published_date, headline, category, assertion_type,
-           source_tier(1|2|3), list_type, entity_match{name,dob,nationality,location,identifier},
-           named_parties[], amounts[], excerpt}]}]
-
-Usage: python validate_input.py screening_batch.json | --selftest
-Exit 0 if no errors (warnings allowed), 1 otherwise.
-"""
-from __future__ import annotations
-import json, sys
-from pathlib import Path
-
-REQUIRED_TOP = ("config_version", "as_of_date", "subjects")
-REQUIRED_SUBJECT = ("subject_id", "name", "type")
-REQUIRED_HIT = ("hit_id", "source", "source_ref", "published_date", "category", "assertion_type", "entity_match")
-SUBJECT_TYPES = {"person", "entity"}
-ASSERTIONS = {"finding", "allegation", "resolved-dismissed"}
-NAME_MATCH = {"exact", "partial", "none"}
-FIELD_MATCH = {"match", "mismatch", "unknown"}
-KNOWN_CATEGORIES = {
-    "money_laundering", "terrorist_financing", "sanctions_evasion", "sanctions_designation",
-    "pep_exposure", "fraud", "corruption", "bribery", "tax_evasion", "market_abuse",
-    "financial_crime_other", "regulatory_breach", "litigation_civil", "adverse_other",
-}
-
-
-def validate(doc: dict):
-    errors, warnings = [], []
-    for k in REQUIRED_TOP:
-        if k not in doc:
-            errors.append(f"missing top-level field '{k}'")
-    if errors:
-        return errors, warnings
-
-    subjects = doc.get("subjects") or []
-    if not isinstance(subjects, list) or not subjects:
-        errors.append("subjects must be a non-empty list")
-        return errors, warnings
-
-    seen = set()
-    for i, s in enumerate(subjects):
-        tag = f"subjects[{i}] ({s.get('subject_id','?')})"
-        for k in REQUIRED_SUBJECT:
-            if not s.get(k):
-                errors.append(f"{tag}: missing '{k}'")
-        if s.get("type") and s.get("type") not in SUBJECT_TYPES:
-            errors.append(f"{tag}: type must be one of {sorted(SUBJECT_TYPES)}")
-        sid = s.get("subject_id")
-        if sid in seen:
-            errors.append(f"{tag}: duplicate subject_id")
+def validate(doc):
+    errors=base_errors(doc,'config_version','as_of_date','scoring_config',CONFIG_KEYS)
+    if not isinstance(doc,dict) or errors: return errors,[]
+    cfg=doc.get('scoring_config') or {}
+    for k in ('category_weight','assertion_addend','source_tier_addend','recency'):
+        if not isinstance(cfg.get(k),dict) or not cfg[k] or any(not number(v) for v in cfg[k].values()): errors.append('invalid scoring_config.'+k)
+    if not number(cfg.get('material_min'),0) or not number(cfg.get('watch_min'),0) or cfg.get('material_min',0)<=cfg.get('watch_min',0): errors.append('material_min must exceed nonnegative watch_min')
+    if not number(cfg.get('coverage_max_age_days')): errors.append('coverage_max_age_days required')
+    if errors: return errors,[]
+    if not {'finding','allegation','resolved-dismissed'}<=set(cfg['assertion_addend']): errors.append('assertion scoring incomplete')
+    if not {'1','2','3'}<=set(cfg['source_tier_addend']): errors.append('source tier scoring incomplete')
+    if not {'within_2y_days','within_5y_days','within_2y','within_5y','older'}<=set(cfg['recency']): errors.append('recency scoring incomplete')
+    rec=cfg['recency']
+    if all(k in rec for k in ('within_2y_days','within_5y_days')) and rec['within_2y_days']>=rec['within_5y_days']: errors.append('recency windows must ascend')
+    if not records(doc.get('subjects')) or not doc.get('subjects'): errors.append('subjects must be nonempty object list'); return errors,[]
+    seen=set()
+    for s in doc['subjects']:
+        sid=s.get('subject_id')
+        if not text(sid) or sid in seen or not text(s.get('name')) or s.get('type') not in ('person','entity'): errors.append('unique subject id, name and person/entity type required')
         seen.add(sid)
-
-        if not (s.get("dob") or s.get("nationality") or s.get("known_identifiers")):
-            warnings.append(f"{tag}: no dob/nationality/identifier -> common-name hits cannot be "
-                            f"resolved (needs-data)")
-
-        hits = s.get("hits") or []
-        if not hits:
-            warnings.append(f"{tag}: no hits -> case will resolve to no-material-adverse-media")
-        hids = set()
-        for j, h in enumerate(hits):
-            htag = f"{tag} hit[{j}] ({h.get('hit_id','?')})"
-            for k in REQUIRED_HIT:
-                if k not in h or h[k] in (None, ""):
-                    errors.append(f"{htag}: missing '{k}'")
-            if h.get("hit_id") in hids:
-                errors.append(f"{htag}: duplicate hit_id")
-            hids.add(h.get("hit_id"))
-            if h.get("assertion_type") and h.get("assertion_type") not in ASSERTIONS:
-                errors.append(f"{htag}: assertion_type {h.get('assertion_type')!r} not in {sorted(ASSERTIONS)}")
-            em = h.get("entity_match") or {}
-            if em.get("name") not in NAME_MATCH:
-                errors.append(f"{htag}: entity_match.name must be one of {sorted(NAME_MATCH)}")
-            for f in ("dob", "nationality", "location", "identifier"):
-                if f in em and em[f] not in FIELD_MATCH:
-                    errors.append(f"{htag}: entity_match.{f} {em[f]!r} not in {sorted(FIELD_MATCH)}")
-            if h.get("category") and h.get("category") not in KNOWN_CATEGORIES:
-                warnings.append(f"{htag}: unknown category {h.get('category')!r} -> defaults to lowest weight")
-            if h.get("source_tier") not in (1, 2, 3):
-                warnings.append(f"{htag}: source_tier missing/invalid -> defaults to tier 3 (lowest reliability)")
-            if not h.get("published_date"):
-                warnings.append(f"{htag}: no published_date -> chronology gap; recency scored 0")
-    return errors, warnings
+        if not records(s.get('hits',[])): errors.append('hits must be objects'); continue
+        if not strings(s.get('aliases',[])): errors.append('aliases must be strings')
+        if not strings(s.get('known_identifiers',[])): errors.append('known_identifiers must be strings')
+        if s.get('dob') is not None and not day(s['dob']): errors.append('invalid subject dob')
+        coverage=s.get('search_coverage',{})
+        if not isinstance(coverage,dict): errors.append('search_coverage must be an object')
+        elif any(k in coverage and not strings(coverage[k]) for k in ('sources','queries','languages')): errors.append('coverage sources, queries and languages must be string lists')
+        hids=set()
+        for h in s.get('hits',[]):
+            for k in ('hit_id','source','source_ref','headline','excerpt'):
+                if not text(h.get(k)): errors.append('hit '+k+' required')
+            if h.get('hit_id') in hids: errors.append('duplicate hit id')
+            hids.add(h.get('hit_id'))
+            if type(h.get('source_tier')) is not int or h.get('source_tier') not in (1,2,3): errors.append('explicit source_tier 1, 2 or 3 required')
+            if h.get('category') not in cfg['category_weight']: errors.append('category absent from supplied policy')
+            if h.get('assertion_type') not in ('finding','allegation','resolved-dismissed'): errors.append('unknown assertion type')
+            if h.get('list_type') not in (None,'sanctions','pep'): errors.append('unknown list type')
+            if not records(h.get('match_evidence',[])): errors.append('match_evidence must be object list')
+            if not strings(h.get('supersedes_hit_ids',[])): errors.append('supersedes_hit_ids must be string list')
+        for h in s.get('hits',[]):
+            if any(i not in hids or i==h.get('hit_id') for i in h.get('supersedes_hit_ids',[])): errors.append('supersession must reference other supplied hits')
+    return errors,[]
 
 
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "screening_batch_example.json"
-        doc = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        doc = json.loads(sys.stdin.read())
-    errors, warnings = validate(doc)
-    for w in warnings:
-        print("WARN ", w)
-    for e in errors:
-        print("ERROR", e)
-    print(f"input validation: {len(errors)} error(s), {len(warnings)} warning(s)")
-    return 1 if errors else 0
+    import json, sys
+    from pathlib import Path
+    p=Path(__file__).resolve().parents[1]/'evals/files/screening_batch_example.json' if '--selftest' in argv else Path(argv[0]) if argv else None
+    try:
+        doc=json.loads(p.read_text() if p else sys.stdin.read())
+        errors,warnings=validate(doc)
+    except (ValueError, TypeError, KeyError, AttributeError) as exc:
+        errors,warnings=[str(exc)],[]
+    for message in errors: print('ERROR',message)
+    for message in warnings: print('WARN',message)
+    print(f'input validation: {len(errors)} error(s), {len(warnings)} warning(s)')
+    return int(bool(errors))
 
-
-if __name__ == "__main__":
+if __name__=='__main__':
+    import sys
     raise SystemExit(main(sys.argv[1:]))

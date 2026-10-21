@@ -13,7 +13,7 @@ description: >-
   includes MNPI/embargoed content in an external sheet. Verification, compliance review,
   registered-principal approval, and delivery stay with humans via the approval broker.
 license: MIT
-compatibility: Amazon Quick Desktop; requires PMS/OMS, market-data, risk/performance-analytics, research-corpus, controlled-content/compliance-rules, entity-resolution, document-intelligence, and reporting/export MCP integrations (all read-only).
+compatibility: Python 3.10+ offline JSON helpers; live source connectors and authenticated delivery require separate deployment integration.
 metadata:
   aws-fsi-category: "Asset Management"
   aws-fsi-skill-type: "Artifact-creation skills"
@@ -23,15 +23,18 @@ metadata:
   aws-fsi-delivery-wave: "Wave 2 - analytical production"
   aws-fsi-action-mode: "Draft-only; no system-of-record change"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (MNPI / client-confidential)"
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Asset Management investment & product"
   aws-fsi-primary-user: "Product / marketing / performance analyst"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-20"
 ---
+
+Read [references/domain-rules.md](references/domain-rules.md) for the supplied-input validation boundary and current deterministic limits before using the scripts.
+
 
 # Fund Fact Sheet Builder
 
@@ -55,13 +58,13 @@ advises, rates, or fabricates.
 
 ## Do not use
 - **Performance/attribution calculation** (returns, contribution, attribution) →
-  `performance-attribution-builder` (fact sheet cites its verified outputs, never recomputes).
+  `portfolio-performance-attributor` (fact sheet cites its verified outputs, never recomputes).
 - **Portfolio exposure/holdings analysis** → `portfolio-exposure-analyzer`.
-- **Fund narrative / market commentary** → `fund-commentary-drafter`.
-- **Liquidity / risk stress analysis** → `liquidity-stress-analyzer`.
-- **Mandate/guideline breach monitoring** → `mandate-compliance-monitor`.
+- **Fund narrative / market commentary** → `investment-commentary-builder`.
+- **Liquidity / risk stress analysis** → `fund-liquidity-assessor`.
+- **Mandate/guideline breach monitoring** → `investment-mandate-reviewer`.
 - **IC memo** or **DDQ/RFP response** deliverables → `investment-committee-memo-builder`,
-  `due-diligence-questionnaire-responder`.
+  `institutional-proposal-responder`.
 - Any **return promise/guarantee, investment advice, rating, or recommendation**, any
   **distribution/delivery**, or **MNPI in an external fact sheet** → refuse; these are
   human/compliance-owned (see below).
@@ -102,7 +105,7 @@ required disclosures, and the fact-sheet template are **versioned contracts**.
    section, reconcile every numeric figure to its source value, and assign a status —
    `included`, `stale` (past `expires` vs `as_of`), `unresolved` (fund-identity mismatch),
    `restricted` (MNPI in an external sheet), `unsupported` (no citation), or a reconcile break
-   (figure does not tie to source). Only `included`/`stale`/`unresolved` are asserted; the rest
+   (figure does not tie to source). Only `included` facts are asserted; the rest
    are **routed to open items, never asserted**. Build the source reconciliation ledger.
 3. **Render disclosures** — place each required regulatory disclosure as approved, cited
    controlled content; uncited or missing required disclosures become open items.
@@ -139,7 +142,7 @@ verify, approve, and deliver.
   figure"); never asserted, never fabricated to fill a section.
 - **Figure does not tie to source** → reconcile-break open item; the figure is **not** asserted
   until it is reconciled to its system of record. A number that does not tie out is never shown.
-- **Stale risk/market data** → `stale`; keep cited, flag for refresh as of the reporting date.
+- **Stale risk/market data** → `stale`; withhold, flag for refresh as of the reporting date.
 - **Ambiguous / mismatched fund or share class** → `unresolved`; reconcile with a human, never
   auto-merge.
 - **MNPI / embargoed content in an external sheet** → excluded and flagged for wall-crossing /
@@ -192,3 +195,9 @@ versions; log every read and assembly with the analyst identity.
   content; inclusion requires wall-crossing and is a human/compliance decision.
 - **Template, disclosures, and required approvals are versioned.** Record the versions on every
   manifest so the draft is reproducible and reviewable.
+
+## Phase 1 support boundary
+
+Source-bound product-fact selection; no rendering or performance engine
+
+This package performs only its documented local supplied-input operations. Live source access, authenticated permissions, production engines and professional acceptance are separate deployment requirements. Generated resources are pinned in `references/package-manifest.json`; maintain the canonical shared source. Legacy identifiers resolve through the repository migration registry.

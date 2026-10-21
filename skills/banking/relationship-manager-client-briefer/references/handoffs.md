@@ -27,7 +27,7 @@ advice — those are separate activities with distinct entitlements and systems 
 | Delinquency / collections treatment for a past-due client | `collections-treatment-planner` |
 | A loan-servicing exception (billing, payment, boarding error) | `loan-servicing-exception-resolver` |
 | Investigating adverse media / negative news on the client | `adverse-media-investigator` |
-| Refreshing KYC / customer due diligence | `kyc-customer-due-diligence-screener` |
+| Refreshing KYC / customer due diligence | `customer-due-diligence-reviewer` |
 | Recalculating or reviewing the customer risk rating | `customer-risk-rating-reviewer` |
 | Resolving a customer complaint | `complaint-resolution-assistant` |
 | Tracking / closing the meeting's follow-up actions afterward | `meeting-action-tracker` |

@@ -9,20 +9,25 @@ MODE = "output"
 
 
 def main():
-    if len(sys.argv) != 2:
+    argv=list(sys.argv[1:]); original_input=None
+    if '--input' in argv:
+        position=argv.index('--input')
+        original_input=json.loads(Path(argv[position+1]).read_text())
+        del argv[position:position+2]
+    if len(argv) != 1:
         print("usage: python scripts/" + Path(__file__).name + " INPUT.json | --selftest")
         return 2
-    filename = Path(__file__).resolve().parents[1] / "evals/files/request.json" if sys.argv[1] == "--selftest" else Path(sys.argv[1])
+    filename = Path(__file__).resolve().parents[1] / "evals/files/request.json" if argv[0] == "--selftest" else Path(argv[0])
     try:
         doc = json.loads(filename.read_text())
-        if MODE == "output" and sys.argv[1] == "--selftest":
+        if MODE == "output" and argv[0] == "--selftest":
             doc = json.loads((filename.parent / "output.json").read_text())
         if MODE == "input":
             errors = validate(doc)
             print(json.dumps({"errors": errors}, indent=2))
             print(f"input validation: {len(errors)} error(s)")
         elif MODE == "output":
-            errors = validate_output(doc)
+            errors = validate_output(doc,original_input)
             print(json.dumps({"errors": errors}, indent=2))
             print(f"output validation: {len(errors)} error(s)")
         else:

@@ -1,0 +1,1881 @@
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "transaction-monitoring-scenario-designer",
+  "method": "risk-lineage-logic-change-proposal/1.0",
+  "request_id": "REQ-M1",
+  "object_id": "SCENARIO-FORWARD-41",
+  "object_type": "transaction_monitoring_scenario_design",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "SYNTHETIC-BANK",
+    "legal_entity_id": "SYNTHETIC-ENTITY",
+    "capacity": "monitoring-oversight",
+    "represented_party": "SYNTHETIC-BANK",
+    "object_id": "SCENARIO-FORWARD-41",
+    "object_type": "transaction_monitoring_scenario_design",
+    "jurisdiction": "US-reference-context-not-legal-profile",
+    "line_of_business": "retail-banking",
+    "purpose": "offline synthetic monitoring evidence review"
+  },
+  "role": "oversight",
+  "classification": "compliance_confidential",
+  "audience": "monitoring_owner",
+  "status": "draft-for-human-review",
+  "results": {
+    "risk_to_scenario_design": {
+      "scenario_id": "SCENARIO-FORWARD-41",
+      "design_version": "design-v2",
+      "risk_id": "RISK-1",
+      "risk_hypothesis": "Repeated cash deposits inconsistent with source-bound expected activity merit review",
+      "typology": "cash-pattern risk hypothesis",
+      "target_behavior": "multiple events aggregating above institution proposed amount in a rolling day window",
+      "population_id": "POP-1",
+      "population_unit": "economic-event",
+      "eligibility_definition": "Retail cash credit economic events in reviewed extract",
+      "engine_id": "ENGINE-1",
+      "engine_version": "engine-v1",
+      "processing_mode": "real-time",
+      "logic_spec": "Group by reviewed customer mapping; aggregate gross cash credits by distinct economic event over rolling window; propose review when supplied amount is met",
+      "window_value": "7",
+      "window_unit": "days",
+      "entity_mapping_ref": "MAPPING-1",
+      "entity_mapping_version": "map-v1",
+      "mapping_dataset_id": "DATASET-MAP-1",
+      "identifier_namespace": "BANK1-CUSTOMER-v1",
+      "ambiguous_link_count": 0,
+      "conflicting_link_count": 0,
+      "mapping_method": "Supplied bank crosswalk with reviewed identifier/edge evidence; no new matching",
+      "identity_limitations": "Source assertions do not establish identity or counterparty control",
+      "graph_reference": "GRAPH-1",
+      "graph_version": "graph-v1",
+      "currency": "USD",
+      "amount_accounting": "gross"
+    },
+    "data_requirements": [
+      {
+        "requirement_id": "DATA-1",
+        "supplied_requirements": {
+          "field": "cash_credit_amount",
+          "source_system": "CORE-1",
+          "source_version": "core-v1",
+          "lineage_reference": "LINEAGE-1",
+          "transformation": "Deduplicate by supplied economic_event_id; do not sum document copies; gross same-currency cash credits",
+          "null_handling": "Retain missing amounts as unknown; withhold dependent aggregate",
+          "data_owner": "DATA-OWNER",
+          "event_identity_rule": "Exact source economic_event_id within dataset/version/identifier namespace",
+          "reconciliation_definition": "Compare expected versus loaded distinct event count and gross USD amount over same scope",
+          "expected_count": 4,
+          "loaded_count": 4,
+          "expected_total": "1000.00000000000000001",
+          "loaded_total": "1000.00000000000000001",
+          "currency": "USD",
+          "amount_accounting": "gross",
+          "data_available_through": "2026-10-03",
+          "freshness_criterion": "Reviewed complete extract through knowledge cutoff",
+          "freshness_met": true
+        },
+        "reconciliation_consistent": true
+      }
+    ],
+    "parameter_proposal": [
+      {
+        "parameter_id": "PARAM-1",
+        "name": "aggregate_amount",
+        "value": "1000.00000000000000001",
+        "unit": "currency",
+        "currency": "USD",
+        "rationale": "Synthetic institution proposed candidate; owner must assess backtest and holdout before acceptance"
+      }
+    ],
+    "evaluation_plan": {
+      "backtest_dataset_id": "BACKTEST-1",
+      "backtest_from": "2026-09-01",
+      "backtest_to": "2026-09-15",
+      "holdout_dataset_id": "HOLDOUT-1",
+      "holdout_from": "2026-09-16",
+      "holdout_to": "2026-09-30",
+      "training_item_ids": [
+        "TRAIN-1"
+      ],
+      "holdout_item_ids": [
+        "HOLD-1"
+      ],
+      "sampling_method": "Risk-stratified sample with exact frozen selection frame; no population inference",
+      "label_definition": "Accepted target-pattern reference, not guilt or SAR filing",
+      "label_reference": "LABEL-PROTOCOL-1",
+      "label_limitations": "Adjudicated pattern labels are incomplete proxies",
+      "leakage_assessed": true,
+      "holdout_independent": true,
+      "bias_dimensions": [
+        "product",
+        "customer segment",
+        "geography",
+        "data availability"
+      ],
+      "metric_definitions": [
+        "labeled-sample precision=TP/(TP+FP)",
+        "labeled-sample recall=TP/(TP+FN)",
+        "unknown labels retained",
+        "coverage=observed distinct population items/population",
+        "latency=ingestion-to-engine output under supplied SLA"
+      ],
+      "acceptance_criteria": "Owner reviews precision, recall, coverage, unknowns and cohort stability against separately supplied appetite; no universal cutoff",
+      "criteria_owner": "MONITORING-OWNER",
+      "criteria_review_reference": "CRITERIA-REVIEW-1",
+      "evaluation_limitations": "No execution or statistical uncertainty estimate in this proposal"
+    },
+    "controlled_change_proposal": {
+      "change_id": "CHANGE-1",
+      "prior_configuration_ref": "CONFIG-v1",
+      "proposed_configuration_ref": "CONFIG-v2",
+      "owner": "MONITORING-OWNER",
+      "approver_role": "BSA compliance officer under institution process",
+      "planned_start": "2026-10-10",
+      "shadow_mode_plan": "Parallel non-actioning proposal replay; preserve incumbent monitoring and reconcile before acceptance",
+      "reconciliation_gate": "Owner verifies extract counts/amounts, source mapping, latency and complete labeled evaluation evidence",
+      "rollback_trigger": "Owner-supplied failed gate, material gap, outage or adverse drift",
+      "rollback_configuration_ref": "CONFIG-v1",
+      "rollback_owner": "ENGINE-CONTROL-OWNER",
+      "review_cadence": "Institution-set monthly and on material data/risk/version change"
+    },
+    "technology_control_requirements": [
+      {
+        "technology_requirement_id": "TECH-engine",
+        "kind": "engine",
+        "profile_id": "SYNTHETIC-ENGINE",
+        "profile_version": "v1",
+        "requirement": "Explain criteria, preserve logs, restrict configuration access",
+        "owner": "CONTROL-OWNER",
+        "review_reference": "REVIEW-engine",
+        "requirement_supported": true,
+        "limitation": "Supplied synthetic review; no live verification"
+      },
+      {
+        "technology_requirement_id": "TECH-real-time",
+        "kind": "real-time",
+        "profile_id": "SYNTHETIC-REAL-TIME",
+        "profile_version": "v1",
+        "requirement": "Retain event and ingestion time, watermark, latency SLA, late-arrival handling, replay and idempotency evidence",
+        "owner": "CONTROL-OWNER",
+        "review_reference": "REVIEW-real-time",
+        "requirement_supported": true,
+        "limitation": "Supplied synthetic review; no live verification"
+      },
+      {
+        "technology_requirement_id": "TECH-vendor",
+        "kind": "vendor",
+        "profile_id": "SYNTHETIC-VENDOR",
+        "profile_version": "v1",
+        "requirement": "Supply versioned exports, change notification, documentation and audit-access limits",
+        "owner": "CONTROL-OWNER",
+        "review_reference": "REVIEW-vendor",
+        "requirement_supported": true,
+        "limitation": "Supplied synthetic review; no live verification"
+      },
+      {
+        "technology_requirement_id": "TECH-model",
+        "kind": "model",
+        "profile_id": "SYNTHETIC-MODEL",
+        "profile_version": "v1",
+        "requirement": "Retain model inventory applicability decision, drift, performance and separate validation owner",
+        "owner": "CONTROL-OWNER",
+        "review_reference": "REVIEW-model",
+        "requirement_supported": true,
+        "limitation": "Supplied synthetic review; no live verification"
+      },
+      {
+        "technology_requirement_id": "TECH-copilot",
+        "kind": "copilot",
+        "profile_id": "SYNTHETIC-COPILOT",
+        "profile_version": "v1",
+        "requirement": "Retain retrieval/citation evidence, human review, prompt injection isolation and no autonomous actions",
+        "owner": "CONTROL-OWNER",
+        "review_reference": "REVIEW-copilot",
+        "requirement_supported": true,
+        "limitation": "Supplied synthetic review; no live verification"
+      },
+      {
+        "technology_requirement_id": "TECH-graph",
+        "kind": "graph",
+        "profile_id": "SYNTHETIC-GRAPH",
+        "profile_version": "v1",
+        "requirement": "Retain identifier namespace, sourced edges, ambiguous/conflicting links and access constraints",
+        "owner": "CONTROL-OWNER",
+        "review_reference": "REVIEW-graph",
+        "requirement_supported": true,
+        "limitation": "Supplied synthetic review; no live verification"
+      }
+    ],
+    "engine_observations": [
+      {
+        "engine_observation_id": "ENGINE-OBS-1",
+        "evidence_kind": "engine-observation",
+        "engine_id": "ENGINE-1",
+        "engine_version": "engine-v1",
+        "scenario_id": "SCENARIO-FORWARD-41",
+        "scenario_version": "design-v2",
+        "observation": "Synthetic export supports reviewed rolling-window operator",
+        "observed_on": "2026-10-03",
+        "population_id": "POP-1"
+      }
+    ],
+    "benchmark_references": [
+      {
+        "benchmark_reference_id": "BENCH-1",
+        "evidence_kind": "benchmark-reference",
+        "reference_domain": "synthetic-method-benchmark",
+        "reference_version": "v1",
+        "context": "Illustrative independent dataset; incomparable to this bank population",
+        "claim": "Reference dataset includes held-out labeled target examples",
+        "limitation": "Not institutional observations, obligations or default thresholds"
+      }
+    ],
+    "material_blockers": [],
+    "unknown_metrics": [],
+    "proposal_prerequisites_consistent": true,
+    "proposed_engine_configuration": {
+      "proposal_only": true,
+      "scenario": {
+        "scenario_id": "SCENARIO-FORWARD-41",
+        "design_version": "design-v2",
+        "risk_id": "RISK-1",
+        "risk_hypothesis": "Repeated cash deposits inconsistent with source-bound expected activity merit review",
+        "typology": "cash-pattern risk hypothesis",
+        "target_behavior": "multiple events aggregating above institution proposed amount in a rolling day window",
+        "population_id": "POP-1",
+        "population_unit": "economic-event",
+        "eligibility_definition": "Retail cash credit economic events in reviewed extract",
+        "engine_id": "ENGINE-1",
+        "engine_version": "engine-v1",
+        "processing_mode": "real-time",
+        "logic_spec": "Group by reviewed customer mapping; aggregate gross cash credits by distinct economic event over rolling window; propose review when supplied amount is met",
+        "window_value": "7",
+        "window_unit": "days",
+        "entity_mapping_ref": "MAPPING-1",
+        "entity_mapping_version": "map-v1",
+        "mapping_dataset_id": "DATASET-MAP-1",
+        "identifier_namespace": "BANK1-CUSTOMER-v1",
+        "ambiguous_link_count": 0,
+        "conflicting_link_count": 0,
+        "mapping_method": "Supplied bank crosswalk with reviewed identifier/edge evidence; no new matching",
+        "identity_limitations": "Source assertions do not establish identity or counterparty control",
+        "graph_reference": "GRAPH-1",
+        "graph_version": "graph-v1",
+        "currency": "USD",
+        "amount_accounting": "gross"
+      },
+      "parameters": [
+        {
+          "parameter_id": "PARAM-1",
+          "name": "aggregate_amount",
+          "value": "1000.00000000000000001",
+          "unit": "currency",
+          "currency": "USD",
+          "rationale": "Synthetic institution proposed candidate; owner must assess backtest and holdout before acceptance"
+        }
+      ],
+      "change_id": "CHANGE-1",
+      "configuration_reference": "CONFIG-v2",
+      "activation": "not-performed"
+    },
+    "backtest_executed": false,
+    "holdout_executed": false,
+    "identity_resolution": "not-performed",
+    "risk_or_legal_approval": "not-issued",
+    "activation": "not-performed"
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/scenario/scenario_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/design_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/risk_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/risk_hypothesis",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/typology",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/target_behavior",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/population_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/population_unit",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/eligibility_definition",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/engine_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/engine_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/processing_mode",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/logic_spec",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/window_value",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/window_unit",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/entity_mapping_ref",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/entity_mapping_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/mapping_dataset_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/identifier_namespace",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/ambiguous_link_count",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/conflicting_link_count",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/mapping_method",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/identity_limitations",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/graph_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/graph_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/currency",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/scenario/amount_accounting",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/backtest_dataset_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/backtest_from",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/backtest_to",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_dataset_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_from",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F32"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_to",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F33"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/training_item_ids",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F34"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_item_ids",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F35"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/sampling_method",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F36"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/label_definition",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F37"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/label_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F38"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/label_limitations",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F39"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/leakage_assessed",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F40"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/holdout_independent",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F41"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/bias_dimensions",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F42"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/metric_definitions",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F43"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/acceptance_criteria",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F44"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/criteria_owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F45"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/criteria_review_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F46"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/evaluation/evaluation_limitations",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F47"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/change_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F48"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/prior_configuration_ref",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F49"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/proposed_configuration_ref",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F50"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F51"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/approver_role",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F52"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/planned_start",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F53"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/shadow_mode_plan",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F54"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/reconciliation_gate",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F55"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/rollback_trigger",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F56"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/rollback_configuration_ref",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F57"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/rollback_owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F58"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/change/review_cadence",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F59"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/name",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F60"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/value",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F61"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/unit",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F62"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/currency",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F63"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/parameters/0/rationale",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F64"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/field",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F65"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/source_system",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F66"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/source_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F67"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/lineage_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F68"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/transformation",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F69"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/null_handling",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F70"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/data_owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F71"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/event_identity_rule",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F72"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/reconciliation_definition",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F73"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/expected_count",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F74"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/loaded_count",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F75"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/expected_total",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F76"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/loaded_total",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F77"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/currency",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F78"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/amount_accounting",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F79"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/data_available_through",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F80"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/freshness_criterion",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F81"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/data_requirements/0/freshness_met",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F82"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/kind",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F83"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/profile_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F84"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/profile_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F85"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/requirement",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F86"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F87"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/review_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F88"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/requirement_supported",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F89"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/0/limitation",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F90"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/1/kind",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F91"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/1/profile_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F92"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/1/profile_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F93"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/1/requirement",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F94"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/1/owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F95"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/1/review_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F96"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/1/requirement_supported",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F97"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/1/limitation",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F98"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/2/kind",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F99"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/2/profile_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F100"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/2/profile_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F101"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/2/requirement",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F102"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/2/owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F103"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/2/review_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F104"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/2/requirement_supported",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F105"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/2/limitation",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F106"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/3/kind",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F107"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/3/profile_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F108"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/3/profile_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F109"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/3/requirement",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F110"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/3/owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F111"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/3/review_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F112"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/3/requirement_supported",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F113"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/3/limitation",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F114"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/4/kind",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F115"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/4/profile_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F116"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/4/profile_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F117"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/4/requirement",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F118"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/4/owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F119"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/4/review_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F120"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/4/requirement_supported",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F121"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/4/limitation",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F122"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/5/kind",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F123"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/5/profile_id",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F124"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/5/profile_version",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F125"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/5/requirement",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F126"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/5/owner",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F127"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/5/review_reference",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F128"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/5/requirement_supported",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F129"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/technology_requirements/5/limitation",
+      "source_refs": [
+        "S-INSTITUTION"
+      ],
+      "fact_ids": [
+        "S-INSTITUTION-F130"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/engine_id",
+      "source_refs": [
+        "S-ENGINE"
+      ],
+      "fact_ids": [
+        "S-ENGINE-F1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/engine_version",
+      "source_refs": [
+        "S-ENGINE"
+      ],
+      "fact_ids": [
+        "S-ENGINE-F2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/scenario_id",
+      "source_refs": [
+        "S-ENGINE"
+      ],
+      "fact_ids": [
+        "S-ENGINE-F3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/scenario_version",
+      "source_refs": [
+        "S-ENGINE"
+      ],
+      "fact_ids": [
+        "S-ENGINE-F4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/observation",
+      "source_refs": [
+        "S-ENGINE"
+      ],
+      "fact_ids": [
+        "S-ENGINE-F5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/observed_on",
+      "source_refs": [
+        "S-ENGINE"
+      ],
+      "fact_ids": [
+        "S-ENGINE-F6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/engine_observations/0/population_id",
+      "source_refs": [
+        "S-ENGINE"
+      ],
+      "fact_ids": [
+        "S-ENGINE-F7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/reference_domain",
+      "source_refs": [
+        "S-BENCHMARK"
+      ],
+      "fact_ids": [
+        "S-BENCHMARK-F1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/reference_version",
+      "source_refs": [
+        "S-BENCHMARK"
+      ],
+      "fact_ids": [
+        "S-BENCHMARK-F2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/context",
+      "source_refs": [
+        "S-BENCHMARK"
+      ],
+      "fact_ids": [
+        "S-BENCHMARK-F3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/claim",
+      "source_refs": [
+        "S-BENCHMARK"
+      ],
+      "fact_ids": [
+        "S-BENCHMARK-F4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/benchmark_references/0/limitation",
+      "source_refs": [
+        "S-BENCHMARK"
+      ],
+      "fact_ids": [
+        "S-BENCHMARK-F5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Risk hypothesis, entity links and graph references are supplied assertions, not proven identity or crime.",
+    "Reconciliation consistency does not authenticate extracts or demonstrate detection effectiveness.",
+    "No threshold defaults, universal weights, approved legal profile or executable engine configuration is supplied.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "S-INSTITUTION",
+    "S-ENGINE",
+    "S-LABEL",
+    "S-BENCHMARK"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "transaction-monitoring-effectiveness-reviewer",
+    "compliance-control-testing-assistant",
+    "financial-crime-technology-controls-reviewer",
+    "model-validation-assistant"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "755e345eb3339e5174414336f1261f9996988e04a80d764ae75254c3530e9c13",
+  "source_truth": "unverified"
+}

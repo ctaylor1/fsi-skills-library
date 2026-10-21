@@ -1,0 +1,187 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "financial-statement-analyzer",
+  "method_version": "2.0.0",
+  "request_id": "independent-credit-lane-forward",
+  "subject": {
+    "type": "issuer",
+    "id": "FRESH-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "issuer_profile": "nonfinancial-corporate",
+    "basis": {
+      "currency": "USD",
+      "unit": "USD_m",
+      "accounting_basis": "supplied-GAAP",
+      "consolidation_scope": "consolidated"
+    },
+    "period_analysis": [
+      {
+        "period_id": "FY2024",
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "kind": "annual"
+        },
+        "metrics": {
+          "revenue": 100,
+          "gross_profit": 30,
+          "ebit": 15,
+          "net_income": 10,
+          "operating_cash_flow": 18,
+          "capex": 6,
+          "assets": 100,
+          "liabilities": 60,
+          "equity": 40,
+          "cash": 15,
+          "debt": 40,
+          "current_assets": 30,
+          "current_liabilities": 20,
+          "interest_expense": 3
+        },
+        "ratios": {
+          "gross_margin": 0.3,
+          "ebit_margin": 0.15,
+          "net_margin": 0.1,
+          "cash_conversion": 1.8,
+          "current_ratio": 1.5,
+          "debt_to_equity": 1.0,
+          "interest_coverage": 5.0
+        },
+        "free_cash_flow": 12,
+        "balance_residual": 0,
+        "prior_period_comparable": false,
+        "trends": {},
+        "evidence_refs": [
+          {
+            "source_id": "FRESH-SUPPLIED",
+            "locator": "forward:raw-tables;rows-1-4"
+          }
+        ]
+      },
+      {
+        "period_id": "FY2025",
+        "period": {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "kind": "annual"
+        },
+        "metrics": {
+          "revenue": 120,
+          "gross_profit": 36,
+          "ebit": 18,
+          "net_income": -2,
+          "operating_cash_flow": 26,
+          "capex": 9,
+          "assets": 120,
+          "liabilities": 70,
+          "equity": 50,
+          "cash": 15,
+          "debt": 40,
+          "current_assets": 30,
+          "current_liabilities": 20,
+          "interest_expense": 3
+        },
+        "ratios": {
+          "gross_margin": 0.3,
+          "ebit_margin": 0.15,
+          "net_margin": -0.016666666666666666,
+          "cash_conversion": null,
+          "current_ratio": 1.5,
+          "debt_to_equity": 0.8,
+          "interest_coverage": 6.0
+        },
+        "free_cash_flow": 17,
+        "balance_residual": 0,
+        "prior_period_comparable": true,
+        "trends": {
+          "revenue": {
+            "change": 20,
+            "growth": 0.19999999999999996
+          },
+          "gross_profit": {
+            "change": 6,
+            "growth": 0.19999999999999996
+          },
+          "ebit": {
+            "change": 3,
+            "growth": 0.19999999999999996
+          },
+          "net_income": {
+            "change": -12,
+            "growth": -1.2
+          },
+          "operating_cash_flow": {
+            "change": 8,
+            "growth": 0.4444444444444444
+          }
+        },
+        "evidence_refs": [
+          {
+            "source_id": "FRESH-SUPPLIED",
+            "locator": "forward:raw-tables;rows-1-4"
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "No normalization, restatement retrieval, bank or insurer ratios, accounting opinion, or automatic forecasts",
+      "Quarter comparisons are sequential supplied periods and are not labeled year-over-year"
+    ]
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "period_id": "FY2024",
+      "formulas": [
+        "margin = numerator / positive revenue",
+        "cash_conversion = CFO / positive net_income",
+        "FCF = CFO - positive cash capex",
+        "balance_residual = assets - liabilities - equity",
+        "growth = current / positive prior - 1"
+      ]
+    },
+    {
+      "period_id": "FY2025",
+      "formulas": [
+        "margin = numerator / positive revenue",
+        "cash_conversion = CFO / positive net_income",
+        "FCF = CFO - positive cash capex",
+        "balance_residual = assets - liabilities - equity",
+        "growth = current / positive prior - 1"
+      ]
+    }
+  ],
+  "unresolved_issues": [
+    "FY2025: cash_conversion unavailable"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "FRESH-SUPPLIED",
+      "locator": "forward:raw-tables;rows-1-4"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "FRESH-SUPPLIED",
+      "version": "forward-original-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "forward:raw-tables",
+      "kind": "filing"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "04cbde4ef053412586cb3b5d6290388972282e2a16a43af103a9fca5a291adf8",
+  "source_truth": "unverified"
+}

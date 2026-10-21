@@ -1,0 +1,2782 @@
+{
+  "record": "Supplemental independent operations temporal review",
+  "created_utc": "2026-09-21T13:27:02.444389+00:00",
+  "basis": "Derived from earlier independently authored inputs, without native fixtures/goldens. Original 24-case evidence preserved.",
+  "cases": [
+    {
+      "case_id": "TEMPORAL-OPF-K08-TWR-cutoff",
+      "package": "portfolio-performance-measurer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-K08-TWR-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "twr",
+        "return_basis": "net-of-management-fees",
+        "period_start": "2026-01-01",
+        "period_end": "2026-02-28",
+        "external_flow_coverage": "complete_at_boundaries",
+        "subperiods": [
+          {
+            "start": "2026-01-01",
+            "end": "2026-01-31",
+            "begin_value_after_flow": "100",
+            "end_value_before_flow": "110",
+            "net_flow_after": "10",
+            "source_ref": "ind-source"
+          },
+          {
+            "start": "2026-01-31",
+            "end": "2026-02-28",
+            "begin_value_after_flow": "120",
+            "end_value_before_flow": "114",
+            "net_flow_after": "0",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "8f708367dc4bd80d39bd9732ff7bcda13836943228bc5e17d0f079c37a9f9f99",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-K08-TWR-source-known",
+      "package": "portfolio-performance-measurer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-K08-TWR-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "twr",
+        "return_basis": "net-of-management-fees",
+        "period_start": "2026-01-01",
+        "period_end": "2026-02-28",
+        "external_flow_coverage": "complete_at_boundaries",
+        "subperiods": [
+          {
+            "start": "2026-01-01",
+            "end": "2026-01-31",
+            "begin_value_after_flow": "100",
+            "end_value_before_flow": "110",
+            "net_flow_after": "10",
+            "source_ref": "ind-source"
+          },
+          {
+            "start": "2026-01-31",
+            "end": "2026-02-28",
+            "begin_value_after_flow": "120",
+            "end_value_before_flow": "114",
+            "net_flow_after": "0",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "8f708367dc4bd80d39bd9732ff7bcda13836943228bc5e17d0f079c37a9f9f99",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-K08-DIETZ-cutoff",
+      "package": "portfolio-performance-measurer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-K08-DIETZ-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "modified_dietz",
+        "return_basis": "net-of-management-fees",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "flow_timing": "end-of-day",
+        "begin_value": "100",
+        "end_value": "120",
+        "valuation_source_ref": "ind-source",
+        "cash_flows": [
+          {
+            "flow_id": "F1",
+            "date": "2026-08-16",
+            "amount": "10",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "8f708367dc4bd80d39bd9732ff7bcda13836943228bc5e17d0f079c37a9f9f99",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-K08-DIETZ-source-known",
+      "package": "portfolio-performance-measurer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-K08-DIETZ-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "modified_dietz",
+        "return_basis": "net-of-management-fees",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "flow_timing": "end-of-day",
+        "begin_value": "100",
+        "end_value": "120",
+        "valuation_source_ref": "ind-source",
+        "cash_flows": [
+          {
+            "flow_id": "F1",
+            "date": "2026-08-16",
+            "amount": "10",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "8f708367dc4bd80d39bd9732ff7bcda13836943228bc5e17d0f079c37a9f9f99",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-K08-MWR-cutoff",
+      "package": "portfolio-performance-measurer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-K08-MWR-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "money_weighted",
+        "return_basis": "net-of-management-fees",
+        "period_start": "2025-01-01",
+        "period_end": "2026-01-01",
+        "cashflow_perspective": "investor",
+        "terminal_value_included": true,
+        "cash_flows": [
+          {
+            "flow_id": "INVEST",
+            "date": "2025-01-01",
+            "amount": "-100",
+            "source_ref": "ind-source"
+          },
+          {
+            "flow_id": "RECEIPT",
+            "date": "2026-01-01",
+            "amount": "121",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "8f708367dc4bd80d39bd9732ff7bcda13836943228bc5e17d0f079c37a9f9f99",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-K08-MWR-source-known",
+      "package": "portfolio-performance-measurer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-K08-MWR-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "money_weighted",
+        "return_basis": "net-of-management-fees",
+        "period_start": "2025-01-01",
+        "period_end": "2026-01-01",
+        "cashflow_perspective": "investor",
+        "terminal_value_included": true,
+        "cash_flows": [
+          {
+            "flow_id": "INVEST",
+            "date": "2025-01-01",
+            "amount": "-100",
+            "source_ref": "ind-source"
+          },
+          {
+            "flow_id": "RECEIPT",
+            "date": "2026-01-01",
+            "amount": "121",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "8f708367dc4bd80d39bd9732ff7bcda13836943228bc5e17d0f079c37a9f9f99",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/portfolio-performance-measurer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O02-JOURNAL-cutoff",
+      "package": "fund-accounting-preparer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O02-JOURNAL-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "journal_trial_balance",
+        "accounts": [
+          {
+            "account_id": "CASH",
+            "type": "asset",
+            "opening_debit_balance": "100",
+            "source_ref": "ind-source"
+          },
+          {
+            "account_id": "CAPITAL",
+            "type": "equity",
+            "opening_debit_balance": "-100",
+            "source_ref": "ind-source"
+          },
+          {
+            "account_id": "EXPENSE",
+            "type": "expense",
+            "opening_debit_balance": "0",
+            "source_ref": "ind-source"
+          },
+          {
+            "account_id": "PAYABLE",
+            "type": "liability",
+            "opening_debit_balance": "0",
+            "source_ref": "ind-source"
+          }
+        ],
+        "journals": [
+          {
+            "journal_id": "J1",
+            "date": "2026-09-18",
+            "source_ref": "ind-source",
+            "lines": [
+              {
+                "account_id": "EXPENSE",
+                "debit": "12.34",
+                "credit": "0"
+              },
+              {
+                "account_id": "PAYABLE",
+                "debit": "0",
+                "credit": "12.34"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "3829462c2d158c809147989a920d7f449b5e328ff27c8e1d1f7b79a535717e81",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O02-JOURNAL-source-known",
+      "package": "fund-accounting-preparer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O02-JOURNAL-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "journal_trial_balance",
+        "accounts": [
+          {
+            "account_id": "CASH",
+            "type": "asset",
+            "opening_debit_balance": "100",
+            "source_ref": "ind-source"
+          },
+          {
+            "account_id": "CAPITAL",
+            "type": "equity",
+            "opening_debit_balance": "-100",
+            "source_ref": "ind-source"
+          },
+          {
+            "account_id": "EXPENSE",
+            "type": "expense",
+            "opening_debit_balance": "0",
+            "source_ref": "ind-source"
+          },
+          {
+            "account_id": "PAYABLE",
+            "type": "liability",
+            "opening_debit_balance": "0",
+            "source_ref": "ind-source"
+          }
+        ],
+        "journals": [
+          {
+            "journal_id": "J1",
+            "date": "2026-09-18",
+            "source_ref": "ind-source",
+            "lines": [
+              {
+                "account_id": "EXPENSE",
+                "debit": "12.34",
+                "credit": "0"
+              },
+              {
+                "account_id": "PAYABLE",
+                "debit": "0",
+                "credit": "12.34"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "3829462c2d158c809147989a920d7f449b5e328ff27c8e1d1f7b79a535717e81",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O02-NAV-CONTRACT-cutoff",
+      "package": "fund-accounting-preparer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O02-NAV-CONTRACT-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          },
+          {
+            "source_ref": "engine-contract",
+            "version": "test-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          },
+          {
+            "source_ref": "institutional-acceptance-declaration",
+            "version": "test-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "nav_workpaper",
+        "assets": [
+          {
+            "line_id": "INV",
+            "amount": "1000",
+            "source_ref": "ind-source"
+          },
+          {
+            "line_id": "CASH",
+            "amount": "200",
+            "source_ref": "ind-source"
+          }
+        ],
+        "liabilities": [
+          {
+            "line_id": "LIAB",
+            "amount": "100",
+            "source_ref": "ind-source"
+          }
+        ],
+        "classes": [
+          {
+            "class_id": "CLASS-A",
+            "allocation_weight": "0.6",
+            "shares_outstanding": "50",
+            "class_specific_expense": "10",
+            "source_ref": "ind-source"
+          },
+          {
+            "class_id": "CLASS-B",
+            "allocation_weight": "0.4",
+            "shares_outstanding": "30",
+            "class_specific_expense": "5",
+            "source_ref": "ind-source"
+          }
+        ],
+        "system_of_record_benchmark": {
+          "engine_id": "DECLARED-BOOK-ENGINE",
+          "engine_version": "v4",
+          "run_id": "SEP18-1",
+          "source_ref": "ind-source",
+          "object_id": "INDEPENDENT-FUND-Z",
+          "as_of": "2026-09-18",
+          "currency": "USD",
+          "nav": "1085",
+          "engine_contract_source_ref": "engine-contract",
+          "acceptance_evidence_source_ref": "institutional-acceptance-declaration"
+        },
+        "nav_tolerance": "0"
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "3829462c2d158c809147989a920d7f449b5e328ff27c8e1d1f7b79a535717e81",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O02-NAV-CONTRACT-source-known",
+      "package": "fund-accounting-preparer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O02-NAV-CONTRACT-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          },
+          {
+            "source_ref": "engine-contract",
+            "version": "test-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          },
+          {
+            "source_ref": "institutional-acceptance-declaration",
+            "version": "test-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "nav_workpaper",
+        "assets": [
+          {
+            "line_id": "INV",
+            "amount": "1000",
+            "source_ref": "ind-source"
+          },
+          {
+            "line_id": "CASH",
+            "amount": "200",
+            "source_ref": "ind-source"
+          }
+        ],
+        "liabilities": [
+          {
+            "line_id": "LIAB",
+            "amount": "100",
+            "source_ref": "ind-source"
+          }
+        ],
+        "classes": [
+          {
+            "class_id": "CLASS-A",
+            "allocation_weight": "0.6",
+            "shares_outstanding": "50",
+            "class_specific_expense": "10",
+            "source_ref": "ind-source"
+          },
+          {
+            "class_id": "CLASS-B",
+            "allocation_weight": "0.4",
+            "shares_outstanding": "30",
+            "class_specific_expense": "5",
+            "source_ref": "ind-source"
+          }
+        ],
+        "system_of_record_benchmark": {
+          "engine_id": "DECLARED-BOOK-ENGINE",
+          "engine_version": "v4",
+          "run_id": "SEP18-1",
+          "source_ref": "ind-source",
+          "object_id": "INDEPENDENT-FUND-Z",
+          "as_of": "2026-09-18",
+          "currency": "USD",
+          "nav": "1085",
+          "engine_contract_source_ref": "engine-contract",
+          "acceptance_evidence_source_ref": "institutional-acceptance-declaration"
+        },
+        "nav_tolerance": "0"
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "3829462c2d158c809147989a920d7f449b5e328ff27c8e1d1f7b79a535717e81",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O05-EVENTS-cutoff",
+      "package": "investment-asset-servicing-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O05-EVENTS-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "entitlements",
+        "events": [
+          {
+            "event_id": "DIV1",
+            "type": "cash_dividend",
+            "record_date": "2026-09-01",
+            "position_date": "2026-09-01",
+            "payable_date": "2026-09-15",
+            "event_source_ref": "ind-source",
+            "position_source_ref": "ind-source",
+            "eligible_quantity": "123.456789",
+            "tolerance": "0.001",
+            "received_amount": "12.95",
+            "cash_per_share": "0.123456789",
+            "withholding_rate": "0.15",
+            "received_date": "2026-09-15",
+            "receipt_source_ref": "ind-source"
+          },
+          {
+            "event_id": "SPLIT1",
+            "type": "stock_split",
+            "record_date": "2026-09-01",
+            "position_date": "2026-09-01",
+            "payable_date": "2026-09-15",
+            "event_source_ref": "ind-source",
+            "position_source_ref": "ind-source",
+            "eligible_quantity": "5.5",
+            "tolerance": "0",
+            "received_amount": null,
+            "new_shares": 3,
+            "old_shares": 2,
+            "fractional_policy": "preserve-entitlement"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "c22adb63d1a892f0e5ea367826d62c13be976e16401c8cd956075cd851cf4378",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-asset-servicing-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-asset-servicing-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O05-EVENTS-source-known",
+      "package": "investment-asset-servicing-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O05-EVENTS-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "entitlements",
+        "events": [
+          {
+            "event_id": "DIV1",
+            "type": "cash_dividend",
+            "record_date": "2026-09-01",
+            "position_date": "2026-09-01",
+            "payable_date": "2026-09-15",
+            "event_source_ref": "ind-source",
+            "position_source_ref": "ind-source",
+            "eligible_quantity": "123.456789",
+            "tolerance": "0.001",
+            "received_amount": "12.95",
+            "cash_per_share": "0.123456789",
+            "withholding_rate": "0.15",
+            "received_date": "2026-09-15",
+            "receipt_source_ref": "ind-source"
+          },
+          {
+            "event_id": "SPLIT1",
+            "type": "stock_split",
+            "record_date": "2026-09-01",
+            "position_date": "2026-09-01",
+            "payable_date": "2026-09-15",
+            "event_source_ref": "ind-source",
+            "position_source_ref": "ind-source",
+            "eligible_quantity": "5.5",
+            "tolerance": "0",
+            "received_amount": null,
+            "new_shares": 3,
+            "old_shares": 2,
+            "fractional_policy": "preserve-entitlement"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "c22adb63d1a892f0e5ea367826d62c13be976e16401c8cd956075cd851cf4378",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-asset-servicing-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-asset-servicing-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O06-DEALING-cutoff",
+      "package": "fund-investor-operations-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O06-DEALING-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "dealing_review",
+        "cutoff_at": "2026-09-18T16:00:00-04:00",
+        "valuation_at": "2026-09-18T20:30:00+00:00",
+        "dealing_terms_source_ref": "ind-source",
+        "orders": [
+          {
+            "order_id": "SUB",
+            "share_class_id": "CLASS-A",
+            "type": "subscription",
+            "received_at": "2026-09-18T19:59:00+00:00",
+            "source_ref": "ind-source",
+            "aml_evidence_status": "supplied-cleared",
+            "aml_source_ref": "ind-source",
+            "aml_valid_until": "2026-10-01",
+            "fee_amount": "1",
+            "nav_per_unit": "3",
+            "nav_source_ref": "ind-source",
+            "nav_valuation_at": "2026-09-18T20:30:00+00:00",
+            "subscription_cash": "1000"
+          },
+          {
+            "order_id": "RED",
+            "share_class_id": "CLASS-A",
+            "type": "redemption",
+            "received_at": "2026-09-18T15:59:00-04:00",
+            "source_ref": "ind-source",
+            "aml_evidence_status": "supplied-cleared",
+            "aml_source_ref": "ind-source",
+            "aml_valid_until": "2026-10-01",
+            "fee_amount": "1",
+            "nav_per_unit": "3",
+            "nav_source_ref": "ind-source",
+            "nav_valuation_at": "2026-09-18T20:30:00+00:00",
+            "redemption_units": "10"
+          },
+          {
+            "order_id": "LATE",
+            "share_class_id": "CLASS-A",
+            "type": "subscription",
+            "received_at": "2026-09-18T20:01:00+00:00",
+            "source_ref": "ind-source",
+            "aml_evidence_status": "supplied-cleared",
+            "aml_source_ref": "ind-source",
+            "aml_valid_until": "2026-10-01",
+            "fee_amount": "1",
+            "nav_per_unit": "3",
+            "nav_source_ref": "ind-source",
+            "nav_valuation_at": "2026-09-18T20:30:00+00:00",
+            "subscription_cash": "1000"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "3ebb2277e256f92aba91311492a6f5531b12816bd13620fb9b72b809b8b7f820",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-investor-operations-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-investor-operations-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O06-DEALING-source-known",
+      "package": "fund-investor-operations-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O06-DEALING-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "dealing_review",
+        "cutoff_at": "2026-09-18T16:00:00-04:00",
+        "valuation_at": "2026-09-18T20:30:00+00:00",
+        "dealing_terms_source_ref": "ind-source",
+        "orders": [
+          {
+            "order_id": "SUB",
+            "share_class_id": "CLASS-A",
+            "type": "subscription",
+            "received_at": "2026-09-18T19:59:00+00:00",
+            "source_ref": "ind-source",
+            "aml_evidence_status": "supplied-cleared",
+            "aml_source_ref": "ind-source",
+            "aml_valid_until": "2026-10-01",
+            "fee_amount": "1",
+            "nav_per_unit": "3",
+            "nav_source_ref": "ind-source",
+            "nav_valuation_at": "2026-09-18T20:30:00+00:00",
+            "subscription_cash": "1000"
+          },
+          {
+            "order_id": "RED",
+            "share_class_id": "CLASS-A",
+            "type": "redemption",
+            "received_at": "2026-09-18T15:59:00-04:00",
+            "source_ref": "ind-source",
+            "aml_evidence_status": "supplied-cleared",
+            "aml_source_ref": "ind-source",
+            "aml_valid_until": "2026-10-01",
+            "fee_amount": "1",
+            "nav_per_unit": "3",
+            "nav_source_ref": "ind-source",
+            "nav_valuation_at": "2026-09-18T20:30:00+00:00",
+            "redemption_units": "10"
+          },
+          {
+            "order_id": "LATE",
+            "share_class_id": "CLASS-A",
+            "type": "subscription",
+            "received_at": "2026-09-18T20:01:00+00:00",
+            "source_ref": "ind-source",
+            "aml_evidence_status": "supplied-cleared",
+            "aml_source_ref": "ind-source",
+            "aml_valid_until": "2026-10-01",
+            "fee_amount": "1",
+            "nav_per_unit": "3",
+            "nav_source_ref": "ind-source",
+            "nav_valuation_at": "2026-09-18T20:30:00+00:00",
+            "subscription_cash": "1000"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "3ebb2277e256f92aba91311492a6f5531b12816bd13620fb9b72b809b8b7f820",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-investor-operations-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-investor-operations-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O07-OVERSIGHT-cutoff",
+      "package": "fund-service-provider-oversight-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O07-OVERSIGHT-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "service_oversight",
+        "policy_source_ref": "ind-source",
+        "services": [
+          {
+            "service_id": "ADMIN",
+            "provider_id": "PROVIDER-A",
+            "period_start": "2026-08-01",
+            "period_end": "2026-08-31",
+            "observed_events": 3,
+            "failed_events": 1,
+            "max_failure_rate": "0.333333333333",
+            "source_ref": "ind-source",
+            "assurance": {
+              "source_ref": "ind-source",
+              "period_end": "2026-06-30",
+              "valid_until": "2026-09-17",
+              "conclusion": "supplied-clean"
+            }
+          },
+          {
+            "service_id": "CUSTODY",
+            "provider_id": "PROVIDER-B",
+            "period_start": "2026-08-01",
+            "period_end": "2026-08-31",
+            "observed_events": 0,
+            "failed_events": 0,
+            "max_failure_rate": "0.01",
+            "source_ref": "ind-source",
+            "assurance": null
+          }
+        ],
+        "issues": [
+          {
+            "issue_id": "OPEN-1",
+            "service_id": "ADMIN",
+            "opened_date": "2026-09-01",
+            "due_date": "2026-09-10",
+            "severity": "high",
+            "status": "open",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "8149a0f4699a68a3a85c4def2ab7412e41128c6459a69eae003204002d1d285b",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-service-provider-oversight-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-service-provider-oversight-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-O07-OVERSIGHT-source-known",
+      "package": "fund-service-provider-oversight-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-O07-OVERSIGHT-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "service_oversight",
+        "policy_source_ref": "ind-source",
+        "services": [
+          {
+            "service_id": "ADMIN",
+            "provider_id": "PROVIDER-A",
+            "period_start": "2026-08-01",
+            "period_end": "2026-08-31",
+            "observed_events": 3,
+            "failed_events": 1,
+            "max_failure_rate": "0.333333333333",
+            "source_ref": "ind-source",
+            "assurance": {
+              "source_ref": "ind-source",
+              "period_end": "2026-06-30",
+              "valid_until": "2026-09-17",
+              "conclusion": "supplied-clean"
+            }
+          },
+          {
+            "service_id": "CUSTODY",
+            "provider_id": "PROVIDER-B",
+            "period_start": "2026-08-01",
+            "period_end": "2026-08-31",
+            "observed_events": 0,
+            "failed_events": 0,
+            "max_failure_rate": "0.01",
+            "source_ref": "ind-source",
+            "assurance": null
+          }
+        ],
+        "issues": [
+          {
+            "issue_id": "OPEN-1",
+            "service_id": "ADMIN",
+            "opened_date": "2026-09-01",
+            "due_date": "2026-09-10",
+            "severity": "high",
+            "status": "open",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "8149a0f4699a68a3a85c4def2ab7412e41128c6459a69eae003204002d1d285b",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-service-provider-oversight-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-service-provider-oversight-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-S01-TRACKING-cutoff",
+      "package": "index-portfolio-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-S01-TRACKING-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "tracking",
+        "benchmark_id": "SYNTHETIC-INDEX",
+        "portfolio_return_basis": "net-of-management-fees",
+        "benchmark_return_basis": "net-of-management-fees",
+        "frequency": "monthly",
+        "aligned_periods_confirmed": true,
+        "periods": [
+          {
+            "start": "2026-01-01",
+            "end": "2026-02-01",
+            "portfolio_return": "0.01",
+            "benchmark_return": "0.02",
+            "portfolio_source_ref": "ind-source",
+            "benchmark_source_ref": "ind-source"
+          },
+          {
+            "start": "2026-02-01",
+            "end": "2026-03-01",
+            "portfolio_return": "0.03",
+            "benchmark_return": "0.01",
+            "portfolio_source_ref": "ind-source",
+            "benchmark_source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "98d6518b48de0e5ad2a8ddf29ea4c47de0cf798adceabd7bcdcb47355bcf9da0",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/index-portfolio-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/index-portfolio-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-S01-TRACKING-source-known",
+      "package": "index-portfolio-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-S01-TRACKING-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "tracking",
+        "benchmark_id": "SYNTHETIC-INDEX",
+        "portfolio_return_basis": "net-of-management-fees",
+        "benchmark_return_basis": "net-of-management-fees",
+        "frequency": "monthly",
+        "aligned_periods_confirmed": true,
+        "periods": [
+          {
+            "start": "2026-01-01",
+            "end": "2026-02-01",
+            "portfolio_return": "0.01",
+            "benchmark_return": "0.02",
+            "portfolio_source_ref": "ind-source",
+            "benchmark_source_ref": "ind-source"
+          },
+          {
+            "start": "2026-02-01",
+            "end": "2026-03-01",
+            "portfolio_return": "0.03",
+            "benchmark_return": "0.01",
+            "portfolio_source_ref": "ind-source",
+            "benchmark_source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "98d6518b48de0e5ad2a8ddf29ea4c47de0cf798adceabd7bcdcb47355bcf9da0",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/index-portfolio-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/index-portfolio-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-S01-WEIGHTS-cutoff",
+      "package": "index-portfolio-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-S01-WEIGHTS-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "weights",
+        "complete_union_including_cash": true,
+        "weights": [
+          {
+            "instrument_id": "SEC-A",
+            "portfolio_weight": "0.6",
+            "benchmark_weight": "0.7",
+            "source_ref": "ind-source"
+          },
+          {
+            "instrument_id": "SEC-B",
+            "portfolio_weight": "0.3",
+            "benchmark_weight": "0.25",
+            "source_ref": "ind-source"
+          },
+          {
+            "instrument_id": "CASH",
+            "portfolio_weight": "0.1",
+            "benchmark_weight": "0.05",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "98d6518b48de0e5ad2a8ddf29ea4c47de0cf798adceabd7bcdcb47355bcf9da0",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/index-portfolio-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/index-portfolio-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-S01-WEIGHTS-source-known",
+      "package": "index-portfolio-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-S01-WEIGHTS-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "weights",
+        "complete_union_including_cash": true,
+        "weights": [
+          {
+            "instrument_id": "SEC-A",
+            "portfolio_weight": "0.6",
+            "benchmark_weight": "0.7",
+            "source_ref": "ind-source"
+          },
+          {
+            "instrument_id": "SEC-B",
+            "portfolio_weight": "0.3",
+            "benchmark_weight": "0.25",
+            "source_ref": "ind-source"
+          },
+          {
+            "instrument_id": "CASH",
+            "portfolio_weight": "0.1",
+            "benchmark_weight": "0.05",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "98d6518b48de0e5ad2a8ddf29ea4c47de0cf798adceabd7bcdcb47355bcf9da0",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/index-portfolio-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/index-portfolio-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-S02-BASKET-cutoff",
+      "package": "etf-operations-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-S02-BASKET-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "basket_control",
+        "direction": "creation",
+        "creation_unit_size": 10,
+        "creation_units": 3,
+        "cash_per_creation_unit": "6",
+        "transaction_fee": "2",
+        "value_tolerance": "0",
+        "basket_source_ref": "ind-source",
+        "nav_source_ref": "ind-source",
+        "ap_source_ref": "ind-source",
+        "dealing_terms_source_ref": "ind-source",
+        "order_received_at": "2026-09-18T19:59:00+00:00",
+        "cutoff_at": "2026-09-18T16:00:00-04:00",
+        "ap_status": "supplied-active",
+        "ap_valid_until": "2026-12-31",
+        "basket_type": "standard",
+        "nav_per_share": "5",
+        "components": [
+          {
+            "instrument_id": "A",
+            "quantity_per_creation_unit": "2",
+            "price": "7",
+            "source_ref": "ind-source"
+          },
+          {
+            "instrument_id": "B",
+            "quantity_per_creation_unit": "3",
+            "price": "10",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "86f6c8683c811c1d28b673363b40fdd5bb182c0e3ed786b2897b96a3fb752a89",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-S02-BASKET-source-known",
+      "package": "etf-operations-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-S02-BASKET-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "basket_control",
+        "direction": "creation",
+        "creation_unit_size": 10,
+        "creation_units": 3,
+        "cash_per_creation_unit": "6",
+        "transaction_fee": "2",
+        "value_tolerance": "0",
+        "basket_source_ref": "ind-source",
+        "nav_source_ref": "ind-source",
+        "ap_source_ref": "ind-source",
+        "dealing_terms_source_ref": "ind-source",
+        "order_received_at": "2026-09-18T19:59:00+00:00",
+        "cutoff_at": "2026-09-18T16:00:00-04:00",
+        "ap_status": "supplied-active",
+        "ap_valid_until": "2026-12-31",
+        "basket_type": "standard",
+        "nav_per_share": "5",
+        "components": [
+          {
+            "instrument_id": "A",
+            "quantity_per_creation_unit": "2",
+            "price": "7",
+            "source_ref": "ind-source"
+          },
+          {
+            "instrument_id": "B",
+            "quantity_per_creation_unit": "3",
+            "price": "10",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "86f6c8683c811c1d28b673363b40fdd5bb182c0e3ed786b2897b96a3fb752a89",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-S02-SECONDARY-cutoff",
+      "package": "etf-operations-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-S02-SECONDARY-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "secondary_market",
+        "nav_per_share": "5",
+        "market_price": "5.1",
+        "bid": "5.09",
+        "ask": "5.11",
+        "nav_source_ref": "ind-source",
+        "quote_source_ref": "ind-source",
+        "nav_date": "2026-09-18",
+        "quote_date": "2026-09-18"
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "86f6c8683c811c1d28b673363b40fdd5bb182c0e3ed786b2897b96a3fb752a89",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-S02-SECONDARY-source-known",
+      "package": "etf-operations-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-S02-SECONDARY-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "secondary_market",
+        "nav_per_share": "5",
+        "market_price": "5.1",
+        "bid": "5.09",
+        "ask": "5.11",
+        "nav_source_ref": "ind-source",
+        "quote_source_ref": "ind-source",
+        "nav_date": "2026-09-18",
+        "quote_date": "2026-09-18"
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "86f6c8683c811c1d28b673363b40fdd5bb182c0e3ed786b2897b96a3fb752a89",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-K11-INVESTOR-cutoff",
+      "package": "private-fund-performance-analyzer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-K11-INVESTOR-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "investor_net",
+        "facility_basis": "actual-investor-flows-with-facility-effects",
+        "inception_date": "2025-01-01",
+        "valuation_date": "2026-01-01",
+        "residual_nav": "61",
+        "valuation_source_ref": "ind-source",
+        "cash_flows": [
+          {
+            "flow_id": "CONTRIB",
+            "date": "2025-01-01",
+            "type": "contribution",
+            "amount": "100",
+            "source_ref": "ind-source"
+          },
+          {
+            "flow_id": "DIST",
+            "date": "2026-01-01",
+            "type": "distribution",
+            "amount": "60",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after cutoff",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "fc64a58bad6a92240c0ef8afd435e01d60501d9b4e9da911e8b9a5151f3b885a",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/private-fund-performance-analyzer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/private-fund-performance-analyzer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-OPF-K11-INVESTOR-source-known",
+      "package": "private-fund-performance-analyzer",
+      "input": {
+        "request_id": "TEMPORAL-OPF-K11-INVESTOR-source-known",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "investor_net",
+        "facility_basis": "actual-investor-flows-with-facility-effects",
+        "inception_date": "2025-01-01",
+        "valuation_date": "2026-01-01",
+        "residual_nav": "61",
+        "valuation_source_ref": "ind-source",
+        "cash_flows": [
+          {
+            "flow_id": "CONTRIB",
+            "date": "2025-01-01",
+            "type": "contribution",
+            "amount": "100",
+            "source_ref": "ind-source"
+          },
+          {
+            "flow_id": "DIST",
+            "date": "2026-01-01",
+            "type": "distribution",
+            "amount": "60",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "reject actual observation after source-known",
+      "should_pass": false,
+      "script_hashes": {
+        "calculate_or_transform.py": "fc64a58bad6a92240c0ef8afd435e01d60501d9b4e9da911e8b9a5151f3b885a",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/private-fund-performance-analyzer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds review, knowledge cutoff or source known-at date\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/private-fund-performance-analyzer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds review, knowledge cutoff or source known-at date\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-future-payable",
+      "package": "investment-asset-servicing-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-future-payable",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2026-09-18",
+            "known_at": "2026-09-18"
+          }
+        ],
+        "mode": "entitlements",
+        "events": [
+          {
+            "event_id": "DIV1",
+            "type": "cash_dividend",
+            "record_date": "2026-09-01",
+            "position_date": "2026-09-01",
+            "payable_date": "2026-09-25",
+            "event_source_ref": "ind-source",
+            "position_source_ref": "ind-source",
+            "eligible_quantity": "123.456789",
+            "tolerance": "0.001",
+            "received_amount": null,
+            "cash_per_share": "0.123456789",
+            "withholding_rate": "0.15"
+          },
+          {
+            "event_id": "SPLIT1",
+            "type": "stock_split",
+            "record_date": "2026-09-01",
+            "position_date": "2026-09-01",
+            "payable_date": "2026-09-25",
+            "event_source_ref": "ind-source",
+            "position_source_ref": "ind-source",
+            "eligible_quantity": "5.5",
+            "tolerance": "0",
+            "received_amount": null,
+            "new_shares": 3,
+            "old_shares": 2,
+            "fractional_policy": "preserve-entitlement"
+          }
+        ]
+      },
+      "expected": "allow known future contractual date without treating it as realized activity",
+      "should_pass": true,
+      "script_hashes": {
+        "calculate_or_transform.py": "c22adb63d1a892f0e5ea367826d62c13be976e16401c8cd956075cd851cf4378",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-asset-servicing-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"errors\": []}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/investment-asset-servicing-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"investment-asset-servicing-reviewer\",\n  \"request_id\": \"TEMPORAL-future-payable\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-record-date-entitlements-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"events\": [\n      {\n        \"event_id\": \"DIV1\",\n        \"type\": \"cash_dividend\",\n        \"record_date\": \"2026-09-01\",\n        \"payable_date\": \"2026-09-25\",\n        \"gross_cash\": \"15.241578750190521\",\n        \"supplied_rate_withholding\": \"2.28623681252857815\",\n        \"expected_net_cash\": \"12.95534193766194285\",\n        \"measurement_unit\": \"USD\",\n        \"received\": null,\n        \"difference\": null,\n        \"reconciliation_status\": \"not-yet-due\"\n      },\n      {\n        \"event_id\": \"SPLIT1\",\n        \"type\": \"stock_split\",\n        \"record_date\": \"2026-09-01\",\n        \"payable_date\": \"2026-09-25\",\n        \"post_split_total_units\": \"8.250000000000000000000000\",\n        \"expected_additional_units\": \"2.750000000000000000000000\",\n        \"measurement_unit\": \"security-units\",\n        \"fractional_entitlement\": \"0.250000000000000000000000\",\n        \"received\": null,\n        \"difference\": null,\n        \"reconciliation_status\": \"not-yet-due\"\n      }\n    ]\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"Eligible quantities and event terms are supplied; trade/ex-date, market-claim and beneficial-owner entitlement are not inferred.\",\n    \"Withholding rate is supplied arithmetic, not a tax/legal determination. No elections, custody instructions or payment execution.\",\n    \"Split ratios rounded to24 decimal places; fractional cash-in-lieu and mandatory/voluntary reorganizations require specialist workflow.\"\n  ],\n  \"handoffs\": [\n    \"investment-book-reconciler\",\n    \"fund-accounting-preparer\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"a71ad679157bdc2e6f95c65493e03b464d13ed4c2b9821a8e1dfa81f453a1c6c\",\n  \"source_truth\": \"unverified\"\n}\n",
+        "stderr": ""
+      },
+      "passed": true,
+      "output": {
+        "contract_version": "investment-foundation/1.0",
+        "skill": "investment-asset-servicing-reviewer",
+        "request_id": "TEMPORAL-future-payable",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "status": "draft",
+        "draft": true,
+        "action_taken": false,
+        "human_review_required": true,
+        "delivery_status": "not-delivered",
+        "method": {
+          "id": "supplied-record-date-entitlements-v1",
+          "version": "1.0",
+          "origin": "local-analysis"
+        },
+        "results": {
+          "events": [
+            {
+              "event_id": "DIV1",
+              "type": "cash_dividend",
+              "record_date": "2026-09-01",
+              "payable_date": "2026-09-25",
+              "gross_cash": "15.241578750190521",
+              "supplied_rate_withholding": "2.28623681252857815",
+              "expected_net_cash": "12.95534193766194285",
+              "measurement_unit": "USD",
+              "received": null,
+              "difference": null,
+              "reconciliation_status": "not-yet-due"
+            },
+            {
+              "event_id": "SPLIT1",
+              "type": "stock_split",
+              "record_date": "2026-09-01",
+              "payable_date": "2026-09-25",
+              "post_split_total_units": "8.250000000000000000000000",
+              "expected_additional_units": "2.750000000000000000000000",
+              "measurement_unit": "security-units",
+              "fractional_entitlement": "0.250000000000000000000000",
+              "received": null,
+              "difference": null,
+              "reconciliation_status": "not-yet-due"
+            }
+          ]
+        },
+        "unresolved_issues": [],
+        "limitations": [
+          "Eligible quantities and event terms are supplied; trade/ex-date, market-claim and beneficial-owner entitlement are not inferred.",
+          "Withholding rate is supplied arithmetic, not a tax/legal determination. No elections, custody instructions or payment execution.",
+          "Split ratios rounded to24 decimal places; fractional cash-in-lieu and mandatory/voluntary reorganizations require specialist workflow."
+        ],
+        "handoffs": [
+          "investment-book-reconciler",
+          "fund-accounting-preparer"
+        ],
+        "source_assurance": "supplied-unverified",
+        "source_refs": [
+          "ind-source"
+        ],
+        "input_hash": "a71ad679157bdc2e6f95c65493e03b464d13ed4c2b9821a8e1dfa81f453a1c6c",
+        "source_truth": "unverified"
+      },
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "{\"errors\": []}\n",
+        "stderr": ""
+      },
+      "future_event_not_realized": true
+    },
+    {
+      "case_id": "TEMPORAL-future-due",
+      "package": "fund-service-provider-oversight-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-future-due",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2026-09-18",
+            "known_at": "2026-09-18"
+          }
+        ],
+        "mode": "service_oversight",
+        "policy_source_ref": "ind-source",
+        "services": [
+          {
+            "service_id": "ADMIN",
+            "provider_id": "PROVIDER-A",
+            "period_start": "2026-08-01",
+            "period_end": "2026-08-31",
+            "observed_events": 3,
+            "failed_events": 1,
+            "max_failure_rate": "0.333333333333",
+            "source_ref": "ind-source",
+            "assurance": {
+              "source_ref": "ind-source",
+              "period_end": "2026-06-30",
+              "valid_until": "2026-09-17",
+              "conclusion": "supplied-clean"
+            }
+          },
+          {
+            "service_id": "CUSTODY",
+            "provider_id": "PROVIDER-B",
+            "period_start": "2026-08-01",
+            "period_end": "2026-08-31",
+            "observed_events": 0,
+            "failed_events": 0,
+            "max_failure_rate": "0.01",
+            "source_ref": "ind-source",
+            "assurance": null
+          }
+        ],
+        "issues": [
+          {
+            "issue_id": "OPEN-1",
+            "service_id": "ADMIN",
+            "opened_date": "2026-09-01",
+            "due_date": "2026-10-01",
+            "severity": "high",
+            "status": "open",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "allow known future contractual date without treating it as realized activity",
+      "should_pass": true,
+      "script_hashes": {
+        "calculate_or_transform.py": "8149a0f4699a68a3a85c4def2ab7412e41128c6459a69eae003204002d1d285b",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-service-provider-oversight-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"errors\": []}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-service-provider-oversight-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"fund-service-provider-oversight-reviewer\",\n  \"request_id\": \"TEMPORAL-future-due\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"needs-review\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-fund-service-observations-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"services\": [\n      {\n        \"service_id\": \"ADMIN\",\n        \"provider_id\": \"PROVIDER-A\",\n        \"observed_events\": \"3\",\n        \"failed_events\": \"1\",\n        \"observed_failure_rate\": \"0.333333333333\",\n        \"sla_status\": \"exception\",\n        \"assurance_status\": \"expired\"\n      },\n      {\n        \"service_id\": \"CUSTODY\",\n        \"provider_id\": \"PROVIDER-B\",\n        \"observed_events\": \"0\",\n        \"failed_events\": \"0\",\n        \"observed_failure_rate\": null,\n        \"sla_status\": \"unavailable\",\n        \"assurance_status\": \"unavailable\"\n      }\n    ],\n    \"open_issues\": [\n      {\n        \"issue_id\": \"OPEN-1\",\n        \"service_id\": \"ADMIN\",\n        \"severity\": \"high\",\n        \"days_overdue\": 0,\n        \"status\": \"open\",\n        \"closure_performed\": false\n      }\n    ],\n    \"provider_approved\": false\n  },\n  \"unresolved_issues\": [\n    \"ADMIN: SLA exception\",\n    \"ADMIN: assurance expired\",\n    \"CUSTODY: SLA unavailable\",\n    \"CUSTODY: assurance unavailable\",\n    \"OPEN-1: open issue retained\"\n  ],\n  \"limitations\": [\n    \"SLA thresholds and assurance conclusions are supplied; no provider approval, SOC opinion, outsourcing classification or legal applicability decision.\",\n    \"Zero observed events yields unavailable failure rate. Exact cross-products determine SLA exceptions.\",\n    \"No service termination, vendor communication or issue closure is performed; enterprise vendor controls remain separate.\"\n  ],\n  \"handoffs\": [\n    \"fund-nav-control-reviewer\",\n    \"investment-operating-model-planner\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"391c8b8ac95ac207c260bc0e324440ff5fc18253f8291fd6258563936e21240c\",\n  \"source_truth\": \"unverified\"\n}\n",
+        "stderr": ""
+      },
+      "passed": true,
+      "output": {
+        "contract_version": "investment-foundation/1.0",
+        "skill": "fund-service-provider-oversight-reviewer",
+        "request_id": "TEMPORAL-future-due",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "status": "needs-review",
+        "draft": true,
+        "action_taken": false,
+        "human_review_required": true,
+        "delivery_status": "not-delivered",
+        "method": {
+          "id": "supplied-fund-service-observations-v1",
+          "version": "1.0",
+          "origin": "local-analysis"
+        },
+        "results": {
+          "services": [
+            {
+              "service_id": "ADMIN",
+              "provider_id": "PROVIDER-A",
+              "observed_events": "3",
+              "failed_events": "1",
+              "observed_failure_rate": "0.333333333333",
+              "sla_status": "exception",
+              "assurance_status": "expired"
+            },
+            {
+              "service_id": "CUSTODY",
+              "provider_id": "PROVIDER-B",
+              "observed_events": "0",
+              "failed_events": "0",
+              "observed_failure_rate": null,
+              "sla_status": "unavailable",
+              "assurance_status": "unavailable"
+            }
+          ],
+          "open_issues": [
+            {
+              "issue_id": "OPEN-1",
+              "service_id": "ADMIN",
+              "severity": "high",
+              "days_overdue": 0,
+              "status": "open",
+              "closure_performed": false
+            }
+          ],
+          "provider_approved": false
+        },
+        "unresolved_issues": [
+          "ADMIN: SLA exception",
+          "ADMIN: assurance expired",
+          "CUSTODY: SLA unavailable",
+          "CUSTODY: assurance unavailable",
+          "OPEN-1: open issue retained"
+        ],
+        "limitations": [
+          "SLA thresholds and assurance conclusions are supplied; no provider approval, SOC opinion, outsourcing classification or legal applicability decision.",
+          "Zero observed events yields unavailable failure rate. Exact cross-products determine SLA exceptions.",
+          "No service termination, vendor communication or issue closure is performed; enterprise vendor controls remain separate."
+        ],
+        "handoffs": [
+          "fund-nav-control-reviewer",
+          "investment-operating-model-planner"
+        ],
+        "source_assurance": "supplied-unverified",
+        "source_refs": [
+          "ind-source"
+        ],
+        "input_hash": "391c8b8ac95ac207c260bc0e324440ff5fc18253f8291fd6258563936e21240c",
+        "source_truth": "unverified"
+      },
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "{\"errors\": []}\n",
+        "stderr": ""
+      },
+      "future_due_not_overdue": true
+    },
+    {
+      "case_id": "TEMPORAL-future-expiry",
+      "package": "etf-operations-reviewer",
+      "input": {
+        "request_id": "TEMPORAL-future-expiry",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2026-09-18",
+            "known_at": "2026-09-18"
+          }
+        ],
+        "mode": "basket_control",
+        "direction": "creation",
+        "creation_unit_size": 10,
+        "creation_units": 3,
+        "cash_per_creation_unit": "6",
+        "transaction_fee": "2",
+        "value_tolerance": "0",
+        "basket_source_ref": "ind-source",
+        "nav_source_ref": "ind-source",
+        "ap_source_ref": "ind-source",
+        "dealing_terms_source_ref": "ind-source",
+        "order_received_at": "2026-09-18T19:59:00+00:00",
+        "cutoff_at": "2026-09-18T16:00:00-04:00",
+        "ap_status": "supplied-active",
+        "ap_valid_until": "2026-12-31",
+        "basket_type": "standard",
+        "nav_per_share": "5",
+        "components": [
+          {
+            "instrument_id": "A",
+            "quantity_per_creation_unit": "2",
+            "price": "7",
+            "source_ref": "ind-source"
+          },
+          {
+            "instrument_id": "B",
+            "quantity_per_creation_unit": "3",
+            "price": "10",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "expected": "allow known future contractual date without treating it as realized activity",
+      "should_pass": true,
+      "script_hashes": {
+        "calculate_or_transform.py": "86f6c8683c811c1d28b673363b40fdd5bb182c0e3ed786b2897b96a3fb752a89",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/validate_input.py"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"errors\": []}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/etf-operations-reviewer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"etf-operations-reviewer\",\n  \"request_id\": \"TEMPORAL-future-expiry\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-etf-control-basket_control-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"direction\": \"creation\",\n    \"total_etf_shares\": \"30\",\n    \"component_transfers\": [\n      {\n        \"instrument_id\": \"A\",\n        \"total_quantity\": \"6\",\n        \"value_per_creation_unit\": \"14\"\n      },\n      {\n        \"instrument_id\": \"B\",\n        \"total_quantity\": \"9\",\n        \"value_per_creation_unit\": \"30\"\n      }\n    ],\n    \"basket_securities_per_creation_unit\": \"44\",\n    \"cash_per_creation_unit\": \"6\",\n    \"nav_value_per_creation_unit\": \"50\",\n    \"value_difference_per_creation_unit\": \"0\",\n    \"within_supplied_tolerance\": true,\n    \"indicative_ap_cash\": \"20\",\n    \"ap_cash_convention\": \"AP pays on creation; AP receives on redemption; negative reverses direction; fee is outside NAV basket tie-out\",\n    \"ap_agreement_status\": \"supplied-active\",\n    \"accepted\": false,\n    \"settlement_performed\": false\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"Same-currency supplied cash/securities and NAV only; no FX, derivative valuation, authorized-participant authentication or settlement engine.\",\n    \"Basket/timing/custom-review assertions do not determine Rule6c-11 or UCITS applicability or grant acceptance/execution.\",\n    \"Secondary-market ratios rounded to12 places; no historical premium/disclosure or trading-cost certification.\"\n  ],\n  \"handoffs\": [\n    \"index-portfolio-reviewer\",\n    \"fund-accounting-preparer\",\n    \"fund-investor-operations-reviewer\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"aa875b70be5c4ff692a15a8677971bb28ac94818b301f0b78ee07b03f672e761\",\n  \"source_truth\": \"unverified\"\n}\n",
+        "stderr": ""
+      },
+      "passed": true,
+      "output": {
+        "contract_version": "investment-foundation/1.0",
+        "skill": "etf-operations-reviewer",
+        "request_id": "TEMPORAL-future-expiry",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "status": "draft",
+        "draft": true,
+        "action_taken": false,
+        "human_review_required": true,
+        "delivery_status": "not-delivered",
+        "method": {
+          "id": "supplied-etf-control-basket_control-v1",
+          "version": "1.0",
+          "origin": "local-analysis"
+        },
+        "results": {
+          "direction": "creation",
+          "total_etf_shares": "30",
+          "component_transfers": [
+            {
+              "instrument_id": "A",
+              "total_quantity": "6",
+              "value_per_creation_unit": "14"
+            },
+            {
+              "instrument_id": "B",
+              "total_quantity": "9",
+              "value_per_creation_unit": "30"
+            }
+          ],
+          "basket_securities_per_creation_unit": "44",
+          "cash_per_creation_unit": "6",
+          "nav_value_per_creation_unit": "50",
+          "value_difference_per_creation_unit": "0",
+          "within_supplied_tolerance": true,
+          "indicative_ap_cash": "20",
+          "ap_cash_convention": "AP pays on creation; AP receives on redemption; negative reverses direction; fee is outside NAV basket tie-out",
+          "ap_agreement_status": "supplied-active",
+          "accepted": false,
+          "settlement_performed": false
+        },
+        "unresolved_issues": [],
+        "limitations": [
+          "Same-currency supplied cash/securities and NAV only; no FX, derivative valuation, authorized-participant authentication or settlement engine.",
+          "Basket/timing/custom-review assertions do not determine Rule6c-11 or UCITS applicability or grant acceptance/execution.",
+          "Secondary-market ratios rounded to12 places; no historical premium/disclosure or trading-cost certification."
+        ],
+        "handoffs": [
+          "index-portfolio-reviewer",
+          "fund-accounting-preparer",
+          "fund-investor-operations-reviewer"
+        ],
+        "source_assurance": "supplied-unverified",
+        "source_refs": [
+          "ind-source"
+        ],
+        "input_hash": "aa875b70be5c4ff692a15a8677971bb28ac94818b301f0b78ee07b03f672e761",
+        "source_truth": "unverified"
+      },
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "{\"errors\": []}\n",
+        "stderr": ""
+      },
+      "no_acceptance_despite_future_expiry": true
+    },
+    {
+      "case_id": "TEMPORAL-ACCRUAL-cutoff",
+      "package": "fund-accounting-preparer",
+      "input": {
+        "request_id": "TEMPORAL-ACCRUAL-cutoff",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2024-01-01",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "accrual",
+        "accruals": [
+          {
+            "accrual_id": "MGMT-FEE",
+            "principal": "1000",
+            "annual_rate": "0.02",
+            "start": "2026-08-01",
+            "end": "2026-08-31",
+            "day_count": "ACT/365",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "should_pass": false,
+      "expected": "Reject historical accrual endpoint beyond cutoff",
+      "script_hashes": {
+        "calculate_or_transform.py": "3829462c2d158c809147989a920d7f449b5e328ff27c8e1d1f7b79a535717e81",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/validate_input.py"
+        ],
+        "exit_code": 1,
+        "stdout": "{\"errors\": [\"actual observation date exceeds knowledge cutoff for historical accrual horizon\"]}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "actual observation date exceeds knowledge cutoff for historical accrual horizon\n"
+      },
+      "passed": true
+    },
+    {
+      "case_id": "TEMPORAL-ACCRUAL-prior-known-fixed-terms",
+      "package": "fund-accounting-preparer",
+      "input": {
+        "request_id": "TEMPORAL-ACCRUAL-prior-known-fixed-terms",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "sources": [
+          {
+            "source_ref": "ind-source",
+            "version": "ind-v1",
+            "as_of": "2024-01-01",
+            "known_at": "2024-01-01"
+          }
+        ],
+        "mode": "accrual",
+        "accruals": [
+          {
+            "accrual_id": "MGMT-FEE",
+            "principal": "1000",
+            "annual_rate": "0.02",
+            "start": "2026-08-01",
+            "end": "2026-08-31",
+            "day_count": "ACT/365",
+            "source_ref": "ind-source"
+          }
+        ]
+      },
+      "should_pass": true,
+      "expected": "Fixed terms known earlier support calculation through known horizon:1000*.02*30/365 rounded8=1.64383562",
+      "script_hashes": {
+        "calculate_or_transform.py": "3829462c2d158c809147989a920d7f449b5e328ff27c8e1d1f7b79a535717e81",
+        "validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+        "foundation_contract.py": "0c63da13e563b0628591ddb96453351d0c5aa2fbe41f46553bf0b17a9d4d4331",
+        "native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+        "validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+      },
+      "input_validation": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/validate_input.py"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"errors\": []}\n",
+        "stderr": ""
+      },
+      "compute": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/asset-management/fund-accounting-preparer/scripts/calculate_or_transform.py"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"fund-accounting-preparer\",\n  \"request_id\": \"TEMPORAL-ACCRUAL-prior-known-fixed-terms\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"single-currency-workpaper-accrual-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"accrual_workpaper\": [\n      {\n        \"accrual_id\": \"MGMT-FEE\",\n        \"days_excluding_start\": 30,\n        \"expense_accrual\": \"1.64383562\",\n        \"source_ref\": \"ind-source\"\n      }\n    ],\n    \"total_expense_accrual\": \"1.64383562\",\n    \"rounding\": \"8 decimal places per accrual; no currency minor-unit booking implied\",\n    \"posting_performed\": false\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"Draft workpaper only; enterprise accounting engine and administrator remain authoritative. No posting, striking or release.\",\n    \"No trade capture, FX, tax, fair-value or ledger-to-NAV engine. Class allocation weights and values are supplied; class expenses must not duplicate common liabilities.\",\n    \"Journal and cash sums are exact Decimal; accruals and NAV/share use explicitly rounded8-place ratios.\"\n  ],\n  \"handoffs\": [\n    \"fund-nav-control-reviewer\",\n    \"fund-valuation-oversight-reviewer\",\n    \"investment-book-reconciler\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"fc87490efd58510706f26a9d509584cb09a6d6a6c03d26447b5facaa46d7c02f\",\n  \"source_truth\": \"unverified\"\n}\n",
+        "stderr": ""
+      },
+      "output": {
+        "contract_version": "investment-foundation/1.0",
+        "skill": "fund-accounting-preparer",
+        "request_id": "TEMPORAL-ACCRUAL-prior-known-fixed-terms",
+        "object_id": "INDEPENDENT-FUND-Z",
+        "as_of": "2026-09-18",
+        "knowledge_cutoff": "2026-09-18",
+        "currency": "USD",
+        "audience": "internal-review",
+        "status": "draft",
+        "draft": true,
+        "action_taken": false,
+        "human_review_required": true,
+        "delivery_status": "not-delivered",
+        "method": {
+          "id": "single-currency-workpaper-accrual-v1",
+          "version": "1.0",
+          "origin": "local-analysis"
+        },
+        "results": {
+          "accrual_workpaper": [
+            {
+              "accrual_id": "MGMT-FEE",
+              "days_excluding_start": 30,
+              "expense_accrual": "1.64383562",
+              "source_ref": "ind-source"
+            }
+          ],
+          "total_expense_accrual": "1.64383562",
+          "rounding": "8 decimal places per accrual; no currency minor-unit booking implied",
+          "posting_performed": false
+        },
+        "unresolved_issues": [],
+        "limitations": [
+          "Draft workpaper only; enterprise accounting engine and administrator remain authoritative. No posting, striking or release.",
+          "No trade capture, FX, tax, fair-value or ledger-to-NAV engine. Class allocation weights and values are supplied; class expenses must not duplicate common liabilities.",
+          "Journal and cash sums are exact Decimal; accruals and NAV/share use explicitly rounded8-place ratios."
+        ],
+        "handoffs": [
+          "fund-nav-control-reviewer",
+          "fund-valuation-oversight-reviewer",
+          "investment-book-reconciler"
+        ],
+        "source_assurance": "supplied-unverified",
+        "source_refs": [
+          "ind-source"
+        ],
+        "input_hash": "fc87490efd58510706f26a9d509584cb09a6d6a6c03d26447b5facaa46d7c02f",
+        "source_truth": "unverified"
+      },
+      "passed": true,
+      "output_validation": {
+        "exit_code": 0,
+        "stdout": "{\"errors\": []}\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "passed": 31,
+  "failed": 0,
+  "professional_acceptance": "not established",
+  "status": "independent supplemental temporal checks complete; no professional acceptance",
+  "completed_utc": "2026-09-21T13:27:45.484113+00:00",
+  "case_count": 31,
+  "rejected_contradictory_actual_cases": 27,
+  "accepted_contractual_or_calculated_cases": 4,
+  "coverage": "All eight operational packages and14modes; 27 contradictory actual-date requests rejected; four valid future-contract/fixed-term requests and their detached output validators passed."
+}

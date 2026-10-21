@@ -1,0 +1,11 @@
+# Method and limitations
+
+Compare source-bound reported current and prior EBITDA ratios, interest coverage and liquidity against matching accounting/currency/scope. Periods ending after economic as-of are rejected rather than treated as reported performance. Change alerts use supplied thresholds. Fixed-charge EBITDA less capex divided by interest is a proxy, never DSCR or covenant compliance.
+
+Spread differences require source-bound structured market observations and a dated security/issuer/currency mapping under [the schema](phase2-schema.md). Reconcile assertions to the unique selected records, registered source versions/precise blocks and requested issuer or exact security scope before computing from evidence values. A matching pair of unsupported rows, or a market-data kind label, supplies no independent observation content. Reject no ambiguity by silently selecting the first record or deduplicating equal values. Mapping validity must cover both observations; an undated/current-only mapping cannot establish historical identity.
+
+Retain exact security,currency,basis matching and the observation chronology, cutoff, source-knowledge and explicit current-age rules. Compare timestamp instants in UTC without truncation; use UTC calendar dates solely for the separate economic as-of or explicitly date-bounded mapping check. Never infer a quote observation from its source publication time or a missing timestamp. Withhold an ineligible comparison and its widening alert while retaining supported financial metrics. The source permission/cutoff gate can still withhold the entire analytical projection. Unselected inventory cannot contribute output evidence, while top-level declared used sources remain globally gated.
+
+Ratings remain reported agency assertions. No rating/position/thesis action is taken. The legacy Phase 1 contract remains supported without schema_version; these analytical changes do not rebaseline its earlier validation evidence.
+
+Software checks establish supplied-ledger consistency, finite arithmetic and exact reconstruction only. They do not authenticate the evidence block, independently verify its transcription or prove a copied assertion true. Domain, legal and institutional acceptance remain not established.

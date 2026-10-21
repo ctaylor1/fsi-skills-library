@@ -1,4 +1,16 @@
-# Changelog — fund-fact-sheet-builder
+# Changelog
+
+## 0.2.0 — 2026-09-20
+
+- Adopt Phase 1 ownership and canonical naming; preserve alias metadata.
+- Require source-bound native validation and document bounded support.
+ — fund-fact-sheet-builder
+
+## Unreleased — Phase 1 source fidelity
+
+- Only included facts enter content sections. Wrong fund/share class/ISIN/currency, stale or future facts and missing numeric source pairs are withheld. Numeric text must match its structured numeric value and source pair. Restricted facts are removed before content, reconciliation and source ledgers; unspecified distribution uses external restrictions. No raw input snapshot is embedded in the artifact.
+- Added detached original-input reconstruction and independent adverse-case regressions. Validation remains draft-only and does not authenticate sources or approvals.
+
 
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`). Created to assemble a
@@ -28,10 +40,10 @@ performance calculation, exposure analysis, and commentary drafting.
   plus recorded and outstanding approvals and a reconciliation ledger, deterministic script
   checks, a non-compliant fixture that fails closed, and injection / reconciliation / return-
   promise / MNPI / distribution-authorization refusals.
-- **Handoffs:** upstream from `performance-attribution-builder`, `portfolio-exposure-analyzer`,
-  `liquidity-stress-analyzer`, `fund-commentary-drafter`; downstream/lateral to
-  `investment-committee-memo-builder`, `due-diligence-questionnaire-responder`,
-  `mandate-compliance-monitor`. Performance verification, compliance/marketing review,
+- **Handoffs:** upstream from `portfolio-performance-attributor`, `portfolio-exposure-analyzer`,
+  `fund-liquidity-assessor`, `investment-commentary-builder`; downstream/lateral to
+  `investment-committee-memo-builder`, `institutional-proposal-responder`,
+  `investment-mandate-reviewer`. Performance verification, compliance/marketing review,
   registered-principal approval, and external distribution are human / compliance-owned (no
   catalog skill performs them).
 

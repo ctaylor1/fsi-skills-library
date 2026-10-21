@@ -1,0 +1,216 @@
+{
+  "schema_version": "ir-phase2/1.0",
+  "request_id": "synthetic-credit-phase2",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "kind": "financial_statement",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1",
+      "subject_ids": [
+        "ACME-ISSUER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    },
+    {
+      "source_id": "synthetic-spreads",
+      "version": "fixture-v1",
+      "kind": "market_data",
+      "known_at": "2026-10-20T21:00:00Z",
+      "locator": "fixture:market-snapshot-2",
+      "subject_ids": [
+        "ACME-ISSUER",
+        "ACME-BOND"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    },
+    {
+      "source_id": "synthetic-spreads",
+      "locator": "fixture:market-snapshot-2"
+    }
+  ],
+  "unresolved_issues": [],
+  "issuer_profile": "nonfinancial-corporate",
+  "prior": {
+    "currency": "USD",
+    "unit": "USD_m",
+    "accounting_basis": "US-GAAP-supplied",
+    "consolidation_scope": "consolidated",
+    "period": {
+      "start": "2025-01-01",
+      "end": "2025-09-30",
+      "fiscal_calendar_id": "ACME-calendar"
+    },
+    "ebitda": 120,
+    "gross_debt": 400,
+    "unrestricted_cash": 60,
+    "interest_expense": 18,
+    "mandatory_capex": 20,
+    "available_committed_facilities": 40,
+    "near_term_maturities": 100,
+    "maturity_inventory_complete": true,
+    "evidence_refs": [
+      {
+        "source_id": "synthetic-financials",
+        "locator": "fixture:table-1;reviewed-inputs"
+      }
+    ]
+  },
+  "current": {
+    "currency": "USD",
+    "unit": "USD_m",
+    "accounting_basis": "US-GAAP-supplied",
+    "consolidation_scope": "consolidated",
+    "period": {
+      "start": "2027-01-01",
+      "end": "2027-09-30",
+      "fiscal_calendar_id": "ACME-calendar"
+    },
+    "ebitda": 100,
+    "gross_debt": 400,
+    "unrestricted_cash": 50,
+    "interest_expense": 20,
+    "mandatory_capex": 30,
+    "available_committed_facilities": 40,
+    "near_term_maturities": 100,
+    "maturity_inventory_complete": true,
+    "evidence_refs": [
+      {
+        "source_id": "synthetic-financials",
+        "locator": "fixture:table-1;reviewed-inputs"
+      }
+    ]
+  },
+  "thresholds": {
+    "leverage_increase_x": 0.25,
+    "coverage_decline_x": 0.25,
+    "spread_widening_bps": 50
+  },
+  "events": [
+    {
+      "kind": "rating-reported",
+      "text": "Supplied agency rating BBB; no agency action inferred",
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "prior_spread": {
+    "security_id": "ACME-BOND",
+    "currency": "USD",
+    "basis": "OAS-supplied",
+    "spread_bps": 130,
+    "evidence_refs": [
+      {
+        "source_id": "synthetic-spreads",
+        "locator": "fixture:market-snapshot-2"
+      }
+    ],
+    "observed_at": "2026-09-20T20:00:00Z",
+    "observation_id": "synthetic-prior_spread",
+    "issuer_id": "ACME-ISSUER"
+  },
+  "current_spread": {
+    "security_id": "ACME-BOND",
+    "currency": "USD",
+    "basis": "OAS-supplied",
+    "spread_bps": 190,
+    "evidence_refs": [
+      {
+        "source_id": "synthetic-spreads",
+        "locator": "fixture:market-snapshot-2"
+      }
+    ],
+    "observed_at": "2026-10-20T20:00:00Z",
+    "observation_id": "synthetic-current_spread",
+    "issuer_id": "ACME-ISSUER"
+  },
+  "spread_freshness_policy": {
+    "max_current_age_hours": 24
+  },
+  "spread_evidence": [
+    {
+      "observation_id": "synthetic-prior_spread",
+      "security_id": "ACME-BOND",
+      "issuer_id": "ACME-ISSUER",
+      "currency": "USD",
+      "basis": "OAS-supplied",
+      "spread_bps": 130,
+      "observed_at": "2026-09-20T20:00:00Z",
+      "role": "spread-observation",
+      "evidence_ref": {
+        "source_id": "synthetic-spreads",
+        "locator": "fixture:market-snapshot-2",
+        "source_version": "fixture-v1"
+      }
+    },
+    {
+      "observation_id": "synthetic-current_spread",
+      "security_id": "ACME-BOND",
+      "issuer_id": "ACME-ISSUER",
+      "currency": "USD",
+      "basis": "OAS-supplied",
+      "spread_bps": 190,
+      "observed_at": "2026-10-20T20:00:00Z",
+      "role": "spread-observation",
+      "evidence_ref": {
+        "source_id": "synthetic-spreads",
+        "locator": "fixture:market-snapshot-2",
+        "source_version": "fixture-v1"
+      }
+    }
+  ],
+  "instrument_evidence": [
+    {
+      "role": "security-issuer-mapping",
+      "security_id": "ACME-BOND",
+      "issuer_id": "ACME-ISSUER",
+      "currency": "USD",
+      "evidence_ref": {
+        "source_id": "synthetic-spreads",
+        "locator": "fixture:market-snapshot-2",
+        "source_version": "fixture-v1"
+      },
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    }
+  ]
+}

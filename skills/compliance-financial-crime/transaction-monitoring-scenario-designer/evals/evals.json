@@ -1,0 +1,90 @@
+{
+  "skill": "transaction-monitoring-scenario-designer",
+  "version": "0.1.0",
+  "source_truth": "synthetic-unverified",
+  "acceptance": "Bounded software evidence only; no professional or production acceptance",
+  "evals": [
+    {
+      "id": "valid-intake",
+      "command": "python3 -B scripts/validate_input.py evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "native-method",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false",
+        "\"contract_version\": \"compliance-foundation/2.0\""
+      ]
+    },
+    {
+      "id": "detached-golden",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_golden.json --input evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "partial-native",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_partial.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"status\": \"needs-evidence\"",
+        "\"unknown_metrics\""
+      ]
+    },
+    {
+      "id": "detached-partial",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_partial.json --input evals/files/input_partial.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "bad-intake",
+      "command": "python3 -B scripts/validate_input.py evals/files/input_bad.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "unique nonempty record IDs"
+      ]
+    },
+    {
+      "id": "bad-computation-stops",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_bad.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "unique nonempty record IDs"
+      ]
+    },
+    {
+      "id": "native-tamper",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_bad.json --input evals/files/input_complete.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "errors"
+      ]
+    },
+    {
+      "id": "meaningful-regressions",
+      "command": "python3 -B scripts/test_phase3.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "OK"
+      ]
+    },
+    {
+      "id": "frozen-fixtures",
+      "command": "python3 -B scripts/run_evals.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "6 frozen native evaluations passed"
+      ]
+    }
+  ]
+}

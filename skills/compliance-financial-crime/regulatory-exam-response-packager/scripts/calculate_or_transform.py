@@ -1,27 +1,14 @@
 #!/usr/bin/env python3
-"""Deterministic exam-response packaging engine for regulatory-exam-response-packager.
+"""This utility checks a bounded response index; it does not certify program adequacy, complete remediation, approve regulatory disclosures, render a final document or submit a response. Regulatory affairs owns the package. Substantive answers must come from the responsible compliance, legal, audit, prudential or product specialist.
 
-For each regulator request, map the drafted response, its evidence, and its approvals into a
-controlled response-package item and compute a documented coverage/readiness status. It never
-submits the package, closes an exam item, makes a regulated attestation, or writes a system of
-record. Every problem (gap, missing evidence, unsupported assertion, missing approval) is
-SURFACED as an explicit status, never silently completed.
-
-Coverage/status logic (deterministic, explainable):
-  no response for a request        -> coverage=gap,           status=incomplete
-  evidence_required but none given  -> coverage=needs-evidence, status=needs-evidence
-  narrative missing                 -> coverage=partial,       status=incomplete
-  any assertion lacks source_ref    -> coverage=partial,       status=unsupported-assertion
-  complete but a required approval
-    role is not 'approved'          -> coverage=complete,      status=needs-approval
-  complete, sourced, fully approved -> coverage=complete,      status=draft-ready-for-review
-
-Usage: python calculate_or_transform.py exam_requests.json | --selftest
-Prints the response-package JSON to stdout.
+Offline Phase 1 calculation; see references/domain-rules.md.
 """
 from __future__ import annotations
 import json, sys
+from datetime import date
 from pathlib import Path
+from native_integrity import attach_source
+from native_integrity import canonical_hash
 
 # Canonical section set the assembled package renders (mirrors assets/output-template.md).
 TEMPLATE_SECTIONS = [
@@ -41,8 +28,45 @@ STANDING_NOTE = ("Draft response package only; not submitted to any regulator, n
                  "closed, and no system of record updated.")
 
 
-def _approved_roles(approvals):
-    return {a.get("role") for a in (approvals or []) if a.get("status") == "approved"}
+def response_digest(resp):
+    return canonical_hash({k: v for k, v in resp.items() if k != "approvals"})
+
+
+def _approval_issues(record, response, as_of):
+    """Check this individual claim; another record's role cannot validate it."""
+    issues = []
+    try:
+        signed, assessed = date.fromisoformat(record["date"]), date.fromisoformat(as_of)
+        if signed.isoformat() != record["date"] or assessed.isoformat() != as_of or signed > assessed:
+            issues.append("approval date is after assessment or noncanonical")
+    except (KeyError, ValueError, TypeError):
+        issues.append("valid approval and assessment dates required")
+    if record.get("status") != "approved": issues.append("supplied status is not approved")
+    for key in ("role", "approver_id", "source_ref"):
+        if not record.get(key): issues.append("missing " + key)
+    if record.get("request_id") != response.get("request_id"): issues.append("request scope mismatch")
+    if record.get("response_sha256") != response_digest(response): issues.append("response hash mismatch")
+    return issues
+
+
+def _approved_roles(resp, as_of):
+    approved, unresolved = set(), set()
+    for record in resp.get("approvals") or []:
+        (unresolved if _approval_issues(record, resp, as_of) else approved).add(record.get("role"))
+    # Ambiguous/conflicting records for a role require review; do not pick a winner.
+    return approved - unresolved
+
+
+def _supported(assertion, evidence):
+    for ev in evidence:
+        if (ev.get("source_ref") and ev.get("source_ref") == assertion.get("source_ref")
+                and ev.get("fact") == assertion.get("text") and ev.get("superseded") is False):
+            try:
+                per = assertion["period"]
+                return date.fromisoformat(ev["valid_from"]) <= date.fromisoformat(per["from"]) <= date.fromisoformat(per["to"]) <= date.fromisoformat(ev["valid_to"])
+            except (KeyError, TypeError, ValueError):
+                return False
+    return False
 
 
 def _citations(resp):
@@ -60,7 +84,7 @@ def _citations(resp):
     return out
 
 
-def build_item(req, resp, required_roles):
+def build_item(req, resp, required_roles, as_of):
     rid = req.get("request_id")
     evidence_required = req.get("evidence_required", True)
     item = {
@@ -74,6 +98,7 @@ def build_item(req, resp, required_roles):
         "unsupported_assertions": [],
         "missing_approvals": [],
         "approvals_recorded": [],
+        "approval_review_issues": [],
         "citations": [],
     }
 
@@ -84,9 +109,11 @@ def build_item(req, resp, required_roles):
 
     assertions = resp.get("assertions") or []
     evidence = resp.get("evidence") or []
-    unsupported = [a.get("assertion_id") for a in assertions if not a.get("source_ref")]
-    approved = _approved_roles(resp.get("approvals"))
-    missing_approvals = [r for r in required_roles if r not in approved]
+    unsupported = [a.get("assertion_id") for a in assertions if not _supported(a, evidence)]
+    if not assertions or resp.get("narrative") != " ".join(a.get("text", "") for a in assertions):
+        unsupported.append("narrative contains unmapped assertions")
+    approved = _approved_roles(resp, as_of)
+    missing_approvals = [r for r in required_roles if r not in approved] if required_roles else ["approval policy not configured"]
 
     item["narrative"] = resp.get("narrative")
     item["assertions"] = assertions
@@ -94,8 +121,13 @@ def build_item(req, resp, required_roles):
     item["issue_status"] = resp.get("issue_status")
     item["unsupported_assertions"] = unsupported
     item["missing_approvals"] = missing_approvals
-    item["approvals_recorded"] = [{"role": a.get("role"), "status": a.get("status")}
-                                  for a in (resp.get("approvals") or [])]
+    item["approvals_recorded"] = []
+    for index, approval in enumerate(resp.get("approvals") or []):
+        issues = _approval_issues(approval, resp, as_of)
+        item["approvals_recorded"].append({**approval, "scope_check": "fail" if issues else "pass",
+                                          "validation_issues": issues, "authorization_truth": "unverified"})
+        if issues:
+            item["approval_review_issues"].append({"record_index": index, "role": approval.get("role"), "issues": issues})
     item["citations"] = _citations(resp)
 
     narrative_ok = bool(resp.get("narrative"))
@@ -110,7 +142,7 @@ def build_item(req, resp, required_roles):
     elif unsupported:
         item["coverage"] = "partial"
         item["response_status"] = "unsupported-assertion"
-    elif missing_approvals:
+    elif missing_approvals or item["approval_review_issues"]:
         item["coverage"] = "complete"
         item["response_status"] = "needs-approval"
     else:
@@ -119,10 +151,10 @@ def build_item(req, resp, required_roles):
     return item
 
 
-def package(doc: dict) -> dict:
+def _compute_unbound(doc: dict) -> dict:
     required_roles = list(doc.get("required_approver_roles") or [])
     responses = {r.get("request_id"): r for r in (doc.get("responses") or [])}
-    items = [build_item(req, responses.get(req.get("request_id")), required_roles)
+    items = [build_item(req, responses.get(req.get("request_id")), required_roles, doc.get("as_of"))
              for req in doc["requests"]]
 
     def count(status):
@@ -139,6 +171,7 @@ def package(doc: dict) -> dict:
     }
     return {
         "package_version": doc.get("package_version"),
+        "as_of": doc.get("as_of"),
         "exam": doc.get("exam"),
         "required_approver_roles": required_roles,
         "template_sections": TEMPLATE_SECTIONS,
@@ -149,6 +182,18 @@ def package(doc: dict) -> dict:
     }
 
 
+def package(doc):
+    """Reject invalid intake before producing a native result; warnings remain partial."""
+    from validate_input import validate as validate_input
+    errors, _warnings = validate_input(doc)
+    if errors:
+        raise ValueError("invalid regulatory-exam-response-packager input: " + "; ".join(errors))
+    try:
+        return attach_source(_compute_unbound(doc), doc)
+    except (ValueError, TypeError, KeyError, AttributeError, IndexError, ArithmeticError) as exc:
+        raise ValueError("invalid regulatory-exam-response-packager input: " + str(exc)) from exc
+
+
 def main(argv):
     if "--selftest" in argv:
         p = Path(__file__).resolve().parents[1] / "evals" / "files" / "exam_requests_example.json"
@@ -157,7 +202,12 @@ def main(argv):
         doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
     else:
         doc = json.loads(sys.stdin.read())
-    print(json.dumps(package(doc), indent=2))
+    try:
+        result = package(doc)
+    except ValueError as exc:
+        print("ERROR " + str(exc), file=sys.stderr)
+        return 1
+    print(json.dumps(result, indent=2))
     return 0
 
 

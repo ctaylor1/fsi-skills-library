@@ -9,7 +9,7 @@
 - No **mandate-compliance determination** or statement/implication that the portfolio **is
   in breach of**, **violates**, or is **non-compliant** with a mandate, guideline, or limit.
   Report exposures factually against documented limits; route adjudication to
-  `mandate-compliance-monitor` and a human.
+  `investment-mandate-reviewer` and a human.
 - No **trade, rebalance, hedge, or divestment** — proposed, staged, or executed — to cure an
   exposure.
 - No **personalized investment, tax, or legal advice** (no "you should buy/sell/trim/hold").

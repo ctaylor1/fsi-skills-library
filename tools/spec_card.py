@@ -20,6 +20,7 @@ VERSION = "0.1.0"
 CATEGORY_SLUG = {
     "Banking": "banking", "Capital Markets": "capital-markets", "Insurance": "insurance",
     "Payments": "payments", "Investment Banking & Research": "investment-banking-research",
+    "Investment Research": "investment-research", "Investment Banking": "investment-banking",
     "Wealth Management": "wealth-management", "Asset Management": "asset-management",
     "Risk Management": "risk-management", "Compliance & Financial Crime": "compliance-financial-crime",
     "Finance & Operations": "finance-operations",
@@ -34,6 +35,8 @@ OWNER = {
     "Insurance": "Insurance underwriting & claims",
     "Payments": "Payments operations & risk",
     "Investment Banking & Research": "Investment Banking / Research",
+    "Investment Research": "Investment Research methods & evidence",
+    "Investment Banking": "Investment Banking transaction advisory",
     "Wealth Management": "Wealth Management advisory & compliance",
     "Asset Management": "Asset Management investment & product",
     "Risk Management": "Enterprise Risk Management",
@@ -50,6 +53,8 @@ DATA_CLASS = {
     "Insurance": "Highly Confidential (customer NPI/PII)",
     "Payments": "Highly Confidential (customer NPI/PII; cardholder data)",
     "Investment Banking & Research": "Highly Confidential (MNPI / client-confidential)",
+    "Investment Research": "Highly Confidential (MNPI / client-confidential)",
+    "Investment Banking": "Highly Confidential (MNPI / client-confidential)",
     "Wealth Management": "Highly Confidential (customer NPI/PII)",
     "Asset Management": "Highly Confidential (MNPI / client-confidential)",
     "Risk Management": "Confidential",
@@ -84,7 +89,7 @@ def _baseline(status: str) -> str:
 
 
 def _scheduled(v: str) -> str:
-    return "read-only-monitoring" if v.lower().startswith("yes") else "no"
+    return "read-only-monitoring" if v.lower().startswith("yes") or v == "read-only-monitoring" else "no"
 
 
 def _approval(tier: str) -> str:

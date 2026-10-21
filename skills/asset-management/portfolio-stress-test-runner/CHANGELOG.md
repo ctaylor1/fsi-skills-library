@@ -1,4 +1,16 @@
-# Changelog - portfolio-stress-test-runner
+# Changelog
+
+## 0.2.0 — 2026-09-20
+
+- Adopt Phase 1 ownership and canonical naming; preserve alias metadata.
+- Require source-bound native validation and document bounded support.
+ - portfolio-stress-test-runner
+
+## Unreleased — Phase 1 integrity repairs
+
+- Added complete original-input binding and reconstruction checks; native output does not authenticate sources or accept unreviewed extra fields.
+- Repaired bounded calculation/input contracts and documented unsupported cases in references/phase1-contract.md.
+- Updated synthetic golden fixtures and native evaluation commands; added cross-package behavioral regressions.
 
 ## [0.1.0] - 2026-07-20
 Initial authoring in the FSI Skills Library (baseline status: `new`).
@@ -21,9 +33,9 @@ Initial authoring in the FSI Skills Library (baseline status: `new`).
   and external-delivery authorization.
 - **Handoffs:** upstream `stress-test-scenario-designer` (approved scenarios) and
   `portfolio-holdings-summarizer` / risk model (positions, sensitivities); parallel
-  `portfolio-exposure-analyzer`, `portfolio-risk-contribution-packet`,
+  `portfolio-exposure-analyzer`, `portfolio-risk-contribution-analyzer`,
   `scenario-sensitivity-generator`; downstream `market-risk-limit-monitor`,
-  `portfolio-drift-monitor`.
+  `portfolio-characteristics-change-monitor`.
 
 ### Pending before release
 - Domain SME (market/portfolio risk) blind review; sensitivity-model and scenario-set

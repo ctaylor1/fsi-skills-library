@@ -1,0 +1,220 @@
+{
+  "id": "OPF-O07-OVERSIGHT",
+  "package": "fund-service-provider-oversight-reviewer",
+  "input": {
+    "request_id": "OPF-O07-OVERSIGHT",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "service_oversight",
+    "policy_source_ref": "ind-source",
+    "services": [
+      {
+        "service_id": "ADMIN",
+        "provider_id": "PROVIDER-A",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "observed_events": 3,
+        "failed_events": 1,
+        "max_failure_rate": "0.333333333333",
+        "source_ref": "ind-source",
+        "assurance": {
+          "source_ref": "ind-source",
+          "period_end": "2026-06-30",
+          "valid_until": "2026-09-17",
+          "conclusion": "supplied-clean"
+        }
+      },
+      {
+        "service_id": "CUSTODY",
+        "provider_id": "PROVIDER-B",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "observed_events": 0,
+        "failed_events": 0,
+        "max_failure_rate": "0.01",
+        "source_ref": "ind-source",
+        "assurance": null
+      }
+    ],
+    "issues": [
+      {
+        "issue_id": "OPEN-1",
+        "service_id": "ADMIN",
+        "opened_date": "2026-09-01",
+        "due_date": "2026-09-10",
+        "severity": "high",
+        "status": "open",
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "expected": {
+    "failure_rate": "0.333333333333",
+    "threshold_breach": true,
+    "zero_denominator_rate": null,
+    "overdue_days": 8,
+    "issue_age_days": 17,
+    "assurance_expired": true
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "4f19f0c51ddfa68b8b72c457fa0dac2dfd69581f281203a8f1fbe5bdb2ee8fa4",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"fund-service-provider-oversight-reviewer\",\n  \"request_id\": \"OPF-O07-OVERSIGHT\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"needs-review\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-fund-service-observations-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"services\": [\n      {\n        \"service_id\": \"ADMIN\",\n        \"provider_id\": \"PROVIDER-A\",\n        \"observed_events\": \"3\",\n        \"failed_events\": \"1\",\n        \"observed_failure_rate\": \"0.333333333333\",\n        \"sla_status\": \"exception\",\n        \"assurance_status\": \"expired\"\n      },\n      {\n        \"service_id\": \"CUSTODY\",\n        \"provider_id\": \"PROVIDER-B\",\n        \"observed_events\": \"0\",\n        \"failed_events\": \"0\",\n        \"observed_failure_rate\": null,\n        \"sla_status\": \"unavailable\",\n        \"assurance_status\": \"unavailable\"\n      }\n    ],\n    \"open_issues\": [\n      {\n        \"issue_id\": \"OPEN-1\",\n        \"service_id\": \"ADMIN\",\n        \"severity\": \"high\",\n        \"days_overdue\": 8,\n        \"status\": \"open\",\n        \"closure_performed\": false\n      }\n    ],\n    \"provider_approved\": false\n  },\n  \"unresolved_issues\": [\n    \"ADMIN: SLA exception\",\n    \"ADMIN: assurance expired\",\n    \"CUSTODY: SLA unavailable\",\n    \"CUSTODY: assurance unavailable\",\n    \"OPEN-1: overdue open issue\"\n  ],\n  \"limitations\": [\n    \"SLA thresholds and assurance conclusions are supplied; no provider approval, SOC opinion, outsourcing classification or legal applicability decision.\",\n    \"Zero observed events yields unavailable failure rate. Exact cross-products determine SLA exceptions.\",\n    \"No service termination, vendor communication or issue closure is performed; enterprise vendor controls remain separate.\"\n  ],\n  \"handoffs\": [\n    \"fund-nav-control-reviewer\",\n    \"investment-operating-model-planner\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"aaae89f02064c50f26e918f22b4199dc79811971a1bf41c180dd368ca559ea88\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "fund-service-provider-oversight-reviewer",
+    "request_id": "OPF-O07-OVERSIGHT",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "needs-review",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "supplied-fund-service-observations-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "services": [
+        {
+          "service_id": "ADMIN",
+          "provider_id": "PROVIDER-A",
+          "observed_events": "3",
+          "failed_events": "1",
+          "observed_failure_rate": "0.333333333333",
+          "sla_status": "exception",
+          "assurance_status": "expired"
+        },
+        {
+          "service_id": "CUSTODY",
+          "provider_id": "PROVIDER-B",
+          "observed_events": "0",
+          "failed_events": "0",
+          "observed_failure_rate": null,
+          "sla_status": "unavailable",
+          "assurance_status": "unavailable"
+        }
+      ],
+      "open_issues": [
+        {
+          "issue_id": "OPEN-1",
+          "service_id": "ADMIN",
+          "severity": "high",
+          "days_overdue": 8,
+          "status": "open",
+          "closure_performed": false
+        }
+      ],
+      "provider_approved": false
+    },
+    "unresolved_issues": [
+      "ADMIN: SLA exception",
+      "ADMIN: assurance expired",
+      "CUSTODY: SLA unavailable",
+      "CUSTODY: assurance unavailable",
+      "OPEN-1: overdue open issue"
+    ],
+    "limitations": [
+      "SLA thresholds and assurance conclusions are supplied; no provider approval, SOC opinion, outsourcing classification or legal applicability decision.",
+      "Zero observed events yields unavailable failure rate. Exact cross-products determine SLA exceptions.",
+      "No service termination, vendor communication or issue closure is performed; enterprise vendor controls remain separate."
+    ],
+    "handoffs": [
+      "fund-nav-control-reviewer",
+      "investment-operating-model-planner"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "aaae89f02064c50f26e918f22b4199dc79811971a1bf41c180dd368ca559ea88",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "review_note": "The independent expectation included17days since opening. Contract outputs issue age against due date (8overdue days), not a separate age-since-opening field; no method failure is claimed.",
+  "independent_checks": [
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "displayed1/3 rounded12",
+      "passed": true
+    },
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "exact threshold breach despite rounded equality",
+      "passed": true
+    },
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "expired clean assurance",
+      "passed": true
+    },
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "zero observations unknown",
+      "passed": true
+    },
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "eight overdue days with no closure",
+      "passed": true
+    },
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    },
+    {
+      "case": "OPF-O07-OVERSIGHT",
+      "check": "different detached original rejected",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "request_id": "quality-example",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "SYNTH-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "release-v1",
+      "version": "1",
+      "locator": "synthetic:release",
+      "kind": "issuer_release",
+      "known_at": "2026-10-20",
+      "subject_ids": [
+        "SYNTH-ISSUER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "release-v1",
+      "locator": "synthetic:release#cash"
+    }
+  ],
+  "unresolved_issues": [],
+  "review_scope": {
+    "required_checks": [
+      "sections",
+      "claim_evidence",
+      "arithmetic",
+      "contradictions",
+      "comparability",
+      "risks",
+      "disclosures"
+    ],
+    "required_sections": [
+      "event-impact"
+    ],
+    "required_claim_ids": [
+      "cash-opening",
+      "cash-change",
+      "cash-closing"
+    ],
+    "required_arithmetic_ids": [
+      "cash-bridge"
+    ],
+    "required_risks": [
+      "execution-risk"
+    ],
+    "required_disclosures": [
+      "supplied-evidence"
+    ],
+    "inventory_complete": true
+  },
+  "packet": {
+    "packet_id": "synthetic-event-note",
+    "sections": [
+      {
+        "section_id": "event-impact",
+        "claim_ids": [
+          "cash-opening",
+          "cash-change",
+          "cash-closing"
+        ]
+      }
+    ],
+    "claims": [
+      {
+        "claim_id": "cash-opening",
+        "kind": "fact",
+        "subject_id": "SYNTH-ISSUER",
+        "text": "Synthetic supplied cash-opening",
+        "known_at": "2026-10-20",
+        "evidence_refs": [
+          {
+            "source_id": "release-v1",
+            "locator": "synthetic:release#cash"
+          }
+        ],
+        "value": 140,
+        "basis": {
+          "currency": "USD",
+          "units": "millions",
+          "accounting_basis": "US-GAAP",
+          "consolidation_scope": "consolidated",
+          "period_end": "2026-10-20",
+          "measure": "cash"
+        }
+      },
+      {
+        "claim_id": "cash-change",
+        "kind": "fact",
+        "subject_id": "SYNTH-ISSUER",
+        "text": "Synthetic supplied cash-change",
+        "known_at": "2026-10-20",
+        "evidence_refs": [
+          {
+            "source_id": "release-v1",
+            "locator": "synthetic:release#cash"
+          }
+        ],
+        "value": -35,
+        "basis": {
+          "currency": "USD",
+          "units": "millions",
+          "accounting_basis": "US-GAAP",
+          "consolidation_scope": "consolidated",
+          "period_end": "2026-10-20",
+          "measure": "cash"
+        }
+      },
+      {
+        "claim_id": "cash-closing",
+        "kind": "fact",
+        "subject_id": "SYNTH-ISSUER",
+        "text": "Synthetic supplied cash-closing",
+        "known_at": "2026-10-20",
+        "evidence_refs": [
+          {
+            "source_id": "release-v1",
+            "locator": "synthetic:release#cash"
+          }
+        ],
+        "value": 105,
+        "basis": {
+          "currency": "USD",
+          "units": "millions",
+          "accounting_basis": "US-GAAP",
+          "consolidation_scope": "consolidated",
+          "period_end": "2026-10-20",
+          "measure": "cash"
+        }
+      },
+      {
+        "claim_id": "closing-risk",
+        "kind": "fact",
+        "subject_id": "SYNTH-ISSUER",
+        "text": "Release discloses closing conditions remain outstanding.",
+        "known_at": "2026-10-20",
+        "evidence_refs": [
+          {
+            "source_id": "release-v1",
+            "locator": "synthetic:release#cash"
+          }
+        ]
+      },
+      {
+        "claim_id": "evidence-disclosure",
+        "kind": "fact",
+        "subject_id": "SYNTH-ISSUER",
+        "text": "Source is a supplied synthetic release; evidence is unauthenticated.",
+        "known_at": "2026-10-20",
+        "evidence_refs": [
+          {
+            "source_id": "release-v1",
+            "locator": "synthetic:release#cash"
+          }
+        ]
+      }
+    ],
+    "arithmetic_checks": [
+      {
+        "check_id": "cash-bridge",
+        "operation": "sum",
+        "operand_claim_ids": [
+          "cash-opening",
+          "cash-change"
+        ],
+        "reported_claim_id": "cash-closing",
+        "tolerance": 1e-06
+      }
+    ],
+    "contradictions": [],
+    "comparability_groups": [
+      {
+        "group_id": "cash-basis",
+        "claim_ids": [
+          "cash-opening",
+          "cash-change",
+          "cash-closing"
+        ]
+      }
+    ],
+    "risks": [
+      {
+        "risk_id": "execution-risk",
+        "claim_ids": [
+          "closing-risk"
+        ]
+      }
+    ],
+    "disclosures": [
+      {
+        "disclosure_id": "supplied-evidence",
+        "claim_ids": [
+          "evidence-disclosure"
+        ]
+      }
+    ]
+  }
+}

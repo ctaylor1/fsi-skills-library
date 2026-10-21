@@ -25,19 +25,22 @@ import json, re, sys
 from pathlib import Path
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
-REQUIRED_TOP = ("portfolio_id", "as_of", "base_currency", "config_version", "positions")
+REQUIRED_TOP = ("portfolio_id", "as_of", "base_currency", "config_version", "positions", "nav", "nav_source_ref")
 REQUIRED_POS = ("position_id", "instrument_id", "asset_class", "market_value", "source_ref")
 FI_CLASSES = ("corp_bond", "govt_bond")
 
 
 def _num(v):
     try:
-        return float(v)
+        import math
+        if isinstance(v, bool): return None
+        number = float(v)
+        return number if math.isfinite(number) else None
     except (TypeError, ValueError):
         return None
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate_legacy(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc:
@@ -48,6 +51,8 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     if not DATE_RE.match(str(doc["as_of"])):
         errors.append(f"as_of must start YYYY-MM-DD, got {doc['as_of']!r}")
 
+    if _num(doc.get("nav")) is None or _num(doc.get("nav")) <= 0:
+        errors.append("authoritative nav must be positive")
     positions = doc.get("positions") or []
     if not isinstance(positions, list) or not positions:
         errors.append("positions must be a non-empty list")
@@ -65,6 +70,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         if mv is None:
             errors.append(f"{tag}: market_value not numeric")
         else:
+            if mv < 0: errors.append(f"{tag}: short/signed holdings unsupported by this bounded exposure method")
             nav += mv
         pid = p.get("position_id")
         if pid in ids:
@@ -83,9 +89,12 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
                     if w is None:
                         errors.append(f"{tag}: look_through[{j}] weight not numeric")
                     else:
+                        if w < 0: errors.append(f"{tag}: negative constituent weight")
                         wsum += w
+                    if c.get("look_through"): errors.append(f"{tag}: nested look-through unsupported")
                     if not c.get("issuer"):
                         warnings.append(f"{tag}: look_through[{j}] missing issuer — issuer look-through incomplete")
+                if wsum > 1.0 + 1e-10: errors.append(f"{tag}: constituent weights exceed one")
                 if abs(wsum - 1.0) > 0.01:
                     warnings.append(f"{tag}: look_through weights sum to {wsum:.3f} (expected ~1.0)")
         else:
@@ -99,6 +108,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
                 warnings.append(f"{tag}: no country — country exposure not evaluable for this row")
             if not p.get("currency"):
                 warnings.append(f"{tag}: no currency — currency exposure not evaluable for this row")
+        if p.get("liquidity_days") is not None and (_num(p["liquidity_days"]) is None or _num(p["liquidity_days"]) < 0): errors.append(f"{tag}: invalid liquidity_days")
         if p.get("liquidity_days") is None:
             warnings.append(f"{tag}: no liquidity_days — liquidity horizon not evaluable for this row")
         if ac in FI_CLASSES and _num(p.get("modified_duration")) is None:
@@ -113,6 +123,33 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     if not doc.get("limits"):
         warnings.append("no 'limits' block — default limits will be used; record the config_version")
     return errors, warnings
+
+
+def validate(doc: dict):
+    """Validate finite source data and real ISO dates before package-specific checks."""
+    import math
+    from datetime import datetime
+    errors = []
+    def walk(value, path="input", key=""):
+        if isinstance(value, str) and value.strip().lower() in {"nan", "inf", "infinity", "-inf", "+inf", "-infinity", "+infinity"}:
+            errors.append(f"{path}: non-finite numeric string")
+        if isinstance(value, float) and not math.isfinite(value):
+            errors.append(f"{path}: non-finite number")
+        if isinstance(value, dict):
+            for k, v in value.items(): walk(v, f"{path}.{k}", k)
+        elif isinstance(value, list):
+            for i, v in enumerate(value): walk(v, f"{path}[{i}]", key)
+        elif value not in (None, "") and (key in {"as_of", "prior_as_of", "date", "valuation_date", "run_date", "forecast_start", "effective_date", "holdings_as_of", "prices_as_of", "bucket_dates", "effective_from", "effective_to"}):
+            try: datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            except ValueError: errors.append(f"{path}: invalid ISO date/timestamp")
+    if not isinstance(doc, dict): return ["input must be an object"], []
+    walk(doc)
+    if errors: return errors, []
+    try:
+        native_errors, warnings = _validate_legacy(doc)
+        return native_errors, warnings
+    except (TypeError, ValueError, KeyError, AttributeError, OverflowError) as exc:
+        return [f"malformed input: {exc}"], []
 
 
 def main(argv):

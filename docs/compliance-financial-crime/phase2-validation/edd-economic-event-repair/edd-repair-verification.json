@@ -1,0 +1,166 @@
+{
+  "evals": [
+    {
+      "id": "det-input-selftest",
+      "command": "python3 -B scripts/validate_input.py --selftest",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0283
+    },
+    {
+      "id": "det-package",
+      "command": "python3 -B scripts/calculate_or_transform.py --selftest",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0278
+    },
+    {
+      "id": "det-output-valid",
+      "command": "python3 -B scripts/validate_output.py --selftest",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0362
+    },
+    {
+      "id": "safety-fail-closed",
+      "command": "python3 -B scripts/validate_output.py evals/files/edd_package_bad.json --input evals/files/edd_case_example.json",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true,
+      "elapsed_seconds": 0.0382
+    },
+    {
+      "id": "phase1-adversarial-regressions",
+      "command": "python3 -B scripts/test_phase1.py",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0627
+    },
+    {
+      "id": "phase2-input",
+      "command": "python3 -B scripts/validate_input.py evals/files/phase2_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0354
+    },
+    {
+      "id": "phase2-compute",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/phase2_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0358
+    },
+    {
+      "id": "phase2-golden",
+      "command": "python3 -B scripts/validate_output.py evals/files/phase2_golden.json --input evals/files/phase2_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0358
+    },
+    {
+      "id": "phase2-tamper",
+      "command": "python3 -B scripts/validate_output.py evals/files/phase2_bad.json --input evals/files/phase2_input.json",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true,
+      "elapsed_seconds": 0.0401
+    },
+    {
+      "id": "phase2-substantive-regressions",
+      "command": "python3 -B scripts/test_phase2.py",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.114
+    },
+    {
+      "id": "phase2-economic-event-economic_event_duplicate-compute",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/economic_event_duplicate_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0356
+    },
+    {
+      "id": "phase2-economic-event-economic_event_duplicate-golden",
+      "command": "python3 -B scripts/validate_output.py evals/files/economic_event_duplicate_golden.json --input evals/files/economic_event_duplicate_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0362
+    },
+    {
+      "id": "phase2-economic-event-economic_event_equal_distinct-compute",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/economic_event_equal_distinct_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0355
+    },
+    {
+      "id": "phase2-economic-event-economic_event_equal_distinct-golden",
+      "command": "python3 -B scripts/validate_output.py evals/files/economic_event_equal_distinct_golden.json --input evals/files/economic_event_equal_distinct_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.036
+    },
+    {
+      "id": "phase2-economic-event-economic_event_missing_identity-compute",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/economic_event_missing_identity_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0351
+    },
+    {
+      "id": "phase2-economic-event-economic_event_missing_identity-golden",
+      "command": "python3 -B scripts/validate_output.py evals/files/economic_event_missing_identity_golden.json --input evals/files/economic_event_missing_identity_input.json",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 0.0361
+    }
+  ],
+  "replays": [
+    {
+      "case": "original-withheld",
+      "step": "validate_input",
+      "exit": 0
+    },
+    {
+      "case": "original-withheld",
+      "step": "validate_output",
+      "exit": 0
+    },
+    {
+      "case": "amended-events",
+      "step": "validate_input",
+      "exit": 0
+    },
+    {
+      "case": "amended-events",
+      "step": "validate_output",
+      "exit": 0
+    }
+  ],
+  "old_initial_output_rejected_by_repaired_method": true,
+  "frozen_original_artifacts_unchanged": 29,
+  "initial_archive_sha256": "c592e7d5bec5b86f219c517715f54c19aa7225989f0c7bb88afdd455e1f215af",
+  "schema_hashes": {
+    "financial-crime-case-investigator": "3f60e4fe8d3a752f816fa735f48c0acb77fcf555beeae8bd9f9c8d9ecb1087d1",
+    "sanctions-exposure-reviewer": "c606023cf373d63f1bc03a9e511b604c16bb13e3236c0b7716cd2a1fa7336288",
+    "financial-crime-information-sharing-reviewer": "adba4918261b003027dedd28dfe72eaacce09c3ba95cd179cacda4623bc5cf9a",
+    "financial-crime-reporting-reviewer": "dddfb2e3447d437a11860a7f12d9b0fd22103905018bfa8fa3e9830fea59526f",
+    "compliance-regulatory-notification-reviewer": "a2df29011c99084c024c16df6f687badef2b3109f02ff0ff1e65fae6da47ea8e",
+    "customer-due-diligence-reviewer": "a4cb73f46ef05a24b8e7d966d5412fd9b99908c60445f87e1250d51d2b88fbff",
+    "enhanced-due-diligence-assessor": "104b3a87eb3726bb71d976518795b5ecb79fc5d09d30785c62a56fc4efa69e20"
+  }
+}

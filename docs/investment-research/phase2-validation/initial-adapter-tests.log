@@ -1,0 +1,51 @@
+....EE..E
+======================================================================
+ERROR: test_model_review_cannot_clear_inititation (__main__.ReviewedAdapters.test_model_review_cannot_clear_inititation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_ir_adapters_phase2.py", line 63, in test_model_review_cannot_clear_inititation
+    out=review(d,ROOT);result=out['receiver_output']
+        ^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/shared/investment-research/reviewed_handoffs.py", line 125, in review
+    validate_base(target);require(not evidence_gaps(target),'receiver evidence ineligible; no mapped payload released')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/shared/investment-research/research_runtime.py", line 32, in require
+    raise ValueError(message)
+ValueError: receiver evidence ineligible; no mapped payload released
+
+======================================================================
+ERROR: test_selected_maturity_inventory_replaces_unreviewed_receiver_values (__main__.ReviewedAdapters.test_selected_maturity_inventory_replaces_unreviewed_receiver_values)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_ir_adapters_phase2.py", line 45, in test_selected_maturity_inventory_replaces_unreviewed_receiver_values
+    out=review(d,ROOT);self.assertEqual(out['receiver_input']['maturities'][0]['amount'],100)
+        ^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/shared/investment-research/reviewed_handoffs.py", line 119, in review
+    producer,pin=package(root,spec['producer']);receiver,rpin=package(root,spec['receiver'])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/shared/investment-research/reviewed_handoffs.py", line 26, in package
+    require(hashlib.sha256(child.read_bytes()).hexdigest()==digest,'package manifest drift: '+name+'/'+rel)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/shared/investment-research/research_runtime.py", line 32, in require
+    raise ValueError(message)
+ValueError: package manifest drift: issuer-capital-structure-mapper/evals/evals.json
+
+======================================================================
+ERROR: test_terms_map_only_explicit_reviewed_definition (__main__.ReviewedAdapters.test_terms_map_only_explicit_reviewed_definition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_ir_adapters_phase2.py", line 51, in test_terms_map_only_explicit_reviewed_definition
+    out=review(d,ROOT);test=out['receiver_output']['results']['tests'][0]
+        ^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/shared/investment-research/reviewed_handoffs.py", line 119, in review
+    producer,pin=package(root,spec['producer']);receiver,rpin=package(root,spec['receiver'])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/shared/investment-research/reviewed_handoffs.py", line 26, in package
+    require(hashlib.sha256(child.read_bytes()).hexdigest()==digest,'package manifest drift: '+name+'/'+rel)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/shared/investment-research/research_runtime.py", line 32, in require
+    raise ValueError(message)
+ValueError: package manifest drift: credit-document-terms-reviewer/evals/evals.json
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.632s
+
+FAILED (errors=3)

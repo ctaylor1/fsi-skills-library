@@ -18,8 +18,10 @@ Usage:
 Exit 0 if no errors (warnings allowed), 1 otherwise.
 """
 from __future__ import annotations
-import json, re, sys
+import json, re, sys, math
+from datetime import date
 from pathlib import Path
+from native_integrity import canonical_hash
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 REQUIRED_TOP = ("framework", "as_of", "config_version", "requirements", "policy_controls")
@@ -31,20 +33,29 @@ STATUS = {"active", "retired"}
 
 def _num(v):
     try:
-        return float(v)
+        value = float(v)
+        return value if not isinstance(v, bool) and math.isfinite(value) and value >= 0 else None
     except (TypeError, ValueError):
         return None
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _date_ok(value):
+    try:
+        return isinstance(value, str) and date.fromisoformat(value).isoformat() == value
+    except ValueError:
+        return False
+
+
+def _validate_impl(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
+    if not isinstance(doc, dict): return ["input must be an object"], warnings
     for k in REQUIRED_TOP:
         if k not in doc:
             errors.append(f"missing top-level field '{k}'")
     if errors:
         return errors, warnings
 
-    if not DATE_RE.match(str(doc["as_of"])):
+    if not _date_ok(doc["as_of"]):
         errors.append(f"as_of must be YYYY-MM-DD, got {doc['as_of']!r}")
 
     reqs = doc.get("requirements") or []
@@ -58,14 +69,19 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
 
     req_ids = set()
     for i, r in enumerate(reqs):
+        if not isinstance(r, dict):
+            errors.append("requirement must be an object"); continue
         tag = f"requirements[{i}] ({r.get('req_id', '?')})"
         for k in REQUIRED_REQ:
             if k not in r or r[k] in (None, ""):
                 errors.append(f"{tag}: missing '{k}'")
         if r.get("criticality") not in CRITICALITY:
             errors.append(f"{tag}: criticality must be one of {sorted(CRITICALITY)}")
-        if r.get("effective_date") and not DATE_RE.match(str(r["effective_date"])):
+        if r.get("effective_date") and not _date_ok(r["effective_date"]):
             errors.append(f"{tag}: effective_date must be YYYY-MM-DD")
+        if r.get("applicable") is not None and type(r["applicable"]) is not bool:
+            errors.append(f"{tag}: applicable must be boolean or null")
+        if r.get("applicable") is None: warnings.append(f"{tag}: applicability unresolved")
         rid = r.get("req_id")
         if rid in req_ids:
             errors.append(f"{tag}: duplicate req_id")
@@ -79,6 +95,8 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
 
     ctrl_ids = set()
     for i, c in enumerate(ctrls):
+        if not isinstance(c, dict):
+            errors.append("control must be an object"); continue
         tag = f"policy_controls[{i}] ({c.get('control_id', '?')})"
         for k in REQUIRED_CTRL:
             if k not in c or c[k] in (None, ""):
@@ -95,7 +113,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         if cid in ctrl_ids:
             errors.append(f"{tag}: duplicate control_id")
         ctrl_ids.add(cid)
-        if c.get("last_reviewed") and not DATE_RE.match(str(c["last_reviewed"])):
+        if c.get("last_reviewed") and not _date_ok(c["last_reviewed"]):
             errors.append(f"{tag}: last_reviewed must be YYYY-MM-DD")
         if c.get("status") == "active" and not c.get("last_reviewed"):
             warnings.append(f"{tag}: active control without last_reviewed — stale_review not evaluable")
@@ -103,8 +121,12 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         if p is not None and (not isinstance(p, dict) or "kind" not in p or _num(p.get("value")) is None):
             errors.append(f"{tag}: parameter must be {{kind, numeric value}}")
 
+    cfg = doc.get("config", {})
+    if not isinstance(cfg, dict) or type(cfg.get("review_max_days", 365)) is not int or cfg.get("review_max_days", 365) <= 0:
+        errors.append("review_max_days must be a positive integer")
     covered = set()
     for c in ctrls:
+        if not isinstance(c, dict): continue
         if c.get("status") == "active":
             covered.update(c.get("maps_to") or [])
     uncovered = sorted(req_ids - covered)
@@ -114,6 +136,14 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     if not doc.get("config"):
         warnings.append("no 'config' block — default review_max_days will be used; record the config_version")
     return errors, warnings
+
+
+def validate(doc):
+    try:
+        canonical_hash(doc)  # Reject non-finite and non-JSON values anywhere, before the method.
+        return _validate_impl(doc)
+    except (ValueError, TypeError, KeyError, AttributeError, OverflowError) as exc:
+        return ["malformed input: " + str(exc)], []
 
 
 def main(argv):

@@ -1,0 +1,155 @@
+{
+  "case_id": "SYN-P4-01",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "design-review",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "FNOL-MODERNIZATION",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "sources": [
+    {
+      "source_ref": "synthetic-record",
+      "version": "1",
+      "as_of": "2026-09-20",
+      "locator": "Synthetic local exercise; no live records"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "profile": {
+      "profile_id": "SYN-PROFILE",
+      "version": "1",
+      "reviewed_by": "Synthetic design owner",
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "pc"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "method": "unsupported-method",
+      "source_refs": [
+        "synthetic-record"
+      ]
+    },
+    "valid_on": "2026-09-01",
+    "known_on": "2026-09-20",
+    "sample_inventory_complete": true,
+    "purpose": "Draft claim360 evidence contract",
+    "owner": "data steward",
+    "grain": "One source assertion per entity/field/valid interval",
+    "retention_rule": "Synthetic only; production retention needs owner policy",
+    "entities": [
+      {
+        "entity_id": "POL-1",
+        "entity_type": "policy",
+        "identity_namespace": "policy-admin",
+        "source_key": "p1",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "entity_id": "CL-1",
+        "entity_type": "claim",
+        "identity_namespace": "claims-core",
+        "source_key": "c1",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "fields": [
+      {
+        "field_id": "POL-STATUS",
+        "entity_type": "policy",
+        "definition": "Contract status from operative policy snapshot",
+        "unit": "code",
+        "source_system": "policy-admin",
+        "source_field": "status",
+        "transformation": "exact scoped copy",
+        "owner": "policy steward",
+        "classification": "confidential",
+        "access_rule": "authorized claims reviewer",
+        "quality_rule": "one active assertion",
+        "version": "v1",
+        "purpose_reviewed": true,
+        "required": true,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "field_id": "CL-STATUS",
+        "entity_type": "claim",
+        "definition": "Claim workflow status, not coverage determination",
+        "unit": "code",
+        "source_system": "claims-core",
+        "source_field": "status",
+        "transformation": "exact scoped copy",
+        "owner": "claims steward",
+        "classification": "confidential",
+        "access_rule": "authorized claims reviewer",
+        "quality_rule": "one active assertion",
+        "version": "v1",
+        "purpose_reviewed": true,
+        "required": true,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "relation_id": "CLAIM-POLICY",
+        "from_type": "claim",
+        "to_type": "policy",
+        "definition": "Exact reviewed claim-to-policy linkage",
+        "cardinality": "many-to-one",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "links": [
+      {
+        "link_id": "L1",
+        "relation_id": "CLAIM-POLICY",
+        "left_entity_id": "CL-1",
+        "right_entity_id": "POL-1",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "records": [
+      {
+        "record_id": "A1",
+        "entity_id": "POL-1",
+        "field_id": "POL-STATUS",
+        "valid_from": "2026-01-01",
+        "valid_to": null,
+        "recorded_on": "2026-01-02",
+        "value": "in-force",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "record_id": "A2",
+        "entity_id": "CL-1",
+        "field_id": "CL-STATUS",
+        "valid_from": "2026-08-10",
+        "valid_to": null,
+        "recorded_on": "2026-08-10",
+        "value": "open",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ]
+  }
+}

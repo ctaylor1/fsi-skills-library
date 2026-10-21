@@ -42,6 +42,9 @@ SKILL_TYPE_OVERRIDES = {
     "omnichannel-case-orchestrator": "System-interaction or operational skills",
     # Utility: 2026 industry-expansion transformers/extractors/ingesters
     "holdings-transaction-normalizer": "Utility skills",
+    "investment-record-normalizer": "Utility skills",
+    "research-source-indexer": "Utility skills",
+    "credit-document-terms-reviewer": "Utility skills",
     "investment-source-ingester": "Utility skills",
     "credit-terms-covenant-extractor": "Utility skills",
     "fnol-normalizer": "Utility skills",
@@ -106,6 +109,10 @@ def apply_changes(skills: list[dict], additions: list[dict], overrides: dict) ->
     If a newer workbook includes both old and new names, the new row wins. Fields
     in the explicit override remain authoritative until reconciled with the workbook.
     """
+    if len({s["name"] for s in skills}) != len(skills):
+        raise ValueError("duplicate skill name in source catalog")
+    if len({s["name"] for s in additions}) != len(additions):
+        raise ValueError("duplicate skill name in approved additions")
     merged = {s["name"]: dict(s) for s in skills}
     for addition in additions:
         prior = merged.get(addition["name"])

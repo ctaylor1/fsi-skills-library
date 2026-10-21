@@ -1,0 +1,264 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "structured-credit-researcher",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-structured-001",
+  "subject": {
+    "type": "security",
+    "id": "SYNTHETIC-ABS-A",
+    "issuer_id": "SYNTHETIC-TRUST"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T16:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "research_review": {
+      "requested_coverage": [
+        {
+          "topic_id": "collateral-quality",
+          "status": "supplied-reviewed",
+          "assessment": "Synthetic full inventory; no independent underwriting or eligibility authentication.",
+          "evidence_refs": [
+            {
+              "source_id": "synthetic-trust",
+              "locator": "trustee inventory and reviewed terms, tables 1-4"
+            }
+          ]
+        },
+        {
+          "topic_id": "servicing-operations",
+          "status": "supplied-reviewed",
+          "assessment": "Synthetic servicer continuity and collection timing are assumptions; operational readiness is not established.",
+          "evidence_refs": [
+            {
+              "source_id": "synthetic-trust",
+              "locator": "trustee inventory and reviewed terms, tables 1-4"
+            }
+          ]
+        },
+        {
+          "topic_id": "legal-structure",
+          "status": "supplied-reviewed",
+          "assessment": "Synthetic reviewed single-period profile only; enforceability, true sale and bankruptcy remoteness remain external legal work.",
+          "evidence_refs": [
+            {
+              "source_id": "synthetic-trust",
+              "locator": "trustee inventory and reviewed terms, tables 1-4"
+            }
+          ]
+        },
+        {
+          "topic_id": "counterparty-risk",
+          "status": "supplied-reviewed",
+          "assessment": "Synthetic reserve is assumed available; account-bank and replacement-trigger credit are unassessed externally.",
+          "evidence_refs": [
+            {
+              "source_id": "synthetic-trust",
+              "locator": "trustee inventory and reviewed terms, tables 1-4"
+            }
+          ]
+        },
+        {
+          "topic_id": "liquidity-and-market-risk",
+          "status": "supplied-reviewed",
+          "assessment": "No tranche price, secondary-market exit assumption or market-liquidity conclusion is supplied.",
+          "evidence_refs": [
+            {
+              "source_id": "synthetic-trust",
+              "locator": "trustee inventory and reviewed terms, tables 1-4"
+            }
+          ]
+        }
+      ],
+      "assessment_assurance": "supplied-narrative-not-independently-adjudicated"
+    },
+    "profile": "single-period-sequential-pay-v1",
+    "pool_id": "SYNTHETIC-POOL",
+    "trustee_id": "SYNTHETIC-TRUSTEE",
+    "financial_basis": {
+      "currency": "USD",
+      "units": "millions",
+      "principal_basis": "outstanding-par",
+      "pool_scope": "SYNTHETIC-TRUST restricted asset pool"
+    },
+    "scenario": {
+      "scenario_id": "SYNTHETIC-DOWNSIDE",
+      "label": "illustrative supplied downside, not actuals",
+      "kind": "analyst-scenario",
+      "period_start": "2026-10-20",
+      "period_end": "2027-01-20",
+      "accrual_year_fraction": 0.25,
+      "recovery_timing": "same-period-cash-no-reinstatement"
+    },
+    "collateral_review": {
+      "opening_principal": 0.3,
+      "ending_performing_principal": 0.19999999999999998,
+      "supplied_eligible_principal": 0.3,
+      "eligibility_independently_verified": false,
+      "assets": [
+        {
+          "asset_id": "L1",
+          "opening_principal": 0.3,
+          "defaulted_principal": 0.0,
+          "same_period_cash_recovery": 0.0,
+          "realized_scenario_loss": 0.0,
+          "scheduled_principal": 0.1,
+          "prepaid_principal": 0.0,
+          "ending_performing_principal": 0.19999999999999998,
+          "principal_collections": 0.1,
+          "eligible_supplied": true
+        }
+      ],
+      "concentrations": {
+        "obligor_id": [
+          {
+            "category": "O1",
+            "opening_principal": 0.3,
+            "opening_pool_fraction": 1.0
+          }
+        ],
+        "sector": [
+          {
+            "category": "equipment",
+            "opening_principal": 0.3,
+            "opening_pool_fraction": 1.0
+          }
+        ],
+        "jurisdiction": [
+          {
+            "category": "US",
+            "opening_principal": 0.3,
+            "opening_pool_fraction": 1.0
+          }
+        ],
+        "vintage": [
+          {
+            "category": "2025",
+            "opening_principal": 0.3,
+            "opening_pool_fraction": 1.0
+          }
+        ]
+      },
+      "largest_obligor_fraction": 1.0
+    },
+    "loss_allocation": {
+      "scenario_collateral_loss": 0.0,
+      "opening_collateral_equity_cushion": 0.04999999999999999,
+      "equity_cushion_absorbed": 0.0,
+      "remaining_collateral_equity_cushion": 0.04999999999999999,
+      "note_principal_write_downs": 0.0,
+      "unallocated_loss": 0.0
+    },
+    "trigger_result": {
+      "enabled": true,
+      "test_basis": "ending-performing-collateral-before-distributions/post-loss-notes",
+      "numerator": 0.19999999999999998,
+      "denominator_post_loss_notes": 0.25,
+      "observed_ratio": 0.7999999999999999,
+      "minimum_ratio": 0.8,
+      "denominator_zero": false,
+      "breached": true,
+      "excess_interest_diverted": 1.0,
+      "observation_order": "after collateral defaults, recoveries and prepayments; after note loss allocation; before cash distributions"
+    },
+    "waterfall": {
+      "principal_collections": 0.1,
+      "interest_collections": 1,
+      "fees_due": 0,
+      "fees_paid": 0,
+      "fees_unpaid": 0,
+      "interest_paid": 0.0,
+      "opening_reserve": 0,
+      "reserve_draw_for_fees_and_interest": 0,
+      "ending_reserve": 0,
+      "excess_interest_diverted": 1.0,
+      "note_principal_paid": 0.25,
+      "residual_interest_cash": 0.0,
+      "residual_principal_cash": 0.8500000000000001
+    },
+    "tranche_results": [
+      {
+        "security_id": "SYNTHETIC-ABS-A",
+        "seniority": 1,
+        "opening_principal": 0.25,
+        "annual_coupon": 0,
+        "opening_interest_arrears": 0,
+        "interest_due": 0.0,
+        "interest_paid": 0.0,
+        "unpaid_interest": 0.0,
+        "principal_write_down": 0.0,
+        "principal_paid": 0.25,
+        "ending_principal": 0.0,
+        "opening_subordinate_note_support": 0.0,
+        "opening_equity_cushion_support": 0.04999999999999999,
+        "opening_collateral_loss_attachment_fraction": 0.16666666666666663
+      }
+    ],
+    "conservation": {
+      "cash_sources": 1.1,
+      "cash_uses": 1.1,
+      "cash_difference": 0.0,
+      "collateral_principal_difference": 0.0,
+      "loss_allocation_difference": 0.0,
+      "closing_performing_collateral_plus_reserve_less_notes": 0.19999999999999998
+    },
+    "review_limitations": [
+      "One supplied opening snapshot and one future period; no observed-actual cash-flow assertion or calibrated default probability.",
+      "The exact simplified terms are supplied-reviewed, not independently interpreted or legally authenticated; no universal CLO/RMBS/CMBS waterfall support.",
+      "Default fractions apply first to opening par; scheduled principal then prepayments reduce surviving par; same-period recoveries are cash only, never reinstated collateral.",
+      "Interest collections, fixed fees and year fraction are supplied scenario inputs; no floating-rate reset, day-count derivation, reinvestment, lagged recovery, PIK or prior arrears.",
+      "Reserve supports fees then interest and is excluded from principal loss absorption and trigger collateral; excess principal is residual cash.",
+      "Eligibility is a supplied assertion; ineligible assets remain in totals and require adjudication. No price, agency rating, regulatory capital, legal opinion or execution determination."
+    ],
+    "legal_terms_verified": false,
+    "agency_rating_assigned": false,
+    "tranche_price_estimated": false
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "formula": "default = opening par * period default fraction; recovery = default * same-period recovery fraction; loss = default - recovery"
+    },
+    {
+      "formula": "prepay = (opening par - defaults - scheduled principal) * prepay fraction; principal cash = scheduled + prepay + recovery"
+    },
+    {
+      "formula": "loss absorbs opening collateral less notes first, then notes in descending seniority number; principal cash pays ascending seniority number"
+    },
+    {
+      "formula": "coupon due = opening note principal * fixed annual coupon * supplied year fraction; interest and reserve pay fees then note interest"
+    },
+    {
+      "formula": "trigger observed before cash distributions; breached trigger diverts remaining interest to sequential note principal, counted once in cash conservation"
+    }
+  ],
+  "unresolved_issues": [
+    "Supplied simplified trigger is breached; excess-interest diversion applied in the declared order"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-trust",
+      "locator": "trustee inventory and reviewed terms, tables 1-4"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "synthetic-trust",
+      "version": "v1",
+      "known_at": "2026-10-20T12:00:00Z",
+      "locator": "synthetic trust workbook",
+      "kind": "credit_document"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "2ee9ebe255ec7bfdf12c64777909535924c42a0c5393bb0ef5a25c7fc1ae96e5",
+  "source_truth": "unverified"
+}

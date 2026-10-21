@@ -1,0 +1,102 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "filing-disclosure-change-detector",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-phase2",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "comparison": {
+      "prior": {
+        "version": "2024-10k",
+        "issuer_id": "ACME",
+        "filing_date": "2025-02-01",
+        "inventory_complete": true
+      },
+      "current": {
+        "version": "2025-10k",
+        "issuer_id": "ACME",
+        "filing_date": "2026-02-01",
+        "inventory_complete": false
+      }
+    },
+    "findings": [
+      {
+        "section_id": "risk",
+        "type": "changed",
+        "similarity": 0.24691358024691357,
+        "new_review_markers": [
+          "material weakness",
+          "covenant breach"
+        ],
+        "priority": "specialist-review",
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          },
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ]
+      }
+    ],
+    "quantitative_triage": [
+      {
+        "change_id": "revenue",
+        "change": 20,
+        "relative_change": 0.2,
+        "configured_review_threshold": 0.1,
+        "priority": "threshold-review"
+      }
+    ],
+    "scope": "Supplied section inventories, marker deltas and configured numeric review thresholds",
+    "materiality_assurance": "review-priority-only; no legal, accounting or investment-materiality conclusion",
+    "limitations": [
+      "Absence in an incomplete inventory never establishes section removal",
+      "Text similarity and keywords cannot establish substantive impact; reviewed source interpretation is required"
+    ]
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "formula": "quantitative_change = current - prior; relative_change = change / abs(nonzero prior); priority compares abs(relative_change) to supplied threshold"
+    }
+  ],
+  "unresolved_issues": [
+    "old: absence not evaluable because current inventory incomplete",
+    "supplied filing inventory incomplete"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "S1",
+      "locator": "synthetic-table-1"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "S1",
+      "version": "v1",
+      "known_at": "2026-10-19",
+      "locator": "synthetic-document",
+      "kind": "filing"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "809d137f066fd94380389abd4ad46f29bd94cc7e28892d639cf8a17ef41404fa",
+  "source_truth": "unverified"
+}

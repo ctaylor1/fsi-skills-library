@@ -1,0 +1,501 @@
+{
+  "evidence_version": "1.0",
+  "recorded_at_utc": "2026-09-20T23:19:06.659578+00:00",
+  "original_evidence": {
+    "path": "docs/asset-management/phase1-validation/investment-forward-review.json",
+    "sha256": "105638712da964800271b98dac136e2e857f0e175a2c1f1d80700dad7afd77b5",
+    "preserved_unchanged": true
+  },
+  "scope_note": "Final replay of the original nine synthetic forward cases and 29 independent assertions after the bundled native_integrity privacy repair. Exactly the two native_integrity.py files changed among the eight tracked implementation files. Calculator/input-validator/output-validator files, original inputs, expected numerical results and independent assertions are unchanged. Original evidence hashes are historical; this record explicitly captures the current helper hashes.",
+  "implementation_sha256": {
+    "skills/asset-management/investment-mandate-reviewer/scripts/calculate_or_transform.py": "4d3c95f2c40d7ca710e6ce024e922f70fb8b2a38fe8d46e2ca6a3d21b9428a4f",
+    "skills/asset-management/investment-mandate-reviewer/scripts/validate_input.py": "f4de42e5dcfd6f766197d70551d9ff7af3534416809505f95dfc8835edb9c011",
+    "skills/asset-management/investment-mandate-reviewer/scripts/validate_output.py": "88fa1073b50d0790fb8b0d6675a1261e3492bf20679e53672c8c0a10e7ad6599",
+    "skills/asset-management/investment-mandate-reviewer/scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/calculate_or_transform.py": "9aa44c3e4d6daca6bb43c868011fb92302ab001ce320a736d8b8dac249f472cb",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/validate_input.py": "3cccafa20143ceb133f5530ce572ed9fb7da53aca65a84087f32e269a88b6379",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/validate_output.py": "5f38088ff53f3774de12b3db2ef3f69cec1afb11385c2ac8a95d75a9818b2b4f",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6"
+  },
+  "expected_implementation_changes": [
+    {
+      "path": "skills/asset-management/investment-mandate-reviewer/scripts/native_integrity.py",
+      "original_sha256": "f3c83062a83d46255b0235a9b92bf5d726ce4addc6b295fb15bcb3dc67f1f350",
+      "current_sha256": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+      "reason": "Expected bundled native_integrity privacy repair: reject embedded source_input and attach_source(embed=True); retain detached original input."
+    },
+    {
+      "path": "skills/asset-management/portfolio-exposure-analyzer/scripts/native_integrity.py",
+      "original_sha256": "f3c83062a83d46255b0235a9b92bf5d726ce4addc6b295fb15bcb3dc67f1f350",
+      "current_sha256": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+      "reason": "Expected bundled native_integrity privacy repair: reject embedded source_input and attach_source(embed=True); retain detached original input."
+    }
+  ],
+  "unchanged_implementation_files": [
+    "skills/asset-management/investment-mandate-reviewer/scripts/calculate_or_transform.py",
+    "skills/asset-management/investment-mandate-reviewer/scripts/validate_input.py",
+    "skills/asset-management/investment-mandate-reviewer/scripts/validate_output.py",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/calculate_or_transform.py",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/validate_input.py",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/validate_output.py"
+  ],
+  "cases": [
+    {
+      "case_id": "mandate-base",
+      "operation": "compute-and-validate",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_case_reference": "investment-forward-review.json#cases/0",
+      "input_sha256": "7ffdae7d38b05663bf9d92b95e7e4ca93ccb3bb792281969da73e127016dafa8",
+      "expected_validation_errors": [],
+      "actual_validation_errors": [],
+      "native_output_identical_to_original": true,
+      "native_output_sha256": "dd75428ded804fb8b886f54de110583df5d4013389eae8a2a4d1554ee4cddf81",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-altered-output",
+      "operation": "validate-mutated-output",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_case_reference": "investment-forward-review.json#cases/1",
+      "input_sha256": "7ffdae7d38b05663bf9d92b95e7e4ca93ccb3bb792281969da73e127016dafa8",
+      "expected_validation_errors": [
+        "output differs from original-input reconstruction: alerts"
+      ],
+      "actual_validation_errors": [
+        "output differs from original-input reconstruction: alerts"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "mandate-future-holdings_as_of",
+      "operation": "reject-input",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_case_reference": "investment-forward-review.json#cases/2",
+      "input_sha256": "461733eca223804c8620fac61088cd28be9ad7e59d42d643ee54377b88de15c7",
+      "expected_exception_type": "ValueError",
+      "actual_exception_type": "ValueError",
+      "expected_error": "portfolios[0] (MANDATE-FWD-ALPHA): future holdings_as_of",
+      "actual_error": "portfolios[0] (MANDATE-FWD-ALPHA): future holdings_as_of",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-future-prices_as_of",
+      "operation": "reject-input",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_case_reference": "investment-forward-review.json#cases/3",
+      "input_sha256": "b76128fea88d9c5128305f0412a066d49515ebcf2bb986cb336a27a48b62a297",
+      "expected_exception_type": "ValueError",
+      "actual_exception_type": "ValueError",
+      "expected_error": "portfolios[0] (MANDATE-FWD-ALPHA): future prices_as_of",
+      "actual_error": "portfolios[0] (MANDATE-FWD-ALPHA): future prices_as_of",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-missing-classification",
+      "operation": "compute-and-validate",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_case_reference": "investment-forward-review.json#cases/4",
+      "input_sha256": "aa374f7c9170074c9fc3154d1aceb087c7070365a85141e135bd71bc9b78ac29",
+      "expected_validation_errors": [],
+      "actual_validation_errors": [],
+      "native_output_identical_to_original": true,
+      "native_output_sha256": "3f2777d400886af9068cf6baa3743ff63f95d9c1f0fbe0d5f1c4169827c5d734",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "operation": "compute-and-validate",
+      "package": "skills/asset-management/portfolio-exposure-analyzer",
+      "original_case_reference": "investment-forward-review.json#cases/5",
+      "input_sha256": "169f8b7bfb13f42a9da7681854a1d1c48cf96873d41534d1e2e70741e947e2ee",
+      "expected_validation_errors": [],
+      "actual_validation_errors": [],
+      "native_output_identical_to_original": true,
+      "native_output_sha256": "1b782b8b75994194552795d46424d29deeaa4134ede1529326b660144b6d7194",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-altered-output",
+      "operation": "validate-mutated-output",
+      "package": "skills/asset-management/portfolio-exposure-analyzer",
+      "original_case_reference": "investment-forward-review.json#cases/6",
+      "input_sha256": "169f8b7bfb13f42a9da7681854a1d1c48cf96873d41534d1e2e70741e947e2ee",
+      "expected_validation_errors": [
+        "output differs from original-input reconstruction: exposures"
+      ],
+      "actual_validation_errors": [
+        "output differs from original-input reconstruction: exposures"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "operation": "compute-and-validate",
+      "package": "skills/asset-management/portfolio-exposure-analyzer",
+      "original_case_reference": "investment-forward-review.json#cases/7",
+      "input_sha256": "145906a48b9dc211e5e9f705f4ffb75b74ed0b76154a560e1db2c575621139f4",
+      "expected_validation_errors": [],
+      "actual_validation_errors": [],
+      "native_output_identical_to_original": true,
+      "native_output_sha256": "bf5f0f66c68e7bfd953d715eea57fd9a17b5aa8d31900b015fb273df2f9c1d2d",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-short-unsupported",
+      "operation": "reject-input",
+      "package": "skills/asset-management/portfolio-exposure-analyzer",
+      "original_case_reference": "investment-forward-review.json#cases/8",
+      "input_sha256": "84a6a927ed03b2474e0504fc105528ff8236bbe9b07e6850b80c59348aa37b6f",
+      "expected_exception_type": "ValueError",
+      "actual_exception_type": "ValueError",
+      "expected_error": "positions[0] (UST): short/signed holdings unsupported by this bounded exposure method",
+      "actual_error": "positions[0] (UST): short/signed holdings unsupported by this bounded exposure method",
+      "passed": true
+    }
+  ],
+  "assertions": [
+    {
+      "case_id": "mandate-base",
+      "assertion": "current/proposed threshold breaches at unchanged supplied NAV",
+      "expected": {
+        "ALPHA-MAX|position": 12.0,
+        "ALPHA-MAX|pre_trade": 15.0,
+        "CASH-MIN|position": 10.0,
+        "CASH-MIN|pre_trade": 8.0
+      },
+      "actual": {
+        "ALPHA-MAX|position": 12.0,
+        "ALPHA-MAX|pre_trade": 15.0,
+        "CASH-MIN|position": 10.0,
+        "CASH-MIN|pre_trade": 8.0
+      },
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "mandate-base",
+      "assertion": "exact breach count",
+      "expected": 4,
+      "actual": 4,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "mandate-base",
+      "assertion": "no stale portfolios at two-day inclusive threshold",
+      "expected": [],
+      "actual": [],
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "mandate-base",
+      "assertion": "rule applicability and method support",
+      "expected": {
+        "ALPHA-MAX": "exception",
+        "CASH-MIN": "exception",
+        "BETA-MAX": "pass",
+        "REG-METHOD": "not_evaluable",
+        "FUTURE": "not_applicable",
+        "OTHER-MANDATE": "not_applicable"
+      },
+      "actual": {
+        "ALPHA-MAX": "exception",
+        "CASH-MIN": "exception",
+        "BETA-MAX": "pass",
+        "REG-METHOD": "not_evaluable",
+        "FUTURE": "not_applicable",
+        "OTHER-MANDATE": "not_applicable"
+      },
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "mandate-base",
+      "assertion": "original-input output validation",
+      "expected": [],
+      "actual": [],
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "mandate-altered-output",
+      "assertion": "altered result rejected",
+      "expected": true,
+      "actual": true,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "mandate-future-holdings_as_of",
+      "assertion": "future source date rejected",
+      "expected": true,
+      "actual": true,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "mandate-future-prices_as_of",
+      "assertion": "future source date rejected",
+      "expected": true,
+      "actual": true,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "mandate-missing-classification",
+      "assertion": "missing required rule dimension unavailable",
+      "expected": "not_evaluable",
+      "actual": "not_evaluable",
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "issuer complete exposure percentages",
+      "expected": {
+        "US Treasury": 35.0,
+        "Custodian": 10.0,
+        "Alpha": 27.0,
+        "Beta": 4.0,
+        "Corp": 20.0,
+        "UNKNOWN": 4.0
+      },
+      "actual": {
+        "US Treasury": 35.0,
+        "Alpha": 27.0,
+        "Corp": 20.0,
+        "Custodian": 10.0,
+        "Beta": 4.0,
+        "UNKNOWN": 4.0
+      },
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "issuer preserved total market value",
+      "expected": 100000000,
+      "actual": 100000000.0,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "issuer residual unknown market value",
+      "expected": 4000000,
+      "actual": 3999999.999999999,
+      "comparison": "math.isclose default tolerance",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "country complete exposure percentages",
+      "expected": {
+        "US": 80.0,
+        "GB": 12.0,
+        "CH": 4.0,
+        "UNKNOWN": 4.0
+      },
+      "actual": {
+        "US": 80.0,
+        "GB": 12.0,
+        "CH": 4.0,
+        "UNKNOWN": 4.0
+      },
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "country preserved total market value",
+      "expected": 100000000,
+      "actual": 100000000.0,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "country residual unknown market value",
+      "expected": 4000000,
+      "actual": 3999999.999999999,
+      "comparison": "math.isclose default tolerance",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "authoritative NAV reconciliation",
+      "expected": true,
+      "actual": true,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "wrapper asset class retained",
+      "expected": {
+        "govt_bond": 35.0,
+        "cash": 10.0,
+        "fund": 20.0,
+        "equity": 15.0,
+        "corp_bond": 20.0
+      },
+      "actual": {
+        "govt_bond": 35.0,
+        "fund": 20.0,
+        "corp_bond": 20.0,
+        "equity": 15.0,
+        "cash": 10.0
+      },
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "incomplete liquidity is unavailable",
+      "expected": null,
+      "actual": null,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "known illiquid percentage retained",
+      "expected": 20.0,
+      "actual": 20.0,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "missing bond duration retained",
+      "expected": [
+        "CORP"
+      ],
+      "actual": [
+        "CORP"
+      ],
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "supplied-only duration contribution",
+      "expected": 2.1,
+      "actual": 2.1,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "no incomplete liquidity/duration or exempt issuer findings",
+      "expected": [],
+      "actual": [],
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "original-input output validation",
+      "expected": [],
+      "actual": [],
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-altered-output",
+      "assertion": "altered result rejected",
+      "expected": true,
+      "actual": true,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "assertion": "signed holdings minus authoritative NAV gap",
+      "expected": -5000000,
+      "actual": -5000000.0,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "assertion": "unreconciled NAV flagged",
+      "expected": false,
+      "actual": false,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "assertion": "no inferred cash residual",
+      "expected": 100000000,
+      "actual": 100000000.0,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "assertion": "NAV gap unavailable dimension",
+      "expected": true,
+      "actual": true,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    },
+    {
+      "case_id": "exposure-short-unsupported",
+      "assertion": "bounded method rejects unsupported short",
+      "expected": true,
+      "actual": true,
+      "comparison": "exact equality",
+      "passed": true,
+      "independent_expectation_unchanged": true
+    }
+  ],
+  "summary": {
+    "cases": 9,
+    "passed_cases": 9,
+    "assertions": 29,
+    "failed_assertions": 0
+  },
+  "saved_original_command_replay": {
+    "adaptation": "Reused original full verification command; replaced only its implementation-digest gate with an original-evidence SHA256 check and explicit current digest expectations for the two changed helper files. All other original replay logic is unchanged.",
+    "command": "python3 -B - <<'PY'\nimport json, pathlib, runpy, hashlib, math\nroot=pathlib.Path.cwd()\nevidence=json.loads((root/'docs/asset-management/phase1-validation/investment-forward-review.json').read_text())\nassert hashlib.sha256((root/'docs/asset-management/phase1-validation/investment-forward-review.json').read_bytes()).hexdigest()=='105638712da964800271b98dac136e2e857f0e175a2c1f1d80700dad7afd77b5', 'original evidence changed'\nexpected_helper_changes={'skills/asset-management/investment-mandate-reviewer/scripts/native_integrity.py': '12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6', 'skills/asset-management/portfolio-exposure-analyzer/scripts/native_integrity.py': '12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6'}\nfor path,digest in evidence['implementation_sha256'].items():\n    actual=hashlib.sha256((root/path).read_bytes()).hexdigest()\n    if path in expected_helper_changes:\n        assert actual==expected_helper_changes[path] and actual!=digest, 'unexpected helper digest: '+path\n    else:\n        assert actual==digest, 'non-helper implementation changed: '+path\noutputs={}\nfor case in evidence['cases']:\n    scripts=root/case['package']/'scripts'\n    compute=runpy.run_path(str(scripts/'calculate_or_transform.py'))['compute']\n    validate=runpy.run_path(str(scripts/'validate_output.py'))['validate']\n    if case['operation']=='reject-input':\n        try: compute(case['original_input'])\n        except ValueError as exc: assert str(exc)==case['observed_error']\n        else: raise AssertionError('invalid input accepted: '+case['case_id'])\n    elif case['operation']=='validate-mutated-output':\n        errors=validate(case['native_output'],case['original_input'])\n        assert errors and errors==case['output_validation_errors']\n    else:\n        actual=compute(case['original_input'])\n        assert actual==case['native_output'],case['case_id']\n        assert validate(actual,case['original_input'])==case['output_validation_errors']==[]\n        outputs[case['case_id']]=actual\nm=outputs['mandate-base']\nassert {(a['rule_id'],a['breach_type']):a['measured_pct'] for a in m['alerts']}=={('ALPHA-MAX','position'):12.,('ALPHA-MAX','pre_trade'):15.,('CASH-MIN','position'):10.,('CASH-MIN','pre_trade'):8.}\nassert m['summary']['breach']==4 and m['summary']['stale_portfolios']==[]\nassert {r['rule_id']:r['status'] for r in m['rule_results']}=={'ALPHA-MAX':'exception','CASH-MIN':'exception','BETA-MAX':'pass','REG-METHOD':'not_evaluable','FUTURE':'not_applicable','OTHER-MANDATE':'not_applicable'}\nassert outputs['mandate-missing-classification']['rule_results'][0]['status']=='not_evaluable'\nx=outputs['exposure-base']\nfor dim,expected in [('issuer',{'US Treasury':35.,'Custodian':10.,'Alpha':27.,'Beta':4.,'Corp':20.,'UNKNOWN':4.}),('country',{'US':80.,'GB':12.,'CH':4.,'UNKNOWN':4.})]:\n    assert {r['bucket']:r['pct'] for r in x['exposures'][dim]}==expected\n    assert sum(r['market_value'] for r in x['exposures'][dim])==100_000_000\n    assert math.isclose(x['dimension_coverage'][dim]['unknown_market_value'],4_000_000)\nassert x['nav_reconciliation']['reconciled']\nassert {r['bucket']:r['pct'] for r in x['exposures']['asset_class']}=={'govt_bond':35.,'cash':10.,'fund':20.,'equity':15.,'corp_bond':20.}\nassert x['exposures']['liquidity']['illiquid_pct'] is None\nassert x['exposures']['liquidity']['known_illiquid_pct']==20.\nassert x['exposures']['duration']['missing_duration_position_ids']==['CORP']\nassert x['exposures']['duration']['portfolio_duration_contribution']==2.1\nassert not any(f['dimension'] in ('liquidity','duration') or (f['dimension']=='issuer' and f['bucket'] in ('US Treasury','Custodian')) for f in x['findings'])\nr=outputs['exposure-nav-residual']\nassert r['nav_reconciliation']['difference']==-5_000_000 and not r['nav_reconciliation']['reconciled']\nassert sum(v['market_value'] for v in r['exposures']['issuer'])==100_000_000\nassert any(v['dimension']=='nav_reconciliation' for v in r['not_evaluable'])\nassert all(check['passed'] for check in evidence['assertions'])\nprint('PASS: replayed 9 complete forward cases and 29 independently expected assertions; no files written')\nPY",
+    "exit_code": 0,
+    "stdout": "PASS: replayed 9 complete forward cases and 29 independently expected assertions; no files written\n",
+    "stderr": ""
+  },
+  "source_truth": "unverified",
+  "professional_acceptance": "not_established",
+  "deployment_acceptance": "not_established",
+  "execution_authority": "none",
+  "limitations": "Bounded offline synthetic evaluation only. This replay confirms unchanged native results and the original negative controls under the current helper; it is not a complete privacy audit, source authentication or professional/deployment acceptance."
+}

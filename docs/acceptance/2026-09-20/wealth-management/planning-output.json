@@ -1,0 +1,357 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "skill": "household-financial-planning-assistant",
+  "request_id": "FWA-PLAN-1",
+  "household_id": "HH-FWA-7",
+  "as_of": "2026-09-20",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "S1",
+      "reference": "request-and-scope-v1",
+      "owner": "Fictional advisor Rowan",
+      "as_of": "2026-09-20",
+      "valid_until": "2026-10-20"
+    },
+    {
+      "source_id": "S2",
+      "reference": "home-statement-v1",
+      "owner": "Fictional home institution",
+      "as_of": "2026-09-20",
+      "valid_until": "2026-10-20"
+    },
+    {
+      "source_id": "S3",
+      "reference": "retirement-statement-v1",
+      "owner": "Fictional outside custodian",
+      "as_of": "2026-09-20",
+      "valid_until": "2026-10-20"
+    },
+    {
+      "source_id": "S4",
+      "reference": "client-correction-v1",
+      "owner": "Fictional client P-FWA-A",
+      "as_of": "2026-09-20",
+      "valid_until": "2026-10-20"
+    },
+    {
+      "source_id": "S5",
+      "reference": "budget-and-goals-v1",
+      "owner": "Fictional client P-FWA-A",
+      "as_of": "2026-09-20",
+      "valid_until": "2026-10-20"
+    },
+    {
+      "source_id": "S6",
+      "reference": "illustration-assumptions-v1",
+      "owner": "Fictional advisor Rowan",
+      "as_of": "2026-09-20",
+      "valid_until": "2026-10-20"
+    },
+    {
+      "source_id": "S7",
+      "reference": "handoff-register-v1",
+      "owner": "Fictional advisor Rowan",
+      "as_of": "2026-09-20",
+      "valid_until": "2026-10-20"
+    }
+  ],
+  "input_hash": "35a96e97e961f527c2a16f980d3aa74f47accbe0f34d0383b7a630287636982b",
+  "artifact_id": "household-financial-planning-assistant-35a96e97e961f527c2a1",
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "upstream-unresolved",
+      "path": "upstream_issues[0]",
+      "message": "Upstream account-unreconciled from household-wealth-data-reconciler-d7a8511627bdb1aaa565: conflicting account snapshots; no winner selected",
+      "origin_artifact_id": "household-wealth-data-reconciler-d7a8511627bdb1aaa565",
+      "origin_code": "account-unreconciled",
+      "origin_status": "unresolved",
+      "source_ids": [
+        "S1",
+        "S3",
+        "S4"
+      ]
+    },
+    {
+      "code": "missing-evidence",
+      "path": "asset_pools[0].account_ids",
+      "message": "Required string list is absent"
+    },
+    {
+      "code": "missing-evidence",
+      "path": "goals[0].priority",
+      "message": "Required number is absent"
+    },
+    {
+      "code": "missing-evidence",
+      "path": "goals[1].priority",
+      "message": "Required number is absent"
+    },
+    {
+      "code": "monthly-funding-deficit",
+      "path": "cash_flow",
+      "message": "Monthly commitments exceed supplied net income by 300.0"
+    }
+  ],
+  "result": {
+    "mode": "household_plan",
+    "currency": "USD",
+    "assumptions": {
+      "version": "illustration-assumptions-v1",
+      "return_convention": "nominal-rate-monthly-net-of-fees-and-modeled-tax",
+      "nominal_annual_return": 0,
+      "annual_inflation": 0,
+      "extension_limit_months": 120,
+      "at_risk_ratio": 0.8,
+      "source_ids": [
+        "S6"
+      ]
+    },
+    "cash_flow": {
+      "status": "overcommitted",
+      "monthly_net_income": 6250.0,
+      "monthly_expenses": 3900.0,
+      "monthly_debt_service": 350.0,
+      "monthly_reserve_contribution": 200,
+      "surplus_before_goals": 1800.0,
+      "declared_goal_contributions": 2100.0,
+      "remaining_after_goals": -300.0
+    },
+    "debt_analysis": [
+      {
+        "debt_id": "LOCAL-DEBT-1",
+        "payoff_months": 28,
+        "total_interest": 657.76,
+        "status": "modeled-payoff",
+        "current_month_payment": 350.0,
+        "source_ids": [
+          "S2"
+        ]
+      }
+    ],
+    "funding_ledger": [
+      {
+        "pool_id": "LOCAL-POOL-1",
+        "status": "not-evaluable"
+      }
+    ],
+    "goal_progress": [
+      {
+        "goal_id": "LOCAL-GOAL-1",
+        "projection_status": "not-evaluable"
+      },
+      {
+        "goal_id": "LOCAL-GOAL-2",
+        "projection_status": "not-evaluable"
+      }
+    ],
+    "planning_actions": "Human prioritization required. Contribution and date changes are illustrations, not automatic reallocations.",
+    "limitations": [
+      "Monthly ordinary-annuity goal model; fixed returns and inflation are scenarios, not forecasts.",
+      "Cash flow uses supplied after-tax income; no tax calculation, investment selection or benefit entitlement.",
+      "Debt model assumes fixed APR and payment, monthly interest, no fees, new borrowing or prepayment penalties."
+    ],
+    "upstream_issues": [
+      {
+        "artifact_id": "household-wealth-data-reconciler-d7a8511627bdb1aaa565",
+        "code": "account-unreconciled",
+        "message": "conflicting account snapshots; no winner selected",
+        "status": "unresolved",
+        "source_ids": [
+          "S1",
+          "S3",
+          "S4"
+        ]
+      }
+    ]
+  },
+  "human_review_required": true,
+  "action_taken": false,
+  "delivery_status": "not-delivered",
+  "input_snapshot": {
+    "schema_version": "wealth-p0-v1",
+    "request_id": "FWA-PLAN-1",
+    "household_id": "HH-FWA-7",
+    "as_of": "2026-09-20",
+    "engagement": {
+      "capacity": "advisory",
+      "jurisdiction": "US"
+    },
+    "sources": [
+      {
+        "source_id": "S1",
+        "reference": "request-and-scope-v1",
+        "owner": "Fictional advisor Rowan",
+        "as_of": "2026-09-20",
+        "valid_until": "2026-10-20"
+      },
+      {
+        "source_id": "S2",
+        "reference": "home-statement-v1",
+        "owner": "Fictional home institution",
+        "as_of": "2026-09-20",
+        "valid_until": "2026-10-20"
+      },
+      {
+        "source_id": "S3",
+        "reference": "retirement-statement-v1",
+        "owner": "Fictional outside custodian",
+        "as_of": "2026-09-20",
+        "valid_until": "2026-10-20"
+      },
+      {
+        "source_id": "S4",
+        "reference": "client-correction-v1",
+        "owner": "Fictional client P-FWA-A",
+        "as_of": "2026-09-20",
+        "valid_until": "2026-10-20"
+      },
+      {
+        "source_id": "S5",
+        "reference": "budget-and-goals-v1",
+        "owner": "Fictional client P-FWA-A",
+        "as_of": "2026-09-20",
+        "valid_until": "2026-10-20"
+      },
+      {
+        "source_id": "S6",
+        "reference": "illustration-assumptions-v1",
+        "owner": "Fictional advisor Rowan",
+        "as_of": "2026-09-20",
+        "valid_until": "2026-10-20"
+      },
+      {
+        "source_id": "S7",
+        "reference": "handoff-register-v1",
+        "owner": "Fictional advisor Rowan",
+        "as_of": "2026-09-20",
+        "valid_until": "2026-10-20"
+      }
+    ],
+    "currency": "USD",
+    "mode": "household_plan",
+    "upstream_issues": [
+      {
+        "artifact_id": "household-wealth-data-reconciler-d7a8511627bdb1aaa565",
+        "code": "account-unreconciled",
+        "message": "conflicting account snapshots; no winner selected",
+        "status": "unresolved",
+        "source_ids": [
+          "S1",
+          "S3",
+          "S4"
+        ]
+      }
+    ],
+    "assumptions": {
+      "version": "illustration-assumptions-v1",
+      "return_convention": "nominal-rate-monthly-net-of-fees-and-modeled-tax",
+      "nominal_annual_return": 0,
+      "annual_inflation": 0,
+      "extension_limit_months": 120,
+      "at_risk_ratio": 0.8,
+      "source_ids": [
+        "S6"
+      ]
+    },
+    "asset_pools": [
+      {
+        "pool_id": "LOCAL-POOL-1",
+        "account_ids": null,
+        "balance": 48750,
+        "reserved_amount": 15000,
+        "source_ids": [
+          "S5"
+        ]
+      }
+    ],
+    "goals": [
+      {
+        "goal_id": "LOCAL-GOAL-1",
+        "label": "Roof",
+        "priority": null,
+        "target_amount": 22000,
+        "target_date": "2027-09-20",
+        "target_basis": "nominal",
+        "monthly_contribution": 600,
+        "allocations": [
+          {
+            "pool_id": "LOCAL-POOL-1",
+            "amount": 20000,
+            "source_ids": [
+              "S5"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S5"
+        ]
+      },
+      {
+        "goal_id": "LOCAL-GOAL-2",
+        "label": "Education",
+        "priority": null,
+        "target_amount": 35000,
+        "target_date": "2028-09-20",
+        "target_basis": "nominal",
+        "monthly_contribution": 1500,
+        "allocations": [
+          {
+            "pool_id": "LOCAL-POOL-1",
+            "amount": 18000,
+            "source_ids": [
+              "S5"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S5"
+        ]
+      }
+    ],
+    "cash_flow": {
+      "expense_basis": "excludes-debt-goals-reserve;income-after-tax",
+      "income": [
+        {
+          "item_id": "LOCAL-INCOME-1",
+          "label": "After-tax recurring monthly pay",
+          "monthly_amount": 6250,
+          "source_ids": [
+            "S5"
+          ]
+        }
+      ],
+      "expenses": [
+        {
+          "item_id": "LOCAL-EXPENSE-1",
+          "label": "Living expenses excluding debt, goals and reserve",
+          "monthly_amount": 3900,
+          "source_ids": [
+            "S5"
+          ]
+        }
+      ],
+      "monthly_reserve_contribution": 200,
+      "source_ids": [
+        "S5"
+      ]
+    },
+    "debts": [
+      {
+        "debt_id": "LOCAL-DEBT-1",
+        "label": "Car loan L-CAR",
+        "balance": 9000,
+        "apr": 0.06,
+        "minimum_monthly_payment": 300,
+        "additional_monthly_payment": 50,
+        "source_ids": [
+          "S2"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-04",
+  "checks": [
+    {
+      "name": "final-wealth-unit",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_wealth*.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 24.374,
+      "log": "final-wealth-unit.txt"
+    },
+    {
+      "name": "final-native-evals",
+      "command": [
+        "python",
+        "tools/run_selftests.py",
+        "skills/wealth-management",
+        "skills/asset-management/investment-manager-due-diligence-reviewer"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.83,
+      "log": "final-native-evals.txt"
+    },
+    {
+      "name": "final-wealth-structure",
+      "command": [
+        "python",
+        "tools/validate_skills.py",
+        "skills/wealth-management"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log": "final-wealth-structure.txt"
+    },
+    {
+      "name": "final-focused-lint",
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "--isolated",
+        "--select",
+        "F",
+        "shared/wealth-quality",
+        "tools/sync_wealth_quality.py",
+        "tools/wealth_p4_eval.py",
+        "tools/test_wealth_p5_audience.py",
+        "tools/test_wealth_p5_cases.py",
+        "tools/test_wealth_p5_evidence.py",
+        "tools/test_wealth_p5_handoffs.py",
+        "tools/test_wealth_p5_resources.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.061,
+      "log": "final-focused-lint.txt"
+    },
+    {
+      "name": "final-sync",
+      "command": [
+        "python",
+        "tools/sync_wealth_quality.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.034,
+      "log": "final-sync.txt"
+    },
+    {
+      "name": "final-handoffs",
+      "command": [
+        "python",
+        "tools/check_handoffs.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.17,
+      "log": "final-handoffs.txt"
+    }
+  ]
+}

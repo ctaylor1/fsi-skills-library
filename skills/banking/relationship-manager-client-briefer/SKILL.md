@@ -64,7 +64,7 @@ nothing a cited source does not support.
 - **Collections / delinquency** treatment → `collections-treatment-planner`; a **servicing
   exception** → `loan-servicing-exception-resolver`.
 - **Adverse-media investigation** → `adverse-media-investigator`; **KYC/CDD refresh** →
-  `kyc-customer-due-diligence-screener`; **risk-rating review** → `customer-risk-rating-reviewer`.
+  `customer-due-diligence-reviewer`; **risk-rating review** → `customer-risk-rating-reviewer`.
 - Any request to **send/deliver, write the CRM, decide/approve credit, waive a covenant, price,
   re-rate, or advise** → refuse; draft only and route to a human or the skill above.
 

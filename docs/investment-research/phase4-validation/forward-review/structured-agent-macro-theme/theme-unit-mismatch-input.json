@@ -1,0 +1,183 @@
+{
+  "request_id": "fresh-theme",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "economy",
+    "id": "FRESH-ECONOMY"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T16:00:00Z",
+  "information_barrier": "public-side",
+  "unresolved_issues": [],
+  "sources": [
+    {
+      "source_id": "fresh-synthetic",
+      "version": "1",
+      "kind": "model",
+      "locator": "independent synthetic fixture, not authenticated economic releases",
+      "known_at": "2026-02-15T12:00:00Z",
+      "subject_ids": [
+        "FRESH-ECONOMY"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "fresh-synthetic",
+      "locator": "independent synthetic fixture inventory, rows1-9"
+    }
+  ],
+  "theme_id": "fresh-higher-yields",
+  "driver_observations": [],
+  "hypothesis": {
+    "statement": "Higher relative yields could pressure bond and equity prices while supporting USD in the stated quote.",
+    "driver": "parallel relative yield rise",
+    "transmission": "Discount rates pressure local valuations; relative policy yields may support USD, conditional on unchanged cash-flow and risk assumptions.",
+    "horizon_date": "2027-04-20"
+  },
+  "evidence": [
+    {
+      "evidence_id": "fresh-support",
+      "role": "support",
+      "statement": "Supplied duration and sensitivities describe a conditional discount-rate and relative-yield channel.",
+      "known_at": "2026-10-20T16:00:00Z",
+      "evidence_refs": [
+        {
+          "source_id": "fresh-synthetic",
+          "locator": "independent synthetic fixture inventory, rows1-9"
+        }
+      ]
+    },
+    {
+      "evidence_id": "fresh-counter",
+      "role": "counter",
+      "statement": "Higher earnings or risk-premium compression may offset discount pressure; FX depends on relative policies and funding flows.",
+      "known_at": "2026-10-20T16:00:00Z",
+      "evidence_refs": [
+        {
+          "source_id": "fresh-synthetic",
+          "locator": "independent synthetic fixture inventory, rows1-9"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "required_asset_classes": [
+      "rates",
+      "equity",
+      "fx"
+    ],
+    "inventory_complete": true
+  },
+  "falsifiers": [
+    {
+      "test_id": "fresh-falsifier",
+      "description": "Earnings expansion offsets discount pressure despite higher yields.",
+      "monitor": "Compare fresh earnings revisions with relative yields.",
+      "due_on": "2027-04-20",
+      "status": "not-tested",
+      "known_at": null,
+      "evidence_refs": []
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "fresh-100bp",
+      "label": "Conditional100basis-point parallel relative yield rise",
+      "horizon_date": "2027-04-20",
+      "assumptions": [
+        "Supplied fixed sensitivities and parallel move; no convexity, carry, repricing path or coefficient estimation."
+      ],
+      "shocks": [
+        {
+          "driver_id": "relative-yield",
+          "value": 100,
+          "unit": "percent"
+        }
+      ],
+      "known_at": "2026-10-20T16:00:00Z",
+      "evidence_refs": [
+        {
+          "source_id": "fresh-synthetic",
+          "locator": "independent synthetic fixture inventory, rows1-9"
+        }
+      ]
+    }
+  ],
+  "exposures": [
+    {
+      "exposure_id": "fresh-bond",
+      "asset_class": "rates",
+      "instrument_id": "fresh-bond-instrument",
+      "method": "modified-duration",
+      "driver_id": "relative-yield",
+      "sensitivity": 6.2,
+      "shock_unit": "basis-point",
+      "response_unit": "percent-price-change",
+      "mechanism": "Conditional discount and relative-yield transmission; all other assumptions held fixed.",
+      "limitations": [
+        "Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance."
+      ],
+      "known_at": "2026-10-20T16:00:00Z",
+      "evidence_refs": [
+        {
+          "source_id": "fresh-synthetic",
+          "locator": "independent synthetic fixture inventory, rows1-9"
+        }
+      ]
+    },
+    {
+      "exposure_id": "fresh-equity",
+      "asset_class": "equity",
+      "instrument_id": "fresh-equity-instrument",
+      "method": "linear",
+      "driver_id": "relative-yield",
+      "sensitivity": -0.035,
+      "shock_unit": "basis-point",
+      "response_unit": "percent-price-change",
+      "mechanism": "Conditional discount and relative-yield transmission; all other assumptions held fixed.",
+      "limitations": [
+        "Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance."
+      ],
+      "known_at": "2026-10-20T16:00:00Z",
+      "evidence_refs": [
+        {
+          "source_id": "fresh-synthetic",
+          "locator": "independent synthetic fixture inventory, rows1-9"
+        }
+      ]
+    },
+    {
+      "exposure_id": "fresh-fx",
+      "asset_class": "fx",
+      "instrument_id": "fresh-fx-instrument",
+      "method": "linear",
+      "driver_id": "relative-yield",
+      "sensitivity": 0.012,
+      "shock_unit": "basis-point",
+      "response_unit": "percent-price-change",
+      "mechanism": "Conditional discount and relative-yield transmission; all other assumptions held fixed.",
+      "limitations": [
+        "Synthetic supplied sensitivity; no empirical causal or market-liquidity assurance."
+      ],
+      "known_at": "2026-10-20T16:00:00Z",
+      "evidence_refs": [
+        {
+          "source_id": "fresh-synthetic",
+          "locator": "independent synthetic fixture inventory, rows1-9"
+        }
+      ],
+      "quote_convention": "EUR per USD"
+    }
+  ]
+}

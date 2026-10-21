@@ -1,0 +1,94 @@
+{
+  "id": "OPF-O02-UNBALANCED",
+  "package": "fund-accounting-preparer",
+  "input": {
+    "request_id": "OPF-O02-UNBALANCED",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "journal_trial_balance",
+    "accounts": [
+      {
+        "account_id": "CASH",
+        "type": "asset",
+        "opening_debit_balance": "100",
+        "source_ref": "ind-source"
+      },
+      {
+        "account_id": "CAPITAL",
+        "type": "equity",
+        "opening_debit_balance": "-100",
+        "source_ref": "ind-source"
+      },
+      {
+        "account_id": "EXPENSE",
+        "type": "expense",
+        "opening_debit_balance": "0",
+        "source_ref": "ind-source"
+      },
+      {
+        "account_id": "PAYABLE",
+        "type": "liability",
+        "opening_debit_balance": "0",
+        "source_ref": "ind-source"
+      }
+    ],
+    "journals": [
+      {
+        "journal_id": "J1",
+        "date": "2026-09-18",
+        "source_ref": "ind-source",
+        "lines": [
+          {
+            "account_id": "EXPENSE",
+            "debit": "12.34",
+            "credit": "0"
+          },
+          {
+            "account_id": "PAYABLE",
+            "debit": "0",
+            "credit": "11.34"
+          }
+        ]
+      }
+    ]
+  },
+  "expected": {
+    "exit_nonzero": true,
+    "reason": "journal short credit1 cannot be silently balanced"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "6698b1855be5b3c63a4293d098be3155aa2b8cea36b0e166afbacfa1c7f38356",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"unbalanced journal: J1\"]}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "unbalanced journal: J1\n"
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-O02-UNBALANCED",
+      "check": "invalid request rejected by input and compute CLIs",
+      "passed": true
+    }
+  ]
+}

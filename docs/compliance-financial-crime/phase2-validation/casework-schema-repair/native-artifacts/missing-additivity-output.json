@@ -1,0 +1,515 @@
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "enhanced-due-diligence-assessor",
+  "method": "edd-reconciliation/1.0",
+  "request_id": "TEST-REQUEST",
+  "object_id": "TEST-SUBJECT",
+  "object_type": "customer",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "TEST-INSTITUTION",
+    "legal_entity_id": "TEST-ENTITY",
+    "capacity": "second_line",
+    "represented_party": "institution",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "customer",
+    "jurisdiction": "US",
+    "line_of_business": "banking",
+    "purpose": "scoped-professional-review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "authorized_analyst",
+  "status": "needs-evidence",
+  "results": {
+    "wealth_funds_assessments": [
+      {
+        "claim_id": "W1",
+        "kind": "source_of_funds",
+        "currency": "USD",
+        "claimed_amount": "100.10",
+        "corroborated_amount": null,
+        "difference": null,
+        "economic_event_aggregation": {
+          "status": "unknown-total-withheld",
+          "basis": null,
+          "unique_event_count": 1,
+          "events": [
+            {
+              "event_id": "SYN-ECO-RECEIPT-1",
+              "amount": "100.10",
+              "currency": "USD",
+              "date": "2026-10-01",
+              "document_evidence_ids": [
+                "V1"
+              ],
+              "consistency": "consistent-supplied-event"
+            }
+          ]
+        },
+        "quantitative_review": "unknown-or-chronology-gap",
+        "plausibility": "human-assessment-required",
+        "economic_activity": "Sale of owned asset",
+        "capacity_basis": "Supplied asset agreement",
+        "economic_capacity": "100.10",
+        "capacity_review": "within-supplied-economic-capacity",
+        "corroboration": [
+          {
+            "evidence_id": "V1",
+            "economic_event_id": "SYN-ECO-RECEIPT-1",
+            "amount": "100.10",
+            "date": "2026-10-01",
+            "description": "Sale proceeds from supplied agreement",
+            "counting_status": "withheld-pending-economic-event-review"
+          }
+        ],
+        "counterevidence": []
+      }
+    ],
+    "chronology": [
+      {
+        "date": "2026-10-01",
+        "event": "Sale agreement records receipt of100.10USD"
+      }
+    ],
+    "hypotheses": [
+      {
+        "hypothesis_id": "H1",
+        "proposition": "Activity may be explained by trading proceeds; consider counterevidence.",
+        "proposition_status": "analyst-hypothesis",
+        "support": [
+          "Sale agreement supplied"
+        ],
+        "counterevidence": [
+          "Transfer beneficiary differs from sale party"
+        ],
+        "conclusion": "human-assessment-required"
+      }
+    ],
+    "control_assessments": [
+      {
+        "control_id": "C1",
+        "design_assessed": true,
+        "operating_assessed": true,
+        "assessor": "Synthetic independent analyst",
+        "period_start": "2026-09-01",
+        "period_end": "2026-09-30",
+        "sample_size": 20,
+        "failures": 0,
+        "operating_assessment_supported": true
+      }
+    ],
+    "residual_risk": {
+      "band": "Unknown",
+      "score": null,
+      "status": "unknown"
+    },
+    "recommendation": "human-adjudication-required",
+    "customer_decision": "human-owned"
+  },
+  "unresolved_issues": [
+    "W1: economic-event additivity for W1: value is unknown or missing",
+    "W1: distinct economic-event additivity is not supported by an applicable method and exact scoped source facts; total withheld",
+    "W1: SoF/SoW reconciliation requires further investigation",
+    "residual method/control evidence insufficient; Unknown retained"
+  ],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/claimed_amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/claim_date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/description",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/economic_event",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "economic-event-test-36"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/economic_activity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/capacity_basis",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/capacity_currency",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/economic_capacity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/support/0",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/counterevidence/0",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/design_assessed",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/operating_assessed",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/assessor",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/period_start",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/period_end",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/sample_size",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/failures",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f32"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/event",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/tolerance",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/inherent_score",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/control_effectiveness",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/bands/0/maximum",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/bands/0/band_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f33"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/bands/1/maximum",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/bands/1/band_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f34"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/required_controls_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f35"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Quantitative reconciliation supports plausibility review, not proof of lawful origin or complete net worth. No currency conversion, fabricated income chronology, residual downgrade without explicit method and assessed operating evidence, adjudication, customer action or filing.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "fixture-source"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "financial-crime-case-investigator",
+    "sanctions-exposure-reviewer",
+    "customer-risk-rating-reviewer"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "02da5798f87e7cf1e3aebffd2fe93ad5acd077adc36a5c9c6bf7ab0834d575a0",
+  "source_truth": "unverified"
+}

@@ -17,9 +17,13 @@ Usage:
 Prints the analysis JSON to stdout.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, importlib.util
 from datetime import datetime
 from pathlib import Path
+from native_integrity import attach_source, canonical_hash
+_spec = importlib.util.spec_from_file_location(__name__ + "_input", Path(__file__).with_name("validate_input.py"))
+_vi = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_vi)
 
 DEFAULT_CONFIG = {
     "review_max_days": 365,   # a control not reviewed within this window is stale
@@ -76,6 +80,8 @@ def _cite_ctrl(ctrl: dict) -> str:
 
 
 def compute(doc: dict) -> dict:
+    errors, warnings = _vi.validate(doc)
+    if errors: raise ValueError("; ".join(errors))
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
     as_of = _parse_date(doc["as_of"])
     reqs = sorted(doc["requirements"], key=lambda r: r["req_id"])
@@ -97,6 +103,7 @@ def compute(doc: dict) -> dict:
             "req_id": (req or {}).get("req_id"),
             "control_id": (ctrl or {}).get("control_id"),
             "criticality": crit,
+            "assessment_phase": "future_readiness" if req and _parse_date(req["effective_date"]) > as_of else "current_design",
             "severity": _severity(ftype, crit),
             "reason": reason,
             "evidence": evidence,
@@ -106,17 +113,21 @@ def compute(doc: dict) -> dict:
     # --- Requirement-driven findings ---
     for req in reqs:
         rid = req["req_id"]
-        if not req.get("applicable", True):
+        if req.get("applicable") is None:
+            not_evaluable.append({"req_id": rid, "why": "applicability unresolved"})
+            continue
+        if req.get("applicable") is False:
             informational.append({"req_id": rid, "why": "marked not applicable to this scope"})
             continue
         if _parse_date(req["effective_date"]) > as_of:
             informational.append({"req_id": rid, "why": f"not yet in effect (effective {req['effective_date']})"})
-            continue
 
+        if req.get("evidence_expected") is None:
+            not_evaluable.append({"req_id": rid, "why": "evidence expectation unspecified; do not infer none required"})
         active = [c for c in ctrls if rid in (c.get("maps_to") or []) and c.get("status") == "active"]
         if not active:
             add("coverage_gap", req, None,
-                f"no active policy/procedure control maps to in-effect requirement {rid}",
+                f"no active policy/procedure control maps to requirement {rid}; evaluate current design or prospective readiness",
                 [{"req_id": rid, "obligation": req.get("obligation"), "citation": _cite_req(req)}],
                 f"Draft or adopt a policy/procedure covering {rid}; assign an owner and target "
                 f"date. Recommendation only, for human adjudication.")
@@ -128,8 +139,7 @@ def compute(doc: dict) -> dict:
             add("evidence_gap", req, ctrl,
                 f"requirement {rid} expects retained evidence but mapped control(s) record none",
                 [{"req_id": rid, "control_id": ctrl["control_id"], "citation": _cite_ctrl(ctrl)}],
-                f"Establish and record the evidence artifact demonstrating {ctrl['control_id']} "
-                f"operates as required by {rid}.")
+                f"Identify the required design evidence for {ctrl['control_id']}; independent operating testing is a separate workflow.")
 
         # parameter_conflict + version_drift: per active control
         rparam = req.get("parameter") or {}
@@ -149,10 +159,13 @@ def compute(doc: dict) -> dict:
                              {"req_id": rid, "citation": _cite_req(req)}],
                             f"Reconcile {ctrl['control_id']} to satisfy the {rid} bound; route the "
                             f"wording change to the policy owner.")
-                elif cparam:
+                else:
                     not_evaluable.append({"req_id": rid, "control_id": ctrl["control_id"],
                                           "why": f"control parameter kind {cparam.get('kind')!r} "
                                                  f"does not match requirement kind {kind!r}"})
+
+            elif kind:
+                not_evaluable.append({"req_id": rid, "control_id": ctrl["control_id"], "why": f"unsupported requirement comparator {kind!r}"})
 
             rver, cver = req.get("version"), ctrl.get("references_version")
             if rver and cver and str(rver) != str(cver):
@@ -166,7 +179,7 @@ def compute(doc: dict) -> dict:
                     f"confirm the procedure steps still align.")
 
         produced = {f["req_id"] for f in findings if f["req_id"] == rid}
-        if rid not in produced:
+        if rid not in produced and not any(n.get("req_id") == rid for n in not_evaluable):
             clean.append(rid)
 
     # --- Control-driven finding: stale review (evaluate each active control once) ---
@@ -178,6 +191,8 @@ def compute(doc: dict) -> dict:
             not_evaluable.append({"control_id": ctrl["control_id"], "why": "no last_reviewed date"})
             continue
         age = (as_of - _parse_date(lr)).days
+        if age < 0:
+            not_evaluable.append({"control_id": ctrl["control_id"], "why": "last_reviewed is after assessment as_of"})
         if age > cfg["review_max_days"]:
             add("stale_review", None, ctrl,
                 f"control {ctrl['control_id']} last reviewed {lr} ({age}d ago), exceeds the "
@@ -186,6 +201,11 @@ def compute(doc: dict) -> dict:
                 f"Schedule a review of {ctrl['control_id']}; last reviewed {lr} exceeds the "
                 f"{cfg['review_max_days']}-day cycle.")
 
+    excluded = {n.get("req_id") for n in not_evaluable}
+    affected_controls = {n.get("control_id") for n in not_evaluable} | {f.get("control_id") for f in findings}
+    for c in ctrls:
+        if c["control_id"] in affected_controls: excluded.update(c.get("maps_to", []))
+    clean = [rid for rid in clean if rid not in excluded]
     counts = {"High": 0, "Medium": 0, "Low": 0}
     for f in findings:
         counts[f["severity"]] += 1
@@ -198,8 +218,12 @@ def compute(doc: dict) -> dict:
     else:
         priority = "None"
 
-    return {
-        "analysis_id": f"ppga-{doc.get('framework', 'fw').replace(' ', '')}-{doc['as_of']}-0001",
+    result = {
+        "analysis_id": "ppga-" + canonical_hash(doc)[:16],
+        "assessment_scope": "policy/control design against supplied requirements",
+        "operating_effectiveness_status": "not_assessed",
+        "evidence_limit": "Evidence references identify supplied artifacts; their presence does not prove operation or source truth.",
+        "warnings": warnings,
         "framework": doc.get("framework"),
         "jurisdiction": doc.get("jurisdiction"),
         "as_of": doc["as_of"],
@@ -213,6 +237,7 @@ def compute(doc: dict) -> dict:
         "disclaimer": DISCLAIMER,
     }
 
+    return attach_source(result, doc)
 
 def main(argv):
     if "--selftest" in argv:

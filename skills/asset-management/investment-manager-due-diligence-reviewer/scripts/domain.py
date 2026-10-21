@@ -193,3 +193,33 @@ def validate_output(out):
     except (ValueError, TypeError, KeyError) as exc:
         errors.append(f"invalid input snapshot: {exc}")
     return errors
+
+
+# Phase2 explicit institutional mode; the no-mode household contract is unchanged.
+_legacy_validate, _legacy_build, _legacy_validate_output = validate, build, validate_output
+
+def validate(doc):
+    if isinstance(doc,dict) and doc.get('mode')=='institutional':
+        from phase2_domain import validate as institutional_validate
+        return institutional_validate(doc)
+    if isinstance(doc,dict) and doc.get('mode') is not None:return ['unsupported manager-review mode']
+    return _legacy_validate(doc)
+
+def build(doc):
+    if isinstance(doc,dict) and doc.get('mode')=='institutional':
+        from phase2_domain import compute
+        return compute(doc)
+    if isinstance(doc,dict) and doc.get('mode') is not None:raise ValueError('unsupported manager-review mode')
+    return _legacy_build(doc)
+
+def validate_output(out,original_input=None):
+    if isinstance(out,dict) and out.get('mode')=='institutional':
+        from foundation_contract import validate_result
+        from phase2_domain import compute
+        return validate_result(out,original_input,compute)
+    errors=_legacy_validate_output(out)
+    if original_input is not None:
+        try:
+            if out!=_legacy_build(original_input):errors.append('legacy output differs from detached original input')
+        except (ValueError,TypeError,KeyError) as exc:errors.append(str(exc))
+    return errors

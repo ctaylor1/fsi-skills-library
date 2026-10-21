@@ -1,0 +1,7 @@
+# Handoffs and ownership
+
+A surveillance consumer needs an explicit reviewed adapter: mapper `principal` becomes surveillance maturity `amount`; `source_ref` must resolve to a registered `source_id`; issuer, instrument, currency, units and maturity date must survive. A map alone does not supply financial ratios, source-vintage eligibility, liquidity accessibility, spread comparability or ratings. Terms normalization is `credit-document-terms-reviewer`; research surveillance is `issuer-credit-surveillance-reviewer`; banker financing decisions remain Investment Banking/Capital Markets. Expanded issuer, liquidity, covenant, issue-relative-value and recovery methods are later-phase workflows, not native capability here.
+
+Preserve the immutable native artifact and separately retained original, input_hash, source_truth, legal issuer/instrument/document identifiers where present, source references and types, economic period, source knowledge cutoff/vintages, currency/units/accounting basis, coverage/missingness, method/profile versions, review gates and receiving owner. Receiving workflows validate applicability and availability before use; missing adapters are an integration limit, never an implicit schema match.
+
+IR research outputs do not authorize a trade, client communication, credit/lender decision, filing, publication or system-of-record write. Adjacent owners receive evidence with its limits; they do not inherit a fabricated approval. Later-phase target workflows remain planned until their native method and institutional integration gates are met.

@@ -1,0 +1,170 @@
+{
+  "id": "OPF-S02-UNKNOWN-PRICE",
+  "package": "etf-operations-reviewer",
+  "input": {
+    "request_id": "OPF-S02-UNKNOWN-PRICE",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "basket_control",
+    "direction": "creation",
+    "creation_unit_size": 10,
+    "creation_units": 3,
+    "cash_per_creation_unit": "6",
+    "transaction_fee": "2",
+    "value_tolerance": "0",
+    "basket_source_ref": "ind-source",
+    "nav_source_ref": "ind-source",
+    "ap_source_ref": "ind-source",
+    "dealing_terms_source_ref": "ind-source",
+    "order_received_at": "2026-09-18T19:59:00+00:00",
+    "cutoff_at": "2026-09-18T16:00:00-04:00",
+    "ap_status": "supplied-active",
+    "ap_valid_until": "2026-12-31",
+    "basket_type": "standard",
+    "nav_per_share": "5",
+    "components": [
+      {
+        "instrument_id": "A",
+        "quantity_per_creation_unit": "2",
+        "price": "7",
+        "source_ref": "ind-source"
+      },
+      {
+        "instrument_id": "B",
+        "quantity_per_creation_unit": "3",
+        "price": null,
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "expected": {
+    "aggregate_basket_value": null,
+    "tie_out": null,
+    "reason": "missing component price must not become zero"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "7f704500c9b1a59ba24ccb706ccca8121924b2c28db9d0ef58d40a3d474e7bbd",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"etf-operations-reviewer\",\n  \"request_id\": \"OPF-S02-UNKNOWN-PRICE\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"needs-review\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-etf-control-basket_control-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"direction\": \"creation\",\n    \"total_etf_shares\": \"30\",\n    \"component_transfers\": [\n      {\n        \"instrument_id\": \"A\",\n        \"total_quantity\": \"6\",\n        \"value_per_creation_unit\": \"14\"\n      },\n      {\n        \"instrument_id\": \"B\",\n        \"total_quantity\": \"9\",\n        \"value_per_creation_unit\": null\n      }\n    ],\n    \"basket_securities_per_creation_unit\": null,\n    \"cash_per_creation_unit\": \"6\",\n    \"nav_value_per_creation_unit\": \"50\",\n    \"value_difference_per_creation_unit\": null,\n    \"within_supplied_tolerance\": null,\n    \"indicative_ap_cash\": \"20\",\n    \"ap_cash_convention\": \"AP pays on creation; AP receives on redemption; negative reverses direction; fee is outside NAV basket tie-out\",\n    \"ap_agreement_status\": \"supplied-active\",\n    \"accepted\": false,\n    \"settlement_performed\": false\n  },\n  \"unresolved_issues\": [\n    \"Unpriced basket constituents: B\"\n  ],\n  \"limitations\": [\n    \"Same-currency supplied cash/securities and NAV only; no FX, derivative valuation, authorized-participant authentication or settlement engine.\",\n    \"Basket/timing/custom-review assertions do not determine Rule6c-11 or UCITS applicability or grant acceptance/execution.\",\n    \"Secondary-market ratios rounded to12 places; no historical premium/disclosure or trading-cost certification.\"\n  ],\n  \"handoffs\": [\n    \"index-portfolio-reviewer\",\n    \"fund-accounting-preparer\",\n    \"fund-investor-operations-reviewer\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"5cc20d7fa22444100b813c4425c22d0290c17d1ccb84cf9574378b01e65ab2a5\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "etf-operations-reviewer",
+    "request_id": "OPF-S02-UNKNOWN-PRICE",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "needs-review",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "supplied-etf-control-basket_control-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "direction": "creation",
+      "total_etf_shares": "30",
+      "component_transfers": [
+        {
+          "instrument_id": "A",
+          "total_quantity": "6",
+          "value_per_creation_unit": "14"
+        },
+        {
+          "instrument_id": "B",
+          "total_quantity": "9",
+          "value_per_creation_unit": null
+        }
+      ],
+      "basket_securities_per_creation_unit": null,
+      "cash_per_creation_unit": "6",
+      "nav_value_per_creation_unit": "50",
+      "value_difference_per_creation_unit": null,
+      "within_supplied_tolerance": null,
+      "indicative_ap_cash": "20",
+      "ap_cash_convention": "AP pays on creation; AP receives on redemption; negative reverses direction; fee is outside NAV basket tie-out",
+      "ap_agreement_status": "supplied-active",
+      "accepted": false,
+      "settlement_performed": false
+    },
+    "unresolved_issues": [
+      "Unpriced basket constituents: B"
+    ],
+    "limitations": [
+      "Same-currency supplied cash/securities and NAV only; no FX, derivative valuation, authorized-participant authentication or settlement engine.",
+      "Basket/timing/custom-review assertions do not determine Rule6c-11 or UCITS applicability or grant acceptance/execution.",
+      "Secondary-market ratios rounded to12 places; no historical premium/disclosure or trading-cost certification."
+    ],
+    "handoffs": [
+      "index-portfolio-reviewer",
+      "fund-accounting-preparer",
+      "fund-investor-operations-reviewer"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "5cc20d7fa22444100b813c4425c22d0290c17d1ccb84cf9574378b01e65ab2a5",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-S02-UNKNOWN-PRICE",
+      "check": "unknown price poisons aggregate and tie-out",
+      "passed": true
+    },
+    {
+      "case": "OPF-S02-UNKNOWN-PRICE",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-S02-UNKNOWN-PRICE",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-S02-UNKNOWN-PRICE",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    }
+  ]
+}

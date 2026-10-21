@@ -72,7 +72,7 @@ Deduplicated citations backing every asserted figure and disclosure in this fact
 
 ---
 Handoff: route the assembled `factsheet_id` + manifest to the fund's product / marketing owner;
-performance figures come from `performance-attribution-builder`, exposures from
-`portfolio-exposure-analyzer`, and narrative commentary from `fund-commentary-drafter`. This
+performance figures come from `portfolio-performance-attributor`, exposures from
+`portfolio-exposure-analyzer`, and narrative commentary from `investment-commentary-builder`. This
 skill assembles only — performance verification, compliance/marketing review, registered-principal
 approval, and external distribution are separate, human-owned steps.

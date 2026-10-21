@@ -1,5 +1,12 @@
 # Controls — financials-normalizer
 
+## Version 0.2.0 contract
+
+The native result is a closed calculation record. Retain the original input separately and validate with `python3 scripts/validate_output.py RESULT.json --input ORIGINAL.json`; `--selftest` loads both bundled examples. Computation validates input first. Finite JSON numbers, valid dates, supported domains and unique identifiers are enforced; duplicate JSON keys are rejected. Output validation reconstructs from the original and rejects omitted, altered or extra results, including flags/counts/statuses. Keep author narrative and workflow envelopes outside the native result. Source binding establishes deterministic fidelity to supplied inputs, not source authenticity, data rights, economic validity, institutional acceptance or independent assurance.
+
+Each adjustment requires an explicit statement, known period and mapped reported account; an absent starting value cannot default to zero. Preserve its rationale, source and supplied approver in the adjustment ledger. Check reported balance-sheet anchors separately for each period. Reconstructed normalized identities require complete, disjoint mapped component coverage; raw anchor agreement cannot prove adjusted statements balance. Incomplete reconstruction prevents Model-ready. This maps extracts only; it does not convert accounting frameworks or provide an accounting opinion.
+
+
 - **Risk tier:** R2 — analytical / drafting support. **Action mode:** Read-only analysis.
 - **Human approval:** `external-delivery` — required before the normalized dataset is
   delivered to a downstream model/report, an audit file, or any system of record. Internal

@@ -6,7 +6,7 @@
   clocks; statutory rights stay separate from scheme recovery.
 - payment-scheme-change-tracker: publication/version and known applicable obligations
   for ongoing change tracking after applicability is reviewed.
-- sanctions-match-adjudicator: conditional shared specialist for actual screening
+- sanctions-match-investigator: conditional shared specialist for actual screening
   match evidence; this package does not adjudicate a match.
 
 Select the lead for the actual task rather than launching every route. Preserve source

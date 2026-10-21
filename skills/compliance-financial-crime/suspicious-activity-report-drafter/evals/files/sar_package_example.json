@@ -1,5 +1,6 @@
 {
   "config_version": "sar-2026.07",
+  "as_of": "2026-07-17",
   "template_version": "sar-package-v1",
   "case_id": "SAR-2026-0100",
   "jurisdiction": "US",
@@ -9,7 +10,7 @@
   "routes": [],
   "sections": {
     "filing_header": {
-      "title": "Filing Header (context only \u2014 no filing action)",
+      "title": "Filing Header (context only — no filing action)",
       "case_id": "SAR-2026-0100",
       "approving_investigation": "TM-CASE-5521",
       "filing_type": "initial",
@@ -149,7 +150,7 @@
     "amount_tie_out": {
       "title": "Amount & Chronology Tie-Out",
       "status": "pass",
-      "computed_total": 486500.0,
+      "computed_total": 486500,
       "declared_total": 486500.0,
       "currency": "USD",
       "computed_period": {
@@ -167,63 +168,71 @@
     "typology_assessment": {
       "title": "Typology Assessment",
       "status": "present",
-      "typologies": [
-        {
-          "code": "STRUCTURING",
-          "label": "Structuring / sub-threshold cash deposits",
-          "in_library": true,
-          "observed_indicators": [
-            "rapid-succession",
-            "sub-threshold-cash"
-          ],
-          "required_indicators": [
-            "rapid-succession",
-            "sub-threshold-cash"
-          ],
-          "missing_indicators": [],
-          "supported": true,
-          "citations": [
-            "config:typology-library=sar-2026.07"
-          ]
-        },
-        {
-          "code": "FUNNEL-ACCOUNT",
-          "label": "Funnel account (aggregate-in, wire-out)",
-          "in_library": true,
-          "observed_indicators": [
-            "geographic-dispersion",
-            "multi-source-in",
-            "single-out"
-          ],
-          "required_indicators": [
-            "multi-source-in",
-            "single-out"
-          ],
-          "missing_indicators": [],
-          "supported": true,
-          "citations": [
-            "config:typology-library=sar-2026.07"
-          ]
-        }
-      ],
+      "typologies": [],
       "all_supported": true
     },
     "narrative": {
       "title": "SAR Narrative (5W + How)",
       "status": "present",
-      "who": "The primary subject (SUBJ-1, masked), the personal-checking accountholder, and the wire beneficiary A**** Trading LLC (SUBJ-2, masked).",
-      "what": "Five sub-threshold cash deposits totaling USD 48,500 followed by two outbound wires totaling USD 438,000 to a single entity beneficiary, aggregating USD 486,500.",
-      "when": "Between 2026-05-01 and 2026-06-10.",
-      "where": "Personal-checking account ****3300 at the reporting institution; wires directed to A**** Trading LLC.",
-      "why": "The cash deposits are individually below the USD 10,000 CTR threshold and clustered in rapid succession, and the account aggregates deposits then wires the balance out to a single counterparty, consistent with structuring and funnel-account typologies.",
-      "how": "Cash was deposited in five amounts between USD 9,500 and USD 9,900 across 22 days, then moved out in two wires within 10 days, leaving a near-zero balance.",
+      "who": "SUBJ-1 is the accountholder and SUBJ-2 is the supplied wire beneficiary.",
+      "what": "The supplied transactions contain cash deposits of USD 48,500 and outgoing wires of USD 438,000; gross listed transaction legs total USD 486,500. This does not identify unique proceeds.",
+      "when": "The supplied transaction dates run from 2026-05-01 through 2026-06-10.",
+      "where": "The supplied account reference is ****3300; the wire beneficiary is A**** Trading LLC.",
+      "why": "The authorized investigation records unexplained outgoing payments as its concern. The drafting utility does not determine reportability or infer intent from near-threshold deposits.",
+      "how": "Five supplied cash deposits span 22 days; two outgoing wires have dates nine days apart. Opening and closing balances and the source of other funds are not supplied.",
       "complete": true,
       "missing": [],
       "citations": [
-        "kyc:cust=SUBJ-1;expected-activity@2026-06-11",
-        "tmcase:TM-CASE-5521;ctr-check@2026-06-11",
-        "txns:acct=****3300;deposits@2026-05",
-        "txns:acct=****3300;wires@2026-06"
+        "fixture:reviewed-case-fact:how@2026-07-17",
+        "fixture:reviewed-case-fact:what@2026-07-17",
+        "fixture:reviewed-case-fact:when@2026-07-17",
+        "fixture:reviewed-case-fact:where@2026-07-17",
+        "fixture:reviewed-case-fact:who@2026-07-17",
+        "fixture:reviewed-case-fact:why@2026-07-17"
+      ],
+      "claim_map": [
+        {
+          "field": "who",
+          "evidence_ids": [
+            "FACT-WHO"
+          ],
+          "source_truth": "unverified"
+        },
+        {
+          "field": "what",
+          "evidence_ids": [
+            "FACT-WHAT"
+          ],
+          "source_truth": "unverified"
+        },
+        {
+          "field": "when",
+          "evidence_ids": [
+            "FACT-WHEN"
+          ],
+          "source_truth": "unverified"
+        },
+        {
+          "field": "where",
+          "evidence_ids": [
+            "FACT-WHERE"
+          ],
+          "source_truth": "unverified"
+        },
+        {
+          "field": "why",
+          "evidence_ids": [
+            "FACT-WHY"
+          ],
+          "source_truth": "unverified"
+        },
+        {
+          "field": "how",
+          "evidence_ids": [
+            "FACT-HOW"
+          ],
+          "source_truth": "unverified"
+        }
       ]
     },
     "evidence_index": {
@@ -231,20 +240,32 @@
       "status": "present",
       "entries": [
         {
-          "fact": "Five cash deposits each between USD 9,500 and USD 9,900 within 22 days.",
-          "citation": "txns:acct=****3300;deposits@2026-05"
+          "fact": "SUBJ-1 is the accountholder and SUBJ-2 is the supplied wire beneficiary.",
+          "citation": "fixture:reviewed-case-fact:who@2026-07-17"
         },
         {
-          "fact": "Two outbound wires of USD 218,000 and USD 220,000 to A**** Trading LLC.",
-          "citation": "txns:acct=****3300;wires@2026-06"
+          "fact": "The supplied transactions contain cash deposits of USD 48,500 and outgoing wires of USD 438,000; gross listed transaction legs total USD 486,500. This does not identify unique proceeds.",
+          "citation": "fixture:reviewed-case-fact:what@2026-07-17"
         },
         {
-          "fact": "No CTR was triggered because each cash deposit was below USD 10,000.",
-          "citation": "tmcase:TM-CASE-5521;ctr-check@2026-06-11"
+          "fact": "The supplied transaction dates run from 2026-05-01 through 2026-06-10.",
+          "citation": "fixture:reviewed-case-fact:when@2026-07-17"
         },
         {
-          "fact": "Beneficiary A**** Trading LLC has no prior relationship or expected activity on file.",
-          "citation": "kyc:cust=SUBJ-1;expected-activity@2026-06-11"
+          "fact": "The supplied account reference is ****3300; the wire beneficiary is A**** Trading LLC.",
+          "citation": "fixture:reviewed-case-fact:where@2026-07-17"
+        },
+        {
+          "fact": "The authorized investigation records unexplained outgoing payments as its concern. The drafting utility does not determine reportability or infer intent from near-threshold deposits.",
+          "citation": "fixture:reviewed-case-fact:why@2026-07-17"
+        },
+        {
+          "fact": "Five supplied cash deposits span 22 days; two outgoing wires have dates nine days apart. Opening and closing balances and the source of other funds are not supplied.",
+          "citation": "fixture:reviewed-case-fact:how@2026-07-17"
+        },
+        {
+          "fact": "The authorized investigation records unexplained outgoing payments as its concern. The drafting utility does not determine reportability or infer intent from near-threshold deposits.",
+          "citation": "fixture:reviewed-case-fact:why@2026-07-17"
         }
       ],
       "uncited_facts": []
@@ -252,18 +273,21 @@
     "investigation_rationale": {
       "title": "Investigation Rationale",
       "status": "present",
-      "summary": "The transaction-monitoring investigation (TM-CASE-5521) found sub-threshold cash deposits aggregated and wired out to an unrelated entity with no documented business purpose, inconsistent with the accountholder's expected activity. The pattern is consistent with structuring and funnel-account movement of funds.",
+      "summary": "The authorized investigation records unexplained outgoing payments as its concern. The drafting utility does not determine reportability or infer intent from near-threshold deposits.",
+      "evidence_ids": [
+        "EV-RATIONALE-001"
+      ],
       "approving_investigation": "TM-CASE-5521",
       "citations": [
-        "tmcase:TM-CASE-5521;findings@2026-06-12",
-        "kyc:cust=SUBJ-1;profile@2026-06-11"
+        "fixture:reviewed-case-fact:why@2026-07-17"
       ],
-      "note": "Fact-based rationale for why the activity is suspicious; not a conclusion of guilt."
+      "gaps": [],
+      "note": "Exact supplied evidence facts only; source truth and substantive suspicion rationale require human review. No conclusion of guilt is made."
     },
     "recommendation": {
       "title": "Recommended Review Path",
       "recommended_review_path": "quality-review-and-compliance-approval",
-      "note": "Draft is complete and tie-outs reconcile. Recommend SAR quality review and MLRO/BSA compliance approval, after which the authorized human decides whether to file and e-files via BSA E-Filing. Recommendation only \u2014 not a file/no-file decision."
+      "note": "Draft is complete and tie-outs reconcile. Recommend SAR quality review and MLRO/BSA compliance approval, after which the authorized human decides whether to file and e-files via BSA E-Filing. Recommendation only — not a file/no-file decision."
     },
     "approvals": {
       "title": "Approvals & Sign-off",
@@ -287,27 +311,28 @@
       "title": "Sources & Citations",
       "citations": [
         "casemgmt:SAR-2026-0100;subjects@intake",
-        "config:typology-library=sar-2026.07",
-        "kyc:cust=SUBJ-1;expected-activity@2026-06-11",
-        "kyc:cust=SUBJ-1;profile@2026-06-11",
-        "tmcase:TM-CASE-5521;ctr-check@2026-06-11",
-        "tmcase:TM-CASE-5521;findings@2026-06-12",
-        "txns:acct=****3300;deposits@2026-05",
+        "fixture:reviewed-case-fact:how@2026-07-17",
+        "fixture:reviewed-case-fact:what@2026-07-17",
+        "fixture:reviewed-case-fact:when@2026-07-17",
+        "fixture:reviewed-case-fact:where@2026-07-17",
+        "fixture:reviewed-case-fact:who@2026-07-17",
+        "fixture:reviewed-case-fact:why@2026-07-17",
         "txns:acct=****3300;txnid=T1@2026-05-01",
         "txns:acct=****3300;txnid=T2@2026-05-03",
         "txns:acct=****3300;txnid=T3@2026-05-08",
         "txns:acct=****3300;txnid=T4@2026-05-15",
         "txns:acct=****3300;txnid=T5@2026-05-22",
         "txns:acct=****3300;txnid=T6@2026-06-01",
-        "txns:acct=****3300;txnid=T7@2026-06-10",
-        "txns:acct=****3300;wires@2026-06"
+        "txns:acct=****3300;txnid=T7@2026-06-10"
       ],
-      "note": "Every asserted fact is mapped to an approved source above."
+      "note": "Source references and exact supplied narrative facts are mapped; source truth, masking and issuer authority remain unverified."
     },
     "standing_note_limitations": {
       "title": "Standing Note / Limitations",
       "text": "Draft SAR package for compliance quality review and human filing only. This package records fact-based narrative, source citations, tie-outs, and an advisory review path; it makes no suspicion or file/no-file determination, files nothing, e-files nothing, submits nothing to FinCEN, closes or dispositions no case, writes no system of record, adds no speculation beyond the evidence, and has not been sent. Every regulated decision and the filing itself remain with the authorized human (SAR quality reviewer / MLRO / BSA Officer)."
     }
   },
-  "standing_note": "Draft SAR package for compliance quality review and human filing only. This package records fact-based narrative, source citations, tie-outs, and an advisory review path; it makes no suspicion or file/no-file determination, files nothing, e-files nothing, submits nothing to FinCEN, closes or dispositions no case, writes no system of record, adds no speculation beyond the evidence, and has not been sent. Every regulated decision and the filing itself remain with the authorized human (SAR quality reviewer / MLRO / BSA Officer)."
+  "standing_note": "Draft SAR package for compliance quality review and human filing only. This package records fact-based narrative, source citations, tie-outs, and an advisory review path; it makes no suspicion or file/no-file determination, files nothing, e-files nothing, submits nothing to FinCEN, closes or dispositions no case, writes no system of record, adds no speculation beyond the evidence, and has not been sent. Every regulated decision and the filing itself remain with the authorized human (SAR quality reviewer / MLRO / BSA Officer).",
+  "input_hash": "5d6a3fe8abda731a4a17856414af269c173fb7a7be67817081ff64e57dd8cab7",
+  "source_truth": "unverified"
 }

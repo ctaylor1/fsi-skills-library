@@ -1,0 +1,288 @@
+{
+  "case_id": "CH-CORE-DELTA-GAP",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "Sara Reed",
+    "represented_party": "Cedar Harbor Mutual (fictional)",
+    "object_id": "FNOL-SANDBOX",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "commercial-property"
+  },
+  "sources": [
+    {
+      "source_ref": "REV-4",
+      "version": "4",
+      "as_of": "2026-09-19",
+      "locator": "raw-sources.json#review_register"
+    },
+    {
+      "source_ref": "CORE-5",
+      "version": "5",
+      "as_of": "2026-09-19",
+      "locator": "raw-sources.json#modernization_workshop"
+    },
+    {
+      "source_ref": "CORE-GAP",
+      "version": "1",
+      "as_of": "2026-09-20",
+      "locator": "raw-gap-addendum.md"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "profile": {
+      "profile_id": "CH-design-review",
+      "version": "4",
+      "reviewed_by": "Sara Reed",
+      "source_refs": [
+        "REV-4"
+      ],
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "commercial-property"
+      ],
+      "effective_from": "2026-09-01",
+      "effective_to": "2026-09-30",
+      "method": "insurance-core-option-migration-v1"
+    },
+    "currency": "USD",
+    "scope": "Synthetic policy history, FNOL facade and legacy coexistence",
+    "owner": "Sara Reed",
+    "inventory_version": "5",
+    "inventory_complete": true,
+    "requirements": [
+      {
+        "requirement_id": "HIST",
+        "description": "Preserve issued forms and effective history",
+        "owner": "Sara Reed",
+        "mandatory": true,
+        "source_refs": [
+          "CORE-5"
+        ]
+      },
+      {
+        "requirement_id": "DELTA",
+        "description": "Recover new writes after rollback",
+        "owner": "Sara Reed",
+        "mandatory": true,
+        "source_refs": [
+          "CORE-5"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "option_id": "FACADE",
+        "strategy": "refactor",
+        "rationale": "Keep legacy issuance archive with exact policy key; introduce read facade and replay journal.",
+        "history_preservation": "Keep legacy issuance archive with exact policy key; introduce read facade and replay journal.",
+        "form_version_mapping": "map-3: preserve PolicySandbox:CH-20, edition code and effective interval; no latest-form substitution. Claims and billing continue legacy IDs via explicit crosswalk.",
+        "policy_identity_mapping": "map-3: preserve PolicySandbox:CH-20, edition code and effective interval; no latest-form substitution. Claims and billing continue legacy IDs via explicit crosswalk.",
+        "billing_claims_coexistence": "map-3: preserve PolicySandbox:CH-20, edition code and effective interval; no latest-form substitution. Claims and billing continue legacy IDs via explicit crosswalk.",
+        "cost_inventory_complete": true,
+        "cost_horizon": "2026-10-01 through 2027-09-30, undiscounted",
+        "fits": [
+          {
+            "requirement_id": "HIST",
+            "disposition": "met",
+            "rationale": "Keep legacy issuance archive with exact policy key; introduce read facade and replay journal.",
+            "source_refs": [
+              "CORE-5"
+            ]
+          },
+          {
+            "requirement_id": "DELTA",
+            "disposition": "met",
+            "rationale": "Keep legacy issuance archive with exact policy key; introduce read facade and replay journal.",
+            "source_refs": [
+              "CORE-5"
+            ]
+          }
+        ],
+        "costs": [
+          {
+            "cost_id": "implementation",
+            "amount": 180000,
+            "currency": "USD",
+            "period": "2026-10-01 through 2027-09-30, undiscounted",
+            "basis": "Workshop disjoint synthetic budget component",
+            "source_refs": [
+              "CORE-5"
+            ]
+          },
+          {
+            "cost_id": "one_year_operations",
+            "amount": 60000,
+            "currency": "USD",
+            "period": "2026-10-01 through 2027-09-30, undiscounted",
+            "basis": "Workshop disjoint synthetic budget component",
+            "source_refs": [
+              "CORE-5"
+            ]
+          }
+        ],
+        "source_refs": [
+          "CORE-5"
+        ]
+      },
+      {
+        "option_id": "REPLACE",
+        "strategy": "replace",
+        "rationale": "Import immutable edition history; candidate lacks reverse journal replay.",
+        "history_preservation": "Import immutable edition history; candidate lacks reverse journal replay.",
+        "form_version_mapping": "map-3: preserve PolicySandbox:CH-20, edition code and effective interval; no latest-form substitution. Claims and billing continue legacy IDs via explicit crosswalk.",
+        "policy_identity_mapping": "map-3: preserve PolicySandbox:CH-20, edition code and effective interval; no latest-form substitution. Claims and billing continue legacy IDs via explicit crosswalk.",
+        "billing_claims_coexistence": "map-3: preserve PolicySandbox:CH-20, edition code and effective interval; no latest-form substitution. Claims and billing continue legacy IDs via explicit crosswalk.",
+        "cost_inventory_complete": true,
+        "cost_horizon": "2026-10-01 through 2027-09-30, undiscounted",
+        "fits": [
+          {
+            "requirement_id": "HIST",
+            "disposition": "met",
+            "rationale": "Import immutable edition history; candidate lacks reverse journal replay.",
+            "source_refs": [
+              "CORE-5"
+            ]
+          },
+          {
+            "requirement_id": "DELTA",
+            "disposition": "not-met",
+            "rationale": "Import immutable edition history; candidate lacks reverse journal replay.",
+            "source_refs": [
+              "CORE-5"
+            ]
+          }
+        ],
+        "costs": [
+          {
+            "cost_id": "implementation",
+            "amount": 300000,
+            "currency": "USD",
+            "period": "2026-10-01 through 2027-09-30, undiscounted",
+            "basis": "Workshop disjoint synthetic budget component",
+            "source_refs": [
+              "CORE-5"
+            ]
+          },
+          {
+            "cost_id": "one_year_operations",
+            "amount": 90000,
+            "currency": "USD",
+            "period": "2026-10-01 through 2027-09-30, undiscounted",
+            "basis": "Workshop disjoint synthetic budget component",
+            "source_refs": [
+              "CORE-5"
+            ]
+          }
+        ],
+        "source_refs": [
+          "CORE-5"
+        ]
+      }
+    ],
+    "batches": [
+      {
+        "batch_id": "POLICY-HISTORY",
+        "owner": "Sara Reed",
+        "scope": "240 historical policy-form assertions",
+        "mapping_version": "map-3",
+        "source_snapshot": "legacy-20260918",
+        "target_snapshot": "sandbox-20260919",
+        "rollback_trigger": "Any missing form row or unrecovered new write",
+        "rollback_owner": "Sara Reed",
+        "rollback_data_plan": "Stop writes; export and replay ordered journal exactly once to legacy; reconcile write IDs and form rows",
+        "rehearsal_evidence_reviewed": true,
+        "wave": 1,
+        "depends_on": [],
+        "new_writes_after_cutover": true,
+        "delta_recovery_evidence": null,
+        "source_refs": [
+          "CORE-5",
+          "CORE-GAP"
+        ]
+      }
+    ],
+    "reconciliations": [
+      {
+        "control_id": "FORM-COUNT",
+        "batch_id": "POLICY-HISTORY",
+        "source_snapshot": "legacy-20260918",
+        "target_snapshot": "sandbox-20260919",
+        "mapping_version": "map-3",
+        "scope": "240 historical policy-form assertions",
+        "measure": "historical form assertions",
+        "unit": "rows",
+        "source_value": 240,
+        "target_value": 239,
+        "tolerance": 0,
+        "source_refs": [
+          "CORE-5"
+        ]
+      }
+    ],
+    "gates": [
+      {
+        "gate_id": "reconciliation",
+        "owner": "Sara Reed",
+        "test": "reconciliation rehearsal",
+        "expected": "All supplied acceptance criteria satisfied",
+        "actual": "239 of 240 form rows; missing edition for CH-19",
+        "observed_on": "2026-09-19",
+        "status": "failed",
+        "source_refs": [
+          "CORE-5"
+        ]
+      },
+      {
+        "gate_id": "rollback",
+        "owner": "Sara Reed",
+        "test": "rollback rehearsal",
+        "expected": "All supplied acceptance criteria satisfied",
+        "actual": "Both new journal writes recovered exactly once",
+        "observed_on": "2026-09-19",
+        "status": "passed",
+        "source_refs": [
+          "CORE-5"
+        ]
+      },
+      {
+        "gate_id": "parallel-run",
+        "owner": "Sara Reed",
+        "test": "parallel-run rehearsal",
+        "expected": "All supplied acceptance criteria satisfied",
+        "actual": "20 paired draft FNOL comparisons agreed",
+        "observed_on": "2026-09-19",
+        "status": "passed",
+        "source_refs": [
+          "CORE-5"
+        ]
+      },
+      {
+        "gate_id": "security",
+        "owner": "Sara Reed",
+        "test": "security rehearsal",
+        "expected": "All supplied acceptance criteria satisfied",
+        "actual": "Sandbox role matrix deny tests passed",
+        "observed_on": "2026-09-19",
+        "status": "passed",
+        "source_refs": [
+          "CORE-5"
+        ]
+      },
+      {
+        "gate_id": "business-acceptance",
+        "owner": "Sara Reed",
+        "test": "business-acceptance rehearsal",
+        "expected": "All supplied acceptance criteria satisfied",
+        "actual": "Claims owner withheld acceptance pending missing form row",
+        "observed_on": "2026-09-19",
+        "status": "failed",
+        "source_refs": [
+          "CORE-5"
+        ]
+      }
+    ]
+  }
+}

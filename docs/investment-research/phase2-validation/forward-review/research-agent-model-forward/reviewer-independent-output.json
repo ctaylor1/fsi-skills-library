@@ -1,0 +1,103 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "research-financial-model-reviewer",
+  "method_version": "2.0.0",
+  "request_id": "NOVA-forward-20261020",
+  "subject": {
+    "type": "issuer",
+    "id": "NOVA-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T20:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "model_id": "NOVA-grid",
+    "mode": "independent-review",
+    "formula_results": [
+      {
+        "cell_id": "ebit",
+        "formula": "sales-opex",
+        "supplied_value": 55,
+        "recomputed_value": 60,
+        "residual": -5,
+        "within_tolerance": false
+      },
+      {
+        "cell_id": "margin",
+        "formula": "ebit/sales",
+        "supplied_value": 0.4,
+        "recomputed_value": 0.4,
+        "residual": 0.0,
+        "within_tolerance": true
+      }
+    ],
+    "reconciliations": [
+      {
+        "check_id": "sum",
+        "left_value": 150,
+        "right_value": 150,
+        "residual": 0,
+        "within_tolerance": true
+      }
+    ],
+    "assumption_results": [
+      {
+        "assumption_id": "growth",
+        "within_supplied_bounds": true,
+        "evidence_refs": [
+          {
+            "source_id": "NOVA-R1",
+            "locator": "NOVA research assumptions A1:D20"
+          }
+        ]
+      }
+    ],
+    "economic_results": [
+      {
+        "check_id": "cash-floor",
+        "meaning": "cash-funding",
+        "recomputed_value": -7,
+        "within_supplied_bounds": false
+      }
+    ],
+    "findings_count": 2,
+    "model_approved": false,
+    "scope": "Supplied arithmetic formula graph, reconciliations, evidence metadata and configured economic bounds; no workbook ingestion, source authentication or institutional sign-off."
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "formula": "Recompute formula graph independently; compare supplied cell values and configured reconciliation/economic limits."
+    }
+  ],
+  "unresolved_issues": [
+    "Economic plausibility/funding check failed: cash-floor",
+    "Formula residual outside tolerance: ebit"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "NOVA-R1",
+      "locator": "NOVA research assumptions A1:D20"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "NOVA-R1",
+      "version": "analyst-v3",
+      "known_at": "2026-10-19T20:00:00Z",
+      "locator": "NOVA supplied model",
+      "kind": "model"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "adb4369a50026ef8d601a7d71bd3ac427b6f5a66fdb5d3808c28f142ba84c1d2",
+  "source_truth": "unverified"
+}

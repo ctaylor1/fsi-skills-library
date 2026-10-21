@@ -3,7 +3,7 @@
 - `payment-lifecycle-diagnoser` can provide a one-payment trace; casework may also start directly with sufficient evidence.
 - `iso-20022-message-interpreter` can interpret supported normalized JSON. It cannot decode raw XML or validate arbitrary camt schemas.
 - `payment-repair-planner` receives confirmed defect evidence, original snapshot, exact old/new value, scoped policy and screening bound to that proposed instruction. An investigation bundle alone does not meet the planner's schema.
-- `sanctions-match-adjudicator` receives an actual sanctions hold/disposition question. A generic regulatory reason requires clarification first.
+- `sanctions-match-investigator` receives an actual sanctions hold/disposition question. A generic regulatory reason requires clarification first.
 - `payment-fraud-and-scam-investigator` receives fraud-indicator evidence, not a pre-decided outcome.
 - Merchant funding holds and payout/cash breaks route to settlement reconciliation and merchant-risk review. Native ACH requires a dedicated adapter before this case builder can process its records.
 

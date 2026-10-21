@@ -1,0 +1,139 @@
+[
+  {
+    "skill": "research-coverage-planner",
+    "case": "dependency-cycle",
+    "exits": [
+      1,
+      1
+    ],
+    "output": "ERROR: question dependency cycle\n"
+  },
+  {
+    "skill": "research-universe-screener",
+    "case": "future-metric-observation",
+    "exits": [
+      0,
+      0
+    ],
+    "output": {
+      "schema_version": "ir-analysis/2.0",
+      "method_id": "research-universe-screener",
+      "method_version": "2.0.0",
+      "request_id": "independent-credit-lane-forward",
+      "subject": {
+        "type": "universe",
+        "id": "FRESH-UNIVERSE"
+      },
+      "as_of": "2026-10-20",
+      "knowledge_cutoff": "2026-10-20T22:00:00Z",
+      "use_on": "2026-10-20",
+      "purpose": "internal-research",
+      "audience": "internal-review",
+      "results": {
+        "screen_logic": "all supplied filters must pass; missing is not zero",
+        "results": [
+          {
+            "security_id": "FRESH-EQUITY",
+            "issuer_id": "FRESH-ISSUER",
+            "status": "not-evaluable",
+            "checks": [
+              {
+                "filter_id": "GROWTH",
+                "passed": null,
+                "reason": "future-observation"
+              }
+            ]
+          },
+          {
+            "security_id": "MISSING-EQUITY",
+            "issuer_id": "MISSING-ISSUER",
+            "status": "not-evaluable",
+            "checks": [
+              {
+                "filter_id": "GROWTH",
+                "passed": null,
+                "reason": "missing-value"
+              }
+            ]
+          }
+        ],
+        "included_security_ids": [],
+        "excluded_security_ids": [],
+        "not_evaluable_security_ids": [
+          "FRESH-EQUITY",
+          "MISSING-EQUITY"
+        ],
+        "counts": {
+          "included": 0,
+          "excluded": 0,
+          "not-evaluable": 2
+        },
+        "scope": "Supplied universe only; no survivor-bias, delisting or population-completeness assurance"
+      },
+      "status": "partial",
+      "calculation_lineage": [
+        {
+          "filter_id": "GROWTH",
+          "metric": "revenue_growth",
+          "operator": "gte",
+          "threshold": 5
+        }
+      ],
+      "unresolved_issues": [
+        "FRESH-EQUITY: missing, stale or incomparable screening data",
+        "MISSING-EQUITY: missing, stale or incomparable screening data"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "FRESH-SUPPLIED",
+          "locator": "forward:raw-tables;rows-1-4"
+        }
+      ],
+      "source_register": [
+        {
+          "source_id": "FRESH-SUPPLIED",
+          "version": "forward-original-v1",
+          "known_at": "2026-10-19T14:00:00Z",
+          "locator": "forward:raw-tables",
+          "kind": "filing"
+        }
+      ],
+      "source_assurance": "supplied-not-authenticated",
+      "coverage_assurance": "supplied-inventory-only",
+      "professional_acceptance": "not-established",
+      "authority_granted": false,
+      "action_taken": false,
+      "approval": "not_requested",
+      "execution": "not_performed",
+      "input_hash": "5098f27ccebff8f3aec9a09899ca77c51d5b864c813e09fd12149269c7665f42",
+      "source_truth": "unverified"
+    }
+  },
+  {
+    "skill": "financial-statement-analyzer",
+    "case": "future-reported-statements",
+    "exits": [
+      1,
+      1
+    ],
+    "output": "ERROR: future statement period\n"
+  },
+  {
+    "skill": "earnings-quality-analyzer",
+    "case": "future-reported-earnings-quality",
+    "exits": [
+      1,
+      1
+    ],
+    "output": "ERROR: invalid earnings period\n"
+  },
+  {
+    "skill": "investment-thesis-developer",
+    "case": "future-falsifier-observation",
+    "exits": [
+      1,
+      1
+    ],
+    "output": "ERROR: future falsifier observation\n"
+  }
+]

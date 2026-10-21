@@ -22,6 +22,9 @@ Exit 0 if no errors (warnings allowed), 1 otherwise.
 from __future__ import annotations
 import json, sys
 from pathlib import Path
+import math
+from datetime import date
+from native_integrity import canonical_hash
 
 REQUIRED_TOP = ("config_version", "factsheet_id", "fund", "as_of_date",
                 "required_sections", "facts")
@@ -30,7 +33,7 @@ CONTENT_SECTIONS = {"performance", "holdings", "risk", "fees", "esg"}
 DISTRIBUTION = {"internal", "external"}
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate_native(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc or doc[k] in (None, ""):
@@ -133,6 +136,25 @@ def main(argv):
     print(f"input validation: {len(errors)} error(s), {len(warnings)} warning(s)")
     return 1 if errors else 0
 
+
+
+
+def validate(doc):
+    try:
+        canonical_hash(doc)
+        errors, warnings = _validate_native(doc)
+        date.fromisoformat(doc["as_of_date"])
+        if doc.get("intended_distribution") not in ("internal", "external"):
+            warnings.append("distribution unspecified: external restrictions applied")
+        for fact in doc.get("facts", []):
+            for k in ("value_numeric", "source_value_numeric", "reconcile_tolerance"):
+                if k in fact and (isinstance(fact[k], bool) or not math.isfinite(float(fact[k]))):
+                    errors.append("invalid numeric fact: " + k)
+            if fact.get("reconcile_tolerance", 0) < 0:
+                errors.append("negative reconciliation tolerance")
+        return errors, warnings
+    except (KeyError, TypeError, ValueError, ArithmeticError) as exc:
+        return ["invalid input: " + str(exc)], []
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

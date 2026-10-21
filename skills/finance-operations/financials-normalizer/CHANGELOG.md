@@ -1,5 +1,12 @@
 # Changelog — financials-normalizer
 
+## 0.2.0 — 2026-10-20
+
+- Require detached original input for native output validation; reconstruct every result and reject omissions, alterations and extra fields. Guard finite numbers, shapes, dates, domains and duplicates; validate before computation.
+- Each adjustment requires an explicit statement, known period and mapped reported account; an absent starting value cannot default to zero. Preserve its rationale, source and supplied approver in the adjustment ledger. Check reported balance-sheet anchors separately for each period. Reconstructed normalized identities require complete, disjoint mapped component coverage; raw anchor agreement cannot prove adjusted statements balance. Incomplete reconstruction prevents Model-ready. This maps extracts only; it does not convert accounting frameworks or provide an accounting opinion.
+- Regenerate synthetic positive and adversarial fixtures. Passing checks is not source authentication, professional acceptance or independent institutional assurance.
+
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`).
 

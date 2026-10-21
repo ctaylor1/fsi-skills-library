@@ -1,0 +1,301 @@
+{
+  "schema_version": "workflow-review-1.0",
+  "producer": "insurance-data-product-designer",
+  "case_id": "SYN-P4-01",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "design-review",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "FNOL-MODERNIZATION",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "method",
+      "message": "An explicitly reviewed supported method profile is required",
+      "source_refs": [],
+      "severity": "gap"
+    }
+  ],
+  "results": {
+    "semantic_contract": [
+      {
+        "field_id": "POL-STATUS",
+        "entity_type": "policy",
+        "definition": "Contract status from operative policy snapshot",
+        "unit": "code",
+        "source_system": "policy-admin",
+        "source_field": "status",
+        "transformation": "exact scoped copy",
+        "owner": "policy steward",
+        "classification": "confidential",
+        "access_rule": "authorized claims reviewer",
+        "quality_rule": "one active assertion",
+        "version": "v1",
+        "purpose_reviewed": true,
+        "required": true,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "field_id": "CL-STATUS",
+        "entity_type": "claim",
+        "definition": "Claim workflow status, not coverage determination",
+        "unit": "code",
+        "source_system": "claims-core",
+        "source_field": "status",
+        "transformation": "exact scoped copy",
+        "owner": "claims steward",
+        "classification": "confidential",
+        "access_rule": "authorized claims reviewer",
+        "quality_rule": "one active assertion",
+        "version": "v1",
+        "purpose_reviewed": true,
+        "required": true,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "relationship_samples": [
+      {
+        "link_id": "L1",
+        "relation_id": "CLAIM-POLICY",
+        "left_entity_id": "CL-1",
+        "right_entity_id": "POL-1",
+        "source_refs": [
+          "synthetic-record"
+        ],
+        "relationship_evaluable": true
+      }
+    ],
+    "resolved_sample": [
+      {
+        "entity_id": "POL-1",
+        "field_id": "POL-STATUS",
+        "value": null,
+        "record_ids": [
+          "A1"
+        ],
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "entity_id": "CL-1",
+        "field_id": "CL-STATUS",
+        "value": null,
+        "record_ids": [
+          "A2"
+        ],
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "valid_on": "2026-09-01",
+    "known_on": "2026-09-20",
+    "deployment_approved": false,
+    "acord_conformance": "not_assessed",
+    "production_identity_resolution": false
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "An explicitly reviewed supported method profile is required"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "SYN-P4-01",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "design-review",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "FNOL-MODERNIZATION",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-record",
+        "version": "1",
+        "as_of": "2026-09-20",
+        "locator": "Synthetic local exercise; no live records"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "SYN-PROFILE",
+        "version": "1",
+        "reviewed_by": "Synthetic design owner",
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "pc"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "method": "unsupported-method",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      "valid_on": "2026-09-01",
+      "known_on": "2026-09-20",
+      "sample_inventory_complete": true,
+      "purpose": "Draft claim360 evidence contract",
+      "owner": "data steward",
+      "grain": "One source assertion per entity/field/valid interval",
+      "retention_rule": "Synthetic only; production retention needs owner policy",
+      "entities": [
+        {
+          "entity_id": "POL-1",
+          "entity_type": "policy",
+          "identity_namespace": "policy-admin",
+          "source_key": "p1",
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "entity_id": "CL-1",
+          "entity_type": "claim",
+          "identity_namespace": "claims-core",
+          "source_key": "c1",
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "field_id": "POL-STATUS",
+          "entity_type": "policy",
+          "definition": "Contract status from operative policy snapshot",
+          "unit": "code",
+          "source_system": "policy-admin",
+          "source_field": "status",
+          "transformation": "exact scoped copy",
+          "owner": "policy steward",
+          "classification": "confidential",
+          "access_rule": "authorized claims reviewer",
+          "quality_rule": "one active assertion",
+          "version": "v1",
+          "purpose_reviewed": true,
+          "required": true,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "field_id": "CL-STATUS",
+          "entity_type": "claim",
+          "definition": "Claim workflow status, not coverage determination",
+          "unit": "code",
+          "source_system": "claims-core",
+          "source_field": "status",
+          "transformation": "exact scoped copy",
+          "owner": "claims steward",
+          "classification": "confidential",
+          "access_rule": "authorized claims reviewer",
+          "quality_rule": "one active assertion",
+          "version": "v1",
+          "purpose_reviewed": true,
+          "required": true,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "relation_id": "CLAIM-POLICY",
+          "from_type": "claim",
+          "to_type": "policy",
+          "definition": "Exact reviewed claim-to-policy linkage",
+          "cardinality": "many-to-one",
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L1",
+          "relation_id": "CLAIM-POLICY",
+          "left_entity_id": "CL-1",
+          "right_entity_id": "POL-1",
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "records": [
+        {
+          "record_id": "A1",
+          "entity_id": "POL-1",
+          "field_id": "POL-STATUS",
+          "valid_from": "2026-01-01",
+          "valid_to": null,
+          "recorded_on": "2026-01-02",
+          "value": "in-force",
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "record_id": "A2",
+          "entity_id": "CL-1",
+          "field_id": "CL-STATUS",
+          "valid_from": "2026-08-10",
+          "valid_to": null,
+          "recorded_on": "2026-08-10",
+          "value": "open",
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "workflow-evidence/1.0",
+    "producer": "insurance-data-product-designer",
+    "artifact_type": "workflow-review",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "design-review",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "FNOL-MODERNIZATION",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-record",
+        "version": "1",
+        "as_of": "2026-09-20",
+        "locator": "Synthetic local exercise; no live records"
+      }
+    ],
+    "input_hash": "0057e52f61a1ee2e5cc53f6b157abbdb701ef6bc38e892fe02fa206fef4778bc",
+    "output_hash": "cb9665a3236d7b4508e461b7184a9e3a757865a057230416794d5064d601b1d3",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "An explicitly reviewed supported method profile is required"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "5b209bd99577a7dbb2825b4d664c6fd2b2344b161ecc3d5c9b87ab2188c59883"
+  }
+}

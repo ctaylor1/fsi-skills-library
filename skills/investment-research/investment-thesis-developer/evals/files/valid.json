@@ -1,0 +1,128 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "investment-thesis-developer",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-phase2",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "supplied_thesis": "A measured sales conversion improvement could exceed supplied expectations.",
+    "variant_expectations": [
+      {
+        "variant_id": "V1",
+        "metric": "revenue",
+        "unit": "millions",
+        "currency": "USD",
+        "accounting_basis": "US-GAAP",
+        "consolidation_scope": "consolidated",
+        "period_id": "FY2025",
+        "consensus": 100,
+        "analyst": 120,
+        "mechanism": "conversion improvement",
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ],
+        "analyst_minus_consensus": 20,
+        "relative_gap": 0.2
+      }
+    ],
+    "catalysts": [
+      {
+        "catalyst_id": "C1",
+        "expected_on": "2026-11-01",
+        "status": "pending",
+        "mechanism": "earnings disclose sales conversion",
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ],
+        "review_state": "pending"
+      }
+    ],
+    "falsifiers": [
+      {
+        "falsifier_id": "F1",
+        "metric": "revenue",
+        "unit": "millions",
+        "currency": "USD",
+        "accounting_basis": "US-GAAP",
+        "consolidation_scope": "consolidated",
+        "period_id": "FY2025",
+        "operator": "lt",
+        "threshold": 90,
+        "observed": 85,
+        "observed_on": "2026-10-19",
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ],
+        "triggered": true
+      }
+    ],
+    "counter_evidence": [
+      {
+        "description": "Supplied management optimism conflicts with measured sales weakness.",
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ]
+      }
+    ],
+    "review_state": "revisit-thesis",
+    "limitations": [
+      "Consensus differences do not establish what is priced into a security",
+      "Thesis, mechanisms and invalidation thresholds are supplied analyst judgments; no rating, position sizing, suitability or trade instruction is issued"
+    ]
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "variant_id": "V1",
+      "formula": "analyst_minus_consensus = analyst - consensus; relative_gap = difference / abs(nonzero consensus)"
+    }
+  ],
+  "unresolved_issues": [
+    "F1: supplied invalidation criterion triggered",
+    "unresolved counter-evidence supplied"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "S1",
+      "locator": "synthetic-table-1"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "S1",
+      "version": "v1",
+      "known_at": "2026-10-19",
+      "locator": "synthetic-document",
+      "kind": "filing"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "a8d0e85223dcc886f9712fb136fef248e1abc3e67a5bc241ac26d81e25939c44",
+  "source_truth": "unverified"
+}

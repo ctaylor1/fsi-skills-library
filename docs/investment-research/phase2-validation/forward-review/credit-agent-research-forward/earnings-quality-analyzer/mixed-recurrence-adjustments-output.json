@@ -1,0 +1,90 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "earnings-quality-analyzer",
+  "method_version": "2.0.0",
+  "request_id": "independent-credit-lane-forward",
+  "subject": {
+    "type": "issuer",
+    "id": "FRESH-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "period_id": "FY2025",
+    "basis": {
+      "currency": "USD",
+      "unit": "USD_m",
+      "accounting_basis": "supplied-GAAP",
+      "consolidation_scope": "consolidated"
+    },
+    "net_income": 20,
+    "operating_cash_flow": 8,
+    "average_assets": 110.0,
+    "total_accruals": 12,
+    "accrual_ratio": 0.10909090909090909,
+    "cash_conversion": 0.4,
+    "supplied_adjustment_total": 14,
+    "supplied_adjusted_income": 34,
+    "evidence_supported_nonrecurring_adjustments": [
+      "A1"
+    ],
+    "provisional_normalized_income": 24,
+    "adjustment_review": [
+      {
+        "adjustment_id": "A2",
+        "reasons": [
+          "recurrence-recurring"
+        ]
+      },
+      {
+        "adjustment_id": "A3",
+        "reasons": [
+          "recurrence-unknown",
+          "unknown-cash-effect"
+        ]
+      }
+    ],
+    "limitations": [
+      "Nonrecurrence and cash classifications are supplied claims, not authenticated accounting conclusions",
+      "Cash conversion and accruals are diagnostic indicators; no fraud conclusion, quality rating or non-GAAP compliance clearance"
+    ]
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "formula": "total_accruals = net_income - operating_cash_flow; accrual_ratio = total_accruals / mean(beginning_assets,ending_assets); normalized_income = net_income + eligible signed after-tax adjustments",
+      "period_id": "FY2025"
+    }
+  ],
+  "unresolved_issues": [
+    "A2: adjustment requires review",
+    "A3: adjustment requires review"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "FRESH-SUPPLIED",
+      "locator": "forward:raw-tables;rows-1-4"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "FRESH-SUPPLIED",
+      "version": "forward-original-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "forward:raw-tables",
+      "kind": "filing"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "f4dcbfe0ae0d0471ec947857191f374aab87cbf72d0e870900f897ae67b8ad8e",
+  "source_truth": "unverified"
+}

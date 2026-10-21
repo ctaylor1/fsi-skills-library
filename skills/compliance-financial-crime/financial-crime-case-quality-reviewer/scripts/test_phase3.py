@@ -1,0 +1,252 @@
+"""Behavioral regressions against synthetic case workpapers; no external effects."""
+import copy
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import unittest
+from domain import compute, validate
+from validate_output import validate as validate_output
+ROOT = Path(__file__).resolve().parents[1]
+BASE = json.loads((ROOT/'evals/files/input_complete.json').read_text())
+
+
+def set_claim(doc, claim, value):
+    claim['value'] = copy.deepcopy(value)
+    for source in doc['sources']:
+        for fact in source['facts']:
+            if fact['fact_id'] in claim['fact_ids']:
+                fact['value'] = copy.deepcopy(value)
+                fact['excerpt'] = 'Changed synthetic fact: ' + json.dumps(value)
+
+
+def changed(collection, index, field, value):
+    doc = copy.deepcopy(BASE)
+    row = doc['data'][collection] if collection == 'mandate' else doc['data'][collection][index]
+    set_claim(doc, row[field], value)
+    return doc
+
+
+def check(out, case='CASE-A', criterion='CR-1'):
+    return next(c for c in out['results']['case_criterion_checks'] if c['case_id'] == case and c['criterion_id'] == criterion)
+
+
+class CaseQualityTests(unittest.TestCase):
+    def test_complete_source_bound_case_batch(self):
+        self.assertEqual(validate(BASE)[0], [])
+        out = compute(BASE)
+        self.assertEqual(out['status'], 'draft-for-human-review')
+        self.assertEqual(out['results']['observed_criterion_counts'], {'pass':10,'fail':0,'unknown':0})
+        self.assertEqual(out['results']['observed_case_exception_proportion']['exact_ratio'], '0/2')
+        self.assertTrue(out['results']['within_supplied_exception_threshold'])
+    def test_known_operational_role_does_not_prove_independence(self):
+        doc = copy.deepcopy(BASE); doc['workflow']['role'] = 'independent_testing'
+        self.assertFalse(compute(doc)['results']['supplied_independence_evidence_consistent'])
+    def test_second_line_monitoring_keeps_bounded_case_qa_scope(self):
+        out=compute(changed('mandate',0,'mandate_type','second-line-monitoring'))
+        self.assertTrue(out['results']['mandate_method_supported'])
+        self.assertEqual(out['results']['assurance_opinion'],'not-issued')
+    def test_unknown_independence_stays_unknown(self):
+        self.assertIsNone(compute(changed('mandate',0,'independence_owner_assessment',None))['results']['supplied_independence_evidence_consistent'])
+    def test_independence_requires_all_noninvolvement_conflict_reporting_competence_evidence(self):
+        doc = changed('mandate',0,'independence_owner_assessment',True)
+        set_claim(doc,doc['data']['mandate']['operational_involvement'],False)
+        self.assertTrue(compute(doc)['results']['supplied_independence_evidence_consistent'])
+        for field in ('reporting_line_review','conflict_review','competence_review'):
+            d=copy.deepcopy(doc);set_claim(d,d['data']['mandate'][field],False)
+            self.assertFalse(compute(d)['results']['supplied_independence_evidence_consistent'])
+    def test_statutory_testing_audit_model_validation_do_not_issue_qa_acceptance(self):
+        for mandate in ('statutory-independent-testing','internal-audit','model-validation'):
+            out=compute(changed('mandate',0,'mandate_type',mandate))
+            self.assertFalse(out['results']['mandate_method_supported'])
+            self.assertIsNone(out['results']['within_supplied_exception_threshold'])
+            self.assertEqual(out['results']['assurance_opinion'],'not-issued')
+    def test_missing_authority_withholds_all_dependent_qa(self):
+        out=compute(changed('mandate',0,'authority_reviewed',None))
+        self.assertIsNone(out['results']['observed_case_exception_proportion']['denominator'])
+        self.assertEqual(out['results']['observed_criterion_counts']['unknown'],10)
+    def test_unknown_mandate_identity_withholds_all_dependent_comparison(self):
+        self.assertIsNone(compute(changed('mandate',0,'mandate_id',None))['results']['within_supplied_exception_threshold'])
+    def test_unreviewed_legal_profile_withholds(self):
+        self.assertIsNone(compute(changed('mandate',0,'legal_profile_reviewed',False))['results']['within_supplied_exception_threshold'])
+    def test_criterion_legal_profile_version_mismatch_stays_unknown(self):
+        self.assertEqual(check(compute(changed('criteria',0,'legal_profile_version','another-version')))['eligible_observed_result'],'unknown')
+    def test_exact_value_mapping_does_not_allow_registry_only(self):
+        doc=copy.deepcopy(BASE);doc['data']['observations'][0]['observed_outcome']['fact_ids']=['INVENTED-FACT']
+        self.assertEqual(check(compute(doc))['eligible_observed_result'],'unknown')
+    def test_exact_value_mapping_rejects_claim_divergence(self):
+        doc=copy.deepcopy(BASE);doc['data']['mandate']['authority_reviewed']['value']=False
+        self.assertFalse(compute(doc)['results']['legal_profile_authority_evidence_consistent'])
+    def test_malformed_claim_stops(self):
+        doc=copy.deepcopy(BASE);doc['data']['cases'][0]['case_id']='CASE-A'
+        with self.assertRaises(ValueError):compute(doc)
+    def test_duplicate_native_case_identity_stops(self):
+        doc=copy.deepcopy(BASE);doc['data']['cases'].append(copy.deepcopy(doc['data']['cases'][0]))
+        with self.assertRaises(ValueError):compute(doc)
+    def test_unknown_native_case_identity_stops(self):
+        doc=changed('cases',0,'case_id',None)
+        with self.assertRaises(ValueError):compute(doc)
+    def test_changed_case_native_context_stops(self):
+        for field in ('institution_id','legal_entity_id','jurisdiction'):
+            with self.assertRaises(ValueError):compute(changed('cases',0,field,'ANOTHER-CONTEXT'))
+    def test_workflow_object_scope_changes_stop(self):
+        doc=copy.deepcopy(BASE);doc['workflow']['context']['object_id']='ANOTHER-REVIEW'
+        with self.assertRaises(ValueError):compute(doc)
+    def test_unknown_case_lineage_is_partial(self):
+        out=compute(changed('cases',0,'upstream_native_version',None))
+        self.assertEqual(out['status'],'needs-evidence')
+        self.assertEqual(out['results']['coverage']['unobserved_or_partial_selected_case_ids'],['CASE-A'])
+    def test_duplicate_observation_pair_stops_without_double_count(self):
+        doc=copy.deepcopy(BASE);row=copy.deepcopy(doc['data']['observations'][0]);row['observation_id']='NEW-ID';doc['data']['observations'].append(row)
+        with self.assertRaises(ValueError):compute(doc)
+    def test_duplicate_sample_identity_stops(self):
+        with self.assertRaises(ValueError):compute(changed('mandate',0,'selected_case_ids',['CASE-A','CASE-A']))
+    def test_out_of_population_sample_withholds_counts(self):
+        out=compute(changed('mandate',0,'population_case_ids',['CASE-A']))
+        self.assertIsNone(out['results']['coverage']['selected_case_count'])
+        self.assertIsNone(out['results']['observed_case_exception_proportion']['denominator'])
+    def test_missing_observation_is_not_pass(self):
+        doc=copy.deepcopy(BASE);doc['data']['observations'].pop(0)
+        out=compute(doc)
+        self.assertEqual(check(out)['eligible_observed_result'],'unknown')
+        self.assertEqual(out['results']['observed_case_exception_proportion']['exact_ratio'],'0/1')
+        self.assertIsNone(out['results']['within_supplied_exception_threshold'])
+    def test_sample_rationale_unknown_withholds_proportion(self):
+        self.assertIsNone(compute(changed('mandate',0,'sampling_rationale',None))['results']['observed_case_exception_proportion']['denominator'])
+    def test_unknown_required_inventory_is_not_no_missing_exhibits(self):
+        self.assertEqual(check(compute(changed('cases',0,'required_exhibit_ids',None)))['eligible_observed_result'],'unknown')
+    def test_specific_criterion_observation_must_cover_its_exhibits(self):
+        out=compute(changed('observations',0,'exhibit_ids',['EX-CASE-A-MAIN']))
+        self.assertEqual(check(out)['eligible_observed_result'],'unknown')
+    def test_missing_required_exhibit_overrides_observed_pass(self):
+        doc=changed('cases',0,'required_exhibit_ids',['EX-CASE-A-MAIN','EX-CASE-A-COUNTER','MISSING-EXHIBIT'])
+        out=compute(doc)
+        self.assertEqual(check(out)['eligible_observed_result'],'fail')
+        self.assertTrue(out['results']['case_outcomes'][0]['known_quality_exception'])
+    def test_unavailable_exhibit_is_not_pass(self):
+        out=compute(changed('exhibits',0,'available',False))
+        self.assertEqual(check(out)['eligible_observed_result'],'fail')
+        self.assertTrue(check(out)['mechanical_exceptions'])
+        self.assertEqual(out['results']['observed_criterion_counts']['fail'],1)
+        self.assertEqual(check(out,criterion='CR-3')['eligible_observed_result'],'unknown')
+        self.assertIsNone(out['results']['within_supplied_exception_threshold'])
+    def test_unknown_exhibit_is_unknown_not_failed_known(self):
+        self.assertEqual(check(compute(changed('exhibits',0,'available',None)))['eligible_observed_result'],'unknown')
+    def test_exhibit_fact_locator_must_exist(self):
+        out=compute(changed('exhibits',0,'evidence_fact_ids',['NOT-IN-REGISTRY']))
+        self.assertEqual(check(out)['eligible_observed_result'],'unknown')
+    def test_exhibit_case_identity_cannot_cross_case(self):
+        self.assertNotEqual(check(compute(changed('exhibits',0,'case_id','CASE-B')))['eligible_observed_result'],'pass')
+    def test_counterevidence_omission_overrides_pass(self):
+        out=compute(changed('reasoning',0,'considered_counterevidence_ids',[]))
+        self.assertEqual(check(out,criterion='CR-3')['eligible_observed_result'],'fail')
+    def test_contradiction_omission_overrides_pass(self):
+        self.assertEqual(check(compute(changed('reasoning',0,'addressed_contradiction_ids',[])),criterion='CR-3')['eligible_observed_result'],'fail')
+    def test_invented_concern_in_reasoning_does_not_pass(self):
+        self.assertEqual(check(compute(changed('reasoning',0,'concern_ids',['INVENTED-CONCERN'])),criterion='CR-3')['eligible_observed_result'],'fail')
+    def test_generic_rationale_cannot_replace_specific_reasoning_link(self):
+        self.assertEqual(check(compute(changed('observations',2,'reasoning_ids',[])),criterion='CR-3')['eligible_observed_result'],'unknown')
+    def test_missing_substantive_human_judgment_withholds(self):
+        self.assertEqual(check(compute(changed('reasoning',0,'human_judgement','unknown')),criterion='CR-3')['eligible_observed_result'],'unknown')
+    def test_human_reasoning_failure_is_retained(self):
+        out=compute(changed('reasoning',0,'human_judgement','fail'))
+        self.assertEqual(check(out,criterion='CR-3')['eligible_observed_result'],'fail')
+        self.assertTrue(out['results']['within_supplied_exception_threshold'])
+        self.assertEqual(out['results']['observed_case_exception_proportion']['exact_ratio'],'1/2')
+    def test_partial_case_keeps_known_exception_and_excludes_denominator(self):
+        doc=changed('reasoning',0,'considered_counterevidence_ids',[])
+        set_claim(doc,doc['data']['observations'][2]['human_review_complete'],None)
+        out=compute(doc)
+        self.assertEqual(check(out,criterion='CR-3')['eligible_observed_result'],'unknown')
+        self.assertTrue(check(out,criterion='CR-3')['mechanical_exceptions'])
+        self.assertTrue(out['results']['case_outcomes'][0]['known_quality_exception'])
+        self.assertEqual(out['results']['observed_case_exception_proportion']['exact_ratio'],'0/1')
+        self.assertIsNone(out['results']['within_supplied_exception_threshold'])
+    def test_named_human_review_required(self):
+        self.assertEqual(check(compute(changed('observations',0,'human_review_complete',False)))['eligible_observed_result'],'unknown')
+        self.assertEqual(check(compute(changed('observations',0,'human_reviewer_id','OTHER-REVIEWER')))['eligible_observed_result'],'unknown')
+    def test_chronology_predecessor_conflict_overrides_pass(self):
+        self.assertEqual(check(compute(changed('events',0,'occurred_on','2026-10-03')),criterion='CR-2')['eligible_observed_result'],'fail')
+    def test_chronology_cycle_overrides_pass_even_equal_dates(self):
+        doc=changed('events',0,'predecessor_event_ids',['EVENT-CASE-A-1'])
+        set_claim(doc,doc['data']['events'][0]['occurred_on'],'2026-10-02')
+        self.assertEqual(check(compute(doc),criterion='CR-2')['eligible_observed_result'],'fail')
+    def test_chronology_missing_predecessor_unknown(self):
+        self.assertEqual(check(compute(changed('events',1,'predecessor_event_ids',['MISSING-EVENT'])),criterion='CR-2')['eligible_observed_result'],'unknown')
+    def test_case_period_chronology_conflict_retained(self):
+        self.assertEqual(check(compute(changed('events',0,'occurred_on','2026-09-30')),criterion='CR-2')['eligible_observed_result'],'fail')
+    def test_reversed_period_stops(self):
+        with self.assertRaises(ValueError):compute(changed('mandate',0,'period_from','2026-10-05'))
+    def test_future_observation_stays_unknown(self):
+        self.assertEqual(check(compute(changed('observations',0,'tested_on','2026-10-05')))['eligible_observed_result'],'unknown')
+    def test_disposition_must_match_exact_reasoning(self):
+        self.assertEqual(check(compute(changed('cases',0,'proposed_disposition','Different proposed disposition')),criterion='CR-4')['eligible_observed_result'],'fail')
+    def test_disposition_cannot_precede_evidence(self):
+        self.assertEqual(check(compute(changed('cases',0,'disposition_on','2026-10-01')),criterion='CR-4')['eligible_observed_result'],'fail')
+    def test_tool_factual_mutation_overrides_human_pass(self):
+        doc=copy.deepcopy(BASE);c=doc['data']['tool_outputs'][0]['proposed_facts'];value=copy.deepcopy(c['value']);value[0]['value']='Invented favorable fact';set_claim(doc,c,value)
+        self.assertEqual(check(compute(doc),criterion='CR-5')['eligible_observed_result'],'fail')
+    def test_tool_model_version_not_inferred(self):
+        self.assertEqual(check(compute(changed('tool_outputs',0,'model_version',None)),criterion='CR-5')['eligible_observed_result'],'unknown')
+    def test_tool_human_review_required(self):
+        self.assertEqual(check(compute(changed('tool_outputs',0,'human_review_complete',False)),criterion='CR-5')['eligible_observed_result'],'unknown')
+    def test_threshold_requires_exact_decimal_string(self):
+        with self.assertRaises(ValueError):compute(changed('mandate',0,'maximum_exception_proportion',0.5))
+    def test_threshold_does_not_round_large_decimal_to_favorable(self):
+        doc=changed('observations',0,'observed_outcome','fail')
+        set_claim(doc,doc['data']['mandate']['maximum_exception_proportion'],'0.4999999999999999999999999999999999999999999999999999999')
+        self.assertFalse(compute(doc)['results']['within_supplied_exception_threshold'])
+    def test_threshold_failure_keeps_case_quality_findings(self):
+        doc=changed('observations',0,'observed_outcome','fail');set_claim(doc,doc['data']['mandate']['maximum_exception_proportion'],'0')
+        out=compute(doc);self.assertFalse(out['results']['within_supplied_exception_threshold']);self.assertEqual(out['status'],'needs-evidence')
+    def test_future_and_expired_sources_withhold(self):
+        for field,value in [('received_at','2026-10-05'),('expires_on','2026-10-03')]:
+            doc=copy.deepcopy(BASE);doc['sources'][0][field]=value
+            self.assertIsNone(compute(doc)['results']['within_supplied_exception_threshold'])
+    def test_source_recipient_boundary_stops(self):
+        doc=copy.deepcopy(BASE);doc['sources'][0]['permitted_audiences']=['another-audience']
+        with self.assertRaises(ValueError):compute(doc)
+    def test_sar_source_cannot_flow_to_general_qa(self):
+        doc=copy.deepcopy(BASE);doc['sources'][0]['classification']='sar_restricted'
+        with self.assertRaises(ValueError):compute(doc)
+    def test_sar_authorized_fiu_native_only(self):
+        doc=copy.deepcopy(BASE);doc['sources'][0]['classification']='sar_restricted';doc['workflow']['classification']='sar_restricted';doc['workflow']['audience']='authorized_fiu';doc['workflow']['allowed_audiences']=['authorized_fiu'];doc['sources'][0]['permitted_audiences']=['authorized_fiu']
+        out=compute(doc);self.assertEqual(out['audience'],'authorized_fiu');self.assertNotIn('source_input',out)
+        self.assertNotIn('facts',out);self.assertNotIn('sources',out)
+    def test_sar_broad_audience_list_does_not_authorize_external_projection(self):
+        doc=copy.deepcopy(BASE);doc['workflow']['classification']='sar_restricted';doc['sources'][0]['classification']='sar_restricted'
+        with self.assertRaises(ValueError):compute(doc)
+    def test_mixed_legal_and_sar_sources_need_adapter(self):
+        doc=copy.deepcopy(BASE);doc['workflow']['classification']='legal_restricted';doc['sources'][0]['classification']='sar_restricted'
+        with self.assertRaises(ValueError):compute(doc)
+    def test_source_versions_must_match_detached_registry(self):
+        doc=copy.deepcopy(BASE);doc['workflow']['sources'][0]['version']='WRONG-VERSION'
+        with self.assertRaises(ValueError):compute(doc)
+    def test_inherited_upstream_issues_preserved(self):
+        doc=copy.deepcopy(BASE);doc['workflow']['unresolved_issues']=['UPSTREAM-OPEN-QUALITY']
+        self.assertIn('UPSTREAM-OPEN-QUALITY',compute(doc)['unresolved_issues'])
+    def test_exact_detached_reconstruction(self):
+        out=compute(BASE);self.assertEqual(validate_output(out,BASE),[]);self.assertTrue(validate_output(out,None))
+        self.assertEqual(out['source_truth'],'unverified');self.assertFalse(out['action_taken']);self.assertTrue(out['human_review_required'])
+    def test_native_tamper_and_extra_narrative_fail(self):
+        for field,value in [('narrative','Case cleared'),('action_taken',True),('audience','customer'),('source_truth','verified')]:
+            out=compute(BASE);out[field]=value;self.assertTrue(validate_output(out,BASE))
+        out=compute(BASE);out['results']['observed_criterion_counts']['pass']=999;self.assertTrue(validate_output(out,BASE))
+    def test_edited_original_and_embedded_original_fail(self):
+        out=compute(BASE);doc=changed('mandate',0,'mandate_owner','OTHER-OWNER');self.assertTrue(validate_output(out,doc))
+        out['source_input']=BASE;self.assertTrue(validate_output(out,BASE))
+    def test_no_professional_action_in_success(self):
+        r=compute(BASE)['results']
+        for key,value in {'case_closure':'not-performed','reportability':'not-assessed','guilt':'not-assessed','sar_filing':'not-performed','assurance_opinion':'not-issued','legal_privilege':'not-determined','automated_decision':'not-performed','reputation_assessment':'not-performed'}.items():self.assertEqual(r[key],value)
+    def test_duplicate_json_keys_are_rejected_at_cli(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'duplicate.json';path.write_text('{"request_id":"A","request_id":"B"}')
+            run=subprocess.run([sys.executable,'-B',str(ROOT/'scripts/calculate_or_transform.py'),str(path)],capture_output=True,text=True)
+            self.assertEqual(run.returncode,1);self.assertIn('duplicate JSON object key',run.stderr)
+    def test_unknown_native_field_stops(self):
+        doc=copy.deepcopy(BASE);doc['data']['proposed_closure']='approved'
+        with self.assertRaises(ValueError):compute(doc)
+
+
+if __name__ == '__main__':unittest.main()

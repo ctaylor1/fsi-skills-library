@@ -1,0 +1,2903 @@
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "sanctions-screening-control-evaluator",
+  "method": "supplied-screening-control-reconciliation/1.0",
+  "request_id": "FORWARD-WIRE-AND-ONBOARDING-REVIEW-72",
+  "object_id": "WIRE-AND-ONBOARDING-REVIEW-72",
+  "object_type": "sanctions_screening_control_review",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "context": {
+    "institution_id": "DEIDENTIFIED-REGIONAL-BANK",
+    "legal_entity_id": "BANK-LEGAL-ENTITY-01",
+    "capacity": "internal-control-review",
+    "represented_party": "institution",
+    "object_id": "WIRE-AND-ONBOARDING-REVIEW-72",
+    "object_type": "sanctions_screening_control_review",
+    "jurisdiction": "US-bank-supplied-profile",
+    "line_of_business": "retail-deposits-and-wire-operations",
+    "purpose": "scope-specific-forward-evaluation"
+  },
+  "role": "operational_qa",
+  "classification": "compliance_confidential",
+  "audience": "institution-testing-owner",
+  "status": "needs-evidence",
+  "results": {
+    "review": {
+      "window_from": "2026-10-02T12:00:00Z",
+      "window_to": "2026-10-03T12:00:00Z",
+      "regimes": [
+        "US-OFAC-supplied-snapshot"
+      ],
+      "population_ids": [
+        "WIRE-72-1",
+        "WIRE-72-2",
+        "ONBOARD-72-1",
+        "ONBOARD-72-2"
+      ],
+      "feed_ids": [
+        "WIRE-EXPORT",
+        "ONBOARDING-EXPORT"
+      ],
+      "list_ids": [
+        "SNAPSHOT-OFAC-72"
+      ],
+      "testset_ids": [
+        "QA-CHALLENGE-72"
+      ],
+      "control_ids": [
+        "CTRL-population",
+        "CTRL-feed",
+        "CTRL-list",
+        "CTRL-field",
+        "CTRL-transliteration",
+        "CTRL-matching",
+        "CTRL-configuration",
+        "CTRL-vendor",
+        "CTRL-resilience",
+        "CTRL-latency"
+      ],
+      "required_fields": [
+        "legal_name",
+        "birth_date"
+      ],
+      "required_scripts": [
+        "Latn",
+        "Cyrl"
+      ],
+      "required_test_dimensions": [
+        "exact-name",
+        "transliteration",
+        "negative-control"
+      ],
+      "maximum_list_update_lag_seconds": "600",
+      "maximum_latency_seconds": "2",
+      "maximum_false_positive_rate": "0.50000000000000000000000000001",
+      "maximum_false_negative_rate": "0",
+      "mandate_owner": "SANCTIONS-QA-OWNER-72",
+      "mandate_type": "operational-qa",
+      "population_grain": "screening-input-record-id"
+    },
+    "configuration": {
+      "engine_id": "WIRE-NAME-SCREEN",
+      "engine_version": "build-2026.09.27",
+      "configuration_version": "PARAMETER-TABLE-72",
+      "vendor_reference": "SUPPLIED-VENDOR-REVIEW-72",
+      "vendor_version": "review-2",
+      "effective_from": "2026-10-01T00:00:00Z",
+      "effective_to": "2026-10-04T23:59:59Z",
+      "fields": [
+        "legal_name",
+        "birth_date"
+      ],
+      "scripts": [
+        "Latn",
+        "Cyrl"
+      ],
+      "normalization_rules": "Norm-72 trims whitespace and uses explicit Unicode case rules; identifiers preserved",
+      "transliteration_rules": "Trans-72 reviewed paired Cyrillic/Latin challenge mappings; no identity conclusion",
+      "matching_method": "Supplied field-based fuzzy comparison and exact identifiers; native review does not execute engine",
+      "threshold_description": "Owner supplied parameter table 72 defines candidate matching settings; no universal sanction threshold"
+    },
+    "population_feed_coverage_consistent": true,
+    "list_regime_coverage_consistent": true,
+    "configuration_coverage_consistent": true,
+    "feeds": [
+      {
+        "feed_id": "WIRE-EXPORT",
+        "evidence": {
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2"
+          ],
+          "received_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2"
+          ],
+          "screened_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2"
+          ],
+          "fields": [
+            "legal_name",
+            "birth_date"
+          ],
+          "scripts": [
+            "Latn",
+            "Cyrl"
+          ],
+          "window_from": "2026-10-02T12:00:00Z",
+          "window_to": "2026-10-03T12:00:00Z",
+          "review_evidence_consistent": true
+        },
+        "unreceived_population_ids": [],
+        "received_not_screened_ids": [],
+        "screened_without_receipt_ids": [],
+        "required_fields_covered": true,
+        "required_scripts_covered": true,
+        "supplied_feed_coverage_consistent": true
+      },
+      {
+        "feed_id": "ONBOARDING-EXPORT",
+        "evidence": {
+          "population_ids": [
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "received_ids": [
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "screened_ids": [
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "fields": [
+            "legal_name",
+            "birth_date"
+          ],
+          "scripts": [
+            "Latn",
+            "Cyrl"
+          ],
+          "window_from": "2026-10-02T12:00:00Z",
+          "window_to": "2026-10-03T12:00:00Z",
+          "review_evidence_consistent": true
+        },
+        "unreceived_population_ids": [],
+        "received_not_screened_ids": [],
+        "screened_without_receipt_ids": [],
+        "required_fields_covered": true,
+        "required_scripts_covered": true,
+        "supplied_feed_coverage_consistent": true
+      }
+    ],
+    "lists": [
+      {
+        "list_id": "SNAPSHOT-OFAC-72",
+        "evidence": {
+          "regime": "US-OFAC-supplied-snapshot",
+          "expected_version": "SUPPLIED-SNAPSHOT-2026-10-01",
+          "loaded_version": "SUPPLIED-SNAPSHOT-2026-10-01",
+          "published_at": "2026-10-01T08:00:00Z",
+          "effective_at": "2026-10-01T09:00:00Z",
+          "loaded_at": "2026-10-01T09:20:00Z",
+          "expected_entry_ids": [
+            "DEIDENTIFIED-ENTRY-A",
+            "DEIDENTIFIED-ENTRY-B"
+          ],
+          "loaded_entry_ids": [
+            "DEIDENTIFIED-ENTRY-A",
+            "DEIDENTIFIED-ENTRY-B"
+          ],
+          "review_evidence_consistent": true
+        },
+        "chronology_consistent": true,
+        "version_consistent": true,
+        "missing_loaded_entry_ids": [],
+        "extra_loaded_entry_ids": [],
+        "update_lag_seconds_exact": "1200",
+        "within_supplied_update_lag_limit": false,
+        "supplied_list_coverage_consistent": true
+      }
+    ],
+    "tests": [
+      {
+        "test_id": "OBS-1",
+        "evidence": {
+          "case_id": "FWD-EXACT-1",
+          "testset_id": "QA-CHALLENGE-72",
+          "testset_version": "challenge-v3",
+          "feed_id": "WIRE-EXPORT",
+          "list_id": "SNAPSHOT-OFAC-72",
+          "list_version": "SUPPLIED-SNAPSHOT-2026-10-01",
+          "engine_id": "WIRE-NAME-SCREEN",
+          "engine_version": "build-2026.09.27",
+          "configuration_version": "PARAMETER-TABLE-72",
+          "dimension": "exact-name",
+          "input_fields": [
+            "legal_name",
+            "birth_date"
+          ],
+          "input_script": "Latn",
+          "expected_detection": "expected-alert",
+          "observed_detection": "alert",
+          "observed_at": "2026-10-03T11:00:00Z",
+          "latency_seconds": "1.50",
+          "evidence_complete": true
+        },
+        "measured_sample_classification": "true_positive",
+        "within_supplied_latency_limit": true,
+        "measurement_issues": []
+      },
+      {
+        "test_id": "OBS-2",
+        "evidence": {
+          "case_id": "FWD-CYRILLIC-1",
+          "testset_id": "QA-CHALLENGE-72",
+          "testset_version": "challenge-v3",
+          "feed_id": "WIRE-EXPORT",
+          "list_id": "SNAPSHOT-OFAC-72",
+          "list_version": "SUPPLIED-SNAPSHOT-2026-10-01",
+          "engine_id": "WIRE-NAME-SCREEN",
+          "engine_version": "build-2026.09.27",
+          "configuration_version": "PARAMETER-TABLE-72",
+          "dimension": "transliteration",
+          "input_fields": [
+            "legal_name",
+            "birth_date"
+          ],
+          "input_script": "Cyrl",
+          "expected_detection": "expected-alert",
+          "observed_detection": "alert",
+          "observed_at": "2026-10-03T11:00:00Z",
+          "latency_seconds": "1.50",
+          "evidence_complete": true
+        },
+        "measured_sample_classification": "true_positive",
+        "within_supplied_latency_limit": true,
+        "measurement_issues": []
+      },
+      {
+        "test_id": "OBS-3",
+        "evidence": {
+          "case_id": "FWD-NEGATIVE-1",
+          "testset_id": "QA-CHALLENGE-72",
+          "testset_version": "challenge-v3",
+          "feed_id": "ONBOARDING-EXPORT",
+          "list_id": "SNAPSHOT-OFAC-72",
+          "list_version": "SUPPLIED-SNAPSHOT-2026-10-01",
+          "engine_id": "WIRE-NAME-SCREEN",
+          "engine_version": "build-2026.09.27",
+          "configuration_version": "PARAMETER-TABLE-72",
+          "dimension": "negative-control",
+          "input_fields": [
+            "legal_name",
+            "birth_date"
+          ],
+          "input_script": "Latn",
+          "expected_detection": "expected-no-alert",
+          "observed_detection": "alert",
+          "observed_at": "2026-10-03T11:00:00Z",
+          "latency_seconds": "1.50",
+          "evidence_complete": true
+        },
+        "measured_sample_classification": "false_positive",
+        "within_supplied_latency_limit": true,
+        "measurement_issues": []
+      },
+      {
+        "test_id": "OBS-4",
+        "evidence": {
+          "case_id": "FWD-NEGATIVE-2",
+          "testset_id": "QA-CHALLENGE-72",
+          "testset_version": "challenge-v3",
+          "feed_id": "ONBOARDING-EXPORT",
+          "list_id": "SNAPSHOT-OFAC-72",
+          "list_version": "SUPPLIED-SNAPSHOT-2026-10-01",
+          "engine_id": "WIRE-NAME-SCREEN",
+          "engine_version": "build-2026.09.27",
+          "configuration_version": "PARAMETER-TABLE-72",
+          "dimension": "negative-control",
+          "input_fields": [
+            "legal_name",
+            "birth_date"
+          ],
+          "input_script": "Latn",
+          "expected_detection": "expected-no-alert",
+          "observed_detection": "no-alert",
+          "observed_at": "2026-10-03T11:00:00Z",
+          "latency_seconds": "1.50",
+          "evidence_complete": true
+        },
+        "measured_sample_classification": "true_negative",
+        "within_supplied_latency_limit": true,
+        "measurement_issues": []
+      }
+    ],
+    "controls": [
+      {
+        "control_id": "CTRL-population",
+        "evidence": {
+          "dimension": "population",
+          "requirement": "Review-72 population workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed population evidence under control procedure 72-population",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied population reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-feed",
+        "evidence": {
+          "dimension": "feed",
+          "requirement": "Review-72 feed workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed feed evidence under control procedure 72-feed",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied feed reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-list",
+        "evidence": {
+          "dimension": "list",
+          "requirement": "Review-72 list workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed list evidence under control procedure 72-list",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied list reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-field",
+        "evidence": {
+          "dimension": "field",
+          "requirement": "Review-72 field workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed field evidence under control procedure 72-field",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied field reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-transliteration",
+        "evidence": {
+          "dimension": "transliteration",
+          "requirement": "Review-72 transliteration workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed transliteration evidence under control procedure 72-transliteration",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied transliteration reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-matching",
+        "evidence": {
+          "dimension": "matching",
+          "requirement": "Review-72 matching workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed matching evidence under control procedure 72-matching",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied matching reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-configuration",
+        "evidence": {
+          "dimension": "configuration",
+          "requirement": "Review-72 configuration workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed configuration evidence under control procedure 72-configuration",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied configuration reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-vendor",
+        "evidence": {
+          "dimension": "vendor",
+          "requirement": "Review-72 vendor workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed vendor evidence under control procedure 72-vendor",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied vendor reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-resilience",
+        "evidence": {
+          "dimension": "resilience",
+          "requirement": "Review-72 resilience workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed resilience evidence under control procedure 72-resilience",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied resilience reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      },
+      {
+        "control_id": "CTRL-latency",
+        "evidence": {
+          "dimension": "latency",
+          "requirement": "Review-72 latency workpaper must cover the four retained input IDs and exact review window",
+          "procedure": "Owner reviewed latency evidence under control procedure 72-latency",
+          "population_ids": [
+            "WIRE-72-1",
+            "WIRE-72-2",
+            "ONBOARD-72-1",
+            "ONBOARD-72-2"
+          ],
+          "observed_at": "2026-10-03T11:30:00Z",
+          "outcome": "pass",
+          "evidence_complete": true,
+          "finding": "Supplied latency reviewer workpaper records completed coverage, no observed exception; identity and adequacy unverified"
+        },
+        "eligible_supplied_control_outcome": "pass"
+      }
+    ],
+    "supplied_engine_outcome_counts": {
+      "alert": 3,
+      "no-alert": 1,
+      "error": 0,
+      "unknown": 0
+    },
+    "measured_sample_counts": {
+      "true_positive": 2,
+      "false_positive": 1,
+      "true_negative": 1,
+      "false_negative": 0
+    },
+    "unlabeled_observation_count": 0,
+    "ineligible_measurement_count": 0,
+    "unmeasured_testset_cases": [],
+    "missing_test_dimensions": [],
+    "known_test_coverage_complete": true,
+    "latency_evidence_complete": true,
+    "false_positive_rate": {
+      "numerator": 1,
+      "denominator": 2,
+      "exact_fraction": "1/2"
+    },
+    "false_negative_rate": {
+      "numerator": 0,
+      "denominator": 2,
+      "exact_fraction": "0/2"
+    },
+    "within_supplied_false_positive_criterion": true,
+    "within_supplied_false_negative_criterion": true,
+    "supplied_control_outcomes": {
+      "pass": 10,
+      "fail": 0,
+      "unknown": 0
+    },
+    "uncovered_control_dimensions": [],
+    "supplied_control_coverage_complete": true,
+    "supplied_review_coverage_complete": true,
+    "within_supplied_review_criteria": false,
+    "operational_effectiveness": "not-established",
+    "legal_exposure": "not-determined",
+    "match_identity_disposition": "not-determined",
+    "independent_assurance": "not-issued",
+    "screening_engine_execution": "not-performed",
+    "current_list_verification": "not-performed",
+    "statistical_population_inference": "not-performed"
+  },
+  "unresolved_issues": [
+    "SNAPSHOT-OFAC-72: known list-update lag exceeds the supplied requirement; eligible detection observations are retained"
+  ],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/review/window_from",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/window_to",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/regimes",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/population_ids",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/feed_ids",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/list_ids",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/testset_ids",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/control_ids",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/required_fields",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/required_scripts",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/required_test_dimensions",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/maximum_list_update_lag_seconds",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/maximum_latency_seconds",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/maximum_false_positive_rate",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/maximum_false_negative_rate",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/mandate_owner",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/mandate_type",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review/population_grain",
+      "source_refs": [
+        "FORWARD-REVIEW-MANDATE"
+      ],
+      "fact_ids": [
+        "FORWARD-REVIEW-MANDATE-FACT-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/engine_id",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/engine_version",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/configuration_version",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/vendor_reference",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/vendor_version",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/effective_from",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/effective_to",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/fields",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/scripts",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/normalization_rules",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/transliteration_rules",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/matching_method",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/configuration/threshold_description",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/0/population_ids",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/0/received_ids",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/0/screened_ids",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/0/fields",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/0/scripts",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/0/window_from",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/0/window_to",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/1/population_ids",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/1/received_ids",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/1/screened_ids",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/1/fields",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/1/scripts",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/1/window_from",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/feeds/1/window_to",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/lists/0/regime",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/lists/0/expected_version",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/lists/0/loaded_version",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/lists/0/published_at",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/lists/0/effective_at",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-32"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/lists/0/loaded_at",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-33"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/lists/0/expected_entry_ids",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-34"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/lists/0/loaded_entry_ids",
+      "source_refs": [
+        "FORWARD-WORKPAPERS"
+      ],
+      "fact_ids": [
+        "FORWARD-WORKPAPERS-FACT-35"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/version",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/case_ids",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/label_reference",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/label_version",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/label_scope",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/labels_as_of",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/accepted_for_measurement",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/selection_method",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/testsets/0/represented_dimensions",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/case_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/testset_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/testset_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/feed_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/list_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/list_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/engine_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/engine_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/configuration_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/dimension",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/input_fields",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/input_script",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/observed_detection",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/observed_at",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/latency_seconds",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/evidence_complete",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/0/expected_detection",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/case_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/testset_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/testset_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/feed_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/list_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/list_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/engine_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/engine_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/configuration_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/dimension",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/input_fields",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/input_script",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/observed_detection",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/observed_at",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/latency_seconds",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/evidence_complete",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-32"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/1/expected_detection",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/case_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-33"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/testset_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-34"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/testset_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-35"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/feed_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-36"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/list_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-37"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/list_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-38"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/engine_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-39"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/engine_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-40"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/configuration_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-41"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/dimension",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-42"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/input_fields",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-43"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/input_script",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-44"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/observed_detection",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-45"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/observed_at",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-46"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/latency_seconds",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-47"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/evidence_complete",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-48"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/2/expected_detection",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/case_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-49"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/testset_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-50"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/testset_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-51"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/feed_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-52"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/list_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-53"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/list_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-54"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/engine_id",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-55"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/engine_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-56"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/configuration_version",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-57"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/dimension",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-58"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/input_fields",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-59"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/input_script",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-60"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/observed_detection",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-61"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/observed_at",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-62"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/latency_seconds",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-63"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/evidence_complete",
+      "source_refs": [
+        "FORWARD-ENGINE-EXPORT"
+      ],
+      "fact_ids": [
+        "FORWARD-ENGINE-EXPORT-FACT-64"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/tests/3/expected_detection",
+      "source_refs": [
+        "FORWARD-LABELS"
+      ],
+      "fact_ids": [
+        "FORWARD-LABELS-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/1/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/1/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/1/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/1/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/1/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/1/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/1/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/1/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/2/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/2/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/2/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/2/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/2/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/2/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/2/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/2/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/3/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/3/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/3/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/3/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/3/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/3/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/3/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/3/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-32"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/4/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-33"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/4/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-34"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/4/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-35"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/4/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-36"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/4/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-37"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/4/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-38"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/4/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-39"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/4/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-40"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/5/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-41"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/5/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-42"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/5/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-43"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/5/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-44"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/5/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-45"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/5/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-46"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/5/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-47"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/5/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-48"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/6/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-49"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/6/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-50"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/6/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-51"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/6/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-52"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/6/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-53"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/6/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-54"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/6/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-55"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/6/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-56"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/7/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-57"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/7/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-58"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/7/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-59"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/7/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-60"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/7/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-61"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/7/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-62"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/7/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-63"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/7/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-64"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/8/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-65"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/8/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-66"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/8/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-67"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/8/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-68"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/8/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-69"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/8/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-70"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/8/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-71"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/8/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-72"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/9/dimension",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-73"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/9/requirement",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-74"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/9/procedure",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-75"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/9/population_ids",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-76"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/9/observed_at",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-77"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/9/outcome",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-78"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/9/evidence_complete",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-79"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/9/finding",
+      "source_refs": [
+        "FORWARD-CONTROL-OBSERVATIONS"
+      ],
+      "fact_ids": [
+        "FORWARD-CONTROL-OBSERVATIONS-FACT-80"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "False-positive/false-negative counts concern only source-bound eligible test labels and observed outcomes; labels are supplied, scoped and unverified.",
+    "Exact integer fractions and decimal-string criteria preserve precision; sample comparisons do not estimate population error rates.",
+    "Coverage completeness, sample outcomes and supplied control findings do not establish operational effectiveness, legal exposure or independent assurance.",
+    "No current sanctions list, default threshold, engine configuration, resilience requirement, label or sanctioned-person determination is inferred.",
+    "Configuration, vendor, resilience and latency evidence is supplied review material; no engine execution or system mutation is implemented.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "FORWARD-REVIEW-MANDATE",
+    "FORWARD-WORKPAPERS",
+    "FORWARD-LABELS",
+    "FORWARD-ENGINE-EXPORT",
+    "FORWARD-CONTROL-OBSERVATIONS"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "sanctions-match-investigator",
+    "sanctions-exposure-reviewer",
+    "compliance-control-testing-assistant",
+    "compliance-remediation-evidence-reviewer"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "a49ee750b28443b76c10be0c8e39ffeca4a7e66e4684686732fcbca72a65a98e",
+  "source_truth": "unverified"
+}

@@ -1,0 +1,105 @@
+{
+  "schema_version": "ir-phase2/1.0",
+  "request_id": "synthetic-credit-phase2",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "kind": "financial_statement",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1",
+      "subject_ids": [
+        "ACME-ISSUER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    }
+  ],
+  "unresolved_issues": [],
+  "estates": [
+    {
+      "estate_id": "ACME-ESTATE",
+      "currency": "USD",
+      "unit": "USD_m",
+      "unencumbered_value": 40,
+      "estate_costs": 10,
+      "collateral_pools": [
+        {
+          "pool_id": "COLLATERAL-1",
+          "value": 70,
+          "release_surplus_to_estate": true,
+          "evidence_refs": [
+            {
+              "source_id": "synthetic-financials",
+              "locator": "fixture:table-1;reviewed-inputs"
+            }
+          ]
+        }
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "SECURED-1",
+      "estate_id": "ACME-ESTATE",
+      "currency": "USD",
+      "unit": "USD_m",
+      "amount": 100,
+      "priority": 2,
+      "pool_id": "COLLATERAL-1",
+      "collateral_cap": 80,
+      "collateral_priority": 1,
+      "deficiency_allowed": true,
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    },
+    {
+      "claim_id": "UNSECURED-1",
+      "estate_id": "ACME-ESTATE",
+      "currency": "USD",
+      "unit": "USD_m",
+      "amount": 60,
+      "priority": 2,
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ]
+}

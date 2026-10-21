@@ -1,5 +1,12 @@
 # Domain Rules — investment-committee-memo-builder
 
+## Supplied-input validation boundary
+
+The bundled scripts operate on supplied JSON. Connector access, source extraction, authenticated approvals and external delivery are not implemented by these scripts. Retain the original input separately and run `python -B scripts/validate_output.py output.json --input input.json` (alias `--source`). Output includes `input_hash` and `source_truth: unverified`; validation reconstructs the native result and rejects changed figures, narrative, classifications, omitted fields and extra fields. A successful check proves correspondence with the supplied input, not source truth, legal applicability or permission to distribute. Never add a raw source snapshot to an outward-facing artifact. Source and approval strings remain supplied evidence for professional review.
+
+This remains a supplied-model private-deal memo. Base, upside and downside are all required. Sector limits are hard by default; only an explicitly discretionary sector_limit_type permits a warning. equity_value_proxy means EV minus net debt, not sponsor funding or a sources-and-uses equity check. The supplied model itself is in the source-reference ledger. No new public-security or institutional-allocation model is implemented.
+
+
 Orientation: standard private-markets IC practice (thesis, structure, valuation, returns,
 scenarios, risks/mitigants, sizing, decision questions). The firm's **IC memo template** and
 **concentration-limit config** are versioned contracts and take precedence over these
@@ -12,7 +19,7 @@ The memo must reconcile to the model source within tolerance `TOL = 0.05`:
 | Tie-out | Identity checked |
 | ------- | ---------------- |
 | `entry_multiple` | `entry_ev / metric_value` == stated entry multiple |
-| `equity_check` | `entry_ev - net_debt` == stated equity check |
+| `equity_value_proxy` | `entry_ev - net_debt` == stated equity-value proxy (not sponsor funding) |
 | `leverage_x` | `total_debt / ebitda` == stated leverage |
 
 A mismatch beyond tolerance is a **block** (`tie-out-break`): the memo may not restate a
@@ -32,9 +39,7 @@ figure the model does not support.
 - `computed_position_pct = proposed_commitment / fund_nav × 100`, checked against the stated
   figure (tolerance `0.1`).
 - `computed_position_pct > single_name_limit_pct` → **block** (`single-name-breach`).
-- `sector_current_pct + computed_position_pct > sector_limit_pct` → **warn**
-  (`sector-limit-breach`): disclosed to the committee, not silently suppressed. It is a
-  disclosure item, not a blocker, because the committee may knowingly approve near a limit.
+- `sector_current_pct + computed_position_pct > sector_limit_pct` → **block** by default. Only `sector_limit_type: discretionary` changes this to a disclosed warning. Committee review does not waive a binding mandate limit.
 
 ## Valuation guardrail
 

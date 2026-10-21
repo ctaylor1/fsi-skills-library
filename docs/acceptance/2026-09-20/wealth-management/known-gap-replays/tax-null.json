@@ -1,0 +1,187 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "request_id": "HH-ELM-tax-aware-review-2026-09-17",
+  "household_id": "HH-ELM",
+  "as_of": "2026-09-17",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US"
+  },
+  "sources": [
+    {
+      "source_id": "E1",
+      "reference": "Account snapshot and transition policy TR-ELM v3, trading reviewer Ellis, 2026-09-17; current through 2026-09-30",
+      "owner": "trading reviewer Ellis",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-09-30"
+    },
+    {
+      "source_id": "E2",
+      "reference": "Proposed instruction sheet, advisor Ellis, 2026-09-17; valid through 2026-09-18",
+      "owner": "advisor Ellis",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-09-18"
+    },
+    {
+      "source_id": "E3",
+      "reference": "Household replacement activity inventory, tax liaison Francis, 2026-09-17; current through 2026-09-30",
+      "owner": "tax liaison Francis",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-09-30"
+    },
+    {
+      "source_id": "E4",
+      "reference": "Supplied tax scenario TP-ELM v2, tax liaison Francis, 2026-09-17; current through 2026-09-30",
+      "owner": "tax liaison Francis",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-09-30"
+    },
+    {
+      "source_id": "E5",
+      "reference": "Transition issue log, reviewer Ellis, 2026-09-17; current through 2026-09-30",
+      "owner": "reviewer Ellis",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-09-30"
+    }
+  ],
+  "unresolved_issues": [
+    {
+      "code": "settlement-sequence",
+      "message": "Buy settles before the proposed sale; no bridge funding evidence supplied.",
+      "source_ids": [
+        "E5"
+      ]
+    }
+  ],
+  "currency": "USD",
+  "accounts": [
+    {
+      "account_id": "TAX-ELM",
+      "tax_treatment": "taxable",
+      "owner_relationship": "household taxable account",
+      "history_complete": true,
+      "forward_orders_reviewed": false,
+      "history_from": "2026-08-18",
+      "history_through": "2026-09-17",
+      "source_ids": [
+        "E1",
+        "E3"
+      ]
+    },
+    {
+      "account_id": "IRA-ELM",
+      "tax_treatment": null,
+      "owner_relationship": "spouse IRA",
+      "history_complete": true,
+      "forward_orders_reviewed": false,
+      "history_from": "2026-08-18",
+      "history_through": "2026-09-17",
+      "source_ids": [
+        "E3"
+      ]
+    }
+  ],
+  "scope_review": {
+    "household_scope_complete": false,
+    "source_ids": [
+      "E3"
+    ]
+  },
+  "lots": [
+    {
+      "lot_id": "LX1",
+      "account_id": "TAX-ELM",
+      "security_id": "LOSS-X",
+      "asset_class": "unspecified",
+      "quantity": 100,
+      "unit_cost_basis": 70,
+      "unit_price": 50,
+      "acquired_on": "2024-01-02",
+      "price_as_of": "2026-09-17",
+      "tax_term": "long",
+      "source_ids": [
+        "E1",
+        "E4"
+      ]
+    }
+  ],
+  "proposed_sales": [
+    {
+      "sale_id": "SELL-LOSS-X-60",
+      "lot_id": "LX1",
+      "quantity": 60,
+      "estimated_fees": 10,
+      "trade_date": "2026-09-17",
+      "source_ids": [
+        "E2",
+        "E4"
+      ]
+    }
+  ],
+  "equivalence_map": [
+    {
+      "security_id": "LOSS-X",
+      "group_id": "GX",
+      "source_ids": [
+        "E4"
+      ]
+    }
+  ],
+  "purchases": [
+    {
+      "purchase_id": "IRA-REINVEST-LOSS-X-2026-09-10",
+      "account_id": "IRA-ELM",
+      "security_id": "LOSS-X",
+      "acquisition_lot_id": "IRA-NEW",
+      "quantity": 20,
+      "trade_date": "2026-09-10",
+      "lifecycle": "executed",
+      "source_ids": [
+        "E3"
+      ]
+    },
+    {
+      "purchase_id": "PROPOSED-BUY-NEW-Y-2026-09-17",
+      "account_id": "TAX-ELM",
+      "security_id": "NEW-Y",
+      "acquisition_lot_id": "PROPOSED-NEW-Y-LOT",
+      "quantity": 150,
+      "trade_date": "2026-09-17",
+      "lifecycle": "proposed",
+      "source_ids": [
+        "E2",
+        "E4"
+      ]
+    }
+  ],
+  "tax_profile": {
+    "version": "TP-ELM v2",
+    "owner": "tax liaison Francis",
+    "short_term_rate_pct": 35,
+    "long_term_rate_pct": 20,
+    "max_positive_gain_amount": 5000,
+    "max_tax_reserve": 1000,
+    "max_price_age_days": 2,
+    "source_ids": [
+      "E4"
+    ]
+  },
+  "location_policy": {
+    "version": "E4 supplied location policy",
+    "source_ids": [
+      "E4"
+    ],
+    "preferences": [
+      {
+        "asset_class": "fixed-income",
+        "preferred_tax_treatments": [
+          "tax-deferred"
+        ],
+        "rationale": "Supplied policy prefers fixed-income in tax-deferred accounts.",
+        "source_ids": [
+          "E4"
+        ]
+      }
+    ]
+  }
+}

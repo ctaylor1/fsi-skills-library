@@ -1,0 +1,51 @@
+{
+  "skill": "asset-based-valuation-modeler",
+  "version": "0.1.0",
+  "evals": [
+    {
+      "id": "input",
+      "command": "python3 -B scripts/validate_input.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": [
+        "input validation: 0 error(s)"
+      ],
+      "type": "deterministic"
+    },
+    {
+      "id": "compute",
+      "command": "python3 -B scripts/calculate_or_transform.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"authority_granted\": false"
+      ],
+      "type": "deterministic"
+    },
+    {
+      "id": "output",
+      "command": "python3 -B scripts/validate_output.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": [
+        "output validation: 0 error(s)"
+      ],
+      "type": "deterministic"
+    },
+    {
+      "id": "bad-input",
+      "command": "python3 -B scripts/validate_input.py evals/files/bad-input.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "tampered",
+      "command": "python3 -B scripts/validate_output.py evals/files/tampered.json --input evals/files/input.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ],
+      "type": "safety"
+    }
+  ]
+}

@@ -19,6 +19,9 @@ Exit 0 if no errors (warnings allowed), 1 otherwise.
 from __future__ import annotations
 import json, sys
 from pathlib import Path
+import math
+from datetime import date
+from native_integrity import canonical_hash
 
 REQUIRED_TOP = ("template_version", "deal", "sources", "model", "scenarios", "valuation",
                 "risks", "sizing", "thesis_points", "decision_questions", "approvals")
@@ -27,7 +30,7 @@ RECOMMENDATIONS = {"approve", "conditional-approve", "decline", "hold"}
 UNAPPROVED_TYPES = {"market", "research"}
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate_native(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc:
@@ -133,6 +136,28 @@ def main(argv):
     print(f"input validation: {len(errors)} error(s), {len(warnings)} warning(s)")
     return 1 if errors else 0
 
+
+
+
+def validate(doc):
+    if isinstance(doc,dict) and doc.get('mode') is not None and not isinstance(doc.get('mode'),str): return ['mode must be text'], []
+    if isinstance(doc, dict) and doc.get('mode') in {'allocation', 'public-security', 'manager'}:
+        from phase2_domain import validate as phase2_validate
+        return phase2_validate(doc), []
+    if isinstance(doc, dict) and doc.get('mode') not in {None, 'private-deal'}: return ['unsupported workflow mode'], []
+    try:
+        canonical_hash(doc)
+        errors, warnings = _validate_native(doc)
+        scenarios = [str(x.get("name", "")).lower() for x in doc.get("scenarios", [])]
+        if any(scenarios.count(k) != 1 for k in ("base", "upside", "downside")):
+            errors.append("exactly one base, upside and downside scenario required")
+        if "equity_value_proxy" not in doc.get("model", {}).get("entry", {}):
+            errors.append("equity_value_proxy required; EV minus net debt is not sponsor equity funding")
+        if doc.get("sizing", {}).get("sector_limit_type", "hard") not in ("hard", "discretionary"):
+            errors.append("sector_limit_type must be hard or discretionary")
+        return errors, warnings
+    except (KeyError, TypeError, ValueError, ArithmeticError) as exc:
+        return ["invalid input: " + str(exc)], []
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

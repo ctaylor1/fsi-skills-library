@@ -62,7 +62,7 @@ human.
   `credit-application-packager`.
 - **Fee / APR / TRID tolerance** math on the closing disclosure → `fee-and-charge-reviewer`.
 - **KYC/CDD identity** verification or **beneficial-ownership** confirmation →
-  `kyc-customer-due-diligence-screener` / `beneficial-ownership-verifier`.
+  `customer-due-diligence-reviewer` / `beneficial-ownership-analyzer`.
 - Post-closing **covenant** tracking → `covenant-compliance-monitor`; post-booking
   **servicing exceptions** → `loan-servicing-exception-resolver`.
 

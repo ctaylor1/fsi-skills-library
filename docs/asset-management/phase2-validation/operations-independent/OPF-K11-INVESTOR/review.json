@@ -1,0 +1,179 @@
+{
+  "id": "OPF-K11-INVESTOR",
+  "package": "private-fund-performance-analyzer",
+  "input": {
+    "request_id": "OPF-K11-INVESTOR",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "investor_net",
+    "facility_basis": "actual-investor-flows-with-facility-effects",
+    "inception_date": "2025-01-01",
+    "valuation_date": "2026-01-01",
+    "residual_nav": "61",
+    "valuation_source_ref": "ind-source",
+    "cash_flows": [
+      {
+        "flow_id": "CONTRIB",
+        "date": "2025-01-01",
+        "type": "contribution",
+        "amount": "100",
+        "source_ref": "ind-source"
+      },
+      {
+        "flow_id": "DIST",
+        "date": "2026-01-01",
+        "type": "distribution",
+        "amount": "60",
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "expected": {
+    "dpi": "0.6",
+    "rvpi": "0.61",
+    "tvpi": "1.21",
+    "annual_xirr": "0.21",
+    "tolerance": "1e-20",
+    "basis": "actual investor flows; no synthetic facility gross-up"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "a4fad85c83662266ffce7d4d5d7d355cd9fa042ae0dbb55f8f6210766467ebf3",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"private-fund-performance-analyzer\",\n  \"request_id\": \"OPF-K11-INVESTOR\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"actual-investor-cashflows-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"paid_in\": \"100\",\n    \"distributions\": \"60\",\n    \"residual_nav\": \"61\",\n    \"dpi\": \"0.600000000000000000000000\",\n    \"rvpi\": \"0.610000000000000000000000\",\n    \"tvpi\": \"1.210000000000000000000000\",\n    \"multiple_unit\": \"times\",\n    \"facility_basis\": \"actual-investor-flows-with-facility-effects\",\n    \"irr\": {\n      \"day_count\": \"ACT/365\",\n      \"rate_unit\": \"annual_decimal\",\n      \"same_day_flows\": \"netted\",\n      \"root_domain\": \"[-0.999999, 1000000]\",\n      \"method\": \"conventional-sign-change bisection; numerical approximation\",\n      \"status\": \"calculated\",\n      \"annual_xirr\": \"0.210000000000000000000000\",\n      \"iterations\": 101,\n      \"unrounded_npv_residual\": \"1.357874716163453801227022684436898828394904842781184795E-23\",\n      \"npv_absolute_tolerance\": \"2.21E-22\",\n      \"uniqueness_basis\": \"one negative-to-positive sign change after date aggregation\"\n    }\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"Supplied investor net flows and residual value only; no gross-up, PME, carry, recallable-capital or subscription-line neutralization engine.\",\n    \"Nonconventional cash-flow signs yield unavailable XIRR; no root is selected by guess.\",\n    \"ILPA-style terms do not establish complete template conformance or source truth.\"\n  ],\n  \"handoffs\": [\n    \"private-fund-capital-activity-reviewer\",\n    \"fund-valuation-oversight-reviewer\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"2d344032b51c33f845bf20bfbf2fa0db82d1df7c3e504c59667a03e43ab5aec5\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "private-fund-performance-analyzer",
+    "request_id": "OPF-K11-INVESTOR",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "draft",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "actual-investor-cashflows-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "paid_in": "100",
+      "distributions": "60",
+      "residual_nav": "61",
+      "dpi": "0.600000000000000000000000",
+      "rvpi": "0.610000000000000000000000",
+      "tvpi": "1.210000000000000000000000",
+      "multiple_unit": "times",
+      "facility_basis": "actual-investor-flows-with-facility-effects",
+      "irr": {
+        "day_count": "ACT/365",
+        "rate_unit": "annual_decimal",
+        "same_day_flows": "netted",
+        "root_domain": "[-0.999999, 1000000]",
+        "method": "conventional-sign-change bisection; numerical approximation",
+        "status": "calculated",
+        "annual_xirr": "0.210000000000000000000000",
+        "iterations": 101,
+        "unrounded_npv_residual": "1.357874716163453801227022684436898828394904842781184795E-23",
+        "npv_absolute_tolerance": "2.21E-22",
+        "uniqueness_basis": "one negative-to-positive sign change after date aggregation"
+      }
+    },
+    "unresolved_issues": [],
+    "limitations": [
+      "Supplied investor net flows and residual value only; no gross-up, PME, carry, recallable-capital or subscription-line neutralization engine.",
+      "Nonconventional cash-flow signs yield unavailable XIRR; no root is selected by guess.",
+      "ILPA-style terms do not establish complete template conformance or source truth."
+    ],
+    "handoffs": [
+      "private-fund-capital-activity-reviewer",
+      "fund-valuation-oversight-reviewer"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "2d344032b51c33f845bf20bfbf2fa0db82d1df7c3e504c59667a03e43ab5aec5",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-K11-INVESTOR",
+      "check": "one-year121/100 minus1 IRR",
+      "passed": true
+    },
+    {
+      "case": "OPF-K11-INVESTOR",
+      "check": "dpi",
+      "passed": true
+    },
+    {
+      "case": "OPF-K11-INVESTOR",
+      "check": "rvpi",
+      "passed": true
+    },
+    {
+      "case": "OPF-K11-INVESTOR",
+      "check": "tvpi",
+      "passed": true
+    },
+    {
+      "case": "OPF-K11-INVESTOR",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-K11-INVESTOR",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-K11-INVESTOR",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    },
+    {
+      "case": "OPF-K11-INVESTOR",
+      "check": "different detached original rejected",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "case": "edd-substantive",
+  "skill": "enhanced-due-diligence-assessor",
+  "input_sha256": "3e083193e51f7ad5cb78bd1f53b05faacfcb025ae565459d23803e82d77a5222",
+  "expected_intake_rejection": false,
+  "commands": [
+    {
+      "stage": "validate_input",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/validate_input.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/edd-substantive/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "calculate",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/calculate_or_transform.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/edd-substantive/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "validate_output",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/validate_output.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/edd-substantive/output.initial.json",
+        "--input",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/edd-substantive/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "reject_tampered_output",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/validate_output.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/edd-substantive/output.tampered.json",
+        "--input",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/edd-substantive/input.initial.json"
+      ],
+      "exit_code": 1
+    }
+  ],
+  "implementation": {
+    "skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/calculate_or_transform.py": "2d4ed6af0cecb4b00c58a401e89cddd0857750adb511e740f5fde0ee7f0d4732",
+    "skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/validate_output.py": "8da54711d844ef2f562e2f647c36a5a0b4aa01b372c12b5833295df18a8bee80",
+    "skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/domain.py": "f618d22cfd74665f65e60e04c4b6e9b525a22fc08fc0f98d6ecc2493aa7fac27",
+    "skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/foundation_contract.py": "4979b076d53f95c4758169576b235bf22abb6b37b893d012a955554bb28e765c",
+    "skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "skills/compliance-financial-crime/enhanced-due-diligence-assessor/scripts/validate_input.py": "0607f07515b43f5a66d684ebdcbb087718c3fd266783f0fa6bddd6f597fcf9df"
+  },
+  "output_sha256": "946048f36b94cd10970e3a14464fefc5e4256a6f72ac46244aca3a9d007fe61a"
+}

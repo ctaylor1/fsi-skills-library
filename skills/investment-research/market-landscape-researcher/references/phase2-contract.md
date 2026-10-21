@@ -1,0 +1,7 @@
+# Phase 2 analytical mode
+
+Select schema_version=ir-phase2/1.0. Required common context: request_id, purpose=internal-research, audience=internal-review, subject type/id (security includes issuer_id), as_of/use_on dates, knowledge_cutoff date or aware timestamp, information_barrier, source metadata and top-level evidence_refs. Every row citation must appear in the top-level evidence set; unknown source identity, timing or rights withholds the full projection. The retained original is mandatory for output reconstruction.
+
+Require market_definition/geography/period_id/share_basis and population_coverage complete/partial/unknown. competitors[] has unique competitor_id, the same four basis fields, nullable share_pct in [0,100] and refs. findings[] has dimension/text/refs. Compare shares only with identical market/geography/period/measurement basis. Never normalize the named set to 100%. Named HHI=sum(share_pct squared); unknown-tail upper bound adds tail_pct squared. Named CR4 is a supplied-set descriptor. No legal market definition, merger assessment or regulatory threshold conclusion is produced. Complete requires declared full coverage plus cited comparable shares summing to 100%.
+
+Read the synthetic paired phase2-input.json/phase2-valid.json in evals/files. Output is the source-bound ir-analysis/2.0 draft shape with results, lineage and unresolved issues. Native validation proves reconstruction, not source authenticity, institutional acceptance or approval. Legacy Phase 1 inputs retain their original API and fixtures.

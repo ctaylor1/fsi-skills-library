@@ -1,0 +1,310 @@
+{
+  "schema_version": "ir-reviewed-handoff/1.0",
+  "adapter_id": "capital-structure-to-liquidity",
+  "adapter_method_version": "1.1.0",
+  "adapter_implementation_hash": "6eeb930c898ddd1e52dafba007c6027afbd7fc83bec95a3442e8e39e6ab44e7d",
+  "mapping_exclusions": [
+    {
+      "instrument_id": "bond-2029",
+      "date": "2029-06-30",
+      "amount": 150,
+      "reason": "outside explicitly requested horizon"
+    }
+  ],
+  "producer": "issuer-capital-structure-mapper",
+  "receiver": "issuer-liquidity-refinancing-analyzer",
+  "mapping_scope": "One selected currency/unit group; complete dated principal inventory only",
+  "producer_output_hash": "94b8db8cbd7b08eedfd0f856f7e9a2840610ff05b878f8e5bb4dc19343a9cf6a",
+  "producer_input_hash": "c099418fcfbfe1f26f462f063f25fe5019b78abc37196ed4273c99907dd7f0cc",
+  "registry_hash": "492699b11f9602def7dd9e52125d701a7d901b8f720d1534b5f47ac2070966ef",
+  "package_manifest_hashes": {
+    "producer": "19f62458b48f58cb4c2c5ac1b7eb1269b0e98f752943b57596fbd1c233b4842d",
+    "receiver": "a5cbebf322c73892fa0d35dfdc96ae936f15da2eb3cfd512f3e8f19acc837d7d"
+  },
+  "receiver_input": {
+    "schema_version": "ir-phase2/1.0",
+    "request_id": "forward-ASTER-liquidity",
+    "purpose": "internal-research",
+    "audience": "internal-review",
+    "subject": {
+      "type": "issuer",
+      "id": "ASTER"
+    },
+    "as_of": "2026-10-20",
+    "use_on": "2026-10-20",
+    "knowledge_cutoff": "2026-10-20T16:00:00Z",
+    "information_barrier": "public-side",
+    "sources": [
+      {
+        "source_id": "credit",
+        "version": "debt-register-v2",
+        "kind": "credit_document",
+        "known_at": "2026-10-01T12:00:00Z",
+        "locator": "capital structure register",
+        "subject_ids": [
+          "ASTER"
+        ],
+        "permission_status": "supplied-allowed",
+        "permitted_audiences": [
+          "internal-review"
+        ],
+        "permitted_purposes": [
+          "internal-research"
+        ],
+        "classification": "public"
+      }
+    ],
+    "evidence_refs": [
+      {
+        "source_id": "credit",
+        "locator": "debt footnote table3 and instrument terms"
+      }
+    ],
+    "unresolved_issues": [],
+    "currency": "USD",
+    "unit": "millions",
+    "horizon_end": "2027-12-31",
+    "minimum_cash": 10,
+    "maturity_inventory_complete": true,
+    "cash": {
+      "unrestricted": 60,
+      "restricted": 20,
+      "evidence_refs": [
+        {
+          "source_id": "credit",
+          "locator": "debt footnote table3 and instrument terms"
+        }
+      ]
+    },
+    "cash_flows": [
+      {
+        "id": "operating-burn",
+        "date": "2027-01-31",
+        "currency": "USD",
+        "unit": "millions",
+        "net_operating_flow": -20,
+        "mandatory_capex": 0,
+        "cash_interest": 5,
+        "evidence_refs": [
+          {
+            "source_id": "credit",
+            "locator": "debt footnote table3 and instrument terms"
+          }
+        ]
+      }
+    ],
+    "maturities": [
+      {
+        "id": "maturity-bond-2027",
+        "instrument_id": "bond-2027",
+        "date": "2027-02-28",
+        "amount": 100,
+        "currency": "USD",
+        "unit": "millions",
+        "evidence_refs": [
+          {
+            "source_id": "credit",
+            "locator": "debt footnote table3 and instrument terms"
+          }
+        ]
+      }
+    ],
+    "facilities": [],
+    "refinancing": [],
+    "stress": {
+      "burn_multiplier": 1.5,
+      "facility_haircut": 0,
+      "refinancing_haircut": 0
+    }
+  },
+  "receiver_output": {
+    "schema_version": "ir-analysis/2.0",
+    "method_id": "issuer-liquidity-refinancing-analyzer",
+    "method_version": "2.0.0",
+    "request_id": "forward-ASTER-liquidity",
+    "subject": {
+      "type": "issuer",
+      "id": "ASTER"
+    },
+    "as_of": "2026-10-20",
+    "knowledge_cutoff": "2026-10-20T16:00:00Z",
+    "use_on": "2026-10-20",
+    "purpose": "internal-research",
+    "audience": "internal-review",
+    "results": {
+      "currency": "USD",
+      "unit": "millions",
+      "horizon_end": "2027-12-31",
+      "restricted_cash_excluded": 20,
+      "scenarios": {
+        "committed_base": {
+          "timeline": [
+            {
+              "date": "2027-01-31",
+              "cash_inflow": 0.0,
+              "cash_outflow": 25.0,
+              "ending_cash_known_schedule": 35.0,
+              "gap_to_minimum": 0,
+              "contributing_ids": [
+                "operating-burn"
+              ]
+            },
+            {
+              "date": "2027-02-28",
+              "cash_inflow": 0.0,
+              "cash_outflow": 100.0,
+              "ending_cash_known_schedule": -65.0,
+              "gap_to_minimum": 75.0,
+              "contributing_ids": [
+                "maturity-bond-2027"
+              ]
+            }
+          ],
+          "maximum_funding_gap_known_schedule": 75.0,
+          "outcome": "gap-under-supplied-scenario",
+          "financing_access_established": false
+        },
+        "refinancing_assumption": {
+          "timeline": [
+            {
+              "date": "2027-01-31",
+              "cash_inflow": 0.0,
+              "cash_outflow": 25.0,
+              "ending_cash_known_schedule": 35.0,
+              "gap_to_minimum": 0,
+              "contributing_ids": [
+                "operating-burn"
+              ]
+            },
+            {
+              "date": "2027-02-28",
+              "cash_inflow": 0.0,
+              "cash_outflow": 100.0,
+              "ending_cash_known_schedule": -65.0,
+              "gap_to_minimum": 75.0,
+              "contributing_ids": [
+                "maturity-bond-2027"
+              ]
+            }
+          ],
+          "maximum_funding_gap_known_schedule": 75.0,
+          "outcome": "gap-under-supplied-scenario",
+          "financing_access_established": false
+        },
+        "refinancing_stress": {
+          "timeline": [
+            {
+              "date": "2027-01-31",
+              "cash_inflow": 0.0,
+              "cash_outflow": 35.0,
+              "ending_cash_known_schedule": 25.0,
+              "gap_to_minimum": 0,
+              "contributing_ids": [
+                "operating-burn"
+              ]
+            },
+            {
+              "date": "2027-02-28",
+              "cash_inflow": 0.0,
+              "cash_outflow": 100.0,
+              "ending_cash_known_schedule": -75.0,
+              "gap_to_minimum": 85.0,
+              "contributing_ids": [
+                "maturity-bond-2027"
+              ]
+            }
+          ],
+          "maximum_funding_gap_known_schedule": 85.0,
+          "outcome": "gap-under-supplied-scenario",
+          "financing_access_established": false
+        }
+      },
+      "excluded_facilities": [],
+      "minimum_cash": 10,
+      "recommendation": "not-made",
+      "timing_convention": "supplied flows net within each date; intraday ordering not modeled"
+    },
+    "status": "complete-for-supplied-scope",
+    "calculation_lineage": [
+      {
+        "operation": "Dated opening unrestricted cash plus eligible capacity and financing less signed burn, capex, interest, maturities and explicit capacity repayment; maximum deficit to minimum cash",
+        "input_binding": "complete-original-input-hash",
+        "input_fields": [
+          "as_of",
+          "audience",
+          "cash",
+          "cash_flows",
+          "currency",
+          "facilities",
+          "horizon_end",
+          "information_barrier",
+          "knowledge_cutoff",
+          "maturities",
+          "maturity_inventory_complete",
+          "minimum_cash",
+          "purpose",
+          "refinancing",
+          "request_id",
+          "schema_version",
+          "stress",
+          "subject",
+          "unit",
+          "unresolved_issues",
+          "use_on"
+        ],
+        "output_fields": [
+          "currency",
+          "excluded_facilities",
+          "horizon_end",
+          "minimum_cash",
+          "recommendation",
+          "restricted_cash_excluded",
+          "scenarios",
+          "timing_convention",
+          "unit"
+        ],
+        "evidence_refs": [
+          {
+            "source_id": "credit",
+            "locator": "debt footnote table3 and instrument terms"
+          }
+        ]
+      }
+    ],
+    "unresolved_issues": [],
+    "evidence_refs": [
+      {
+        "source_id": "credit",
+        "locator": "debt footnote table3 and instrument terms"
+      }
+    ],
+    "source_register": [
+      {
+        "source_id": "credit",
+        "version": "debt-register-v2",
+        "known_at": "2026-10-01T12:00:00Z",
+        "locator": "capital structure register",
+        "kind": "credit_document"
+      }
+    ],
+    "source_assurance": "supplied-not-authenticated",
+    "coverage_assurance": "supplied-inventory-only",
+    "professional_acceptance": "not-established",
+    "authority_granted": false,
+    "action_taken": false,
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "input_hash": "1132314d6b6cbda7ffecbc982aaa36ef2a812879e9b29abff33194747ad07e4f",
+    "source_truth": "unverified"
+  },
+  "status": "validated-native-handoff",
+  "unresolved_issues": [],
+  "source_assurance": "supplied-not-authenticated",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "e448a733ec4f58db63e5b4acd077104e231e716075dcefd203fa9d316c139557",
+  "source_truth": "unverified"
+}

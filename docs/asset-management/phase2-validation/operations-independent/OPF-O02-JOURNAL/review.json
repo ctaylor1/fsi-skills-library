@@ -1,0 +1,209 @@
+{
+  "id": "OPF-O02-JOURNAL",
+  "package": "fund-accounting-preparer",
+  "input": {
+    "request_id": "OPF-O02-JOURNAL",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "journal_trial_balance",
+    "accounts": [
+      {
+        "account_id": "CASH",
+        "type": "asset",
+        "opening_debit_balance": "100",
+        "source_ref": "ind-source"
+      },
+      {
+        "account_id": "CAPITAL",
+        "type": "equity",
+        "opening_debit_balance": "-100",
+        "source_ref": "ind-source"
+      },
+      {
+        "account_id": "EXPENSE",
+        "type": "expense",
+        "opening_debit_balance": "0",
+        "source_ref": "ind-source"
+      },
+      {
+        "account_id": "PAYABLE",
+        "type": "liability",
+        "opening_debit_balance": "0",
+        "source_ref": "ind-source"
+      }
+    ],
+    "journals": [
+      {
+        "journal_id": "J1",
+        "date": "2026-09-18",
+        "source_ref": "ind-source",
+        "lines": [
+          {
+            "account_id": "EXPENSE",
+            "debit": "12.34",
+            "credit": "0"
+          },
+          {
+            "account_id": "PAYABLE",
+            "debit": "0",
+            "credit": "12.34"
+          }
+        ]
+      }
+    ]
+  },
+  "expected": {
+    "closing_balances": {
+      "CASH": "100",
+      "CAPITAL": "-100",
+      "EXPENSE": "12.34",
+      "PAYABLE": "-12.34"
+    },
+    "net_balance": "0"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "6698b1855be5b3c63a4293d098be3155aa2b8cea36b0e166afbacfa1c7f38356",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"fund-accounting-preparer\",\n  \"request_id\": \"OPF-O02-JOURNAL\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"single-currency-workpaper-journal_trial_balance-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"journal_controls\": [\n      {\n        \"journal_id\": \"J1\",\n        \"debits\": \"12.34\",\n        \"credits\": \"12.34\",\n        \"balanced\": true\n      }\n    ],\n    \"accounts\": [\n      {\n        \"account_id\": \"CASH\",\n        \"opening_debit_balance\": \"100\",\n        \"movement\": \"0\",\n        \"closing_debit_balance\": \"100\"\n      },\n      {\n        \"account_id\": \"CAPITAL\",\n        \"opening_debit_balance\": \"-100\",\n        \"movement\": \"0\",\n        \"closing_debit_balance\": \"-100\"\n      },\n      {\n        \"account_id\": \"EXPENSE\",\n        \"opening_debit_balance\": \"0\",\n        \"movement\": \"12.34\",\n        \"closing_debit_balance\": \"12.34\"\n      },\n      {\n        \"account_id\": \"PAYABLE\",\n        \"opening_debit_balance\": \"0\",\n        \"movement\": \"-12.34\",\n        \"closing_debit_balance\": \"-12.34\"\n      }\n    ],\n    \"closing_trial_balance\": \"0.00\",\n    \"posting_performed\": false\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"Draft workpaper only; enterprise accounting engine and administrator remain authoritative. No posting, striking or release.\",\n    \"No trade capture, FX, tax, fair-value or ledger-to-NAV engine. Class allocation weights and values are supplied; class expenses must not duplicate common liabilities.\",\n    \"Journal and cash sums are exact Decimal; accruals and NAV/share use explicitly rounded8-place ratios.\"\n  ],\n  \"handoffs\": [\n    \"fund-nav-control-reviewer\",\n    \"fund-valuation-oversight-reviewer\",\n    \"investment-book-reconciler\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"118f974633268a46872743372cd9b195e6209feaf643ae2fc0061a36fde0d7ca\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "fund-accounting-preparer",
+    "request_id": "OPF-O02-JOURNAL",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "draft",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "single-currency-workpaper-journal_trial_balance-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "journal_controls": [
+        {
+          "journal_id": "J1",
+          "debits": "12.34",
+          "credits": "12.34",
+          "balanced": true
+        }
+      ],
+      "accounts": [
+        {
+          "account_id": "CASH",
+          "opening_debit_balance": "100",
+          "movement": "0",
+          "closing_debit_balance": "100"
+        },
+        {
+          "account_id": "CAPITAL",
+          "opening_debit_balance": "-100",
+          "movement": "0",
+          "closing_debit_balance": "-100"
+        },
+        {
+          "account_id": "EXPENSE",
+          "opening_debit_balance": "0",
+          "movement": "12.34",
+          "closing_debit_balance": "12.34"
+        },
+        {
+          "account_id": "PAYABLE",
+          "opening_debit_balance": "0",
+          "movement": "-12.34",
+          "closing_debit_balance": "-12.34"
+        }
+      ],
+      "closing_trial_balance": "0.00",
+      "posting_performed": false
+    },
+    "unresolved_issues": [],
+    "limitations": [
+      "Draft workpaper only; enterprise accounting engine and administrator remain authoritative. No posting, striking or release.",
+      "No trade capture, FX, tax, fair-value or ledger-to-NAV engine. Class allocation weights and values are supplied; class expenses must not duplicate common liabilities.",
+      "Journal and cash sums are exact Decimal; accruals and NAV/share use explicitly rounded8-place ratios."
+    ],
+    "handoffs": [
+      "fund-nav-control-reviewer",
+      "fund-valuation-oversight-reviewer",
+      "investment-book-reconciler"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "118f974633268a46872743372cd9b195e6209feaf643ae2fc0061a36fde0d7ca",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-O02-JOURNAL",
+      "check": "account debits/credits",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-JOURNAL",
+      "check": "trial balance",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-JOURNAL",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-JOURNAL",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-JOURNAL",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-JOURNAL",
+      "check": "different detached original rejected",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "request_id": "synthetic-foundation-1",
+  "object_id": "SYNTHETIC-INSTITUTION-1",
+  "as_of": "2026-09-21",
+  "knowledge_cutoff": "2026-09-21",
+  "currency": "USD",
+  "audience": "internal-review",
+  "sources": [
+    {
+      "source_ref": "S1",
+      "version": "reviewed-1",
+      "as_of": "2026-09-21",
+      "known_at": "2026-09-21",
+      "approval_status": "approved",
+      "permitted_audiences": [
+        "internal-review",
+        "institutional-client"
+      ],
+      "claims": {
+        "C1": "The fund holds listed equities.",
+        "D1": "Capital is at risk."
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "EQ",
+      "group": "equity",
+      "expected_return": ".08",
+      "liquidity_days": 1,
+      "source_ref": "S1"
+    },
+    {
+      "id": "BOND",
+      "group": "bonds",
+      "expected_return": ".03",
+      "liquidity_days": 1,
+      "source_ref": "S1"
+    }
+  ],
+  "covariance": [
+    [
+      ".04",
+      ".006"
+    ],
+    [
+      ".006",
+      ".01"
+    ]
+  ],
+  "covariance_source_ref": "S1",
+  "candidates": [
+    {
+      "id": "balanced",
+      "weights": {
+        "EQ": ".6",
+        "BOND": ".4"
+      }
+    }
+  ],
+  "constraints": {
+    "group_ranges": {
+      "equity": {
+        "min": ".4",
+        "max": ".8"
+      }
+    },
+    "max_position": ".7",
+    "minimum_expected_return": ".055",
+    "maximum_volatility": ".2"
+  },
+  "scenarios": [
+    {
+      "id": "down",
+      "asset_returns": {
+        "EQ": "-.2",
+        "BOND": ".05"
+      },
+      "source_ref": "S1"
+    }
+  ],
+  "universe_type": "asset_class"
+}

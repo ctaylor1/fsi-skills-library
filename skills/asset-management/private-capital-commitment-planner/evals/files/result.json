@@ -1,0 +1,65 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "private-capital-commitment-planner",
+  "request_id": "SYNTHETIC-private-capital-commitment-planner",
+  "object_id": "FUND-EXAMPLE",
+  "as_of": "2026-09-18",
+  "knowledge_cutoff": "2026-09-18",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "needs-review",
+  "draft": true,
+  "action_taken": false,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "supplied-scenario-cash-unfunded-pacing/1",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "scenarios": [
+      {
+        "scenario_id": "scheduled-case",
+        "periods": [
+          {
+            "period_end": "2026-10-31",
+            "source_ref": "s1",
+            "closing_cash": "120",
+            "closing_unfunded": "450",
+            "liquidity_headroom": "70",
+            "flags": [],
+            "status": "scenario_arithmetic"
+          },
+          {
+            "period_end": "2026-11-30",
+            "source_ref": "s1",
+            "closing_cash": "-20",
+            "closing_unfunded": "305",
+            "liquidity_headroom": "-70",
+            "flags": [
+              "liquidity_floor_shortfall"
+            ],
+            "status": "scenario_arithmetic"
+          }
+        ],
+        "forecast": false,
+        "commitment_authorized": false
+      }
+    ]
+  },
+  "unresolved_issues": [
+    "scheduled-case/2026-11-30: liquidity_floor_shortfall"
+  ],
+  "limitations": [
+    "Calls consume unfunded commitment in this bounded model; outside-commitment fees and financing require separate explicit modeling.",
+    "Scenario schedules are assumptions, not estimated call/distribution forecasts. New commitments have no immediate cash effect unless a call is separately scheduled."
+  ],
+  "handoffs": [],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "s1"
+  ],
+  "input_hash": "1a9f314a8566c5664a8a84ba688066119211125c6934241ae8d0e3885998372b",
+  "source_truth": "unverified"
+}

@@ -1,0 +1,138 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "market-sizing-builder",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-phase2",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "basis": {
+      "currency": "USD",
+      "unit": "currency",
+      "accounting_basis": "US-GAAP",
+      "consolidation_scope": "consolidated",
+      "period_id": "FY2025"
+    },
+    "top_down": {
+      "tam": 1000,
+      "sam": 500.0,
+      "som": 100.0
+    },
+    "bottom_up": {
+      "tam": 1000,
+      "sam": 500.0,
+      "som": 100.0
+    },
+    "segment_detail": [
+      {
+        "segment_id": "A",
+        "tam": 500,
+        "sam": 250.0,
+        "som": 50.0
+      },
+      {
+        "segment_id": "B",
+        "tam": 500,
+        "sam": 250.0,
+        "som": 50.0
+      }
+    ],
+    "reconciliation": [
+      {
+        "level": "tam",
+        "top_down": 1000,
+        "bottom_up": 1000,
+        "difference": 0,
+        "relative_gap": 0.0
+      },
+      {
+        "level": "sam",
+        "top_down": 500.0,
+        "bottom_up": 500.0,
+        "difference": 0.0,
+        "relative_gap": 0.0
+      },
+      {
+        "level": "som",
+        "top_down": 100.0,
+        "bottom_up": 100.0,
+        "difference": 0.0,
+        "relative_gap": 0.0
+      }
+    ],
+    "reported": {
+      "tam": 1000,
+      "sam": 500.0,
+      "som": 100.0
+    },
+    "primary_method": "bottom_up",
+    "sensitivity": [
+      {
+        "shock_id": "price-up",
+        "target": "A.price_per_unit",
+        "factor": 1.1,
+        "method": "bottom_up",
+        "levels": {
+          "tam": 1050.0,
+          "sam": 525.0,
+          "som": 105.0
+        },
+        "scope": "one driver at a time; no correlated scenario or integrated model rerun"
+      },
+      {
+        "shock_id": "market-down",
+        "target": "top_down.total_market",
+        "factor": 0.9,
+        "method": "top_down",
+        "levels": {
+          "tam": 900.0,
+          "sam": 450.0,
+          "som": 90.0
+        },
+        "scope": "one driver at a time; no correlated scenario or integrated model rerun"
+      }
+    ],
+    "limitations": [
+      "Both approaches use supplied boundaries and evidence; independence is not authenticated",
+      "Sensitivity changes only the selected arithmetic driver; overlap and scope gaps remain unresolved"
+    ]
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "formula": "TAM = units \u00d7 price_per_unit; SAM = TAM \u00d7 attach_rate; SOM = SAM \u00d7 capture_rate; top-down ratios applied in sequence"
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "S1",
+      "locator": "synthetic-table-1"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "S1",
+      "version": "v1",
+      "known_at": "2026-10-19",
+      "locator": "synthetic-document",
+      "kind": "filing"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "cab393d78231ba029606bbc2a5429b485b224c459de393731dd2c97030a19b7b",
+  "source_truth": "unverified"
+}

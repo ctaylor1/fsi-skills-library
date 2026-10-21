@@ -1,0 +1,439 @@
+{
+  "type": "object",
+  "required": [
+    "contract_version",
+    "skill",
+    "method",
+    "request_id",
+    "object_id",
+    "object_type",
+    "as_of",
+    "knowledge_cutoff",
+    "context",
+    "role",
+    "classification",
+    "audience",
+    "status",
+    "results",
+    "unresolved_issues",
+    "claim_bindings",
+    "limitations",
+    "source_refs",
+    "source_assurance",
+    "handoffs",
+    "draft",
+    "human_review_required",
+    "action_taken",
+    "approval",
+    "execution",
+    "input_hash",
+    "source_truth"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "compliance-foundation/2.0"
+    },
+    "skill": {
+      "type": "string",
+      "const": "financial-crime-reporting-reviewer"
+    },
+    "method": {
+      "type": "string",
+      "const": "typed-nonsar-obligation-review/1.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object_type": {
+      "type": "string",
+      "const": "financial_crime_reporting",
+      "minLength": 1
+    },
+    "as_of": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "format": "date"
+    },
+    "knowledge_cutoff": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "format": "date"
+    },
+    "context": {
+      "type": "object",
+      "required": [
+        "institution_id",
+        "legal_entity_id",
+        "capacity",
+        "represented_party",
+        "object_id",
+        "object_type",
+        "jurisdiction",
+        "line_of_business",
+        "purpose"
+      ],
+      "properties": {
+        "institution_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "legal_entity_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capacity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "represented_party": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_type": {
+          "type": "string",
+          "minLength": 1,
+          "const": "financial_crime_reporting"
+        },
+        "jurisdiction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "line_of_business": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "control_operator",
+        "oversight",
+        "decision_support",
+        "operational_qa",
+        "independent_testing",
+        "regulatory_affairs",
+        "privacy_review"
+      ]
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "compliance_confidential",
+        "customer_pii",
+        "mnpi",
+        "sar_restricted",
+        "legal_restricted"
+      ]
+    },
+    "audience": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "needs-evidence",
+        "draft-for-human-review"
+      ]
+    },
+    "results": {
+      "type": "object",
+      "required": [
+        "obligation_reviews",
+        "filing_performed",
+        "sar_substitution"
+      ],
+      "properties": {
+        "obligation_reviews": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "obligation_id",
+              "kind",
+              "obligation",
+              "event_ids",
+              "currency",
+              "amount",
+              "threshold",
+              "trigger_observed",
+              "period_start",
+              "period_end",
+              "due_date",
+              "channel",
+              "review_state",
+              "exceptions",
+              "acknowledgments"
+            ],
+            "properties": {
+              "obligation_id": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "obligation": {
+                "$ref": "#/$defs/sourceValue"
+              },
+              "event_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "currency": {
+                "type": "string"
+              },
+              "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^-?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?$",
+                "description": "Exact computed decimal string; null means withheld/unknown. No floating monetary approximation."
+              },
+              "threshold": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^-?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?$",
+                "description": "Exact computed decimal string; null means withheld/unknown. No floating monetary approximation."
+              },
+              "trigger_observed": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "period_start": {
+                "$ref": "#/$defs/sourceValue"
+              },
+              "period_end": {
+                "$ref": "#/$defs/sourceValue"
+              },
+              "due_date": {
+                "$ref": "#/$defs/sourceValue"
+              },
+              "channel": {
+                "$ref": "#/$defs/sourceValue"
+              },
+              "review_state": {
+                "type": "string"
+              },
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "valid",
+                    "basis",
+                    "obligation_id"
+                  ],
+                  "properties": {
+                    "valid": {
+                      "$ref": "#/$defs/sourceValue"
+                    },
+                    "basis": {
+                      "$ref": "#/$defs/sourceValue"
+                    },
+                    "obligation_id": {
+                      "$ref": "#/$defs/sourceValue"
+                    }
+                  }
+                }
+              },
+              "acknowledgments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "receipt",
+                    "date",
+                    "obligation_id",
+                    "status",
+                    "assurance"
+                  ],
+                  "properties": {
+                    "receipt": {
+                      "$ref": "#/$defs/sourceValue"
+                    },
+                    "date": {
+                      "$ref": "#/$defs/sourceValue"
+                    },
+                    "obligation_id": {
+                      "$ref": "#/$defs/sourceValue"
+                    },
+                    "status": {
+                      "$ref": "#/$defs/sourceValue"
+                    },
+                    "assurance": {
+                      "type": "string",
+                      "const": "supplied-unverified"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "filing_performed": {
+          "type": "boolean",
+          "const": false
+        },
+        "sar_substitution": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "unresolved_issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "claim_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "native_input_pointer",
+          "source_refs",
+          "fact_ids",
+          "consistency",
+          "issues"
+        ],
+        "properties": {
+          "native_input_pointer": {
+            "type": "string"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "consistency": {
+            "type": "string"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_assurance": {
+      "type": "string",
+      "const": "supplied-unverified"
+    },
+    "handoffs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "draft": {
+      "type": "boolean",
+      "const": true
+    },
+    "human_review_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "action_taken": {
+      "type": "boolean",
+      "const": false
+    },
+    "approval": {
+      "type": "string",
+      "const": "not_requested"
+    },
+    "execution": {
+      "type": "string",
+      "const": "not_performed"
+    },
+    "input_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_truth": {
+      "type": "string",
+      "const": "unverified"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "financial-crime-reporting-reviewer Phase2 output",
+  "description": "Draft 2020-12 schema for the Phase2 native result. Individual source observations preserve actual typed JSON; computed monetary/boolean fields admit explicit unknowns. Core context and nonaction constraints remain strict. Exact detached reconstruction adds identity/value/method/source consistency and is authoritative. Legacy result schemas remain separate.",
+  "additionalProperties": false,
+  "$defs": {
+    "sourceValue": {
+      "type": [
+        "null",
+        "boolean",
+        "object",
+        "array",
+        "number",
+        "string"
+      ],
+      "description": "Exact resolved supplied source-value observation, retaining its actual JSON type. Null is unknown/withheld. This value is not authenticated or a professional decision."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "sar_restricted"
+          }
+        },
+        "required": [
+          "classification"
+        ]
+      },
+      "then": {
+        "properties": {
+          "audience": {
+            "const": "authorized_fiu"
+          }
+        }
+      }
+    }
+  ]
+}

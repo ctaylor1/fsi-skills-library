@@ -10,10 +10,10 @@ performance analyst's calculation or the principal's approval and distribution.
 
 | Upstream skill | Provides |
 | -------------- | -------- |
-| `performance-attribution-builder` | Verified standardized returns / attribution figures cited (not recomputed) as facts |
+| `portfolio-performance-attributor` | Verified standardized returns / attribution figures cited (not recomputed) as facts |
 | `portfolio-exposure-analyzer` | Holdings, top positions, and allocation figures for the holdings section |
-| `liquidity-stress-analyzer` | Liquidity/risk figures where the fact sheet reports a risk metric |
-| `fund-commentary-drafter` | Approved narrative commentary, where the fact sheet includes a commentary block |
+| `fund-liquidity-assessor` | Liquidity/risk figures where the fact sheet reports a risk metric |
+| `investment-commentary-builder` | Approved narrative commentary, where the fact sheet includes a commentary block |
 
 The performance, PMS/OMS, risk, and market-data systems produce the raw figures. This skill is
 **interactive** fact-sheet assembly (`aws-fsi-scheduled-agent: no`); a monitor may populate a
@@ -24,8 +24,8 @@ queue but must not assemble, verify, approve, or distribute.
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
 | `investment-committee-memo-builder` | Fact-sheet figures index into an IC memo | `factsheet_id` + manifest + source index |
-| `due-diligence-questionnaire-responder` | Fact-sheet figures answer a DDQ/RFP data point | `factsheet_id` + reconciliation ledger + citations |
-| `mandate-compliance-monitor` | A holdings/exposure figure surfaces a possible guideline question | fund_id + figure + citation |
+| `institutional-proposal-responder` | Fact-sheet figures answer a DDQ/RFP data point | `factsheet_id` + reconciliation ledger + citations |
+| `investment-mandate-reviewer` | A holdings/exposure figure surfaces a possible guideline question | fund_id + figure + citation |
 
 ## Non-catalog handoffs (human / licensed / operations)
 

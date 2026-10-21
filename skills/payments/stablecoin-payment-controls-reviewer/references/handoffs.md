@@ -8,8 +8,8 @@ adjudicate, resolve, file, approve, or close.
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
 | `stablecoin-settlement-assessor` | Compare a concrete participant/corridor/asset/chain settlement use case with a fiat alternative | Reviewed controls, original sources and unresolved conditions; construct and validate the separate native assessment input |
-| `sanctions-match-adjudicator` | Screening surfaced a wallet/counterparty sanctions match needing adjudication | `review_id` + the screening finding |
-| `aml-alert-triager` | Transaction-monitoring/AML alert needs triage (then `transaction-monitoring-alert-investigator`) | `review_id` + txn evidence |
+| `sanctions-match-investigator` | Screening surfaced a wallet/counterparty sanctions match needing adjudication | `review_id` + the screening finding |
+| `aml-alert-triager` | Transaction-monitoring/AML alert needs triage. A separately scoped ledger may use `transaction-monitoring-scenario-evaluator`; full case investigation still requires the accountable FIU investigator. | `review_id` + txn evidence |
 | `suspicious-activity-report-drafter` | Reviewer decides a SAR may be warranted (draft-only, human-filed) | `review_id` + evidence |
 | `payment-settlement-reconciler` | On-chain vs ledger break needs resolution | recon finding + break detail |
 | `payment-transaction-reconciler` | General mint/burn or ledger reconciliation work | recon finding |

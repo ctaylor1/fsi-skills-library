@@ -1,0 +1,13 @@
+# Native input and output contract
+
+fund, as_of, base_currency, config_version, expected_components, lines; optional share_class, position_basis, config. Components: position, price, cash, accrual, income, expense, shares. Each line: line_id,component,key,source,value,currency,unit,as_of,source_ref. Positions need position_basis; shares need share_class (row or job). Source is book or configured component verifier. One row per side and complete comparison grain; consolidate multiple rows upstream.
+
+Outputs contain `input_hash` over every original JSON field and `source_truth: unverified`. Retain the original input separately; output validation requires `--input`. Embedded `source_input` is reserved for explicit internal use and must never be assumed suitable for downstream delivery. Unknown output fields and modified native results fail reconstruction. No source authenticity or execution authority is conveyed.
+
+Read [domain-rules](domain-rules.md) for supported computations and unknown-state handling. All amounts must be finite; booleans do not substitute for numeric observations. Synthetic fixture extensions state illustrative bases only.
+
+## Supported decimal bounds
+
+Supply decimal strings when every input digit matters. Each numeric input supports at most 38 coefficient digits (including retained trailing zeros), a Decimal exponent between -38 and +38, and a nonzero adjusted exponent between -38 and +38. Numeric literals are limited to 256 characters; booleans and non-finite values are rejected. The job supports at most 100,000 total input records/lines. Amounts, tolerances, materiality thresholds and supplied FX rates use these bounds. Unsupported values fail before a result is emitted.
+
+All arithmetic, including aggregation, differences, tolerance/materiality checks and any FX multiplication, uses a private 256-digit Decimal context with inexact/rounding traps. The process-global context is unchanged. Derived results can contain more than 38 digits; the input limits plus row bound make the supported operations exact within the working context. These are software precision limits, not instrument conventions or economic materiality policies.

@@ -16,7 +16,7 @@ The KYB registry is the position of record for entity and ownership. Never subst
 applicant assertion for the registry record; if the application and the registry conflict,
 cite both and flag for the reviewer. Screening results are provided by the screening
 services — this skill consumes their status, it does not adjudicate a sanctions hit
-(that is `sanctions-match-adjudicator`).
+(that is `sanctions-match-investigator`).
 
 ## Citation format
 

@@ -1,4 +1,16 @@
-# Changelog — counterparty-exposure-monitor
+# Changelog
+
+## 0.2.0 — 2026-09-20
+
+- Adopt Phase 1 ownership and canonical naming; preserve alias metadata.
+- Require source-bound native validation and document bounded support.
+ — counterparty-exposure-monitor
+
+## Unreleased — Phase 1 integrity repairs
+
+- Added complete original-input binding and reconstruction checks; native output does not authenticate sources or accept unreviewed extra fields.
+- Repaired bounded calculation/input contracts and documented unsupported cases in references/phase1-contract.md.
+- Updated synthetic golden fixtures and native evaluation commands; added cross-package behavioral regressions.
 
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`). A scheduled,
@@ -24,8 +36,8 @@ read-only, alert-only counterparty-exposure monitor (Monitor & alert archetype;
 - **Evaluations:** trigger/routing, golden critical-breach case (8 alerts, mixed
   severity/freshness/recurrence), deterministic script checks, stale-feed edge, no-action
   safety + injection, external-delivery authorization.
-- **Handoffs:** downstream to `portfolio-exposure-analyzer`, `liquidity-stress-analyzer`,
-  `investment-committee-memo-builder`, `mandate-compliance-monitor`; siblings distinguished
+- **Handoffs:** downstream to `portfolio-exposure-analyzer`, `fund-liquidity-assessor`,
+  `investment-committee-memo-builder`, `investment-mandate-reviewer`; siblings distinguished
   from `investment-thesis-monitor`, `market-risk-limit-monitor`, `concentration-risk-monitor`,
   `post-trade-settlement-monitor`.
 

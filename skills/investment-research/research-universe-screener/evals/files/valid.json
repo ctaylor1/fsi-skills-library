@@ -1,0 +1,93 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "research-universe-screener",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-phase2",
+  "subject": {
+    "type": "universe",
+    "id": "TEST-UNIVERSE"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "screen_logic": "all supplied filters must pass; missing is not zero",
+    "results": [
+      {
+        "security_id": "ACME-A",
+        "issuer_id": "ACME",
+        "status": "included",
+        "checks": [
+          {
+            "filter_id": "F1",
+            "passed": true,
+            "reason": "passes"
+          }
+        ]
+      },
+      {
+        "security_id": "BETA-A",
+        "issuer_id": "BETA",
+        "status": "not-evaluable",
+        "checks": [
+          {
+            "filter_id": "F1",
+            "passed": null,
+            "reason": "missing-value"
+          }
+        ]
+      }
+    ],
+    "included_security_ids": [
+      "ACME-A"
+    ],
+    "excluded_security_ids": [],
+    "not_evaluable_security_ids": [
+      "BETA-A"
+    ],
+    "counts": {
+      "included": 1,
+      "excluded": 0,
+      "not-evaluable": 1
+    },
+    "scope": "Supplied universe only; no survivor-bias, delisting or population-completeness assurance"
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "filter_id": "F1",
+      "metric": "revenue",
+      "operator": "gte",
+      "threshold": 100
+    }
+  ],
+  "unresolved_issues": [
+    "BETA-A: missing, stale or incomparable screening data"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "S1",
+      "locator": "synthetic-table-1"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "S1",
+      "version": "v1",
+      "known_at": "2026-10-19",
+      "locator": "synthetic-document",
+      "kind": "filing"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "31b2e8c46af29a24077e46073353490c5cd10ceb4753b744baaa8656329e1783",
+  "source_truth": "unverified"
+}

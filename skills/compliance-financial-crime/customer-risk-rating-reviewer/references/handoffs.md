@@ -1,35 +1,15 @@
-# Adjacent-Skill Handoffs — customer-risk-rating-reviewer
+# Handoffs
 
-This skill produces a cited **rating-review pack** (`review_id`) and stops. It does not
-decide the rating, approve an override, dispose of a trigger, close a review, or file.
+Upstream: the authorized case owner supplies scoped original records, the applicable policy profile, owner/audience/classification, assessment date and identified evidence gaps. No connector integration is bundled.
 
-## Upstream (may call this skill)
+| Receiver | Trigger and boundary |
+|---|---|
+| `customer-due-diligence-reviewer` | Missing customer/identity/ownership data goes to the CDD analyst. |
+| `sanctions-match-investigator` | A separate potential sanctions concern; score alone cannot establish prohibition. |
+| `adverse-media-investigator` | Unresolved media identity/materiality evidence. |
+| `enhanced-due-diligence-assessor` | EDD evidence assembly when required by the applicable human-reviewed policy. |
+| `transaction-monitoring-scenario-evaluator` | A separately scoped transaction-monitoring trigger. |
 
-| Upstream skill | When | Handoff artifact |
-| -------------- | ---- | ---------------- |
-| `kyc-customer-due-diligence-screener` | An onboarding/periodic CDD screen needs the rating recalculated/challenged (the CDD screener never sets a rating) | customer + factors + rating of record |
-| `aml-alert-triager` | First-line triage flags that a monitoring alert may warrant a re-rating | customer + trigger event |
-| `regulatory-exam-response-packager` | An exam request asks for the rating rationale and QA evidence for a customer | customer + `review_id` |
+Pass the native result, the separately retained original input reference and a separate evidence/workflow envelope. The receiver must validate producer output against that original and validate its own native input. Carry unresolved issues, source status and applicability limits unchanged; a successful producer check does not satisfy receiver preconditions or authorize a customer decision.
 
-## Downstream (route the human/reviewer to)
-
-| Downstream skill | When | Handoff artifact |
-| ---------------- | ---- | ---------------- |
-| `enhanced-due-diligence-packager` | Recomputation reaches High/Prohibited or a PEP floor — assemble source-of-wealth/funds and ownership evidence | `review_id` + recomputed band |
-| `sanctions-match-adjudicator` | A potential sanctions nexus/PEP match sits behind a factor and needs a specialist disposition | customer + factor evidence |
-| `adverse-media-investigator` | An adverse-media trigger needs entity-resolved assessment | trigger + `review_id` |
-| `transaction-monitoring-alert-investigator` | A monitoring-alert trigger needs substantive investigation | trigger + `review_id` |
-| `beneficial-ownership-verifier` | The geography/ownership factor rests on unverified ownership data | customer + ownership rows |
-| `suspicious-activity-report-drafter` | The adjudicator decides a SAR may be warranted (draft-only, human-filed) | `review_id` + evidence |
-
-If no catalog skill fits a needed step, route it to the human owner in prose — the qualified
-compliance officer / MLRO adjudicates the rating and any override, and the KYC/AML case owner
-remediates data gaps. Never invent a skill name.
-
-## Duplicate-execution prevention
-
-- This skill **recomputes and evidences** a rating challenge only; it must not reach a rating
-  decision, approve an override, dispose of a trigger, or close a review — those belong to the
-  human adjudicator and the downstream skills.
-- Downstream skills reuse the `review_id` recomputation and evidence rather than re-scoring the
-  factors, and each carries its own disposition/closure controls.
+Use [evidence contract](evidence-contract.md) and [source governance](source-governance.md). The agent recommends these routes; it does not automatically send, submit, update or execute them. A human determines legal or policy decisions and any subsequent authorized action.
