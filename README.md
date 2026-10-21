@@ -3,7 +3,7 @@
 Agent Skills for the Financial Services Industry, built for general-purpose AI agent platforms/agentic AI assistant applications, such as Amazon Quick Desktop, Claude Desktop, ChatGPT Desktop, Microsoft Copilot, Google Gemini, Perplexity, and Amazon Kiro.
 It is conformant with the [Agent Skills specification](https://agentskills.io/specification).
 
-This repository implements a governed catalog of **296 skills** across **14 functional categories**,
+This repository implements a governed catalog of **395 skills** across **15 functional categories**,
 each authored to a common standards-based lifecycle with explicit risk tiers, action
 boundaries, human-approval gates, adjacent-skill handoffs, and evaluation packs.
 
@@ -12,6 +12,16 @@ boundaries, human-approval gates, adjacent-skill handoffs, and evaluation packs.
 > (see [docs/SOURCES.md](docs/SOURCES.md)) define the catalog in
 > [catalog/skills-catalog.json](catalog/skills-catalog.json). Package presence and passing
 > deterministic checks are separate from institutional deployment acceptance.
+
+Compliance & Financial Crime Phase 3 adds screening-control evaluation, monitoring
+scenario design/effectiveness and case QA, bringing the domain to **38 packages including
+its router**. All **36 target workflows** have bounded native methods, with **41 declared
+router intents** and two scoped review projections. Existing data, architecture,
+AI/model, privacy, vendor and automation owners retain their jobs. Source authentication,
+professional/institutional acceptance and production use remain open; Phase4 is pending.
+See [Phase3 implementation](docs/compliance-financial-crime/PHASE3-IMPLEMENTATION.md),
+[composition](docs/compliance-financial-crime/MODERNIZATION-COMPOSITION.md) and
+[validation](docs/compliance-financial-crime/phase3-validation/README.md).
 
 The wealth-management work includes all eight P0, thirteen P1, four P2 and two P3 practitioner
 workflows, plus the router. P3 adds family wealth governance preparation and trust administration
@@ -58,6 +68,90 @@ issues and professional ownership. See [Phase 3 implementation](docs/insurance/P
 [remaining phases](docs/insurance/IMPLEMENTATION-PLAN.md). These offline methods do
 not establish professional or deployment acceptance.
 
+Insurance Phase 4 adds **three Insurance and four shared skills**, bringing Insurance
+to **64 packages**. Workflow/data/core design, solution architecture, paired automation
+assessment, data-product value and queue performance now have native methods and
+routes. See [Phase 4 implementation](docs/insurance/PHASE4-IMPLEMENTATION.md) and
+[validation, retained findings and acceptance gates](docs/insurance/phase4-validation/README.md).
+These are offline draft reviews; source authentication and professional/deployment
+acceptance remain separate.
+
+Insurance Phase 5 adds **five specialist review skills**, bringing Insurance to
+**69 packages**: parametric triggers and health-payer pricing, utilization, coded-claim
+payment and provider networks. Each requires source-bound rules and scoped ownership;
+none grants clinical, coverage, payment or network authority. See
+[Phase 5 implementation](docs/insurance/PHASE5-IMPLEMENTATION.md) and
+[validation evidence](docs/insurance/phase5-validation/README.md).
+
+Insurance Phase 6 adds **acceptance evidence tooling** for the 69 Insurance skills
+and four shared dependencies. Portable checks, exact package snapshots and
+institution-scoped review records feed a readable dossier; successful software
+checks never grant professional or deployment approval. See the
+[review guide](docs/insurance/acceptance/README.md) and
+[current dossier](docs/insurance/phase6-validation/reviewed-dossier/report.md).
+
+Asset Management Phase 1 establishes **25 AM packages**, a dedicated Investment
+Research category with **18 packages**, and Investment Banking with **nine packages**.
+It adds declared-intent routing, explicit capability gaps, portable shared resources,
+source-bound native validation and reviewed handoff mappings. Two shared investment
+data utilities live under Data, AI & Model Governance. See the
+[Phase 1 implementation](docs/asset-management/PHASE1-IMPLEMENTATION.md),
+[support matrix](docs/asset-management/SUPPORT-MATRIX.md) and
+[validation evidence](docs/asset-management/phase1-validation/README.md).
+Asset Management Phase 2 adds **29 foundations**, bringing AM to **54 packages**, and
+expands institutional proposals, manager diligence and committee modes. It includes
+bounded business, portfolio, performance, fund-accounting, ETF/index and private-market
+methods, source-linked evidence and portable native validators. See
+[Phase 2 implementation](docs/asset-management/PHASE2-IMPLEMENTATION.md) and
+[validation evidence](docs/asset-management/phase2-validation/README.md).
+At that checkpoint ten capabilities remained planned. Phase 3 added **four modernization
+adapters**, bringing AM to **58 packages** at that checkpoint: data architecture, platform modernization,
+operating models and AI workflows. They reuse pinned shared methods and include an optional
+read-only approved-gateway client, historical data controls, migration/recovery rehearsals
+and supplied AI evaluation accounting. See [Phase 3 implementation](docs/asset-management/PHASE3-IMPLEMENTATION.md)
+and [validation](docs/asset-management/phase3-validation/README.md). Six specialized
+Phase 4 capabilities were still planned at that checkpoint; live gateway, professional and institutional
+acceptance remain separate work.
+
+
+Asset Management Phase 4 adds **six specialist packages** and expands six existing methods, bringing AM to **64 packages**. It covers transitions, financing, private-fund restructuring, sustainability, token-register controls, specialist attribution, supplied-engine derivatives, walk-forward research, ETF baskets, institutional liabilities/real assets and reviewed jurisdiction profiles. Earlier schemas remain supported. See [Phase 4 delivery](docs/asset-management/PHASE4-IMPLEMENTATION.md) and [validation](docs/asset-management/phase4-validation/README.md). Complex models remain supplied engine dependencies; source truth and institutional acceptance remain separate.
+
+Investment Research Phase 1 adds a declared-intent router and supplied-evidence dossier,
+repairs native evidence and method controls, renames the issuer capital-structure mapper,
+and moves generic document comparison to Data, AI & Model Governance. IR has **19 installed
+packages**, including its retained legacy model auditor. The **42-capability roadmap**
+has 18 bounded native target methods and 24 planned methods. Source authentication,
+reviewed cross-skill expansion and institutional acceptance remain separate. See
+[implementation](docs/investment-research/phase1-implementation.md),
+[support matrix](docs/investment-research/support-matrix.md) and
+[validation](docs/investment-research/phase1-validation/README.md).
+
+Investment Research Phase 2 creates **16 analytical packages** and expands **16 existing
+methods**, bringing IR to **34 installed target methods** with eight Phase 3/4 methods
+still planned. It retires the legacy model auditor after exact continuity parity,
+adds independent formula/economic review, corporate forecast-to-DCF, equity valuation
+alternatives, credit/earnings analysis and **five reviewed native adapters**. Passing
+software checks does not establish practitioner, institutional or deployment acceptance.
+See [Phase 2 implementation](docs/investment-research/phase2-implementation.md) and
+[validation](docs/investment-research/phase2-validation/README.md).
+
+Investment Research Phase 3 adds **three controlled research methods**, bringing IR
+to **37 installed target methods** with five Phase 4 methods planned. Staged model
+updates preserve originals and version observations, corporate-event analysis keeps
+conditional terms explicit, and research QA checks requested coverage and declared
+arithmetic. Three new reviewed native handoffs bring the total to eight. See
+[Phase 3 implementation](docs/investment-research/phase3-implementation.md) and
+[validation](docs/investment-research/phase3-validation/README.md).
+
+Investment Research Phase 4 adds **five specialist research methods**, completing
+the **42 target packages**: macroeconomic, cross-asset theme, sovereign-credit,
+public-finance-credit and structured-credit research. Vintage-aware evidence and
+explicit specialist profiles preserve scope and model limits. A ninth reviewed
+handoff transfers selected macro observations into theme research without inferring
+shocks or causality. See [Phase 4 implementation](docs/investment-research/phase4-implementation.md)
+and [validation](docs/investment-research/phase4-validation/README.md). Institutional
+acceptance and live integration remain separate.
+
 ## Repository layout
 
 ```
@@ -66,7 +160,7 @@ fsi-skills-library/
 ├── STATUS.md                     # Build progress tracker (what is built / what is next)
 ├── LICENSE                       # MIT license (applies to the whole library)
 ├── catalog/
-│   ├── skills-catalog.json       # Machine-readable catalog of all 296 skills
+│   ├── skills-catalog.json       # Machine-readable catalog of all 395 skills
 │   └── skills-catalog.csv        # Same, spreadsheet-friendly
 ├── docs/
 │   ├── BUILD-STANDARDS.md        # Delivery lifecycle + release gates
@@ -89,10 +183,10 @@ fsi-skills-library/
         └── CHANGELOG.md            # Versioned scope/control/tool/data/behavior changes
 ```
 
-### Categories (14)
+### Categories (15)
 
 `banking` · `capital-markets` · `insurance` · `payments` ·
-`investment-banking-research` · `wealth-management` · `asset-management` ·
+`investment-research` · `investment-banking` · `wealth-management` · `asset-management` ·
 `risk-management` · `compliance-financial-crime` · `finance-operations` ·
 `cybersecurity-operational-resilience` · `customer-service-experience` ·
 `data-ai-model-governance` · `enterprise-functions-technology`
@@ -118,10 +212,7 @@ Every skill is classified along the dimensions the portfolio plan defines:
 - **Delivery wave** — the rollout order (W1 stabilize/platform/low-risk → W2 analytical
   → W3 regulated casework → W4 gated orchestration).
 
-Current catalog: **7 × R1**, **112 × R2**, **169 × R3**, **8 × R4**; **10** skills are
-marked as read-only scheduled-agent candidates. Baseline status is 2 unchanged, 60 updated,
-and 234 new. Risk tiers and catalog status are not proof of operational certification. In
-particular, the revised R4 rebalancing package implements draft planning only.
+Current catalog: **7 × R1**, **126 × R2**, **224 × R3**, **7 × R4** across 15 categories. Risk tiers and catalog status are not proof of operational certification. The source workbook remains separately maintained and unreconciled with local provisional additions.
 
 ## Design constraints (Amazon Quick Desktop)
 

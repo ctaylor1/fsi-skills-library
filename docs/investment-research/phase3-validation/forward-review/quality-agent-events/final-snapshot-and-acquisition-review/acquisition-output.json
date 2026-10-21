@@ -1,0 +1,133 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "corporate-event-impact-reviewer",
+  "method_version": "2.0.0",
+  "request_id": "independent-final-acquisition",
+  "subject": {
+    "type": "issuer",
+    "id": "FINAL-SYNTH-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "event_summary": {
+      "event_id": "FINAL-SYNTH-ACQUISITION",
+      "type": "acquisition",
+      "status": "announced",
+      "announcement_date": "2026-10-19",
+      "effective_date": "2026-11-20",
+      "known_at": "2026-10-19",
+      "scenario_label": "conditional announced acquisition terms"
+    },
+    "effect_basis": "conditional-on-supplied-terms",
+    "financial_bridge": {
+      "currency": "USD",
+      "units": "millions",
+      "share_units": "millions",
+      "accounting_basis": "US-GAAP",
+      "consolidation_scope": "consolidated",
+      "valuation_subject": {
+        "security_id": "FINAL-SYNTH-A",
+        "share_class": "common-A",
+        "share_count_basis": "point-in-time-common-A"
+      },
+      "balance_date": "2026-09-30",
+      "before": {
+        "cash": 100,
+        "debt": 250,
+        "shares": 60,
+        "net_debt": 150
+      },
+      "change": {
+        "cash": -90,
+        "debt": 105,
+        "shares": 0,
+        "net_debt": 195
+      },
+      "after": {
+        "cash": 10,
+        "debt": 355,
+        "shares": 60,
+        "net_debt": 345
+      }
+    },
+    "event_metrics": {
+      "purchase_equity_value": 195,
+      "equity_consideration": 0,
+      "implied_acquired_enterprise_value": 190,
+      "new_shares_fraction_of_post_event_shares": 0.0,
+      "share_count_change_fraction": 0.0
+    },
+    "funding_reconciliation": {
+      "sources": 200,
+      "uses": 200,
+      "difference": 0,
+      "cash_feasible_for_supplied_bridge": false,
+      "additional_cash_required": 20,
+      "ending_cash_shortfall": 0,
+      "upfront_cash_required": 120,
+      "upfront_cash_available_from_baseline": 100,
+      "upfront_cash_shortfall": 20,
+      "cash_feasibility_scope": "Both supplied upfront cash-funded legs and post-event balances; no acquired-cash or retained-proceeds netting before the cash-funded leg.",
+      "funding_availability": "not-independently-established"
+    },
+    "review_limitations": [
+      "Single supplied event and unchanged financial scope; no interaction or intervening cash-flow model.",
+      "Upfront cash funding precedes acquired cash and retained refinancing proceeds; alternative settlement sequencing or bridge facilities require separate evidenced review.",
+      "Share-count arithmetic preserves supplied class and basis; economic ownership, voting control and weighted-average EPS require separate review.",
+      "No purchase accounting, tax opinion, synergy forecast, market reaction, legal completion or execution determination."
+    ],
+    "legal_completion_verified": false,
+    "market_reaction_predicted": false
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "formula": "acquired EV = equity purchase value + debt assumed - acquired cash; cash change = acquired cash - buyer cash funding; debt change = new debt + assumed debt"
+    },
+    {
+      "formula": "after = baseline + change; net debt = debt - cash; no intervening operating cash flows or unmodeled transactions assumed"
+    }
+  ],
+  "unresolved_issues": [
+    "Supplied upfront cash funding exceeds available baseline cash by 20; acquired cash or retained refinancing proceeds do not establish earlier funding availability"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "opening-balance",
+      "locator": "raw-source.json#acquisition/opening-balance"
+    },
+    {
+      "source_id": "acquisition-release",
+      "locator": "raw-source.json#acquisition/announced-terms"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "opening-balance",
+      "version": "synthetic-v1",
+      "known_at": "2026-10-16",
+      "locator": "raw-source.json#opening-balance",
+      "kind": "financial_statement"
+    },
+    {
+      "source_id": "acquisition-release",
+      "version": "synthetic-v1",
+      "known_at": "2026-10-19",
+      "locator": "raw-source.json#acquisition-release",
+      "kind": "issuer_release"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "e016e0d649c029b187e43fd0c7122e0c65fff0dcfc8be492cb0888370b741329",
+  "source_truth": "unverified"
+}

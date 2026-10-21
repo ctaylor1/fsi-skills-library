@@ -1,0 +1,195 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "macroeconomic-researcher",
+  "method_version": "2.0.0",
+  "request_id": "fresh-macro-early",
+  "subject": {
+    "type": "economy",
+    "id": "FRESH-ECONOMY"
+  },
+  "as_of": "2026-03-20",
+  "knowledge_cutoff": "2026-03-20T16:00:00Z",
+  "use_on": "2026-03-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "selected_observations": [
+      {
+        "series_id": "fresh-real-index",
+        "label": "Fresh synthetic monthly real activity index",
+        "geography": "FRESH-ECONOMY",
+        "frequency": "monthly",
+        "measure_kind": "index",
+        "unit": "index",
+        "price_basis": "real",
+        "price_base": "2025=100",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "period-level",
+        "observation_id": "jan-first",
+        "period_end": "2026-01-31",
+        "release_at": "2026-02-15T12:00:00Z",
+        "vintage_id": "first-Jan",
+        "value": 120,
+        "evidence_refs": [
+          {
+            "source_id": "fresh-synthetic",
+            "locator": "independent synthetic fixture inventory, rows1-9"
+          }
+        ]
+      },
+      {
+        "series_id": "fresh-real-index",
+        "label": "Fresh synthetic monthly real activity index",
+        "geography": "FRESH-ECONOMY",
+        "frequency": "monthly",
+        "measure_kind": "index",
+        "unit": "index",
+        "price_basis": "real",
+        "price_base": "2025=100",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "period-level",
+        "observation_id": "feb-first",
+        "period_end": "2026-02-28",
+        "release_at": "2026-03-15T12:00:00Z",
+        "vintage_id": "first-Feb",
+        "value": 123,
+        "evidence_refs": [
+          {
+            "source_id": "fresh-synthetic",
+            "locator": "independent synthetic fixture inventory, rows1-9"
+          }
+        ]
+      }
+    ],
+    "excluded_observations": [
+      {
+        "observation_id": "feb-revised",
+        "series_id": "fresh-real-index",
+        "period_end": "2026-02-28",
+        "release_at": "2026-04-15T12:00:00Z",
+        "reason": "release postdates research cutoff or economic as_of"
+      },
+      {
+        "observation_id": "feb-future-revision",
+        "series_id": "fresh-real-index",
+        "period_end": "2026-02-28",
+        "release_at": "2026-05-15T12:00:00Z",
+        "reason": "release postdates research cutoff or economic as_of"
+      }
+    ],
+    "revisions": [],
+    "calculations": [
+      {
+        "calculation_id": "fresh-growth",
+        "series_id": "fresh-real-index",
+        "from_period": "2026-01-31",
+        "to_period": "2026-02-28",
+        "operation": "percent-change",
+        "value": 2.499999999999991,
+        "unit": "percent",
+        "unavailable_reason": null,
+        "from_observation_id": "jan-first",
+        "to_observation_id": "feb-first"
+      },
+      {
+        "calculation_id": "fresh-annualized",
+        "series_id": "fresh-real-index",
+        "from_period": "2026-01-31",
+        "to_period": "2026-02-28",
+        "operation": "annualized-percent-change",
+        "value": 34.48888242462971,
+        "unit": "percent",
+        "unavailable_reason": null,
+        "from_observation_id": "jan-first",
+        "to_observation_id": "feb-first"
+      }
+    ],
+    "requested_coverage": [
+      {
+        "series_id": "fresh-real-index",
+        "eligible_observation_supplied": true
+      }
+    ],
+    "outlooks": [],
+    "research_questions": [
+      {
+        "question_id": "fresh-growth-question",
+        "question": "How does the selected revision affect measured growth?",
+        "required_calculation_ids": [
+          "fresh-growth",
+          "fresh-annualized"
+        ],
+        "interpretation": "Supplied real activity increased on the comparable monthly base; annualization is a convention, not a prediction.",
+        "counter_evidence": "A single volatile monthly change and revisions do not establish a persistent regime.",
+        "review_status": "supplied-interpretation-for-review",
+        "gaps": []
+      }
+    ],
+    "selection_scope": "latest eligible supplied release per series and period; external release inventory not authenticated",
+    "limitations": [
+      "No cross-series arithmetic, rebasing, currency conversion, interpolation or automatic seasonal adjustment.",
+      "Annualized growth is a compounding comparison convention; it is not a forecast.",
+      "Supplied interpretations, consensus and scenarios remain unverified judgments; no probabilities inferred."
+    ]
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "calculation_id": "fresh-growth",
+      "formula": "100 * (end / start - 1)",
+      "basis": {
+        "series_id": "fresh-real-index",
+        "label": "Fresh synthetic monthly real activity index",
+        "geography": "FRESH-ECONOMY",
+        "frequency": "monthly",
+        "measure_kind": "index",
+        "unit": "index",
+        "price_basis": "real",
+        "price_base": "2025=100",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "period-level"
+      }
+    },
+    {
+      "calculation_id": "fresh-annualized",
+      "formula": "100 * ((end / start) ** (12 / elapsed_calendar_months) - 1)",
+      "basis": {
+        "series_id": "fresh-real-index",
+        "label": "Fresh synthetic monthly real activity index",
+        "geography": "FRESH-ECONOMY",
+        "frequency": "monthly",
+        "measure_kind": "index",
+        "unit": "index",
+        "price_basis": "real",
+        "price_base": "2025=100",
+        "seasonal_adjustment": "seasonally-adjusted",
+        "annualization": "period-level"
+      }
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "fresh-synthetic",
+      "locator": "independent synthetic fixture inventory, rows1-9"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "fresh-synthetic",
+      "version": "1",
+      "known_at": "2026-02-15T12:00:00Z",
+      "locator": "independent synthetic fixture, not authenticated economic releases",
+      "kind": "model"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "77e37a50ba2eab07efc95c1257a0378ebf3ea24974024c59fb0176730aae171e",
+  "source_truth": "unverified"
+}

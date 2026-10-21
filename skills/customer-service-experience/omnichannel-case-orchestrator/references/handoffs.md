@@ -29,7 +29,7 @@ after approval — executes it and emits a `plan_id` + audit record.
 | `payment-repair-planner` | A payment must be repaired/reprocessed (payment-rail action) |
 | `loan-servicing-exception-resolver` | The correction is a loan-servicing exception (misapplied payment, escrow, fee) |
 | `fee-and-charge-reviewer` | A fee's correctness must be reviewed before deciding to adjust it |
-| `kyc-customer-due-diligence-screener` | An account change needs identity / due-diligence re-verification first |
+| `customer-due-diligence-reviewer` | An account change needs identity / due-diligence re-verification first |
 | `vulnerable-customer-support-assistant` | The customer shows vulnerability signals needing specialized handling |
 | `call-quality-compliance-reviewer` | The interaction needs a QA / conduct review rather than a resolution action |
 | Human authority / policy-exception process | Any action is out-of-catalog, over-limit, over the plan cap, or irreversible |

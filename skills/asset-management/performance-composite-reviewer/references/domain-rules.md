@@ -1,0 +1,5 @@
+# Bounded Phase 1 method
+
+This bounded method supports monthly complete periods only. Rules must be effective for the full monthly period; future/unknown policies block evaluation. New midmonth portfolios are pending until a full period; inclusion_lag_months counts calendar boundaries (January 10 plus one month starts February). A termination before period end excludes the portfolio from that period; month-end termination is included under the explicit through-close convention. Other termination timestamps or policy exceptions require professional treatment outside this method. composite_required comes from reviewed claim/portfolio scope, not a blanket rule for all fee-paying funds. Findings are deterministic and source-bound. No performance calculation or GIPS compliance certification.
+
+This is an offline draft evidence method, not a production source of record. Read [schema](schema.md) before mapping inputs. Native output is reconstructed from the separately retained input; independent expected results and professional review remain necessary.

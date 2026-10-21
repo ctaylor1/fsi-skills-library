@@ -1,0 +1,159 @@
+{
+  "id": "OPF-S01-WEIGHTS",
+  "package": "index-portfolio-reviewer",
+  "input": {
+    "request_id": "OPF-S01-WEIGHTS",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "weights",
+    "complete_union_including_cash": true,
+    "weights": [
+      {
+        "instrument_id": "SEC-A",
+        "portfolio_weight": "0.6",
+        "benchmark_weight": "0.7",
+        "source_ref": "ind-source"
+      },
+      {
+        "instrument_id": "SEC-B",
+        "portfolio_weight": "0.3",
+        "benchmark_weight": "0.25",
+        "source_ref": "ind-source"
+      },
+      {
+        "instrument_id": "CASH",
+        "portfolio_weight": "0.1",
+        "benchmark_weight": "0.05",
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "expected": {
+    "active_weights": [
+      "-0.1",
+      "0.05",
+      "0.05"
+    ],
+    "half_l1": "0.1"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "7e54fcba8e1769909a1de5449a65a9cfd85f099d491c9bda77e6d1c5106196b6",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"index-portfolio-reviewer\",\n  \"request_id\": \"OPF-S01-WEIGHTS\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-index-weights-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"active_weights\": [\n      {\n        \"instrument_id\": \"SEC-A\",\n        \"active_weight\": \"-0.1\"\n      },\n      {\n        \"instrument_id\": \"SEC-B\",\n        \"active_weight\": \"0.05\"\n      },\n      {\n        \"instrument_id\": \"CASH\",\n        \"active_weight\": \"0.05\"\n      }\n    ],\n    \"half_l1_weight_distance\": \"0.100\",\n    \"turnover_interpretation\": \"one-way idealized weight realignment only; no trading-cost/tax/cash-flow optimization or orders\"\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"No licensed index retrieval, corporate-action/reconstitution engine or replication optimization.\",\n    \"Tracking error uses sample standard deviation of aligned periodic active returns and supplied-frequency square-root annualization; not forecast risk.\",\n    \"Linked factors/ratios rounded to24 places; variance48; sqrt128-digit numerical context. Comparison assumes compatible supplied return currencies/bases.\"\n  ],\n  \"handoffs\": [\n    \"portfolio-performance-measurer\",\n    \"portfolio-rebalancing-planner\",\n    \"etf-operations-reviewer\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"145b888a4da40c8848e99f41b129aaf0bcc3d413f86f80f125b9f5eb26cdde82\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "index-portfolio-reviewer",
+    "request_id": "OPF-S01-WEIGHTS",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "draft",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "supplied-index-weights-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "active_weights": [
+        {
+          "instrument_id": "SEC-A",
+          "active_weight": "-0.1"
+        },
+        {
+          "instrument_id": "SEC-B",
+          "active_weight": "0.05"
+        },
+        {
+          "instrument_id": "CASH",
+          "active_weight": "0.05"
+        }
+      ],
+      "half_l1_weight_distance": "0.100",
+      "turnover_interpretation": "one-way idealized weight realignment only; no trading-cost/tax/cash-flow optimization or orders"
+    },
+    "unresolved_issues": [],
+    "limitations": [
+      "No licensed index retrieval, corporate-action/reconstitution engine or replication optimization.",
+      "Tracking error uses sample standard deviation of aligned periodic active returns and supplied-frequency square-root annualization; not forecast risk.",
+      "Linked factors/ratios rounded to24 places; variance48; sqrt128-digit numerical context. Comparison assumes compatible supplied return currencies/bases."
+    ],
+    "handoffs": [
+      "portfolio-performance-measurer",
+      "portfolio-rebalancing-planner",
+      "etf-operations-reviewer"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "145b888a4da40c8848e99f41b129aaf0bcc3d413f86f80f125b9f5eb26cdde82",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-S01-WEIGHTS",
+      "check": "half-L1",
+      "passed": true
+    },
+    {
+      "case": "OPF-S01-WEIGHTS",
+      "check": "complete-union active weights",
+      "passed": true
+    },
+    {
+      "case": "OPF-S01-WEIGHTS",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-S01-WEIGHTS",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-S01-WEIGHTS",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    }
+  ]
+}

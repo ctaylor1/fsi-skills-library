@@ -1,0 +1,9 @@
+# Source and access contract
+
+The native implementation accepts supplied JSON under [schema](schema.md). It does not retrieve filings, parse PDFs/OCR, query consensus or pricing services, authenticate a provider, or bind the illustrative MCP services from older design notes. No specific provider or subscription is required for supplied-input mode. Real source adapters need institution-owned source IDs, retrieval/knowledge timestamps, evidence retention, use rights, identity/basis mapping and error behavior.
+
+Use issuer filings and executed/controlling documents where relevant, supplied eligible market/estimate snapshots for their specified instrument and vintage, and reported rating-agency opinions for their identified object. Preserve source type, financial/economic date separately from knowledge time, currency, units, accounting/method basis and coverage limits. A reference, caller approval flag or canonical hash does not authenticate facts or establish entitlements.
+
+Reported actual timestamps cannot precede the declared release or exceed cutoff. Frozen estimate vintage and prior guidance vintage must precede release. Financial period and source availability are separate. The method rejects basis mismatches and numeric booleans instead of silently converting. Missing current/prior guidance or transcript source references produce explicit omissions. Prior transcript language without a prior reference does not establish a verified change. No source authenticity, consensus completeness or license entitlement is established.
+
+Unavailable source, rights, policy or specialist method: keep the supported inventory/factual observations, label missing coverage and withhold dependent conclusions. Do not substitute fixtures, invent references, silently use a current snapshot as a historical vintage, or claim an adjacent reviewer proves its source engine exists.

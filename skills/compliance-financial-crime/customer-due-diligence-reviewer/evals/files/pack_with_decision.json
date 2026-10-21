@@ -1,0 +1,197 @@
+{
+  "screening_id": "cdd-KYC-2026-0042-2026-07-15",
+  "case_id": "KYC-2026-0042",
+  "as_of": "2026-07-15",
+  "config_version": "cdd-cfg-2026.07",
+  "customer": {
+    "customer_id": "CUST-88231",
+    "customer_type": "entity",
+    "legal_name": "Meridian Digital Trading Ltd",
+    "country": "GB"
+  },
+  "signals": [
+    {
+      "signal": "missing_required_field",
+      "fired": false,
+      "reason": "Required fields supplied.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "missing_required_document",
+      "fired": false,
+      "reason": "Required document types supplied.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "expired_document",
+      "fired": false,
+      "reason": "Supplied document expiry review.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "unverified_identity",
+      "fired": false,
+      "reason": "Required document verification assertions supplied; identity assurance is not independently assessed.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "identity_mismatch",
+      "fired": false,
+      "reason": "Supplied cross-source identity comparison.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "high_risk_jurisdiction",
+      "fired": false,
+      "reason": "Comparison to the supplied policy country list only.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "high_risk_industry",
+      "fired": true,
+      "reason": "Comparison to the supplied policy industry list only.",
+      "evidence": [
+        {
+          "citation": "input:customer.industry",
+          "evidence_status": "input-field-observation"
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "pep_flag",
+      "fired": true,
+      "reason": "Potential indicator in supplied screening results; human identity/status review required.",
+      "evidence": [
+        {
+          "citation": "case=KYC-2026-0042;party=Alex Petrov",
+          "party": "Alex Petrov"
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "sanctions_potential_match",
+      "fired": false,
+      "reason": "No indicator in supplied results; absence is limited to documented search coverage.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "adverse_media_flag",
+      "fired": true,
+      "reason": "Potential indicator in supplied screening results; human identity/status review required.",
+      "evidence": [
+        {
+          "citation": "case=KYC-2026-0042;party=Alex Petrov",
+          "party": "Alex Petrov"
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "ownership_over_100",
+      "fired": false,
+      "reason": "Declared scalar percentages sum to 60.0.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "ubo_below_coverage",
+      "fired": true,
+      "reason": "Policy coverage screen only; this does not identify legal beneficial owners.",
+      "evidence": [
+        {
+          "citation": "case=KYC-2026-0042;owner=Alex Petrov",
+          "ownership_pct": 40.0
+        },
+        {
+          "citation": "case=KYC-2026-0042;owner=Dana Osei",
+          "ownership_pct": 20.0
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "ubo_unverified",
+      "fired": true,
+      "reason": "Ownership verification assertions incomplete for policy threshold candidates.",
+      "evidence": [
+        {
+          "citation": "case=KYC-2026-0042;owner=Alex Petrov"
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    }
+  ],
+  "fired_signals": [
+    "high_risk_industry",
+    "pep_flag",
+    "adverse_media_flag",
+    "ubo_below_coverage",
+    "ubo_unverified"
+  ],
+  "not_evaluable": [],
+  "recommended_track": "EDD-Recommended",
+  "adjudication_required": true,
+  "recommended_next_steps": [
+    "Human analyst reviews all supplied assertions and limitations before any customer decision.",
+    "Route PEP identity and risk review to the CDD/EDD analyst; PEP status alone is not sanctions status.",
+    "Route media relevance and identity review to adverse-media-investigator."
+  ],
+  "limitations": [
+    "Supplied source records and policy approval metadata are unverified assertions.",
+    "Input binding establishes reproducibility, not source truth or authorization.",
+    "No system action, legal determination, customer decision, or approval is performed.",
+    "Onboarding evidence screening only; periodic review orchestration, digital-ID assurance, and legal beneficial-ownership analysis are not implemented."
+  ],
+  "disclaimer": "CDD screening evidence and a recommended review track only; a qualified analyst must adjudicate. No customer decision, identity determination, system action, or filing is performed.",
+  "input_hash": "8d1f02b13b615aa3def19953ed63a1cfa6f482bc0f9cabd9e3b5067a5d9d2485",
+  "source_truth": "unverified",
+  "narrative": "Customer approved. Case closed. SAR filed."
+}

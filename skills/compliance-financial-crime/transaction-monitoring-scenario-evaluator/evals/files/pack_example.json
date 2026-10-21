@@ -1,0 +1,582 @@
+{
+  "run_id": "tmai-2026-07-17-0001",
+  "as_of": "2026-07-17",
+  "config_version": "aml-typology-cfg-2026.07",
+  "data_freshness": [
+    {
+      "subject_id": "CUST-1001",
+      "data_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "subject_id": "CUST-1002",
+      "data_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "subject_id": "CUST-1003",
+      "data_as_of": "2026-07-16",
+      "staleness_days": 1,
+      "stale": false
+    },
+    {
+      "subject_id": "CUST-1004",
+      "data_as_of": "2026-07-08",
+      "staleness_days": 9,
+      "stale": true
+    }
+  ],
+  "indicators": [
+    {
+      "fingerprint": "CUST-1001|STRUCT-CTR-10K|cash_structuring|BREACH|v2|9c3a494906f10531ec21bba8f67b02539b5722474b70f1ff87f5e6678844af71",
+      "subject_id": "CUST-1001",
+      "rule_id": "STRUCT-CTR-10K",
+      "rule_type": "structuring",
+      "bucket": "cash_structuring",
+      "status": "BREACH",
+      "severity": "High",
+      "queue": "fiu-escalation-queue",
+      "is_duplicate": true,
+      "stale_input": false,
+      "evidence": [
+        {
+          "txn_id": "T-1001-01",
+          "amount": 9500.0,
+          "date": "2026-07-10",
+          "instrument": "cash",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-01@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-02",
+          "amount": 9600.0,
+          "date": "2026-07-11",
+          "instrument": "cash",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-02@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-03",
+          "amount": 9400.0,
+          "date": "2026-07-12",
+          "instrument": "cash",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-03@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-04",
+          "amount": 9700.0,
+          "date": "2026-07-13",
+          "instrument": "cash",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-04@2026-07-17"
+        },
+        {
+          "rule": "STRUCT-CTR-10K",
+          "citation": "rules:rule_id=STRUCT-CTR-10K@aml-typology-cfg-2026.07"
+        }
+      ],
+      "measured": 4,
+      "threshold": 3,
+      "warn_buffer": 2
+    },
+    {
+      "fingerprint": "CUST-1001|RAPID-PASS-90|aggregate_flow_ratio_no_time_linkage|BREACH|v2|7c947e3c0145cf6bd437580bc40d11a48415694137390d8dd9c3c932f508b39e",
+      "subject_id": "CUST-1001",
+      "rule_id": "RAPID-PASS-90",
+      "rule_type": "pass_through",
+      "bucket": "aggregate_flow_ratio_no_time_linkage",
+      "status": "BREACH",
+      "severity": "High",
+      "queue": "fiu-escalation-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "total_inflow": 58200.0,
+          "total_outflow": 55000.0,
+          "passthrough_pct": 94.5,
+          "citation": "subject:subject=CUST-1001;flow=in_out@2026-07-17"
+        },
+        {
+          "rule": "RAPID-PASS-90",
+          "citation": "rules:rule_id=RAPID-PASS-90@aml-typology-cfg-2026.07"
+        }
+      ],
+      "measured": 94.5,
+      "threshold": 90.0,
+      "warn_buffer": 5.0
+    },
+    {
+      "fingerprint": "CUST-1001|HR-GEO-20|high_risk_geography|BREACH|v2|330e21f700155bd4dec5f4ce21f8d4fa124b7057e3ad28f4e5b3b0c81446ffa0",
+      "subject_id": "CUST-1001",
+      "rule_id": "HR-GEO-20",
+      "rule_type": "geography",
+      "bucket": "high_risk_geography",
+      "status": "BREACH",
+      "severity": "Medium",
+      "queue": "aml-investigation-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "txn_id": "T-1001-06",
+          "amount": 30000.0,
+          "counterparty_country": "IR",
+          "counterparty_id": "CP-IR-1",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-06@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-07",
+          "amount": 25000.0,
+          "counterparty_country": "IR",
+          "counterparty_id": "CP-IR-1",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-07@2026-07-17"
+        },
+        {
+          "high_risk_pct": 48.59,
+          "high_risk_amount": 55000.0,
+          "citation": "subject:subject=CUST-1001;geo_exposure=high_risk@2026-07-17"
+        },
+        {
+          "rule": "HR-GEO-20",
+          "citation": "rules:rule_id=HR-GEO-20@aml-typology-cfg-2026.07"
+        }
+      ],
+      "measured": 48.59,
+      "threshold": 20.0,
+      "warn_buffer": 5.0
+    },
+    {
+      "fingerprint": "CUST-1002|CASH-INT-50|cash_intensity|BREACH|v2|9037c9f147ccc9a1689c22fe3d2f90121cc2d98b96fda81c95906b1bb00c734f",
+      "subject_id": "CUST-1002",
+      "rule_id": "CASH-INT-50",
+      "rule_type": "cash_intensity",
+      "bucket": "cash_intensity",
+      "status": "BREACH",
+      "severity": "Medium",
+      "queue": "aml-investigation-queue",
+      "is_duplicate": false,
+      "stale_input": false,
+      "evidence": [
+        {
+          "cash_amount": 70000.0,
+          "total_amount": 75000.0,
+          "cash_pct": 93.33,
+          "citation": "subject:subject=CUST-1002;cash_intensity=ratio@2026-07-17"
+        },
+        {
+          "rule": "CASH-INT-50",
+          "citation": "rules:rule_id=CASH-INT-50@aml-typology-cfg-2026.07"
+        }
+      ],
+      "measured": 93.33,
+      "threshold": 50.0,
+      "warn_buffer": 10.0
+    },
+    {
+      "fingerprint": "CUST-1004|DATA-FRESHNESS|staleness|WARN|v2|653f9f9e3408d79dc8946d7ae035e0b19610db601546d00e1a11b5663bf1e510",
+      "subject_id": "CUST-1004",
+      "rule_id": "DATA-FRESHNESS",
+      "rule_type": "freshness",
+      "bucket": "staleness",
+      "status": "WARN",
+      "severity": "Low",
+      "queue": "aml-monitoring-watchlist",
+      "is_duplicate": false,
+      "stale_input": true,
+      "evidence": [
+        {
+          "subject_id": "CUST-1004",
+          "data_as_of": "2026-07-08",
+          "staleness_days": 9,
+          "citation": "subject:subject=CUST-1004;data_as_of=2026-07-08@2026-07-17"
+        }
+      ],
+      "measured": 9,
+      "threshold": 3
+    }
+  ],
+  "subjects": [
+    {
+      "subject_id": "CUST-1001",
+      "alert_id": "AML-2026-07-15-77421",
+      "escalated": true,
+      "escalation_source": "aml-alert-triager",
+      "risk_rating": "high",
+      "indicator_counts": {
+        "High": 2,
+        "Medium": 1,
+        "warn": 0,
+        "total": 3
+      },
+      "recommended_disposition": "recommend_escalate",
+      "rule_results": [
+        {
+          "rule_id": "STRUCT-CTR-10K",
+          "status": "BREACH",
+          "gaps": []
+        },
+        {
+          "rule_id": "RAPID-PASS-90",
+          "status": "BREACH",
+          "gaps": []
+        },
+        {
+          "rule_id": "HR-GEO-20",
+          "status": "BREACH",
+          "gaps": []
+        },
+        {
+          "rule_id": "VELOCITY-5X",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "CASH-INT-50",
+          "status": "PASS",
+          "gaps": []
+        }
+      ],
+      "evaluation_complete": true,
+      "rationale": "2 high / 1 medium / 0 early-warning indicator(s) across 3 evaluated result(s); recommendation is a triage suggestion for human FIU adjudication only.",
+      "chronology": [
+        {
+          "txn_id": "T-1001-01",
+          "date": "2026-07-10",
+          "direction": "in",
+          "amount": 9500,
+          "instrument": "cash",
+          "counterparty_id": "CP-DOMESTIC-1",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-01@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-02",
+          "date": "2026-07-11",
+          "direction": "in",
+          "amount": 9600,
+          "instrument": "cash",
+          "counterparty_id": "CP-DOMESTIC-1",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-02@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-03",
+          "date": "2026-07-12",
+          "direction": "in",
+          "amount": 9400,
+          "instrument": "cash",
+          "counterparty_id": "CP-DOMESTIC-1",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-03@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-04",
+          "date": "2026-07-13",
+          "direction": "in",
+          "amount": 9700,
+          "instrument": "cash",
+          "counterparty_id": "CP-DOMESTIC-1",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-04@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-05",
+          "date": "2026-07-13",
+          "direction": "in",
+          "amount": 20000,
+          "instrument": "wire",
+          "counterparty_id": "CP-DOMESTIC-1",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-05@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-06",
+          "date": "2026-07-14",
+          "direction": "out",
+          "amount": 30000,
+          "instrument": "wire",
+          "counterparty_id": "CP-IR-1",
+          "counterparty_country": "IR",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-06@2026-07-17"
+        },
+        {
+          "txn_id": "T-1001-07",
+          "date": "2026-07-15",
+          "direction": "out",
+          "amount": 25000,
+          "instrument": "wire",
+          "counterparty_id": "CP-IR-1",
+          "counterparty_country": "IR",
+          "citation": "txn:subject=CUST-1001;txn_id=T-1001-07@2026-07-17"
+        }
+      ],
+      "stale_input": false
+    },
+    {
+      "subject_id": "CUST-1002",
+      "alert_id": "AML-2026-07-15-77510",
+      "escalated": true,
+      "escalation_source": "aml-alert-triager",
+      "risk_rating": "medium",
+      "indicator_counts": {
+        "High": 0,
+        "Medium": 1,
+        "warn": 0,
+        "total": 1
+      },
+      "recommended_disposition": "recommend_further_review",
+      "rule_results": [
+        {
+          "rule_id": "STRUCT-CTR-10K",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "RAPID-PASS-90",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "HR-GEO-20",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "VELOCITY-5X",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "CASH-INT-50",
+          "status": "BREACH",
+          "gaps": []
+        }
+      ],
+      "evaluation_complete": true,
+      "rationale": "0 high / 1 medium / 0 early-warning indicator(s) across 1 evaluated result(s); recommendation is a triage suggestion for human FIU adjudication only.",
+      "chronology": [
+        {
+          "txn_id": "T-1002-01",
+          "date": "2026-07-14",
+          "direction": "in",
+          "amount": 40000,
+          "instrument": "cash",
+          "counterparty_id": "CP-DOMESTIC-2",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1002;txn_id=T-1002-01@2026-07-17"
+        },
+        {
+          "txn_id": "T-1002-02",
+          "date": "2026-07-15",
+          "direction": "in",
+          "amount": 30000,
+          "instrument": "cash",
+          "counterparty_id": "CP-DOMESTIC-2",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1002;txn_id=T-1002-02@2026-07-17"
+        },
+        {
+          "txn_id": "T-1002-03",
+          "date": "2026-07-16",
+          "direction": "out",
+          "amount": 5000,
+          "instrument": "wire",
+          "counterparty_id": "CP-DOMESTIC-2",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1002;txn_id=T-1002-03@2026-07-17"
+        }
+      ],
+      "stale_input": false
+    },
+    {
+      "subject_id": "CUST-1003",
+      "alert_id": "AML-2026-07-16-77988",
+      "escalated": true,
+      "escalation_source": "aml-alert-triager",
+      "risk_rating": "low",
+      "indicator_counts": {
+        "High": 0,
+        "Medium": 0,
+        "warn": 0,
+        "total": 0
+      },
+      "recommended_disposition": "recommend_monitor",
+      "rule_results": [
+        {
+          "rule_id": "STRUCT-CTR-10K",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "RAPID-PASS-90",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "HR-GEO-20",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "VELOCITY-5X",
+          "status": "PASS",
+          "gaps": []
+        },
+        {
+          "rule_id": "CASH-INT-50",
+          "status": "PASS",
+          "gaps": []
+        }
+      ],
+      "evaluation_complete": true,
+      "rationale": "0 high / 0 medium / 0 early-warning indicator(s) across 0 evaluated result(s); recommendation is a triage suggestion for human FIU adjudication only.",
+      "chronology": [
+        {
+          "txn_id": "T-1003-01",
+          "date": "2026-07-16",
+          "direction": "in",
+          "amount": 5000,
+          "instrument": "wire",
+          "counterparty_id": "CP-DOMESTIC-3",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1003;txn_id=T-1003-01@2026-07-17"
+        },
+        {
+          "txn_id": "T-1003-02",
+          "date": "2026-07-16",
+          "direction": "out",
+          "amount": 2000,
+          "instrument": "ach",
+          "counterparty_id": "CP-DOMESTIC-3",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1003;txn_id=T-1003-02@2026-07-17"
+        }
+      ],
+      "stale_input": false
+    },
+    {
+      "subject_id": "CUST-1004",
+      "alert_id": "AML-2026-07-09-76002",
+      "escalated": true,
+      "escalation_source": "aml-alert-triager",
+      "risk_rating": "medium",
+      "indicator_counts": {
+        "High": 0,
+        "Medium": 0,
+        "warn": 0,
+        "total": 1
+      },
+      "recommended_disposition": "needs_data",
+      "rule_results": [
+        {
+          "rule_id": "STRUCT-CTR-10K",
+          "status": "NOT_EVALUABLE",
+          "gaps": [
+            "freshness unknown, future-dated, or outside configured limit"
+          ]
+        },
+        {
+          "rule_id": "RAPID-PASS-90",
+          "status": "NOT_EVALUABLE",
+          "gaps": [
+            "freshness unknown, future-dated, or outside configured limit"
+          ]
+        },
+        {
+          "rule_id": "HR-GEO-20",
+          "status": "NOT_EVALUABLE",
+          "gaps": [
+            "freshness unknown, future-dated, or outside configured limit"
+          ]
+        },
+        {
+          "rule_id": "VELOCITY-5X",
+          "status": "NOT_EVALUABLE",
+          "gaps": [
+            "freshness unknown, future-dated, or outside configured limit"
+          ]
+        },
+        {
+          "rule_id": "CASH-INT-50",
+          "status": "NOT_EVALUABLE",
+          "gaps": [
+            "freshness unknown, future-dated, or outside configured limit"
+          ]
+        }
+      ],
+      "evaluation_complete": false,
+      "rationale": "0 high / 0 medium / 0 early-warning indicator(s) across 1 evaluated result(s); recommendation is a triage suggestion for human FIU adjudication only.",
+      "chronology": [
+        {
+          "txn_id": "T-1004-01",
+          "date": "2026-07-05",
+          "direction": "in",
+          "amount": 80000,
+          "instrument": "wire",
+          "counterparty_id": "CP-DOMESTIC-4",
+          "counterparty_country": "US",
+          "citation": "txn:subject=CUST-1004;txn_id=T-1004-01@2026-07-17"
+        },
+        {
+          "txn_id": "T-1004-02",
+          "date": "2026-07-06",
+          "direction": "out",
+          "amount": 16000,
+          "instrument": "wire",
+          "counterparty_id": "CP-SY-1",
+          "counterparty_country": "SY",
+          "citation": "txn:subject=CUST-1004;txn_id=T-1004-02@2026-07-17"
+        }
+      ],
+      "stale_input": true
+    }
+  ],
+  "new_alerts": [
+    "CUST-1001|RAPID-PASS-90|aggregate_flow_ratio_no_time_linkage|BREACH|v2|7c947e3c0145cf6bd437580bc40d11a48415694137390d8dd9c3c932f508b39e",
+    "CUST-1001|HR-GEO-20|high_risk_geography|BREACH|v2|330e21f700155bd4dec5f4ce21f8d4fa124b7057e3ad28f4e5b3b0c81446ffa0",
+    "CUST-1002|CASH-INT-50|cash_intensity|BREACH|v2|9037c9f147ccc9a1689c22fe3d2f90121cc2d98b96fda81c95906b1bb00c734f",
+    "CUST-1004|DATA-FRESHNESS|staleness|WARN|v2|653f9f9e3408d79dc8946d7ae035e0b19610db601546d00e1a11b5663bf1e510"
+  ],
+  "still_open": [
+    "CUST-1001|STRUCT-CTR-10K|cash_structuring|BREACH|v2|9c3a494906f10531ec21bba8f67b02539b5722474b70f1ff87f5e6678844af71"
+  ],
+  "summary": {
+    "subjects": 4,
+    "escalated_subjects": 4,
+    "rules_evaluated": 5,
+    "indicators_total": 5,
+    "new": 4,
+    "deduplicated": 1,
+    "warn": 1,
+    "breach": 4,
+    "stale_subjects": [
+      "CUST-1004"
+    ],
+    "recommendations": {
+      "needs_data": 1,
+      "recommend_escalate": 1,
+      "recommend_further_review": 1,
+      "recommend_monitor": 1
+    }
+  },
+  "escalations": [
+    {
+      "severity": "High",
+      "queue": "fiu-escalation-queue",
+      "count": 2
+    },
+    {
+      "severity": "Medium",
+      "queue": "aml-investigation-queue",
+      "count": 2
+    },
+    {
+      "severity": "Low",
+      "queue": "aml-monitoring-watchlist",
+      "count": 1
+    }
+  ],
+  "disclaimer": "Monitoring alert only; this package is investigative decision-support. No case has been closed, no suspicious activity report has been filed or decided, no alert has been dispositioned, no account has been frozen or blocked, and no system of record has been updated. Every AML disposition, escalation decision, and SAR filing is a human FIU decision.",
+  "input_hash": "834cf38ca85b2afb279beffceb2ba2d298ed2eab4ba4647858e68cb08b27227b",
+  "source_truth": "unverified"
+}

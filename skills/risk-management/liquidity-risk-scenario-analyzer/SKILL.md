@@ -57,7 +57,7 @@ regulatory filing remain human.
   breach cleared/waived**, or a **funding/collateral trade executed** → out of scope. Provide
   evidence and route to the human (Treasury/ALCO) and authorized systems.
 - **Fund / portfolio** redemption-and-asset liquidity (buy-side, redemption gates, swing pricing)
-  → `liquidity-stress-analyzer` (asset management). This skill is institution/balance-sheet ALM.
+  → `fund-liquidity-assessor` (asset management). This skill is institution/balance-sheet ALM.
 - **Designing** the stress scenarios themselves (narratives, shock calibration, governance) →
   `stress-test-scenario-designer`; this skill consumes the designed scenarios and runs them.
 - **Market-risk** or **concentration** limit surveillance → `market-risk-limit-monitor` /

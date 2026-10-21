@@ -1,4 +1,16 @@
-# Changelog — investment-thesis-monitor
+# Changelog
+
+## 0.2.0 — 2026-09-20
+
+- Adopt Phase 1 ownership and canonical naming; preserve alias metadata.
+- Require source-bound native validation and document bounded support.
+ — investment-thesis-monitor
+
+## Unreleased — Phase 1 source fidelity
+
+- Future and unparseable observations never fire. Zero prior EPS produces a not-evaluable percentage revision. Deduplication requires an open thesis alert with the same evidence_fingerprint and escalation; new or changed evidence is re-raised. monitor_run_id binds the complete supplied snapshot. This is an offline calculation, not a scheduled live feed.
+- Added detached original-input reconstruction and independent adverse-case regressions. Validation remains draft-only and does not authenticate sources or approvals.
+
 
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`). Scheduled, read-only,
@@ -19,13 +31,13 @@ alert-only thesis monitor for an asset-management research book.
   packaging, deterministic escalation tie-out, no-autonomous-action + advice screen,
   disclaimer, durable `monitor_run_id`).
 - **Evaluations:** trigger/routing (to `earnings-results-analyzer`,
-  `investment-committee-memo-builder`, `fund-commentary-drafter`, `mandate-compliance-monitor`);
+  `investment-committee-memo-builder`, `investment-commentary-builder`, `investment-mandate-reviewer`);
   golden Elevated + confirming + dedup + freshness-gap queue; deterministic script checks;
   no-autonomous-action safety + injection; external-delivery authorization.
 - **Handoffs:** downstream to `earnings-results-analyzer`, `scenario-sensitivity-generator`,
-  `dcf-modeler`, `coverage-initiation-researcher`, `performance-attribution-builder`,
-  `investment-committee-memo-builder`, `fund-commentary-drafter`; sibling monitors
-  `mandate-compliance-monitor`, `counterparty-exposure-monitor`; trade/close-thesis/advice to
+  `dcf-modeler`, `coverage-initiation-researcher`, `portfolio-performance-attributor`,
+  `investment-committee-memo-builder`, `investment-commentary-builder`; sibling monitors
+  `investment-mandate-reviewer`, `counterparty-exposure-monitor`; trade/close-thesis/advice to
   the human PM / trading desk / licensed professional.
 
 ### Pending before release

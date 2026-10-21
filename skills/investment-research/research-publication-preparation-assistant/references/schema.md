@@ -1,0 +1,9 @@
+# Native schema — 0.2.0
+
+Require note object with note_id and legal issuer_id; disclosures required/present string lists; restricted_list string list; rating_scale string list; and checklist required_items/present_items lists. Explicit rating_applicable and target_applicable are boolean or unknown. Applicable rating requires a nonempty scale and rating; non-applicable notes may have no rating and an empty scale. Targets are finite nonnegative numbers or null. Optional rating_rank values are finite JSON numbers; no universal direction map is inferred. `restricted_list_checked` is boolean or unknown; a ticker is needed for a checked ticker lookup. Context should identify institution, jurisdiction, audience, research_type, profile_id/version, configuration source_ref, applicability_status and rights_status; missing context is an unresolved gap, not clearance.
+
+## Output and partial coverage
+
+Cited gaps/flags, check values and applicability status, counts, supplied context, narrow review_scope, not_evaluated items and a review-only disposition. Unknown applicability, unknown/restricted rights, missing configuration version, unclear rating/target applicability or unchecked restricted-list coverage yield gaps-for-review. A restricted ticker yields a hard-stop flag. Even ready-for-compliance-review establishes only completeness of supplied token/configuration checks and still requires compliance/legal/source-rights review.
+
+All outputs include canonical `input_hash` over the complete original JSON and `source_truth: unverified`; no embedded `source_input` is accepted. Keep the original separately. Finite JSON, domain guards and input shape validation run before computation. Output validation requires `--input` (self-test retains its fixture original) and reconstructs every native field. Added narrative is a separate reviewed artifact, not a permitted unchecked field.

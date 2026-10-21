@@ -1,0 +1,232 @@
+{
+  "package": "fund-accounting-preparer",
+  "expected": {
+    "common_nav": "1100",
+    "class_nav": [
+      "650",
+      "435"
+    ],
+    "nav_per_share": [
+      "13",
+      "14.5"
+    ],
+    "total_nav": "1085",
+    "benchmark_difference": "0"
+  },
+  "input": {
+    "request_id": "OPF-O02-NAV-CONTRACT",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      },
+      {
+        "source_ref": "engine-contract",
+        "version": "test-v1",
+        "as_of": "2026-09-17",
+        "known_at": "2026-09-17"
+      },
+      {
+        "source_ref": "institutional-acceptance-declaration",
+        "version": "test-v1",
+        "as_of": "2026-09-17",
+        "known_at": "2026-09-17"
+      }
+    ],
+    "mode": "nav_workpaper",
+    "assets": [
+      {
+        "line_id": "INV",
+        "amount": "1000",
+        "source_ref": "ind-source"
+      },
+      {
+        "line_id": "CASH",
+        "amount": "200",
+        "source_ref": "ind-source"
+      }
+    ],
+    "liabilities": [
+      {
+        "line_id": "LIAB",
+        "amount": "100",
+        "source_ref": "ind-source"
+      }
+    ],
+    "classes": [
+      {
+        "class_id": "CLASS-A",
+        "allocation_weight": "0.6",
+        "shares_outstanding": "50",
+        "class_specific_expense": "10",
+        "source_ref": "ind-source"
+      },
+      {
+        "class_id": "CLASS-B",
+        "allocation_weight": "0.4",
+        "shares_outstanding": "30",
+        "class_specific_expense": "5",
+        "source_ref": "ind-source"
+      }
+    ],
+    "system_of_record_benchmark": {
+      "engine_id": "DECLARED-BOOK-ENGINE",
+      "engine_version": "v4",
+      "run_id": "SEP18-1",
+      "source_ref": "ind-source",
+      "object_id": "INDEPENDENT-FUND-Z",
+      "as_of": "2026-09-18",
+      "currency": "USD",
+      "nav": "1085",
+      "engine_contract_source_ref": "engine-contract",
+      "acceptance_evidence_source_ref": "institutional-acceptance-declaration"
+    },
+    "nav_tolerance": "0"
+  },
+  "id": "OPF-O02-NAV-CONTRACT",
+  "review_context": "Fresh benchmark contract refs added after schema update; initial rejected request preserved as OPF-O02-NAV. Acceptance declaration is synthetic and cannot authenticate professional acceptance.",
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "6698b1855be5b3c63a4293d098be3155aa2b8cea36b0e166afbacfa1c7f38356",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "c1b5d69195b24ea1a2c65f4f0357fd03fa1703665582e08beca29749ec66b682",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"fund-accounting-preparer\",\n  \"request_id\": \"OPF-O02-NAV-CONTRACT\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"single-currency-workpaper-nav_workpaper-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"assets\": \"1200\",\n    \"common_liabilities\": \"100\",\n    \"class_specific_expenses\": \"15\",\n    \"indicative_fund_nav\": \"1085\",\n    \"classes\": [\n      {\n        \"class_id\": \"CLASS-A\",\n        \"net_assets\": \"650.0\",\n        \"shares_outstanding\": \"50\",\n        \"indicative_nav_per_share\": \"13.00000000\",\n        \"source_ref\": \"ind-source\"\n      },\n      {\n        \"class_id\": \"CLASS-B\",\n        \"net_assets\": \"435.0\",\n        \"shares_outstanding\": \"30\",\n        \"indicative_nav_per_share\": \"14.50000000\",\n        \"source_ref\": \"ind-source\"\n      }\n    ],\n    \"benchmark_nav\": \"1085\",\n    \"benchmark_difference\": \"0\",\n    \"within_supplied_tolerance\": true,\n    \"benchmark_identity\": {\n      \"engine_id\": \"DECLARED-BOOK-ENGINE\",\n      \"engine_version\": \"v4\",\n      \"run_id\": \"SEP18-1\",\n      \"engine_contract_source_ref\": \"engine-contract\",\n      \"acceptance_evidence_source_ref\": \"institutional-acceptance-declaration\"\n    },\n    \"benchmark_acceptance_authenticated\": false,\n    \"authoritative_nav_struck\": false\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"Draft workpaper only; enterprise accounting engine and administrator remain authoritative. No posting, striking or release.\",\n    \"No trade capture, FX, tax, fair-value or ledger-to-NAV engine. Class allocation weights and values are supplied; class expenses must not duplicate common liabilities.\",\n    \"Journal and cash sums are exact Decimal; accruals and NAV/share use explicitly rounded8-place ratios.\"\n  ],\n  \"handoffs\": [\n    \"fund-nav-control-reviewer\",\n    \"fund-valuation-oversight-reviewer\",\n    \"investment-book-reconciler\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\",\n    \"engine-contract\",\n    \"institutional-acceptance-declaration\"\n  ],\n  \"input_hash\": \"4ae77aa367d12046f8df902df683ec271cbf3341ad343e5da8ffc6d2664b9e88\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "fund-accounting-preparer",
+    "request_id": "OPF-O02-NAV-CONTRACT",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "draft",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "single-currency-workpaper-nav_workpaper-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "assets": "1200",
+      "common_liabilities": "100",
+      "class_specific_expenses": "15",
+      "indicative_fund_nav": "1085",
+      "classes": [
+        {
+          "class_id": "CLASS-A",
+          "net_assets": "650.0",
+          "shares_outstanding": "50",
+          "indicative_nav_per_share": "13.00000000",
+          "source_ref": "ind-source"
+        },
+        {
+          "class_id": "CLASS-B",
+          "net_assets": "435.0",
+          "shares_outstanding": "30",
+          "indicative_nav_per_share": "14.50000000",
+          "source_ref": "ind-source"
+        }
+      ],
+      "benchmark_nav": "1085",
+      "benchmark_difference": "0",
+      "within_supplied_tolerance": true,
+      "benchmark_identity": {
+        "engine_id": "DECLARED-BOOK-ENGINE",
+        "engine_version": "v4",
+        "run_id": "SEP18-1",
+        "engine_contract_source_ref": "engine-contract",
+        "acceptance_evidence_source_ref": "institutional-acceptance-declaration"
+      },
+      "benchmark_acceptance_authenticated": false,
+      "authoritative_nav_struck": false
+    },
+    "unresolved_issues": [],
+    "limitations": [
+      "Draft workpaper only; enterprise accounting engine and administrator remain authoritative. No posting, striking or release.",
+      "No trade capture, FX, tax, fair-value or ledger-to-NAV engine. Class allocation weights and values are supplied; class expenses must not duplicate common liabilities.",
+      "Journal and cash sums are exact Decimal; accruals and NAV/share use explicitly rounded8-place ratios."
+    ],
+    "handoffs": [
+      "fund-nav-control-reviewer",
+      "fund-valuation-oversight-reviewer",
+      "investment-book-reconciler"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source",
+      "engine-contract",
+      "institutional-acceptance-declaration"
+    ],
+    "input_hash": "4ae77aa367d12046f8df902df683ec271cbf3341ad343e5da8ffc6d2664b9e88",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-O02-NAV-CONTRACT",
+      "check": "fund NAV1200-100-15",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-NAV-CONTRACT",
+      "check": "class NAV and shares",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-NAV-CONTRACT",
+      "check": "declared benchmark residual",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-NAV-CONTRACT",
+      "check": "no strike or authenticated acceptance",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-NAV-CONTRACT",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-NAV-CONTRACT",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-O02-NAV-CONTRACT",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    }
+  ]
+}

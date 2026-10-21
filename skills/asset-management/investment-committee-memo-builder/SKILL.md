@@ -1,19 +1,8 @@
 ---
 name: investment-committee-memo-builder
-description: >-
-  Draft an investment-committee (IC) memorandum for a private-markets deal from diligence
-  materials, financial models (LBO/DCF/three-statement), market and company data, approved
-  research, and portfolio context — covering thesis, transaction structure, valuation,
-  base/upside/downside scenarios, returns, key risks and mitigants, position sizing and
-  portfolio fit, and the decision questions the committee must answer. Use when a private
-  equity, private credit, or asset-management investment team asks to assemble, structure,
-  or tie out an IC memo from approved inputs, or to check a draft's diligence traceability,
-  model tie-outs, and scenario consistency. HARD BOUNDARY: draft-only — it never makes or
-  records the investment decision or committee vote (committee_decision stays pending),
-  never sends, circulates, or submits the memo, never fabricates a figure or claim that is
-  not traceable to an approved source, and gives no personalized investment advice.
+description: Prepare committee review packets for private deals or explicit public-security, manager and allocation modes, with source-linked thesis, scenarios, mandate gates and pending decisions. Use for investment committee preparation; no investment decision, trade, commitment, manager appointment or allocation optimization.
 license: MIT
-compatibility: Amazon Quick Desktop; requires financial-model, document-intelligence (VDR/diligence), market-data, approved-research (controlled content library), portfolio/limits, and controlled-template MCP integrations (all read-only).
+compatibility: Python 3.10+ offline JSON helpers; live source connectors and authenticated delivery require separate deployment integration.
 metadata:
   aws-fsi-category: "Asset Management"
   aws-fsi-skill-type: "Artifact-creation skills"
@@ -23,15 +12,25 @@ metadata:
   aws-fsi-delivery-wave: "Wave 2 - analytical production"
   aws-fsi-action-mode: "Draft-only; no system-of-record change"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (MNPI / client-confidential)"
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Asset Management investment & product"
   aws-fsi-primary-user: "Private equity / private credit / asset-management investment team"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-20"
 ---
+
+## Phase2 explicit modes
+
+Read [Phase2 method](references/phase2-domain-rules.md), [schema](references/phase2-schema.md), [source map](references/phase2-source-map.md), [controls](references/phase2-controls.md), and [handoffs](references/phase2-handoffs.md) for the new mode. Use [Phase2 template](assets/phase2-output-template.md) for its draft. New explicit modes preserve the no-mode/private-deal CLI. public-security compares three uniquely named downside/base/upside scenarios with probabilities summing to one; total return includes supplied income. Expected return is a scenario expectation, not a forecast. Proposed security and resulting sector weights are checked against hard mandate bounds. manager mode checks manager identity, current supplied diligence status, material issues, allocation fraction and mandate limit. allocation mode checks current/proposed weights sum to one, per-asset bounds and liquid-weight minimum; expected return is sum(weight × supplied expected return), one-way turnover = half sum(abs(weight change)). No covariance estimate or optimization is implied.
+
+The legacy workflow below applies to the original no-mode schema (and explicit private-deal for IC). Unknown supplied modes fail closed. New results are internal-review investment-foundation/1.0 artifacts with detached input; old fixture behavior is preserved.
+
+
+Read [references/domain-rules.md](references/domain-rules.md) for the supplied-input validation boundary and current deterministic limits before using the scripts.
+
 
 # Investment-Committee Memo Builder
 
@@ -90,11 +89,11 @@ conflict, cite all and surface it as a decision question.
    `needs-data` and name the producing skill. Do not draft on a malformed request.
 2. **Tie out to the model (deterministic)** — run
    [scripts/calculate_or_transform.py](scripts/calculate_or_transform.py): reconcile
-   `entry_multiple`, `equity_check`, and `leverage_x` to the model; block on any break.
+   `entry_multiple`, `equity_value_proxy`, and `leverage_x` to the model; block on any break.
 3. **Check scenarios** — require a downside; enforce ordering downside ≤ base ≤ upside; tie
    the base case to the model returns.
 4. **Size the position** — compute position as % of NAV; block on a single-name limit breach;
-   warn (disclose) on a sector-limit breach or an entry above the peer range.
+   block on a hard sector-limit breach; disclose an explicitly discretionary breach or entry above the peer range.
 5. **Trace every claim** — map each thesis point, risk, scenario, valuation, and sizing input
    to an approved source; block unsupported/unapproved claims.
 6. **Assemble the memo** — populate the nine required template sections
@@ -122,7 +121,7 @@ See [references/controls.md](references/controls.md).
 - **Tie-out break** → block; surface the model-vs-memo discrepancy rather than restating.
 - **Missing downside / unordered scenarios** → block; a memo without a modeled downside is
   incomplete.
-- **Concentration-limit breach** → single-name breach blocks; sector breach is disclosed.
+- **Concentration-limit breach** → single-name and hard sector breaches block; an explicitly discretionary sector breach is disclosed.
 - **Conflicting sources** → cite all and raise a decision question; do not silently pick one.
 - **Tool timeout** → return the partial draft with an explicit incomplete flag; assume no
   retry and no step-up authorization.
@@ -158,3 +157,9 @@ recertification.
   breach is disclosed to the committee, not silently suppressed.
 - **No selling language.** Guarantees, "risk-free", and "can't-lose" wording fail the output
   screen; present balanced evidence and open questions instead.
+
+## Phase 1 support boundary
+
+Bounded private-deal memo; generic public/manager/allocation templates remain planned
+
+This package performs only its documented local supplied-input operations. Live source access, authenticated permissions, production engines and professional acceptance are separate deployment requirements. Generated resources are pinned in `references/package-manifest.json`; maintain the canonical shared source. Legacy identifiers resolve through the repository migration registry.

@@ -1,25 +1,19 @@
 #!/usr/bin/env python3
-"""Deterministic, explainable conflict-of-interest analysis for conflicts-of-interest-reviewer.
+"""Review supplied conflict indicators and documentary gaps for human adjudication.
 
-Reads a matter file (see validate_input.py), classifies each disclosed item against the
-conflict taxonomy, computes inherent severity from type + magnitude thresholds, checks the
-recorded disclosures / controls / approvals against the per-type requirement set, computes a
-deterministic residual-risk band, attaches evidence + citations to each fired finding, and
-recommends an adjudication path for a human.
-
-IMPORTANT: This produces explainable *findings, evidence, and recommendations* only. It never
-clears/approves/waives a conflict, closes the matter, files anything, or makes a binding
-compliance determination. The severity, required-control, residual-risk, and review-path
-mappings are deterministic and documented in references/domain-rules.md.
-
-Usage:
-  python calculate_or_transform.py matter.json | --selftest
-Prints the review JSON to stdout.
+Unknown values stay unknown. Institution policy numbers are not legal thresholds.
+Document presence does not demonstrate mitigation effectiveness; residual risk is
+not assessed. Approvals remain supplied claims, not authenticated authorizations.
+The native result is reconstructed against a separately retained original input.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, importlib.util, math
 from datetime import datetime
 from pathlib import Path
+from native_integrity import attach_source, canonical_hash
+_spec = importlib.util.spec_from_file_location(__name__ + "_input", Path(__file__).with_name("validate_input.py"))
+_vi = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_vi)
 
 RANK = {"Low": 1, "Medium": 2, "High": 3}
 BAND = {1: "Low", 2: "Medium", 3: "High"}
@@ -66,7 +60,8 @@ def _parse_date(s: str) -> datetime:
 
 def _num(v):
     try:
-        return float(v)
+        value = float(v)
+        return value if not isinstance(v, bool) and math.isfinite(value) else None
     except (TypeError, ValueError):
         return None
 
@@ -82,27 +77,31 @@ def _inherent(item: dict, cfg: dict) -> str:
     base = BASE_SEVERITY.get(ctype, "Medium")
     mag = item.get("magnitude") or {}
     if ctype == "gift_entertainment":
-        gv = _num(mag.get("gift_value")) or 0.0
+        gv = _num(mag.get("gift_value"))
+        if gv is None or not cfg.get("policy_source_ref") or item.get("aggregation_complete") is not True: return "Unknown"
         if gv >= 5 * cfg["gift_deminimis"]:
             return "High"
         if gv >= cfg["gift_deminimis"]:
             return "Medium"
         return base
     if ctype in MAGNITUDE_TYPES:
-        own = _num(mag.get("ownership_pct")) or 0.0
-        val = _num(mag.get("annual_value")) or 0.0
+        own = _num(mag.get("ownership_pct"))
+        val = _num(mag.get("annual_value"))
+        if not cfg.get("policy_source_ref") or own is None or val is None: return "Unknown"
         if own >= cfg["ownership_material_pct"] or val >= cfg["annual_value_material"]:
             return "High"
         return base
     if ctype == "personal_trading":
-        return "High" if item.get("mnpi_access") else "Medium"
+        if type(item.get("mnpi_access")) is not bool: return "Unknown"
+        return "High" if item["mnpi_access"] else "Medium"
     return base
 
 
 def _fires(item: dict, cfg: dict) -> bool:
     # Only a sub-de-minimis gift is informational (not fired); everything else fires.
     if item["conflict_type"] == "gift_entertainment":
-        gv = _num((item.get("magnitude") or {}).get("gift_value")) or 0.0
+        gv = _num((item.get("magnitude") or {}).get("gift_value"))
+        if gv is None or not cfg.get("policy_source_ref") or item.get("aggregation_complete") is not True: return None
         return gv >= cfg["gift_deminimis"]
     return True
 
@@ -120,7 +119,7 @@ def _control_status(item: dict, cfg: dict, as_of: datetime):
         dd = d.get("date")
         if dd:
             age = (as_of - _parse_date(dd)).days
-            (stale_to if age > staleness else fresh_to).add(to)
+            (stale_to if age < 0 or age > staleness or not d.get("source_ref") else fresh_to).add(to)
         else:
             stale_to.add(to)
     need_d = [r.lower() for r in req["disclosure"]]
@@ -134,7 +133,7 @@ def _control_status(item: dict, cfg: dict, as_of: datetime):
         disclosure_status = "missing"
 
     # control
-    active = {str(c.get("type", "")).lower() for c in (item.get("controls") or []) if str(c.get("status", "")).lower() == "active"}
+    active = {str(c.get("type", "")).lower() for c in (item.get("controls") or []) if str(c.get("status", "")).lower() == "active" and c.get("source_ref") and c.get("scope")}
     need_c = [r.lower() for r in req["control"]]
     if not need_c or all(r in active for r in need_c):
         control_status = "complete"
@@ -144,7 +143,12 @@ def _control_status(item: dict, cfg: dict, as_of: datetime):
         control_status = "missing"
 
     # approval
-    approvers = {str(a.get("by", "")).lower() for a in (item.get("approvals") or [])}
+    approvers = set()
+    for a in item.get("approvals") or []:
+        if (a.get("decision") == "approved" and a.get("source_ref") and a.get("scope_item_id") == item["item_id"]
+                and a.get("date") and a.get("expires_on")
+                and _parse_date(a["date"]) <= as_of <= _parse_date(a["expires_on"])):
+            approvers.add(str(a.get("by", "")).lower())
     need_a = [r.lower() for r in req["approval"]]
     approval_status = "complete" if (not need_a or all(r in approvers for r in need_a)) else "missing"
 
@@ -163,15 +167,17 @@ def _evidence(item: dict) -> list:
     return ev
 
 
-def review_path(matter_residual: str, has_gap: bool) -> str:
-    if matter_residual == "High" or has_gap:
+def review_path(matter_inherent: str, has_gap: bool) -> str:
+    if matter_inherent in ("High", "Unknown") or has_gap:
         return "Escalate to the conflicts/ethics committee (or designated compliance officer) for adjudication"
-    if matter_residual == "Medium":
+    if matter_inherent == "Medium":
         return "Route to a compliance officer for review and disposition"
     return "Supervisor attestation and retention in the conflicts register"
 
 
 def compute(doc: dict) -> dict:
+    errors, warnings = _vi.validate(doc)
+    if errors: raise ValueError("; ".join(errors))
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
     cfg["requirements"] = {**DEFAULT_CONFIG["requirements"], **(cfg.get("requirements") or {})}
     as_of = _parse_date(doc["as_of"])
@@ -182,20 +188,17 @@ def compute(doc: dict) -> dict:
         fired = _fires(item, cfg)
         inherent = _inherent(item, cfg)
         disclosure_status, control_status, approval_status, req = _control_status(item, cfg, as_of)
-        gap = fired and not (disclosure_status == "complete" and control_status == "complete" and approval_status == "complete")
+        gap = fired is None or inherent == "Unknown" or (fired is True and not (disclosure_status == "complete" and control_status == "complete" and approval_status == "complete"))
 
-        if not fired:
-            residual = "Low"
-        elif gap:
-            residual = inherent  # no mitigation credit
-        else:
-            residual = BAND[max(1, RANK[inherent] - 1)]  # one band of credit
+        residual = "not_assessed"  # Document presence is not mitigation effectiveness.
 
         finding = {
             "item_id": item.get("item_id"),
             "conflict_type": ctype,
             "fired": fired,
             "inherent_severity": inherent,
+            "indicator_status": "unknown" if fired is None or inherent == "Unknown" else "raised" if fired else "below_supplied_threshold",
+            "mitigation_effectiveness": "not_assessed",
             "affected_parties": item.get("affected_parties") or [],
             "incentive": item.get("incentive"),
             "disclosure_status": disclosure_status,
@@ -204,10 +207,12 @@ def compute(doc: dict) -> dict:
             "open_gap": gap,
             "residual_risk": residual,
             "reason": _reason(item, ctype, fired, inherent, disclosure_status, control_status, approval_status, req),
-            "evidence": _evidence(item) if fired else [],
+            "evidence": _evidence(item),
         }
         findings.append(finding)
 
+        if fired is None or inherent == "Unknown":
+            open_gaps.append({"item_id": item["item_id"], "element": "risk_facts_or_policy", "status": "unknown", "required": ["applicable institution policy, complete magnitude/aggregation and MNPI facts"]})
         if gap:
             for label, status, need in (("disclosure", disclosure_status, req["disclosure"]),
                                         ("control", control_status, req["control"]),
@@ -216,14 +221,12 @@ def compute(doc: dict) -> dict:
                     open_gaps.append({"item_id": item.get("item_id"), "conflict_type": ctype,
                                       "element": label, "status": status, "required": need})
 
-    fired_findings = [f for f in findings if f["fired"]]
-    if fired_findings:
-        matter_rank = max(RANK[f["residual_risk"]] for f in fired_findings)
-    else:
-        matter_rank = 1
-    matter_residual = BAND[matter_rank]
+    fired_findings = [f for f in findings if f["fired"] is not False]
+    severities = [f["inherent_severity"] for f in findings]
+    matter_inherent = "Unknown" if "Unknown" in severities else BAND[max((RANK[b] for b in severities), default=1)]
+    matter_residual = "not_assessed"
     has_gap = any(f["open_gap"] for f in findings)
-    path = review_path(matter_residual, has_gap)
+    path = review_path(matter_inherent, has_gap)
 
     mitigation_prompts = []
     if fired_findings or open_gaps:
@@ -240,8 +243,11 @@ def compute(doc: dict) -> dict:
 
     subject = doc.get("subject") or {}
     sid = str(subject.get("party_id", "unknown")).replace("*", "")
-    return {
-        "review_id": f"coi-{doc['matter_id']}-{sid}-0001",
+    result = {
+        "review_id": "coi-" + canonical_hash(doc)[:16],
+        "matter_inherent_severity": matter_inherent,
+        "method_limit": "Institution-specific triage indicators; supplied policy and approvals are not authenticated. No mitigation credit or legal determination.",
+        "warnings": warnings,
         "matter_id": doc["matter_id"],
         "as_of": doc["as_of"],
         "config_version": doc.get("config_version"),
@@ -256,10 +262,13 @@ def compute(doc: dict) -> dict:
         "disclaimer": DISCLAIMER,
     }
 
+    return attach_source(result, doc)
 
 def _reason(item, ctype, fired, inherent, disc, ctrl, appr, req):
+    if fired is None or inherent == "Unknown":
+        return f"{ctype}: material facts or applicable policy are unresolved; preserve uncertainty and obtain evidence."
     if not fired:
-        return f"{ctype}: below de-minimis threshold — informational only, not a manageable conflict."
+        return f"{ctype}: below the supplied institution indicator threshold; this is not a legal exemption or conflict clearance."
     parts = [f"{ctype} identified (inherent severity {inherent})."]
     if disc != "complete":
         parts.append(f"required disclosure to {req['disclosure']} is {disc}.")
@@ -268,7 +277,7 @@ def _reason(item, ctype, fired, inherent, disc, ctrl, appr, req):
     if appr != "complete":
         parts.append(f"required approval by {req['approval']} is {appr}.")
     if disc == "complete" and ctrl == "complete" and appr == "complete":
-        parts.append("required disclosure, control, and approval are recorded and current (one band of mitigation credit).")
+        parts.append("supplied disclosure/control/approval records meet the documentary checklist; authenticity and effectiveness remain unverified, with no mitigation credit.")
     return " ".join(parts)
 
 

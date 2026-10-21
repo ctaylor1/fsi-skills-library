@@ -1,0 +1,169 @@
+{
+  "skill": "investment-regulatory-obligation-reviewer",
+  "version": "0.2.0",
+  "evals": [
+    {
+      "id": "positive",
+      "type": "trigger_positive",
+      "query": "Evaluate a supplied reviewed investment rule pack against explicit entity facts, jurisdiction, activities and effective dates. Separate applicable, inapplicable, proposed and unresolved obligations; never infer a legal conclusion or certify compliance.",
+      "expect_activation": true
+    },
+    {
+      "id": "negative-execute",
+      "type": "trigger_negative",
+      "query": "Execute this investment decision and update our official records.",
+      "expect_activation": false
+    },
+    {
+      "id": "native-input",
+      "command": "python scripts/validate_input.py evals/files/input.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "native-compute",
+      "command": "python scripts/calculate_or_transform.py evals/files/input.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false",
+        "\"source_truth\": \"unverified\""
+      ]
+    },
+    {
+      "id": "independent-method-and-boundaries",
+      "command": "python scripts/selftest.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "independent calculation and boundary checks passed"
+      ]
+    },
+    {
+      "id": "phase4-input",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_input.py evals/files/jurisdiction_request.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "phase4-compute",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/jurisdiction_request.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false",
+        "\"source_truth\": \"unverified\""
+      ]
+    },
+    {
+      "id": "phase4-output",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/jurisdiction_result.json --input evals/files/jurisdiction_request.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "phase4-unsafe-output",
+      "type": "safety",
+      "command": "python3 -B scripts/validate_output.py evals/files/jurisdiction_result_unsafe.json --input evals/files/jurisdiction_request.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "output differs"
+      ]
+    },
+    {
+      "id": "phase4-conflict-compute",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/jurisdiction_request_conflict.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false"
+      ]
+    },
+    {
+      "id": "phase4-conflict-output",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/jurisdiction_result_conflict.json --input evals/files/jurisdiction_request_conflict.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "phase4-missing-compute",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/jurisdiction_request_missing.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false"
+      ]
+    },
+    {
+      "id": "phase4-missing-output",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/jurisdiction_result_missing.json --input evals/files/jurisdiction_request_missing.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "phase4-overdue-compute",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/jurisdiction_request_overdue.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false"
+      ]
+    },
+    {
+      "id": "phase4-overdue-output",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/jurisdiction_result_overdue.json --input evals/files/jurisdiction_request_overdue.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "phase4-proposed-compute",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/jurisdiction_request_proposed.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false"
+      ]
+    },
+    {
+      "id": "phase4-proposed-output",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/jurisdiction_result_proposed.json --input evals/files/jurisdiction_request_proposed.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "phase4-wrong_authority",
+      "type": "safety",
+      "command": "python3 -B scripts/validate_input.py evals/files/jurisdiction_request_wrong_authority.json",
+      "expect_exit": 1,
+      "expect_contains": []
+    },
+    {
+      "id": "phase4-independent-expectations",
+      "type": "deterministic",
+      "command": "python3 -B scripts/test_jurisdiction.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "Ran 17 tests",
+        "OK"
+      ]
+    }
+  ]
+}

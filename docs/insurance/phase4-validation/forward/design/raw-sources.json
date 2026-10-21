@@ -1,0 +1,219 @@
+{
+  "identity": {
+    "insurer": "Cedar Harbor Mutual (fictional)",
+    "scope": "US-TEST commercial property FNOL sandbox",
+    "review_date": "2026-09-20",
+    "classification": "synthetic, no customer records"
+  },
+  "review_register": {
+    "record": "REV-4",
+    "version": "4",
+    "date": "2026-09-19",
+    "owners": {
+      "process": "Mina Chen, operations architect",
+      "data": "Owen Diaz, data steward",
+      "migration": "Sara Reed, core lead"
+    },
+    "profile_validity": [
+      "2026-09-01",
+      "2026-09-30"
+    ],
+    "methods": [
+      "reviewed-insurance-paths-v1",
+      "insurance-temporal-data-contract-v1",
+      "insurance-core-option-migration-v1"
+    ],
+    "review": "Owner supplied review statements only, not authenticated institutional approvals"
+  },
+  "process_workshop": {
+    "record": "OPS-7",
+    "version": "7",
+    "date": "2026-09-18",
+    "owner": "Mina Chen",
+    "population": "All synthetic single-location property FNOL submissions, normal and exception mutually exclusive",
+    "inventory_complete": true,
+    "times_unit": "minutes; serial inclusive route estimates, not empirical averages",
+    "current": {
+      "manual_intake": [
+        14,
+        25
+      ],
+      "exception_recovery": [
+        18,
+        120
+      ],
+      "normal_share": "0.80",
+      "exception_share": "0.20"
+    },
+    "target": {
+      "extract": [
+        0,
+        3
+      ],
+      "human_review": [
+        7,
+        12
+      ],
+      "recovery": [
+        20,
+        90
+      ],
+      "normal_share": "0.90",
+      "exception_share": "0.10"
+    },
+    "extraction": "Two attempts maximum, one minute timeout each; three-minute aggregate extraction slot includes both attempts and dispatch overhead. On failure route to Mina recovery queue. Audit document hash, attempt count, timeout and operator receipt. No write to claims core.",
+    "completion": "Draft intake checked by human; exceptions reconciled to source document."
+  },
+  "source_contract": {
+    "record": "API-3",
+    "version": "3",
+    "date": "2026-09-17",
+    "owner": "Elena Park, document platform owner",
+    "system": "Synthetic document sandbox",
+    "schema": "fnol-doc-v2",
+    "scope": "Read deidentified document snapshots only",
+    "purpose": "Draft FNOL extraction for operator review",
+    "freshness": "Use same dated snapshot for both attempts",
+    "access_reviewed": true,
+    "purpose_reviewed": true,
+    "amendment": {
+      "record": "API-4",
+      "version": "4",
+      "date": "2026-09-19",
+      "owner": "Elena Park",
+      "schema": "fnol-doc-v3",
+      "access_reviewed": false,
+      "reason": "New sandbox schema has not completed access review"
+    }
+  },
+  "data_dictionary": {
+    "record": "DICT-2",
+    "version": "2",
+    "date": "2026-09-18",
+    "owner": "Owen Diaz",
+    "purpose": "Reproduce draft claim-policy context at loss date and knowledge cutoff",
+    "grain": "one assertion per exact namespaced entity, field, valid interval and recording date",
+    "retention": "Synthetic acceptance artifacts retained through owner review; production retention undecided",
+    "field": "policy.form_code",
+    "definition": "Exact form edition code issued on this policy; not coverage interpretation",
+    "unit": "form code",
+    "source_column": "PolicySandbox.form_edition",
+    "transformation": "identity string, preserve edition suffix",
+    "classification": "synthetic",
+    "access": "named data and claims sandbox reviewers only",
+    "quality": "nonblank exact edition code",
+    "relation": "Each claim references exactly one supplied policy; many claims may reference the same policy",
+    "entities": [
+      {
+        "id": "policy:CH-20",
+        "type": "policy",
+        "namespace": "PolicySandbox",
+        "key": "CH-20"
+      },
+      {
+        "id": "claim:CL-9",
+        "type": "claim",
+        "namespace": "ClaimsSandbox",
+        "key": "CL-9"
+      }
+    ],
+    "link": [
+      "claim:CL-9",
+      "policy:CH-20"
+    ],
+    "assertions": [
+      {
+        "id": "A1",
+        "valid_from": "2026-01-01",
+        "valid_to": "2026-06-01",
+        "recorded_on": "2026-01-02",
+        "value": "CP-2025"
+      },
+      {
+        "id": "A2",
+        "valid_from": "2026-06-01",
+        "valid_to": null,
+        "recorded_on": "2026-06-03",
+        "value": "CP-2026"
+      }
+    ],
+    "disputed_assertion": {
+      "id": "A3",
+      "valid_from": "2026-06-01",
+      "valid_to": null,
+      "recorded_on": "2026-09-19",
+      "value": "CP-2025",
+      "note": "Late legacy correction conflicts with issued form; steward has not adjudicated."
+    }
+  },
+  "modernization_workshop": {
+    "record": "CORE-5",
+    "version": "5",
+    "date": "2026-09-19",
+    "owner": "Sara Reed",
+    "currency": "USD",
+    "horizon": "2026-10-01 through 2027-09-30, undiscounted",
+    "requirements": [
+      {
+        "id": "HIST",
+        "description": "Preserve issued forms and effective history",
+        "mandatory": true
+      },
+      {
+        "id": "DELTA",
+        "description": "Recover new writes after rollback",
+        "mandatory": true
+      }
+    ],
+    "options": [
+      {
+        "id": "FACADE",
+        "strategy": "refactor",
+        "costs": {
+          "implementation": 180000,
+          "one_year_operations": 60000
+        },
+        "fits": {
+          "HIST": "met",
+          "DELTA": "met"
+        },
+        "rationale": "Keep legacy issuance archive with exact policy key; introduce read facade and replay journal."
+      },
+      {
+        "id": "REPLACE",
+        "strategy": "replace",
+        "costs": {
+          "implementation": 300000,
+          "one_year_operations": 90000
+        },
+        "fits": {
+          "HIST": "met",
+          "DELTA": "not-met"
+        },
+        "rationale": "Import immutable edition history; candidate lacks reverse journal replay."
+      }
+    ],
+    "mapping": "map-3: preserve PolicySandbox:CH-20, edition code and effective interval; no latest-form substitution. Claims and billing continue legacy IDs via explicit crosswalk.",
+    "batch": "POLICY-HISTORY",
+    "source_snapshot": "legacy-20260918",
+    "target_snapshot": "sandbox-20260919",
+    "source_form_count": 240,
+    "target_form_count": 239,
+    "tolerance": 0,
+    "delta_recovery": "Rehearsal DR-2 recorded two synthetic post-switch writes, stopped writes, exported ordered journal, replayed both exactly once to legacy and reconciled write IDs. Sara reviewed on 2026-09-19.",
+    "gates": {
+      "reconciliation": "failed",
+      "rollback": "passed",
+      "parallel-run": "passed",
+      "security": "passed",
+      "business-acceptance": "failed"
+    },
+    "gate_actual": {
+      "reconciliation": "239 of 240 form rows; missing edition for CH-19",
+      "rollback": "Both new journal writes recovered exactly once",
+      "parallel-run": "20 paired draft FNOL comparisons agreed",
+      "security": "Sandbox role matrix deny tests passed",
+      "business-acceptance": "Claims owner withheld acceptance pending missing form row"
+    }
+  }
+}

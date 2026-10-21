@@ -1,5 +1,13 @@
 # Source Map — financials-normalizer
 
+Adjustment rows require `statement`, `period`, `std_account`, `adj_id`, `type` and finite `amount`; targets must already be mapped reported accounts. Subtotal `components` form an acyclic, same-statement/same-period graph. Complete role/component coverage is needed for normalized identities; otherwise that check remains not evaluable.
+
+
+## Version 0.2.0 contract
+
+The native result is a closed calculation record. Retain the original input separately and validate with `python3 scripts/validate_output.py RESULT.json --input ORIGINAL.json`; `--selftest` loads both bundled examples. Computation validates input first. Finite JSON numbers, valid dates, supported domains and unique identifiers are enforced; duplicate JSON keys are rejected. Output validation reconstructs from the original and rejects omitted, altered or extra results, including flags/counts/statuses. Keep author narrative and workflow envelopes outside the native result. Source binding establishes deterministic fidelity to supplied inputs, not source authenticity, data rights, economic validity, institutional acceptance or independent assurance.
+
+
 ## Source hierarchy (highest first)
 
 | Rank | Source (MCP integration) | Used for | Access |

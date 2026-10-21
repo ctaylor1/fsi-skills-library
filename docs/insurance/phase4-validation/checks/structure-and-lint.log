@@ -1,0 +1,29 @@
+$ python tools/validate_skills.py
+
+Validated 303 skill(s): 0 error(s), 0 warning(s).
+Exit: 0
+
+$ python tools/sync_workflow_resources.py --check
+Workflow resources: 44 bundles; 0 missing/drifted
+Exit: 0
+
+$ python tools/sync_insurance_contract.py --check
+Insurance contract verified: 64 references, 64 helpers
+Exit: 0
+
+$ python tools/sync_insurance_foundation.py --check
+Insurance foundation: 38 expected bundles; 0 missing/drifted
+Exit: 0
+
+$ python tools/check_handoffs.py
+
+0 dangling adjacent-skill reference(s) across 303 skill(s).
+Exit: 0
+
+$ python tools/check_insurance_handoffs.py
+Insurance route/migration checks: 0 error(s)
+Exit: 0
+
+$ ruff check --select F,E9 tools/run_insurance_phase4_forward.py tools/test_insurance_phase4.py tools/sync_workflow_resources.py shared/workflow-review skills/insurance/insurance-router/scripts/validate_handoff.py skills/insurance/insurance-workflow-designer skills/insurance/insurance-data-product-designer skills/insurance/insurance-core-modernization-planner skills/enterprise-functions-technology/solution-architecture-planner skills/enterprise-functions-technology/workflow-automation-assessor skills/data-ai-model-governance/data-product-value-evaluator skills/finance-operations/operations-performance-analyzer
+All checks passed!
+Exit: 0

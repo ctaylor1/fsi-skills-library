@@ -55,13 +55,7 @@ RATING_ORDER = [
 
 
 def _parse_dt(s: str) -> datetime:
-    s = str(s)
-    for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M", "%Y-%m-%d"):
-        try:
-            return datetime.strptime(s, fmt)
-        except ValueError:
-            continue
-    return datetime.strptime(s[:10], "%Y-%m-%d")
+    return datetime.fromisoformat(str(s).replace("Z", "+00:00"))
 
 
 def _rank(rating):
@@ -82,7 +76,7 @@ def _escalate(alert: dict) -> dict:
     return alert
 
 
-def compute(doc: dict) -> dict:
+def _compute(doc: dict) -> dict:
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
     run_dt = _parse_dt(doc["as_of"])
 
@@ -99,7 +93,7 @@ def compute(doc: dict) -> dict:
 
     def feed_fresh(feed_name) -> str:
         rec = feed_status.get(feed_name)
-        return rec["status"] if rec else "current"
+        return rec["status"] if rec else "unknown"
 
     # ---- aggregate exposures per counterparty --------------------------------
     agg = {}  # cp -> {"net": float, "rows": [...], "feeds": set, "stale": bool}
@@ -120,6 +114,7 @@ def compute(doc: dict) -> dict:
         })
 
     book_total = sum(a["net"] for a in agg.values()) or 0.0
+    book_stale = any(a["stale"] for a in agg.values())
 
     # ---- limits index ---------------------------------------------------------
     cp_limit = {}
@@ -135,6 +130,12 @@ def compute(doc: dict) -> dict:
         open_fps.add(o if isinstance(o, str) else o.get("fingerprint"))
 
     alerts, not_evaluable = [], []
+    for cp_record in doc.get("counterparties", []):
+        for field in ("rating", "rating_floor"):
+            if _rank(cp_record.get(field)) is None:
+                not_evaluable.append({"counterparty_id": cp_record["counterparty_id"], "dimension": "rating_floor", "why": f"missing or unsupported {field}"})
+        if cp_record.get("cds_bps") is None or cp_record.get("cds_baseline_bps") is None:
+            not_evaluable.append({"counterparty_id": cp_record["counterparty_id"], "dimension": "cds_widening", "why": "missing CDS observation/baseline"})
 
     def status_of(fp):
         return "recurring" if fp in open_fps else "new"
@@ -162,7 +163,7 @@ def compute(doc: dict) -> dict:
                     "severity": sev, "freshness": fresh, "status": status_of(fp),
                     "measure": {"net_exposure": round(a["net"], 2), "limit": cp_limit[cp],
                                 "utilization_pct": round(util * 100, 1)},
-                    "reason": f"net current exposure {a['net']:.0f} is {util * 100:.1f}% of "
+                    "reason": f"collateral-adjusted exposure plus supplied PFE {a['net']:.0f} is {util * 100:.1f}% of "
                               f"limit {cp_limit[cp]:.0f}",
                     "evidence": a["rows"],
                 }))
@@ -242,6 +243,9 @@ def compute(doc: dict) -> dict:
                                   "cds_baseline_bps": base, "citation": cite}],
                 }))
 
+    for alert in alerts:
+        if alert.get("alert_type") == "concentration" and book_stale:
+            alert["freshness"] = "stale"
     # ---- data-freshness alerts (never suppress stale inputs) ------------------
     for fname in stale_feeds:
         rec = feed_status[fname]
@@ -264,6 +268,7 @@ def compute(doc: dict) -> dict:
     return {
         "run_id": doc.get("run_id", f"cem-{doc['as_of']}"),
         "as_of": doc["as_of"],
+        "exposure_measure": "nonnegative current exposure net of supplied collateral plus supplied PFE; not legal-netting-set exposure",
         "config_version": doc.get("config_version"),
         "book_total_net_exposure": round(book_total, 2),
         "counterparties_evaluated": len(agg),
@@ -275,6 +280,28 @@ def compute(doc: dict) -> dict:
         "not_evaluable": not_evaluable,
         "disclaimer": DISCLAIMER,
     }
+
+
+def compute(doc: dict) -> dict:
+    """Fail on invalid inputs; bind the complete supplied evidence and configuration."""
+    import runpy
+    validator = runpy.run_path(str(Path(__file__).with_name("validate_input.py")))
+    errors, warnings = validator["validate"](doc)
+    if errors: raise ValueError("; ".join(errors))
+    result = _compute(doc)
+    integrity = runpy.run_path(str(Path(__file__).with_name("native_integrity.py")))
+    digest = integrity["canonical_hash"](doc)
+    result["inputs_hash"] = digest
+    result["calculation_version"] = "phase1-1"
+    result["analysis_status"] = "draft"
+    result["professional_approval"] = "not_established_by_script"
+    result["input_warnings"] = warnings
+    for key in ("packet_id", "analysis_id", "forecast_id", "exposure_id", "run_id", "attribution_id"):
+        if key in result:
+            result["source_" + key] = result[key]
+            result[key] = str(result[key]) + "-" + digest[:16]
+            break
+    return integrity["attach_source"](result, doc)
 
 
 def main(argv):

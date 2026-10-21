@@ -18,9 +18,10 @@ Usage:
 Prints the monitor-run JSON to stdout.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, hashlib
 from datetime import datetime
 from pathlib import Path
+from native_integrity import attach_source, canonical_hash
 
 DEFAULT_CONFIG = {
     "kpi_tolerance": 0.15,          # relative miss/beat band vs expected
@@ -43,10 +44,7 @@ def _parse_dt(s):
             return datetime.strptime(s, fmt)
         except ValueError:
             continue
-    try:
-        return datetime.strptime(s[:10], "%Y-%m-%d")
-    except ValueError:
-        return None
+    return None
 
 
 def _age_days(observed, as_of):
@@ -101,6 +99,9 @@ def _evaluate_thesis(t, as_of, cfg):
         if age is None:
             has_stale = True
             return False, "no observed_at (freshness unverifiable)"
+        if age < 0:
+            has_stale = True
+            return False, "future-dated evidence"
         if age > max_stale:
             has_stale = True
             return False, f"stale (observed {observed}, {age}d > {max_stale}d)"
@@ -170,6 +171,8 @@ def _evaluate_thesis(t, as_of, cfg):
         ok, why = fresh(est.get("observed_at"))
         if not ok:
             not_evaluable.append({"signal": "estimate_revision", "why": why})
+        elif float(est["prior_consensus_eps"]) == 0:
+            not_evaluable.append({"signal": "estimate_revision", "why": "zero prior EPS; percentage revision undefined"})
         else:
             prior = float(est["prior_consensus_eps"])
             curr = float(est["current_consensus_eps"])
@@ -233,15 +236,17 @@ def _evaluate_thesis(t, as_of, cfg):
     return signals, not_evaluable, fresh_hits, stalest_fresh_age, has_stale
 
 
-def compute(doc: dict) -> dict:
+def _native_compute(doc: dict) -> dict:
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
     as_of = doc["as_of"]
-    prior_open = {a["alert_key"] for a in (doc.get("prior_alerts") or [])
+    prior_open = {a["alert_key"]: a for a in (doc.get("prior_alerts") or [])
                   if str(a.get("status", "open")).lower() == "open"}
 
-    alerts, freshness_gaps = [], []
+    alerts, freshness_gaps, evaluation_gaps = [], [], []
     for t in doc["theses"]:
         signals, not_evaluable, fresh_hits, stalest_fresh_age, has_stale = _evaluate_thesis(t, as_of, cfg)
+        if not_evaluable:
+            evaluation_gaps.append({"thesis_id": t["thesis_id"], "items": not_evaluable})
         fired = [s for s in signals if s["fired"]]
         fired_ch = [s["signal"] for s in fired if s["side"] == "challenging"]
         fired_cf = [s["signal"] for s in fired if s["side"] == "confirming"]
@@ -274,7 +279,9 @@ def compute(doc: dict) -> dict:
         escalation = _escalation(fired_ch, fired_cf)
         stance = _stance(fired_ch, fired_cf)
         alert_key = t["thesis_id"]
-        duplicate = alert_key in prior_open
+        fingerprint = hashlib.sha256(json.dumps(fired, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        prior = prior_open.get(alert_key, {})
+        duplicate = prior.get("evidence_fingerprint") == fingerprint and prior.get("escalation") == escalation
         alerts.append({
             "thesis_id": t["thesis_id"],
             "security": t.get("security"),
@@ -284,6 +291,7 @@ def compute(doc: dict) -> dict:
             "stance": stance,
             "escalation": escalation,
             "duplicate": duplicate,
+            "evidence_fingerprint": fingerprint,
             "continuation_of": alert_key if duplicate else None,
             "signals": signals,
             "fired_signals": [s["signal"] for s in fired],
@@ -303,7 +311,7 @@ def compute(doc: dict) -> dict:
         (dedup if a["duplicate"] else new).append(a["alert_key"])
 
     return {
-        "monitor_run_id": f"itm-{as_of}-0001",
+        "monitor_run_id": f"itm-{as_of}-" + hashlib.sha256(json.dumps(doc, sort_keys=True).encode()).hexdigest()[:16],
         "as_of": as_of,
         "config_version": doc.get("config_version"),
         "window": {"lookback_days": cfg["lookback_days"], "as_of": as_of},
@@ -311,6 +319,7 @@ def compute(doc: dict) -> dict:
         "alerts": alerts,
         "queue": {"new": new, "deduplicated": dedup, "by_escalation": by_esc},
         "freshness_gaps": freshness_gaps,
+        "evaluation_gaps": evaluation_gaps,
         "action_taken": "none",
         "disclaimer": DISCLAIMER,
     }
@@ -327,6 +336,13 @@ def main(argv):
     print(json.dumps(compute(doc), indent=2))
     return 0
 
+
+
+
+def compute(doc: dict) -> dict:
+    # Reject non-JSON and non-finite input before any calculations.
+    canonical_hash(doc)
+    return attach_source(_native_compute(doc), doc)
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

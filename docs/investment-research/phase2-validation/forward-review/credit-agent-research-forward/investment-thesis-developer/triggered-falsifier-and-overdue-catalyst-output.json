@@ -1,0 +1,118 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "investment-thesis-developer",
+  "method_version": "2.0.0",
+  "request_id": "independent-credit-lane-forward",
+  "subject": {
+    "type": "issuer",
+    "id": "FRESH-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "supplied_thesis": "Supplied expectation that losses narrow on sustained renewals; the retention threshold must remain intact.",
+    "variant_expectations": [
+      {
+        "metric": "EPS",
+        "unit": "USD_per_share",
+        "currency": "USD",
+        "accounting_basis": "supplied-adjusted",
+        "consolidation_scope": "consolidated",
+        "period_id": "FY2027",
+        "variant_id": "V1",
+        "consensus": -1,
+        "analyst": -0.5,
+        "mechanism": "Supplied improving renewals assumption",
+        "evidence_refs": [
+          {
+            "source_id": "FRESH-SUPPLIED",
+            "locator": "forward:raw-tables;rows-1-4"
+          }
+        ],
+        "analyst_minus_consensus": 0.5,
+        "relative_gap": 0.5
+      }
+    ],
+    "catalysts": [
+      {
+        "catalyst_id": "C1",
+        "expected_on": "2026-10-01",
+        "status": "pending",
+        "mechanism": "Expected renewal disclosure remains unavailable",
+        "evidence_refs": [
+          {
+            "source_id": "FRESH-SUPPLIED",
+            "locator": "forward:raw-tables;rows-1-4"
+          }
+        ],
+        "review_state": "overdue-unresolved"
+      }
+    ],
+    "falsifiers": [
+      {
+        "metric": "EPS",
+        "unit": "USD_per_share",
+        "currency": "USD",
+        "accounting_basis": "supplied-adjusted",
+        "consolidation_scope": "consolidated",
+        "period_id": "FY2027",
+        "falsifier_id": "F1",
+        "operator": "lte",
+        "threshold": 25,
+        "observed": 24,
+        "observed_on": "2026-10-19",
+        "evidence_refs": [
+          {
+            "source_id": "FRESH-SUPPLIED",
+            "locator": "forward:raw-tables;rows-1-4"
+          }
+        ],
+        "triggered": true
+      }
+    ],
+    "counter_evidence": [],
+    "review_state": "revisit-thesis",
+    "limitations": [
+      "Consensus differences do not establish what is priced into a security",
+      "Thesis, mechanisms and invalidation thresholds are supplied analyst judgments; no rating, position sizing, suitability or trade instruction is issued"
+    ]
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "variant_id": "V1",
+      "formula": "analyst_minus_consensus = analyst - consensus; relative_gap = difference / abs(nonzero consensus)"
+    }
+  ],
+  "unresolved_issues": [
+    "C1: catalyst evidence/status needs review",
+    "F1: supplied invalidation criterion triggered"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "FRESH-SUPPLIED",
+      "locator": "forward:raw-tables;rows-1-4"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "FRESH-SUPPLIED",
+      "version": "forward-original-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "forward:raw-tables",
+      "kind": "filing"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "48ff917773f3ddf1ec0e70eabbfe7d8db32ba1de03730cfdf21aeeac6e3e5464",
+  "source_truth": "unverified"
+}

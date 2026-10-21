@@ -1,0 +1,91 @@
+{
+  "package": "fund-service-provider-oversight-reviewer",
+  "input": {
+    "request_id": "OPF-O07-EXPIRED-EVIDENCE",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18",
+        "expires_at": "2026-09-17"
+      }
+    ],
+    "mode": "service_oversight",
+    "policy_source_ref": "ind-source",
+    "services": [
+      {
+        "service_id": "ADMIN",
+        "provider_id": "PROVIDER-A",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "observed_events": 3,
+        "failed_events": 1,
+        "max_failure_rate": "0.333333333333",
+        "source_ref": "ind-source",
+        "assurance": {
+          "source_ref": "ind-source",
+          "period_end": "2026-06-30",
+          "valid_until": "2026-09-17",
+          "conclusion": "supplied-clean"
+        }
+      },
+      {
+        "service_id": "CUSTODY",
+        "provider_id": "PROVIDER-B",
+        "period_start": "2026-08-01",
+        "period_end": "2026-08-31",
+        "observed_events": 0,
+        "failed_events": 0,
+        "max_failure_rate": "0.01",
+        "source_ref": "ind-source",
+        "assurance": null
+      }
+    ],
+    "issues": [
+      {
+        "issue_id": "OPEN-1",
+        "service_id": "ADMIN",
+        "opened_date": "2026-09-01",
+        "due_date": "2026-09-10",
+        "severity": "high",
+        "status": "open",
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "id": "OPF-O07-EXPIRED-EVIDENCE",
+  "expected": {
+    "exit_nonzero": true,
+    "reason": "expired must reject calculation"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "4f19f0c51ddfa68b8b72c457fa0dac2dfd69581f281203a8f1fbe5bdb2ee8fa4",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "c1b5d69195b24ea1a2c65f4f0357fd03fa1703665582e08beca29749ec66b682",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"source stale/expired: ind-source\"]}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "source stale/expired: ind-source\n"
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-O07-EXPIRED-EVIDENCE",
+      "check": "invalid request rejected by input and compute CLIs",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# Reconciliation and finality method
+
+The distinct recurring job is a three-way record control: the fund administrator's issued-unit statement and legal investor register; the token ledger's native supply and wallet balances; and a custodian's beneficial subregister beneath an omnibus legal holder. Beneficial records explain who participates in an omnibus account; adding them to the legal register a second time would overstate fund units. Wallet/account mappings and custody ownership remain supplied evidence, not identity resolution.
+
+Reconcile legal-register sum to official units, wallet sum to token supply, converted official units to token supply, and each account's summed wallet atoms to its converted legal units. Preserve each break even when two accounts' differences offset. For each omnibus account, compare beneficial-unit sum to that account's legal units; a missing subregister is unknown. Multiple wallets for one legal account are supported; multiple share classes, networks or token contracts require separate reviews.
+
+Conversion is exact using the supplied token-per-unit ratio and native decimals. The method rejects fractional atoms and excess legal precision. It performs no rounding, rebasing, FX, fee accrual, mint/burn rollforward, private-key proof, transaction replay or chain consensus calculation.
+
+Finality means only the supplied snapshot is labeled final, meets its reviewed minimum-confirmation policy and has no reported reorganization. This is not a universal finality rule. Pending, reorganized or unknown state prevents confirmation even if balances agree. Nonfinal/reversed transfers remain review issues; any such event included in a purportedly final balance snapshot is explicit. A finalized transfer needs both endpoints' dated eligible/unfrozen declarations and inclusion evidence. Current supplied permission is not authenticated authority to transfer.

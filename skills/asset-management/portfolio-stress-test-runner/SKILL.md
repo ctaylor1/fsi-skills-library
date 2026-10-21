@@ -24,14 +24,14 @@ metadata:
   aws-fsi-delivery-wave: "Wave 5 - 2026 industry expansion"
   aws-fsi-action-mode: "Draft-only; no system-of-record change"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (MNPI / client-confidential)"
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Asset Management investment & product"
   aws-fsi-primary-user: "Portfolio-risk analyst"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-20"
 ---
 
 # Portfolio Stress Test Runner
@@ -64,7 +64,7 @@ stay with the appropriate humans / skills.**
   action decision to a licensed human / investment or risk committee.
 - The user wants to **compare losses to limits and escalate breaches** → `market-risk-limit-monitor`.
 - The user wants **exposure decomposition** (issuer/sector/country/duration) → `portfolio-exposure-analyzer`.
-- The user wants **marginal/total risk contributions** → `portfolio-risk-contribution-packet`.
+- The user wants **marginal/total risk contributions** → `portfolio-risk-contribution-analyzer`.
 - The user wants a **full sensitivity grid** across shock magnitudes → `scenario-sensitivity-generator`.
 - **Personalized investment advice**, a risk-limit change, or a capital determination →
   licensed-human / risk-function matter.
@@ -197,3 +197,13 @@ any external-delivery approval. Never exfiltrate confidential holdings or result
   attributions so the walk still ties.
 - **Attribution order is presentation, not advice.** "Largest loss first" ranks drivers; it
   does not rank actions.
+
+## Phase 1 executable boundary
+
+Read [the bounded offline contract](references/phase1-contract.md) before running the scripts or relying on a handoff. It states required input evidence, unavailable cases and source-bound validation. Enterprise connectors and review queues described above are deployment interfaces, not implemented integrations.
+
+## Phase 1 support boundary
+
+Supplied shocks and sensitivities with optional diagonal convexity; no full repricing
+
+This package performs only its documented local supplied-input operations. Live source access, authenticated permissions, production engines and professional acceptance are separate deployment requirements. Generated resources are pinned in `references/package-manifest.json`; maintain the canonical shared source. Legacy identifiers resolve through the repository migration registry.

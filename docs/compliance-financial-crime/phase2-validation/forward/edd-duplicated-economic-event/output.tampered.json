@@ -1,0 +1,690 @@
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "enhanced-due-diligence-assessor",
+  "method": "edd-reconciliation/1.0",
+  "request_id": "FWD-EDD",
+  "object_id": "SYN-CUST-104",
+  "object_type": "customer",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "SYN-RIVERGATE-BANK",
+    "legal_entity_id": "SYN-BANK-NA",
+    "capacity": "institutional-compliance-review",
+    "represented_party": "institution",
+    "object_id": "SYN-CUST-104",
+    "object_type": "customer",
+    "jurisdiction": "US",
+    "line_of_business": "commercial-banking",
+    "purpose": "due_diligence_review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "internal_review",
+  "status": "needs-evidence",
+  "results": {
+    "wealth_funds_assessments": [
+      {
+        "claim_id": "sale-proceeds",
+        "kind": "source_of_funds",
+        "currency": "USD",
+        "claimed_amount": "375000.00",
+        "corroborated_amount": "675000.00",
+        "difference": "-300000.00",
+        "quantitative_review": "reconciliation-gap",
+        "plausibility": "human-assessment-required",
+        "economic_activity": "Equipment sale / accumulated commercial profits",
+        "capacity_basis": "Supplied sale valuation and independently reviewed annual profit records",
+        "economic_capacity": "400000.00",
+        "capacity_review": "within-supplied-economic-capacity",
+        "corroboration": [
+          {
+            "evidence_id": "actual-credit-tranche-1",
+            "amount": "300000.00",
+            "date": "2026-09-05",
+            "description": "Actual first bank credit for equipment sale"
+          },
+          {
+            "evidence_id": "actual-credit-tranche-2",
+            "amount": "75000.00",
+            "date": "2026-09-20",
+            "description": "Actual final bank credit for the same equipment sale"
+          },
+          {
+            "evidence_id": "completion-document-same-tranche",
+            "amount": "300000.00",
+            "date": "2026-09-05",
+            "description": "Completion statement documents actual-credit-tranche-1, the same USD 300000 first payment; not a second receipt"
+          }
+        ],
+        "counterevidence": [
+          "Buyer registry differs from the supplied agreement; identity and actual purpose require clarification"
+        ]
+      },
+      {
+        "claim_id": "accumulated-wealth",
+        "kind": "source_of_wealth",
+        "currency": "USD",
+        "claimed_amount": "1200000.00",
+        "corroborated_amount": "900000.00",
+        "difference": "300000.00",
+        "quantitative_review": "reconciliation-gap",
+        "plausibility": "human-assessment-required",
+        "economic_activity": "Equipment sale / accumulated commercial profits",
+        "capacity_basis": "Supplied sale valuation and independently reviewed annual profit records",
+        "economic_capacity": "950000.00",
+        "capacity_review": "exceeds-supplied-economic-capacity",
+        "corroboration": [
+          {
+            "evidence_id": "wealth-balance",
+            "amount": "900000.00",
+            "date": "2026-09-26",
+            "description": "Documented pre-existing asset balance; sale proceeds excluded"
+          }
+        ],
+        "counterevidence": []
+      }
+    ],
+    "chronology": [
+      {
+        "date": "2026-09-05",
+        "event": "First sale credit received"
+      },
+      {
+        "date": "2026-09-28",
+        "event": "Customer funds/wealth explanation received"
+      }
+    ],
+    "hypotheses": [
+      {
+        "hypothesis_id": "origin-review",
+        "proposition": "Sale proceeds explain liquidity but the commercial counterparty and accumulated wealth require further testing",
+        "proposition_status": "analyst-hypothesis",
+        "support": [
+          "Two bank credits reconcile the stated sale price"
+        ],
+        "counterevidence": [
+          "The buyer registration discrepancy contests transaction plausibility"
+        ],
+        "conclusion": "human-assessment-required"
+      }
+    ],
+    "control_assessments": [
+      {
+        "control_id": "edd-doc-completeness",
+        "design_assessed": true,
+        "operating_assessed": true,
+        "assessor": "SYN-SECOND-LINE-REVIEWER",
+        "period_start": "2026-09-01",
+        "period_end": "2026-09-30",
+        "sample_size": 8,
+        "failures": 1,
+        "operating_assessment_supported": true
+      }
+    ],
+    "residual_risk": {
+      "band": "Unknown",
+      "score": null,
+      "status": "unknown"
+    },
+    "recommendation": "human-adjudication-required",
+    "customer_decision": "human-owned"
+  },
+  "unresolved_issues": [
+    "review control business-purpose-refresh: value is unknown or missing",
+    "review control business-purpose-refresh evidence gap",
+    "sale-proceeds: SoF/SoW reconciliation requires further investigation",
+    "sale-proceeds: counterevidence supplied; substantive plausibility remains contested",
+    "accumulated-wealth: claimed funds/wealth exceed or cannot be compared with sourced economic capacity; investigate plausibility",
+    "accumulated-wealth: SoF/SoW reconciliation requires further investigation",
+    "no accepted residual-risk method; Unknown retained"
+  ],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/currency_evidence",
+      "source_refs": [
+        "customer-origin-claim"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/claimed_amount",
+      "source_refs": [
+        "customer-origin-claim"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/claim_date",
+      "source_refs": [
+        "customer-origin-claim"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/economic_activity",
+      "source_refs": [
+        "commercial-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/capacity_basis",
+      "source_refs": [
+        "capacity-workpaper"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/capacity_currency",
+      "source_refs": [
+        "capacity-workpaper"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/economic_capacity",
+      "source_refs": [
+        "capacity-workpaper"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/amount",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/date",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/currency_evidence",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/description",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/1/amount",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/1/date",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/1/currency_evidence",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/1/description",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/2/amount",
+      "source_refs": [
+        "sale-completion-document"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-44"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/2/date",
+      "source_refs": [
+        "sale-completion-document"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-45"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/2/currency_evidence",
+      "source_refs": [
+        "sale-completion-document"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-46"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/2/description",
+      "source_refs": [
+        "sale-completion-document"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-47"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/counterevidence/0",
+      "source_refs": [
+        "buyer-review"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/currency_evidence",
+      "source_refs": [
+        "customer-origin-claim"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/claimed_amount",
+      "source_refs": [
+        "customer-origin-claim"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/claim_date",
+      "source_refs": [
+        "customer-origin-claim"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/economic_activity",
+      "source_refs": [
+        "commercial-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/capacity_basis",
+      "source_refs": [
+        "capacity-workpaper"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/capacity_currency",
+      "source_refs": [
+        "capacity-workpaper"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/economic_capacity",
+      "source_refs": [
+        "capacity-workpaper"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/corroboration/0/amount",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/corroboration/0/date",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/corroboration/0/currency_evidence",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/1/corroboration/0/description",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/support/0",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/counterevidence/0",
+      "source_refs": [
+        "buyer-review"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/id_evidence",
+      "source_refs": [
+        "edd-test"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-32"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/design_assessed",
+      "source_refs": [
+        "edd-test"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-33"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/operating_assessed",
+      "source_refs": [
+        "edd-test"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-34"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/assessor",
+      "source_refs": [
+        "edd-test"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-35"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/period_start",
+      "source_refs": [
+        "edd-test"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-36"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/period_end",
+      "source_refs": [
+        "edd-test"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-37"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/sample_size",
+      "source_refs": [
+        "edd-test"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-38"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/failures",
+      "source_refs": [
+        "edd-test"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-39"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/date",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-40"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/event",
+      "source_refs": [
+        "credit-records"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-41"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/1/date",
+      "source_refs": [
+        "customer-origin-claim"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-42"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/1/event",
+      "source_refs": [
+        "customer-origin-claim"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-43"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/approval",
+      "source_refs": [
+        "institution-method"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/tolerance",
+      "source_refs": [
+        "institution-method"
+      ],
+      "fact_ids": [
+        "FWD-EDD-fact-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Quantitative reconciliation supports plausibility review, not proof of lawful origin or complete net worth. No currency conversion, fabricated income chronology, residual downgrade without explicit method and assessed operating evidence, adjudication, customer action or filing.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "institution-method",
+    "customer-origin-claim",
+    "commercial-records",
+    "capacity-workpaper",
+    "credit-records",
+    "buyer-review",
+    "edd-test",
+    "sale-completion-document"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "financial-crime-case-investigator",
+    "sanctions-exposure-reviewer",
+    "customer-risk-rating-reviewer"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "d3accbf19c003c47499a5758214d7d6961cafb57476fbc31719b053f4dd55fd3",
+  "source_truth": "unverified"
+}

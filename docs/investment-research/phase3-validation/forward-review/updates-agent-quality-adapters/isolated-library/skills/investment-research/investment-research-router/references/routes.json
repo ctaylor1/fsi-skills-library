@@ -1,0 +1,616 @@
+{
+  "schema_version": "investment-research-routes/1.0",
+  "selection": "Explicit declared intents; metadata routing, not natural-language understanding or execution",
+  "routes": [
+    {
+      "intent": "investment_research_router",
+      "target": "investment-research-router",
+      "owner": "Investment Research",
+      "subject_types": [
+        "research_project",
+        "issuer",
+        "security",
+        "document",
+        "model",
+        "portfolio",
+        "client",
+        "transaction",
+        "agent",
+        "workflow"
+      ],
+      "support_scope": "Declared-intent routing against supplied installation inventory; no skill execution",
+      "dependencies": []
+    },
+    {
+      "intent": "research_coverage_planner",
+      "target": "research-coverage-planner",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Research scope, questions, coverage plan and evidence requirements",
+      "dependencies": []
+    },
+    {
+      "intent": "research_universe_screener",
+      "target": "research-universe-screener",
+      "owner": "Investment Research",
+      "subject_types": [
+        "universe"
+      ],
+      "support_scope": "Universe definition, reproducible filters and exclusion explanations",
+      "dependencies": []
+    },
+    {
+      "intent": "research_evidence_dossier_builder",
+      "target": "research-evidence-dossier-builder",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Single issuer/security supplied-claim register with timing, rights, identity and coverage gaps",
+      "dependencies": []
+    },
+    {
+      "intent": "company_profile_builder",
+      "target": "company-profile-builder",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied factual sections with stale, future, restricted and wrong-issuer facts withheld",
+      "dependencies": []
+    },
+    {
+      "intent": "company_business_model_analyzer",
+      "target": "company-business-model-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Business model, competitive position, revenue drivers and unit economics",
+      "dependencies": []
+    },
+    {
+      "intent": "market_landscape_researcher",
+      "target": "market-landscape-researcher",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "sector",
+        "universe"
+      ],
+      "support_scope": "Supplied qualitative landscape and comparable-basis quantitative context",
+      "dependencies": []
+    },
+    {
+      "intent": "market_sizing_builder",
+      "target": "market-sizing-builder",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "sector",
+        "universe"
+      ],
+      "support_scope": "Supplied TAM/SAM/SOM arithmetic, dimensions and penetration assumptions",
+      "dependencies": []
+    },
+    {
+      "intent": "filing_disclosure_change_detector",
+      "target": "filing-disclosure-change-detector",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied disclosure inventory and text changes; incomplete inventories remain partial",
+      "dependencies": []
+    },
+    {
+      "intent": "financial_statement_analyzer",
+      "target": "financial-statement-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Comparative statements, accounting choices, cash conversion and financial condition",
+      "dependencies": []
+    },
+    {
+      "intent": "earnings_quality_analyzer",
+      "target": "earnings-quality-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Accruals, cash realization, adjustments and earnings sustainability",
+      "dependencies": []
+    },
+    {
+      "intent": "kpi_segment_bridge_builder",
+      "target": "kpi-segment-bridge-builder",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied KPI/segment bridges with explicit missing-total and mapping limitations",
+      "dependencies": []
+    },
+    {
+      "intent": "three_statement_model_builder",
+      "target": "three-statement-model-builder",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Simplified annual corporate three-statement projection with funding feasibility flags",
+      "dependencies": []
+    },
+    {
+      "intent": "financial_model_update_preparer",
+      "target": "financial-model-update-preparer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Prepare source-linked, version-checked draft updates to supplied three-statement or DCF inputs, with immutable originals, explicit date transitions and a reviewable change ledger; never edit a live model.",
+      "dependencies": []
+    },
+    {
+      "intent": "research_financial_model_reviewer",
+      "target": "research-financial-model-reviewer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Independent financial-model review, formula/economic checks and exception adjudication",
+      "dependencies": []
+    },
+    {
+      "intent": "dcf_modeler",
+      "target": "dcf-modeler",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Standalone corporate unlevered DCF; no authenticated integrated forecast handoff",
+      "optional_context": [
+        "three-statement-model-builder"
+      ],
+      "dependencies": []
+    },
+    {
+      "intent": "comps_analysis_builder",
+      "target": "comps-analysis-builder",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied multiple comparisons with separate enterprise/equity value treatment",
+      "dependencies": []
+    },
+    {
+      "intent": "dividend_residual_income_modeler",
+      "target": "dividend-residual-income-modeler",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Dividend and residual-income valuation with sector-specific assumptions",
+      "dependencies": []
+    },
+    {
+      "intent": "asset_based_valuation_modeler",
+      "target": "asset-based-valuation-modeler",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Asset-based and NAV valuation with source-supported realizability adjustments",
+      "dependencies": []
+    },
+    {
+      "intent": "sum_of_the_parts_valuation_builder",
+      "target": "sum-of-the-parts-valuation-builder",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Segment-level valuation and corporate/financing reconciliation",
+      "dependencies": []
+    },
+    {
+      "intent": "valuation_reconciliation_analyzer",
+      "target": "valuation-reconciliation-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Reconciliation of separately supported valuation methods and uncertainty",
+      "dependencies": []
+    },
+    {
+      "intent": "scenario_sensitivity_generator",
+      "target": "scenario-sensitivity-generator",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied valuation sensitivity grid; no integrated three-statement rerunner",
+      "dependencies": []
+    },
+    {
+      "intent": "issuer_capital_structure_mapper",
+      "target": "issuer-capital-structure-mapper",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied instrument/maturity register, currency groups and missing-instrument gaps",
+      "dependencies": []
+    },
+    {
+      "intent": "credit_document_terms_reviewer",
+      "target": "credit-document-terms-reviewer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied clause extraction review; amendments and applicability remain unresolved",
+      "dependencies": []
+    },
+    {
+      "intent": "issuer_credit_researcher",
+      "target": "issuer-credit-researcher",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Issuer business, financial, structural and credit-risk research",
+      "dependencies": []
+    },
+    {
+      "intent": "issuer_liquidity_refinancing_analyzer",
+      "target": "issuer-liquidity-refinancing-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Liquidity, restricted cash, facility conditions and refinancing scenarios",
+      "dependencies": []
+    },
+    {
+      "intent": "covenant_headroom_analyzer",
+      "target": "covenant-headroom-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Document-specific covenant calculations, definitions and headroom",
+      "dependencies": []
+    },
+    {
+      "intent": "credit_relative_value_analyzer",
+      "target": "credit-relative-value-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Comparable credit instruments, spread basis and relative value",
+      "dependencies": []
+    },
+    {
+      "intent": "credit_recovery_scenario_analyzer",
+      "target": "credit-recovery-scenario-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Recovery scenarios, priority/waterfall and restructuring uncertainty",
+      "dependencies": []
+    },
+    {
+      "intent": "issuer_credit_surveillance_reviewer",
+      "target": "issuer-credit-surveillance-reviewer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied corporate EBITDA/liquidity proxy surveillance; FCCR is not DSCR",
+      "dependencies": []
+    },
+    {
+      "intent": "earnings_preview_packet_builder",
+      "target": "earnings-preview-packet-builder",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied pre-event packet with cutoff checks; no authenticated consensus service",
+      "dependencies": []
+    },
+    {
+      "intent": "earnings_results_analyzer",
+      "target": "earnings-results-analyzer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied results/estimate comparison; no multi-baseline production consensus engine",
+      "dependencies": []
+    },
+    {
+      "intent": "coverage_initiation_researcher",
+      "target": "coverage-initiation-researcher",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Supplied initiation packet and review gaps; no automatic midpoint recommendation",
+      "dependencies": [
+        "research-evidence-dossier-builder",
+        "research-financial-model-reviewer",
+        "research-publication-preparation-assistant"
+      ]
+    },
+    {
+      "intent": "investment_thesis_developer",
+      "target": "investment-thesis-developer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Evidence-based investment thesis, variant view, catalysts and falsification",
+      "dependencies": [
+        "research-evidence-dossier-builder",
+        "valuation-reconciliation-analyzer"
+      ]
+    },
+    {
+      "intent": "corporate_event_impact_reviewer",
+      "target": "corporate-event-impact-reviewer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Recompute supplied acquisition, equity raise, repurchase, refinancing or disposal mechanics and funding gaps while preserving announced-versus-completed status; no trade or completion determination.",
+      "dependencies": []
+    },
+    {
+      "intent": "macroeconomic_researcher",
+      "target": "macroeconomic-researcher",
+      "owner": "Investment Research",
+      "subject_types": [
+        "economy"
+      ],
+      "support_scope": "Macroeconomic data, vintages and scenario research",
+      "dependencies": []
+    },
+    {
+      "intent": "cross_asset_theme_researcher",
+      "target": "cross-asset-theme-researcher",
+      "owner": "Investment Research",
+      "subject_types": [
+        "sector",
+        "economy",
+        "portfolio"
+      ],
+      "support_scope": "Cross-asset transmission, thematic evidence and testable hypotheses",
+      "dependencies": []
+    },
+    {
+      "intent": "sovereign_credit_researcher",
+      "target": "sovereign-credit-researcher",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Sovereign fiscal/external financing and credit research",
+      "dependencies": []
+    },
+    {
+      "intent": "public_finance_credit_researcher",
+      "target": "public-finance-credit-researcher",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Public-finance issuer, security pledge and credit research",
+      "dependencies": []
+    },
+    {
+      "intent": "structured_credit_researcher",
+      "target": "structured-credit-researcher",
+      "owner": "Investment Research",
+      "subject_types": [
+        "security"
+      ],
+      "support_scope": "Structured credit collateral, waterfall and tranche research",
+      "dependencies": []
+    },
+    {
+      "intent": "research_publication_preparation_assistant",
+      "target": "research-publication-preparation-assistant",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Draft publication checklist and unresolved applicability; no clearance or delivery",
+      "dependencies": []
+    },
+    {
+      "intent": "research_quality_reviewer",
+      "target": "research-quality-reviewer",
+      "owner": "Investment Research",
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "support_scope": "Review a structured investment research packet for requested coverage, source timing, claim support, arithmetic, contradictions, risks and disclosures. Use before internal research handoff; this does not approve publication or authenticate evidence.",
+      "dependencies": []
+    },
+    {
+      "intent": "compare_document_versions",
+      "target": "document-version-comparator",
+      "owner": "Data, AI & Model Governance",
+      "subject_types": [
+        "document"
+      ],
+      "support_scope": "Supplied document inventories and text; preserve missing-section ambiguity",
+      "dependencies": []
+    },
+    {
+      "intent": "normalize_financials",
+      "target": "financials-normalizer",
+      "owner": "Finance & Operations",
+      "subject_types": [
+        "issuer",
+        "model"
+      ],
+      "support_scope": "Supplied line mappings and statement/period reconstruction",
+      "dependencies": []
+    },
+    {
+      "intent": "design_analyst_copilot",
+      "target": "solution-architecture-planner",
+      "owner": "Enterprise Functions & Technology",
+      "subject_types": [
+        "agent",
+        "workflow"
+      ],
+      "support_scope": "Architecture design only; no research execution",
+      "dependencies": []
+    },
+    {
+      "intent": "assess_research_automation",
+      "target": "workflow-automation-assessor",
+      "owner": "Enterprise Functions & Technology",
+      "subject_types": [
+        "workflow"
+      ],
+      "support_scope": "Workflow feasibility and controls; no deployment",
+      "dependencies": []
+    },
+    {
+      "intent": "construct_portfolio",
+      "target": "portfolio-construction-analyzer",
+      "owner": "Asset Management",
+      "subject_types": [
+        "portfolio"
+      ],
+      "support_scope": "Portfolio construction belongs to Asset Management",
+      "dependencies": []
+    },
+    {
+      "intent": "prepare_client_advice",
+      "target": "wealth-management-router",
+      "owner": "Wealth Management",
+      "subject_types": [
+        "client"
+      ],
+      "support_scope": "Client suitability/advice requires Wealth ownership and its own controls",
+      "dependencies": []
+    },
+    {
+      "intent": "prepare_transaction",
+      "target": "investment-banking-pitch-builder",
+      "owner": "Investment Banking",
+      "subject_types": [
+        "transaction"
+      ],
+      "support_scope": "Transaction presentation preparation belongs to Investment Banking",
+      "dependencies": []
+    }
+  ],
+  "reviewed_adapters": [
+    {
+      "id": "forecast-to-dcf",
+      "producer": "three-statement-model-builder",
+      "receiver": "dcf-modeler",
+      "mapping": "forecast_rows",
+      "scope": "Corporate annual reconciled forecast rows; no ratio-driver reconstruction"
+    },
+    {
+      "id": "capital-structure-to-liquidity",
+      "producer": "issuer-capital-structure-mapper",
+      "receiver": "issuer-liquidity-refinancing-analyzer",
+      "mapping": "maturities",
+      "scope": "One selected currency/unit group; complete dated principal inventory only"
+    },
+    {
+      "id": "terms-to-covenant",
+      "producer": "credit-document-terms-reviewer",
+      "receiver": "covenant-headroom-analyzer",
+      "mapping": "reviewed_definitions",
+      "scope": "Explicit reviewed covenant definitions only; no clause interpretation"
+    },
+    {
+      "id": "dcf-to-reconciliation",
+      "producer": "dcf-modeler",
+      "receiver": "valuation-reconciliation-analyzer",
+      "mapping": "equity_valuation",
+      "scope": "Supplied same-basis equity method row; no selected or blended value"
+    },
+    {
+      "id": "model-review-to-initiation",
+      "producer": "research-financial-model-reviewer",
+      "receiver": "coverage-initiation-researcher",
+      "mapping": "model_review",
+      "scope": "Independent-review findings retained as review issues; no model approval"
+    },
+    {
+      "id": "model-update-to-three-statement",
+      "producer": "financial-model-update-preparer",
+      "receiver": "three-statement-model-builder",
+      "mapping": "candidate_model",
+      "scope": "Exact version-bound proposed corporate three-statement input; actual native candidate validation/computation, no live model change"
+    },
+    {
+      "id": "model-update-to-dcf",
+      "producer": "financial-model-update-preparer",
+      "receiver": "dcf-modeler",
+      "mapping": "candidate_model",
+      "scope": "Exact version-bound proposed annual corporate DCF input; actual native candidate validation/computation, no live model change"
+    },
+    {
+      "id": "event-impact-to-quality",
+      "producer": "corporate-event-impact-reviewer",
+      "receiver": "research-quality-reviewer",
+      "mapping": "event_quality_packet",
+      "scope": "Typed single-event cash/debt/net-debt/share bridge claims and independent arithmetic review; explicit receiver coverage, no publication clearance"
+    }
+  ]
+}

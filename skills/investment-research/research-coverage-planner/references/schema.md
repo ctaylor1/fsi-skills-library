@@ -1,0 +1,7 @@
+# Native intake
+
+The paired input in evals/files/input.json is synthetic. Required common fields: request_id, purpose=internal-research, audience=internal-review, subject with type/id (security includes issuer_id), as_of and use_on calendar dates, knowledge_cutoff date or timezone-aware timestamp, information_barrier, sources[], evidence_refs[], unresolved_issues[]. Sources require source_id/version/locator/kind/known_at/subject_ids/classification/permission_status/permitted_audiences/permitted_purposes and applicable validity/expiry dates. Read evidence-standard.md for rights and knowledge controls. Every row reference must appear in top-level evidence_refs, so the full evidence set is gated. Nulls represent unknown values; booleans and nonfinite financial numbers fail.
+
+`questions[]` requires unique `question_id`, nonempty `question`, `priority` (critical/important/optional), `decision` (initiate/update/monitor/defer), `depends_on[]` known question IDs, `answer_status` (unanswered/supplied/contradicted), `required_evidence[]` text and `evidence_refs[]`. Cycles and self dependencies fail. A supplied answer requires nonempty answer text; without a citation it remains an evidence gap.
+
+Output follows ir-analysis/2.0: method identity, results, calculation_lineage, unresolved_issues, source-bound input_hash and draft control fields. Original input must remain separately retained. Native output reconstruction rejects extra, missing and tampered fields.

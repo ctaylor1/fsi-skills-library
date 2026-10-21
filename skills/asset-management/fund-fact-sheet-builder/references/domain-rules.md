@@ -1,5 +1,12 @@
 # Domain Rules — fund-fact-sheet-builder
 
+## Supplied-input validation boundary
+
+The bundled scripts operate on supplied JSON. Connector access, source extraction, authenticated approvals and external delivery are not implemented by these scripts. Retain the original input separately and run `python -B scripts/validate_output.py output.json --input input.json` (alias `--source`). Output includes `input_hash` and `source_truth: unverified`; validation reconstructs the native result and rejects changed figures, narrative, classifications, omitted fields and extra fields. A successful check proves correspondence with the supplied input, not source truth, legal applicability or permission to distribute. Never add a raw source snapshot to an outward-facing artifact. Source and approval strings remain supplied evidence for professional review.
+
+Only included facts enter content sections. Wrong fund/share class/ISIN/currency, stale or future facts and missing numeric source pairs are withheld. Numeric text must match its structured numeric value and source pair. Restricted facts are removed before content, reconciliation and source ledgers; unspecified distribution uses external restrictions. No raw input snapshot is embedded in the artifact.
+
+
 Orientation references: retail-communication / fund-marketing standards (FINRA Rule 2210 and
 SEC advertising/performance-presentation rules in the US; KIID/KID and fund-marketing regimes
 where configured), GIPS-aligned standardized performance presentation, and information-barrier /
@@ -34,13 +41,13 @@ Applied per figure by `scripts/calculate_or_transform.py`, in order:
 | `unsupported` | No `source_ref` | **Open item only** — never asserted |
 | `restricted` | `mnpi` true **and** `intended_distribution` = `external` | **Open item only** — excluded from external sheet |
 | reconcile-break | `value_numeric` vs `source_value_numeric` differ beyond `reconcile_tolerance` | **Open item only** — never asserted |
-| `unresolved` | Figure `fund_id` ≠ fact-sheet `fund_id` | Asserted (cited) **and** open item — reconcile with a human |
-| `stale` | `expires` earlier than `as_of_date` | Asserted (cited) **and** open item — refresh |
+| `unresolved` | Figure `fund_id` ≠ fact-sheet `fund_id` | Open item only — withhold and reconcile identity |
+| `stale` | `expires` earlier than `as_of_date` | Open item only — withhold and refresh |
 | `included` | Otherwise (cited, reconciled, fresh, identity-consistent) | Asserted (cited) |
 
-Only `included` / `stale` / `unresolved` are asserted in a section, and every asserted entry
+Only `included` facts are asserted in a section, and every asserted entry
 carries a citation — this is the **no-unsupported-assertion** guarantee. Every numeric figure
-carrying a source value must also tie out within tolerance before it can be asserted — this is
+must carry a source value and tie out within tolerance before it can be asserted — this is
 the **source-to-output reconciliation** guarantee. A required section with zero asserted entries
 yields a `section-incomplete` open item; it is never padded.
 

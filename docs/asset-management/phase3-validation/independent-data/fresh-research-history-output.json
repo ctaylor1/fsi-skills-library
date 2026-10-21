@@ -1,0 +1,295 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "investment-data-architecture-planner",
+  "request_id": "FORWARD-DATA-20261004",
+  "object_id": "RESEARCH-HISTORY-DESIGN",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "needs-review",
+  "draft": true,
+  "action_taken": false,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "investment-grain-bitemporal-access-design/1",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "datasets": [
+      {
+        "dataset_id": "research-targets",
+        "owner": "Research data owner",
+        "classification": "Licensed research",
+        "retention_rule": "Preserve revisions for agreement-authorized replay",
+        "component_id": "history-store",
+        "license_id": "research-license",
+        "grain_dimensions": [
+          "security"
+        ],
+        "source_ref": "dictionary"
+      }
+    ],
+    "semantic_contract": [
+      {
+        "field_id": "target-price",
+        "dataset_id": "research-targets",
+        "definition": "Supplied synthetic analyst target price; no market value calculation",
+        "unit": "USD-per-share",
+        "currency": "USD",
+        "source_system": "Synthetic Research Provider A",
+        "source_field": "TARGET_PRICE",
+        "transformation": "identity",
+        "transformation_version": "1",
+        "owner": "Research data owner",
+        "value_type": "decimal",
+        "nullable": false,
+        "source_ref": "dictionary"
+      }
+    ],
+    "identity_contract": [
+      {
+        "identity_id": "SEC-A",
+        "dimension": "security",
+        "namespace": "provider-A/security",
+        "native_key": "ABC",
+        "source_ref": "dictionary"
+      },
+      {
+        "identity_id": "SEC-B",
+        "dimension": "security",
+        "namespace": "provider-B/security",
+        "native_key": "ABC",
+        "source_ref": "dictionary"
+      }
+    ],
+    "access_evidence": [
+      {
+        "dataset_id": "research-targets",
+        "evidence_status": "declared-allowed-unverified",
+        "permission_verified": false,
+        "issues": [],
+        "source_refs": [
+          "rights",
+          "entitlement-observation"
+        ]
+      }
+    ],
+    "resolved_sample": [
+      {
+        "query_id": "pre-correction",
+        "field_id": "target-price",
+        "dimensions": {
+          "security": "SEC-A"
+        },
+        "valid_on": "2026-09-15",
+        "known_on": "2026-09-20",
+        "status": "resolved-supplied-sample",
+        "value": "75.10",
+        "unit": "USD-per-share",
+        "currency": "USD",
+        "record_ids": [
+          "SEP-INITIAL"
+        ],
+        "source_refs": [
+          "dictionary",
+          "queries",
+          "research-history"
+        ],
+        "issues": []
+      },
+      {
+        "query_id": "post-correction",
+        "field_id": "target-price",
+        "dimensions": {
+          "security": "SEC-A"
+        },
+        "valid_on": "2026-09-15",
+        "known_on": "2026-09-25",
+        "status": "resolved-supplied-sample",
+        "value": "76.90",
+        "unit": "USD-per-share",
+        "currency": "USD",
+        "record_ids": [
+          "SEP-CORRECTED"
+        ],
+        "source_refs": [
+          "dictionary",
+          "queries",
+          "research-history"
+        ],
+        "issues": []
+      },
+      {
+        "query_id": "valid-boundary",
+        "field_id": "target-price",
+        "dimensions": {
+          "security": "SEC-A"
+        },
+        "valid_on": "2026-10-01",
+        "known_on": "2026-10-02",
+        "status": "resolved-supplied-sample",
+        "value": "80.25",
+        "unit": "USD-per-share",
+        "currency": "USD",
+        "record_ids": [
+          "OCT-INITIAL"
+        ],
+        "source_refs": [
+          "dictionary",
+          "queries",
+          "research-history"
+        ],
+        "issues": []
+      },
+      {
+        "query_id": "different-namespace",
+        "field_id": "target-price",
+        "dimensions": {
+          "security": "SEC-B"
+        },
+        "valid_on": "2026-09-15",
+        "known_on": "2026-09-25",
+        "status": "withheld",
+        "value": null,
+        "unit": "USD-per-share",
+        "currency": "USD",
+        "record_ids": [],
+        "source_refs": [
+          "dictionary",
+          "queries"
+        ],
+        "issues": [
+          "no known active history"
+        ]
+      }
+    ],
+    "observability": [
+      {
+        "monitor_id": "history-freshness",
+        "dataset_id": "research-targets",
+        "metric": "snapshot_age",
+        "unit": "hours",
+        "threshold": "24",
+        "observed_value": "4",
+        "projected_value": null,
+        "meets": true,
+        "incident_route": "Research data incident queue",
+        "source_ref": "telemetry"
+      }
+    ],
+    "shared_reviews": [
+      {
+        "producer": "solution-architecture-planner",
+        "status": "ready-for-review",
+        "results": {
+          "components": [
+            {
+              "component_id": "history-store",
+              "responsibility": "Retain licensed research history and prior assertions",
+              "owner": "Research Data Engineering",
+              "technology_choice": "Institution-managed bounded relational service",
+              "alternative": "Versioned object exports",
+              "tradeoff": "Indexed retrieval versus simpler archived exports",
+              "failure_domain": "history-store",
+              "data_classification": "Licensed research",
+              "retention_rule": "Agreement-specific retention schedule",
+              "recovery_runbook": "Restore immutable snapshot then replay observed corrections",
+              "currency": "USD",
+              "cost_period": "annual-test",
+              "cost": "1000",
+              "source_refs": [
+                "architecture-evidence"
+              ]
+            },
+            {
+              "component_id": "research-reader",
+              "responsibility": "Serve exact point-in-time read requests",
+              "owner": "Research Data Engineering",
+              "technology_choice": "Institution-managed bounded relational service",
+              "alternative": "Versioned object exports",
+              "tradeoff": "Indexed retrieval versus simpler archived exports",
+              "failure_domain": "research-reader",
+              "data_classification": "Licensed research",
+              "retention_rule": "Agreement-specific retention schedule",
+              "recovery_runbook": "Restore immutable snapshot then replay observed corrections",
+              "currency": "USD",
+              "cost_period": "annual-test",
+              "cost": "250",
+              "source_refs": [
+                "architecture-evidence"
+              ]
+            }
+          ],
+          "interfaces": [
+            {
+              "interface_id": "history-read",
+              "from_component": "research-reader",
+              "to_component": "history-store",
+              "contract_version": "read-contract-2",
+              "payload_schema": "Exact field and namespaced security with valid/known days",
+              "purpose": "historical-research",
+              "authentication": "Institution workload identity",
+              "authorization_scope": "Named analyst research principal and licensed dataset",
+              "encryption": "Institution-approved TLS",
+              "timeout": "2 seconds",
+              "failure_route": "Return unavailable; alert research-data owner",
+              "trace_id": "request-id",
+              "delivery": "synchronous",
+              "operation": "read",
+              "purpose_reviewed": true,
+              "max_attempts": 1,
+              "source_refs": [
+                "architecture-evidence"
+              ]
+            }
+          ],
+          "requirement_fit": [
+            {
+              "requirement_id": "read-latency",
+              "observed": "550",
+              "threshold": "600",
+              "unit": "milliseconds",
+              "meets": true
+            }
+          ],
+          "supplied_period_cost": "1250",
+          "currency": "USD",
+          "cost_period": "annual-test",
+          "deployment_authorized": false,
+          "provider_conformance": "not_assessed"
+        },
+        "source_ref": "architecture-artifact"
+      }
+    ],
+    "source_authentication": false,
+    "permission_verified": false,
+    "deployment_authorized": false,
+    "production_identity_resolution": false
+  },
+  "unresolved_issues": [
+    "different-namespace: no known active history"
+  ],
+  "limitations": [
+    "Bitemporal sample selection uses explicit half-open intervals and exact identities; ambiguous assertions are withheld without latest-record selection.",
+    "Historical source times, licenses, permission observations and monitor measurements are supplied declarations, not authenticated facts.",
+    "The HTTPS connector runtime must obtain current policy-authorized access separately; this offline result never grants access.",
+    "No missing security identifiers, FX conversion, aggregation, benchmark restatement or valuation policy is inferred."
+  ],
+  "handoffs": [],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "architecture-evidence",
+    "architecture-artifact",
+    "dictionary",
+    "rights",
+    "entitlement-observation",
+    "research-history",
+    "queries",
+    "telemetry"
+  ],
+  "input_hash": "1f0fa617c43c056acaf0725fbf7da9bef492f7dd1c29ac7ff0aa3b73a4e59c93",
+  "source_truth": "unverified"
+}

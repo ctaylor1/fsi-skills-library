@@ -3,7 +3,7 @@
 
 Maps each fact to its fact-sheet section, reconciles every numeric figure to its source
 value, and assigns an assembly status:
-  included | stale | unresolved  -> ASSERTED in the section (cited)
+  included -> ASSERTED in the section (cited); stale/unresolved -> withheld gaps
   unsupported (no citation)                       -> open item only, NEVER asserted
   restricted (MNPI/embargoed + external)          -> open item only, EXCLUDED from the sheet
   reconcile-break (figure does not tie to source) -> open item only, NEVER asserted
@@ -20,11 +20,13 @@ Usage: python calculate_or_transform.py intake.json | --selftest
 Prints the fact-sheet manifest JSON to stdout.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, math, re
+from datetime import date
 from pathlib import Path
+from native_integrity import attach_source, canonical_hash
 
 CONTENT_SECTIONS = ["performance", "holdings", "risk", "fees", "esg"]
-ASSERTED = {"included", "stale", "unresolved"}
+ASSERTED = {"included"}
 DEFAULT_TOLERANCE = 0.05
 
 STANDING_NOTE = ("Draft fund fact sheet for human review only. Every figure is source-cited "
@@ -45,14 +47,26 @@ def _cite(f):
 
 
 def _is_stale(f, as_of):
-    exp = f.get("expires")
-    return bool(exp and as_of and str(exp) < str(as_of))
+    try:
+        cutoff = date.fromisoformat(as_of)
+        effective = f.get("effective_date")
+        return (not effective or date.fromisoformat(effective) > cutoff
+                or bool(f.get("expires") and date.fromisoformat(f["expires"]) < cutoff))
+    except (TypeError, ValueError):
+        return True
 
 
 def _identity_mismatch(f, fund):
     fid = f.get("fund_id")
-    if fid and fund.get("fund_id") and fid != fund.get("fund_id"):
+    if not fid or not fund.get("fund_id") or fid != fund.get("fund_id"):
         return f"fact fund_id {fid!r} != fact-sheet fund_id {fund.get('fund_id')!r}"
+    if f.get("section") in {"performance", "fees"}:
+        for key in ("share_class", "currency"):
+            if not f.get(key) or f.get(key) != fund.get(key):
+                return f"{key} missing or mismatched for share-class data"
+    for key in ("share_class", "isin", "currency"):
+        if f.get(key) is not None and f.get(key) != fund.get(key):
+            return f"{key} identity mismatch"
     return None
 
 
@@ -63,25 +77,34 @@ def _reconcile(f):
         return False, None, None, None
     tol = f.get("reconcile_tolerance")
     tol = DEFAULT_TOLERANCE if tol is None else float(tol)
+    if any(isinstance(x, bool) or not math.isfinite(float(x)) for x in (v, sv, tol)) or tol < 0:
+        return True, None, tol, False
     delta = round(abs(float(v) - float(sv)), 10)
     return True, delta, tol, delta <= tol
 
 
 def _status(f, fund, as_of, external):
     """Assign a status in priority order. Returns (status, reason_or_None)."""
-    if not _cite(f):
-        return "unsupported", "no source_ref"
     if f.get("mnpi") and external:
         return "restricted", "MNPI/embargoed fact excluded from an external-distribution fact sheet"
+    if not _cite(f):
+        return "unsupported", "no source_ref"
+    mismatch = _identity_mismatch(f, fund)
+    if mismatch:
+        return "unresolved", f"fund/share-class identity mismatch: {mismatch}"
+    if _is_stale(f, as_of):
+        return "stale", "fact effective/as-of date is missing, invalid, future or expired"
     has_pair, delta, tol, ties = _reconcile(f)
+    numeric_text = re.findall(r"[-+]?\d+(?:\.\d+)?", str(f.get("value", "")).replace(",", ""))
+    if numeric_text and f.get("value_numeric") is None:
+        return "reconcile-break", "numeric text requires explicit numeric value and source value"
+    if has_pair and (len(numeric_text) != 1 or float(numeric_text[0]) != float(f["value_numeric"])):
+        return "reconcile-break", "rendered numeric text does not match the structured figure"
+    if f.get("value_numeric") is not None and not has_pair:
+        return "reconcile-break", "numeric source value required"
     if has_pair and not ties:
         return "reconcile-break", (f"figure {f.get('value_numeric')} does not tie to source "
                                    f"{f.get('source_value_numeric')} (delta {delta} > tolerance {tol})")
-    mismatch = _identity_mismatch(f, fund)
-    if mismatch:
-        return "unresolved", f"fund identity mismatch: {mismatch}"
-    if _is_stale(f, as_of):
-        return "stale", f"data expired {f.get('expires')} before as_of {as_of}"
     return "included", None
 
 
@@ -89,6 +112,9 @@ def _entry(f, status, reason):
     entry = {"section": f.get("section"), "fact_id": f.get("fact_id"),
              "label": f.get("label"), "value": f.get("value"),
              "value_numeric": f.get("value_numeric"),
+             "source_value_numeric": f.get("source_value_numeric"),
+             "reconcile_tolerance": f.get("reconcile_tolerance", DEFAULT_TOLERANCE),
+             "verification_status": "supplied-input-not-independently-verified",
              "basis": f.get("basis"),
              "effective_date": f.get("effective_date"), "expires": f.get("expires"),
              "mnpi": bool(f.get("mnpi")), "status": status, "citation": _cite(f)}
@@ -97,10 +123,10 @@ def _entry(f, status, reason):
     return entry
 
 
-def assemble(doc: dict) -> dict:
+def _native_assemble(doc: dict) -> dict:
     fund = doc.get("fund") or {}
     as_of = doc.get("as_of_date")
-    external = doc.get("intended_distribution") == "external"
+    external = doc.get("intended_distribution") != "internal"
     required = list(doc.get("required_sections") or [])
     facts = doc.get("facts") or []
 
@@ -119,16 +145,24 @@ def assemble(doc: dict) -> dict:
     for f in facts:
         sec = f.get("section")
         status, reason = _status(f, fund, as_of, external)
+        if status == "restricted":
+            # No raw values, label, citation or source-input snapshot may leak this fact.
+            open_items.append({"item": "restricted fact", "type": "mnpi-exclusion",
+                               "status": "restricted", "action": "restricted content withheld"})
+            continue
         entry = _entry(f, status, reason)
         label = f.get("label") or f.get("fact_id")
 
         # source-to-output reconciliation ledger: record every figure that carries both a
-        # rendered value and a source value, whatever its final assembly status.
+        # rendered value and a source value in eligible content or numeric-break review only.
         has_pair, delta, tol, ties = _reconcile(f)
-        if has_pair:
+        if has_pair and status in {"included", "reconcile-break"}:
             sections["reconciliation"].append({
                 "fact_id": f.get("fact_id"), "section": sec, "label": label,
                 "value_numeric": f.get("value_numeric"),
+             "source_value_numeric": f.get("source_value_numeric"),
+             "reconcile_tolerance": f.get("reconcile_tolerance", DEFAULT_TOLERANCE),
+             "verification_status": "supplied-input-not-independently-verified",
                 "source_value_numeric": f.get("source_value_numeric"),
                 "delta": delta, "tolerance": tol,
                 "status": "reconciled" if ties else "reconcile-break",
@@ -138,30 +172,20 @@ def assemble(doc: dict) -> dict:
             open_items.append({"item": f"{sec}: {label}", "type": "unsupported-claim",
                                "action": "attach an approved source or remove the figure"})
             continue
-        if status == "restricted":
-            open_items.append({"item": f"{sec}: {label}", "type": "mnpi-exclusion",
-                               "status": "restricted", "citation": entry["citation"],
-                               "action": "exclude from the external fact sheet or obtain wall-crossing / compliance clearance"})
-            continue
         if status == "reconcile-break":
             open_items.append({"item": f"{sec}: {label}", "type": "reconcile-break",
                                "citation": entry["citation"], "reason": reason,
                                "action": "reconcile the figure to its system of record before it is asserted"})
             continue
 
-        # asserted (included | stale | unresolved) -> placed in section, cited
+        if status in {"stale", "unresolved"}:
+            open_items.append({"item": f"{sec}: {label}", "type": "stale-data" if status == "stale" else "identity-unresolved",
+                               "reason": reason, "action": "resolve identity or date before asserting this fact"})
+            continue
+        # Only eligible facts are asserted.
         if sec in CONTENT_SECTIONS:
             sections[sec].append(entry)
         citations.append(entry["citation"])
-        if status == "stale":
-            open_items.append({"item": f"{sec}: {label}", "type": "stale-data",
-                               "citation": entry["citation"],
-                               "action": "refresh with data current as of the reporting date"})
-        elif status == "unresolved":
-            open_items.append({"item": f"{sec}: {label}", "type": "identity-unresolved",
-                               "citation": entry["citation"],
-                               "action": "reconcile fund/share-class identity with a human"})
-
     # required content sections with no asserted fact -> section-incomplete (never padded)
     for sec in required:
         if sec in CONTENT_SECTIONS and not sections.get(sec):
@@ -235,7 +259,7 @@ def assemble(doc: dict) -> dict:
         "objective": fund.get("objective"),
         "fund_id": _mask_id(fund.get("fund_id")),
         "as_of_date": as_of,
-        "intended_distribution": doc.get("intended_distribution") or "internal",
+        "intended_distribution": doc.get("intended_distribution") or "external",
         "required_sections": required,
         "counts": {
             "included": _count("included"),
@@ -260,7 +284,7 @@ def assemble(doc: dict) -> dict:
         "fund_legal_name": fund.get("legal_name"),
         "ticker": fund.get("ticker"),
         "as_of_date": as_of,
-        "intended_distribution": doc.get("intended_distribution") or "internal",
+        "intended_distribution": doc.get("intended_distribution") or "external",
         "template_version": doc.get("template_version", "factsheet-template@0.1.0"),
         "assembly_status": "draft-assembled",
         "human_approval_required_before_delivery": True,
@@ -281,6 +305,13 @@ def main(argv):
     print(json.dumps(assemble(doc), indent=2))
     return 0
 
+
+
+
+def assemble(doc: dict) -> dict:
+    # Reject non-JSON and non-finite input before any calculations.
+    canonical_hash(doc)
+    return attach_source(_native_assemble(doc), doc)
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

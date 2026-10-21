@@ -1,0 +1,92 @@
+{
+  "skill": "financial-crime-case-quality-reviewer",
+  "version": "0.1.0",
+  "source_truth": "synthetic-unverified",
+  "acceptance": "Bounded software behavior only; no professional or source certification",
+  "evals": [
+    {
+      "id": "valid-intake",
+      "command": "python3 -B scripts/validate_input.py evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "complete-native-method",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"status\": \"draft-for-human-review\"",
+        "\"action_taken\": false",
+        "\"exact_ratio\": \"0/2\""
+      ]
+    },
+    {
+      "id": "detached-golden",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_golden.json --input evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "partial-intake",
+      "command": "python3 -B scripts/validate_input.py evals/files/input_partial.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "partial-withholds",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_partial.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"status\": \"needs-evidence\"",
+        "\"within_supplied_exception_threshold\": null",
+        "UPSTREAM-QA-SAMPLE-INCOMPLETE"
+      ]
+    },
+    {
+      "id": "partial-detached",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_partial.json --input evals/files/input_partial.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "malformed-intake-stops",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_bad.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "unique nonempty native identities required"
+      ]
+    },
+    {
+      "id": "tamper-rejected",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_tamper.json --input evals/files/input_complete.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "output differs from original-input reconstruction"
+      ]
+    },
+    {
+      "id": "detached-original-required",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_golden.json",
+      "expect_exit": 2,
+      "expect_contains": [
+        "--input"
+      ]
+    },
+    {
+      "id": "domain-regressions",
+      "command": "python3 -B scripts/test_phase3.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "OK"
+      ]
+    }
+  ]
+}

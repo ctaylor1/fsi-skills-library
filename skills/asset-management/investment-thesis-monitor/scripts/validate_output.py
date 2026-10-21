@@ -23,6 +23,8 @@ from __future__ import annotations
 import json, re, sys
 from datetime import datetime
 from pathlib import Path
+import importlib.util
+from native_integrity import validate_reconstruction
 
 ESCALATORS = {"stop_breach", "catalyst_missed"}
 DISCLAIMER = ("Monitoring alert only; not investment advice or a trading decision. "
@@ -49,10 +51,7 @@ def _parse_dt(s):
             return datetime.strptime(s, fmt)
         except ValueError:
             continue
-    try:
-        return datetime.strptime(s[:10], "%Y-%m-%d")
-    except ValueError:
-        return None
+    return None
 
 
 def _citation_age_days(citation, as_of):
@@ -77,7 +76,7 @@ def _expected_escalation(fired_challenging, fired_confirming):
     return None
 
 
-def validate(pack: dict) -> list[str]:
+def _validate_native(pack: dict) -> list[str]:
     errors: list[str] = []
     alerts = pack.get("alerts") or []
     queue = pack.get("queue") or {}
@@ -120,7 +119,8 @@ def validate(pack: dict) -> list[str]:
             for s in fired:
                 for row in (s.get("evidence") or []):
                     ca = _citation_age_days(row.get("citation"), as_of)
-                    if ca is None:
+                    if ca is None or ca < 0:
+                        errors.append(f"alert {key}: unparseable or future evidence — freshness gate violated")
                         continue
                     if derived_age is None or ca > derived_age:
                         derived_age = ca
@@ -185,6 +185,15 @@ def validate(pack: dict) -> list[str]:
 
 
 def main(argv):
+    original_input = None
+    argv = list(argv)
+    for option in ("--input", "--source"):
+        if option in argv:
+            index = argv.index(option)
+            original_input = json.loads(Path(argv[index + 1]).read_text(encoding="utf-8"))
+            del argv[index:index + 2]
+    if "--selftest" in argv:
+        original_input = json.loads((Path(__file__).resolve().parents[1] / "evals/files/monitor_snapshot.json").read_text())
     if "--selftest" in argv:
         p = Path(__file__).resolve().parents[1] / "evals" / "files" / "pack_example.json"
         pack = json.loads(p.read_text(encoding="utf-8"))
@@ -192,12 +201,31 @@ def main(argv):
         pack = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
     else:
         pack = json.loads(sys.stdin.read())
-    errors = validate(pack)
+    errors = validate(pack, original_input)
     for e in errors:
         print("ERROR", e)
     print(f"output validation: {len(errors)} error(s)")
     return 1 if errors else 0
 
+
+
+
+def validate(doc: dict, original_input=None) -> list[str]:
+    try:
+        errors = _validate_native(doc)
+    except (KeyError, TypeError, ValueError, ArithmeticError) as exc:
+        errors = ["invalid output: " + str(exc)]
+    if original_input is not None:
+        input_spec = importlib.util.spec_from_file_location("_input_validation", Path(__file__).with_name("validate_input.py"))
+        input_module = importlib.util.module_from_spec(input_spec)
+        input_spec.loader.exec_module(input_module)
+        input_errors, _ = input_module.validate(original_input)
+        errors.extend("source input: " + error for error in input_errors)
+    spec = importlib.util.spec_from_file_location("_native_calculation_investment_thesis_monitor", Path(__file__).with_name("calculate_or_transform.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    validate_reconstruction(doc, module.compute, errors, original_input)
+    return errors
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

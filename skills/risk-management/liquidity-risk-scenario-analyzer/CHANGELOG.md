@@ -24,7 +24,7 @@ Initial authoring in the FSI Skills Library (baseline status: `new`).
 - **Handoffs:** upstream `stress-test-scenario-designer`, `cashflow-forecaster`; downstream
   `enterprise-risk-assessment-builder`, `management-reporting-packager`, `key-risk-indicator-monitor`,
   `regulatory-exam-response-packager`, `model-validation-assistant`; boundary with the buy-side
-  `liquidity-stress-analyzer`.
+  `fund-liquidity-assessor`.
 
 ### Pending before release
 - Domain SME (treasury/ALM) + control-owner blind review; model validation of behavioral

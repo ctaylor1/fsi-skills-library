@@ -59,7 +59,7 @@ def _cite_adj(adj: dict, entity: str, as_of: str) -> str:
     return f"fs:entity={entity};adjustment={adj.get('adj_id', '?')}@{as_of}"
 
 
-def compute(doc: dict) -> dict:
+def _calculate_native(doc: dict) -> dict:
     cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
     entity = doc["entity_id"]
     as_of = str(doc["as_of"])
@@ -99,21 +99,25 @@ def compute(doc: dict) -> dict:
                        if mp.get((str(ln.get("raw_label")), str(ln.get("statement"))), {}).get("std_account") == "revenue")
     bad_adjustments = []
     for a in doc.get("adjustments") or []:
-        acct_key = (str(a.get("std_account")), "income_statement", str(a.get("period")))
+        acct_key = (str(a["std_account"]), a["statement"], str(a["period"]))
         # adjustments may target an account not present in detail (e.g. a derived subtotal)
         slot = rollup.setdefault(acct_key, {"std_account": a.get("std_account"),
-                                            "statement": "income_statement",
+                                            "statement": a["statement"],
                                             "period": a.get("period"), "mapped_value": 0.0,
                                             "provenance": [], "adjustments": []})
-        slot["adjustments"].append({"adj_id": a.get("adj_id"), "type": a.get("type"),
-                                    "amount": _num(a.get("amount"))})
+        slot["adjustments"].append({"adj_id": a["adj_id"], "type": a["type"],
+                                    "statement": a["statement"], "period": a["period"],
+                                    "amount": _num(a["amount"]), "rationale": a.get("rationale"),
+                                    "source_ref": a.get("source_ref"), "approver": a.get("approver"),
+                                    "citation": _cite_adj(a, entity, as_of)})
         amt = abs(_num(a.get("amount")) or 0.0)
-        pct = (amt / abs(revenue_base) * 100.0) if revenue_base else 0.0
+        period_revenue = sum((_num(ln["value"]) or 0) for ln in detail if ln["period"] == a["period"] and ln["statement"] == "income_statement" and mp.get((ln["raw_label"], ln["statement"]), {}).get("std_account") == "revenue")
+        pct = (amt / abs(period_revenue) * 100.0) if period_revenue else None
         missing_expl = not (a.get("rationale") or "").strip() or not (a.get("source_ref") or "").strip()
-        material_unapproved = pct >= _num(cfg["adjustment_materiality_pct"]) and not (a.get("approver") or "").strip()
+        material_unapproved = (pct is None or pct >= _num(cfg["adjustment_materiality_pct"])) and not (a.get("approver") or "").strip()
         if missing_expl or material_unapproved:
             bad_adjustments.append({"adj_id": a.get("adj_id"), "type": a.get("type"),
-                                    "amount": _num(a.get("amount")), "pct_of_revenue": round(pct, 2),
+                                    "amount": _num(a.get("amount")), "pct_of_revenue": round(pct, 2) if pct is not None else None,
                                     "citation": _cite_adj(a, entity, as_of)})
 
     normalized_accounts = []
@@ -179,35 +183,73 @@ def compute(doc: dict) -> dict:
          f"tolerance {tol}" if breaks else "reported subtotals reconcile to their components"),
         breaks, {"tie_out_tolerance": tol, "subtotals_checked": len(tie_out_detail)})
 
-    # 5. balance_sheet_identity_break — assets != liabilities + equity within tolerance
-    role_val = {}
-    role_line = {}
-    for ln in subtotals:
-        r = ln.get("role")
-        if r in ROLES:
-            role_val[r] = _num(ln.get("value")) or 0.0
-            role_line[r] = ln
-    if ROLES <= set(role_val):
-        assets = role_val["total_assets"]
-        liab_eq = role_val["total_liabilities"] + role_val["total_equity"]
-        diff = round(assets - liab_eq, 2)
-        within = abs(diff) <= tol
-        add("balance_sheet_identity_break", not within, HIGH,
-            (f"total assets {assets} != total liabilities + equity {round(liab_eq, 2)} (off by {diff})"
-             if not within else f"balance sheet balances (A {assets} = L+E {round(liab_eq, 2)})"),
-            ([{"total_assets": assets, "total_liabilities_plus_equity": round(liab_eq, 2), "diff": diff,
-               "citation": _cite_line(role_line["total_assets"], entity, as_of)}] if not within else []),
-            {"tie_out_tolerance": tol})
-    else:
-        not_evaluable.append({"check": "balance_sheet_identity_break",
-                              "why": "total_assets / total_liabilities / total_equity roles not all present"})
+    # Reported anchors and reconstructed normalized balances are different checks.
+    reported_bs, normalized_bs = [], []
+    line_index = {row["line_id"]: row for row in lines}
+
+    def leaves(line_id, trail=()):
+        if line_id in trail:
+            raise ValueError("cyclic subtotal component graph")
+        row = line_index[line_id]
+        if not row.get("is_subtotal"):
+            return {line_id}
+        if not row.get("components"):
+            return None
+        combined = set()
+        for child in row["components"]:
+            values = leaves(child, trail + (line_id,))
+            if values is None or combined & values:
+                return None
+            combined |= values
+        return combined
+
+    for period in sorted({row["period"] for row in lines if row["statement"] == "balance_sheet"}):
+        anchors = {row["role"]: row for row in subtotals if row["period"] == period and row.get("role") in ROLES}
+        if set(anchors) != ROLES:
+            not_evaluable.append({"check": "reported_balance_sheet_identity_break", "period": period, "why": "identity roles incomplete"})
+            not_evaluable.append({"check": "balance_sheet_identity_break", "period": period, "why": "normalized reconstruction lacks complete role/component coverage"})
+            continue
+        a, l, e = (float(anchors[key]["value"]) for key in ("total_assets", "total_liabilities", "total_equity"))
+        diff = round(a-l-e, 2)
+        row = {"period": period, "total_assets": a, "total_liabilities": l, "total_equity": e, "diff": diff, "within_tolerance": abs(diff) <= tol, "citation": _cite_line(anchors["total_assets"], entity, as_of)}
+        reported_bs.append(row)
+        add("reported_balance_sheet_identity_break", abs(diff) > tol, HIGH, "Reported balance-sheet anchor identity for " + period, [row] if abs(diff) > tol else [], {"period": period, "tie_out_tolerance": tol})
+        role_leaves = {key: leaves(anchor["line_id"]) for key, anchor in anchors.items()}
+        complete = all(value is not None for value in role_leaves.values())
+        account_roles = {}
+        covered = set()
+        if complete:
+            for role, ids in role_leaves.items():
+                if covered & ids:
+                    complete = False
+                covered |= ids
+                for lid in ids:
+                    ln = line_index[lid]
+                    mapping = mp.get((ln["raw_label"], ln["statement"]))
+                    if not mapping:
+                        complete = False
+                        continue
+                    account = mapping["std_account"]
+                    if account in account_roles and account_roles[account] != role:
+                        complete = False
+                    account_roles[account] = role
+            expected = {ln["line_id"] for ln in detail if ln["statement"] == "balance_sheet" and ln["period"] == period}
+            complete = complete and covered == expected and all(row["std_account"] in account_roles for row in normalized_accounts if row["statement"] == "balance_sheet" and row["period"] == period)
+        if not complete:
+            not_evaluable.append({"check": "balance_sheet_identity_break", "period": period, "why": "complete disjoint mapped detail/component coverage is required for normalized identity; raw anchors do not prove it"})
+            continue
+        values = {role: sum(row["normalized_value"] for row in normalized_accounts if row["statement"] == "balance_sheet" and row["period"] == period and account_roles[row["std_account"]] == role) for role in ROLES}
+        diff = round(values["total_assets"] - values["total_liabilities"] - values["total_equity"], 2)
+        row = {"period": period, **values, "diff": diff, "within_tolerance": abs(diff) <= tol, "citation": _cite_line(anchors["total_assets"], entity, as_of)}
+        normalized_bs.append(row)
+        add("balance_sheet_identity_break", abs(diff) > tol, HIGH, "Reconstructed normalized balance-sheet identity for " + period, [row] if abs(diff) > tol else [], {"period": period, "tie_out_tolerance": tol})
 
     fired = [f for f in findings if f["fired"]]
     fired_names = [f["check"] for f in fired]
     # deterministic readiness mapping (see references/domain-rules.md)
     if any(f["severity"] == HIGH for f in fired) or len(fired) >= _num(cfg["escalate_finding_count"]):
         readiness = HOLD
-    elif fired:
+    elif fired or not_evaluable:
         readiness = NEEDS
     else:
         readiness = READY
@@ -233,6 +275,10 @@ def compute(doc: dict) -> dict:
         "normalized_accounts": normalized_accounts,
         "unmapped": unmapped,
         "tie_outs": tie_out_detail,
+        "reported_balance_sheet_checks": reported_bs,
+        "normalized_balance_sheet_checks": normalized_bs,
+        "readiness_config": {"escalate_finding_count": cfg["escalate_finding_count"]},
+        "limitations": ["Incomplete normalized identity coverage is not model-ready; reported anchor checks do not prove adjusted statements balance.", "Maps supplied extracts only; no accounting opinion or general framework conversion."],
         "findings": findings,
         "fired_findings": fired_names,
         "not_evaluable": not_evaluable,
@@ -242,17 +288,59 @@ def compute(doc: dict) -> dict:
     }
 
 
+def _strict_json(text):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise ValueError("duplicate JSON object key: " + key)
+            result[key] = value
+        return result
+    def constant(value):
+        raise ValueError("non-finite JSON constant: " + value)
+    return json.loads(text, object_pairs_hook=pairs, parse_constant=constant)
+
+def _local_module(filename):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("_local_" + filename.replace(".", "_"), Path(__file__).with_name(filename))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def compute(doc):
+    errors, warnings = _local_module("validate_input.py").validate(doc)
+    if errors:
+        raise ValueError("; ".join(errors))
+    result = _calculate_native(doc)
+    result["validation_warnings"] = warnings
+    result["method_id"] = 'financials-normalizer'
+    result["method_version"] = "0.2.0"
+    result["result_origin"] = "local-analysis"
+    result["review_status"] = "not-requested"
+    result["execution_status"] = "not-performed"
+    result["method_scope"] = 'financials-normalizer: bounded supplied-input local analysis; no source authentication, approval or execution'
+    return _local_module("native_integrity.py").attach_source(result, doc)
+
 def main(argv):
     if "--selftest" in argv:
         p = Path(__file__).resolve().parents[1] / "evals" / "files" / "financials_example.json"
-        doc = json.loads(p.read_text(encoding="utf-8"))
+        doc = _strict_json(p.read_text(encoding="utf-8"))
     elif argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
+        doc = _strict_json(Path(argv[0]).read_text(encoding="utf-8"))
     else:
-        doc = json.loads(sys.stdin.read())
+        doc = _strict_json(sys.stdin.read())
     print(json.dumps(compute(doc), indent=2))
     return 0
 
+
+_main_checked = main
+
+def main(argv):
+    try:
+        return _main_checked(argv)
+    except (ValueError, TypeError, KeyError, IndexError, AttributeError, ArithmeticError, OSError) as exc:
+        print("ERROR", str(exc), file=sys.stderr)
+        return 1
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

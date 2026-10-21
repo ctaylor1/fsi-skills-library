@@ -1,5 +1,10 @@
 # Changelog — client-review-preparer
 
+## 0.3.0 — 2026-10-04
+
+- Add portable source-field review and exact-recipient draft gates for P5.
+- Preserve existing calculation modes; distinguish native validation from separately reviewed source fidelity and audience scope.
+
 ## [0.2.0] — 2026-09-16
 - Hardened structural and item-level evidence checks, source dates/validity, explicit versioned engagement/applicability policy and material missingness.
 - Added request/artifact IDs, retained source snapshots and reproducible input hashes; validate actual content, identity and values against the snapshot. Hashes are not authorization.

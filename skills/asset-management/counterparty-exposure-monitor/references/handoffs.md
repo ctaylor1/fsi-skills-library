@@ -10,9 +10,9 @@ reviewer's and the specialist skills' responsibility.
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
 | `portfolio-exposure-analyzer` | Reviewer wants an interactive breakdown of exposure composition / drivers behind an alert | `run_id` + alert `fingerprint`s |
-| `liquidity-stress-analyzer` | A concentration/limit alert warrants scenario/funding-stress analysis | `run_id` + affected counterparties |
+| `fund-liquidity-assessor` | A concentration/limit alert warrants scenario/funding-stress analysis | `run_id` + affected counterparties |
 | `investment-committee-memo-builder` | The counterparty-risk picture must be packaged for IC review | alert set + evidence |
-| `mandate-compliance-monitor` | The breach is actually a mandate/IPS limit question, not a counterparty credit limit | counterparty + limit context |
+| `investment-mandate-reviewer` | The breach is actually a mandate/IPS limit question, not a counterparty credit limit | counterparty + limit context |
 
 For **collateral/margin optimization**, **trade-break/settlement** disposition, or a
 **counterparty credit decision**, there is no substitute for the desk and its controls:
@@ -27,7 +27,7 @@ or `portfolio-exposure-analyzer` draws on. No skill uses this monitor to take an
 
 ## Sibling monitors (distinct scope — do not duplicate)
 
-- `mandate-compliance-monitor` — investment mandate / IPS guideline limits (not counterparty
+- `investment-mandate-reviewer` — investment mandate / IPS guideline limits (not counterparty
   credit/settlement exposure).
 - `investment-thesis-monitor` — research/thesis triggers, not exposure limits.
 - `market-risk-limit-monitor` (Risk Management) — market-risk (VaR/greeks) limits.

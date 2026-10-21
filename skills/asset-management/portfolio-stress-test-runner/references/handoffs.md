@@ -22,7 +22,7 @@ variable paths, and reverse-stress thresholds - belongs to `stress-test-scenario
 | Skill | Why |
 | ----- | --- |
 | `portfolio-exposure-analyzer` | Exposure decomposition (issuer/sector/country/duration) as context for the stressed drivers |
-| `portfolio-risk-contribution-packet` | Marginal/total risk contributions - a complementary risk lens to scenario P&L |
+| `portfolio-risk-contribution-analyzer` | Marginal/total risk contributions - a complementary risk lens to scenario P&L |
 | `scenario-sensitivity-generator` | Expand a single approved scenario into a sensitivity grid across shock magnitudes |
 
 ## Downstream (consume this skill's `run_id`)
@@ -30,7 +30,7 @@ variable paths, and reverse-stress thresholds - belongs to `stress-test-scenario
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
 | `market-risk-limit-monitor` | Compare the stress losses to approved limits and raise an escalation on a breach | `run_id` + per-scenario `scenario_pnl` and stressed value |
-| `portfolio-drift-monitor` | Track how stressed risk evolves versus prior runs | `run_id` + scenario summary |
+| `portfolio-characteristics-change-monitor` | Track how stressed risk evolves versus prior runs | `run_id` + scenario summary |
 
 Committee, board-pack, and risk-system reporting are **human-approved delivery steps**, not a
 skill this package performs; the run is a reproducible input those steps cite by `run_id`.

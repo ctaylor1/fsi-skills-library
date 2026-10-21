@@ -1,0 +1,11 @@
+# Phase 1 native contract — version0.2.0
+
+Required: market_id, as_of, currency, config_version, dimensions and at least one supported method. dimensions specifies quantity_unit, price_denominator, price_currency, total_currency, price_period and total_period. Quantity/denominator and both currencies must match; native periods must both be annual. Each driver requires id, provenance, source_tier and finite scenario values; source_date is preserved and cannot be future. top_down has total_market/sam_ratio/som_ratio; bottom_up has unique segments with units/arpu/attach_rate/capture_rate. Explicitly choose an available primary_method. segment_coverage is complete, partial or unknown; complete remains an unverified declaration.
+
+Top-down: TAM=total_market; SAM=TAM*sam_ratio; SOM=SAM*som_ratio. Bottom-up: segment TAM=units*ARPU, SAM=TAM*attach_rate, SOM=SAM*capture_rate, then sum. Ratios are0..1 and magnitudes positive. Both methods permit gap reconciliation; one method returns partial and no triangulation. Full source dates and declared segment coverage are necessary for complete-for-declared-scope; disjointness and method independence still need review.
+
+All dates are strict YYYY-MM-DD calendar dates. JSON nonfinite values and booleans used as financial numbers fail validation. Malformed shapes return controlled validation errors. Source/date/permission facts remain caller declarations. Any complete label is limited to the declared supplied scope, never professional acceptance or authenticated source truth.
+
+The public calculation and `validate` entrypoints remain available. Native results include `input_hash` over every supplied field and `source_truth: unverified`; no raw source snapshot is embedded. Output validation requires the detached original and reconstructs the full result, rejecting altered, omitted and extra fields. CLI: `python3 -B scripts/validate_output.py OUTPUT.json --input INPUT.json`. Narrative belongs in a separate reviewed artifact.
+
+Version migration: retain original0.1 inputs as historical records; revise them to the explicit0.2 contract before recomputation. In particular sizing now requires dimensional declarations; qualitative landscape and unblended valuation are supported within their supplied scope. Existing source-bound envelopes require a reviewed adapter update, not silent schema conversion.

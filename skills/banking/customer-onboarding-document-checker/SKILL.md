@@ -53,10 +53,10 @@ approval, the identity verification, and any account action remain human.
 ## Do not use
 - The user wants an **onboarding approval**, **identity verification**, or a **KYC/CIP/CDD**
   decision → out of scope. Report completeness and route to a human and the compliance
-  skills. Substantive customer/beneficial-owner screening → `kyc-customer-due-diligence-screener`;
-  higher-risk evidence assembly → `enhanced-due-diligence-packager`; ownership mapping →
-  `beneficial-ownership-verifier`; customer risk rating → `customer-risk-rating-reviewer`.
-- An **open watchlist/sanctions match** needs adjudication → `sanctions-match-adjudicator`
+  skills. Substantive customer/beneficial-owner screening → `customer-due-diligence-reviewer`;
+  higher-risk evidence assembly → `enhanced-due-diligence-assessor`; ownership mapping →
+  `beneficial-ownership-analyzer`; customer risk rating → `customer-risk-rating-reviewer`.
+- An **open watchlist/sanctions match** needs adjudication → `sanctions-match-investigator`
   (authorized reviewer).
 - The package is actually a **lending application or closing package**, not deposit
   onboarding → `credit-application-packager` or `loan-package-completeness-checker`.
@@ -159,5 +159,5 @@ data.
 - **Expiry is vs. `as_of`.** Expiration and staleness are judged against the stated package
   date; a document valid today may be expired for a back-dated package.
 - **Open exceptions block readiness.** An unresolved watchlist/screening exception keeps the
-  package Not-ready and routes to `sanctions-match-adjudicator` — this skill does not
+  package Not-ready and routes to `sanctions-match-investigator` — this skill does not
   adjudicate it.

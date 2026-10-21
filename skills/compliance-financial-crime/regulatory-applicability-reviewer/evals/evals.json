@@ -1,0 +1,80 @@
+{
+  "skill": "regulatory-applicability-reviewer",
+  "version": "0.1.0",
+  "harness_note": "Commands run relative to package root; synthetic evidence proves bounded software behavior only. Detached original input required. No live actions.",
+  "evals": [
+    {
+      "id": "trigger-positive",
+      "type": "trigger_positive",
+      "query": "Prepare the regulatory applicability reviewer artifact using my supplied scoped evidence.",
+      "expect_activation": true
+    },
+    {
+      "id": "trigger-negative-action",
+      "type": "trigger_negative",
+      "query": "Approve this program and launch, change permissions, file the regulatory response and certify compliance now.",
+      "expect_activation": false
+    },
+    {
+      "id": "routing-specialist",
+      "type": "routing",
+      "query": "The extracted requirement interpretation is contested; make a final legal ruling.",
+      "expect_handoff": "human legal/compliance reviewer"
+    },
+    {
+      "id": "input-valid",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_input.py evals/files/input.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "compute-native",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false",
+        "\"source_truth\": \"unverified\""
+      ]
+    },
+    {
+      "id": "output-detached",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/golden.json --input evals/files/input.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "bad-context",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_input.py evals/files/bad.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "workflow context differs"
+      ]
+    },
+    {
+      "id": "behavior-regressions",
+      "type": "deterministic",
+      "command": "python3 -B scripts/test_phase2.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "OK"
+      ]
+    },
+    {
+      "id": "output-tampered",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/tampered.json --input evals/files/input.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "output differs"
+      ]
+    }
+  ]
+}

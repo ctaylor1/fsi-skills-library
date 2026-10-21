@@ -1,0 +1,89 @@
+{
+  "original_input": "docs/compliance-financial-crime/phase2-validation/forward/edd-duplicated-economic-event/input.initial.json",
+  "original_input_sha256": "abf928aaf972c3176380f969f62c00eba3fb74f4af641e0594cbc6a2577c93fb",
+  "amended_input_sha256": "967ffb8642c3da6e7d91f58cb51dead370b0ee9eebc9364d0bce11d9a499e24a",
+  "only_new_event_additivity_claims_added": true,
+  "all_original_corroboration_rows_and_facts_preserved": true,
+  "added_source_records_with_all_facts_and_justifications": [
+    {
+      "source_ref": "economic-event-review-workpaper",
+      "version": "synthetic-repair-v1",
+      "received_at": "2026-10-03",
+      "publication_date": "2026-10-03",
+      "classification": "customer_pii",
+      "permitted_audiences": [
+        "internal_review"
+      ],
+      "facts": [
+        {
+          "fact_id": "FWD-EDD-economic-review-1",
+          "value": {
+            "event_id": "SYN-SALE-RECEIPT-TRANCHE-1",
+            "claim_id": "sale-proceeds",
+            "amount": "300000.00",
+            "currency": "USD",
+            "date": "2026-09-05"
+          },
+          "excerpt": "Synthetic repair identity review of actual-credit-tranche-1 grounded in original exact amount/date/currency facts FWD-EDD-fact-10,FWD-EDD-fact-11,FWD-EDD-fact-12: Actual first bank credit for equipment sale. Original completion statement identifies the first tranche as the same receipt, not an additional receipt."
+        },
+        {
+          "fact_id": "FWD-EDD-economic-review-2",
+          "value": {
+            "event_id": "SYN-SALE-RECEIPT-TRANCHE-2",
+            "claim_id": "sale-proceeds",
+            "amount": "75000.00",
+            "currency": "USD",
+            "date": "2026-09-20"
+          },
+          "excerpt": "Synthetic repair identity review of actual-credit-tranche-2 grounded in original exact amount/date/currency facts FWD-EDD-fact-14,FWD-EDD-fact-15,FWD-EDD-fact-16: Actual final bank credit for the same equipment sale. Original completion statement identifies the first tranche as the same receipt, not an additional receipt."
+        },
+        {
+          "fact_id": "FWD-EDD-economic-review-3",
+          "value": {
+            "event_id": "SYN-SALE-RECEIPT-TRANCHE-1",
+            "claim_id": "sale-proceeds",
+            "amount": "300000.00",
+            "currency": "USD",
+            "date": "2026-09-05"
+          },
+          "excerpt": "Synthetic repair identity review of completion-document-same-tranche grounded in original exact amount/date/currency facts FWD-EDD-fact-44,FWD-EDD-fact-45,FWD-EDD-fact-46: Completion statement documents actual-credit-tranche-1, the same USD 300000 first payment; not a second receipt. Original completion statement identifies the first tranche as the same receipt, not an additional receipt."
+        },
+        {
+          "fact_id": "FWD-EDD-economic-review-4",
+          "value": {
+            "claim_id": "sale-proceeds",
+            "basis": "distinct_funds_receipts",
+            "event_ids": [
+              "SYN-SALE-RECEIPT-TRANCHE-1",
+              "SYN-SALE-RECEIPT-TRANCHE-2"
+            ]
+          },
+          "excerpt": "Synthetic repair additivity review: the first and final actual bank-credit tranches are distinct USD300000 and USD75000 receipts. Completion statement repeats the first receipt and adds no proceeds. The documented pre-existing wealth balance explicitly excludes sale proceeds. This scopes the distinct set for sale-proceeds."
+        },
+        {
+          "fact_id": "FWD-EDD-economic-review-5",
+          "value": {
+            "event_id": "SYN-PREEXISTING-WEALTH-COMPONENT-1",
+            "claim_id": "accumulated-wealth",
+            "amount": "900000.00",
+            "currency": "USD",
+            "date": "2026-09-26"
+          },
+          "excerpt": "Synthetic repair identity review of wealth-balance grounded in original exact amount/date/currency facts FWD-EDD-fact-26,FWD-EDD-fact-27,FWD-EDD-fact-28: Documented pre-existing asset balance; sale proceeds excluded. Original completion statement identifies the first tranche as the same receipt, not an additional receipt."
+        },
+        {
+          "fact_id": "FWD-EDD-economic-review-6",
+          "value": {
+            "claim_id": "accumulated-wealth",
+            "basis": "disjoint_wealth_components",
+            "event_ids": [
+              "SYN-PREEXISTING-WEALTH-COMPONENT-1"
+            ]
+          },
+          "excerpt": "Synthetic repair additivity review: the first and final actual bank-credit tranches are distinct USD300000 and USD75000 receipts. Completion statement repeats the first receipt and adds no proceeds. The documented pre-existing wealth balance explicitly excludes sale proceeds. This scopes the distinct set for accumulated-wealth."
+        }
+      ]
+    }
+  ],
+  "source_authentication": "not-established"
+}

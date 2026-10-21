@@ -9,10 +9,10 @@ account.
 
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
-| `kyc-customer-due-diligence-screener` | Documents are complete; substantive identity/risk/PEP/sanctions screening is needed | `checklist_id` + applicant record |
-| `enhanced-due-diligence-packager` | Higher-risk customer needs source-of-funds/wealth, ownership, and adverse-media evidence assembled | `checklist_id` + package |
-| `beneficial-ownership-verifier` | Business customer — legal/control ownership must be mapped and reconciled to evidence | `checklist_id` + ownership docs |
-| `sanctions-match-adjudicator` | An open `watchlist_potential_match` exception needs authorized adjudication | the open exception + evidence |
+| `customer-due-diligence-reviewer` | Documents are complete; substantive identity/risk/PEP/sanctions screening is needed | `checklist_id` + applicant record |
+| `enhanced-due-diligence-assessor` | Higher-risk customer needs source-of-funds/wealth, ownership, and adverse-media evidence assembled | `checklist_id` + package |
+| `beneficial-ownership-analyzer` | Business customer — legal/control ownership must be mapped and reconciled to evidence | `checklist_id` + ownership docs |
+| `sanctions-match-investigator` | An open `watchlist_potential_match` exception needs authorized adjudication | the open exception + evidence |
 | `customer-risk-rating-reviewer` | The customer risk rating must be (re)calculated under approved methodology | `checklist_id` + applicant record |
 | `credit-application-packager` / `loan-package-completeness-checker` | The package is actually a lending application/closing package, not deposit onboarding | package + product |
 

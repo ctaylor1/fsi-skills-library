@@ -1,0 +1,126 @@
+{
+  "schema_version": "ir-phase2/1.0",
+  "request_id": "synthetic-credit-phase2",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "kind": "financial_statement",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1",
+      "subject_ids": [
+        "ACME-ISSUER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    }
+  ],
+  "unresolved_issues": [],
+  "tests": [
+    {
+      "test_id": "LEV-1",
+      "instrument_id": "TERM-1",
+      "document_id": "CREDIT-AGREEMENT",
+      "document_version": "v2",
+      "definition_id": "NET-LEV-v2",
+      "accounting_basis": "reviewed-contract-definition",
+      "currency": "USD",
+      "unit": "USD_m",
+      "test_date": "2026-09-30",
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "application_status": "applicable-supplied",
+      "definition_reviewed": true,
+      "operator": "maximum",
+      "threshold": 4.5,
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-09-30",
+        "fiscal_calendar_id": "ACME-calendar"
+      },
+      "numerator": {
+        "definition": "Supplied total debt less unrestricted cash",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "ACME-calendar"
+        },
+        "components": [
+          {
+            "component_id": "DEBT",
+            "amount": 400,
+            "sign": 1,
+            "evidence_refs": [
+              {
+                "source_id": "synthetic-financials",
+                "locator": "fixture:table-1;reviewed-inputs"
+              }
+            ]
+          },
+          {
+            "component_id": "CASH",
+            "amount": 50,
+            "sign": -1,
+            "evidence_refs": [
+              {
+                "source_id": "synthetic-financials",
+                "locator": "fixture:table-1;reviewed-inputs"
+              }
+            ]
+          }
+        ]
+      },
+      "denominator": {
+        "definition": "Supplied contract EBITDA including reviewed adjustment",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "ACME-calendar"
+        },
+        "components": [
+          {
+            "component_id": "EBITDA",
+            "amount": 100,
+            "sign": 1,
+            "evidence_refs": [
+              {
+                "source_id": "synthetic-financials",
+                "locator": "fixture:table-1;reviewed-inputs"
+              }
+            ]
+          }
+        ]
+      },
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ]
+}

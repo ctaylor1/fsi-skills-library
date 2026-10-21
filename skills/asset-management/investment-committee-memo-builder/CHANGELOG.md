@@ -1,4 +1,16 @@
-# Changelog — investment-committee-memo-builder
+# Changelog
+
+## 0.2.0 — 2026-09-20
+
+- Adopt Phase 1 ownership and canonical naming; preserve alias metadata.
+- Require source-bound native validation and document bounded support.
+ — investment-committee-memo-builder
+
+## Unreleased — Phase 1 source fidelity
+
+- This remains a supplied-model private-deal memo. Base, upside and downside are all required. Sector limits are hard by default; only an explicitly discretionary sector_limit_type permits a warning. equity_value_proxy means EV minus net debt, not sponsor funding or a sources-and-uses equity check. The supplied model itself is in the source-reference ledger. No new public-security or institutional-allocation model is implemented.
+- Added detached original-input reconstruction and independent adverse-case regressions. Validation remains draft-only and does not authenticate sources or approvals.
+
 
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`). A Draft & package
@@ -38,3 +50,8 @@ committee decision (distinct owners, entitlements, and controls).
 - Confirm the firm's IC template + concentration-limit config source, owner, and versioning.
 - Wire the read-only MCP integrations (model, VDR/diligence, market data, approved-research
   library, portfolio/limits, controlled template) at deployment.
+
+## Unreleased — Phase2 expanded mode
+
+- Added explicit business mode with claim-level evidence, audience-safe ledgers and detached source reconstruction.
+- Preserved original native input/output fixtures and legacy CLI behavior. No release or professional acceptance claimed.

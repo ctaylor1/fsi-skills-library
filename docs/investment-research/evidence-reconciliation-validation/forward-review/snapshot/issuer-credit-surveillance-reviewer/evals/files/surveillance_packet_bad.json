@@ -1,0 +1,47 @@
+{
+  "packet_version": "credit-surv-packet-2026.07",
+  "config_version": "credit-surv-2026.07",
+  "issuer_id": "ISS-9999",
+  "issuer_name": "Project Overreach Holdings",
+  "as_of": "2026-06-30",
+  "prior_as_of": "2026-03-31",
+  "packet": {
+    "required_sections": [
+      "issuer_summary", "leverage", "coverage", "liquidity", "maturity_wall",
+      "spreads", "ratings", "covenant_changes", "citations_and_evidence"
+    ],
+    "sections": {
+      "issuer_summary": {"body": "We assign an internal rating of B and recommend buying the bond; this is a guaranteed, risk-free credit. The issuer is in compliance with the covenant. Our new thesis is bullish. The packet has been sent to the PM.", "source_ids": ["FIL-10Q"]},
+      "leverage": {"body": "Net leverage 3.0x.", "source_ids": ["FIL-10Q"]},
+      "liquidity": {"body": "Liquidity fine.", "source_ids": ["FIL-10Q"]},
+      "maturity_wall": {"body": "2027: 150.", "source_ids": ["FIL-CA"]},
+      "spreads": {"body": "Current 600 bps.", "source_ids": ["MKT-GHOST"]},
+      "ratings": {"body": "We downgrade to B.", "source_ids": ["RTG-A"]},
+      "covenant_changes": {"body": "Covenant breached.", "source_ids": ["FIL-CA"]},
+      "citations_and_evidence": {"body": "See above.", "source_ids": ["FIL-10Q"]}
+    }
+  },
+  "metrics": {"net_leverage_x": 5.0},
+  "changes": {},
+  "assertions": [
+    {"claim": "credit spreads", "source_id": "MKT-GHOST", "source_type": "market", "source_ref": null, "supported": false, "approved_ok": false},
+    {"claim": "reported rating AgencyA", "source_id": "RTG-A", "source_type": "rating-agency", "source_ref": null, "supported": true, "approved_ok": false}
+  ],
+  "tie_outs": [
+    {"metric": "net_leverage_x", "packet_value": 3.0, "recomputed": 5.0, "ok": false}
+  ],
+  "covenant_changes": [
+    {"covenant_id": "COV-NLEV", "name": "Net leverage maintenance", "changed": true, "source_id": "FIL-CA", "handoff": "credit-terms-covenant-extractor"}
+  ],
+  "flags": [
+    {"code": "unsupported-claim", "severity": "block", "detail": "claim 'credit spreads' cites unknown source 'MKT-GHOST'"}
+  ],
+  "approvals": [
+    {"role": "preparer", "name": "Analyst", "status": "recorded", "date": "2026-07-01"}
+  ],
+  "rating_action": "assigned",
+  "position_action": "increase",
+  "thesis_action": "revised",
+  "unresolved": [],
+  "standing_note": "Final packet, rating assigned."
+}

@@ -1,5 +1,12 @@
 # Domain Rules — investment-thesis-monitor
 
+## Supplied-input validation boundary
+
+The bundled scripts operate on supplied JSON. Connector access, source extraction, authenticated approvals and external delivery are not implemented by these scripts. Retain the original input separately and run `python -B scripts/validate_output.py output.json --input input.json` (alias `--source`). Output includes `input_hash` and `source_truth: unverified`; validation reconstructs the native result and rejects changed figures, narrative, classifications, omitted fields and extra fields. A successful check proves correspondence with the supplied input, not source truth, legal applicability or permission to distribute. Never add a raw source snapshot to an outward-facing artifact. Source and approval strings remain supplied evidence for professional review.
+
+Future and unparseable observations never fire. Zero prior EPS produces a not-evaluable percentage revision. Deduplication requires an open thesis alert with the same evidence_fingerprint and escalation; new or changed evidence is re-raised. monitor_run_id binds the complete supplied snapshot. This is an offline calculation, not a scheduled live feed.
+
+
 Explainable thesis **signals**, how freshness gates them, and how the fired set maps to an
 **escalation band** and a deduplicated review queue. Tolerances are configuration (versioned,
 owned by the research/investment platform team), not hard-coded judgments, and are never
@@ -55,10 +62,7 @@ trade or rebalance.
 
 ## Deduplication & escalation latency
 
-- Each alert carries `alert_key = thesis_id`. If an **open** alert with the same key exists in
-  `prior_alerts`, the new alert is a **continuation**: `duplicate = true`, routed to
-  `queue.deduplicated`, and **not re-raised as a new escalation**. This prevents alert storms
-  and keeps escalation latency measured from the first raise, not every run.
+- Each alert carries `alert_key = thesis_id` and an `evidence_fingerprint`. Only an open prior alert with the same fingerprint and escalation is a duplicate. A legacy prior key without an evidence fingerprint, changed evidence, or a changed escalation is a new alert.
 - New (non-duplicate) alerts route to `queue.new`. `queue.by_escalation` groups every alert
   key under its band for the analyst queue.
 

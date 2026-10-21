@@ -1,0 +1,191 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "cross-asset-theme-researcher",
+  "method_version": "2.0.0",
+  "request_id": "theme-example",
+  "subject": {
+    "type": "economy",
+    "id": "SYNTH-ECONOMY"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "theme_id": "policy-tightening",
+    "hypothesis": {
+      "statement": "A supplied tightening shock may pressure rate-sensitive assets.",
+      "driver": "policy-rate change",
+      "transmission": "Higher discount rates and funding costs may affect prices; demand and currency channels can offset the sign.",
+      "horizon_date": "2027-03-31"
+    },
+    "driver_observations": [],
+    "evidence": [
+      {
+        "evidence_id": "support",
+        "role": "support",
+        "statement": "Supplied rate sensitivity supports a conditional valuation channel.",
+        "known_at": "2026-10-20",
+        "evidence_refs": [
+          {
+            "source_id": "economic-v1",
+            "locator": "synthetic:release#table1"
+          }
+        ]
+      },
+      {
+        "evidence_id": "counter",
+        "role": "counter",
+        "statement": "Growth and cash-flow changes could offset discount-rate effects.",
+        "known_at": "2026-10-20",
+        "evidence_refs": [
+          {
+            "source_id": "economic-v1",
+            "locator": "synthetic:release#table1"
+          }
+        ]
+      }
+    ],
+    "falsifiers": [
+      {
+        "test_id": "earnings-offset",
+        "description": "Earnings gains offset discount-rate pressure.",
+        "monitor": "Supplied quarterly earnings revision series",
+        "due_on": "2027-03-31",
+        "status": "not-tested",
+        "known_at": null,
+        "evidence_refs": []
+      }
+    ],
+    "scenarios": [
+      {
+        "scenario_id": "tightening",
+        "label": "Hypothetical 100 bp tightening",
+        "horizon_date": "2027-03-31",
+        "known_at": "2026-10-20",
+        "assumptions": [
+          "Parallel yield shift and unchanged credit spread; local linear approximation."
+        ],
+        "shocks": [
+          {
+            "driver_id": "policy-rate",
+            "value": 100,
+            "unit": "basis-point"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "source_id": "economic-v1",
+            "locator": "synthetic:release#table1"
+          }
+        ]
+      }
+    ],
+    "scenario_responses": [
+      {
+        "scenario_id": "tightening",
+        "exposure_id": "bond",
+        "asset_class": "rates",
+        "instrument_id": "SYNTH-BOND",
+        "driver_id": "policy-rate",
+        "shock": {
+          "driver_id": "policy-rate",
+          "value": 100,
+          "unit": "basis-point"
+        },
+        "method": "modified-duration",
+        "sensitivity": 5,
+        "value": -5.0,
+        "response_unit": "percent-price-change",
+        "unavailable_reason": null,
+        "conditional_qualitative_response": null,
+        "quote_convention": null,
+        "limitations": [
+          "Supplied local sensitivity; no estimated causal coefficient or convexity."
+        ]
+      },
+      {
+        "scenario_id": "tightening",
+        "exposure_id": "equity",
+        "asset_class": "equity",
+        "instrument_id": "SYNTH-EQUITY-INDEX",
+        "driver_id": "policy-rate",
+        "shock": {
+          "driver_id": "policy-rate",
+          "value": 100,
+          "unit": "basis-point"
+        },
+        "method": "linear",
+        "sensitivity": -0.02,
+        "value": -2.0,
+        "response_unit": "percent-price-change",
+        "unavailable_reason": null,
+        "conditional_qualitative_response": null,
+        "quote_convention": null,
+        "limitations": [
+          "Supplied local sensitivity; no estimated causal coefficient or convexity."
+        ]
+      }
+    ],
+    "coverage": {
+      "required_asset_classes": [
+        "rates",
+        "equity"
+      ],
+      "supplied_asset_classes": [
+        "equity",
+        "rates"
+      ],
+      "missing_asset_classes": []
+    },
+    "hypothesis_status": "supplied-hypothesis-for-review",
+    "causality_established": false,
+    "probabilities_estimated": false,
+    "portfolio_allocation_proposed": false,
+    "limitations": [
+      "Supplied sensitivities are assumptions, not estimated coefficients or authenticated market facts.",
+      "Responses are conditional local approximations per instrument; no aggregation, portfolio weighting, covariance, convexity, carry or dynamic path modeled.",
+      "Historical driver observations do not establish shocks, causal direction, forecasts or probability.",
+      "A not-observed falsifier is evidence for the declared review scope only, not proof of the hypothesis."
+    ]
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "scenario_id": "tightening",
+      "exposure_id": "bond",
+      "formula": "percent price change approximately -modified_duration * yield_shock_bp / 100"
+    },
+    {
+      "scenario_id": "tightening",
+      "exposure_id": "equity",
+      "formula": "supplied response units per shock unit * supplied shock units"
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "economic-v1",
+      "locator": "synthetic:release#table1"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "economic-v1",
+      "version": "1",
+      "known_at": "2026-07-30",
+      "locator": "synthetic:release",
+      "kind": "economic_release"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "8924c842c258fc074b3cfa02273b82b0147032a511e6fbd09fbdb4337279fbd4",
+  "source_truth": "unverified"
+}

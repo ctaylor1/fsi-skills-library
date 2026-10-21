@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import re
 import subprocess
@@ -10,7 +11,13 @@ import sys
 import tempfile
 from pathlib import Path
 
-from insurance_contract import validate_handoff
+from insurance_contract import validate_handoff as validate_insurance_handoff
+
+_spec = importlib.util.spec_from_file_location(
+    'insurance_router_workflow_contract', Path(__file__).with_name('workflow_contract.py'))
+_workflow_contract = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_workflow_contract)
+validate_workflow_handoff = _workflow_contract.validate_handoff
 
 
 def check(packet, skills_root):
@@ -41,7 +48,9 @@ def check(packet, skills_root):
             return ['native input rejected: ' + (result.stdout + result.stderr).strip()[:3000]]
         return []
 
-    return validate_handoff(packet, target_skill=target, receiver_validator=receiver)
+    validator = (validate_workflow_handoff if packet.get('contract_version') == 'workflow-evidence/1.0'
+                 else validate_insurance_handoff)
+    return validator(packet, target_skill=target, receiver_validator=receiver)
 
 
 def main():

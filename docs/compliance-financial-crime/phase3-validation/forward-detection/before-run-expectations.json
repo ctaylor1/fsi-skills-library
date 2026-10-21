@@ -1,0 +1,175 @@
+{
+  "evaluation_kind": "independent-synthetic-forward",
+  "created_before_native_runs": true,
+  "packages_unmodified": true,
+  "cases": [
+    {
+      "id": "s3-new-complete-evidence",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-new-complete-evidence.json",
+      "independent_expectation": "measured-subset-and-no-professional-acceptance",
+      "reason_before_run": "Independent confusion accounting is TP2 FP1 TN1 FN0, observed FP1/2; complete reconciled supplied scope may compare to supplied criteria but cannot establish effectiveness/identity/assurance."
+    },
+    {
+      "id": "s3-missing-receipt",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-missing-receipt.json",
+      "independent_expectation": "overall-withheld",
+      "reason_before_run": "Population includes ONBOARD-72-2 while received/screened omit it. Favorable overall coverage cannot follow from labeled tests."
+    },
+    {
+      "id": "s3-overlapping-feed-identities",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-overlapping-feed-identities.json",
+      "independent_expectation": "intake-stops",
+      "reason_before_run": "One record occurs in two feed populations; unique population grain is violated."
+    },
+    {
+      "id": "s3-duplicate-case-observation",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-duplicate-case-observation.json",
+      "independent_expectation": "intake-stops",
+      "reason_before_run": "Two engine observations share the same testset/case identity despite distinct local IDs."
+    },
+    {
+      "id": "s3-exact-fp-threshold",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-exact-fp-threshold.json",
+      "independent_expectation": "criterion-false",
+      "reason_before_run": "FP1/2 exceeds this exact decimal threshold; rounded displays cannot make it favorable."
+    },
+    {
+      "id": "s3-hindsight-labels",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-hindsight-labels.json",
+      "independent_expectation": "overall-withheld",
+      "reason_before_run": "Labels known after observed_at 11:00 must not establish eligible true/false-positive ground truth."
+    },
+    {
+      "id": "s3-unknown-label",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-unknown-label.json",
+      "independent_expectation": "overall-withheld",
+      "reason_before_run": "Unlabeled engine alert remains an unlabeled observation, never an eligible negative or positive."
+    },
+    {
+      "id": "s3-source-audience-mismatch",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-source-audience-mismatch.json",
+      "independent_expectation": "intake-stops",
+      "reason_before_run": "Output recipient outside source-specific access cannot receive the native evidence draft."
+    },
+    {
+      "id": "s3-native-scope-mismatch",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-native-scope-mismatch.json",
+      "independent_expectation": "intake-stops",
+      "reason_before_run": "The output review ID and native workflow object must match exactly."
+    },
+    {
+      "id": "s3-changed-list-version",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-changed-list-version.json",
+      "independent_expectation": "overall-withheld-or-false",
+      "reason_before_run": "Observed engine list version cannot prove coverage of a different loaded snapshot; no favorable overall criterion."
+    },
+    {
+      "id": "s3-list-update-delay",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-list-update-delay.json",
+      "independent_expectation": "criterion-false",
+      "reason_before_run": "1200-second effective-to-load lag exceeds supplied maximum600; complete evidence must retain the known failure."
+    },
+    {
+      "id": "s3-source-value-divergence",
+      "skill": "sanctions-screening-control-evaluator",
+      "input": "s3-source-value-divergence.json",
+      "independent_expectation": "overall-withheld",
+      "reason_before_run": "Engine identity claim conflicts with exact supplied fact; unverified registry presence is insufficient."
+    },
+    {
+      "id": "m1-new-complete-proposal",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-new-complete-proposal.json",
+      "independent_expectation": "proposal-draft-no-execution",
+      "reason_before_run": "Same scoped counts/basis/totals, disjoint holdout and source-bound design/change evidence may form a proposal; no engine execution, identity resolution or activation follows."
+    },
+    {
+      "id": "m1-ambiguous-identity",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-ambiguous-identity.json",
+      "independent_expectation": "proposal-withheld",
+      "reason_before_run": "One ambiguous entity link blocks the proposal; a crosswalk string does not resolve it."
+    },
+    {
+      "id": "m1-holdout-identity-leakage",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-holdout-identity-leakage.json",
+      "independent_expectation": "proposal-withheld",
+      "reason_before_run": "The same item enters training and holdout, so asserted independence cannot override leakage."
+    },
+    {
+      "id": "m1-same-evaluation-dataset",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-same-evaluation-dataset.json",
+      "independent_expectation": "proposal-withheld",
+      "reason_before_run": "Backtest/holdout dataset IDs are equal despite separate date ranges; declared independent-holdout identity is inconsistent."
+    },
+    {
+      "id": "m1-exact-total-mismatch",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-exact-total-mismatch.json",
+      "independent_expectation": "proposal-withheld",
+      "reason_before_run": "Loaded amount differs by0.000000000000000001; float/rounded equality cannot establish reconciliation."
+    },
+    {
+      "id": "m1-mixed-accounting-basis",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-mixed-accounting-basis.json",
+      "independent_expectation": "proposal-withheld",
+      "reason_before_run": "Scenario is gross USD and requirement is net; no compatible aggregate basis is established."
+    },
+    {
+      "id": "m1-engine-population-mismatch",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-engine-population-mismatch.json",
+      "independent_expectation": "proposal-withheld",
+      "reason_before_run": "Engine workpaper from a different population cannot support this scenario."
+    },
+    {
+      "id": "m1-benchmark-only",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-benchmark-only.json",
+      "independent_expectation": "proposal-withheld",
+      "reason_before_run": "External benchmark remains a reference and cannot stand in for this bank engine workpaper."
+    },
+    {
+      "id": "m1-unknown-population-grain",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-unknown-population-grain.json",
+      "independent_expectation": "proposal-withheld",
+      "reason_before_run": "Unknown event/customer/account grain cannot be filled in from similar evidence."
+    },
+    {
+      "id": "m1-restricted-sar-source",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-restricted-sar-source.json",
+      "independent_expectation": "intake-stops",
+      "reason_before_run": "SAR restricted source cannot flow into general confidential monitoring owner draft."
+    },
+    {
+      "id": "m1-native-context-mismatch",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-native-context-mismatch.json",
+      "independent_expectation": "intake-stops",
+      "reason_before_run": "Workflow object and native design must match; no context adaptation is implicit."
+    },
+    {
+      "id": "m1-duplicate-parameter-identity",
+      "skill": "transaction-monitoring-scenario-designer",
+      "input": "m1-duplicate-parameter-identity.json",
+      "independent_expectation": "intake-stops",
+      "reason_before_run": "Duplicated parameter native ID makes proposal ambiguous and cannot be silently deduplicated."
+    }
+  ]
+}

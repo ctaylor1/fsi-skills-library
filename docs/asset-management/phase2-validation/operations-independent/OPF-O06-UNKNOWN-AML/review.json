@@ -1,0 +1,152 @@
+{
+  "id": "OPF-O06-UNKNOWN-AML",
+  "package": "fund-investor-operations-reviewer",
+  "input": {
+    "request_id": "OPF-O06-UNKNOWN-AML",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "dealing_review",
+    "cutoff_at": "2026-09-18T16:00:00-04:00",
+    "valuation_at": "2026-09-18T20:30:00+00:00",
+    "dealing_terms_source_ref": "ind-source",
+    "orders": [
+      {
+        "order_id": "SUB",
+        "share_class_id": "CLASS-A",
+        "type": "subscription",
+        "received_at": "2026-09-18T19:59:00+00:00",
+        "source_ref": "ind-source",
+        "aml_evidence_status": "unknown",
+        "aml_source_ref": "ind-source",
+        "aml_valid_until": "2026-10-01",
+        "fee_amount": "1",
+        "nav_per_unit": "3",
+        "nav_source_ref": "ind-source",
+        "nav_valuation_at": "2026-09-18T20:30:00+00:00",
+        "subscription_cash": "1000"
+      }
+    ]
+  },
+  "expected": {
+    "pricing": null,
+    "reason": "unknown AML evidence prevents indicative pricing without clearing the investor"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "a8a7b3065895756a12a4a07cd0811b6162a7dcdef6077fc5ef1e471f2f26a08b",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"fund-investor-operations-reviewer\",\n  \"request_id\": \"OPF-O06-UNKNOWN-AML\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"needs-review\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-dealing-timetable-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"orders\": [\n      {\n        \"order_id\": \"SUB\",\n        \"share_class_id\": \"CLASS-A\",\n        \"type\": \"subscription\",\n        \"on_time\": true,\n        \"supplied_aml_evidence_status\": \"unknown\",\n        \"accepted\": false,\n        \"indicative_units\": null,\n        \"indicative_net_cash\": null,\n        \"review_status\": \"exceptions\",\n        \"exceptions\": [\n          \"eligibility evidence unresolved; no subscription/redemption acceptance\"\n        ]\n      }\n    ],\n    \"cutoff_at\": \"2026-09-18T16:00:00-04:00\",\n    \"valuation_at\": \"2026-09-18T20:30:00+00:00\"\n  },\n  \"unresolved_issues\": [\n    \"SUB: eligibility evidence unresolved; no subscription/redemption acceptance\"\n  ],\n  \"limitations\": [\n    \"Supplied fund/class timetable and eligibility assertions only; no jurisdictional cutoff, business-day calendar or AML determination.\",\n    \"Late/unresolved orders have no indicative pricing; no backdating, acceptance, units issuance/cancellation or cash transfer.\",\n    \"Subscription units rounded to8 decimal places; residual cash disclosed. Swing pricing, dilution adjustments, gates and tax require separate methods.\"\n  ],\n  \"handoffs\": [\n    \"fund-accounting-preparer\",\n    \"fund-liquidity-assessor\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"d537084a9b225a0e78ea2e0a52296468bb4bfdf1e2f034b0c95ec771976e02a0\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "fund-investor-operations-reviewer",
+    "request_id": "OPF-O06-UNKNOWN-AML",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "needs-review",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "supplied-dealing-timetable-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "orders": [
+        {
+          "order_id": "SUB",
+          "share_class_id": "CLASS-A",
+          "type": "subscription",
+          "on_time": true,
+          "supplied_aml_evidence_status": "unknown",
+          "accepted": false,
+          "indicative_units": null,
+          "indicative_net_cash": null,
+          "review_status": "exceptions",
+          "exceptions": [
+            "eligibility evidence unresolved; no subscription/redemption acceptance"
+          ]
+        }
+      ],
+      "cutoff_at": "2026-09-18T16:00:00-04:00",
+      "valuation_at": "2026-09-18T20:30:00+00:00"
+    },
+    "unresolved_issues": [
+      "SUB: eligibility evidence unresolved; no subscription/redemption acceptance"
+    ],
+    "limitations": [
+      "Supplied fund/class timetable and eligibility assertions only; no jurisdictional cutoff, business-day calendar or AML determination.",
+      "Late/unresolved orders have no indicative pricing; no backdating, acceptance, units issuance/cancellation or cash transfer.",
+      "Subscription units rounded to8 decimal places; residual cash disclosed. Swing pricing, dilution adjustments, gates and tax require separate methods."
+    ],
+    "handoffs": [
+      "fund-accounting-preparer",
+      "fund-liquidity-assessor"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "d537084a9b225a0e78ea2e0a52296468bb4bfdf1e2f034b0c95ec771976e02a0",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-O06-UNKNOWN-AML",
+      "check": "unknown clearance prevents pricing",
+      "passed": true
+    },
+    {
+      "case": "OPF-O06-UNKNOWN-AML",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-O06-UNKNOWN-AML",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-O06-UNKNOWN-AML",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    }
+  ]
+}

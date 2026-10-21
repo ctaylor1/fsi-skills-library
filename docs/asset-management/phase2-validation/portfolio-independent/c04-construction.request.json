@@ -1,0 +1,82 @@
+{
+  "request_id": "independent-c04-construction",
+  "object_id": "ENDOWMENT-9",
+  "as_of": "2026-09-21",
+  "knowledge_cutoff": "2026-09-21",
+  "currency": "USD",
+  "audience": "internal-review",
+  "sources": [
+    {
+      "source_ref": "OPERATING-RECORD",
+      "version": "2026Q3-v2",
+      "as_of": "2026-09-21",
+      "known_at": "2026-09-21",
+      "object_id": "ENDOWMENT-9",
+      "currency": "USD",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "approval_status": "approved"
+    }
+  ],
+  "universe_type": "security",
+  "assets": [
+    {
+      "id": "RISK",
+      "group": "growth",
+      "expected_return": ".10",
+      "liquidity_days": "30",
+      "source_ref": "OPERATING-RECORD"
+    },
+    {
+      "id": "DEFENSIVE",
+      "group": "defensive",
+      "expected_return": ".02",
+      "liquidity_days": "1",
+      "source_ref": "OPERATING-RECORD"
+    }
+  ],
+  "covariance": [
+    [
+      ".04",
+      ".002"
+    ],
+    [
+      ".002",
+      ".01"
+    ]
+  ],
+  "covariance_source_ref": "OPERATING-RECORD",
+  "candidates": [
+    {
+      "id": "QuarterGrowth",
+      "weights": {
+        "RISK": ".25",
+        "DEFENSIVE": ".75"
+      }
+    }
+  ],
+  "constraints": {
+    "group_ranges": {
+      "growth": {
+        "min": ".1",
+        "max": ".6"
+      }
+    },
+    "max_position": ".8",
+    "minimum_expected_return": ".03",
+    "maximum_volatility": ".10",
+    "liquidity_horizon_days": "7",
+    "max_illiquid_weight": ".2"
+  },
+  "scenarios": [
+    {
+      "id": "Growth selloff",
+      "asset_returns": {
+        "RISK": "-.3",
+        "DEFENSIVE": ".04"
+      },
+      "source_ref": "OPERATING-RECORD"
+    }
+  ]
+}

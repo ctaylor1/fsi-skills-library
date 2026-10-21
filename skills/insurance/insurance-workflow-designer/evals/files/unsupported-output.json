@@ -1,0 +1,386 @@
+{
+  "schema_version": "workflow-review-1.0",
+  "producer": "insurance-workflow-designer",
+  "case_id": "SYN-P4-01",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "design-review",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "FNOL-MODERNIZATION",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "method",
+      "message": "An explicitly reviewed supported method profile is required",
+      "source_refs": [],
+      "severity": "gap"
+    }
+  ],
+  "results": {
+    "paths": [
+      {
+        "path_id": "C-normal",
+        "design": "current",
+        "kind": "normal",
+        "outcome": "prepared",
+        "step_ids": [
+          "H"
+        ],
+        "share": "0.8",
+        "human_minutes": null,
+        "elapsed_minutes": null,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "path_id": "C-exception",
+        "design": "current",
+        "kind": "exception",
+        "outcome": "human prepared",
+        "step_ids": [
+          "H",
+          "F"
+        ],
+        "share": "0.2",
+        "human_minutes": null,
+        "elapsed_minutes": null,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "path_id": "T-normal",
+        "design": "target",
+        "kind": "normal",
+        "outcome": "human reviewed draft",
+        "step_ids": [
+          "R",
+          "H"
+        ],
+        "share": "0.9",
+        "human_minutes": null,
+        "elapsed_minutes": null,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "path_id": "T-exception",
+        "design": "target",
+        "kind": "exception",
+        "outcome": "human prepared after failure",
+        "step_ids": [
+          "R",
+          "F"
+        ],
+        "share": "0.1",
+        "human_minutes": null,
+        "elapsed_minutes": null,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "weighted_minutes": {
+      "current": {
+        "human_minutes": null,
+        "elapsed_minutes": null
+      },
+      "target": {
+        "human_minutes": null,
+        "elapsed_minutes": null
+      }
+    },
+    "source_contracts": [
+      {
+        "contract_id": "C1",
+        "system": "synthetic intake archive",
+        "version": "v1",
+        "owner": "data owner",
+        "access_scope": "read selected deidentified notices",
+        "purpose": "offline FNOL design",
+        "schema_version": "notice-v1",
+        "freshness_rule": "same snapshot",
+        "access_reviewed": true,
+        "purpose_reviewed": true,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "step_design": [
+      {
+        "step_id": "H",
+        "mode": "human",
+        "owner": "claims intake",
+        "input_contract": "raw notice",
+        "output_contract": "reviewed notice",
+        "completion_evidence": "review event",
+        "contract_ids": [],
+        "human_minutes": 10,
+        "elapsed_minutes": 20,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "step_id": "R",
+        "mode": "draft",
+        "owner": "intake platform",
+        "input_contract": "notice-v1",
+        "output_contract": "proposed classification",
+        "completion_evidence": "draft artifact",
+        "contract_ids": [
+          "C1"
+        ],
+        "human_minutes": 2,
+        "elapsed_minutes": 3,
+        "failure_step": "F",
+        "timeout_rule": "10 seconds then refer",
+        "audit_record": "case trace",
+        "max_attempts": 1,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "step_id": "F",
+        "mode": "human",
+        "owner": "exception team",
+        "input_contract": "failed preparation",
+        "output_contract": "reviewed intake",
+        "completion_evidence": "exception resolution event",
+        "contract_ids": [],
+        "human_minutes": 20,
+        "elapsed_minutes": 60,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "business_outcome": "Reduce FNOL preparation work with human triage retained",
+    "runtime_installed": false,
+    "workflow_approved": false
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "An explicitly reviewed supported method profile is required"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "SYN-P4-01",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "design-review",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "FNOL-MODERNIZATION",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-record",
+        "version": "1",
+        "as_of": "2026-09-20",
+        "locator": "Synthetic local exercise; no live records"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "SYN-PROFILE",
+        "version": "1",
+        "reviewed_by": "Synthetic design owner",
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "pc"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "method": "unsupported-method",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      "business_outcome": "Reduce FNOL preparation work with human triage retained",
+      "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+      "path_inventory_complete": true,
+      "source_contracts": [
+        {
+          "contract_id": "C1",
+          "system": "synthetic intake archive",
+          "version": "v1",
+          "owner": "data owner",
+          "access_scope": "read selected deidentified notices",
+          "purpose": "offline FNOL design",
+          "schema_version": "notice-v1",
+          "freshness_rule": "same snapshot",
+          "access_reviewed": true,
+          "purpose_reviewed": true,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "H",
+          "mode": "human",
+          "owner": "claims intake",
+          "input_contract": "raw notice",
+          "output_contract": "reviewed notice",
+          "completion_evidence": "review event",
+          "contract_ids": [],
+          "human_minutes": 10,
+          "elapsed_minutes": 20,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "step_id": "R",
+          "mode": "draft",
+          "owner": "intake platform",
+          "input_contract": "notice-v1",
+          "output_contract": "proposed classification",
+          "completion_evidence": "draft artifact",
+          "contract_ids": [
+            "C1"
+          ],
+          "human_minutes": 2,
+          "elapsed_minutes": 3,
+          "failure_step": "F",
+          "timeout_rule": "10 seconds then refer",
+          "audit_record": "case trace",
+          "max_attempts": 1,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "step_id": "F",
+          "mode": "human",
+          "owner": "exception team",
+          "input_contract": "failed preparation",
+          "output_contract": "reviewed intake",
+          "completion_evidence": "exception resolution event",
+          "contract_ids": [],
+          "human_minutes": 20,
+          "elapsed_minutes": 60,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "paths": [
+        {
+          "path_id": "C-normal",
+          "design": "current",
+          "kind": "normal",
+          "outcome": "prepared",
+          "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+          "step_ids": [
+            "H"
+          ],
+          "share": ".8",
+          "failure_of": [],
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "path_id": "C-exception",
+          "design": "current",
+          "kind": "exception",
+          "outcome": "human prepared",
+          "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+          "step_ids": [
+            "H",
+            "F"
+          ],
+          "share": ".2",
+          "failure_of": [],
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "path_id": "T-normal",
+          "design": "target",
+          "kind": "normal",
+          "outcome": "human reviewed draft",
+          "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+          "step_ids": [
+            "R",
+            "H"
+          ],
+          "share": ".9",
+          "failure_of": [],
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "path_id": "T-exception",
+          "design": "target",
+          "kind": "exception",
+          "outcome": "human prepared after failure",
+          "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+          "step_ids": [
+            "R",
+            "F"
+          ],
+          "share": ".1",
+          "failure_of": [
+            "R"
+          ],
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "workflow-evidence/1.0",
+    "producer": "insurance-workflow-designer",
+    "artifact_type": "workflow-review",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "design-review",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "FNOL-MODERNIZATION",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-record",
+        "version": "1",
+        "as_of": "2026-09-20",
+        "locator": "Synthetic local exercise; no live records"
+      }
+    ],
+    "input_hash": "11df1fac8d40a093cb43b23eb85f5f78d90f40f486bf07d5a94c831b112da4f7",
+    "output_hash": "d93062cf529959fd3e906791595c6a33e4a7f106e06ea3478858f8cf7f4532a3",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "An explicitly reviewed supported method profile is required"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "e539520c4a43d6868031f3e013277ebdc00424ec8dc249f75cd474637159d152"
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "reconciliation_id": "ivfr-ACME-AM-2026-06-30-483dca14",
+  "entity": "ACME-AM",
+  "as_of": "2026-06-30",
+  "internal_source": "IBOR",
+  "vendor_source": "VENDOR-A",
+  "currency": "USD",
+  "config_version": "ivfr-cfg-2026.06",
+  "input_fingerprint": "483dca1473c241156f417ccef7b0938750b98c37b429a35e2407984882ae3930",
+  "tie_out": {
+    "internal_cells": 10,
+    "vendor_cells": 9,
+    "total_cells": 11,
+    "matched_cells": 3,
+    "break_cells": 8,
+    "cells_accounted": 11,
+    "residual_cells": 3,
+    "ties_out": false,
+    "status": "reconciled_with_discrepancies"
+  },
+  "breaks": [
+    {
+      "break_id": "BRK-0001",
+      "instrument_id": "INDEX-X:INST-F",
+      "domain": "index_constituent",
+      "field": "member",
+      "type": "missing_in_vendor",
+      "data_type": null,
+      "internal": {
+        "value": "true",
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "ibor;idx;INDEX-X;INST-F",
+        "citation": "internal:ibor;idx;INDEX-X;INST-F@2026-06-30T00:00:00Z"
+      },
+      "vendor": null,
+      "difference": null,
+      "as_of_gap_days": null,
+      "material": true,
+      "route": "index/benchmark data owner (human review)",
+      "disposition": "RESOLVED",
+      "canonical_value": "true",
+      "note": "present in internal book-of-record; absent from vendor feed",
+      "lineage": [
+        "internal:ibor;idx;INDEX-X;INST-F@2026-06-30T00:00:00Z"
+      ]
+    },
+    {
+      "break_id": "BRK-0002",
+      "instrument_id": "INDEX-X:INST-G",
+      "domain": "index_constituent",
+      "field": "weight",
+      "type": "value_mismatch",
+      "data_type": "numeric",
+      "internal": {
+        "value": 1.5,
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "ibor;idx;INDEX-X;INST-G",
+        "citation": "internal:ibor;idx;INDEX-X;INST-G@2026-06-30T00:00:00Z"
+      },
+      "vendor": {
+        "value": 1.8,
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "vendorA;idx;INDEX-X;INST-G",
+        "citation": "vendor:vendorA;idx;INDEX-X;INST-G@2026-06-30T00:00:00Z"
+      },
+      "difference": -0.3,
+      "as_of_gap_days": null,
+      "material": true,
+      "route": "index/benchmark data owner (human review)",
+      "disposition": "UNRESOLVED",
+      "canonical_value": null,
+      "note": "internal 1.5 vs vendor 1.8 (numeric diff -0.3, tolerance 0.0018)",
+      "lineage": [
+        "internal:ibor;idx;INDEX-X;INST-G@2026-06-30T00:00:00Z",
+        "vendor:vendorA;idx;INDEX-X;INST-G@2026-06-30T00:00:00Z"
+      ]
+    },
+    {
+      "break_id": "BRK-0003",
+      "instrument_id": "INST-A",
+      "domain": "price",
+      "field": "price",
+      "type": "value_mismatch",
+      "data_type": "numeric",
+      "internal": {
+        "value": 100.0,
+        "as_of": "2026-06-30T16:00:00Z",
+        "currency": "USD",
+        "source_ref": "ibor;px;INST-A;20260630",
+        "citation": "internal:ibor;px;INST-A;20260630@2026-06-30T16:00:00Z"
+      },
+      "vendor": {
+        "value": 100.75,
+        "as_of": "2026-06-30T16:00:00Z",
+        "currency": "USD",
+        "source_ref": "vendorA;eod;INST-A;20260630",
+        "citation": "vendor:vendorA;eod;INST-A;20260630@2026-06-30T16:00:00Z"
+      },
+      "difference": -0.75,
+      "as_of_gap_days": null,
+      "material": true,
+      "route": "internal-book",
+      "disposition": "UNRESOLVED",
+      "canonical_value": null,
+      "note": "internal 100.0 vs vendor 100.75 (numeric diff -0.75, tolerance 0.10075)",
+      "lineage": [
+        "internal:ibor;px;INST-A;20260630@2026-06-30T16:00:00Z",
+        "vendor:vendorA;eod;INST-A;20260630@2026-06-30T16:00:00Z"
+      ]
+    },
+    {
+      "break_id": "BRK-0004",
+      "instrument_id": "INST-A",
+      "domain": "rating",
+      "field": "rating",
+      "type": "value_mismatch",
+      "data_type": "categorical",
+      "internal": {
+        "value": "A",
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "ibor;rt;INST-A;20260630",
+        "citation": "internal:ibor;rt;INST-A;20260630@2026-06-30T00:00:00Z"
+      },
+      "vendor": {
+        "value": "A-",
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "vendorA;rt;INST-A;20260630",
+        "citation": "vendor:vendorA;rt;INST-A;20260630@2026-06-30T00:00:00Z"
+      },
+      "difference": null,
+      "as_of_gap_days": null,
+      "material": true,
+      "route": "investment-reference-data-reviewer",
+      "disposition": "UNRESOLVED",
+      "canonical_value": null,
+      "note": "internal 'A' vs vendor 'A-' (categorical)",
+      "lineage": [
+        "internal:ibor;rt;INST-A;20260630@2026-06-30T00:00:00Z",
+        "vendor:vendorA;rt;INST-A;20260630@2026-06-30T00:00:00Z"
+      ]
+    },
+    {
+      "break_id": "BRK-0005",
+      "instrument_id": "INST-C",
+      "domain": "instrument_attribute",
+      "field": "coupon",
+      "type": "missing_in_vendor",
+      "data_type": null,
+      "internal": {
+        "value": 5.25,
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "ibor;attr;INST-C;coupon",
+        "citation": "internal:ibor;attr;INST-C;coupon@2026-06-30T00:00:00Z"
+      },
+      "vendor": null,
+      "difference": null,
+      "as_of_gap_days": null,
+      "material": true,
+      "route": "investment-reference-data-reviewer",
+      "disposition": "UNRESOLVED",
+      "canonical_value": null,
+      "note": "present in internal book-of-record; absent from vendor feed",
+      "lineage": [
+        "internal:ibor;attr;INST-C;coupon@2026-06-30T00:00:00Z"
+      ]
+    },
+    {
+      "break_id": "BRK-0006",
+      "instrument_id": "INST-D",
+      "domain": "rating",
+      "field": "rating",
+      "type": "missing_in_internal",
+      "data_type": null,
+      "internal": null,
+      "vendor": {
+        "value": "BBB+",
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "vendorA;rt;INST-D;20260630",
+        "citation": "vendor:vendorA;rt;INST-D;20260630@2026-06-30T00:00:00Z"
+      },
+      "difference": null,
+      "as_of_gap_days": null,
+      "material": true,
+      "route": "investment-reference-data-reviewer",
+      "disposition": "UNRESOLVED",
+      "canonical_value": null,
+      "note": "present in vendor feed; absent from internal book-of-record",
+      "lineage": [
+        "vendor:vendorA;rt;INST-D;20260630@2026-06-30T00:00:00Z"
+      ]
+    },
+    {
+      "break_id": "BRK-0007",
+      "instrument_id": "INST-E",
+      "domain": "corporate_action",
+      "field": "ex_date",
+      "type": "value_mismatch",
+      "data_type": "categorical",
+      "internal": {
+        "value": "2026-07-10",
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "ibor;ca;INST-E;exdate",
+        "citation": "internal:ibor;ca;INST-E;exdate@2026-06-30T00:00:00Z"
+      },
+      "vendor": {
+        "value": "2026-07-09",
+        "as_of": "2026-06-30T00:00:00Z",
+        "currency": null,
+        "source_ref": "vendorA;ca;INST-E;exdate",
+        "citation": "vendor:vendorA;ca;INST-E;exdate@2026-06-30T00:00:00Z"
+      },
+      "difference": null,
+      "as_of_gap_days": null,
+      "material": true,
+      "route": "corporate-action-interpreter",
+      "disposition": "UNRESOLVED",
+      "canonical_value": null,
+      "note": "internal '2026-07-10' vs vendor '2026-07-09' (categorical)",
+      "lineage": [
+        "internal:ibor;ca;INST-E;exdate@2026-06-30T00:00:00Z",
+        "vendor:vendorA;ca;INST-E;exdate@2026-06-30T00:00:00Z"
+      ]
+    },
+    {
+      "break_id": "BRK-0008",
+      "instrument_id": "INST-H",
+      "domain": "price",
+      "field": "price",
+      "type": "stale_as_of",
+      "data_type": null,
+      "internal": {
+        "value": 20.0,
+        "as_of": "2026-06-25T16:00:00Z",
+        "currency": "USD",
+        "source_ref": "ibor;px;INST-H;20260625",
+        "citation": "internal:ibor;px;INST-H;20260625@2026-06-25T16:00:00Z"
+      },
+      "vendor": {
+        "value": 20.0,
+        "as_of": "2026-06-30T16:00:00Z",
+        "currency": "USD",
+        "source_ref": "vendorA;eod;INST-H;20260630",
+        "citation": "vendor:vendorA;eod;INST-H;20260630@2026-06-30T16:00:00Z"
+      },
+      "difference": null,
+      "as_of_gap_days": 5,
+      "material": false,
+      "route": "fund-valuation-oversight-reviewer",
+      "disposition": "UNRESOLVED",
+      "canonical_value": null,
+      "note": "values agree but a source as-of is 5 day(s) old (> staleness threshold 3)",
+      "lineage": [
+        "internal:ibor;px;INST-H;20260625@2026-06-25T16:00:00Z",
+        "vendor:vendorA;eod;INST-H;20260630@2026-06-30T16:00:00Z"
+      ]
+    }
+  ],
+  "summary": {
+    "total_breaks": 8,
+    "by_type": {
+      "value_mismatch": 4,
+      "missing_in_internal": 1,
+      "missing_in_vendor": 2,
+      "stale_as_of": 1
+    },
+    "by_domain": {
+      "index_constituent": 2,
+      "price": 2,
+      "rating": 2,
+      "instrument_attribute": 1,
+      "corporate_action": 1
+    },
+    "material_breaks": 7,
+    "price_breaks_routed": 2
+  },
+  "routing": {
+    "index/benchmark data owner (human review)": [
+      "BRK-0001",
+      "BRK-0002"
+    ],
+    "fund-valuation-oversight-reviewer": [
+      "BRK-0003",
+      "BRK-0008"
+    ],
+    "investment-reference-data-reviewer": [
+      "BRK-0004",
+      "BRK-0005",
+      "BRK-0006"
+    ],
+    "corporate-action-interpreter": [
+      "BRK-0007"
+    ]
+  },
+  "disclaimer": "",
+  "narrative": "Reconciliation complete. The canonical value is the vendor price for INST-A; we overrode the security master and repaired the record so the internal book now agrees with the vendor."
+}

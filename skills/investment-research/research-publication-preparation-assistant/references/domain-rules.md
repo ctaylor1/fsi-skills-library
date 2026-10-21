@@ -1,0 +1,9 @@
+# Implemented method and limits
+
+The native method checks supplied disclosure/checklist token sets, a supplied applicable rating scale, supplied rating-direction mapping and target movement, and an explicitly checked ticker restricted list. It supports unrated/debt notes through explicit non-applicability. It is not note-text extraction, full research-quality review, a legal rules engine, license verification, institutional policy certification, rating/target origination, publication approval or distribution.
+
+Disclosure and checklist checks use required minus present token sets. Rating validity runs only when explicitly applicable. Rating/target direction uses a supplied rank map and applicable rating/target flags; a missing map is an unevaluated configuration gap. Restricted status is null when no lookup was asserted or no ticker key is supplied; an empty unchecked list cannot establish absence. Non-applicable rating status is not-applicable, not a passed rating test. Source rights and legal scope are caller assertions and remain unauthenticated.
+
+Never treat unknown rights or applicability as eligibility. Do not convert an unrated note into a rated note to satisfy a scale check. Configuration tokens do not prove disclosures are in the actual note. Restricted-list checking is ticker-specific, not a complete issuer/instrument/cross-entity control. Any jurisdiction/profile conflict requires the institution’s compliance/legal owner; no universal US or cross-border legal default is installed. Published, approved or distributed states are outside this output contract.
+
+Economic dates/forecast periods do not establish when information was known. Where this native contract uses an intraday cutoff, source knowledge timestamps require timezones. A source reference and a reproducible hash do not prove content authenticity or licensed use.

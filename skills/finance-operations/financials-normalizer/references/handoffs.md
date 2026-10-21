@@ -1,5 +1,10 @@
 # Adjacent-Skill Handoffs — financials-normalizer
 
+## Version 0.2.0 contract
+
+Each adjustment requires an explicit statement, known period and mapped reported account; an absent starting value cannot default to zero. Preserve its rationale, source and supplied approver in the adjustment ledger. Check reported balance-sheet anchors separately for each period. Reconstructed normalized identities require complete, disjoint mapped component coverage; raw anchor agreement cannot prove adjusted statements balance. Incomplete reconstruction prevents Model-ready. This maps extracts only; it does not convert accounting frameworks or provide an accounting opinion.
+
+
 This skill produces a cited **normalized, model-ready dataset** (`normalization_id`) with
 provenance and tie-outs, and stops. It does not build the downstream model, spread borrower
 financials into a bank credit template, reconcile to the ledger, or judge/post anything. It

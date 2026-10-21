@@ -243,7 +243,10 @@ def validate_case(case, rubric, skill_ids):
         if "reference" in source:
             need(text(source["reference"]), "Source reference must be text")
         seen.add(sid)
-    need(set(case) <= {"schema_version", "case_id", "title", "skill_ids", "prompt", "source_packet", "conditions", "rubric_id"}, "Unexpected public-case fields; keep grader notes in rubric")
+    need(set(case) <= {"schema_version", "case_id", "title", "skill_ids", "prompt", "source_packet", "conditions", "rubric_id", "public_resources"}, "Unexpected public-case fields; keep grader notes in rubric")
+    for name, relative in object_(case.get("public_resources", {}), "public resources").items():
+        need(identifier(name) and name.endswith(".json") and name != "source_packet.json", "Public resources require distinct plain JSON filenames")
+        need(text(relative) and not PurePosixPath(relative).is_absolute() and ".." not in PurePosixPath(relative).parts and "\\" not in relative, "Public resource path must remain inside case directory")
     items = list_(rubric.get("items"), "rubric items", True)
     ids = []
     for item in items:
@@ -260,6 +263,8 @@ def model_template():
 
 def render_prompt(case, condition):
     guidance = "\nAvailable skill packages are in ./skills/. Read the router and relevant SKILL.md instructions and supporting operational resources. Do not use selftests, missing evaluation fixtures or external files.\n" if condition == "with-skill" else "\nNo skill packages are supplied in this working directory.\n"
+    if case.get("public_resources"):
+        guidance += "\nAdditional supplied scenario evidence (identical in both conditions) is in ./resources/: " + ", ".join(sorted(case["public_resources"])) + ".\n"
     return case["prompt"] + "\n\nUse the cited records in ./source_packet.json. Produce a useful draft for human review and cite source IDs. Preserve unknowns and distinguish supplied facts from assumptions.\n" + TOOL_POLICY["description"] + "\n" + guidance
 
 
@@ -292,13 +297,29 @@ def prepare(snapshot_dir, case_dir, rubric_dir, output, experiment_id):
         cid = case["case_id"]
         save(output / "hidden" / "cases" / (cid + ".json"), case)
         save(output / "hidden" / "rubrics" / (cid + ".json"), rubric)
-        case_records.append({"case_id": cid, "case": ref(output, f"hidden/cases/{cid}.json"), "rubric": ref(output, f"hidden/rubrics/{cid}.json")})
+        case_record = {"case_id": cid, "case": ref(output, f"hidden/cases/{cid}.json"), "rubric": ref(output, f"hidden/rubrics/{cid}.json")}
+        resources = {}
+        for name, relative in case.get("public_resources", {}).items():
+            source = safe_path(case_dir, relative)
+            load(source)  # Public resource files are JSON evidence, never executables.
+            frozen_path = f"hidden/public-resources/{cid}/{name}"
+            target = output / frozen_path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
+            resources[name] = ref(output, frozen_path)
+        if resources:
+            case_record["public_resources"] = resources
+        case_records.append(case_record)
         for condition in CONDITIONS:
             run_id = cid + "--" + condition
             packet_relative = "conditions/" + run_id
             packet = output / packet_relative
             packet.mkdir(parents=True)
             save(packet / "source_packet.json", case["source_packet"])
+            for name, resource in resources.items():
+                target = packet / "resources" / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(output / resource["path"], target)
             selected = sorted(set(case["skill_ids"]) | {ROUTER}) if condition == "with-skill" else []
             for sid in selected:
                 for file in by_skill[sid]["files"]:
@@ -311,6 +332,8 @@ def prepare(snapshot_dir, case_dir, rubric_dir, output, experiment_id):
             exposed_files = [ref(output, p.relative_to(output).as_posix()) for p in sorted(packet.rglob("*")) if p.is_file()]
             skills = {sid: by_skill[sid]["operational_sha256"] for sid in selected}
             bindings = {"case_sha256": hash_object(case), "case_prompt_sha256": digest(case["prompt"].encode()), "prompt_sha256": digest(prompt.encode()), "source_packet_sha256": digest((packet / "source_packet.json").read_bytes()), "rubric_sha256": hash_object(rubric), "skill_hashes": skills, "skill_manifest_sha256": hash_object(skills), "snapshot_sha256": frozen["snapshot_sha256"]}
+            if resources:
+                bindings["public_resources_sha256"] = {name: resource["sha256"] for name, resource in resources.items()}
             expected.append({"run_id": run_id, "case_id": cid, "condition": condition, "packet_dir": packet_relative, "record_path": "runs/" + run_id + ".json", "bindings": bindings, "exposed_files": exposed_files})
     manifest = seal({"schema_version": VERSION, "kind": "experiment", "experiment_id": experiment_id, "created_at": now(), "snapshot_sha256": frozen["snapshot_sha256"], "tool_policy": TOOL_POLICY, "cases": case_records, "expected_runs": expected, "limitations": LIMITATIONS}, "manifest_sha256")
     save(output / "manifest.json", manifest)
@@ -331,12 +354,19 @@ def validate_prepared(directory):
     need(manifest.get("tool_policy") == TOOL_POLICY, "Tool policy differs from prepared contract")
     by_skill = {p["skill_id"]: p for p in frozen["packages"]}
     cases = {}
+    resources_by_case = {}
     for record in list_(manifest.get("cases"), "manifest cases", True):
         case = load(check_ref(directory, record.get("case"), "case"))
         rubric = load(check_ref(directory, record.get("rubric"), "rubric"))
         validate_case(case, rubric, by_skill)
         need(record.get("case_id") == case["case_id"] and case["case_id"] not in cases, "Case identity mismatch")
         cases[case["case_id"]] = (case, rubric)
+        resources = object_(record.get("public_resources", {}), "frozen public resources")
+        need(set(resources) == set(case.get("public_resources", {})), "Public resource inventory mismatch")
+        for name, resource in resources.items():
+            need(resource.get("path") == f"hidden/public-resources/{case['case_id']}/{name}", "Frozen resource path mismatch")
+            load(check_ref(directory, resource, "public resource"))
+        resources_by_case[case["case_id"]] = resources
     runs = list_(manifest.get("expected_runs"), "expected runs", True)
     need({r.get("run_id") for r in runs} == {cid + "--" + cond for cid in cases for cond in CONDITIONS} and len(runs) == 2 * len(cases), "Expected run set is incomplete or duplicated")
     for run in runs:
@@ -352,6 +382,8 @@ def validate_prepared(directory):
         expected = {f["path"] for f in exposed}
         need(actual == expected and len(expected) == len(exposed), "Condition directory has extra/missing files; run a separate copy and retain outputs outside the frozen packet")
         allowed = {f"{run['packet_dir']}/prompt.txt", f"{run['packet_dir']}/source_packet.json"}
+        resources = resources_by_case[case["case_id"]]
+        allowed |= {f"{run['packet_dir']}/resources/{name}" for name in resources}
         allowed |= {f"{run['packet_dir']}/skills/{sid}/{f['path']}" for sid in selected for f in by_skill[sid]["files"] if f["exposed"]}
         need(expected == allowed, "Exposure inventory includes disallowed or missing resources")
         for file in exposed:
@@ -361,8 +393,12 @@ def validate_prepared(directory):
                 if file["exposed"]:
                     need(digest((packet / "skills" / sid / file["path"]).read_bytes()) == file["sha256"], "Exposed skill differs from snapshot")
         need(load(packet / "source_packet.json") == case["source_packet"], "Source packet differs across prepared case")
+        for name, resource in resources.items():
+            need(digest((packet / "resources" / name).read_bytes()) == resource["sha256"], "Public resource differs from frozen evidence")
         need((packet / "prompt.txt").read_text() == render_prompt(case, condition), "Prompt differs from reproducible preparation recipe")
         bindings = {"case_sha256": hash_object(case), "case_prompt_sha256": digest(case["prompt"].encode()), "prompt_sha256": digest((packet / "prompt.txt").read_bytes()), "source_packet_sha256": digest((packet / "source_packet.json").read_bytes()), "rubric_sha256": hash_object(rubric), "skill_hashes": skills, "skill_manifest_sha256": hash_object(skills), "snapshot_sha256": frozen["snapshot_sha256"]}
+        if resources:
+            bindings["public_resources_sha256"] = {name: resource["sha256"] for name, resource in resources.items()}
         need(run.get("bindings") == bindings, "Prepared input/skill binding mismatch")
     return manifest, cases
 

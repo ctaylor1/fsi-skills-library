@@ -1,0 +1,7 @@
+# Phase 2 analytical mode
+
+Select schema_version=ir-phase2/1.0. Required common context: request_id, purpose=internal-research, audience=internal-review, subject type/id (security includes issuer_id), as_of/use_on dates, knowledge_cutoff date or aware timestamp, information_barrier, source metadata and top-level evidence_refs. Every row citation must appear in the top-level evidence set; unknown source identity, timing or rights withholds the full projection. The retained original is mandatory for output reconstruction.
+
+Require required_sections[] from business_overview/key_financials/ownership/management/trading_data/transactions. observations[] carries unique observation_id, section, metric, nullable numeric value, positive scale, currency/unit/accounting_basis/consolidation_scope/period_id, period_end, evidence_refs. Optional typed claims[] require section/kind/text/refs. Revenue per employee is produced only for exactly one matching employee observation (unit persons) with equal period/end/scope and revenue unit currency. Currency amounts are multiplied by explicit scale; employee counts are similarly scaled. Null or uncited facts remain withheld. Required empty sections remain gaps.
+
+Read the synthetic paired phase2-input.json/phase2-valid.json in evals/files. Output is the source-bound ir-analysis/2.0 draft shape with results, lineage and unresolved issues. Native validation proves reconstruction, not source authenticity, institutional acceptance or approval. Legacy Phase 1 inputs retain their original API and fixtures.

@@ -1,0 +1,77 @@
+{
+  "schema_version": "investment-research-route/1.0",
+  "method_version": "1.1.0",
+  "request_id": "IR-DEMO-001",
+  "subject": {
+    "type": "issuer",
+    "id": "DEMO-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T12:00:00Z",
+  "routes": [
+    {
+      "intent": "dcf_modeler",
+      "owner": "Investment Research",
+      "target": "dcf-modeler",
+      "provider": "fsi-skills-library",
+      "status": "routed-native-only",
+      "support_status": "bounded-native",
+      "implementation_scope": "Build a source-linked discounted-cash-flow valuation: an explicit driver-based unlevered free-cash-flow forecast, a WACC derived from its stated components, a terminal value (Gordon growth or exit multiple), an enterprise-to-equity bridge to value per share, and base / upside / downside scenarios with full formula tie-outs and reproducibility. Use when an investment-banking or research analyst asks to \"build a DCF\", \"value this company by DCF\", \"model WACC and terminal value\", \"walk enterprise value to equity\", or wants a scenario DCF with drivers, sensitivities, and model checks. This skill models and explains only; it NEVER issues an investment recommendation (buy/sell/hold), a price target, a fair-value verdict presented as a decision, or a fairness opinion, NEVER guarantees a return or future price, and NEVER gives personalized investment, legal, or tax advice \u2014 those are licensed-human / investment-committee judgments.",
+      "dependencies": [],
+      "optional_context": [
+        "three-statement-model-builder"
+      ],
+      "handoff_support": "reviewed adapters listed; native-only for other pairings",
+      "reviewed_adapters": [
+        {
+          "id": "forecast-to-dcf",
+          "producer": "three-statement-model-builder",
+          "receiver": "dcf-modeler",
+          "scope": "Corporate annual reconciled forecast rows; no ratio-driver reconstruction",
+          "dependency_status": "dependency-not-listed",
+          "proof_required": "Retained producer original, full producer reconstruction, exact context mapping and receiver reconstruction"
+        },
+        {
+          "id": "model-update-to-dcf",
+          "producer": "financial-model-update-preparer",
+          "receiver": "dcf-modeler",
+          "scope": "Exact version-bound proposed annual corporate DCF input; actual native candidate validation/computation, no live model change",
+          "dependency_status": "dependency-not-listed",
+          "proof_required": "Retained producer original, full producer reconstruction, exact context mapping and receiver reconstruction"
+        }
+      ],
+      "limitations": []
+    },
+    {
+      "intent": "investment_thesis_developer",
+      "owner": "Investment Research",
+      "target": "investment-thesis-developer",
+      "provider": "fsi-skills-library",
+      "status": "not-installed",
+      "support_status": "bounded-native",
+      "implementation_scope": "Develop an internal research thesis from supplied variant expectations, dated catalysts, testable falsifiers and counter-evidence; does not issue a trade or rating.",
+      "dependencies": [
+        "research-evidence-dossier-builder",
+        "valuation-reconciliation-analyzer"
+      ],
+      "optional_context": [],
+      "handoff_support": "native-only; receiver request and both native validators required",
+      "reviewed_adapters": [],
+      "limitations": []
+    }
+  ],
+  "registry_hashes": {
+    "routes": "70e222d95aa12ef70b283981cd0cd0fe2e8dc428ec16f80b3c58831d0bc20ab6",
+    "capabilities": "157dd269e0ae4d02b3d35b8bb4581b3dab8e52cafec038f4677b283b7b6fb298"
+  },
+  "inventory_assurance": "supplied-not-authenticated",
+  "unresolved_issues": [],
+  "workflow_completed": false,
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "6e7437abf99af0cd5e52213d7e5ed58489d2a0bd0a77cbd6715aa0c5eff941d2",
+  "source_truth": "unverified"
+}

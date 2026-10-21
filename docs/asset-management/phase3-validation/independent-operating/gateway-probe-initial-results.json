@@ -1,0 +1,151 @@
+{
+  "no_live_network": true,
+  "no_real_credentials": true,
+  "results": [
+    {
+      "case": "fresh-point-in-time-synthetic-read",
+      "expected": "synthetic-only",
+      "observed": "synthetic-transport",
+      "calls": [
+        "/v1/permissions",
+        "/v1/snapshots"
+      ],
+      "passed": true
+    },
+    {
+      "case": "permission-denial",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [
+        "/v1/permissions"
+      ],
+      "error": "gateway did not authorize this read",
+      "passed": true
+    },
+    {
+      "case": "wrong-principal",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [
+        "/v1/permissions"
+      ],
+      "error": "permission receipt is not bound to the request and principal",
+      "passed": true
+    },
+    {
+      "case": "wrong-nonce",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [
+        "/v1/permissions"
+      ],
+      "error": "permission receipt is not bound to the request and principal",
+      "passed": true
+    },
+    {
+      "case": "expired-permission",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [
+        "/v1/permissions"
+      ],
+      "error": "permission receipt is future-dated, expired or stale",
+      "passed": true
+    },
+    {
+      "case": "snapshot-hash-corruption",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [
+        "/v1/permissions",
+        "/v1/snapshots"
+      ],
+      "error": "snapshot records digest mismatch",
+      "passed": true
+    },
+    {
+      "case": "snapshot-context-corruption",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [
+        "/v1/permissions",
+        "/v1/snapshots"
+      ],
+      "error": "snapshot is not bound to the authorized request/principal",
+      "passed": true
+    },
+    {
+      "case": "permission-expires-during-read",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [
+        "/v1/permissions",
+        "/v1/snapshots"
+      ],
+      "error": "permission receipt is future-dated, expired or stale",
+      "passed": true
+    },
+    {
+      "case": "bounded-retry-exhaustion",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [
+        "/v1/permissions",
+        "/v1/permissions"
+      ],
+      "error": "gateway retry limit reached; no snapshot delivered",
+      "passed": true
+    },
+    {
+      "case": "invalid-max_attempts-True",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [],
+      "error": "policy max_attempts outside bounded range",
+      "passed": true
+    },
+    {
+      "case": "invalid-max_attempts-4",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [],
+      "error": "policy max_attempts outside bounded range",
+      "passed": true
+    },
+    {
+      "case": "invalid-max_bytes-2000001",
+      "expected": "reject",
+      "observed": "reject",
+      "calls": [],
+      "error": "policy max_bytes outside bounded range",
+      "passed": true
+    },
+    {
+      "case": "string-purposes",
+      "expected": "reject-malformed-policy",
+      "observed": "reject",
+      "passed": true
+    },
+    {
+      "case": "string-audiences",
+      "expected": "reject-malformed-policy",
+      "observed": "reject",
+      "passed": true
+    },
+    {
+      "case": "permission-debug-credential-reflection",
+      "expected": "do-not-serialize-bearer-credential",
+      "observed": "credential-present-in-output",
+      "passed": false,
+      "field": "permission_receipt.debug_authorization"
+    },
+    {
+      "case": "redirect-handler",
+      "expected": "reject",
+      "observed": "reject",
+      "passed": true
+    }
+  ],
+  "passed": 15,
+  "failed": 1
+}

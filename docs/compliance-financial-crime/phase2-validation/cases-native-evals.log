@@ -1,0 +1,3238 @@
+financial-crime-case-investigator phase2-input PASS
+{"errors": []}
+
+financial-crime-case-investigator phase2-compute PASS
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "financial-crime-case-investigator",
+  "method": "case-flow-evidence/1.0",
+  "request_id": "TEST-REQUEST",
+  "object_id": "TEST-SUBJECT",
+  "object_type": "financial_crime_case",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "TEST-INSTITUTION",
+    "legal_entity_id": "TEST-ENTITY",
+    "capacity": "second_line",
+    "represented_party": "institution",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "financial_crime_case",
+    "jurisdiction": "US",
+    "line_of_business": "banking",
+    "purpose": "scoped-professional-review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "authorized_analyst",
+  "status": "draft-for-human-review",
+  "results": {
+    "scope": {
+      "start": "2026-10-01",
+      "end": "2026-10-03",
+      "currencies": [
+        "USD"
+      ]
+    },
+    "entities": [
+      {
+        "scope_ref": "E1",
+        "entity_id": "E1",
+        "identity": "Synthetic business E1",
+        "evidence_status": "supplied-unverified"
+      }
+    ],
+    "accounts": [
+      {
+        "scope_ref": "A1",
+        "account_id": "A1",
+        "entity_id": "E1",
+        "identity": "Account A1",
+        "evidence_status": "supplied-unverified"
+      },
+      {
+        "scope_ref": "A2",
+        "account_id": "A2",
+        "entity_id": "E1",
+        "identity": "Account A2",
+        "evidence_status": "supplied-unverified"
+      }
+    ],
+    "flow_links": [
+      {
+        "transaction_id": "T1",
+        "from": "external-A",
+        "to": "A1",
+        "currency": "USD",
+        "amount": "100.10",
+        "date": "2026-10-01",
+        "source_refs": [
+          "fixture-source"
+        ]
+      },
+      {
+        "transaction_id": "T2",
+        "from": "A1",
+        "to": "A2",
+        "currency": "USD",
+        "amount": "70.05",
+        "date": "2026-10-02",
+        "source_refs": [
+          "fixture-source"
+        ]
+      },
+      {
+        "transaction_id": "T3",
+        "from": "A2",
+        "to": "external-B",
+        "currency": "USD",
+        "amount": "50.00",
+        "date": "2026-10-03",
+        "source_refs": [
+          "fixture-source"
+        ]
+      }
+    ],
+    "currency_totals": {
+      "USD": {
+        "external_inflow": "100.10",
+        "external_outflow": "50.00",
+        "internal_transfer": "70.05",
+        "unique_turnover": "220.15",
+        "unquantified_transactions": []
+      }
+    },
+    "proceeds_amount": null,
+    "proceeds_status": "unknown-no-tracing-or-illicit-origin-method",
+    "chronology": [
+      {
+        "date": "2026-10-01",
+        "event": "Sale agreement received"
+      }
+    ],
+    "hypotheses": [
+      {
+        "hypothesis_id": "H1",
+        "proposition": "Activity may be explained by trading proceeds; consider counterevidence.",
+        "proposition_status": "analyst-hypothesis",
+        "support": [
+          "Sale agreement supplied"
+        ],
+        "counterevidence": [
+          "Transfer beneficiary differs from sale party"
+        ],
+        "conclusion": "human-assessment-required"
+      }
+    ],
+    "investigative_plan": [
+      {
+        "step_id": "P1",
+        "question": "Resolve beneficiary discrepancy",
+        "hypothesis_ids": [
+          "H1"
+        ],
+        "execution": "not_performed"
+      }
+    ],
+    "narrative_propositions": [
+      "Sale agreement received"
+    ],
+    "disposition": "human-owned",
+    "reportability": "human-owned"
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/entities/0/identity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/entities/0/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/0/identity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/0/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/0/entity_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/1/identity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/1/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/1/entity_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/date_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/from_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/to_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "transaction-id-0"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/date_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/from_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/to_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "transaction-id-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/date_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/from_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/to_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "transaction-id-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/support/0",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/counterevidence/0",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/date_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/event",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/narrative_propositions/0",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Distinct case investigation; not scenario replay. Turnover counts each supplied unique transaction once; internal transfers are not fresh proceeds. No FX conversion, tracing attribution, guilt or reportability conclusion.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "fixture-source"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "suspicious-activity-report-drafter",
+    "sanctions-exposure-reviewer",
+    "enhanced-due-diligence-assessor"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "004aa3c610d5abb4fb5a91e5b9cf98375e0494a1b0b5b5eb32b62886cccd12b1",
+  "source_truth": "unverified"
+}
+
+financial-crime-case-investigator phase2-golden PASS
+{"errors": []}
+
+financial-crime-case-investigator phase2-tamper PASS
+{"errors": ["output differs from original-input reconstruction: action_taken"]}
+
+financial-crime-case-investigator phase2-substantive-regressions PASS
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.029s
+
+OK
+
+financial-crime-case-investigator quick_validate Unexpected key(s) in SKILL.md frontmatter: compatibility. Allowed properties are: allowed-tools, description, license, metadata, name
+
+sanctions-exposure-reviewer phase2-input PASS
+{"errors": []}
+
+sanctions-exposure-reviewer phase2-compute PASS
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "sanctions-exposure-reviewer",
+  "method": "ofac-direct-ownership/1.0",
+  "request_id": "TEST-REQUEST",
+  "object_id": "TEST-SUBJECT",
+  "object_type": "sanctions_exposure",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "TEST-INSTITUTION",
+    "legal_entity_id": "TEST-ENTITY",
+    "capacity": "second_line",
+    "represented_party": "institution",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "sanctions_exposure",
+    "jurisdiction": "US",
+    "line_of_business": "banking",
+    "purpose": "scoped-professional-review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "authorized_analyst",
+  "status": "draft-for-human-review",
+  "results": {
+    "regime": "OFAC",
+    "regime_type": "blocking",
+    "activity": "payment",
+    "perimeter": "US person",
+    "direct_blocked_ownership_pct": "50",
+    "ownership_result": "threshold-met-in-supplied-direct-records",
+    "activity_conditions": [
+      {
+        "condition_id": "C1",
+        "match": true,
+        "observed": "payment",
+        "required": "payment"
+      }
+    ],
+    "authorization_review": "supplied-scope-date-conditions-match-human-review-required",
+    "legal_status": "human-owned",
+    "transaction_clearance": false
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/regime",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/regime_type",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/activity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/perimeter",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/0/ownership_pct",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/0/blocked",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/0/owner_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/1/ownership_pct",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/1/blocked",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/1/owner_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/2/ownership_pct",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/2/blocked",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/direct_owners/2/owner_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/activity_conditions/0/observed",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/activity_conditions/0/required",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/authorization/regime",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/authorization/activity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/authorization/perimeter",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/authorization/valid_from",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/authorization/valid_until",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/authorization/authority",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/authorization/conditions/0/observed",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/authorization/conditions/0/required",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/ownership_complete_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/indirect_exposure_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "No universal sanctions rule, indirect look-through, foreign control/ownership method, designation validation or permission to process/block/reject. Direct arithmetic is only a supplied-record review.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "fixture-source"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "sanctions-match-investigator",
+    "beneficial-ownership-analyzer",
+    "financial-crime-reporting-reviewer"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "bce65e48879761b55af1de57b7f078ced50bcad39eaa15ee15f4aedab1b771f2",
+  "source_truth": "unverified"
+}
+
+sanctions-exposure-reviewer phase2-golden PASS
+{"errors": []}
+
+sanctions-exposure-reviewer phase2-tamper PASS
+{"errors": ["output differs from original-input reconstruction: action_taken"]}
+
+sanctions-exposure-reviewer phase2-substantive-regressions PASS
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.027s
+
+OK
+
+sanctions-exposure-reviewer quick_validate Unexpected key(s) in SKILL.md frontmatter: compatibility. Allowed properties are: allowed-tools, description, license, metadata, name
+
+financial-crime-information-sharing-reviewer phase2-input PASS
+{"errors": []}
+
+financial-crime-information-sharing-reviewer phase2-compute PASS
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "financial-crime-information-sharing-reviewer",
+  "method": "content-bound-disclosure-review/1.0",
+  "request_id": "TEST-REQUEST",
+  "object_id": "TEST-SUBJECT",
+  "object_type": "information_sharing_review",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "TEST-INSTITUTION",
+    "legal_entity_id": "TEST-ENTITY",
+    "capacity": "second_line",
+    "represented_party": "institution",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "information_sharing_review",
+    "jurisdiction": "US",
+    "line_of_business": "banking",
+    "purpose": "scoped-professional-review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "authorized_analyst",
+  "status": "draft-for-human-review",
+  "results": {
+    "recipient_id": "RECIPIENT-A",
+    "recipient_type": "US_covered_FI",
+    "purpose": "identify_money_laundering",
+    "legal_basis": "US_314b",
+    "item_reviews": [
+      {
+        "item_id": "I1",
+        "kind": "underlying_fact",
+        "content": "Transfer T1 occurred on October1",
+        "review_status": "supported-for-authorized-human-disclosure-review",
+        "matched_permissions": [
+          "G1"
+        ],
+        "issues": []
+      }
+    ],
+    "send_authorized": false,
+    "disclosure_taken": false
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/recipient_id",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/recipient_type",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/purpose",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/legal_basis",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/sender_registration",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/recipient_registration",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/recipient_eligibility",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/security_controls",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/joint_sar_participant",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/items/0/kind_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/items/0/content",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/permissions/0/recipient_id",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/permissions/0/purpose",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/permissions/0/legal_basis",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/permissions/0/authority",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/permissions/0/valid_from",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/permissions/0/valid_until",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/permissions/0/scope",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Specific supplied content/recipient/purpose review; no send or safe-harbor/legal conclusion. Source labels cannot replace actual SAR material classification or disclosure authority. Joint SAR discussions are a separate basis, not a generic314b exception.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "fixture-source"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "privacy-impact-assessment-assistant",
+    "suspicious-activity-report-drafter"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "6047512511795327b8252c858e868a486e3db28433b993b48ec9f90f24248e85",
+  "source_truth": "unverified"
+}
+
+financial-crime-information-sharing-reviewer phase2-golden PASS
+{"errors": []}
+
+financial-crime-information-sharing-reviewer phase2-tamper PASS
+{"errors": ["output differs from original-input reconstruction: action_taken"]}
+
+financial-crime-information-sharing-reviewer phase2-substantive-regressions PASS
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.022s
+
+OK
+
+financial-crime-information-sharing-reviewer quick_validate Unexpected key(s) in SKILL.md frontmatter: compatibility. Allowed properties are: allowed-tools, description, license, metadata, name
+
+financial-crime-reporting-reviewer phase2-input PASS
+{"errors": []}
+
+financial-crime-reporting-reviewer phase2-compute PASS
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "financial-crime-reporting-reviewer",
+  "method": "typed-nonsar-obligation-review/1.0",
+  "request_id": "TEST-REQUEST",
+  "object_id": "TEST-SUBJECT",
+  "object_type": "financial_crime_reporting",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "TEST-INSTITUTION",
+    "legal_entity_id": "TEST-ENTITY",
+    "capacity": "second_line",
+    "represented_party": "institution",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "financial_crime_reporting",
+    "jurisdiction": "US",
+    "line_of_business": "banking",
+    "purpose": "scoped-professional-review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "authorized_analyst",
+  "status": "draft-for-human-review",
+  "results": {
+    "obligation_reviews": [
+      {
+        "obligation_id": "O1",
+        "kind": "ctr",
+        "obligation": "Synthetic CTR scope",
+        "event_ids": [
+          "E1",
+          "E2"
+        ],
+        "currency": "USD",
+        "amount": "10000.10",
+        "threshold": "10000.00",
+        "trigger_observed": true,
+        "period_start": "2026-10-01",
+        "period_end": "2026-10-01",
+        "due_date": "2026-10-16",
+        "channel": "BSA E-Filing draft",
+        "review_state": "draft-obligation-review",
+        "exceptions": [],
+        "acknowledgments": []
+      }
+    ],
+    "filing_performed": false,
+    "sar_substitution": false
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/events/0/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/0/date_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/0/type",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/0/amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/0/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/1/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/1/date_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/1/type",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/1/amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/events/1/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/applicable",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/obligation",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/period_start",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/period_end",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/due_date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/channel",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/threshold",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/scope_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "NonSAR supplied-obligation review only. Event membership, threshold and deadline must be explicit approved applicable method. No universal CTR/OFAC/FBAR deadlines, FX, filing, exemption adjudication or acknowledgment authentication.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "fixture-source"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "suspicious-activity-report-drafter",
+    "sanctions-exposure-reviewer",
+    "regulatory-reporting-data-validator"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "0c7db21230d6d2dd2b9d6f9d582a84e01b4dc485a5974029e83086ec13049248",
+  "source_truth": "unverified"
+}
+
+financial-crime-reporting-reviewer phase2-golden PASS
+{"errors": []}
+
+financial-crime-reporting-reviewer phase2-tamper PASS
+{"errors": ["output differs from original-input reconstruction: action_taken"]}
+
+financial-crime-reporting-reviewer phase2-substantive-regressions PASS
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.022s
+
+OK
+
+financial-crime-reporting-reviewer quick_validate Unexpected key(s) in SKILL.md frontmatter: compatibility. Allowed properties are: allowed-tools, description, license, metadata, name
+
+compliance-regulatory-notification-reviewer phase2-input PASS
+{"errors": []}
+
+compliance-regulatory-notification-reviewer phase2-compute PASS
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "compliance-regulatory-notification-reviewer",
+  "method": "entity-activity-event-notification/1.0",
+  "request_id": "TEST-REQUEST",
+  "object_id": "TEST-SUBJECT",
+  "object_type": "regulatory_notification",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "TEST-INSTITUTION",
+    "legal_entity_id": "TEST-ENTITY",
+    "capacity": "second_line",
+    "represented_party": "institution",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "regulatory_notification",
+    "jurisdiction": "US",
+    "line_of_business": "banking",
+    "purpose": "scoped-professional-review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "authorized_analyst",
+  "status": "draft-for-human-review",
+  "results": {
+    "event_facts": {
+      "regulated_entity": "TEST-ENTITY",
+      "regulated_activity": "deposit_taking",
+      "event": "Control breach reported",
+      "event_date": "2026-10-01",
+      "awareness_date": "2026-10-02"
+    },
+    "notification_reviews": [
+      {
+        "obligation_id": "N1",
+        "rule": "Synthetic institutional notification profile; no universal rule",
+        "applicable": true,
+        "materiality": true,
+        "criteria": [
+          {
+            "criterion_id": "M1",
+            "observed": true,
+            "expected": true,
+            "match": true
+          }
+        ],
+        "timing": "fixed_date",
+        "due_date": "2026-10-05",
+        "channel": "Approved supervisor channel draft",
+        "review_state": "draft-for-human-notification-review"
+      }
+    ],
+    "draft_exhibits": [
+      "Control breach reported"
+    ],
+    "notification_taken": false,
+    "legal_materiality_decision": "human-owned"
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/regulated_entity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/regulated_activity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/event",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/event_date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/awareness_date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/entity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/activity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/rule",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/channel",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/due_date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/criteria/0/observed",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/criteria/0/expected",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/timing_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/obligations/0/materiality_method_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/exhibits/0",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Supplied applicable notification facts/method only. Immediate remains urgent human review, never converted to an invented date. Prudential/payment incident reporting, exam responses and statutory financial-crime filing retain separate owners.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "fixture-source"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "regulatory-exam-response-packager",
+    "operational-resilience-reporter",
+    "regulatory-reporting-data-validator"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "706520212d8a532217c42011ac4344bfc4bb81711d6cc2845f94ba977730297a",
+  "source_truth": "unverified"
+}
+
+compliance-regulatory-notification-reviewer phase2-golden PASS
+{"errors": []}
+
+compliance-regulatory-notification-reviewer phase2-tamper PASS
+{"errors": ["output differs from original-input reconstruction: action_taken"]}
+
+compliance-regulatory-notification-reviewer phase2-substantive-regressions PASS
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.017s
+
+OK
+
+compliance-regulatory-notification-reviewer quick_validate Unexpected key(s) in SKILL.md frontmatter: compatibility. Allowed properties are: allowed-tools, description, license, metadata, name
+
+customer-due-diligence-reviewer det-input-selftest PASS
+input validation: 0 error(s), 0 warning(s)
+
+customer-due-diligence-reviewer det-compute PASS
+{
+  "screening_id": "cdd-KYC-2026-0042-2026-07-15",
+  "case_id": "KYC-2026-0042",
+  "as_of": "2026-07-15",
+  "config_version": "cdd-cfg-2026.07",
+  "customer": {
+    "customer_id": "CUST-88231",
+    "customer_type": "entity",
+    "legal_name": "Meridian Digital Trading Ltd",
+    "country": "GB"
+  },
+  "signals": [
+    {
+      "signal": "missing_required_field",
+      "fired": false,
+      "reason": "Required fields supplied.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "missing_required_document",
+      "fired": false,
+      "reason": "Required document types supplied.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "expired_document",
+      "fired": false,
+      "reason": "Supplied document expiry review.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "unverified_identity",
+      "fired": false,
+      "reason": "Required document verification assertions supplied; identity assurance is not independently assessed.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "identity_mismatch",
+      "fired": false,
+      "reason": "Supplied cross-source identity comparison.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "high_risk_jurisdiction",
+      "fired": false,
+      "reason": "Comparison to the supplied policy country list only.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "high_risk_industry",
+      "fired": true,
+      "reason": "Comparison to the supplied policy industry list only.",
+      "evidence": [
+        {
+          "citation": "input:customer.industry",
+          "evidence_status": "input-field-observation"
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "pep_flag",
+      "fired": true,
+      "reason": "Potential indicator in supplied screening results; human identity/status review required.",
+      "evidence": [
+        {
+          "citation": "case=KYC-2026-0042;party=Alex Petrov",
+          "party": "Alex Petrov"
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "sanctions_potential_match",
+      "fired": false,
+      "reason": "No indicator in supplied results; absence is limited to documented search coverage.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "adverse_media_flag",
+      "fired": true,
+      "reason": "Potential indicator in supplied screening results; human identity/status review required.",
+      "evidence": [
+        {
+          "citation": "case=KYC-2026-0042;party=Alex Petrov",
+          "party": "Alex Petrov"
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "ownership_over_100",
+      "fired": false,
+      "reason": "Declared scalar percentages sum to 60.0.",
+      "evidence": [],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "ubo_below_coverage",
+      "fired": true,
+      "reason": "Policy coverage screen only; this does not identify legal beneficial owners.",
+      "evidence": [
+        {
+          "citation": "case=KYC-2026-0042;owner=Alex Petrov",
+          "ownership_pct": 40.0
+        },
+        {
+          "citation": "case=KYC-2026-0042;owner=Dana Osei",
+          "ownership_pct": 20.0
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    },
+    {
+      "signal": "ubo_unverified",
+      "fired": true,
+      "reason": "Ownership verification assertions incomplete for policy threshold candidates.",
+      "evidence": [
+        {
+          "citation": "case=KYC-2026-0042;owner=Alex Petrov"
+        }
+      ],
+      "evidence_status": "supplied-records",
+      "basis": {
+        "policy_version": "cdd-cfg-2026.07"
+      }
+    }
+  ],
+  "fired_signals": [
+    "high_risk_industry",
+    "pep_flag",
+    "adverse_media_flag",
+    "ubo_below_coverage",
+    "ubo_unverified"
+  ],
+  "not_evaluable": [],
+  "recommended_track": "EDD-Recommended",
+  "adjudication_required": true,
+  "recommended_next_steps": [
+    "Human analyst reviews all supplied assertions and limitations before any customer decision.",
+    "Route PEP identity and risk review to the CDD/EDD analyst; PEP status alone is not sanctions status.",
+    "Route media relevance and identity review to adverse-media-investigator."
+  ],
+  "limitations": [
+    "Supplied source records and policy approval metadata are unverified assertions.",
+    "Input binding establishes reproducibility, not source truth or authorization.",
+    "No system action, legal determination, customer decision, or approval is performed.",
+    "Onboarding evidence screening only; periodic review orchestration, digital-ID assurance, and legal beneficial-ownership analysis are not implemented."
+  ],
+  "disclaimer": "CDD screening evidence and a recommended review track only; a qualified analyst must adjudicate. No customer decision, identity determination, system action, or filing is performed.",
+  "input_hash": "8d1f02b13b615aa3def19953ed63a1cfa6f482bc0f9cabd9e3b5067a5d9d2485",
+  "source_truth": "unverified"
+}
+
+customer-due-diligence-reviewer det-output-valid PASS
+output validation: 0 error(s)
+
+customer-due-diligence-reviewer safety-no-decision PASS
+ERROR output differs from original-input reconstruction: narrative
+output validation: 1 error(s)
+
+customer-due-diligence-reviewer phase1-adversarial-regressions PASS
+........................
+----------------------------------------------------------------------
+Ran 24 tests in 0.007s
+
+OK
+
+customer-due-diligence-reviewer phase2-input PASS
+{"errors": []}
+
+customer-due-diligence-reviewer phase2-compute PASS
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "customer-due-diligence-reviewer",
+  "method": "cdd-lifecycle/1.0",
+  "request_id": "TEST-REQUEST",
+  "object_id": "TEST-SUBJECT",
+  "object_type": "customer",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "TEST-INSTITUTION",
+    "legal_entity_id": "TEST-ENTITY",
+    "capacity": "second_line",
+    "represented_party": "institution",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "customer",
+    "jurisdiction": "US",
+    "line_of_business": "banking",
+    "purpose": "scoped-professional-review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "authorized_analyst",
+  "status": "draft-for-human-review",
+  "results": {
+    "lifecycle": "event-driven",
+    "review_due_date": "2026-10-08",
+    "review_overdue": false,
+    "material_changes": [
+      {
+        "field": "business_activity",
+        "prior": "domestic_trade",
+        "current": "international_trade",
+        "basis": "supplied-policy-material-field"
+      }
+    ],
+    "current_record": {
+      "business_activity": "international_trade",
+      "customer_name": "Synthetic customer"
+    },
+    "ownership_pct": "100",
+    "ownership_control_review": "supported-declared-coverage",
+    "unverified_owner_ids": [],
+    "expected_activity_review": "within-supplied-expectation",
+    "observed_activity_total": "100.10",
+    "review_controls": {
+      "screening": true
+    },
+    "remediation_proposals": [
+      {
+        "proposal": "analyst review material changes and refresh scoped evidence",
+        "execution": "not_performed"
+      }
+    ],
+    "customer_decision": "human-owned"
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/anchor_date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/prior_record/business_activity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/prior_record/customer_name",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/current_record/business_activity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/current_record/customer_name",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/ownership_complete",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/control_coverage",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/owners/0/ownership_pct",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/owners/0/verified",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/owners/0/owner_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/expected_activity_currency",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/expected_activity_period_start",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/expected_activity_period_end",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/observed_activity/0/amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/observed_activity/0/date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/observed_activity/0/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/review_controls/0/evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/policy_profile/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/policy_profile/cadence_days",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/policy_profile/ownership_coverage_target",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/policy_profile/activity_min",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/policy_profile/activity_max",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "CDD lifecycle supplied-policy review; no invented review cadence, onboarding decision, account action, BO legal determination or contact. Actual/prior records and source claims remain supplied-unverified.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "fixture-source"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "enhanced-due-diligence-assessor",
+    "beneficial-ownership-analyzer",
+    "financial-crime-case-investigator"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "7f71e589172e7bbf74a6fdb675eb65312808cd5bff7c895bb2e4401cc33201e2",
+  "source_truth": "unverified"
+}
+
+customer-due-diligence-reviewer phase2-golden PASS
+output validation: 0 error(s)
+
+customer-due-diligence-reviewer phase2-tamper PASS
+ERROR output differs from original-input reconstruction: action_taken
+output validation: 1 error(s)
+
+customer-due-diligence-reviewer phase2-substantive-regressions PASS
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.023s
+
+OK
+
+customer-due-diligence-reviewer quick_validate Unexpected key(s) in SKILL.md frontmatter: compatibility. Allowed properties are: allowed-tools, description, license, metadata, name
+
+enhanced-due-diligence-assessor det-input-selftest PASS
+input validation: 0 error(s), 0 warning(s)
+
+enhanced-due-diligence-assessor det-package PASS
+{
+  "config_version": "edd-2026.07",
+  "template_version": "edd-package-v1",
+  "case_id": "EDD-2026-0042",
+  "as_of": "2026-07-17",
+  "customer_ref": "****8213",
+  "jurisdiction": "US",
+  "packaging_status": "assembled-for-human-review",
+  "hard_boundary": false,
+  "gaps": [],
+  "routes": [
+    {
+      "skill": "customer-due-diligence-reviewer",
+      "reason": "CDD/EDD analyst reviews PEP identity, role and risk; PEP is distinct from sanctions."
+    },
+    {
+      "skill": "adverse-media-investigator",
+      "reason": "Review media identity, source reliability and matter status."
+    },
+    {
+      "skill": "beneficial-ownership-analyzer",
+      "reason": "Analyze supplied ownership records within the supported legal-entity model."
+    }
+  ],
+  "sections": {
+    "customer_overview": {
+      "title": "Customer Overview",
+      "status": "present",
+      "items": [
+        "Identity verified: passport + secondary government ID, biometric match on file",
+        "Occupation: former deputy minister of transport (2016-2021); current private investor"
+      ],
+      "citations": [
+        "kyc:cust=C-88213@2026-07-10",
+        "docint:id-verify=IDV-33021@2026-07-10"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "kyc:cust=C-88213@2026-07-10",
+          "source_excerpt": "Synthetic supplied record: Identity verified: passport + secondary government ID, biometric match on file",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "docint:id-verify=IDV-33021@2026-07-10",
+          "source_excerpt": "Synthetic supplied record: Occupation: former deputy minister of transport (2016-2021); current private investor",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "source_of_funds": {
+      "title": "Source Of Funds",
+      "status": "present",
+      "items": [
+        "Inbound funding of USD 4.2m from disclosed brokerage liquidation",
+        "Bank statements corroborate liquidation proceeds over 90 days"
+      ],
+      "citations": [
+        "docint:sof-brokerage-stmt=SOF-7781@2026-07-08",
+        "txnmon:acct=****8213;flow-90d@2026-07-11"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "docint:sof-brokerage-stmt=SOF-7781@2026-07-08",
+          "source_excerpt": "Synthetic supplied record: Inbound funding of USD 4.2m from disclosed brokerage liquidation",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "txnmon:acct=****8213;flow-90d@2026-07-11",
+          "source_excerpt": "Synthetic supplied record: Bank statements corroborate liquidation proceeds over 90 days",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "source_of_wealth": {
+      "title": "Source Of Wealth",
+      "status": "present",
+      "items": [
+        "Wealth attributed to a 2011 sale of a logistics business (independently documented)",
+        "Public filings and audited accounts corroborate sale proceeds"
+      ],
+      "citations": [
+        "docint:sow-memo=SOW-4412@2026-07-08",
+        "regcorpus:public-filing=PF-2011-559@2011-09"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "docint:sow-memo=SOW-4412@2026-07-08",
+          "source_excerpt": "Synthetic supplied record: Wealth attributed to a 2011 sale of a logistics business (independently documented)",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "regcorpus:public-filing=PF-2011-559@2011-09",
+          "source_excerpt": "Synthetic supplied record: Public filings and audited accounts corroborate sale proceeds",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "ownership_control": {
+      "title": "Ownership Control",
+      "status": "present",
+      "items": [
+        "Layered holding via one intermediate holding company; UBO traced to customer at 100%",
+        "No nominee arrangement identified; control confirmed"
+      ],
+      "citations": [
+        "kyc:ubo=UBO-88213@2026-07-09",
+        "docint:org-chart=ORG-2231@2026-07-09"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "kyc:ubo=UBO-88213@2026-07-09",
+          "source_excerpt": "Synthetic supplied record: Layered holding via one intermediate holding company; UBO traced to customer at 100%",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "docint:org-chart=ORG-2231@2026-07-09",
+          "source_excerpt": "Synthetic supplied record: No nominee arrangement identified; control confirmed",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "geography_exposure": {
+      "title": "Geography Exposure",
+      "status": "present",
+      "items": [
+        "Residence and one funding nexus in a FATF-listed higher-risk jurisdiction",
+        "No nexus to a comprehensively sanctioned jurisdiction identified"
+      ],
+      "citations": [
+        "regcorpus:fatf-high-risk-list@2026-06",
+        "screening:geo=GEO-1180@2026-07-11"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "regcorpus:fatf-high-risk-list@2026-06",
+          "source_excerpt": "Synthetic supplied record: Residence and one funding nexus in a FATF-listed higher-risk jurisdiction",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "screening:geo=GEO-1180@2026-07-11",
+          "source_excerpt": "Synthetic supplied record: No nexus to a comprehensively sanctioned jurisdiction identified",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "adverse_media": {
+      "title": "Adverse Media",
+      "status": "present",
+      "items": [
+        "Two moderate-severity articles alleging past procurement-conflict scrutiny; no charge or conviction found",
+        "No financial-crime conviction identified in searched corpus"
+      ],
+      "citations": [
+        "screening:advmedia=AM-5521@2026-07-11",
+        "docint:advmedia-dossier=AMD-901@2026-07-12"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "screening:advmedia=AM-5521@2026-07-11",
+          "source_excerpt": "Synthetic supplied record: Two moderate-severity articles alleging past procurement-conflict scrutiny; no charge or conviction found",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "docint:advmedia-dossier=AMD-901@2026-07-12",
+          "source_excerpt": "Synthetic supplied record: No financial-crime conviction identified in searched corpus",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "pep_sanctions_screening": {
+      "title": "Pep Sanctions Screening",
+      "status": "present",
+      "items": [
+        "Primary PEP confirmed (former senior government official)",
+        "Sanctions screening: no true match; one adverse-media proximity flag referred for corroboration"
+      ],
+      "citations": [
+        "screening:pep=PEP-4471@2026-07-11",
+        "screening:sanctions=SANC-3390@2026-07-11"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "screening:pep=PEP-4471@2026-07-11",
+          "source_excerpt": "Synthetic supplied record: Primary PEP confirmed (former senior government official)",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "screening:sanctions=SANC-3390@2026-07-11",
+          "source_excerpt": "Synthetic supplied record: Sanctions screening: no true match; one adverse-media proximity flag referred for corroboration",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "expected_activity": {
+      "title": "Expected Activity",
+      "status": "present",
+      "items": [
+        "Expected: investment inflows/outflows, quarterly, USD 250k-1.5m range",
+        "Rationale consistent with disclosed source of funds and wealth"
+      ],
+      "citations": [
+        "kyc:expected-activity=EA-2210@2026-07-10"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "kyc:expected-activity=EA-2210@2026-07-10",
+          "source_excerpt": "Synthetic supplied record: Expected: investment inflows/outflows, quarterly, USD 250k-1.5m range",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "kyc:expected-activity=EA-2210@2026-07-10",
+          "source_excerpt": "Synthetic supplied record: Rationale consistent with disclosed source of funds and wealth",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "ongoing_monitoring_controls": {
+      "title": "Ongoing Monitoring Controls",
+      "status": "present",
+      "items": [
+        "Proposed enhanced monitoring: 6-month review cadence, PEP re-screening, transaction thresholds tuned",
+        "Escalation path to MLRO documented"
+      ],
+      "citations": [
+        "casemgmt:EDD-2026-0042;monitoring-plan@2026-07-12"
+      ],
+      "item_evidence": [
+        {
+          "item_index": 0,
+          "source_ref": "casemgmt:EDD-2026-0042;monitoring-plan@2026-07-12",
+          "source_excerpt": "Synthetic supplied record: Proposed enhanced monitoring: 6-month review cadence, PEP re-screening, transaction thresholds tuned",
+          "evidence_status": "supplied-record"
+        },
+        {
+          "item_index": 1,
+          "source_ref": "casemgmt:EDD-2026-0042;monitoring-plan@2026-07-12",
+          "source_excerpt": "Synthetic supplied record: Escalation path to MLRO documented",
+          "evidence_status": "supplied-record"
+        }
+      ],
+      "gaps": [],
+      "evidence_status": "supplied-unverified"
+    },
+    "residual_risk_assessment": {
+      "title": "Residual Risk Assessment",
+      "assessment_status": "not-assessed",
+      "residual_risk_band": "Unknown",
+      "score": null,
+      "factors": [],
+      "hard_boundary": false,
+      "note": "Residual risk requires an applicable methodology, inherent risk, controls and evidence of their effectiveness. This package does not calculate it."
+    },
+    "edd_trigger_scope": {
+      "title": "EDD Trigger and Scope",
+      "triggers": [
+        "pep",
+        "high-risk-geography",
+        "adverse-media"
+      ],
+      "jurisdiction": "US",
+      "risk_rating_of_record": "High",
+      "citations": [
+        "fixture:EDD-trigger-intake"
+      ],
+      "evidence_status": "supplied-unverified"
+    },
+    "recommendation": {
+      "title": "Recommendation for Adjudication",
+      "recommended_review_path": "human-assessment-required",
+      "note": "Human review must assess sufficiency, unresolved concerns, residual risk, policy approval requirements and monitoring cadence. No cadence or customer outcome is assigned."
+    },
+    "approvals": {
+      "title": "Approvals and Sign-off",
+      "required": [
+        "EDD investigator",
+        "MLRO / BSA Officer",
+        "Senior management sponsor"
+      ],
+      "ledger": [
+        {
+          "role": "EDD investigator",
+          "status": "pending",
+          "approver": null,
+          "date": null,
+          "source_ref": null,
+          "approval_ref": null
+        },
+        {
+          "role": "MLRO / BSA Officer",
+          "status": "pending",
+          "approver": null,
+          "date": null,
+          "source_ref": null,
+          "approval_ref": null
+        },
+        {
+          "role": "Senior management sponsor",
+          "status": "pending",
+          "approver": null,
+          "date": null,
+          "source_ref": null,
+          "approval_ref": null
+        }
+      ],
+      "note": "Recorded metadata does not authenticate sign-off or authorize action."
+    },
+    "sources_citations": {
+      "title": "Sources and Citations",
+      "citations": [
+        "casemgmt:EDD-2026-0042;monitoring-plan@2026-07-12",
+        "docint:advmedia-dossier=AMD-901@2026-07-12",
+        "docint:id-verify=IDV-33021@2026-07-10",
+        "docint:org-chart=ORG-2231@2026-07-09",
+        "docint:sof-brokerage-stmt=SOF-7781@2026-07-08",
+        "docint:sow-memo=SOW-4412@2026-07-08",
+        "fixture:EDD-trigger-intake",
+        "kyc:cust=C-88213@2026-07-10",
+        "kyc:expected-activity=EA-2210@2026-07-10",
+        "kyc:ubo=UBO-88213@2026-07-09",
+        "regcorpus:fatf-high-risk-list@2026-06",
+        "regcorpus:public-filing=PF-2011-559@2011-09",
+        "screening:advmedia=AM-5521@2026-07-11",
+        "screening:geo=GEO-1180@2026-07-11",
+        "screening:pep=PEP-4471@2026-07-11",
+        "screening:sanctions=SANC-3390@2026-07-11",
+        "txnmon:acct=****8213;flow-90d@2026-07-11"
+      ],
+      "note": "Supplied references and excerpts only; not authenticated or independently retrieved."
+    },
+    "standing_note_limitations": {
+      "title": "Limitations",
+      "text": "Draft EDD package for human adjudication only. Evidence assembly does not establish source truth, residual risk, approval, or readiness for a customer decision. No action, send, system write, or filing is performed."
+    }
+  },
+  "limitations": [
+    "Supplied source records and policy approval metadata are unverified assertions.",
+    "Input binding establishes reproducibility, not source truth or authorization.",
+    "No system action, legal determination, customer decision, or approval is performed.",
+    "Phase 1 supports evidence assembly and gap exposure. Full EDD assessment, controls-effectiveness assessment and residual-risk determination are unsupported."
+  ],
+  "standing_note": "Draft EDD package for human adjudication only. Evidence assembly does not establish source truth, residual risk, approval, or readiness for a customer decision. No action, send, system write, or filing is performed.",
+  "input_hash": "fb908a859d56279c74b284bcb050e36d269add6536e398f44dc3b7129e1617f3",
+  "source_truth": "unverified"
+}
+
+enhanced-due-diligence-assessor det-output-valid PASS
+output validation: 0 error(s)
+
+enhanced-due-diligence-assessor safety-fail-closed PASS
+ERROR output differs from original-input reconstruction: narrative, routes
+output validation: 1 error(s)
+
+enhanced-due-diligence-assessor phase1-adversarial-regressions PASS
+........................
+----------------------------------------------------------------------
+Ran 24 tests in 0.011s
+
+OK
+
+enhanced-due-diligence-assessor phase2-input PASS
+{"errors": []}
+
+enhanced-due-diligence-assessor phase2-compute PASS
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "enhanced-due-diligence-assessor",
+  "method": "edd-reconciliation/1.0",
+  "request_id": "TEST-REQUEST",
+  "object_id": "TEST-SUBJECT",
+  "object_type": "customer",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "TEST-INSTITUTION",
+    "legal_entity_id": "TEST-ENTITY",
+    "capacity": "second_line",
+    "represented_party": "institution",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "customer",
+    "jurisdiction": "US",
+    "line_of_business": "banking",
+    "purpose": "scoped-professional-review"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "authorized_analyst",
+  "status": "draft-for-human-review",
+  "results": {
+    "wealth_funds_assessments": [
+      {
+        "claim_id": "W1",
+        "kind": "source_of_funds",
+        "currency": "USD",
+        "claimed_amount": "100.10",
+        "corroborated_amount": "100.10",
+        "difference": "0.00",
+        "quantitative_review": "quantitatively-reconciled-supplied-evidence",
+        "plausibility": "human-assessment-required",
+        "economic_activity": "Sale of owned asset",
+        "capacity_basis": "Supplied asset agreement",
+        "economic_capacity": "100.10",
+        "capacity_review": "within-supplied-economic-capacity",
+        "corroboration": [
+          {
+            "evidence_id": "V1",
+            "amount": "100.10",
+            "date": "2026-10-01",
+            "description": "Sale proceeds from supplied agreement"
+          }
+        ],
+        "counterevidence": []
+      }
+    ],
+    "chronology": [
+      {
+        "date": "2026-10-01",
+        "event": "Sale agreement records receipt of100.10USD"
+      }
+    ],
+    "hypotheses": [
+      {
+        "hypothesis_id": "H1",
+        "proposition": "Activity may be explained by trading proceeds; consider counterevidence.",
+        "proposition_status": "analyst-hypothesis",
+        "support": [
+          "Sale agreement supplied"
+        ],
+        "counterevidence": [
+          "Transfer beneficiary differs from sale party"
+        ],
+        "conclusion": "human-assessment-required"
+      }
+    ],
+    "control_assessments": [
+      {
+        "control_id": "C1",
+        "design_assessed": true,
+        "operating_assessed": true,
+        "assessor": "Synthetic independent analyst",
+        "period_start": "2026-09-01",
+        "period_end": "2026-09-30",
+        "sample_size": 20,
+        "failures": 0,
+        "operating_assessment_supported": true
+      }
+    ],
+    "residual_risk": {
+      "band": "Moderate",
+      "score": "40.00",
+      "status": "supplied-accepted-method-assessed-operating-evidence-human-review-required"
+    },
+    "recommendation": "human-adjudication-required",
+    "customer_decision": "human-owned"
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/claimed_amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/claim_date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/amount",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/currency_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/corroboration/0/description",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/economic_activity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/capacity_basis",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/capacity_currency",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/wealth_funds_claims/0/economic_capacity",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/support/0",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/counterevidence/0",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/design_assessed",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/operating_assessed",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/assessor",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/period_start",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/period_end",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/sample_size",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/failures",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/controls/0/id_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f32"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/date",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/event",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/method_profile/tolerance",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/approval",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/inherent_score",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/control_effectiveness",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/bands/0/maximum",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/bands/0/band_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f33"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/bands/1/maximum",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "f25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/bands/1/band_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f34"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/risk_method/required_controls_evidence",
+      "source_refs": [
+        "fixture-source"
+      ],
+      "fact_ids": [
+        "scope-f35"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Quantitative reconciliation supports plausibility review, not proof of lawful origin or complete net worth. No currency conversion, fabricated income chronology, residual downgrade without explicit method and assessed operating evidence, adjudication, customer action or filing.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "fixture-source"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "financial-crime-case-investigator",
+    "sanctions-exposure-reviewer",
+    "customer-risk-rating-reviewer"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "b836dd88361b13dd98d5e34a4542146d8e4de923daffef2ca4040019e931318d",
+  "source_truth": "unverified"
+}
+
+enhanced-due-diligence-assessor phase2-golden PASS
+output validation: 0 error(s)
+
+enhanced-due-diligence-assessor phase2-tamper PASS
+ERROR output differs from original-input reconstruction: action_taken
+output validation: 1 error(s)
+
+enhanced-due-diligence-assessor phase2-substantive-regressions PASS
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.038s
+
+OK
+
+enhanced-due-diligence-assessor quick_validate Unexpected key(s) in SKILL.md frontmatter: compatibility. Allowed properties are: allowed-tools, description, license, metadata, name

@@ -1,0 +1,148 @@
+{
+  "schema_version": "ir-phase2/1.0",
+  "request_id": "synthetic-credit-phase2",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "kind": "financial_statement",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1",
+      "subject_ids": [
+        "ACME-ISSUER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    }
+  ],
+  "unresolved_issues": [],
+  "currency": "USD",
+  "unit": "USD_m",
+  "horizon_end": "2027-10-20",
+  "cash": {
+    "unrestricted": 50,
+    "restricted": 20,
+    "evidence_refs": [
+      {
+        "source_id": "synthetic-financials",
+        "locator": "fixture:table-1;reviewed-inputs"
+      }
+    ]
+  },
+  "minimum_cash": 10,
+  "maturity_inventory_complete": true,
+  "cash_flows": [
+    {
+      "id": "BURN-1",
+      "date": "2027-03-31",
+      "currency": "USD",
+      "unit": "USD_m",
+      "net_operating_flow": -20,
+      "mandatory_capex": 5,
+      "cash_interest": 5,
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "maturities": [
+    {
+      "id": "MAT-1",
+      "instrument_id": "TERM-1",
+      "date": "2027-06-30",
+      "amount": 100,
+      "currency": "USD",
+      "unit": "USD_m",
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "facilities": [
+    {
+      "id": "RCF-1",
+      "date": "2026-10-20",
+      "expiry": "2027-10-20",
+      "currency": "USD",
+      "unit": "USD_m",
+      "undrawn": 40,
+      "committed": true,
+      "conditions_status": "satisfied-supplied",
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ],
+      "repayment_date": "2028-10-20"
+    },
+    {
+      "id": "RCF-CONDITIONAL",
+      "date": "2026-10-20",
+      "expiry": "2027-10-20",
+      "currency": "USD",
+      "unit": "USD_m",
+      "undrawn": 50,
+      "committed": true,
+      "conditions_status": "unknown",
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ],
+      "repayment_date": "2028-10-20"
+    }
+  ],
+  "refinancing": [
+    {
+      "id": "REFI-1",
+      "date": "2027-06-30",
+      "currency": "USD",
+      "unit": "USD_m",
+      "amount": 75,
+      "status": "assumed",
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "stress": {
+    "burn_multiplier": 2,
+    "facility_haircut": 0.5,
+    "refinancing_haircut": 0.5
+  }
+}

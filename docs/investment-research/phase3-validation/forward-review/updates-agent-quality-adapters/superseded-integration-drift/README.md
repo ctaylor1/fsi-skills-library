@@ -1,0 +1,1 @@
+Initial integration run before final package sync. QA SKILL metadata manifest drift correctly rejected event handoffs; this evidence is superseded by final-run files in the parent directory. No library defect or bypass was inferred from concurrent author edits.

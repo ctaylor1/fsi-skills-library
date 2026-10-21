@@ -66,7 +66,7 @@ solicitation, suitability judgment, or offer**.
 - The user wants a **fee reasonableness / benchmarking** conclusion (not just what the fees
   are) → `fee-and-charge-reviewer`.
 - The user wants to **draft marketing or a fact sheet** from the prospectus →
-  `fund-fact-sheet-builder` / `fund-commentary-drafter` (draft-and-package, approval-gated).
+  `fund-fact-sheet-builder` / `investment-commentary-builder` (draft-and-package, approval-gated).
 - The document is a **trade confirmation** or a **corporate-action notice**, not a
   prospectus → `trade-confirmation-explainer` / `corporate-action-interpreter`.
 

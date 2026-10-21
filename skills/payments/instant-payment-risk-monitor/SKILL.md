@@ -44,7 +44,7 @@ Explicit offset-aware `as_of`, `window_minutes`, `max_staleness_minutes`, versio
 Offline snapshot execution mode, enforced window, input hash, excluded events, partitioned alerts, feed freshness, new/still-open fingerprints, severity counts and unresolved handoffs. Alert fingerprints include entity/account/currency/rail. Monetary measurements use Decimal calculations and serialize as decimal strings where applicable.
 
 ## Adjacent-skill handoffs
-Fraud/scam investigation → `payment-fraud-and-scam-investigator`; financial-crime evidence → AML or `sanctions-match-adjudicator` workflows as appropriate. Payment settlement liquidity requires specialist operations review; a dedicated capability is not implemented in this phase. Enterprise ALM stress analysis does not substitute for intraday rail funding. Legacy settlement positions remain visible as unresolved work.
+Fraud/scam investigation → `payment-fraud-and-scam-investigator`; financial-crime evidence → AML or `sanctions-match-investigator` workflows as appropriate. Payment settlement liquidity requires specialist operations review; a dedicated capability is not implemented in this phase. Enterprise ALM stress analysis does not substitute for intraday rail funding. Legacy settlement positions remain visible as unresolved work.
 Read [handoffs](references/handoffs.md) before transferring evidence.
 
 ## Source hierarchy and rules

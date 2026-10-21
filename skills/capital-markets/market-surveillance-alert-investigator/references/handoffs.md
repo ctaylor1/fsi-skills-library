@@ -20,7 +20,7 @@ determines, or files.
 | `adverse-media-investigator` | Insider/MNPI signal references an external event/entity to corroborate | `case_id` + entity + event reference |
 | `best-execution-reviewer` | The concern is really execution quality / routing / venue, not manipulation | `case_id` + order/trade/routing evidence |
 | `conflicts-of-interest-reviewer` | A personal-account / desk conflict is implicated by the activity | `case_id` + parties + incentive evidence |
-| `sanctions-match-adjudicator` | A counterparty/entity raises a sanctions potential-match question | `case_id` + entity identifiers |
+| `sanctions-match-investigator` | A counterparty/entity raises a sanctions potential-match question | `case_id` + entity identifiers |
 
 ## Adjudication (human, not a skill)
 

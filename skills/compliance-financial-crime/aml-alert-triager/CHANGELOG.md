@@ -1,3 +1,16 @@
+## Independent forward-test regressions — 2026-09-21
+
+Before suppression consideration, validate the assessment date and every alert, open-case and authorization scope period as real dates with start <= end <= as_of. Invalid/future chronology fails the public intake boundary and produces no native result, even when the same invalid period appears in all supplied records. Missing evidence that raises only warnings continues to produce a partial review.
+
+Preserved the original failing evidence externally; added package-local regression copies and independently expected positive/negative cases.
+
+# Phase 1 correctness update — 2026-09-21 (0.1.1)
+
+- Added detached original-input reconstruction; native source truth remains unverified.
+- Corrected the bounded logic, explicit unknown states, supplied approval evidence and scope documented in SKILL.md.
+- Added executable adversarial regressions and corrected synthetic evidence claims.
+- Production integrations, issuer authentication and professional/legal acceptance remain pending.
+
 # Changelog — aml-alert-triager
 
 ## [0.1.0] — 2026-07-17

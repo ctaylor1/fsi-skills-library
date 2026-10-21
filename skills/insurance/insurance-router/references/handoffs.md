@@ -30,3 +30,12 @@ unsupported transformations remain explicitly manual and receiver-validated.
 Later-phase capability names in the route registry are planning records. They are
 not callable dependencies. Existing cross-domain destinations likewise need a
 deployment inventory and native-schema validation before use.
+
+## Phase 4 portable review handoffs
+
+New design/measurement packages use workflow-evidence/1.0. See
+[the portable contract](workflow-contract.md). The handoff validator dispatches
+that format and the unchanged legacy insurance format separately. New receivers
+may retain validated legacy insurance artifacts; legacy receivers need an explicit
+field adapter and companion evidence packet. Neither routing nor a valid common
+envelope proves source-to-field fidelity or source access.

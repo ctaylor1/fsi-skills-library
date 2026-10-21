@@ -1,0 +1,372 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fsi:research-records:1.0",
+  "title": "Investment Research native evidence record vocabulary v1.0",
+  "description": "Reference vocabulary. Runtime validates the Phase 1 subject/observation/source/citation subset; other record types are future adapter contracts, not implemented engines.",
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "issuer",
+            "security",
+            "universe",
+            "sector",
+            "economy",
+            "document",
+            "model",
+            "research_project",
+            "portfolio",
+            "fund",
+            "client",
+            "transaction",
+            "agent",
+            "workflow"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "issuer_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "period": {
+      "type": "object",
+      "required": [
+        "kind",
+        "end"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "instant",
+            "duration"
+          ]
+        },
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "duration"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "start"
+            ]
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "observation": {
+      "type": "object",
+      "required": [
+        "metric",
+        "value",
+        "unit",
+        "currency",
+        "accounting_basis",
+        "consolidation_scope",
+        "period"
+      ],
+      "properties": {
+        "metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ],
+          "description": "Exact finite decimal string, integer or explicit null; no boolean"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1
+        },
+        "accounting_basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "consolidation_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "period": {
+          "$ref": "#/$defs/period"
+        }
+      },
+      "additionalProperties": false
+    },
+    "citation": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "locator"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "version",
+        "locator",
+        "kind",
+        "known_at",
+        "subject_ids",
+        "permission_status",
+        "classification"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "known_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "permission_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "classification": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valid_from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valid_to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expires_on": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "permitted_audiences": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "permitted_purposes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "assumption": {
+      "type": "object",
+      "required": [
+        "assumption_id",
+        "owner",
+        "version",
+        "effective_on",
+        "rationale",
+        "citations"
+      ],
+      "properties": {
+        "assumption_id": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "effective_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        }
+      }
+    },
+    "calculation_lineage": {
+      "type": "object",
+      "required": [
+        "calculation_id",
+        "input_refs",
+        "formula",
+        "method_version",
+        "unit",
+        "reconciliation"
+      ],
+      "properties": {
+        "calculation_id": {
+          "type": "string"
+        },
+        "input_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "formula": {
+          "type": "string"
+        },
+        "method_version": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "reconciliation": {
+          "type": "string"
+        }
+      }
+    },
+    "estimate": {
+      "type": "object",
+      "required": [
+        "subject_id",
+        "metric",
+        "period",
+        "vintage",
+        "statistic",
+        "contributor_universe",
+        "basis"
+      ],
+      "properties": {
+        "subject_id": {
+          "type": "string"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/period"
+        },
+        "vintage": {
+          "type": "string"
+        },
+        "statistic": {
+          "type": "string"
+        },
+        "contributor_universe": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        }
+      }
+    },
+    "market_observation": {
+      "type": "object",
+      "required": [
+        "instrument_id",
+        "observed_at",
+        "basis",
+        "currency",
+        "value",
+        "citation"
+      ],
+      "properties": {
+        "instrument_id": {
+          "type": "string"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "string",
+            "integer",
+            "null"
+          ]
+        },
+        "citation": {
+          "$ref": "#/$defs/citation"
+        }
+      }
+    }
+  }
+}

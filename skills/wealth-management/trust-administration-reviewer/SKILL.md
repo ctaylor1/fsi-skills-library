@@ -19,7 +19,7 @@ metadata:
   aws-fsi-jurisdictions: "US (default); actual state-law applicability requires supplied human legal review"
   aws-fsi-owner: "Wealth Management trust administration & fiduciary oversight"
   aws-fsi-primary-user: "Trust administrator / fiduciary accountant / trust legal reviewer"
-  aws-fsi-version: "0.1.0"
+  aws-fsi-version: "0.2.0"
   aws-fsi-recertification-date: "2027-09-17"
 ---
 
@@ -58,6 +58,20 @@ Use governing instruments/amendments/orders with the responsible professional's 
 and precedence review; trust/custodian ledgers and balance statements; actual beneficiary/request
 records; and the firm's current service/review policy. Dates and classifications are supplied facts.
 Public guidance is orientation only. See [references/source-map.md](references/source-map.md).
+
+## P5 source and recipient quality gate
+Before treating model-created structured input or a recipient draft as reviewed,
+follow [references/quality-gate.md](references/quality-gate.md). Inventory every
+input field against detached source evidence and obtain a separate reviewer’s
+field decisions. Preserve unknowns as null; a missing review stays pending.
+Never create your own independent reviewer identity or approval to pass a gate.
+Create one draft per exact recipient set, including internal colleagues, from the
+supplied access registry. Keep the full input, review receipt and withheld details
+in a separate restricted work area. Run the combined gate and verify the actual
+final bytes before handoff; native calculator validation alone is insufficient.
+If no independent reviewer or permission registry is available, deliver a clearly
+pending internal working draft and the missing-evidence list to the authorized
+reviewer. Do not describe it as cleared for any wider audience.
 
 ## Workflow
 1. Triage the requested review. Route household planning, estate intentions, family governance,

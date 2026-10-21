@@ -1,0 +1,15 @@
+# Jurisdiction profile comparison schema
+
+Set `extension: jurisdiction-profile-comparison` on a foundation request with request_id, object_id, as_of, knowledge_cutoff, currency, audience=`internal-review`, sources and optional unresolved_issues. This is a distinct mode; requests without extension retain the legacy rule-pack contract. All domain rows need a unique ID and registered eligible source_ref. Domain lists are nonempty, bounded at 10,000 rows. Dates are real YYYY-MM-DD values.
+
+`review_scopes[]`: scope_id, entity_id equal to object_id, owner, source_ref. The six scope fields entity_type, activity, product_type, investor_type, home_jurisdiction and host_jurisdiction must each be explicit text or null. Multiple scenarios for one entity are allowed; missing facts remain unknown.
+
+`jurisdiction_profiles[]`: profile_id, obligation_key, jurisdiction, version, reviewer, owner, requirement_summary, treatment=`required`/`prohibited`/`conditional`, status=`final`/`proposed`/`withdrawn`/`superseded`, territorial_basis=`home`/`host`/`either`, cross_border_only boolean, effective_from, optional effective_to, reviewed_on, review_status and source_ref. `scope_conditions` supplies exactly entity_type, activity, product_type and investor_type, each a nonempty list of accepted values. No wildcard, implied nationality test or default product classification is inferred.
+
+Each profile's `primary_authority` supplies authority, title, HTTPS url, provision, version, retrieved_on and source_ref. Its URL must equal the registered source locator and its version must equal the registered version. URLs establish supplied provenance only; the code does not retrieve a page, authenticate the publisher or interpret its legal effect. Deployment evidence requires the actual operative provision and reviewed interpretation, not a search summary or generic index alone.
+
+Each profile has explicit `deadline_required` boolean and `deadline` object or null. A supplied deadline contains due_date, trigger_date, basis and source_ref. Trigger is an actual observed event within the source/review/knowledge cutoff, and due_date cannot precede it. Required missing deadlines remain issues for otherwise applicable profiles. No completion flag discharges a deadline.
+
+Output states are applicable-under-supplied-profile, not-applicable, not-effective, not-binding or undetermined. All source links, reasons, owners and supplied deadlines survive. Calendar days until due are descriptive; a due date equal to as_of is not yet overdue under this day-grain method. The comparison groups simultaneously applicable profiles by scope_id/obligation_key. Different treatments, summaries or due dates, and overlapping versions in the same jurisdiction, require owner review. No legal precedence or automatic resolution is supplied.
+
+Run the normal calculate/validate scripts; output validation requires `--input ORIGINAL.json`. `results.extension` identifies the method. `legal_conclusion` remains null; market_access_authorized and compliance_certified remain false. Requests without extension and their existing scripts/evals continue unchanged.

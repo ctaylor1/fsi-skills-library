@@ -1,0 +1,82 @@
+{
+  "id": "OPF-O05-WRONG-RECORD",
+  "package": "investment-asset-servicing-reviewer",
+  "input": {
+    "request_id": "OPF-O05-WRONG-RECORD",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "entitlements",
+    "events": [
+      {
+        "event_id": "DIV1",
+        "type": "cash_dividend",
+        "record_date": "2026-09-01",
+        "position_date": "2026-09-02",
+        "payable_date": "2026-09-15",
+        "event_source_ref": "ind-source",
+        "position_source_ref": "ind-source",
+        "eligible_quantity": "123.456789",
+        "tolerance": "0.001",
+        "received_amount": "12.95",
+        "cash_per_share": "0.123456789",
+        "withholding_rate": "0.15",
+        "received_date": "2026-09-15",
+        "receipt_source_ref": "ind-source"
+      },
+      {
+        "event_id": "SPLIT1",
+        "type": "stock_split",
+        "record_date": "2026-09-01",
+        "position_date": "2026-09-01",
+        "payable_date": "2026-09-15",
+        "event_source_ref": "ind-source",
+        "position_source_ref": "ind-source",
+        "eligible_quantity": "5.5",
+        "tolerance": "0",
+        "received_amount": null,
+        "new_shares": 3,
+        "old_shares": 2,
+        "fractional_policy": "preserve-entitlement"
+      }
+    ]
+  },
+  "expected": {
+    "exit_nonzero": true,
+    "reason": "record-date quantity basis cannot be inferred"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "a828285d1539e2dcd04c701d19ceac8f6f531cbbb7fab84213c8a7806899de59",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"eligible position date must equal known record date; payable precedes neither record nor entitlement\"]}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "eligible position date must equal known record date; payable precedes neither record nor entitlement\n"
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-O05-WRONG-RECORD",
+      "check": "invalid request rejected by input and compute CLIs",
+      "passed": true
+    }
+  ]
+}

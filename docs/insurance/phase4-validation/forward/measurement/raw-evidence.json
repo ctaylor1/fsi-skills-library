@@ -1,0 +1,290 @@
+{
+  "fictional": true,
+  "organization": "Harbor Test Mutual",
+  "review_date": "2026-09-20",
+  "jurisdiction": "US-TEST",
+  "line": "personal-auto-test",
+  "architecture": {
+    "owner": "Mira Chen, solution architect",
+    "source": "ARC-17",
+    "version": "3",
+    "date": "2026-09-18",
+    "scope": "Assisted first notice of loss intake sandbox only",
+    "outcome": "Prepare draft intake for examiner review",
+    "components": [
+      [
+        "portal",
+        "Capture deidentified intake",
+        "Web form",
+        "Examiner keyed form",
+        "Faster capture; browser availability dependency",
+        "edge",
+        "Mira Chen",
+        "280"
+      ],
+      [
+        "draft-service",
+        "Validate and prepare intake draft",
+        "Stateless rules service",
+        "Manual checklist",
+        "Consistent validation; rules maintenance required",
+        "service",
+        "Noah Vale",
+        "420"
+      ],
+      [
+        "review-queue",
+        "Hold drafts for examiner acceptance",
+        "Durable queue",
+        "Shared task list",
+        "Replayable draft intake; queue administration required",
+        "queue",
+        "Elena Moss",
+        "160"
+      ]
+    ],
+    "retention": "Delete sandbox records after 30 days under fictional policy RET-3",
+    "measurement": {
+      "metric": "p95_response_latency",
+      "unit": "ms",
+      "component": "draft-service",
+      "workload": "sandbox-40-requests-per-minute-2KB-v1",
+      "threshold": 700,
+      "observed": 640,
+      "date": "2026-09-18"
+    },
+    "cost_period": "month; 2026-09 budget at stated sandbox load",
+    "currency": "USD",
+    "imperfect": "Measurement used a 10KB payload workload rather than the required 2KB workload; queue cost quote is absent"
+  },
+  "automation": {
+    "owner": "Elena Moss, operations lead",
+    "source": "PAIR-11",
+    "version": "2",
+    "date": "2026-09-18",
+    "population": "Four deidentified simple auto intake cases; full purposive sandbox sample",
+    "workflow": "assist-intake-v2",
+    "protocol": "Same cases replayed with baseline checklist then assisted draft; examiner independently reviewed errors; candidate minutes include exception handling, review and rework. Costs exclude labor. Order is fixed and learning effects remain possible.",
+    "cases": [
+      [
+        "P1",
+        20,
+        11,
+        1,
+        2,
+        1200,
+        720,
+        false,
+        false
+      ],
+      [
+        "P2",
+        30,
+        19,
+        1,
+        3,
+        1800,
+        1140,
+        true,
+        false
+      ],
+      [
+        "P3",
+        10,
+        14,
+        1,
+        4,
+        600,
+        900,
+        false,
+        true
+      ],
+      [
+        "P4",
+        20,
+        12,
+        1,
+        3,
+        1200,
+        780,
+        false,
+        false
+      ]
+    ],
+    "scenarios": [
+      [
+        "capacity-only",
+        12000,
+        0.5,
+        48,
+        0,
+        6000,
+        9000
+      ],
+      [
+        "cash-50-percent",
+        12000,
+        0.5,
+        48,
+        0.5,
+        6000,
+        9000
+      ]
+    ],
+    "error_ceiling": 0.25,
+    "controls": [
+      [
+        "manual-stop",
+        "Elena Moss",
+        "Stop worker and route draft to examiner",
+        "4/4 retained; no claim decision issued",
+        "passed"
+      ],
+      [
+        "duplicate-replay",
+        "Noah Vale",
+        "Resubmit same intake token",
+        "One draft retained after 3 submissions",
+        "passed"
+      ]
+    ],
+    "imperfect": "P3 candidate rework timing was lost, so candidate human minutes are unknown; duplicate-replay test actually failed with two drafts"
+  },
+  "data": {
+    "owner": "Ada Soto, benchmark lead",
+    "source": "BENCH-9",
+    "version": "4",
+    "date": "2026-09-18",
+    "population": "Six deidentified historical intake packets, all sampled cases retained",
+    "purpose": "Offline intake-completeness triage benchmark",
+    "outcome": "A completed examiner audit confirms additional documentation was needed (positive)",
+    "baseline": "rules-v5",
+    "augmented": "rules-plus-context-v1",
+    "provider": "Fictional RoadContext",
+    "license": "LIC-8-v2",
+    "license_reviewer": "Jo Lane, licensing steward",
+    "retention": "Delete licensed sandbox attributes after benchmark signoff under LIC-8-v2",
+    "license_start": "2026-09-01",
+    "license_end": "2026-09-30",
+    "cases": [
+      [
+        "D1",
+        true,
+        true,
+        false,
+        true,
+        80,
+        20
+      ],
+      [
+        "D2",
+        true,
+        false,
+        true,
+        false,
+        40,
+        10
+      ],
+      [
+        "D3",
+        true,
+        true,
+        true,
+        true,
+        20,
+        20
+      ],
+      [
+        "D4",
+        true,
+        false,
+        false,
+        true,
+        10,
+        40
+      ],
+      [
+        "D5",
+        false,
+        true,
+        false,
+        false,
+        80,
+        80
+      ],
+      [
+        "D6",
+        false,
+        false,
+        false,
+        false,
+        10,
+        10
+      ]
+    ],
+    "decision": "2026-09-10",
+    "available": "2026-09-09",
+    "outcome_date": "2026-09-15",
+    "projection_reviewed": false,
+    "projection_basis": "Purposive six-case sample; no production representativeness claim",
+    "imperfect": "D1 matched attribute did not become available until 2026-09-11, one day after decision"
+  },
+  "operations": {
+    "owner": "Elena Moss, performance lead",
+    "source": "QUEUE-22",
+    "version": "1",
+    "date": "2026-09-19",
+    "population": "Assisted intake review queue; every episode open at window start and all arrivals",
+    "definition": "episode-v3",
+    "start": "2026-09-18T00:00:00Z",
+    "end": "2026-09-19T00:00:00Z",
+    "opening": 2,
+    "closing": 2,
+    "sla_hours": 24,
+    "available_hours": 16,
+    "worked_hours": 12,
+    "episodes": [
+      [
+        "E1",
+        "2026-09-17T12:00:00Z",
+        "2026-09-18T12:00:00Z",
+        "completed",
+        36,
+        45
+      ],
+      [
+        "E2",
+        "2026-09-17T18:00:00Z",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "E3",
+        "2026-09-18T02:00:00Z",
+        "2026-09-18T08:00:00Z",
+        "completed",
+        12,
+        15
+      ],
+      [
+        "E4",
+        "2026-09-18T04:00:00Z",
+        "2026-09-18T06:00:00Z",
+        "cancelled",
+        3,
+        5
+      ],
+      [
+        "E5",
+        "2026-09-18T16:00:00Z",
+        null,
+        null,
+        null,
+        null
+      ]
+    ],
+    "imperfect": "Supervisor closing tally is 3, while unchanged episode extract yields 2; snapshot reconciliation unresolved"
+  }
+}

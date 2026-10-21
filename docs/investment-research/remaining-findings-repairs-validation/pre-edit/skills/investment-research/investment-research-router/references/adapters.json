@@ -1,0 +1,69 @@
+{
+  "schema_version": "ir-reviewed-adapters/1.0",
+  "authority": "Offline compute and validation only; no approval or live action",
+  "adapters": [
+    {
+      "id": "forecast-to-dcf",
+      "producer": "three-statement-model-builder",
+      "receiver": "dcf-modeler",
+      "mapping": "forecast_rows",
+      "scope": "Corporate annual reconciled forecast rows; no ratio-driver reconstruction"
+    },
+    {
+      "id": "capital-structure-to-liquidity",
+      "producer": "issuer-capital-structure-mapper",
+      "receiver": "issuer-liquidity-refinancing-analyzer",
+      "mapping": "maturities",
+      "scope": "One selected currency/unit group; complete dated principal inventory only"
+    },
+    {
+      "id": "terms-to-covenant",
+      "producer": "credit-document-terms-reviewer",
+      "receiver": "covenant-headroom-analyzer",
+      "mapping": "reviewed_definitions",
+      "scope": "Explicit reviewed covenant definitions only; no clause interpretation"
+    },
+    {
+      "id": "dcf-to-reconciliation",
+      "producer": "dcf-modeler",
+      "receiver": "valuation-reconciliation-analyzer",
+      "mapping": "equity_valuation",
+      "scope": "Supplied same-basis equity method row; no selected or blended value"
+    },
+    {
+      "id": "model-review-to-initiation",
+      "producer": "research-financial-model-reviewer",
+      "receiver": "coverage-initiation-researcher",
+      "mapping": "model_review",
+      "scope": "Independent-review findings retained as review issues; no model approval"
+    },
+    {
+      "id": "model-update-to-three-statement",
+      "producer": "financial-model-update-preparer",
+      "receiver": "three-statement-model-builder",
+      "mapping": "candidate_model",
+      "scope": "Exact version-bound proposed corporate three-statement input; actual native candidate validation/computation, no live model change"
+    },
+    {
+      "id": "model-update-to-dcf",
+      "producer": "financial-model-update-preparer",
+      "receiver": "dcf-modeler",
+      "mapping": "candidate_model",
+      "scope": "Exact version-bound proposed annual corporate DCF input; actual native candidate validation/computation, no live model change"
+    },
+    {
+      "id": "event-impact-to-quality",
+      "producer": "corporate-event-impact-reviewer",
+      "receiver": "research-quality-reviewer",
+      "mapping": "event_quality_packet",
+      "scope": "Typed single-event cash/debt/net-debt/share bridge claims and independent arithmetic review; explicit receiver coverage, no publication clearance"
+    },
+    {
+      "id": "macro-observations-to-theme",
+      "producer": "macroeconomic-researcher",
+      "receiver": "cross-asset-theme-researcher",
+      "mapping": "macro_observations",
+      "scope": "Explicit subset of cutoff-eligible same-economy vintage observations; no inferred shock, causal relationship, forecast or portfolio decision"
+    }
+  ]
+}

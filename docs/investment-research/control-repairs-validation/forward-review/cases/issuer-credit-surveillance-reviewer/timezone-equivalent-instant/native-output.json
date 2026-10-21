@@ -1,0 +1,171 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "issuer-credit-surveillance-reviewer",
+  "method_version": "2.0.0",
+  "request_id": "independent-forward-surveillance-timezone-equivalent-instant",
+  "subject": {
+    "type": "issuer",
+    "id": "HARBOR-SYNTHETIC-2026"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "period_metrics": {
+      "prior": {
+        "gross_leverage_x": 5.0,
+        "net_leverage_x": 4.5,
+        "interest_coverage_x": 7.857142857142857,
+        "fixed_charge_proxy_x": 6.428571428571429,
+        "liquidity_to_known_maturity_x": 1.1333333333333333
+      },
+      "current": {
+        "gross_leverage_x": 6.5,
+        "net_leverage_x": 6.0,
+        "interest_coverage_x": 6.0,
+        "fixed_charge_proxy_x": 4.4,
+        "liquidity_to_known_maturity_x": 0.8888888888888888
+      }
+    },
+    "metric_changes": {
+      "gross_leverage_x": 1.5,
+      "net_leverage_x": 1.5,
+      "interest_coverage_x": -1.8571428571428568,
+      "fixed_charge_proxy_x": -2.0285714285714285,
+      "liquidity_to_known_maturity_x": -0.24444444444444446
+    },
+    "spread_change_bps": 55,
+    "alerts": [
+      "net leverage increased beyond supplied threshold",
+      "interest coverage declined beyond supplied threshold",
+      "spread widened beyond supplied threshold"
+    ],
+    "reported_events": [],
+    "rating_action": "reported-only",
+    "position_action": "none",
+    "thesis_action": "unchanged",
+    "dscr_calculated": false,
+    "coverage_limit": "fixed-charge EBITDA proxy is not a contractual debt-service ratio"
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "operation": "Reported comparable-period credit ratios; current minus prior; matching spread observations subject to observation chronology, economic as-of and supplied current-age policy",
+      "input_binding": "complete-original-input-hash",
+      "input_fields": [
+        "as_of",
+        "audience",
+        "current",
+        "current_spread",
+        "events",
+        "information_barrier",
+        "issuer_profile",
+        "knowledge_cutoff",
+        "prior",
+        "prior_spread",
+        "purpose",
+        "request_id",
+        "schema_version",
+        "spread_freshness_policy",
+        "subject",
+        "thresholds",
+        "unresolved_issues",
+        "use_on"
+      ],
+      "output_fields": [
+        "alerts",
+        "coverage_limit",
+        "dscr_calculated",
+        "metric_changes",
+        "period_metrics",
+        "position_action",
+        "rating_action",
+        "reported_events",
+        "spread_change_bps",
+        "thesis_action"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "surveillance-prior-financials",
+          "locator": "user-facts:2025-nine-month-financials-and-liquidity"
+        },
+        {
+          "source_id": "surveillance-current-financials",
+          "locator": "user-facts:2026-nine-month-financials-and-liquidity"
+        },
+        {
+          "source_id": "prior-OAS",
+          "locator": "user-facts:OAS-2026-10-19T18Z"
+        },
+        {
+          "source_id": "current-OAS",
+          "locator": "user-facts:OAS-2026-10-20T18Z"
+        }
+      ]
+    }
+  ],
+  "unresolved_issues": [
+    "Accounting framework is unspecified; ratios are illustrative on one supplied synthetic accounting convention.",
+    "Nine-month EBITDA is unannualized; leverage ratios are period-denominator arithmetic, not LTM leverage.",
+    "Synthetic exercise only: no authenticated source documents or institutional deployment profile supplied."
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "surveillance-prior-financials",
+      "locator": "user-facts:2025-nine-month-financials-and-liquidity"
+    },
+    {
+      "source_id": "surveillance-current-financials",
+      "locator": "user-facts:2026-nine-month-financials-and-liquidity"
+    },
+    {
+      "source_id": "prior-OAS",
+      "locator": "user-facts:OAS-2026-10-19T18Z"
+    },
+    {
+      "source_id": "current-OAS",
+      "locator": "user-facts:OAS-2026-10-20T18Z"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "surveillance-prior-financials",
+      "version": "synthetic-independent-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:surveillance-prior-financials",
+      "kind": "financial_statement"
+    },
+    {
+      "source_id": "surveillance-current-financials",
+      "version": "synthetic-independent-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "synthetic-user-facts:surveillance-current-financials",
+      "kind": "financial_statement"
+    },
+    {
+      "source_id": "prior-OAS",
+      "version": "synthetic-independent-v1",
+      "known_at": "2026-10-19T19:00:00Z",
+      "locator": "synthetic-user-facts:prior-OAS",
+      "kind": "market_data"
+    },
+    {
+      "source_id": "current-OAS",
+      "version": "synthetic-independent-v1",
+      "known_at": "2026-10-20T19:00:00Z",
+      "locator": "synthetic-user-facts:current-OAS",
+      "kind": "market_data"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "4de9ac04d1194c0e1900dc4db063db1ca92c7ab5ed8b70abc2c73c6de188afc2",
+  "source_truth": "unverified"
+}

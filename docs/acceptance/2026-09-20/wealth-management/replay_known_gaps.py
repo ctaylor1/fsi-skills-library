@@ -1,0 +1,9 @@
+import pathlib,zipfile,json,subprocess
+R=pathlib.Path('/Users/taylor/DevRepo/Skills/fsi-skills-library');O=pathlib.Path('/tmp/fsi-final-wealth-acceptance/known-gap-replays');O.mkdir(exist_ok=True);log=[]
+with zipfile.ZipFile(R/'docs/wealth-management/p4/results/wealth-p4-20260917.zip') as z:
+ tax=json.loads(z.read('artifacts/P4-05--with-skill/generated/tax_review_input.json'))
+ for value in [None,'unknown']:
+  d=json.loads(json.dumps(tax));next(a for a in d['accounts'] if a['account_id']=='IRA-ELM')['tax_treatment']=value;name='tax-null.json' if value is None else 'tax-unknown.json';(O/name).write_text(json.dumps(d,indent=2)+'\n');cmd=['/tmp/fsi-p0-venv/bin/python','-B',str(R/'skills/wealth-management/tax-aware-investment-reviewer/scripts/validate_input.py'),str(O/name)];p=subprocess.run(cmd,capture_output=True,text=True);(O/(name+'.stdout')).write_text(p.stdout);(O/(name+'.stderr')).write_text(p.stderr);log.append({'argv':cmd,'exit_code':p.returncode,'stdout':p.stdout,'stderr':p.stderr,'mutation':'Only IRA-ELM tax_treatment changed to explicit missing value; no facts supplied to fill it.'})
+ loan=json.loads(z.read('artifacts/P4-11--with-skill/generated/liquidity_review_input.json'));(O/'loan-original.json').write_text(json.dumps(loan,indent=2)+'\n');cmd=['/tmp/fsi-p0-venv/bin/python','-B',str(R/'skills/wealth-management/wealth-lending-liquidity-reviewer/scripts/calculate_or_transform.py'),str(O/'loan-original.json')];p=subprocess.run(cmd,capture_output=True,text=True);(O/'loan-current-output.json').write_text(p.stdout);(O/'loan-current-output.stderr').write_text(p.stderr);log.append({'argv':cmd,'exit_code':p.returncode,'output':'loan-current-output.json','mutation':'None; original frozen P4-11 input replayed, not fresh model generation.'})
+(O/'invocations.json').write_text(json.dumps(log,indent=2)+'\n')
+for e in log:print(e.get('stdout',e.get('output')),e['exit_code'])

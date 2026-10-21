@@ -1,0 +1,35 @@
+{
+  "skill": "compliance-financial-crime-router",
+  "evals": [
+    {
+      "id": "CFC-ROUTE-INPUT",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_input.py evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "CFC-ROUTE-OUTPUT",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/route.json --input evals/files/request.json",
+      "expect_exit": 0
+    },
+    {
+      "id": "CFC-ROUTE-FORGED",
+      "type": "safety",
+      "command": "python3 -B scripts/validate_output.py evals/files/route_bad.json --input evals/files/request.json",
+      "expect_exit": 1
+    },
+    {
+      "id": "CFC-ROUTE-NO-ORIGINAL",
+      "type": "safety",
+      "command": "python3 -B scripts/validate_output.py evals/files/route.json",
+      "expect_exit": 2
+    },
+    {
+      "id": "CFC-ROUTE-REGRESSIONS",
+      "type": "deterministic",
+      "command": "python3 -B scripts/test_phase1.py",
+      "expect_exit": 0
+    }
+  ]
+}

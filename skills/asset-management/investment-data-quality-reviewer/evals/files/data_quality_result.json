@@ -1,0 +1,338 @@
+{
+  "mode": "data_quality",
+  "result": {
+    "exception_queue_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09",
+    "portfolio_id": "FUND-DELTA",
+    "as_of": "2026-07-17",
+    "config_version": "dq-cfg-2026.07",
+    "checks_run": [
+      "missing_price",
+      "temporal_invalid",
+      "stale_price",
+      "implausible_move",
+      "absent_factor",
+      "duplicate_instrument",
+      "conflicting_classification",
+      "broken_mapping"
+    ],
+    "exceptions": [
+      {
+        "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09::stale_price::01",
+        "type": "stale_price",
+        "instrument": {
+          "instrument_key": "INS-1003",
+          "identifier": {
+            "scheme": "isin",
+            "value": "US912828ABC1"
+          }
+        },
+        "severity": "High",
+        "nav_impacting": true,
+        "reason": "price as-of 2026-07-07 is 10d old vs snapshot 2026-07-17 (> 5d)",
+        "evidence": [
+          {
+            "instrument_key": "INS-1003",
+            "price": 98.5,
+            "price_asof": "2026-07-07",
+            "age_days": 10,
+            "unchanged_days": null,
+            "citation": "px:inst=INS-1003;src=vendorA@2026-07-07",
+            "as_of": "2026-07-07"
+          }
+        ],
+        "breach": {
+          "price_max_age_days": 5,
+          "age_days": 10,
+          "price_unchanged_max_days": 5
+        },
+        "route_to": "investment-data-analyst-review",
+        "status": "open"
+      },
+      {
+        "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09::implausible_move::01",
+        "type": "implausible_move",
+        "instrument": {
+          "instrument_key": "INS-1002",
+          "identifier": {
+            "scheme": "isin",
+            "value": "US5949181045"
+          }
+        },
+        "severity": "Critical",
+        "nav_impacting": true,
+        "reason": "day-over-day return +36.00% exceeds equity band +/-25%",
+        "evidence": [
+          {
+            "instrument_key": "INS-1002",
+            "price": 340.0,
+            "prev_price": 250.0,
+            "return": 0.36,
+            "citation": "px:inst=INS-1002;src=vendorA@2026-07-16",
+            "as_of": "2026-07-16"
+          }
+        ],
+        "breach": {
+          "asset_class": "equity",
+          "move_band": 0.25,
+          "return": 0.36
+        },
+        "route_to": "investment-data-analyst-review",
+        "status": "open"
+      },
+      {
+        "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09::absent_factor::01",
+        "type": "absent_factor",
+        "instrument": {
+          "instrument_key": "INS-1002",
+          "identifier": {
+            "scheme": "isin",
+            "value": "US5949181045"
+          }
+        },
+        "severity": "Low",
+        "nav_impacting": true,
+        "reason": "held equity instrument missing required factor(s): sector",
+        "evidence": [
+          {
+            "instrument_key": "INS-1002",
+            "missing_factors": [
+              "sector"
+            ],
+            "required": [
+              "beta",
+              "sector"
+            ],
+            "citation": "sec-master:inst=INS-1002@2026-07-17",
+            "as_of": "2026-07-17"
+          }
+        ],
+        "breach": {
+          "required_factors": [
+            "beta",
+            "sector"
+          ],
+          "missing_factors": [
+            "sector"
+          ]
+        },
+        "route_to": "investment-data-analyst-review",
+        "status": "open"
+      },
+      {
+        "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09::absent_factor::02",
+        "type": "absent_factor",
+        "instrument": {
+          "instrument_key": "INS-1003",
+          "identifier": {
+            "scheme": "isin",
+            "value": "US912828ABC1"
+          }
+        },
+        "severity": "Low",
+        "nav_impacting": true,
+        "reason": "held bond instrument missing required factor(s): rating",
+        "evidence": [
+          {
+            "instrument_key": "INS-1003",
+            "missing_factors": [
+              "rating"
+            ],
+            "required": [
+              "duration",
+              "rating"
+            ],
+            "citation": "sec-master:inst=INS-1003@2026-07-17",
+            "as_of": "2026-07-17"
+          }
+        ],
+        "breach": {
+          "required_factors": [
+            "duration",
+            "rating"
+          ],
+          "missing_factors": [
+            "rating"
+          ]
+        },
+        "route_to": "investment-data-analyst-review",
+        "status": "open"
+      },
+      {
+        "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09::duplicate_instrument::01",
+        "type": "duplicate_instrument",
+        "instrument": {
+          "instrument_key": "INS-1001",
+          "identifier": {
+            "scheme": "isin",
+            "value": "US0378331005"
+          }
+        },
+        "severity": "Medium",
+        "nav_impacting": true,
+        "reason": "instrument keys ['INS-1001', 'INS-1004'] share isin=US0378331005",
+        "evidence": [
+          {
+            "instrument_key": "INS-1001",
+            "identifier": {
+              "scheme": "isin",
+              "value": "US0378331005"
+            },
+            "citation": "sec-master:inst=INS-1001;isin=US0378331005@2026-07-17",
+            "as_of": "2026-07-17"
+          },
+          {
+            "instrument_key": "INS-1004",
+            "identifier": {
+              "scheme": "isin",
+              "value": "US0378331005"
+            },
+            "citation": "sec-master:inst=INS-1004;isin=US0378331005@2026-07-17",
+            "as_of": "2026-07-17"
+          }
+        ],
+        "breach": {
+          "scheme": "isin",
+          "value": "US0378331005",
+          "keys": [
+            "INS-1001",
+            "INS-1004"
+          ]
+        },
+        "route_to": "investment-reference-data-reviewer",
+        "status": "open"
+      },
+      {
+        "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09::conflicting_classification::01",
+        "type": "conflicting_classification",
+        "instrument": {
+          "instrument_key": "INS-1001",
+          "identifier": {
+            "scheme": "isin",
+            "value": "US0378331005"
+          }
+        },
+        "severity": "Medium",
+        "nav_impacting": true,
+        "reason": "scheme gics_sector: conflicting values across feeds (vendorA=Information Technology vs vendorB=Financials)",
+        "evidence": [
+          {
+            "instrument_key": "INS-1001",
+            "scheme": "gics_sector",
+            "feed": "vendorA",
+            "value": "Information Technology",
+            "citation": "refdata:inst=INS-1001;scheme=gics_sector;feed=vendorA@2026-07-17",
+            "as_of": "2026-07-17"
+          },
+          {
+            "instrument_key": "INS-1001",
+            "scheme": "gics_sector",
+            "feed": "vendorB",
+            "value": "Financials",
+            "citation": "refdata:inst=INS-1001;scheme=gics_sector;feed=vendorB@2026-07-17",
+            "as_of": "2026-07-17"
+          }
+        ],
+        "breach": {
+          "scheme": "gics_sector",
+          "distinct_values": [
+            "Financials",
+            "Information Technology"
+          ]
+        },
+        "route_to": "investment-data-quality-reviewer",
+        "route_mode": "vendor_feed",
+        "handoff_status": "requires_reviewed_mapping",
+        "status": "open"
+      },
+      {
+        "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09::broken_mapping::01",
+        "type": "broken_mapping",
+        "instrument": {
+          "instrument_key": "INS-1005",
+          "identifier": {
+            "scheme": null,
+            "value": null
+          }
+        },
+        "severity": "Critical",
+        "nav_impacting": true,
+        "reason": "mapping to security_master is unresolved",
+        "evidence": [
+          {
+            "instrument_key": "INS-1005",
+            "target": "security_master",
+            "resolved": false,
+            "citation": "sec-master:inst=INS-1005;target=security_master@2026-07-17",
+            "as_of": "2026-07-17"
+          }
+        ],
+        "breach": {
+          "target": "security_master",
+          "resolved": false
+        },
+        "route_to": "investment-reference-data-reviewer",
+        "status": "open"
+      },
+      {
+        "exception_id": "idqed-FUND-DELTA-2026-07-17-dq-cfg-2026.07-9894d1b22e09::broken_mapping::02",
+        "type": "broken_mapping",
+        "instrument": {
+          "instrument_key": "INS-7777",
+          "identifier": {
+            "scheme": null,
+            "value": null
+          }
+        },
+        "severity": "High",
+        "nav_impacting": false,
+        "reason": "referenced instrument key 'INS-7777' has no instrument record (dangling)",
+        "evidence": [
+          {
+            "referenced_key": "INS-7777",
+            "seen_in": [
+              "classifications"
+            ],
+            "citation": "sec-master:inst=INS-7777;dangling@2026-07-17",
+            "as_of": "2026-07-17"
+          }
+        ],
+        "breach": {
+          "dangling": true,
+          "seen_in": [
+            "classifications"
+          ]
+        },
+        "route_to": "investment-reference-data-reviewer",
+        "status": "open"
+      }
+    ],
+    "not_evaluable": [],
+    "counts": {
+      "total": 8,
+      "by_type": {
+        "absent_factor": 2,
+        "broken_mapping": 2,
+        "conflicting_classification": 1,
+        "duplicate_instrument": 1,
+        "implausible_move": 1,
+        "stale_price": 1
+      },
+      "by_severity": {
+        "Critical": 2,
+        "High": 2,
+        "Low": 2,
+        "Medium": 2
+      }
+    },
+    "queue_priority": "P1",
+    "priority_params": {
+      "p1_high_count": 3
+    },
+    "disclaimer": "Detection evidence only; exceptions are open findings. No data has been corrected, overridden, or suppressed, and no canonical value has been chosen.",
+    "input_hash": "8ae50ff6cfccaceba763267518798995122dab741d20dbfd1a1a6b4a9fa076f1",
+    "source_truth": "unverified"
+  },
+  "action_taken": false,
+  "input_hash": "24ec4d329d7b4562c6a05a5a771e86de62b520406266a488dbd112641a9b508c",
+  "source_truth": "unverified"
+}

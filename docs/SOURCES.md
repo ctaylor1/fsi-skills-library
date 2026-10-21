@@ -131,3 +131,71 @@ findings and separate professional acceptance gates are recorded in
 [implementation](insurance/PHASE3-IMPLEMENTATION.md),
 [validation](insurance/phase3-validation/README.md) and
 [source governance](insurance/SOURCE-GOVERNANCE.md).
+
+## Asset Management Phase 1 — 2026-09-20
+
+The user-approved architecture and Phase 1 implementation establish Investment Research
+and Investment Banking as separate owners, record all 30 original AM dispositions, and
+preserve the broader 64-capability AM roadmap. The [migration registry](../catalog/asset-management-migrations.json),
+[capability manifest](../catalog/asset-management-capabilities.json), approved overrides
+and router addition preserve these decisions through catalog regeneration. The external
+workbook is unchanged. Merged aliases require explicit native modes; no duplicate skills
+or silent schema conversion are introduced.
+
+Canonical shared source, pinned generated resources, detached native reconstruction,
+source/receiver validation and engine boundaries are documented in
+[contracts and packaging](asset-management/CONTRACTS-AND-PACKAGING.md). Engineering
+contracts do not authenticate source truth, grant permission or certify professional
+acceptance. See [source governance](asset-management/SOURCE-GOVERNANCE.md),
+[implementation](asset-management/PHASE1-IMPLEMENTATION.md) and
+[retained validation](asset-management/phase1-validation/README.md).
+
+## Asset Management Phase 2 — September 21, 2026
+
+The user-authorized foundation expansion adds 29 packages and three explicit-mode extensions.
+See [Phase 2 source governance](asset-management/PHASE2-SOURCE-GOVERNANCE.md), per-package
+primary source maps, and [validation evidence](asset-management/phase2-validation/README.md).
+Supplied evidence and synthetic numerical benchmarks do not establish live source truth,
+legal applicability, licensed access or institutional acceptance.
+
+## Compliance & Financial Crime Phase 1 — 2026-09-21
+
+The user-authorized implementation preserves all 15 original package dispositions in
+[the migration registry](../catalog/compliance-financial-crime-migrations.json), six
+renames and the privacy category move in approved overrides, and the new router in
+provisional additions. The catalog was regenerated with `--from-current`; the external
+workbook was not edited or reconciled. [The capability registry](../catalog/compliance-financial-crime-capabilities.json)
+separates installed bounded methods from 36 target workflows.
+
+[Source governance](../shared/compliance-financial-crime/source-governance.md) and the
+[dated primary reference catalog](../shared/compliance-financial-crime/source-catalog.json)
+separate legal status, applicability, institutional policy and illustrative conventions.
+These references are orientation evidence; no approved institution rule pack or source
+authentication is implied. The resource lock pins shared engineering components and
+generated portable copies, not the truth or current applicability of external sources.
+
+## Compliance & Financial Crime Phase2 — 2026-10-03
+
+The user explicitly authorized the next phase after Phase1. Nineteen distinct
+professional jobs and two customer modes are recorded in
+`catalog/compliance-financial-crime-phase2-capabilities.json`. These are approved
+local additions/overrides; external source-workbook reconciliation remains open.
+Native schema/method support and acceptance limits are in the implementation and
+support matrix; no empty placeholder package represents a planned capability.
+
+Fresh primary-source access covers program evaluation, entity-specific bank program
+text, CDD/EDD, sanctions, June2026 information-sharing guidance, reporting/notification
+and conduct/assurance references. New and rechecked records are dated2026-10-03 in
+`shared/compliance-financial-crime/source-catalog.json`; untouched records retain
+their September review dates. Legal status, scope, source publication/version,
+effective/compliance dates and review time remain separate. Package references
+identify conditional method support and professional interpretation owners.
+
+Official references and exact supplied fact bindings support bounded implementation;
+they are not approved comprehensive current-law profiles, source authentication or
+professional acceptance. The promotion scope split preserves Capital Markets
+supervision/retention support without transferring US member rules to other sectors.
+
+## Compliance & Financial Crime Phase3 source review — 2026-10-04
+
+Four new bounded detection/QA methods use the primary-source scope review recorded in [Phase3 sources](compliance-financial-crime/phase3-validation/SOURCE-REVIEW.md). The canonical source catalog preserves earlier records and adds monitoring, independent-testing and revised model-definition entries. Supplied institutional facts and criteria remain unverified; these references establish no comprehensive current-law pack or professional acceptance.

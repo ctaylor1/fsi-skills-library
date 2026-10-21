@@ -1,0 +1,87 @@
+{
+  "package": "etf-operations-reviewer",
+  "input": {
+    "request_id": "OPF-S02-RESTRICTED",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18",
+        "permitted_audiences": [
+          "PRIVATE-TEAM"
+        ]
+      }
+    ],
+    "mode": "basket_control",
+    "direction": "creation",
+    "creation_unit_size": 10,
+    "creation_units": 3,
+    "cash_per_creation_unit": "6",
+    "transaction_fee": "2",
+    "value_tolerance": "0",
+    "basket_source_ref": "ind-source",
+    "nav_source_ref": "ind-source",
+    "ap_source_ref": "ind-source",
+    "dealing_terms_source_ref": "ind-source",
+    "order_received_at": "2026-09-18T19:59:00+00:00",
+    "cutoff_at": "2026-09-18T16:00:00-04:00",
+    "ap_status": "supplied-active",
+    "ap_valid_until": "2026-12-31",
+    "basket_type": "standard",
+    "nav_per_share": "5",
+    "components": [
+      {
+        "instrument_id": "SENSITIVE-ID-KEEP-PRIVATE",
+        "quantity_per_creation_unit": "2",
+        "price": "7",
+        "source_ref": "ind-source"
+      },
+      {
+        "instrument_id": "B",
+        "quantity_per_creation_unit": "3",
+        "price": "10",
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "id": "OPF-S02-RESTRICTED",
+  "expected": {
+    "exit_nonzero": true,
+    "reason": "restricted must reject calculation"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "7f704500c9b1a59ba24ccb706ccca8121924b2c28db9d0ef58d40a3d474e7bbd",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "c1b5d69195b24ea1a2c65f4f0357fd03fa1703665582e08beca29749ec66b682",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"source withheld for audience restriction\"]}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "source withheld for audience restriction\n"
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-S02-RESTRICTED",
+      "check": "invalid request rejected by input and compute CLIs",
+      "passed": true
+    },
+    {
+      "case": "OPF-S02-RESTRICTED",
+      "check": "restricted ID omitted from error",
+      "passed": true
+    }
+  ]
+}

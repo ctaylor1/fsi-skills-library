@@ -1,0 +1,123 @@
+{
+  "skill": "issuer-credit-researcher",
+  "version": "0.2.0",
+  "evals": [
+    {
+      "id": "input",
+      "command": "python3 -B scripts/validate_input.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": [
+        "input validation: 0 error(s)"
+      ],
+      "type": "deterministic"
+    },
+    {
+      "id": "compute",
+      "command": "python3 -B scripts/calculate_or_transform.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"authority_granted\": false"
+      ],
+      "type": "deterministic"
+    },
+    {
+      "id": "output",
+      "command": "python3 -B scripts/validate_output.py --selftest",
+      "expect_exit": 0,
+      "expect_contains": [
+        "output validation: 0 error(s)"
+      ],
+      "type": "deterministic"
+    },
+    {
+      "id": "bad-input",
+      "command": "python3 -B scripts/validate_input.py evals/files/bad-input.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "tampered",
+      "command": "python3 -B scripts/validate_output.py evals/files/tampered.json --input evals/files/input.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "future-financial-period-input",
+      "command": "python3 -B scripts/validate_input.py evals/files/future-financial-period.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "future-financial-period-compute",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/future-financial-period.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "duplicate-adjustment-input",
+      "command": "python3 -B scripts/validate_input.py evals/files/duplicate-adjustment.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "duplicate-adjustment-compute",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/duplicate-adjustment.json",
+      "expect_exit": 1,
+      "expect_contains": [
+        "ERROR"
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "aliased-economic-adjustment-compute",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/aliased-economic-adjustment.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"status\": \"partial\""
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "aliased-economic-adjustment-output",
+      "command": "python3 -B scripts/validate_output.py evals/files/aliased-economic-adjustment-output.json --input evals/files/aliased-economic-adjustment.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "output validation: 0 error(s)"
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "incomparable-debt-compute",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/incomparable-debt.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"status\": \"partial\""
+      ],
+      "type": "safety"
+    },
+    {
+      "id": "incomparable-debt-output",
+      "command": "python3 -B scripts/validate_output.py evals/files/incomparable-debt-output.json --input evals/files/incomparable-debt.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "output validation: 0 error(s)"
+      ],
+      "type": "safety"
+    }
+  ]
+}

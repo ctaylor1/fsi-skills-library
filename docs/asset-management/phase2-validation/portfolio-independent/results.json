@@ -1,0 +1,720 @@
+{
+  "method": "Independent forward requests authored from documented schema; expected arithmetic calculated separately, not copied from goldens. These are deterministic technical tests, not professional acceptance or authenticated source truth.",
+  "cases": [
+    {
+      "case": "c01-policy",
+      "skill": "institutional-investment-policy-builder",
+      "expected": {
+        "range_minimum_sum": ".6",
+        "range_maximum_sum": "1.3",
+        "outflows": "90000",
+        "reserve_gap": "-15000",
+        "missing_owner": "risk_owner"
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "policy_sections": {
+          "institution_type": "endowment",
+          "objectives": {
+            "return_objective": "Fund scholarships at inflation plus 4%",
+            "risk_tolerance": "Moderate drawdown budget",
+            "horizon_years": "15",
+            "tax_status": "supplied exempt status",
+            "legal_constraints": "supplied charter limits",
+            "spending_policy": "4% trailing average",
+            "source_ref": "OPERATING-RECORD"
+          },
+          "constraints": {
+            "allocation_ranges": [
+              {
+                "asset_class": "equity",
+                "minimum": ".3",
+                "maximum": ".7"
+              },
+              {
+                "asset_class": "bonds",
+                "minimum": ".2",
+                "maximum": ".5"
+              },
+              {
+                "asset_class": "cash",
+                "minimum": ".1",
+                "maximum": ".1"
+              }
+            ],
+            "liquidity_reserve": "75000",
+            "dated_outflows": [
+              {
+                "date": "2026-10-01",
+                "amount": "60000",
+                "source_ref": "OPERATING-RECORD"
+              },
+              {
+                "date": "2026-12-01",
+                "amount": "30000",
+                "source_ref": "OPERATING-RECORD"
+              }
+            ]
+          },
+          "governance": {
+            "investment_owner": "CIO",
+            "review_owner": "Board",
+            "approval_owner": "Trustees"
+          },
+          "benchmark": {
+            "id": "CUSTOM-60-40",
+            "version": "3",
+            "source_ref": "OPERATING-RECORD"
+          }
+        },
+        "range_minimum_sum": "0.6",
+        "range_maximum_sum": "1.3",
+        "dated_outflows": "90000",
+        "reserve_gap": "-15000",
+        "approval_state": "not-approved"
+      },
+      "actual_issues": [
+        "stated reserve is below supplied dated outflows; liquidity review required",
+        "governance owner missing: risk_owner"
+      ],
+      "passed": true
+    },
+    {
+      "case": "c03-allocation",
+      "skill": "asset-allocation-planner",
+      "expected": {
+        "return": ".04",
+        "variance": ".008875",
+        "scenario": "-.045",
+        "illiquid": ".25",
+        "feasible": false
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "candidates": [
+          {
+            "id": "QuarterGrowth",
+            "expected_return": "0.0400",
+            "variance": "0.0088750",
+            "annualized_volatility": "0.094207218407",
+            "group_weights": {
+              "defensive": "0.75",
+              "growth": "0.25"
+            },
+            "illiquid_weight": "0.25",
+            "constraint_findings": [
+              "illiquid allocation limit"
+            ],
+            "scenarios": [
+              {
+                "id": "Growth selloff",
+                "portfolio_return": "-0.0450"
+              }
+            ],
+            "feasible_under_supplied_constraints": false
+          }
+        ],
+        "selection": null,
+        "engine_state": "not-requested",
+        "covariance_convention": "annualized return fractions squared; supplied order matches assets"
+      },
+      "actual_issues": [
+        "QuarterGrowth: illiquid allocation limit"
+      ],
+      "passed": true
+    },
+    {
+      "case": "c04-construction",
+      "skill": "portfolio-construction-analyzer",
+      "expected": {
+        "return": ".04",
+        "variance": ".008875",
+        "scenario": "-.045",
+        "illiquid": ".25",
+        "feasible": false
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "candidates": [
+          {
+            "id": "QuarterGrowth",
+            "expected_return": "0.0400",
+            "variance": "0.0088750",
+            "annualized_volatility": "0.094207218407",
+            "group_weights": {
+              "defensive": "0.75",
+              "growth": "0.25"
+            },
+            "illiquid_weight": "0.25",
+            "constraint_findings": [
+              "illiquid allocation limit"
+            ],
+            "scenarios": [
+              {
+                "id": "Growth selloff",
+                "portfolio_return": "-0.0450"
+              }
+            ],
+            "feasible_under_supplied_constraints": false
+          }
+        ],
+        "selection": null,
+        "engine_state": "not-requested",
+        "covariance_convention": "annualized return fractions squared; supplied order matches assets"
+      },
+      "actual_issues": [
+        "QuarterGrowth: illiquid allocation limit"
+      ],
+      "passed": true
+    },
+    {
+      "case": "c03-nonpsd",
+      "skill": "asset-allocation-planner",
+      "expected": {
+        "reject": "covariance not PSD"
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"covariance is not positive semidefinite\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "c04-volatility-boundary",
+      "skill": "portfolio-construction-analyzer",
+      "expected": {
+        "display_volatility": ".100000000000",
+        "feasible": false,
+        "reason": "variance 0.01000000000001 > maximum squared 0.01"
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "candidates": [
+          {
+            "id": "Only",
+            "expected_return": "0.02",
+            "variance": "0.01000000000001",
+            "annualized_volatility": "0.100000000000",
+            "group_weights": {
+              "all": "1"
+            },
+            "illiquid_weight": "0",
+            "constraint_findings": [
+              "volatility exceeds supplied limit"
+            ],
+            "scenarios": [],
+            "feasible_under_supplied_constraints": false
+          }
+        ],
+        "selection": null,
+        "engine_state": "not-requested",
+        "covariance_convention": "annualized return fractions squared; supplied order matches assets"
+      },
+      "actual_issues": [
+        "Only: volatility exceeds supplied limit"
+      ],
+      "passed": true
+    },
+    {
+      "case": "c06-rebalance",
+      "skill": "portfolio-rebalancing-planner",
+      "expected": {
+        "quantities": [
+          "-10",
+          "20"
+        ],
+        "fees": "2",
+        "cash": "998",
+        "nav": "10000"
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "draft",
+      "actual_results": {
+        "trades": [
+          {
+            "id": "LARGE",
+            "quantity_delta": "-10",
+            "notional_delta": "-1000",
+            "estimated_fee": "1",
+            "target_quantity": "50",
+            "order_staged": false
+          },
+          {
+            "id": "SMALL",
+            "quantity_delta": "20",
+            "notional_delta": "1000",
+            "estimated_fee": "1",
+            "target_quantity": "80",
+            "order_staged": false
+          }
+        ],
+        "marked_nav": "10000",
+        "nav_residual": "0",
+        "total_fees": "2",
+        "projected_cash": "998",
+        "cash_buffer": "950",
+        "implementation_status": "draft-for-review"
+      },
+      "actual_issues": [],
+      "passed": true
+    },
+    {
+      "case": "c06-proceeds-unavailable",
+      "skill": "portfolio-rebalancing-planner",
+      "expected": {
+        "blocked": true,
+        "funding_uncertain": true
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "trades": [
+          {
+            "id": "LARGE",
+            "quantity_delta": "-10",
+            "notional_delta": "-1000",
+            "estimated_fee": "1",
+            "target_quantity": "50",
+            "order_staged": false
+          },
+          {
+            "id": "SMALL",
+            "quantity_delta": "20",
+            "notional_delta": "1000",
+            "estimated_fee": "1",
+            "target_quantity": "80",
+            "order_staged": false
+          }
+        ],
+        "marked_nav": "10000",
+        "nav_residual": "0",
+        "total_fees": "2",
+        "projected_cash": "998",
+        "cash_buffer": "950",
+        "implementation_status": "blocked-for-review"
+      },
+      "actual_issues": [
+        "sell proceeds availability not established: LARGE"
+      ],
+      "passed": true
+    },
+    {
+      "case": "c07-tax",
+      "skill": "tax-aware-portfolio-implementation-reviewer",
+      "expected": {
+        "net_gain": "75",
+        "positive_gain_tax": "45",
+        "loss": "-150",
+        "match": "RELATED-30",
+        "deduction": null
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "lots": [
+          {
+            "lot_id": "GAIN",
+            "gain_loss": "225",
+            "estimated_positive_gain_tax": "45.0",
+            "recognized_loss_deduction": null,
+            "loss_status": "not-a-loss",
+            "matching_purchases": [],
+            "window_complete": true
+          },
+          {
+            "lot_id": "LOSS",
+            "gain_loss": "-150",
+            "estimated_positive_gain_tax": "0.0",
+            "recognized_loss_deduction": null,
+            "loss_status": "potential-wash-sale",
+            "matching_purchases": [
+              {
+                "purchase_id": "RELATED-30",
+                "quantity": "5",
+                "day_offset": 30
+              }
+            ],
+            "window_complete": true
+          }
+        ],
+        "net_economic_gain_loss": "75",
+        "estimated_positive_gain_tax": "45.0",
+        "loss_benefit_recognized": false
+      },
+      "actual_issues": [
+        "loss deductibility unresolved for selected lot LOSS"
+      ],
+      "passed": true
+    },
+    {
+      "case": "c07-empty-lots",
+      "skill": "tax-aware-portfolio-implementation-reviewer",
+      "expected": {
+        "reject_or_explicit_missing_scope": true
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"selected tax lots required\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "c09-trading",
+      "skill": "buy-side-trading-planner",
+      "expected": {
+        "notionals": [
+          "6000",
+          "1000"
+        ],
+        "costs": [
+          "7.2",
+          ".3"
+        ],
+        "total": "7.5",
+        "first_limit_breach": true
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "intent_review": [
+          {
+            "intent_id": "BUY-A",
+            "notional": "6000",
+            "adv_fraction": "0.050000000000",
+            "estimated_quoted_cost": "7.2",
+            "findings": [
+              "participation limit exceeded; scheduling requires desk review"
+            ],
+            "execution_authority": false
+          },
+          {
+            "intent_id": "SELL-B",
+            "notional": "1000",
+            "adv_fraction": "0.010000000000",
+            "estimated_quoted_cost": "0.3",
+            "findings": [],
+            "execution_authority": false
+          }
+        ],
+        "estimated_total_cost": "7.5",
+        "routing_performed": false,
+        "funding_review_required": true
+      },
+      "actual_issues": [
+        "BUY-A: participation limit exceeded; scheduling requires desk review"
+      ],
+      "passed": true
+    },
+    {
+      "case": "c09-unknown-approval-refs",
+      "skill": "buy-side-trading-planner",
+      "expected": {
+        "reject_or_missing_approval_issue": true
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"source not registered: UNREGISTERED-BROKER\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "g01-obligation",
+      "skill": "investment-regulatory-obligation-reviewer",
+      "expected": {
+        "states": [
+          "applicable-under-supplied-rule",
+          "undetermined",
+          "not-binding"
+        ],
+        "first_overdue": true
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "obligations": [
+          {
+            "rule_id": "SYNTHETIC-A",
+            "version": "test-v1",
+            "state": "applicable-under-supplied-rule",
+            "reason": "all supplied predicates met",
+            "due_date": "2026-09-20",
+            "overdue": true,
+            "owner": "Compliance",
+            "source_ref": "OPERATING-RECORD",
+            "completion_evidence_state": "not-confirmed"
+          },
+          {
+            "rule_id": "SYNTHETIC-B",
+            "version": "test-v1",
+            "state": "undetermined",
+            "reason": "missing facts: client_type",
+            "due_date": "2026-09-20",
+            "overdue": false,
+            "owner": "Compliance",
+            "source_ref": "OPERATING-RECORD",
+            "completion_evidence_state": "not-confirmed"
+          },
+          {
+            "rule_id": "SYNTHETIC-C",
+            "version": "test-v1",
+            "state": "not-binding",
+            "reason": "rule is proposed",
+            "due_date": "2026-09-20",
+            "overdue": false,
+            "owner": "Compliance",
+            "source_ref": "OPERATING-RECORD",
+            "completion_evidence_state": "not-confirmed"
+          }
+        ],
+        "legal_conclusion": null,
+        "rule_coverage": "only explicitly supplied reviewed rules"
+      },
+      "actual_issues": [
+        "SYNTHETIC-A: overdue supplied obligation",
+        "SYNTHETIC-B: missing facts: client_type"
+      ],
+      "passed": true
+    },
+    {
+      "case": "g01-unsupported-completion",
+      "skill": "investment-regulatory-obligation-reviewer",
+      "expected": {
+        "completion_unverified_or_missing_owner_issue": true
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "obligations": [
+          {
+            "rule_id": "SYNTHETIC-A",
+            "version": "test-v1",
+            "state": "applicable-under-supplied-rule",
+            "reason": "all supplied predicates met",
+            "due_date": "2026-09-20",
+            "overdue": true,
+            "owner": null,
+            "source_ref": "OPERATING-RECORD",
+            "completion_evidence_state": "supplied-unverified"
+          }
+        ],
+        "legal_conclusion": null,
+        "rule_coverage": "only explicitly supplied reviewed rules"
+      },
+      "actual_issues": [
+        "SYNTHETIC-A: accountable obligation owner missing",
+        "SYNTHETIC-A: completion is supplied-unverified; confirm evidence and discharge with accountable reviewer",
+        "SYNTHETIC-A: overdue supplied obligation"
+      ],
+      "passed": true
+    },
+    {
+      "case": "g02-disclosure",
+      "skill": "investment-disclosure-reviewer",
+      "expected": {
+        "accepted": [
+          "ABOUT"
+        ],
+        "withheld": 1,
+        "no_secret": true
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "supported_claims": [
+          {
+            "claim_id": "ABOUT",
+            "content": "The endowment portfolio holds public securities.",
+            "source_ref": "OPERATING-RECORD"
+          }
+        ],
+        "withheld_count": 1,
+        "disclosures": [
+          {
+            "id": "RISK",
+            "text": "Capital values may decline.",
+            "source_ref": "OPERATING-RECORD"
+          }
+        ],
+        "intended_audience": "public",
+        "publication_authorized": false,
+        "compliance_conclusion": null
+      },
+      "actual_issues": [
+        "proposed claim withheld: audience, approval or exact source support unavailable"
+      ],
+      "passed": true
+    },
+    {
+      "case": "g02-wrong-subject-source",
+      "skill": "investment-disclosure-reviewer",
+      "expected": {
+        "reject_or_withhold_scope_mismatch": true
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "supported_claims": [],
+        "withheld_count": 1,
+        "disclosures": [],
+        "intended_audience": "public",
+        "publication_authorized": false,
+        "compliance_conclusion": null
+      },
+      "actual_issues": [
+        "proposed claim withheld: audience, approval or exact source support unavailable",
+        "required disclosure unavailable: RISK"
+      ],
+      "passed": true
+    },
+    {
+      "case": "g02-restricted-required-disclosure",
+      "skill": "investment-disclosure-reviewer",
+      "expected": {
+        "restricted_text_withheld": true,
+        "internal_review_id_classification": "Review ID may be internal because artifact audience remains internal-review; publication projection must redact it"
+      },
+      "input_exit": 0,
+      "compute_exit": 0,
+      "input_validation": "{\"errors\": []}\n",
+      "output_validation_exit": 0,
+      "output_validation": "{\"errors\": []}\n",
+      "actual_status": "needs-review",
+      "actual_results": {
+        "supported_claims": [],
+        "withheld_count": 0,
+        "disclosures": [],
+        "intended_audience": "public",
+        "publication_authorized": false,
+        "compliance_conclusion": null
+      },
+      "actual_issues": [
+        "required disclosure unavailable: CONFIDENTIAL-CLIENT-EXIT-ID"
+      ],
+      "passed": true
+    },
+    {
+      "case": "g02-native-audience-restricted",
+      "skill": "investment-disclosure-reviewer",
+      "expected": {
+        "reject": "input source forbidden to internal-review"
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"source withheld for audience restriction\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "c01-missing-observation-refs",
+      "skill": "institutional-investment-policy-builder",
+      "expected": {
+        "reject_or_explicit_missing_observation_provenance": true
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"required observation source reference missing\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "c03-missing-observation-refs",
+      "skill": "asset-allocation-planner",
+      "expected": {
+        "reject_or_explicit_missing_observation_provenance": true
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"required observation source reference missing\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "c06-missing-observation-refs",
+      "skill": "portfolio-rebalancing-planner",
+      "expected": {
+        "reject_or_explicit_missing_observation_provenance": true
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"required observation source reference missing\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "c07-missing-observation-refs",
+      "skill": "tax-aware-portfolio-implementation-reviewer",
+      "expected": {
+        "reject_or_explicit_missing_observation_provenance": true
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"required observation source reference missing\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "c09-missing-observation-refs",
+      "skill": "buy-side-trading-planner",
+      "expected": {
+        "reject_or_explicit_missing_observation_provenance": true
+      },
+      "input_exit": 1,
+      "compute_exit": 1,
+      "input_validation": "{\"errors\": [\"required observation source reference missing\"]}\n",
+      "passed": true
+    },
+    {
+      "case": "c06-output-fabrication",
+      "expected": {
+        "reject": true
+      },
+      "output_validation_exit": 1,
+      "output_validation": "{\"errors\": [\"output differs from original-input reconstruction: results\"]}\n",
+      "passed": true
+    }
+  ]
+}

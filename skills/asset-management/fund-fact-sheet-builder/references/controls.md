@@ -32,7 +32,7 @@ may **not** set `verified`, `reviewed`, `approved`, `cleared`, `final`, `distrib
 - All required template sections present (`fund_summary`, `performance`, `holdings`, `risk`,
   `fees`, `esg`, `reconciliation`, `disclosures`, `sources`).
 - **No unsupported assertions**: every content-section entry carries a citation and an asserted
-  status (`included` | `stale` | `unresolved`); no unsourced figure is asserted.
+  status (`included` only; stale/identity gaps are withheld); no unsourced figure is asserted.
 - **Source-to-output reconciliation**: every asserted numeric figure with a source value ties
   out within tolerance; an unreconciled figure fails closed.
 - **No MNPI** on any content entry when `intended_distribution` is `external`.

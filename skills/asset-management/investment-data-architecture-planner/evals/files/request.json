@@ -1,0 +1,629 @@
+{
+  "request_id": "AM-DATA-DESIGN-01",
+  "object_id": "AM-DATA-PLATFORM",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "sources": [
+    {
+      "source_ref": "synthetic-record",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic local complete versioned AM evidence export; no actual rights or credentials"
+    }
+  ],
+  "unresolved_issues": [],
+  "purpose": "portfolio-research",
+  "principal": "synthetic-research-reader",
+  "snapshot_id": "sample-v1",
+  "owner": "investment-data-owner",
+  "shared_reviews": {
+    "architecture": {
+      "input": {
+        "case_id": "AM-DATA-DESIGN-01",
+        "as_of": "2026-10-04",
+        "context": {
+          "capacity": "design-review",
+          "represented_party": "SYNTHETIC-ASSET-MANAGER",
+          "object_id": "AM-DATA-PLATFORM",
+          "jurisdiction": "US-TEST",
+          "line_of_business": "asset-management"
+        },
+        "sources": [
+          {
+            "source_ref": "synthetic-record",
+            "version": "1",
+            "as_of": "2026-10-04",
+            "locator": "Synthetic AM architecture design record; no live records"
+          }
+        ],
+        "unresolved_issues": [],
+        "data": {
+          "profile": {
+            "profile_id": "SYN-PROFILE",
+            "version": "1",
+            "reviewed_by": "Synthetic design owner",
+            "jurisdictions": [
+              "US-TEST"
+            ],
+            "lines_of_business": [
+              "asset-management"
+            ],
+            "effective_from": "2026-01-01",
+            "effective_to": "2026-12-31",
+            "method": "component-interface-requirements-v1",
+            "source_refs": [
+              "synthetic-record"
+            ]
+          },
+          "business_outcome": "Point-in-time licensed portfolio research data",
+          "owner": "architect",
+          "currency": "USD",
+          "cost_period": "month",
+          "scope": "Synthetic read-side portfolio and benchmark dataset",
+          "inventory_complete": true,
+          "components": [
+            {
+              "component_id": "A",
+              "responsibility": "licensed dataset reader",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone1",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 100,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            },
+            {
+              "component_id": "B",
+              "responsibility": "bitemporal research store",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone2",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 200,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "interfaces": [
+            {
+              "interface_id": "I1",
+              "from_component": "A",
+              "to_component": "B",
+              "contract_version": "v1",
+              "payload_schema": "investment-grain-v1",
+              "purpose": "read licensed research records",
+              "authentication": "workload identity",
+              "authorization_scope": "dataset.read:synthetic-am",
+              "encryption": "reviewed transport",
+              "timeout": "10 seconds",
+              "failure_route": "human intake",
+              "trace_id": "notice request ID",
+              "delivery": "at-least-once",
+              "operation": "read",
+              "purpose_reviewed": true,
+              "max_attempts": 2,
+              "idempotency_key": "notice ID and version",
+              "approval_owner": "human reviewer",
+              "receipt_check": "durable queue receipt",
+              "recovery_plan": "dedupe then reconcile missing receipt",
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "requirements": [
+            {
+              "requirement_id": "CAP",
+              "component_id": "B",
+              "metric": "observed_capacity",
+              "unit": "records/hour",
+              "owner": "platform owner",
+              "workload_profile": "investment-grain-v1 synthetic read batch",
+              "operator": ">=",
+              "threshold": 100,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "measurements": [
+            {
+              "requirement_id": "CAP",
+              "component_id": "B",
+              "metric": "observed_capacity",
+              "unit": "records/hour",
+              "workload_profile": "investment-grain-v1 synthetic read batch",
+              "observed_on": "2026-10-03",
+              "value": 120,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ]
+        }
+      },
+      "output": {
+        "schema_version": "workflow-review-1.0",
+        "producer": "solution-architecture-planner",
+        "case_id": "AM-DATA-DESIGN-01",
+        "as_of": "2026-10-04",
+        "context": {
+          "capacity": "design-review",
+          "represented_party": "SYNTHETIC-ASSET-MANAGER",
+          "object_id": "AM-DATA-PLATFORM",
+          "jurisdiction": "US-TEST",
+          "line_of_business": "asset-management"
+        },
+        "status": "ready-for-review",
+        "findings": [],
+        "results": {
+          "components": [
+            {
+              "component_id": "A",
+              "responsibility": "licensed dataset reader",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone1",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 100,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            },
+            {
+              "component_id": "B",
+              "responsibility": "bitemporal research store",
+              "owner": "platform owner",
+              "technology_choice": "supplied service candidate",
+              "alternative": "retain current process",
+              "tradeoff": "evaluate measured fit",
+              "failure_domain": "zone2",
+              "data_classification": "confidential",
+              "retention_rule": "reviewed synthetic retention",
+              "recovery_runbook": "manual queue recovery",
+              "currency": "USD",
+              "cost_period": "month",
+              "cost": 200,
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "interfaces": [
+            {
+              "interface_id": "I1",
+              "from_component": "A",
+              "to_component": "B",
+              "contract_version": "v1",
+              "payload_schema": "investment-grain-v1",
+              "purpose": "read licensed research records",
+              "authentication": "workload identity",
+              "authorization_scope": "dataset.read:synthetic-am",
+              "encryption": "reviewed transport",
+              "timeout": "10 seconds",
+              "failure_route": "human intake",
+              "trace_id": "notice request ID",
+              "delivery": "at-least-once",
+              "operation": "read",
+              "purpose_reviewed": true,
+              "max_attempts": 2,
+              "idempotency_key": "notice ID and version",
+              "approval_owner": "human reviewer",
+              "receipt_check": "durable queue receipt",
+              "recovery_plan": "dedupe then reconcile missing receipt",
+              "source_refs": [
+                "synthetic-record"
+              ]
+            }
+          ],
+          "requirement_fit": [
+            {
+              "requirement_id": "CAP",
+              "observed": "120",
+              "threshold": "100",
+              "unit": "records/hour",
+              "meets": true
+            }
+          ],
+          "supplied_period_cost": "300",
+          "currency": "USD",
+          "cost_period": "month",
+          "deployment_authorized": false,
+          "provider_conformance": "not_assessed"
+        },
+        "completeness": "complete",
+        "evaluability": "evaluable",
+        "unresolved_issues": [],
+        "action_taken": false,
+        "human_review_required": true,
+        "approval": "not_requested",
+        "execution": "not_performed",
+        "source_document": {
+          "case_id": "AM-DATA-DESIGN-01",
+          "as_of": "2026-10-04",
+          "context": {
+            "capacity": "design-review",
+            "represented_party": "SYNTHETIC-ASSET-MANAGER",
+            "object_id": "AM-DATA-PLATFORM",
+            "jurisdiction": "US-TEST",
+            "line_of_business": "asset-management"
+          },
+          "sources": [
+            {
+              "source_ref": "synthetic-record",
+              "version": "1",
+              "as_of": "2026-10-04",
+              "locator": "Synthetic AM architecture design record; no live records"
+            }
+          ],
+          "unresolved_issues": [],
+          "data": {
+            "profile": {
+              "profile_id": "SYN-PROFILE",
+              "version": "1",
+              "reviewed_by": "Synthetic design owner",
+              "jurisdictions": [
+                "US-TEST"
+              ],
+              "lines_of_business": [
+                "asset-management"
+              ],
+              "effective_from": "2026-01-01",
+              "effective_to": "2026-12-31",
+              "method": "component-interface-requirements-v1",
+              "source_refs": [
+                "synthetic-record"
+              ]
+            },
+            "business_outcome": "Point-in-time licensed portfolio research data",
+            "owner": "architect",
+            "currency": "USD",
+            "cost_period": "month",
+            "scope": "Synthetic read-side portfolio and benchmark dataset",
+            "inventory_complete": true,
+            "components": [
+              {
+                "component_id": "A",
+                "responsibility": "licensed dataset reader",
+                "owner": "platform owner",
+                "technology_choice": "supplied service candidate",
+                "alternative": "retain current process",
+                "tradeoff": "evaluate measured fit",
+                "failure_domain": "zone1",
+                "data_classification": "confidential",
+                "retention_rule": "reviewed synthetic retention",
+                "recovery_runbook": "manual queue recovery",
+                "currency": "USD",
+                "cost_period": "month",
+                "cost": 100,
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              },
+              {
+                "component_id": "B",
+                "responsibility": "bitemporal research store",
+                "owner": "platform owner",
+                "technology_choice": "supplied service candidate",
+                "alternative": "retain current process",
+                "tradeoff": "evaluate measured fit",
+                "failure_domain": "zone2",
+                "data_classification": "confidential",
+                "retention_rule": "reviewed synthetic retention",
+                "recovery_runbook": "manual queue recovery",
+                "currency": "USD",
+                "cost_period": "month",
+                "cost": 200,
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              }
+            ],
+            "interfaces": [
+              {
+                "interface_id": "I1",
+                "from_component": "A",
+                "to_component": "B",
+                "contract_version": "v1",
+                "payload_schema": "investment-grain-v1",
+                "purpose": "read licensed research records",
+                "authentication": "workload identity",
+                "authorization_scope": "dataset.read:synthetic-am",
+                "encryption": "reviewed transport",
+                "timeout": "10 seconds",
+                "failure_route": "human intake",
+                "trace_id": "notice request ID",
+                "delivery": "at-least-once",
+                "operation": "read",
+                "purpose_reviewed": true,
+                "max_attempts": 2,
+                "idempotency_key": "notice ID and version",
+                "approval_owner": "human reviewer",
+                "receipt_check": "durable queue receipt",
+                "recovery_plan": "dedupe then reconcile missing receipt",
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              }
+            ],
+            "requirements": [
+              {
+                "requirement_id": "CAP",
+                "component_id": "B",
+                "metric": "observed_capacity",
+                "unit": "records/hour",
+                "owner": "platform owner",
+                "workload_profile": "investment-grain-v1 synthetic read batch",
+                "operator": ">=",
+                "threshold": 100,
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              }
+            ],
+            "measurements": [
+              {
+                "requirement_id": "CAP",
+                "component_id": "B",
+                "metric": "observed_capacity",
+                "unit": "records/hour",
+                "workload_profile": "investment-grain-v1 synthetic read batch",
+                "observed_on": "2026-10-03",
+                "value": 120,
+                "source_refs": [
+                  "synthetic-record"
+                ]
+              }
+            ]
+          }
+        },
+        "artifact": {
+          "contract_version": "workflow-evidence/1.0",
+          "producer": "solution-architecture-planner",
+          "artifact_type": "workflow-review",
+          "as_of": "2026-10-04",
+          "context": {
+            "capacity": "design-review",
+            "represented_party": "SYNTHETIC-ASSET-MANAGER",
+            "object_id": "AM-DATA-PLATFORM",
+            "jurisdiction": "US-TEST",
+            "line_of_business": "asset-management"
+          },
+          "sources": [
+            {
+              "source_ref": "synthetic-record",
+              "version": "1",
+              "as_of": "2026-10-04",
+              "locator": "Synthetic AM architecture design record; no live records"
+            }
+          ],
+          "input_hash": "445611907f98c2840f6aa5b755023c4f77e367918dbb6074d4e75a74e0d3a1dd",
+          "output_hash": "2dd3246bb99a4967982ff82618884f85ace89763960f19e11cd54fffe5bb9551",
+          "completeness": "complete",
+          "evaluability": "evaluable",
+          "unresolved_issues": [],
+          "approval": "not_requested",
+          "execution": "not_performed",
+          "evidence_assurance": "supplied_not_authenticated",
+          "artifact_hash": "f71733511d901a90d951ed46524aca130121be81e02c5be8f3ae37ec152d24d0"
+        }
+      },
+      "source_ref": "synthetic-record"
+    }
+  },
+  "datasets": [
+    {
+      "dataset_id": "positions",
+      "owner": "investment-data-owner",
+      "classification": "client-confidential",
+      "retention_rule": "retain agreed history and corrections under reviewed contract",
+      "component_id": "B",
+      "license_id": "L1",
+      "grain_dimensions": [
+        "security",
+        "portfolio",
+        "account",
+        "benchmark",
+        "time_series"
+      ],
+      "source_ref": "synthetic-record"
+    }
+  ],
+  "fields": [
+    {
+      "field_id": "base_market_value",
+      "dataset_id": "positions",
+      "definition": "Supplied base-currency market value for the complete exact position and benchmark grain",
+      "unit": "currency",
+      "currency": "USD",
+      "source_system": "SYN-IBOR",
+      "source_field": "position.market_value_base",
+      "transformation": "identity; no FX or aggregation",
+      "transformation_version": "1",
+      "owner": "investment-data-owner",
+      "value_type": "decimal",
+      "nullable": false,
+      "source_ref": "synthetic-record"
+    }
+  ],
+  "identities": [
+    {
+      "identity_id": "security-1",
+      "dimension": "security",
+      "namespace": "SYN-SEC-MASTER",
+      "native_key": "SEC-42",
+      "source_ref": "synthetic-record"
+    },
+    {
+      "identity_id": "portfolio-1",
+      "dimension": "portfolio",
+      "namespace": "SYN-IBOR",
+      "native_key": "PF-1",
+      "source_ref": "synthetic-record"
+    },
+    {
+      "identity_id": "account-1",
+      "dimension": "account",
+      "namespace": "SYN-CUSTODY",
+      "native_key": "A-1",
+      "source_ref": "synthetic-record"
+    },
+    {
+      "identity_id": "benchmark-1",
+      "dimension": "benchmark",
+      "namespace": "SYN-BENCHMARK-VENDOR",
+      "native_key": "IDX-1",
+      "source_ref": "synthetic-record"
+    },
+    {
+      "identity_id": "time_series-1",
+      "dimension": "time_series",
+      "namespace": "SYN-SERIES",
+      "native_key": "CLOSE-DAILY",
+      "source_ref": "synthetic-record"
+    }
+  ],
+  "licenses": [
+    {
+      "license_id": "L1",
+      "dataset_id": "positions",
+      "principal": "synthetic-research-reader",
+      "license_version": "1",
+      "contract_locator": "synthetic agreement paragraph 3",
+      "purposes": [
+        "portfolio-research"
+      ],
+      "audiences": [
+        "internal-review"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "source_ref": "synthetic-record"
+    }
+  ],
+  "permission_observations": [
+    {
+      "observation_id": "P1",
+      "dataset_id": "positions",
+      "principal": "synthetic-research-reader",
+      "purpose": "portfolio-research",
+      "audience": "internal-review",
+      "operation": "read",
+      "decision": "allowed",
+      "observed_on": "2026-10-04",
+      "source_ref": "synthetic-record"
+    }
+  ],
+  "history": [
+    {
+      "field_id": "base_market_value",
+      "dimensions": {
+        "security": "security-1",
+        "portfolio": "portfolio-1",
+        "account": "account-1",
+        "benchmark": "benchmark-1",
+        "time_series": "time_series-1"
+      },
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-09-02",
+      "unit": "currency",
+      "currency": "USD",
+      "source_ref": "synthetic-record",
+      "record_id": "original",
+      "known_from": "2026-09-02",
+      "known_to": "2026-09-20",
+      "value": "100.25"
+    },
+    {
+      "field_id": "base_market_value",
+      "dimensions": {
+        "security": "security-1",
+        "portfolio": "portfolio-1",
+        "account": "account-1",
+        "benchmark": "benchmark-1",
+        "time_series": "time_series-1"
+      },
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-09-02",
+      "unit": "currency",
+      "currency": "USD",
+      "source_ref": "synthetic-record",
+      "record_id": "late-correction",
+      "known_from": "2026-09-20",
+      "known_to": null,
+      "value": "101.75"
+    }
+  ],
+  "queries": [
+    {
+      "query_id": "before-correction",
+      "field_id": "base_market_value",
+      "dimensions": {
+        "security": "security-1",
+        "portfolio": "portfolio-1",
+        "account": "account-1",
+        "benchmark": "benchmark-1",
+        "time_series": "time_series-1"
+      },
+      "valid_on": "2026-09-01",
+      "known_on": "2026-09-10",
+      "source_ref": "synthetic-record"
+    },
+    {
+      "query_id": "after-correction",
+      "field_id": "base_market_value",
+      "dimensions": {
+        "security": "security-1",
+        "portfolio": "portfolio-1",
+        "account": "account-1",
+        "benchmark": "benchmark-1",
+        "time_series": "time_series-1"
+      },
+      "valid_on": "2026-09-01",
+      "known_on": "2026-09-20",
+      "source_ref": "synthetic-record"
+    }
+  ],
+  "monitors": [
+    {
+      "monitor_id": "freshness",
+      "dataset_id": "positions",
+      "owner": "investment-data-owner",
+      "metric": "batch_arrival_delay",
+      "unit": "minutes",
+      "incident_route": "investment-data incident queue",
+      "runbook": "RB-DATA-01 hold dependent research outputs",
+      "snapshot_id": "sample-v1",
+      "operator": "<=",
+      "basis": "observed",
+      "threshold": "15",
+      "value": "7",
+      "observed_on": "2026-10-04",
+      "source_ref": "synthetic-record"
+    }
+  ]
+}

@@ -1,42 +1,13 @@
-# Source Map — regulatory-change-impact-analyzer
+# Evidence sources and limits
 
-## Source hierarchy (highest first)
+`change_id`, `as_of`, `config_version`, `instrument`, extracted `obligations`, `firm_profile`, and optional `inventory.mappings`. Each non-unknown applicability assessment records status, rationale, source reference, reviewer and review date. Implementation assertions require a source reference.
 
-| Rank | Source (MCP integration) | Used for | Access |
-| ---- | ------------------------ | -------- | ------ |
-| 1 | **Authoritative regulatory corpus** (approved-source retrieval) | Instrument text, citation, authority level, jurisdiction, publication & effective dates | Read-only |
-| 2 | **Firm profile** (entity resolution / governance registry) | Business lines and jurisdictions the firm operates in (applicability inputs) | Read-only |
-| 3 | **Policy / control / system / data / training inventory** (controlled registers) | Mapping each obligation to owning policies, controls, systems, data elements, training, and owners | Read-only |
-| 4 | **Obligations taxonomy & change register** (controlled content library) | Obligation typing, prior dispositions, issue/owner tracking | Read-only |
-| 5 | **Change-management config** (versioned) | Lead-time windows and mapping-completeness rules | Read-only |
+1. Establish entity, business activity, jurisdiction, assessment date, authority type and source version before professional interpretation.
+2. Use primary regulatory text and current official status for legal assertions; distinguish binding law/rules, guidance, proposed changes and institution policy.
+3. Institution registries, policy documents and case records supply facts and internal rules. Preserve source locator, relevant text/section, date, version and reviewer context; a reference string alone proves none of these facts.
+4. Missing, stale or conflicting evidence remains unresolved. Never fabricate source excerpts, review decisions, calendar sessions, approvals or jurisdictional applicability.
+5. Human reviewers independently inspect underlying sources. The shared native integrity helper binds **all supplied input** and reconstructs output; it does not authenticate that input or its claims.
 
-The **primary regulatory text is the position of record** for authority, citation, and
-effective date. Never substitute a summary, a secondary tracker, or a vendor alert for the
-primary source; if a secondary source and the primary text conflict, cite both and flag for
-the human analyst. A conflicting requirement across instruments/jurisdictions is **surfaced,
-never resolved silently** (route to legal/compliance).
+Read-only connectors may provide approved evidence in a deployment, but none is bundled or assumed available. These scripts operate offline. Native outputs carry source truth as unverified and never embed the complete original input. A separately produced narrative or external handoff requires its own substantive/audience review.
 
-## Citation format
-
-`reg:{source_ref}@{effective_date}` — e.g.
-`reg:reg-corpus:cfpb;doc=1033-amend-2026;sec=1033.201@2026-08-10`. Every raised finding
-cites the specific obligation/instrument evidence row and the effective date used.
-
-## Freshness / effective dates
-
-- **Effective date and authority level drive urgency and precedence** — capture publication,
-  comment-close, and effective dates exactly; record retroactive or already-effective
-  instruments as findings (`overdue_or_retroactive`).
-- Config (lead-time windows, mapping rules) is a **versioned contract**; the output records
-  the config version so an assessment is reproducible.
-- Re-run when the instrument text, effective date, firm profile, or inventory changes; the
-  `assessment_id` binds the output to those inputs.
-
-## Least-privilege operations (deployment)
-
-- `regcorpus.get(instrument_id)` → instrument metadata + obligation text (read-only).
-- `firm.profile()` → business lines + jurisdictions.
-- `inventory.mappings(obligation_ids[])` → policy/control/system/data/training/owner rows.
-- `config.get('rcia', version)` → lead-time windows + mapping-completeness rules.
-All read-only, deterministic, durable `assessment_id`, below the fixed timeout; page a large
-obligation set as resumable stages. No write, filing, or attestation operation is bound.
+No current regulatory corpus, horizon-monitoring scheduler, legal rule pack, operational integration or primary-text truth verification is bundled. All lifecycle and applicability evidence is supplied and subject to professional review.

@@ -1,0 +1,127 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "corporate-event-impact-reviewer",
+  "method_version": "2.0.0",
+  "request_id": "forward-refinancing",
+  "subject": {
+    "type": "security",
+    "id": "FORWARD-SYNTH-CO-A",
+    "issuer_id": "FORWARD-SYNTH-CO"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "event_summary": {
+      "event_id": "refi-close",
+      "type": "refinancing",
+      "status": "completed",
+      "announcement_date": "2026-10-10",
+      "effective_date": "2026-10-18",
+      "known_at": "2026-10-19",
+      "scenario_label": null
+    },
+    "effect_basis": "supplied-completed-terms",
+    "financial_bridge": {
+      "currency": "USD",
+      "units": "millions",
+      "share_units": "millions",
+      "accounting_basis": "US-GAAP",
+      "consolidation_scope": "consolidated",
+      "valuation_subject": {
+        "security_id": "FORWARD-SYNTH-CO-A",
+        "share_class": "common-A",
+        "share_count_basis": "point-in-time-common-A"
+      },
+      "balance_date": "2026-09-30",
+      "before": {
+        "cash": 40,
+        "debt": 200,
+        "shares": 50,
+        "net_debt": 160
+      },
+      "change": {
+        "cash": 13,
+        "debt": 15,
+        "shares": 0,
+        "net_debt": 2
+      },
+      "after": {
+        "cash": 53,
+        "debt": 215,
+        "shares": 50,
+        "net_debt": 162
+      }
+    },
+    "event_metrics": {
+      "old_tranche_annual_interest": 4.8,
+      "new_tranche_annual_interest": 4.5,
+      "annual_interest_change": -0.2999999999999998,
+      "interest_scope": "annualized supplied fixed rates for replaced/new tranches only; no fee amortization or tax effects",
+      "new_shares_fraction_of_post_event_shares": 0.0,
+      "share_count_change_fraction": 0.0
+    },
+    "funding_reconciliation": {
+      "sources": 75,
+      "uses": 75,
+      "difference": 0,
+      "cash_feasible_for_supplied_bridge": true,
+      "additional_cash_required": 0,
+      "funding_availability": "not-independently-established"
+    },
+    "review_limitations": [
+      "Single supplied event and unchanged financial scope; no interaction or intervening cash-flow model.",
+      "Share-count arithmetic preserves supplied class and basis; economic ownership, voting control and weighted-average EPS require separate review.",
+      "No purchase accounting, tax opinion, synergy forecast, market reaction, legal completion or execution determination."
+    ],
+    "legal_completion_verified": false,
+    "market_reaction_predicted": false
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "formula": "debt change = new debt - repaid principal; annual interest change = new debt * new annual rate - repaid principal * old annual rate"
+    },
+    {
+      "formula": "after = baseline + change; net debt = debt - cash; no intervening operating cash flows or unmodeled transactions assumed"
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "quarter-3",
+      "locator": "raw-source.json#refinancing_release/baseline"
+    },
+    {
+      "source_id": "refi-close",
+      "locator": "raw-source.json#refinancing_release/terms"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "quarter-3",
+      "version": "synthetic-v1",
+      "known_at": "2026-10-15",
+      "locator": "raw-source.json#quarter-3",
+      "kind": "financial_statement"
+    },
+    {
+      "source_id": "refi-close",
+      "version": "synthetic-v1",
+      "known_at": "2026-10-19",
+      "locator": "raw-source.json#refi-close",
+      "kind": "issuer_release"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "9d53557d47ea861a4b0ff642c3da692a28c42578288ade4bd564b6f88013d998",
+  "source_truth": "unverified"
+}

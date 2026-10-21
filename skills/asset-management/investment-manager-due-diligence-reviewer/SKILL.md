@@ -1,7 +1,6 @@
 ---
 name: investment-manager-due-diligence-reviewer
-description: >-
-  Review investment-manager or fund evidence from the investor’s perspective across investment process, operations, fees, liquidity and evidence quality. Use for manager selection research or ongoing diligence, initially within one household and strategy. Produces cited criterion comparisons, fee/liquidity scenarios and monitoring questions; no endorsement, rating, appointment or DDQ response drafting.
+description: Review supplied manager evidence for either explicit institutional mode or the preserved US/USD household workflow. Institutional mode covers investment, operations, team, capacity, fees and performance against current investor policy; no unsupported ranking, manager selection, appointment or source authentication.
 license: MIT
 compatibility: Amazon Quick Desktop; requires approved read-only document, client-record and policy integrations. Bundled Python uses supplied JSON only; no live connectors or network access.
 metadata:
@@ -13,15 +12,22 @@ metadata:
   aws-fsi-delivery-wave: "Wave 7 - wealth management P1"
   aws-fsi-action-mode: "Draft-only; no system-of-record change"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "required"
   aws-fsi-data-classification: "Highly Confidential (customer NPI/PII)"
   aws-fsi-jurisdictions: "US (default); approved additional jurisdiction packs required before use"
-  aws-fsi-owner: "Asset Management investment research & oversight"
+  aws-fsi-owner: "Asset Management investment & product"
   aws-fsi-primary-user: "Investment analyst / wealth investment committee / manager-research analyst"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-09-16"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-20"
 ---
+
+## Phase2 explicit modes
+
+Read [Phase2 method](references/phase2-domain-rules.md), [schema](references/phase2-schema.md), [source map](references/phase2-source-map.md), [controls](references/phase2-controls.md), and [handoffs](references/phase2-handoffs.md) for the new mode. Use [Phase2 template](assets/phase2-output-template.md) for its draft. mode=institutional requires all six policy dimensions: investment, operations, team, capacity, fees, performance. Literal minimum/maximum/equals/documented comparisons retain unknown and conflicting evidence. Independent-required criteria accept only supplied independent-origin metadata, which still needs verification. A weighted-met-fraction score is computed only when explicitly requested in current policy and required criteria are met with no unknowns; no ranking is produced. Capacity compares strategy AUM plus proposed commitment with supplied limit. Flat fee illustration = capital × (management + other bps)/10,000; incentive and waterfall fees are excluded. Supplied reconciled net performance supports arithmetic benchmark excess. No-mode legacy household behavior remains US/USD.
+
+The legacy workflow below applies to the original no-mode schema (and explicit private-deal for IC). Unknown supplied modes fail closed. New results are internal-review investment-foundation/1.0 artifacts with detached input; old fixture behavior is preserved.
+
 
 # Investment Manager Due Diligence Reviewer
 
@@ -34,7 +40,7 @@ Review a manager strategy from the investor’s perspective against versioned in
 - Identify operational evidence gaps, liquidity mismatches and monitoring follow-ups.
 
 ## Do not use
-- Drafting a manager’s answers to an investor DDQ: use due-diligence-questionnaire-responder.
+- Drafting a manager’s answers to an investor DDQ: use institutional-proposal-responder.
 - Fund ratings, return forecasts, security eligibility, legal offering review or manager appointment.
 - Complex incentive waterfalls/high-water marks or institutional portfolio-wide diligence without a separately reviewed extension.
 
@@ -106,3 +112,9 @@ and unsupported document text in output.
 - Material unknowns must survive into downstream artifacts; never turn a blank into a safe default.
 - Controlled integrations, real-model evaluation, SME sign-off and production privacy/records
   controls remain pending; passing local fixtures does not remove those gates.
+
+## Phase 1 support boundary
+
+US/USD household manager-review contract; institutional extension remains planned
+
+This package performs only its documented local supplied-input operations. Live source access, authenticated permissions, production engines and professional acceptance are separate deployment requirements. Generated resources are pinned in `references/package-manifest.json`; maintain the canonical shared source. Legacy identifiers resolve through the repository migration registry.

@@ -22,14 +22,14 @@ metadata:
   aws-fsi-delivery-wave: "Wave 2 - analytical production"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (MNPI / client-confidential)"
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Asset Management investment & product"
   aws-fsi-primary-user: "Portfolio manager / risk analyst"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-20"
 ---
 
 # Portfolio Exposure Analyzer
@@ -51,14 +51,14 @@ human.
 
 ## Do not use
 - The user wants a **mandate-compliance determination** ("are we in breach?"), a guideline
-  test of a proposed trade, or an exception escalation → `mandate-compliance-monitor` (and a
+  test of a proposed trade, or an exception escalation → `investment-mandate-reviewer` (and a
   human compliance officer).
 - The question is **stressed liquidity / liquidation horizon / redemption coverage** →
-  `liquidity-stress-analyzer`.
+  `fund-liquidity-assessor`.
 - The question is **counterparty / settlement / derivative / collateral** exposure and limit
   monitoring → `counterparty-exposure-monitor`.
 - The user wants **return attribution** (allocation/selection/factor), not current exposure →
-  `performance-attribution-builder`.
+  `portfolio-performance-attributor`.
 - The user wants a **trade, rebalance, or hedge** recommended or executed → out of scope for
   every skill in this library without human authorization; route to the portfolio manager.
 
@@ -145,7 +145,7 @@ and any external-delivery approval. Never exfiltrate holdings.
 
 ## Gotchas
 - **An exposure over a limit is not a breach finding.** It is a factual comparison to a
-  *documented limit*; the compliance determination belongs to `mandate-compliance-monitor`
+  *documented limit*; the compliance determination belongs to `investment-mandate-reviewer`
   and a human.
 - **Look-through changes the answer.** Issuer/sector/country concentration must decompose
   pooled vehicles, or a fund can hide a large single-issuer position.
@@ -155,3 +155,13 @@ and any external-delivery approval. Never exfiltrate holdings.
   limits by config — a 40% Treasury holding is not a single-issuer finding.
 - **Do not tune limits to the portfolio.** Limits come from the versioned config, not from
   guessing what "should" be acceptable for this fund.
+
+## Phase 1 executable boundary
+
+Read [the bounded offline contract](references/phase1-contract.md) before running the scripts or relying on a handoff. It states required input evidence, unavailable cases and source-bound validation. Enterprise connectors and review queues described above are deployment interfaces, not implemented integrations.
+
+## Phase 1 support boundary
+
+Supplied NAV and market-value exposures; bounded one-level look-through
+
+This package performs only its documented local supplied-input operations. Live source access, authenticated permissions, production engines and professional acceptance are separate deployment requirements. Generated resources are pinned in `references/package-manifest.json`; maintain the canonical shared source. Legacy identifiers resolve through the repository migration registry.

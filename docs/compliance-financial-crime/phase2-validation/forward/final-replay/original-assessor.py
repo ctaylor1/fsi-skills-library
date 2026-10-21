@@ -1,0 +1,80 @@
+import json
+from pathlib import Path
+
+P=Path('/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward')
+RUNS=json.loads((P/'initial-runs.json').read_text())
+O={r['case']:json.loads((P/r['case']/'output.initial.json').read_text()) for r in RUNS if (P/r['case']/'output.initial.json').exists()}
+CHECKS=[]
+def check(case,name,actual,expected):
+    CHECKS.append(dict(case=case,assertion=name,actual=actual,expected=expected,passed=actual==expected))
+def r(case):return O[case]['results']
+c='cdd-periodic-event';d=r(c)
+check(c,'Policy-bound due date',d['review_due_date'],'2026-03-31')
+check(c,'Overdue review',d['review_overdue'],True)
+check(c,'Material activity change',d['material_changes'],[dict(field='business_activity',prior='Domestic component distribution',current='Import/export equipment broking',basis='supplied-policy-material-field')])
+check(c,'Declared ownership supported',d['ownership_control_review'],'supported-declared-coverage')
+check(c,'Exact unique receipts',d['observed_activity_total'],'150000.06')
+check(c,'Activity exceeds expectation',d['expected_activity_review'],'outside-supplied-expectation')
+check(c,'Business-purpose refresh gap retained',any('business-purpose-refresh' in x for x in O[c]['unresolved_issues']),True)
+c='cdd-duplicate-receipt';d=r(c)
+check(c,'Repeated receipt must not increase assessed unique activity',d['observed_activity_total'],'150000.06')
+c='edd-substantive';d=r(c);a=d['wealth_funds_assessments']
+check(c,'Actual two sale credits reconcile exactly',[a[0]['corroborated_amount'],a[0]['difference']],['375000.00','0.00'])
+check(c,'Wealth gap retained',a[1]['difference'],'300000.00')
+check(c,'Wealth capacity excess retained',a[1]['capacity_review'],'exceeds-supplied-economic-capacity')
+check(c,'Residual risk remains unknown',d['residual_risk'],dict(band='Unknown',score=None,status='unknown'))
+check(c,'Exact inherited CDD issues preserved',all(x in O[c]['unresolved_issues'] for x in O['cdd-periodic-event']['unresolved_issues']),True)
+check(c,'Origin counterevidence and hypothesis not adjudicated',bool(a[0]['counterevidence']) and d['hypotheses'][0]['conclusion']=='human-assessment-required',True)
+c='edd-duplicated-economic-event';d=r(c)
+check(c,'Two documents about same tranche do not create additional proceeds',d['wealth_funds_assessments'][0]['corroborated_amount'],'375000.00')
+c='mule-multicurrency';d=r(c)
+check(c,'Separate exact USD flow totals',d['currency_totals']['USD'],dict(external_inflow='6000.30',external_outflow='3700.05',internal_transfer='3500.00',unique_turnover='13200.35',unquantified_transactions=[]))
+check(c,'Separate exact EUR flow totals',d['currency_totals']['EUR'],dict(external_inflow='2100.15',external_outflow='1900.05',internal_transfer='1000.10',unique_turnover='5000.30',unquantified_transactions=[]))
+check(c,'Proceeds unknown and no automatic guilt/reportability',[d['proceeds_amount'],d['disposition'],d['reportability']],[None,'human-owned','human-owned'])
+check(c,'Credible innocent explanations retained',len(d['hypotheses'][0]['counterevidence']),2)
+check(c,'Plan questions retained without execution',d['investigative_plan'][0]['execution'],'not_performed')
+c='mule-source-amount-conflict';d=r(c)
+check(c,'Conflicting bank amount unquantified',d['flow_links'][0]['amount'],None)
+check(c,'Unquantified transaction explicitly identified',d['currency_totals']['USD']['unquantified_transactions'],['T1'])
+check(c,'Conflict forces evidence-needed status',O[c]['status'],'needs-evidence')
+c='promotion-exact-content-scope';d=r(c)
+check(c,'Guarantee differs from evidence',d['claim_reviews'][0]['source_statement_matches'],False)
+check(c,'Disclosure claimed present contradicts content',any('presence claim conflicts' in x for x in d['disclosure_reviews'][0]['review_issues']),True)
+check(c,'Changed version audience channel interval flagged',all(any(key in x for x in d['approval_issues']) for key in ['content_version','audience','channel','use period']),True)
+check(c,'Promotion not approved or disseminated',[d['approval_granted'],d['dissemination']],[False,'not-performed'])
+c='promotion-approval-after-first-use';d=r(c)
+check(c,'Approval after first use cannot cover whole prior interval',d['approval_scope_consistent'],False)
+c='control-incomplete-independent-test';d=r(c)
+check(c,'Supported pass fail unknown counts',d['observed_results'],{'pass':1,'fail':1,'unknown':1})
+check(c,'Completed observation exception rate',d['observed_exception_rate'],0.5)
+check(c,'Incomplete and unobserved selected IDs exposed',d['unobserved_selected_items'],['I3','I4'])
+check(c,'Operational involvement contradicts independence',d['supplied_independence_evidence_consistent'],False)
+check(c,'Acceptance withheld',d['within_supplied_acceptance_criterion'],None)
+check(c,'No assurance or statistical inference',[d['assurance_opinion'],d['statistical_population_inference']],['not-issued','not-performed'])
+c='control-tolerated-failure';d=r(c)
+check(c,'Tolerance comparison can accept confirmed failure',d['within_supplied_acceptance_criterion'],True)
+check(c,'Confirmed exception remains actionable',d['observed_results']['fail']==1 and any(x['finding'] for x in d['observations']),True)
+c='remediation-failure-and-short-window';d=r(c)
+check(c,'Failure and window gap withhold both criteria',[x['criterion_evidence_sufficient_for_owner_review'] for x in d['criterion_reviews']],[False,False])
+check(c,'Overall closure evidence withheld',d['closure_evidence_sufficient_for_owner_review'],False)
+c='remediation-positive-owner-candidate';d=r(c)
+check(c,'Sufficient retest and sustained evidence only make owner candidate',[d['closure_evidence_sufficient_for_owner_review'],d['finding_closed']],[True,False])
+c='remediation-unresolved-later-failure';d=r(c)
+check(c,'Unresolved later failed retest withholds criterion sufficiency',d['criterion_reviews'][0]['criterion_evidence_sufficient_for_owner_review'],False)
+check(c,'Unresolved later failure still prevents global closure evidence',d['closure_evidence_sufficient_for_owner_review'],False)
+check(c,'Individual later failed retest retained',any('later-failed-retest' in x for x in O[c]['unresolved_issues']),True)
+check('all-native-results','No action approval authentication or professional acceptance inferred',all(o['draft'] and o['human_review_required'] and not o['action_taken'] and o['execution']=='not_performed' and o['source_assurance']=='supplied-unverified' for o in O.values()),True)
+check('all-native-results','Claim bindings and detached source identity retained',all(o['claim_bindings'] and o['input_hash'] and 'source_input' not in o for o in O.values()),True)
+cli=[]
+for entry in RUNS:
+    for cmd in entry['commands']:
+        expected=1 if cmd['stage']=='reject_tampered_output' or entry['expected_intake_rejection'] else 0
+        cli.append(dict(case=entry['case'],stage=cmd['stage'],exit_code=cmd['exit_code'],expected_exit_code=expected,passed=cmd['exit_code']==expected))
+report=dict(scenarios=len(RUNS),native_outputs=len(O),professional_acceptance='not-established',source_authentication='not-established',
+    cli_checks=dict(passed=sum(x['passed'] for x in cli),total=len(cli),checks=cli),
+    domain_assertions=dict(passed=sum(x['passed'] for x in CHECKS),failed=sum(not x['passed'] for x in CHECKS),total=len(CHECKS),checks=CHECKS))
+(P/'forward-assessment.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({k:v for k,v in report.items() if k not in ['cli_checks','domain_assertions']}))
+print(json.dumps({'cli_checks':{k:v for k,v in report['cli_checks'].items() if k!='checks'},'domain_assertions':{k:v for k,v in report['domain_assertions'].items() if k!='checks'}}))
+for c in CHECKS:
+    if not c['passed']:print(json.dumps(c))

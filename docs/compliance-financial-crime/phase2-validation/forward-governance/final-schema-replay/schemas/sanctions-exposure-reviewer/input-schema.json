@@ -1,0 +1,413 @@
+{
+  "type": "object",
+  "required": [
+    "request_id",
+    "object_id",
+    "object_type",
+    "as_of",
+    "knowledge_cutoff",
+    "execution_context",
+    "workflow",
+    "sources",
+    "data",
+    "method_profile"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string"
+    },
+    "object_id": {
+      "type": "string"
+    },
+    "object_type": {
+      "type": "string",
+      "const": "sanctions_exposure"
+    },
+    "as_of": {
+      "type": "string"
+    },
+    "knowledge_cutoff": {
+      "type": "string"
+    },
+    "execution_context": {
+      "type": "string"
+    },
+    "workflow": {
+      "type": "object",
+      "required": [
+        "context",
+        "as_of",
+        "role",
+        "classification",
+        "audience",
+        "allowed_audiences",
+        "sources",
+        "unresolved_issues"
+      ],
+      "properties": {
+        "context": {
+          "type": "object",
+          "required": [
+            "institution_id",
+            "legal_entity_id",
+            "capacity",
+            "represented_party",
+            "object_id",
+            "object_type",
+            "jurisdiction",
+            "line_of_business",
+            "purpose"
+          ],
+          "properties": {
+            "institution_id": {
+              "type": "string"
+            },
+            "legal_entity_id": {
+              "type": "string"
+            },
+            "capacity": {
+              "type": "string"
+            },
+            "represented_party": {
+              "type": "string"
+            },
+            "object_id": {
+              "type": "string"
+            },
+            "object_type": {
+              "type": "string"
+            },
+            "jurisdiction": {
+              "type": "string"
+            },
+            "line_of_business": {
+              "type": "string"
+            },
+            "purpose": {
+              "type": "string"
+            }
+          }
+        },
+        "as_of": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "classification": {
+          "type": "string"
+        },
+        "audience": {
+          "type": "string"
+        },
+        "allowed_audiences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "source_ref",
+              "version"
+            ],
+            "properties": {
+              "source_ref": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "unresolved_issues": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_ref",
+          "version",
+          "received_at",
+          "publication_date",
+          "classification",
+          "permitted_audiences",
+          "facts"
+        ],
+        "properties": {
+          "source_ref": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "received_at": {
+            "type": "string"
+          },
+          "publication_date": {
+            "type": "string"
+          },
+          "classification": {
+            "type": "string"
+          },
+          "permitted_audiences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "fact_id",
+                "value",
+                "excerpt"
+              ],
+              "properties": {
+                "fact_id": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": [
+                    "null",
+                    "boolean",
+                    "object",
+                    "array",
+                    "number",
+                    "string"
+                  ],
+                  "description": "Actual finite JSON fact value, preserving its source type; native common validation rejects nonfinite numbers."
+                },
+                "excerpt": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "regime",
+        "regime_type",
+        "activity",
+        "perimeter",
+        "direct_owners",
+        "ownership_complete",
+        "indirect_exposure",
+        "activity_conditions",
+        "authorization",
+        "ownership_complete_evidence",
+        "indirect_exposure_evidence"
+      ],
+      "properties": {
+        "regime": {
+          "$ref": "#/$defs/claim"
+        },
+        "regime_type": {
+          "$ref": "#/$defs/claim"
+        },
+        "activity": {
+          "$ref": "#/$defs/claim"
+        },
+        "perimeter": {
+          "$ref": "#/$defs/claim"
+        },
+        "direct_owners": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "owner_id",
+              "ownership_pct",
+              "blocked",
+              "owner_evidence"
+            ],
+            "properties": {
+              "owner_id": {
+                "type": "string"
+              },
+              "ownership_pct": {
+                "$ref": "#/$defs/claim"
+              },
+              "blocked": {
+                "$ref": "#/$defs/claim"
+              },
+              "owner_evidence": {
+                "$ref": "#/$defs/claim"
+              }
+            }
+          }
+        },
+        "ownership_complete": {
+          "type": "boolean"
+        },
+        "indirect_exposure": {
+          "type": "boolean"
+        },
+        "activity_conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "condition_id",
+              "observed",
+              "required"
+            ],
+            "properties": {
+              "condition_id": {
+                "type": "string"
+              },
+              "observed": {
+                "$ref": "#/$defs/claim"
+              },
+              "required": {
+                "$ref": "#/$defs/claim"
+              }
+            }
+          }
+        },
+        "authorization": {
+          "type": "object",
+          "required": [
+            "regime",
+            "activity",
+            "perimeter",
+            "valid_from",
+            "valid_until",
+            "authority",
+            "conditions"
+          ],
+          "properties": {
+            "regime": {
+              "$ref": "#/$defs/claim"
+            },
+            "activity": {
+              "$ref": "#/$defs/claim"
+            },
+            "perimeter": {
+              "$ref": "#/$defs/claim"
+            },
+            "valid_from": {
+              "$ref": "#/$defs/claim"
+            },
+            "valid_until": {
+              "$ref": "#/$defs/claim"
+            },
+            "authority": {
+              "$ref": "#/$defs/claim"
+            },
+            "conditions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "observed",
+                  "required"
+                ],
+                "properties": {
+                  "observed": {
+                    "$ref": "#/$defs/claim"
+                  },
+                  "required": {
+                    "$ref": "#/$defs/claim"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ownership_complete_evidence": {
+          "$ref": "#/$defs/claim"
+        },
+        "indirect_exposure_evidence": {
+          "$ref": "#/$defs/claim"
+        }
+      }
+    },
+    "method_profile": {
+      "type": "object",
+      "required": [
+        "method",
+        "version",
+        "jurisdiction",
+        "institution_type",
+        "purpose",
+        "effective_date",
+        "review_due_date",
+        "approval_status",
+        "approval"
+      ],
+      "properties": {
+        "method": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "jurisdiction": {
+          "type": "string"
+        },
+        "institution_type": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": "string"
+        },
+        "review_due_date": {
+          "type": "string"
+        },
+        "approval_status": {
+          "type": "string"
+        },
+        "approval": {
+          "$ref": "#/$defs/claim"
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "sanctions-exposure-reviewer Phase2 input",
+  "description": "Structural companion; native domain validator adds exact values, enums, methods, date/context/authority/access checks. Legacy CDD/EDD schema remains separate.",
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "required": [
+        "value",
+        "source_refs",
+        "fact_ids"
+      ],
+      "properties": {
+        "value": {},
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

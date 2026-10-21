@@ -1,0 +1,11 @@
+{
+  "schema_version": "ir-reviewed-adapters/1.0",
+  "authority": "Offline compute and validation only; no approval or live action",
+  "adapters": [
+    {"id": "forecast-to-dcf", "producer": "three-statement-model-builder", "receiver": "dcf-modeler", "mapping": "forecast_rows", "scope": "Corporate annual reconciled forecast rows; no ratio-driver reconstruction"},
+    {"id": "capital-structure-to-liquidity", "producer": "issuer-capital-structure-mapper", "receiver": "issuer-liquidity-refinancing-analyzer", "mapping": "maturities", "scope": "One selected currency/unit group; complete dated principal inventory only"},
+    {"id": "terms-to-covenant", "producer": "credit-document-terms-reviewer", "receiver": "covenant-headroom-analyzer", "mapping": "reviewed_definitions", "scope": "Explicit reviewed covenant definitions only; no clause interpretation"},
+    {"id": "dcf-to-reconciliation", "producer": "dcf-modeler", "receiver": "valuation-reconciliation-analyzer", "mapping": "equity_valuation", "scope": "Supplied same-basis equity method row; no selected or blended value"},
+    {"id": "model-review-to-initiation", "producer": "research-financial-model-reviewer", "receiver": "coverage-initiation-researcher", "mapping": "model_review", "scope": "Independent-review findings retained as review issues; no model approval"}
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "investment-research-route/1.0",
+  "method_version": "1.1.0",
+  "request_id": "IR-DEMO-001",
+  "subject": {
+    "type": "issuer",
+    "id": "DEMO-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T12:00:00Z",
+  "routes": [
+    {
+      "intent": "dcf_modeler",
+      "owner": "Investment Research",
+      "target": "dcf-modeler",
+      "provider": "fsi-skills-library",
+      "status": "routed-native-only",
+      "support_status": "bounded-native",
+      "implementation_scope": "Standalone corporate unlevered DCF; no authenticated integrated forecast handoff",
+      "dependencies": [],
+      "optional_context": [
+        "three-statement-model-builder"
+      ],
+      "handoff_support": "reviewed adapters listed; native-only for other pairings",
+      "reviewed_adapters": [
+        {
+          "id": "forecast-to-dcf",
+          "producer": "three-statement-model-builder",
+          "receiver": "dcf-modeler",
+          "scope": "Corporate annual reconciled forecast rows; no ratio-driver reconstruction",
+          "dependency_status": "dependency-not-listed",
+          "proof_required": "Retained producer original, full producer reconstruction, exact context mapping and receiver reconstruction"
+        }
+      ],
+      "limitations": []
+    },
+    {
+      "intent": "investment_thesis_developer",
+      "owner": "Investment Research",
+      "target": "investment-thesis-developer",
+      "provider": "fsi-skills-library",
+      "status": "not-installed",
+      "support_status": "bounded-native",
+      "implementation_scope": "Evidence-based investment thesis, variant view, catalysts and falsification",
+      "dependencies": [
+        "research-evidence-dossier-builder",
+        "valuation-reconciliation-analyzer"
+      ],
+      "optional_context": [],
+      "handoff_support": "native-only; receiver request and both native validators required",
+      "reviewed_adapters": [],
+      "limitations": []
+    }
+  ],
+  "registry_hashes": {
+    "routes": "1964196b2f83222291e73dddbfac34abf652990f5b6019ba1d5f099b67f4bd4b",
+    "capabilities": "67987db97088b780d5b0894aab6964403b7c5f8fc550af728359c35c403fa906"
+  },
+  "inventory_assurance": "supplied-not-authenticated",
+  "unresolved_issues": [],
+  "workflow_completed": false,
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "6e7437abf99af0cd5e52213d7e5ed58489d2a0bd0a77cbd6715aa0c5eff941d2",
+  "source_truth": "unverified"
+}

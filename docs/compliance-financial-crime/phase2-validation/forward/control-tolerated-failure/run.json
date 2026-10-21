@@ -1,0 +1,61 @@
+{
+  "case": "control-tolerated-failure",
+  "skill": "compliance-control-testing-assistant",
+  "input_sha256": "4483820e4d11c415b6dd464db956fc27dfad74cc9e3c9f6ce8f436b09d9702e4",
+  "expected_intake_rejection": false,
+  "commands": [
+    {
+      "stage": "validate_input",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/validate_input.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/control-tolerated-failure/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "calculate",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/calculate_or_transform.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/control-tolerated-failure/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "validate_output",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/validate_output.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/control-tolerated-failure/output.initial.json",
+        "--input",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/control-tolerated-failure/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "reject_tampered_output",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/validate_output.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/control-tolerated-failure/output.tampered.json",
+        "--input",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/control-tolerated-failure/input.initial.json"
+      ],
+      "exit_code": 1
+    }
+  ],
+  "implementation": {
+    "skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/calculate_or_transform.py": "fbd5f577381555f4501a19d70b7fc77a24d19c7b5348f90095d45587d415436e",
+    "skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/validate_output.py": "036ab896d8bcca9a79e54e7e8ced46e9b60d7bbd9c63488f94aa2b0aa9188b81",
+    "skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/domain.py": "afdc0c527b28be08ca38a9a6e3db61b92d3538c2584e35d80efd59b8eae85642",
+    "skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/foundation_contract.py": "4979b076d53f95c4758169576b235bf22abb6b37b893d012a955554bb28e765c",
+    "skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "skills/compliance-financial-crime/compliance-control-testing-assistant/scripts/validate_input.py": "d3a544ec20ed557577e8e30edad22d676182d0a5865041d0c72eee0ff190e6ed"
+  },
+  "output_sha256": "3d363a0c2cf524b01fba984874516533ec675e71fc3d27e4b98fb56a0fb1a71d"
+}

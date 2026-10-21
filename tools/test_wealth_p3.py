@@ -60,7 +60,8 @@ class P3Integration(unittest.TestCase):
             self.assertEqual(front['description'], by[name]['description'])
             self.assertEqual(front['metadata'], yaml.safe_load(card(by[name])[0])['metadata'])
             self.assertEqual(by[name]['delivery_wave'], 'Wave 9 - wealth management P3')
-            self.assertEqual(by[name]['version'], '0.4.0' if name == 'wealth-management-router' else '0.1.0')
+            # P5 adds portable quality controls to both P3 practitioner packages.
+            self.assertEqual(by[name]['version'], '0.4.0' if name == 'wealth-management-router' else '0.2.0')
             self.assertEqual(by[name]['recertification_date'], '2027-09-17')
 
     def test_shared_contracts_and_full_package_resources(self):

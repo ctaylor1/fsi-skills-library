@@ -1,0 +1,139 @@
+{
+  "case_id": "SYN-P4-01",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "design-review",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "FNOL-MODERNIZATION",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "sources": [
+    {
+      "source_ref": "synthetic-record",
+      "version": "1",
+      "as_of": "2026-09-20",
+      "locator": "Synthetic local exercise; no live records"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "profile": {
+      "profile_id": "SYN-PROFILE",
+      "version": "1",
+      "reviewed_by": "Synthetic design owner",
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "pc"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "method": "component-interface-requirements-v1",
+      "source_refs": [
+        "synthetic-record"
+      ]
+    },
+    "business_outcome": "Draft read-side intake architecture",
+    "owner": "architect",
+    "currency": "USD",
+    "cost_period": "month",
+    "scope": "same synthetic FNOL workload",
+    "inventory_complete": true,
+    "components": [
+      {
+        "component_id": "A",
+        "responsibility": "intake API",
+        "owner": "platform owner",
+        "technology_choice": "supplied service candidate",
+        "alternative": "retain current process",
+        "tradeoff": "evaluate measured fit",
+        "failure_domain": "zone1",
+        "data_classification": "confidential",
+        "retention_rule": "reviewed synthetic retention",
+        "recovery_runbook": "manual queue recovery",
+        "currency": "USD",
+        "cost_period": "month",
+        "cost": 100,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "component_id": "B",
+        "responsibility": "review queue",
+        "owner": "platform owner",
+        "technology_choice": "supplied service candidate",
+        "alternative": "retain current process",
+        "tradeoff": "evaluate measured fit",
+        "failure_domain": "zone2",
+        "data_classification": "confidential",
+        "retention_rule": "reviewed synthetic retention",
+        "recovery_runbook": "manual queue recovery",
+        "currency": "USD",
+        "cost_period": "month",
+        "cost": 200,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "interfaces": [
+      {
+        "interface_id": "I1",
+        "from_component": "A",
+        "to_component": "B",
+        "contract_version": "v1",
+        "payload_schema": "notice-v1",
+        "purpose": "review notice",
+        "authentication": "workload identity",
+        "authorization_scope": "enqueue approved draft",
+        "encryption": "reviewed transport",
+        "timeout": "10 seconds",
+        "failure_route": "human intake",
+        "trace_id": "notice request ID",
+        "delivery": "at-least-once",
+        "operation": "proposed-write",
+        "purpose_reviewed": true,
+        "max_attempts": 2,
+        "idempotency_key": "notice ID and version",
+        "approval_owner": "human reviewer",
+        "receipt_check": "durable queue receipt",
+        "recovery_plan": "dedupe then reconcile missing receipt",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "requirement_id": "CAP",
+        "component_id": "B",
+        "metric": "observed_capacity",
+        "unit": "notices/hour",
+        "owner": "platform owner",
+        "workload_profile": "notice-v1 at approved payload size",
+        "operator": ">=",
+        "threshold": 100,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "measurements": [
+      {
+        "requirement_id": "CAP",
+        "component_id": "B",
+        "metric": "observed_capacity",
+        "unit": "notices/hour",
+        "workload_profile": "notice-v1 at approved payload size",
+        "observed_on": "2026-09-19",
+        "value": 120,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ]
+  }
+}

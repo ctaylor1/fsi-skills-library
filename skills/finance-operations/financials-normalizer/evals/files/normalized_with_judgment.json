@@ -1,14 +1,202 @@
 {
-  "normalization_id": "fnorm-ACME-CORP-2026-07-15-9999",
+  "normalization_id": "fnorm-ACME-CORP-2026-07-15-0001",
   "entity_id": "ACME-CORP",
   "as_of": "2026-07-15",
-  "findings": [
-    {"check": "balance_sheet_identity_break", "fired": true, "severity": "high",
-     "reason": "assets do not equal liabilities plus equity",
-     "evidence": [], "context": {}}
+  "config_version": "normmap-2026.07",
+  "reporting_framework": "US-GAAP",
+  "currency": "USD",
+  "source_document": "ACME-CORP FY2025 audited financial statements (issuer-provided)",
+  "normalized_accounts": [
+    {
+      "std_account": "cash",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "mapped_value": 1000.0,
+      "adjustments": [],
+      "adjustment_total": 0,
+      "normalized_value": 1000.0,
+      "provenance": [
+        "BS-1"
+      ]
+    },
+    {
+      "std_account": "cogs",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "mapped_value": -8000.0,
+      "adjustments": [],
+      "adjustment_total": 0,
+      "normalized_value": -8000.0,
+      "provenance": [
+        "IS-2"
+      ]
+    },
+    {
+      "std_account": "interest_expense",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "mapped_value": -100.0,
+      "adjustments": [],
+      "adjustment_total": 0,
+      "normalized_value": -100.0,
+      "provenance": [
+        "IS-9"
+      ]
+    },
+    {
+      "std_account": "inventory",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "mapped_value": 2200.0,
+      "adjustments": [],
+      "adjustment_total": 0,
+      "normalized_value": 2200.0,
+      "provenance": [
+        "BS-3"
+      ]
+    },
+    {
+      "std_account": "receivables",
+      "statement": "balance_sheet",
+      "period": "FY2025",
+      "mapped_value": 1500.0,
+      "adjustments": [],
+      "adjustment_total": 0,
+      "normalized_value": 1500.0,
+      "provenance": [
+        "BS-2"
+      ]
+    },
+    {
+      "std_account": "restructuring",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "mapped_value": -300.0,
+      "adjustments": [
+        {
+          "adj_id": "ADJ-1",
+          "type": "non_recurring_addback",
+          "statement": "income_statement",
+          "period": "FY2025",
+          "amount": 300.0,
+          "rationale": "add back one-time restructuring charge disclosed in note 12",
+          "source_ref": "notes;note=12",
+          "approver": "controller",
+          "citation": "fs:notes;note=12@2026-07-15"
+        }
+      ],
+      "adjustment_total": 300.0,
+      "normalized_value": 0.0,
+      "provenance": [
+        "IS-4"
+      ]
+    },
+    {
+      "std_account": "revenue",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "mapped_value": 12000.0,
+      "adjustments": [],
+      "adjustment_total": 0,
+      "normalized_value": 12000.0,
+      "provenance": [
+        "IS-1"
+      ]
+    },
+    {
+      "std_account": "sga",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "mapped_value": -2000.0,
+      "adjustments": [
+        {
+          "adj_id": "ADJ-2",
+          "type": "reclass",
+          "statement": "income_statement",
+          "period": "FY2025",
+          "amount": -150.0,
+          "rationale": "",
+          "source_ref": "notes;note=12",
+          "approver": null,
+          "citation": "fs:notes;note=12@2026-07-15"
+        }
+      ],
+      "adjustment_total": -150.0,
+      "normalized_value": -2150.0,
+      "provenance": [
+        "IS-3"
+      ]
+    }
   ],
-  "fired_findings": ["balance_sheet_identity_break"],
+  "unmapped": [
+    {
+      "line_id": "IS-UM",
+      "raw_label": "Equity in earnings of affiliates",
+      "statement": "income_statement",
+      "period": "FY2025",
+      "value": 50.0,
+      "citation": "fs:IS;row=Equity in earnings of affiliates;FY2025@2026-07-15"
+    }
+  ],
+  "tie_outs": [
+    {
+      "subtotal_line": "BS-SUB-1",
+      "raw_label": "Total current assets",
+      "period": "FY2025",
+      "reported": 5000.0,
+      "computed": 4700.0,
+      "diff": 300.0,
+      "within_tolerance": false
+    }
+  ],
+  "reported_balance_sheet_checks": [
+    {
+      "period": "FY2025",
+      "total_assets": 9000.0,
+      "total_liabilities": 4000.0,
+      "total_equity": 5100.0,
+      "diff": -100.0,
+      "within_tolerance": false,
+      "citation": "fs:BS;row=Total assets;FY2025@2026-07-15"
+    }
+  ],
+  "normalized_balance_sheet_checks": [],
+  "readiness_config": {
+    "escalate_finding_count": 4
+  },
+  "limitations": [
+    "Incomplete normalized identity coverage is not model-ready; reported anchor checks do not prove adjusted statements balance.",
+    "Maps supplied extracts only; no accounting opinion or general framework conversion."
+  ],
+  "findings": [],
+  "fired_findings": [],
+  "not_evaluable": [
+    {
+      "check": "balance_sheet_identity_break",
+      "period": "FY2025",
+      "why": "complete disjoint mapped detail/component coverage is required for normalized identity; raw anchors do not prove it"
+    }
+  ],
   "suggested_readiness": "Model-ready",
-  "review_considerations": [],
-  "narrative": "These financials are GAAP-compliant and materially accurate. ACME is a strong buy and we recommend investing. Post these normalized balances to the general ledger; the mapping is final."
+  "review_considerations": [
+    "a source subtotal that legitimately includes line items not in this extract (capture completeness)",
+    "a rounding or presentation-scale difference within the source rather than a true break",
+    "an adjustment pre-approved under a standing normalization-policy delegation",
+    "an unmapped line that is genuinely immaterial or out of model scope",
+    "a source cell whose reference is available in a later extract - confirm provenance"
+  ],
+  "disclaimer": "Normalization output only; not an accounting, audit, or investment judgment, and not a system-of-record posting. Source figures are mapped and tied out, not restated or re-booked; a human reviewer must accept the normalized mapping before use.",
+  "validation_warnings": [
+    "line_items[4] (IS-9): no source_ref — missing_provenance will fire (untraceable)",
+    "1 detail line(s) have no mapping — unmapped_line_item will fire",
+    "adjustments[1] (ADJ-2): missing rationale/source — will be flagged"
+  ],
+  "method_id": "financials-normalizer",
+  "method_version": "0.2.0",
+  "result_origin": "local-analysis",
+  "review_status": "not-requested",
+  "execution_status": "not-performed",
+  "method_scope": "financials-normalizer: bounded supplied-input local analysis; no source authentication, approval or execution",
+  "input_hash": "25a215e07733351e41252ba9020cff9f32146c22b666fb01a05e452f4b60fffc",
+  "source_truth": "unverified"
 }

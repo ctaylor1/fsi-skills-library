@@ -1,0 +1,209 @@
+{
+  "id": "OPF-O05-EVENTS",
+  "package": "investment-asset-servicing-reviewer",
+  "input": {
+    "request_id": "OPF-O05-EVENTS",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "entitlements",
+    "events": [
+      {
+        "event_id": "DIV1",
+        "type": "cash_dividend",
+        "record_date": "2026-09-01",
+        "position_date": "2026-09-01",
+        "payable_date": "2026-09-15",
+        "event_source_ref": "ind-source",
+        "position_source_ref": "ind-source",
+        "eligible_quantity": "123.456789",
+        "tolerance": "0.001",
+        "received_amount": "12.95",
+        "cash_per_share": "0.123456789",
+        "withholding_rate": "0.15",
+        "received_date": "2026-09-15",
+        "receipt_source_ref": "ind-source"
+      },
+      {
+        "event_id": "SPLIT1",
+        "type": "stock_split",
+        "record_date": "2026-09-01",
+        "position_date": "2026-09-01",
+        "payable_date": "2026-09-15",
+        "event_source_ref": "ind-source",
+        "position_source_ref": "ind-source",
+        "eligible_quantity": "5.5",
+        "tolerance": "0",
+        "received_amount": null,
+        "new_shares": 3,
+        "old_shares": 2,
+        "fractional_policy": "preserve-entitlement"
+      }
+    ]
+  },
+  "expected": {
+    "dividend_gross": "15.241578750190521",
+    "dividend_net": "12.95534193766194285",
+    "receipt_minus_expected": "-0.00534193766194285",
+    "split_additional": "2.75",
+    "split_receipt": "overdue_missing"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "a828285d1539e2dcd04c701d19ceac8f6f531cbbb7fab84213c8a7806899de59",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"investment-asset-servicing-reviewer\",\n  \"request_id\": \"OPF-O05-EVENTS\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"needs-review\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-record-date-entitlements-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"events\": [\n      {\n        \"event_id\": \"DIV1\",\n        \"type\": \"cash_dividend\",\n        \"record_date\": \"2026-09-01\",\n        \"payable_date\": \"2026-09-15\",\n        \"gross_cash\": \"15.241578750190521\",\n        \"supplied_rate_withholding\": \"2.28623681252857815\",\n        \"expected_net_cash\": \"12.95534193766194285\",\n        \"measurement_unit\": \"USD\",\n        \"received\": \"12.95\",\n        \"difference\": \"-0.00534193766194285\",\n        \"reconciliation_status\": \"exception\"\n      },\n      {\n        \"event_id\": \"SPLIT1\",\n        \"type\": \"stock_split\",\n        \"record_date\": \"2026-09-01\",\n        \"payable_date\": \"2026-09-15\",\n        \"post_split_total_units\": \"8.250000000000000000000000\",\n        \"expected_additional_units\": \"2.750000000000000000000000\",\n        \"measurement_unit\": \"security-units\",\n        \"fractional_entitlement\": \"0.250000000000000000000000\",\n        \"received\": null,\n        \"difference\": null,\n        \"reconciliation_status\": \"due-unreceived\"\n      }\n    ]\n  },\n  \"unresolved_issues\": [\n    \"DIV1: receipt differs from entitlement beyond supplied tolerance\",\n    \"SPLIT1: entitlement due but received evidence unavailable\"\n  ],\n  \"limitations\": [\n    \"Eligible quantities and event terms are supplied; trade/ex-date, market-claim and beneficial-owner entitlement are not inferred.\",\n    \"Withholding rate is supplied arithmetic, not a tax/legal determination. No elections, custody instructions or payment execution.\",\n    \"Split ratios rounded to24 decimal places; fractional cash-in-lieu and mandatory/voluntary reorganizations require specialist workflow.\"\n  ],\n  \"handoffs\": [\n    \"investment-book-reconciler\",\n    \"fund-accounting-preparer\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"797d4adb2b147f5eeb334e10aa6e41cdb1657e0d2599f4724368b68e50c89c72\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "investment-asset-servicing-reviewer",
+    "request_id": "OPF-O05-EVENTS",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "needs-review",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "supplied-record-date-entitlements-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "events": [
+        {
+          "event_id": "DIV1",
+          "type": "cash_dividend",
+          "record_date": "2026-09-01",
+          "payable_date": "2026-09-15",
+          "gross_cash": "15.241578750190521",
+          "supplied_rate_withholding": "2.28623681252857815",
+          "expected_net_cash": "12.95534193766194285",
+          "measurement_unit": "USD",
+          "received": "12.95",
+          "difference": "-0.00534193766194285",
+          "reconciliation_status": "exception"
+        },
+        {
+          "event_id": "SPLIT1",
+          "type": "stock_split",
+          "record_date": "2026-09-01",
+          "payable_date": "2026-09-15",
+          "post_split_total_units": "8.250000000000000000000000",
+          "expected_additional_units": "2.750000000000000000000000",
+          "measurement_unit": "security-units",
+          "fractional_entitlement": "0.250000000000000000000000",
+          "received": null,
+          "difference": null,
+          "reconciliation_status": "due-unreceived"
+        }
+      ]
+    },
+    "unresolved_issues": [
+      "DIV1: receipt differs from entitlement beyond supplied tolerance",
+      "SPLIT1: entitlement due but received evidence unavailable"
+    ],
+    "limitations": [
+      "Eligible quantities and event terms are supplied; trade/ex-date, market-claim and beneficial-owner entitlement are not inferred.",
+      "Withholding rate is supplied arithmetic, not a tax/legal determination. No elections, custody instructions or payment execution.",
+      "Split ratios rounded to24 decimal places; fractional cash-in-lieu and mandatory/voluntary reorganizations require specialist workflow."
+    ],
+    "handoffs": [
+      "investment-book-reconciler",
+      "fund-accounting-preparer"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "797d4adb2b147f5eeb334e10aa6e41cdb1657e0d2599f4724368b68e50c89c72",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "dividend gross",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "net of supplied withholding",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "receipt residual",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "cash exception at supplied tolerance",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "split additional units",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "missing split receipt overdue",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    },
+    {
+      "case": "OPF-O05-EVENTS",
+      "check": "different detached original rejected",
+      "passed": true
+    }
+  ]
+}

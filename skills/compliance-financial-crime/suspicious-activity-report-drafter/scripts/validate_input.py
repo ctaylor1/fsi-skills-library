@@ -25,10 +25,12 @@ Usage: python validate_input.py case.json | --selftest
 Exit 0 if no errors (warnings allowed), 1 otherwise.
 """
 from __future__ import annotations
-import json, sys
+import json, sys, math
+from calculate_or_transform import _approval_valid, _amount_tie_out, _investigation_rationale
 from pathlib import Path
+from native_integrity import canonical_hash
 
-REQUIRED_TOP = ("config_version", "case_id", "subjects", "transactions", "activity",
+REQUIRED_TOP = ("config_version", "as_of", "case_id", "subjects", "transactions", "activity",
                 "required_approvals")
 REQUIRED_TXN = ("txn_id", "date", "amount", "instrument", "subject_ref", "source_ref")
 REQUIRED_SUBJECT = ("subject_ref", "role", "type", "name_masked", "relationship")
@@ -36,10 +38,10 @@ WHO_WHAT = ("who", "what", "when", "where", "why", "how")
 
 
 def _num(x) -> bool:
-    return isinstance(x, (int, float)) and not isinstance(x, bool)
+    return isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate_impl(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc:
@@ -50,8 +52,10 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     # Hard boundary: a SAR draft is only produced from an approved, adjudicated investigation.
     if doc.get("case_approved_for_sar") is not True:
         warnings.append("case_approved_for_sar is not true -> HARD BOUNDARY: package will be "
-                        "blocked and routed to transaction-monitoring-alert-investigator; the "
-                        "suspicion determination is not made here")
+                        "blocked for accountable FIU investigator review; financial-crime-case-investigator "
+                        "is planned, not installed. Do not wait for case closure to meet reporting obligations")
+    if not _approval_valid(doc.get("drafting_authorization") or {}, doc):
+        warnings.append("missing, stale or unbound supplied drafting authorization -> blocked; issuer authority is not authenticated offline")
 
     subjects = doc.get("subjects")
     if not isinstance(subjects, list) or not subjects:
@@ -125,9 +129,7 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
     # Content-completeness warnings.
     lib = doc.get("typology_library")
     tys = doc.get("typologies")
-    if not tys:
-        warnings.append("no typologies provided -> typology assessment will be a gap (needs-evidence)")
-    if not isinstance(lib, dict) or not lib:
+    if tys and (not isinstance(lib, dict) or not lib):
         warnings.append("no typology_library provided -> typology consistency cannot be checked (needs-evidence)")
     ni = doc.get("narrative_inputs") or {}
     for w in WHO_WHAT:
@@ -137,10 +139,59 @@ def validate(doc: dict) -> tuple[list[str], list[str]]:
         warnings.append("no evidence[] provided -> narrative facts will be uncited (needs-evidence)")
     if not (doc.get("investigation_rationale") or {}).get("citations"):
         warnings.append("investigation_rationale has no citations -> unsupported rationale (needs-evidence)")
+    for issue in _amount_tie_out(doc)["breaks"]:
+        warnings.append("chronology/tie-out gap -> needs-evidence: " + issue)
+    for issue in _investigation_rationale(doc)["gaps"]:
+        warnings.append("rationale gap -> needs-evidence: " + issue)
     if doc.get("recorded_approvals") is None:
         warnings.append("no recorded_approvals -> approval ledger will list all required approvals as pending (expected for a draft)")
 
     return errors, warnings
+
+
+INPUT_SHAPE = {
+    "config_version": str, "case_id": str, "as_of": str,
+    "subjects": [{"subject_ref": str, "role": str, "type": str, "name_masked": str, "relationship": str, "identifiers_masked": [str]}],
+    "transactions": [{"txn_id": str, "date": str, "amount": (int, float), "subject_ref": str, "counterparty_ref": str, "source_ref": str}],
+    "activity": {"period": {"from": str, "to": str}, "aggregate_amount": (int, float)},
+    "required_approvals": [str], "recorded_approvals": [{}], "drafting_authorization": {},
+    "evidence": [{"evidence_id": str, "fact": str, "citation": str}],
+    "investigation_rationale": {"summary": str, "evidence_ids": [str], "citations": [str]},
+    "filing_context": {}, "accounts_instruments": [{"instruments": [str]}],
+    "narrative_inputs": {key: str for key in WHO_WHAT},
+    "narrative_evidence_ids": {key: [str] for key in WHO_WHAT},
+    "typologies": [{"observed_indicators": [str], "indicator_evidence": {}}], "typology_library": {},
+}
+
+def _shape_errors(value, shape, path="$", optional=False):
+    """Reject malformed supplied containers; absent evidence remains a domain gap."""
+    if value is None and optional:
+        return []
+    if isinstance(shape, dict):
+        if not isinstance(value, dict):
+            return [f"{path} must be an object"]
+        return [error for key, child in shape.items() if key in value
+                for error in _shape_errors(value[key], child, f"{path}.{key}", optional=True)]
+    if isinstance(shape, list):
+        if not isinstance(value, list):
+            return [f"{path} must be a list"]
+        return [error for index, item in enumerate(value)
+                for error in _shape_errors(item, shape[0], f"{path}[{index}]")]
+    if not isinstance(value, shape) or (shape == (int, float) and isinstance(value, bool)):
+        return [f"{path} has an invalid type"]
+    return []
+
+
+def validate(doc):
+    """Validate the same intake boundary used by public calculators and native replay."""
+    try:
+        canonical_hash(doc)  # Reject non-finite and non-JSON values, including optional fields.
+        errors = _shape_errors(doc, INPUT_SHAPE)
+        if errors:
+            return errors, []
+        return _validate_impl(doc)
+    except (ValueError, TypeError, KeyError, AttributeError, IndexError, ArithmeticError) as exc:
+        return ["malformed input: " + str(exc)], []
 
 
 def main(argv):

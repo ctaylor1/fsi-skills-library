@@ -1,0 +1,1943 @@
+{
+  "version": "0.4.0",
+  "routes": [
+    {
+      "intent": "manager_economics",
+      "primary": {
+        "id": "B01",
+        "name": "asset-manager-economics-analyzer",
+        "path": "skills/asset-management/asset-manager-economics-analyzer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied AUM/flows/market/FX reconciliation, fee mix, capacity and profit scenarios; no enterprise forecast"
+      },
+      "supporting": [
+        {
+          "id": "B02",
+          "name": "investment-product-lifecycle-planner",
+          "path": "skills/asset-management/investment-product-lifecycle-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Source-supported product launch/change/closure gates, costs and payback; no launch approval"
+        },
+        {
+          "id": "B03",
+          "name": "investment-distribution-planner",
+          "path": "skills/asset-management/investment-distribution-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied channel eligibility, fee and conflict comparisons; no distribution authorization"
+        }
+      ],
+      "subject_types": [
+        "manager"
+      ],
+      "overlay_requirements": "Fee-earning average AUM, flows, performance, FX, acquisition and product/channel fee mix",
+      "out_of_domain": false
+    },
+    {
+      "intent": "portfolio_underperformance",
+      "primary": {
+        "id": "K09",
+        "name": "portfolio-performance-attributor",
+        "path": "skills/asset-management/portfolio-performance-attributor",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy single-period Brinson; explicit multiplicative currency, parallel duration/convexity, supplied factor and chronological linking methods, retained residuals and engine-result challenge"
+      },
+      "supporting": [
+        {
+          "id": "K08",
+          "name": "portfolio-performance-measurer",
+          "path": "skills/asset-management/portfolio-performance-measurer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Linked subperiod TWR, explicitly timed Modified Dietz and bounded conventional dated XIRR; no GIPS certification"
+        },
+        {
+          "id": "K01",
+          "name": "portfolio-exposure-analyzer",
+          "path": "skills/asset-management/portfolio-exposure-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied NAV and market-value exposures; bounded one-level look-through"
+        },
+        {
+          "id": "K02",
+          "name": "portfolio-risk-contribution-analyzer",
+          "path": "skills/asset-management/portfolio-risk-contribution-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied covariance annualized-volatility Euler contribution only"
+        },
+        {
+          "id": "B06",
+          "name": "investment-commentary-builder",
+          "path": "skills/asset-management/investment-commentary-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied reconciled figures and approved-message commentary; no performance engine"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "fund",
+        "account"
+      ],
+      "overlay_requirements": "Benchmark, method, period, currency and gross/net basis; overlapping attribution methods are not additive",
+      "out_of_domain": false
+    },
+    {
+      "intent": "mandate_review",
+      "primary": {
+        "id": "C02",
+        "name": "investment-mandate-reviewer",
+        "path": "skills/asset-management/investment-mandate-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied scoped concentration, restriction and guideline checks; unsupported rules explicit"
+      },
+      "supporting": [
+        {
+          "id": "C01",
+          "name": "institutional-investment-policy-builder",
+          "path": "skills/asset-management/institutional-investment-policy-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Institutional objectives, allocation range feasibility, liquidity and governance policy draft; no policy adoption"
+        },
+        {
+          "id": "C04",
+          "name": "portfolio-construction-analyzer",
+          "path": "skills/asset-management/portfolio-construction-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied long-only security candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+        },
+        {
+          "id": "K01",
+          "name": "portfolio-exposure-analyzer",
+          "path": "skills/asset-management/portfolio-exposure-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied NAV and market-value exposures; bounded one-level look-through"
+        },
+        {
+          "id": "K02",
+          "name": "portfolio-risk-contribution-analyzer",
+          "path": "skills/asset-management/portfolio-risk-contribution-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied covariance annualized-volatility Euler contribution only"
+        },
+        {
+          "id": "G01",
+          "name": "investment-regulatory-obligation-reviewer",
+          "path": "skills/asset-management/investment-regulatory-obligation-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "mandate",
+        "account"
+      ],
+      "overlay_requirements": "Effective rule scope and proposed-state portfolio; unsupported rule families remain not evaluable",
+      "out_of_domain": false
+    },
+    {
+      "intent": "tax_aware_sma_rebalancing",
+      "primary": {
+        "id": "C07",
+        "name": "tax-aware-portfolio-implementation-reviewer",
+        "path": "skills/asset-management/tax-aware-portfolio-implementation-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied US taxable-equity selected-lot gain/loss and wash-window flags; no deduction allocation or tax opinion"
+      },
+      "supporting": [
+        {
+          "id": "C06",
+          "name": "portfolio-rebalancing-planner",
+          "path": "skills/asset-management/portfolio-rebalancing-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Single-currency, common-settlement-date lot-rounded draft rebalancing with fees and cash controls; no orders"
+        },
+        {
+          "id": "C04",
+          "name": "portfolio-construction-analyzer",
+          "path": "skills/asset-management/portfolio-construction-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied long-only security candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+        },
+        {
+          "id": "C09",
+          "name": "buy-side-trading-planner",
+          "path": "skills/asset-management/buy-side-trading-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied order-intent participation, quoted costs and evidence/funding readiness; no scheduling, routing or execution"
+        },
+        {
+          "id": "S01",
+          "name": "index-portfolio-reviewer",
+          "path": "skills/asset-management/index-portfolio-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied tracking difference/error, weights/cash drift and turnover review; no index licensing or replication optimizer"
+        }
+      ],
+      "subject_types": [
+        "account",
+        "portfolio"
+      ],
+      "overlay_requirements": "Tax jurisdiction/lots and authorized cross-account scope; household planning belongs to wealth",
+      "out_of_domain": false
+    },
+    {
+      "intent": "fund_liquidity_stress",
+      "primary": {
+        "id": "K04",
+        "name": "fund-liquidity-assessor",
+        "path": "skills/asset-management/fund-liquidity-assessor",
+        "support_status": "bounded-native",
+        "implementation_scope": "Public-asset ADV liquidation proxy; full asset/liability and vehicle models planned"
+      },
+      "supporting": [
+        {
+          "id": "K05",
+          "name": "portfolio-cashflow-forecaster",
+          "path": "skills/asset-management/portfolio-cashflow-forecaster",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied dated flows and scenario ladder; uncertain commitment pacing not implemented"
+        },
+        {
+          "id": "K03",
+          "name": "portfolio-stress-test-runner",
+          "path": "skills/asset-management/portfolio-stress-test-runner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied shocks and sensitivities with optional diagonal convexity; no full repricing"
+        },
+        {
+          "id": "O06",
+          "name": "fund-investor-operations-reviewer",
+          "path": "skills/asset-management/fund-investor-operations-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied dealing cutoff, eligibility/evidence and indicative units/cash review; no acceptance or transfer-agent action"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "portfolio"
+      ],
+      "overlay_requirements": "Dealing terms, investor cohorts, collateral and settled usable cash; current method is bounded",
+      "out_of_domain": false
+    },
+    {
+      "intent": "trading_cost_review",
+      "primary": {
+        "id": null,
+        "name": "transaction-cost-estimator",
+        "path": "skills/capital-markets/transaction-cost-estimator",
+        "support_status": "bounded-native",
+        "implementation_scope": "Estimate spread, commissions, market impact, delay, and opportunity cost under validated methodology and uncertainty ranges. HARD BOUNDARY: Never route, execute, or select a venue. Hand off execution review to best-execution-reviewer."
+      },
+      "supporting": [
+        {
+          "id": null,
+          "name": "best-execution-reviewer",
+          "path": "skills/capital-markets/best-execution-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Evaluate execution quality, routing, venue, price, speed, and exception evidence against firm policies and applicable obligations."
+        },
+        {
+          "id": "C09",
+          "name": "buy-side-trading-planner",
+          "path": "skills/asset-management/buy-side-trading-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied order-intent participation, quoted costs and evidence/funding readiness; no scheduling, routing or execution"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "account"
+      ],
+      "overlay_requirements": "Compare realized fills against comparable benchmarks; supplied-data capital-markets methods",
+      "out_of_domain": false
+    },
+    {
+      "intent": "etf_launch",
+      "primary": {
+        "id": "B02",
+        "name": "investment-product-lifecycle-planner",
+        "path": "skills/asset-management/investment-product-lifecycle-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Source-supported product launch/change/closure gates, costs and payback; no launch approval"
+      },
+      "supporting": [
+        {
+          "id": "S02",
+          "name": "etf-operations-reviewer",
+          "path": "skills/asset-management/etf-operations-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy basket arithmetic; explicit multicurrency clean/accrued bond values, one-to-one custom substitutions and source-bound derivative engine result challenge; no basket publication/settlement"
+        },
+        {
+          "id": "S01",
+          "name": "index-portfolio-reviewer",
+          "path": "skills/asset-management/index-portfolio-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied tracking difference/error, weights/cash drift and turnover review; no index licensing or replication optimizer"
+        },
+        {
+          "id": "O02",
+          "name": "fund-accounting-preparer",
+          "path": "skills/asset-management/fund-accounting-preparer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Balanced journal/trial-balance workpapers, ACT/365 accruals and supplied class-NAV benchmark review; no pricing, posting or NAV strike"
+        },
+        {
+          "id": "G01",
+          "name": "investment-regulatory-obligation-reviewer",
+          "path": "skills/asset-management/investment-regulatory-obligation-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination"
+        },
+        {
+          "id": "B03",
+          "name": "investment-distribution-planner",
+          "path": "skills/asset-management/investment-distribution-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied channel eligibility, fee and conflict comparisons; no distribution authorization"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "manager"
+      ],
+      "overlay_requirements": "Active/index distinction; APs, baskets, domicile, distribution, seed economics",
+      "out_of_domain": false
+    },
+    {
+      "intent": "index_tracking",
+      "primary": {
+        "id": "S01",
+        "name": "index-portfolio-reviewer",
+        "path": "skills/asset-management/index-portfolio-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied tracking difference/error, weights/cash drift and turnover review; no index licensing or replication optimizer"
+      },
+      "supporting": [
+        {
+          "id": "K08",
+          "name": "portfolio-performance-measurer",
+          "path": "skills/asset-management/portfolio-performance-measurer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Linked subperiod TWR, explicitly timed Modified Dietz and bounded conventional dated XIRR; no GIPS certification"
+        },
+        {
+          "id": "K09",
+          "name": "portfolio-performance-attributor",
+          "path": "skills/asset-management/portfolio-performance-attributor",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy single-period Brinson; explicit multiplicative currency, parallel duration/convexity, supplied factor and chronological linking methods, retained residuals and engine-result challenge"
+        },
+        {
+          "id": "C06",
+          "name": "portfolio-rebalancing-planner",
+          "path": "skills/asset-management/portfolio-rebalancing-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Single-currency, common-settlement-date lot-rounded draft rebalancing with fees and cash controls; no orders"
+        },
+        {
+          "id": "C09",
+          "name": "buy-side-trading-planner",
+          "path": "skills/asset-management/buy-side-trading-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied order-intent participation, quoted costs and evidence/funding readiness; no scheduling, routing or execution"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "fund"
+      ],
+      "overlay_requirements": "Licensed index methodology, reconstitution, cash, fees, replication and tracking measure",
+      "out_of_domain": false
+    },
+    {
+      "intent": "institutional_manager_due_diligence",
+      "primary": {
+        "id": "R03",
+        "name": "investment-manager-due-diligence-reviewer",
+        "path": "skills/asset-management/investment-manager-due-diligence-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy household contract plus explicit institutional policy/mandate/manager diligence mode; no manager appointment",
+        "native_mode": "institutional"
+      },
+      "supporting": [
+        {
+          "id": "K10",
+          "name": "performance-composite-reviewer",
+          "path": "skills/asset-management/performance-composite-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Monthly supplied membership review; no complete composite/GIPS compliance assessment"
+        },
+        {
+          "id": "K11",
+          "name": "private-fund-performance-analyzer",
+          "path": "skills/asset-management/private-fund-performance-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied private-fund DPI/RVPI/TVPI and bounded conventional dated XIRR; no PME or reporting certification"
+        },
+        {
+          "id": "O07",
+          "name": "fund-service-provider-oversight-reviewer",
+          "path": "skills/asset-management/fund-service-provider-oversight-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied service-provider SLA, issue and assurance review; no control effectiveness certification"
+        },
+        {
+          "id": "G01",
+          "name": "investment-regulatory-obligation-reviewer",
+          "path": "skills/asset-management/investment-regulatory-obligation-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination"
+        }
+      ],
+      "subject_types": [
+        "manager_candidate",
+        "mandate",
+        "investor"
+      ],
+      "overlay_requirements": "Explicit institutional mode: mandate/policy criteria, organization/process/risk/operations, fees and supplied track record. Default remains legacy household US/USD.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "private_credit_review",
+      "primary": {
+        "id": "R07",
+        "name": "private-credit-investment-reviewer",
+        "path": "skills/asset-management/private-credit-investment-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied private-credit debt, EBITDA, coverage and maturity analysis; no legal default determination"
+      },
+      "supporting": [
+        {
+          "id": "R05",
+          "name": "private-investment-due-diligence-reviewer",
+          "path": "skills/asset-management/private-investment-due-diligence-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied private-deal sources/uses, ownership and scenario diligence; no valuation opinion or transaction approval"
+        },
+        {
+          "id": "X03",
+          "name": "credit-document-terms-reviewer",
+          "path": "skills/investment-research/credit-document-terms-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Already-extracted candidate text review; no OCR/legal interpretation"
+        },
+        {
+          "id": "X04",
+          "name": "issuer-credit-surveillance-reviewer",
+          "path": "skills/investment-research/issuer-credit-surveillance-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied corporate EBITDA credit surveillance; not sovereign/structured-credit research"
+        },
+        {
+          "id": "K05",
+          "name": "portfolio-cashflow-forecaster",
+          "path": "skills/asset-management/portfolio-cashflow-forecaster",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied dated flows and scenario ladder; uncertain commitment pacing not implemented"
+        }
+      ],
+      "subject_types": [
+        "security",
+        "issuer",
+        "portfolio"
+      ],
+      "overlay_requirements": "Approved loan terms and covenant definitions; no automatic legal interpretation/servicing",
+      "out_of_domain": false
+    },
+    {
+      "intent": "private_fund_performance",
+      "primary": {
+        "id": "K11",
+        "name": "private-fund-performance-analyzer",
+        "path": "skills/asset-management/private-fund-performance-analyzer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied private-fund DPI/RVPI/TVPI and bounded conventional dated XIRR; no PME or reporting certification"
+      },
+      "supporting": [
+        {
+          "id": "O01",
+          "name": "fund-valuation-oversight-reviewer",
+          "path": "skills/asset-management/fund-valuation-oversight-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied pricing-exception review; complete valuation governance remains planned"
+        },
+        {
+          "id": "S03",
+          "name": "private-fund-capital-activity-reviewer",
+          "path": "skills/asset-management/private-fund-capital-activity-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied per-investor commitments, calls, distributions, reinstatements and unfunded/cash rollforward; no notices or payments"
+        },
+        {
+          "id": "S05",
+          "name": "private-fund-waterfall-reviewer",
+          "path": "skills/asset-management/private-fund-waterfall-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Explicit European whole-fund capital return, supplied preferred entitlement and residual LP/GP split; no catch-up, legal interpretation or payment"
+        },
+        {
+          "id": "S06",
+          "name": "private-fund-financing-reviewer",
+          "path": "skills/asset-management/private-fund-financing-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Subscription/NAV facility credit bases, exact covenants and declared simple accrual; no facility execution or legal covenant opinion"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "investor"
+      ],
+      "overlay_requirements": "Explicit investor_net mode: dated LP cash flows, supplied residual value and basis; DPI/RVPI/TVPI and conventional XIRR. PME and facility-effect attribution are not implemented.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "private_capital_activity_and_pacing",
+      "primary": {
+        "id": "S03",
+        "name": "private-fund-capital-activity-reviewer",
+        "path": "skills/asset-management/private-fund-capital-activity-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied per-investor commitments, calls, distributions, reinstatements and unfunded/cash rollforward; no notices or payments"
+      },
+      "supporting": [
+        {
+          "id": "S04",
+          "name": "private-capital-commitment-planner",
+          "path": "skills/asset-management/private-capital-commitment-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Deterministic supplied private-capital call/distribution/commitment pacing scenarios and cash/unfunded rollforward; no stochastic forecast"
+        },
+        {
+          "id": "S05",
+          "name": "private-fund-waterfall-reviewer",
+          "path": "skills/asset-management/private-fund-waterfall-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Explicit European whole-fund capital return, supplied preferred entitlement and residual LP/GP split; no catch-up, legal interpretation or payment"
+        },
+        {
+          "id": "K05",
+          "name": "portfolio-cashflow-forecaster",
+          "path": "skills/asset-management/portfolio-cashflow-forecaster",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied dated flows and scenario ladder; uncertain commitment pacing not implemented"
+        },
+        {
+          "id": "O06",
+          "name": "fund-investor-operations-reviewer",
+          "path": "skills/asset-management/fund-investor-operations-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied dealing cutoff, eligibility/evidence and indicative units/cash review; no acceptance or transfer-agent action"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "investor"
+      ],
+      "overlay_requirements": "Actual capital activity and uncertain commitment pacing are distinct requested jobs",
+      "out_of_domain": false
+    },
+    {
+      "intent": "nav_discrepancy",
+      "primary": {
+        "id": "O03",
+        "name": "fund-nav-control-reviewer",
+        "path": "skills/asset-management/fund-nav-control-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Seven supplied component tie-outs; does not calculate or release NAV/share"
+      },
+      "supporting": [
+        {
+          "id": "O02",
+          "name": "fund-accounting-preparer",
+          "path": "skills/asset-management/fund-accounting-preparer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Balanced journal/trial-balance workpapers, ACT/365 accruals and supplied class-NAV benchmark review; no pricing, posting or NAV strike"
+        },
+        {
+          "id": "O04",
+          "name": "investment-book-reconciler",
+          "path": "skills/asset-management/investment-book-reconciler",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied position/cash reconciliation; not full IBOR/ABOR platform"
+        },
+        {
+          "id": "O01",
+          "name": "fund-valuation-oversight-reviewer",
+          "path": "skills/asset-management/fund-valuation-oversight-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied pricing-exception review; complete valuation governance remains planned"
+        },
+        {
+          "id": "O05",
+          "name": "investment-asset-servicing-reviewer",
+          "path": "skills/asset-management/investment-asset-servicing-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied cash-dividend/split entitlement and due/received reconciliation; no election or asset movement"
+        },
+        {
+          "id": "O06",
+          "name": "fund-investor-operations-reviewer",
+          "path": "skills/asset-management/fund-investor-operations-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied dealing cutoff, eligibility/evidence and indicative units/cash review; no acceptance or transfer-agent action"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "share_class"
+      ],
+      "overlay_requirements": "Share class, currency, accounting basis, cutoff and control totals; current skill does not prepare NAV",
+      "out_of_domain": false
+    },
+    {
+      "intent": "institutional_rfp",
+      "primary": {
+        "id": "B04",
+        "name": "institutional-proposal-responder",
+        "path": "skills/asset-management/institutional-proposal-responder",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy DDQ plus explicit institutional rfp mode with evidence, ownership, eligibility and commercial gaps; no submission",
+        "native_mode": "rfp"
+      },
+      "supporting": [
+        {
+          "id": "B06",
+          "name": "investment-commentary-builder",
+          "path": "skills/asset-management/investment-commentary-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied reconciled figures and approved-message commentary; no performance engine"
+        },
+        {
+          "id": "B07",
+          "name": "fund-fact-sheet-builder",
+          "path": "skills/asset-management/fund-fact-sheet-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Source-bound product-fact selection; no rendering or performance engine"
+        },
+        {
+          "id": "B08",
+          "name": "investment-investor-report-builder",
+          "path": "skills/asset-management/investment-investor-report-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Source-supported institutional investor capital/performance report draft; no performance certification"
+        },
+        {
+          "id": "K10",
+          "name": "performance-composite-reviewer",
+          "path": "skills/asset-management/performance-composite-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Monthly supplied membership review; no complete composite/GIPS compliance assessment"
+        },
+        {
+          "id": "G02",
+          "name": "investment-disclosure-reviewer",
+          "path": "skills/asset-management/investment-disclosure-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Exact approved source claims/disclosures and matched performance presentation checks; internal draft only, no publication or legal certification"
+        }
+      ],
+      "subject_types": [
+        "manager",
+        "fund",
+        "mandate"
+      ],
+      "overlay_requirements": "Explicit rfp mode: structured sourced questions, owner, eligibility, commercial terms and approval gaps; no document extraction or submission.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "product_lifecycle_economics",
+      "primary": {
+        "id": "B02",
+        "name": "investment-product-lifecycle-planner",
+        "path": "skills/asset-management/investment-product-lifecycle-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Source-supported product launch/change/closure gates, costs and payback; no launch approval"
+      },
+      "supporting": [
+        {
+          "id": "B01",
+          "name": "asset-manager-economics-analyzer",
+          "path": "skills/asset-management/asset-manager-economics-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied AUM/flows/market/FX reconciliation, fee mix, capacity and profit scenarios; no enterprise forecast"
+        },
+        {
+          "id": "B03",
+          "name": "investment-distribution-planner",
+          "path": "skills/asset-management/investment-distribution-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied channel eligibility, fee and conflict comparisons; no distribution authorization"
+        },
+        {
+          "id": "O07",
+          "name": "fund-service-provider-oversight-reviewer",
+          "path": "skills/asset-management/fund-service-provider-oversight-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied service-provider SLA, issue and assurance review; no control effectiveness certification"
+        },
+        {
+          "id": "G01",
+          "name": "investment-regulatory-obligation-reviewer",
+          "path": "skills/asset-management/investment-regulatory-obligation-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "manager"
+      ],
+      "overlay_requirements": "Launch/merger/closure of investment products; corporate manager acquisitions belong to banking",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_data_platform",
+      "primary": {
+        "id": "T03",
+        "name": "investment-data-architecture-planner",
+        "path": "skills/asset-management/investment-data-architecture-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "AM grain/lineage and bitemporal sample resolution with declared license/access controls, shared architecture/value methods and optional approved read-only HTTPS gateway client; no source truth certification"
+      },
+      "supporting": [
+        {
+          "id": "T01",
+          "name": "investment-data-quality-reviewer",
+          "path": "skills/asset-management/investment-data-quality-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Native quality and cross-source comparison modes; no live data platform"
+        },
+        {
+          "id": "T02",
+          "name": "investment-reference-data-reviewer",
+          "path": "skills/asset-management/investment-reference-data-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Eight-field reference-data proposals; no complete instrument master"
+        },
+        {
+          "id": "X01",
+          "name": "research-source-indexer",
+          "path": "skills/data-ai-model-governance/research-source-indexer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied source metadata indexing; no retrieval or permission authentication"
+        },
+        {
+          "id": "X02",
+          "name": "investment-record-normalizer",
+          "path": "skills/data-ai-model-governance/investment-record-normalizer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Bounded source-specific JSON normalization"
+        },
+        {
+          "id": null,
+          "name": "solution-architecture-planner",
+          "path": "skills/enterprise-functions-technology/solution-architecture-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Prepare provider-neutral component and interface designs with explicit alternatives, source/tool contracts, access and failure semantics, measured requirement fit and comparable period costs. Use for financial-services workload architecture; no production deployment, fabricated benchmarks or vendor certification."
+        },
+        {
+          "id": null,
+          "name": "data-lineage-documenter",
+          "path": "skills/data-ai-model-governance/data-lineage-documenter",
+          "support_status": "bounded-native",
+          "implementation_scope": "Document end-to-end data lineage, transformations, controls, owners, quality rules, retention, and source-to-output dependencies."
+        },
+        {
+          "id": null,
+          "name": "data-product-value-evaluator",
+          "path": "skills/data-ai-model-governance/data-product-value-evaluator",
+          "support_status": "bounded-native",
+          "implementation_scope": "Evaluate a supplied data provider or product through licensed-purpose evidence, paired outcome-cost comparisons, classification errors, coverage and temporal leakage checks. Use for incremental data-value review; distinguish observed results from projections without selecting a provider or claiming causality."
+        }
+      ],
+      "subject_types": [
+        "platform",
+        "manager"
+      ],
+      "overlay_requirements": "Point-in-time history, IBOR/ABOR, licenses, semantics and source ownership",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_platform_modernization",
+      "primary": {
+        "id": "T04",
+        "name": "investment-platform-modernization-planner",
+        "path": "skills/asset-management/investment-platform-modernization-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "AM platform responsibilities, migration dependencies, exact grain/snapshot reconciliation, parallel-run and recovery/human review gates; no migration or cutover execution"
+      },
+      "supporting": [
+        {
+          "id": "T03",
+          "name": "investment-data-architecture-planner",
+          "path": "skills/asset-management/investment-data-architecture-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "AM grain/lineage and bitemporal sample resolution with declared license/access controls, shared architecture/value methods and optional approved read-only HTTPS gateway client; no source truth certification"
+        },
+        {
+          "id": "T05",
+          "name": "investment-operating-model-planner",
+          "path": "skills/asset-management/investment-operating-model-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "AM service accountability, sourced controls, cohort-bound shared operating measures and transition dependencies; no staffing, provider appointment or operating change"
+        },
+        {
+          "id": null,
+          "name": "solution-architecture-planner",
+          "path": "skills/enterprise-functions-technology/solution-architecture-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Prepare provider-neutral component and interface designs with explicit alternatives, source/tool contracts, access and failure semantics, measured requirement fit and comparable period costs. Use for financial-services workload architecture; no production deployment, fabricated benchmarks or vendor certification."
+        },
+        {
+          "id": null,
+          "name": "procurement-sourcing-assistant",
+          "path": "skills/enterprise-functions-technology/procurement-sourcing-assistant",
+          "support_status": "bounded-native",
+          "implementation_scope": "Prepare requirements, market scans, evaluation criteria, RFP content, bidder comparisons, risk inputs, and decision records."
+        }
+      ],
+      "subject_types": [
+        "platform",
+        "manager"
+      ],
+      "overlay_requirements": "Domain cutover/reconciliation plus shared architecture/security; no deployment authority",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_ai_workflow",
+      "primary": {
+        "id": "T06",
+        "name": "investment-ai-workflow-designer",
+        "path": "skills/asset-management/investment-ai-workflow-designer",
+        "support_status": "bounded-native",
+        "implementation_scope": "AM model/prompt/tool/data-version-bound held-out episode review, scope and fail-closed controls, measured quality/latency/cost and shared automation assessment; no model or business execution"
+      },
+      "supporting": [
+        {
+          "id": "T03",
+          "name": "investment-data-architecture-planner",
+          "path": "skills/asset-management/investment-data-architecture-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "AM grain/lineage and bitemporal sample resolution with declared license/access controls, shared architecture/value methods and optional approved read-only HTTPS gateway client; no source truth certification"
+        },
+        {
+          "id": null,
+          "name": "workflow-automation-assessor",
+          "path": "skills/enterprise-functions-technology/workflow-automation-assessor",
+          "support_status": "bounded-native",
+          "implementation_scope": "Assess a workflow automation candidate using paired same-case observations, control tests and explicit annual volume/cost scenarios. Separate capacity hours from realizable cash, include human review and failure costs, and report quality constraints. No inferred causal uplift or autonomous regulated decision authority."
+        },
+        {
+          "id": null,
+          "name": "ai-evaluation-benchmark-builder",
+          "path": "skills/data-ai-model-governance/ai-evaluation-benchmark-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Create representative task, trigger, regression, safety, robustness, latency, and cost evaluations with baselines and acceptance thresholds."
+        }
+      ],
+      "subject_types": [
+        "platform",
+        "manager",
+        "strategy"
+      ],
+      "overlay_requirements": "Actual data/tool scope, deterministic math and source/audience evaluations; no execution authority",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_regulatory_change",
+      "primary": {
+        "id": "G01",
+        "name": "investment-regulatory-obligation-reviewer",
+        "path": "skills/asset-management/investment-regulatory-obligation-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination"
+      },
+      "supporting": [
+        {
+          "id": "C02",
+          "name": "investment-mandate-reviewer",
+          "path": "skills/asset-management/investment-mandate-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied scoped concentration, restriction and guideline checks; unsupported rules explicit"
+        },
+        {
+          "id": "G02",
+          "name": "investment-disclosure-reviewer",
+          "path": "skills/asset-management/investment-disclosure-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Exact approved source claims/disclosures and matched performance presentation checks; internal draft only, no publication or legal certification"
+        }
+      ],
+      "subject_types": [
+        "manager",
+        "fund",
+        "mandate"
+      ],
+      "overlay_requirements": "Entity/activity/jurisdiction/date and law/guidance/proposal status",
+      "out_of_domain": false
+    },
+    {
+      "intent": "asset_owner_solution",
+      "primary": {
+        "id": "S07",
+        "name": "institutional-investment-solutions-planner",
+        "path": "skills/asset-management/institutional-investment-solutions-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy supplied institutional candidate comparison; explicit dated liability cashflow and discount-factor scenarios with real-asset commitments and liquidity controls; no actuarial certification"
+      },
+      "supporting": [
+        {
+          "id": "C01",
+          "name": "institutional-investment-policy-builder",
+          "path": "skills/asset-management/institutional-investment-policy-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Institutional objectives, allocation range feasibility, liquidity and governance policy draft; no policy adoption"
+        },
+        {
+          "id": "C03",
+          "name": "asset-allocation-planner",
+          "path": "skills/asset-management/asset-allocation-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied long-only asset-class candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+        },
+        {
+          "id": "R03",
+          "name": "investment-manager-due-diligence-reviewer",
+          "path": "skills/asset-management/investment-manager-due-diligence-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy household contract plus explicit institutional policy/mandate/manager diligence mode; no manager appointment",
+          "native_mode": "institutional"
+        },
+        {
+          "id": "K05",
+          "name": "portfolio-cashflow-forecaster",
+          "path": "skills/asset-management/portfolio-cashflow-forecaster",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied dated flows and scenario ladder; uncertain commitment pacing not implemented"
+        },
+        {
+          "id": "S04",
+          "name": "private-capital-commitment-planner",
+          "path": "skills/asset-management/private-capital-commitment-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Deterministic supplied private-capital call/distribution/commitment pacing scenarios and cash/unfunded rollforward; no stochastic forecast"
+        },
+        {
+          "id": "K01",
+          "name": "portfolio-exposure-analyzer",
+          "path": "skills/asset-management/portfolio-exposure-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied NAV and market-value exposures; bounded one-level look-through"
+        }
+      ],
+      "subject_types": [
+        "investor",
+        "mandate",
+        "portfolio"
+      ],
+      "overlay_requirements": "Approved liabilities, spending, delegated authority, managers; no actuarial/pension administration",
+      "out_of_domain": false
+    },
+    {
+      "intent": "household_retirement",
+      "primary": {
+        "id": null,
+        "name": "household-financial-planning-assistant",
+        "path": "skills/wealth-management/household-financial-planning-assistant",
+        "support_status": "bounded-native",
+        "implementation_scope": "Analyze household cash flow, scheduled debt payments, competing goals and shared funding, or run focused goal-progress projections with explicit return and inflation assumptions. Use to prepare a sourced planning discussion and quantify funding conflicts or contribution/date illustrations. Does not choose investments, recommend debt products, approve a plan or transfer money."
+      },
+      "supporting": [],
+      "subject_types": [
+        "investor",
+        "account"
+      ],
+      "overlay_requirements": "Wealth management owns household goals and advice",
+      "out_of_domain": true
+    },
+    {
+      "intent": "asset_manager_stock_valuation",
+      "primary": {
+        "id": null,
+        "name": "coverage-initiation-researcher",
+        "path": "skills/investment-research/coverage-initiation-researcher",
+        "support_status": "bounded-native",
+        "implementation_scope": "Develop an initiating-coverage draft covering business model, industry, competitive position, forecasts, catalysts, risks, valuation, and thesis evidence."
+      },
+      "supporting": [
+        {
+          "id": null,
+          "name": "dcf-modeler",
+          "path": "skills/investment-research/dcf-modeler",
+          "support_status": "bounded-native",
+          "implementation_scope": "Build a source-linked DCF with forecast drivers, WACC, terminal value, enterprise-to-equity bridge, scenarios, sensitivities, and model checks."
+        },
+        {
+          "id": "B01",
+          "name": "asset-manager-economics-analyzer",
+          "path": "skills/asset-management/asset-manager-economics-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied AUM/flows/market/FX reconciliation, fee mix, capacity and profit scenarios; no enterprise forecast"
+        }
+      ],
+      "subject_types": [
+        "issuer",
+        "security"
+      ],
+      "overlay_requirements": "Investment Research owns listed-security analysis; manager economics is supporting input",
+      "out_of_domain": true
+    },
+    {
+      "intent": "manager_corporate_acquisition",
+      "primary": {
+        "id": null,
+        "name": "merger-model-builder",
+        "path": "skills/investment-banking/merger-model-builder",
+        "support_status": "bounded-native",
+        "implementation_scope": "Build accretion or dilution and pro forma ownership analyses covering consideration, financing, synergies, purchase accounting, and sensitivities."
+      },
+      "supporting": [
+        {
+          "id": null,
+          "name": "due-diligence-packager",
+          "path": "skills/investment-banking/due-diligence-packager",
+          "support_status": "bounded-native",
+          "implementation_scope": "Convert data-room documents into an indexed, source-mapped diligence pack with extracted data, issue log, open questions, and model handoffs."
+        }
+      ],
+      "subject_types": [
+        "manager",
+        "issuer"
+      ],
+      "overlay_requirements": "Investment Banking owns corporate acquisition analysis/advisory",
+      "out_of_domain": true
+    },
+    {
+      "intent": "company_laptop_inventory",
+      "primary": null,
+      "supporting": [],
+      "subject_types": [
+        "platform",
+        "manager"
+      ],
+      "overlay_requirements": "Enterprise IT asset management; no suitable AM skill",
+      "out_of_domain": true
+    },
+    {
+      "intent": "institutional_policy",
+      "primary": {
+        "id": "C01",
+        "name": "institutional-investment-policy-builder",
+        "path": "skills/asset-management/institutional-investment-policy-builder",
+        "support_status": "bounded-native",
+        "implementation_scope": "Institutional objectives, allocation range feasibility, liquidity and governance policy draft; no policy adoption"
+      },
+      "supporting": [
+        {
+          "id": "C03",
+          "name": "asset-allocation-planner",
+          "path": "skills/asset-management/asset-allocation-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied long-only asset-class candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+        },
+        {
+          "id": "S07",
+          "name": "institutional-investment-solutions-planner",
+          "path": "skills/asset-management/institutional-investment-solutions-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy supplied institutional candidate comparison; explicit dated liability cashflow and discount-factor scenarios with real-asset commitments and liquidity controls; no actuarial certification"
+        }
+      ],
+      "subject_types": [
+        "institution",
+        "investor",
+        "mandate"
+      ],
+      "overlay_requirements": "Institution type, objectives, liabilities, currency, liquidity and governance.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "asset_allocation",
+      "primary": {
+        "id": "C03",
+        "name": "asset-allocation-planner",
+        "path": "skills/asset-management/asset-allocation-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied long-only asset-class candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+      },
+      "supporting": [
+        {
+          "id": "C01",
+          "name": "institutional-investment-policy-builder",
+          "path": "skills/asset-management/institutional-investment-policy-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Institutional objectives, allocation range feasibility, liquidity and governance policy draft; no policy adoption"
+        },
+        {
+          "id": "R02",
+          "name": "investment-committee-memo-builder",
+          "path": "skills/asset-management/investment-committee-memo-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy private-deal memo plus public-security, manager and allocation modes with sourced scenarios and committee issues",
+          "available_native_modes": [
+            "private-deal",
+            "public-security",
+            "manager",
+            "allocation"
+          ]
+        }
+      ],
+      "subject_types": [
+        "institution",
+        "portfolio",
+        "mandate"
+      ],
+      "overlay_requirements": "Long-only asset-class candidates, annual assumptions/covariance, constraints and supplied scenarios.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "portfolio_construction",
+      "primary": {
+        "id": "C04",
+        "name": "portfolio-construction-analyzer",
+        "path": "skills/asset-management/portfolio-construction-analyzer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied long-only security candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+      },
+      "supporting": [
+        {
+          "id": "C02",
+          "name": "investment-mandate-reviewer",
+          "path": "skills/asset-management/investment-mandate-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied scoped concentration, restriction and guideline checks; unsupported rules explicit"
+        },
+        {
+          "id": "K02",
+          "name": "portfolio-risk-contribution-analyzer",
+          "path": "skills/asset-management/portfolio-risk-contribution-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied covariance annualized-volatility Euler contribution only"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "account",
+        "mandate"
+      ],
+      "overlay_requirements": "Long-only security candidates, covariance, restrictions and explicit engine scope.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "portfolio_rebalancing",
+      "primary": {
+        "id": "C06",
+        "name": "portfolio-rebalancing-planner",
+        "path": "skills/asset-management/portfolio-rebalancing-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Single-currency, common-settlement-date lot-rounded draft rebalancing with fees and cash controls; no orders"
+      },
+      "supporting": [
+        {
+          "id": "C02",
+          "name": "investment-mandate-reviewer",
+          "path": "skills/asset-management/investment-mandate-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied scoped concentration, restriction and guideline checks; unsupported rules explicit"
+        },
+        {
+          "id": "C09",
+          "name": "buy-side-trading-planner",
+          "path": "skills/asset-management/buy-side-trading-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied order-intent participation, quoted costs and evidence/funding readiness; no scheduling, routing or execution"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "account"
+      ],
+      "overlay_requirements": "Single currency, common settlement date, position lots, cash and explicit fees.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "buy_side_trade_planning",
+      "primary": {
+        "id": "C09",
+        "name": "buy-side-trading-planner",
+        "path": "skills/asset-management/buy-side-trading-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied order-intent participation, quoted costs and evidence/funding readiness; no scheduling, routing or execution"
+      },
+      "supporting": [
+        {
+          "id": "C06",
+          "name": "portfolio-rebalancing-planner",
+          "path": "skills/asset-management/portfolio-rebalancing-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Single-currency, common-settlement-date lot-rounded draft rebalancing with fees and cash controls; no orders"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "account"
+      ],
+      "overlay_requirements": "Intent, ADV, participation, quoted fees, settlement and broker/mandate evidence.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "portfolio_performance_measurement",
+      "primary": {
+        "id": "K08",
+        "name": "portfolio-performance-measurer",
+        "path": "skills/asset-management/portfolio-performance-measurer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Linked subperiod TWR, explicitly timed Modified Dietz and bounded conventional dated XIRR; no GIPS certification"
+      },
+      "supporting": [
+        {
+          "id": "K09",
+          "name": "portfolio-performance-attributor",
+          "path": "skills/asset-management/portfolio-performance-attributor",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy single-period Brinson; explicit multiplicative currency, parallel duration/convexity, supplied factor and chronological linking methods, retained residuals and engine-result challenge"
+        },
+        {
+          "id": "K10",
+          "name": "performance-composite-reviewer",
+          "path": "skills/asset-management/performance-composite-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Monthly supplied membership review; no complete composite/GIPS compliance assessment"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "fund",
+        "account"
+      ],
+      "overlay_requirements": "Explicit period, valuation/cash-flow timing and gross/net basis; bounded return methods.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "fund_accounting_preparation",
+      "primary": {
+        "id": "O02",
+        "name": "fund-accounting-preparer",
+        "path": "skills/asset-management/fund-accounting-preparer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Balanced journal/trial-balance workpapers, ACT/365 accruals and supplied class-NAV benchmark review; no pricing, posting or NAV strike"
+      },
+      "supporting": [
+        {
+          "id": "O01",
+          "name": "fund-valuation-oversight-reviewer",
+          "path": "skills/asset-management/fund-valuation-oversight-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied pricing-exception review; complete valuation governance remains planned"
+        },
+        {
+          "id": "O03",
+          "name": "fund-nav-control-reviewer",
+          "path": "skills/asset-management/fund-nav-control-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Seven supplied component tie-outs; does not calculate or release NAV/share"
+        },
+        {
+          "id": "O04",
+          "name": "investment-book-reconciler",
+          "path": "skills/asset-management/investment-book-reconciler",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied position/cash reconciliation; not full IBOR/ABOR platform"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "share_class"
+      ],
+      "overlay_requirements": "Accounting basis, chart/entry versions, approved supplied valuations and external NAV benchmark.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "asset_servicing",
+      "primary": {
+        "id": "O05",
+        "name": "investment-asset-servicing-reviewer",
+        "path": "skills/asset-management/investment-asset-servicing-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied cash-dividend/split entitlement and due/received reconciliation; no election or asset movement"
+      },
+      "supporting": [
+        {
+          "id": "O04",
+          "name": "investment-book-reconciler",
+          "path": "skills/asset-management/investment-book-reconciler",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied position/cash reconciliation; not full IBOR/ABOR platform"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "fund",
+        "account"
+      ],
+      "overlay_requirements": "Event dates, entitlement basis, expected versus received cash/units and source evidence.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "fund_investor_operations",
+      "primary": {
+        "id": "O06",
+        "name": "fund-investor-operations-reviewer",
+        "path": "skills/asset-management/fund-investor-operations-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied dealing cutoff, eligibility/evidence and indicative units/cash review; no acceptance or transfer-agent action"
+      },
+      "supporting": [
+        {
+          "id": "G01",
+          "name": "investment-regulatory-obligation-reviewer",
+          "path": "skills/asset-management/investment-regulatory-obligation-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination"
+        },
+        {
+          "id": "B05",
+          "name": "investment-client-service-preparer",
+          "path": "skills/asset-management/investment-client-service-preparer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied client service obligations, cadence, SLA and issue review; no external delivery"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "investor"
+      ],
+      "overlay_requirements": "Dealing cutoff with explicit timezone, eligibility, share class, approved NAV and evidence gaps.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "fund_provider_oversight",
+      "primary": {
+        "id": "O07",
+        "name": "fund-service-provider-oversight-reviewer",
+        "path": "skills/asset-management/fund-service-provider-oversight-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied service-provider SLA, issue and assurance review; no control effectiveness certification"
+      },
+      "supporting": [
+        {
+          "id": "O03",
+          "name": "fund-nav-control-reviewer",
+          "path": "skills/asset-management/fund-nav-control-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Seven supplied component tie-outs; does not calculate or release NAV/share"
+        }
+      ],
+      "subject_types": [
+        "provider",
+        "fund",
+        "manager"
+      ],
+      "overlay_requirements": "Contracted SLA, dated observations, assurance scope and unresolved issues.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "etf_operations",
+      "primary": {
+        "id": "S02",
+        "name": "etf-operations-reviewer",
+        "path": "skills/asset-management/etf-operations-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy basket arithmetic; explicit multicurrency clean/accrued bond values, one-to-one custom substitutions and source-bound derivative engine result challenge; no basket publication/settlement"
+      },
+      "supporting": [
+        {
+          "id": "S01",
+          "name": "index-portfolio-reviewer",
+          "path": "skills/asset-management/index-portfolio-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied tracking difference/error, weights/cash drift and turnover review; no index licensing or replication optimizer"
+        },
+        {
+          "id": "O05",
+          "name": "investment-asset-servicing-reviewer",
+          "path": "skills/asset-management/investment-asset-servicing-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied cash-dividend/split entitlement and due/received reconciliation; no election or asset movement"
+        },
+        {
+          "id": "O06",
+          "name": "fund-investor-operations-reviewer",
+          "path": "skills/asset-management/fund-investor-operations-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied dealing cutoff, eligibility/evidence and indicative units/cash review; no acceptance or transfer-agent action"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "share_class"
+      ],
+      "overlay_requirements": "ETF basket/version, AP scope, units, cash component and secondary-market observations.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "private_investment_diligence",
+      "primary": {
+        "id": "R05",
+        "name": "private-investment-due-diligence-reviewer",
+        "path": "skills/asset-management/private-investment-due-diligence-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied private-deal sources/uses, ownership and scenario diligence; no valuation opinion or transaction approval"
+      },
+      "supporting": [
+        {
+          "id": "R02",
+          "name": "investment-committee-memo-builder",
+          "path": "skills/asset-management/investment-committee-memo-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy private-deal memo plus public-security, manager and allocation modes with sourced scenarios and committee issues",
+          "available_native_modes": [
+            "private-deal",
+            "public-security",
+            "manager",
+            "allocation"
+          ]
+        },
+        {
+          "id": "R07",
+          "name": "private-credit-investment-reviewer",
+          "path": "skills/asset-management/private-credit-investment-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied private-credit debt, EBITDA, coverage and maturity analysis; no legal default determination"
+        }
+      ],
+      "subject_types": [
+        "security",
+        "fund",
+        "portfolio"
+      ],
+      "overlay_requirements": "Private-deal terms, ownership, valuation assumptions, debt and transaction scenarios.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "private_investment_monitoring",
+      "primary": {
+        "id": "R06",
+        "name": "private-investment-monitor",
+        "path": "skills/asset-management/private-investment-monitor",
+        "support_status": "bounded-native",
+        "implementation_scope": "Dated private-investment KPI, covenant, event and cash-runway monitoring; no autonomous surveillance"
+      },
+      "supporting": [
+        {
+          "id": "R07",
+          "name": "private-credit-investment-reviewer",
+          "path": "skills/asset-management/private-credit-investment-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied private-credit debt, EBITDA, coverage and maturity analysis; no legal default determination"
+        }
+      ],
+      "subject_types": [
+        "security",
+        "fund",
+        "portfolio"
+      ],
+      "overlay_requirements": "Dated KPI/covenant source history, events, thresholds and cash runway.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "systematic_research_review",
+      "primary": {
+        "id": "R04",
+        "name": "systematic-investment-research-reviewer",
+        "path": "skills/asset-management/systematic-investment-research-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy supplied experiment review; explicit walk-forward label/feature chronology, embargo, historical universe and cost-path controls; no backtest or significance engine"
+      },
+      "supporting": [
+        {
+          "id": "C04",
+          "name": "portfolio-construction-analyzer",
+          "path": "skills/asset-management/portfolio-construction-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied long-only security candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+        }
+      ],
+      "subject_types": [
+        "strategy",
+        "portfolio"
+      ],
+      "overlay_requirements": "Point-in-time split/embargo, reuse, trials, turnover and cost assumptions.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "private_fund_waterfall",
+      "primary": {
+        "id": "S05",
+        "name": "private-fund-waterfall-reviewer",
+        "path": "skills/asset-management/private-fund-waterfall-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Explicit European whole-fund capital return, supplied preferred entitlement and residual LP/GP split; no catch-up, legal interpretation or payment"
+      },
+      "supporting": [
+        {
+          "id": "S03",
+          "name": "private-fund-capital-activity-reviewer",
+          "path": "skills/asset-management/private-fund-capital-activity-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied per-investor commitments, calls, distributions, reinstatements and unfunded/cash rollforward; no notices or payments"
+        },
+        {
+          "id": "K11",
+          "name": "private-fund-performance-analyzer",
+          "path": "skills/asset-management/private-fund-performance-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied private-fund DPI/RVPI/TVPI and bounded conventional dated XIRR; no PME or reporting certification"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "investor"
+      ],
+      "overlay_requirements": "Explicit European whole-fund terms and supplied preferred entitlement; unsupported features require an engine.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_distribution",
+      "primary": {
+        "id": "B03",
+        "name": "investment-distribution-planner",
+        "path": "skills/asset-management/investment-distribution-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied channel eligibility, fee and conflict comparisons; no distribution authorization"
+      },
+      "supporting": [
+        {
+          "id": "B02",
+          "name": "investment-product-lifecycle-planner",
+          "path": "skills/asset-management/investment-product-lifecycle-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Source-supported product launch/change/closure gates, costs and payback; no launch approval"
+        },
+        {
+          "id": "G02",
+          "name": "investment-disclosure-reviewer",
+          "path": "skills/asset-management/investment-disclosure-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Exact approved source claims/disclosures and matched performance presentation checks; internal draft only, no publication or legal certification"
+        }
+      ],
+      "subject_types": [
+        "manager",
+        "fund",
+        "product"
+      ],
+      "overlay_requirements": "Audience/jurisdiction/channel eligibility, approved terms, fees and conflicts.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_client_service",
+      "primary": {
+        "id": "B05",
+        "name": "investment-client-service-preparer",
+        "path": "skills/asset-management/investment-client-service-preparer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied client service obligations, cadence, SLA and issue review; no external delivery"
+      },
+      "supporting": [
+        {
+          "id": "B08",
+          "name": "investment-investor-report-builder",
+          "path": "skills/asset-management/investment-investor-report-builder",
+          "support_status": "bounded-native",
+          "implementation_scope": "Source-supported institutional investor capital/performance report draft; no performance certification"
+        }
+      ],
+      "subject_types": [
+        "manager",
+        "mandate",
+        "investor"
+      ],
+      "overlay_requirements": "Institutional service obligations, approved content, SLA and unresolved items.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_investor_reporting",
+      "primary": {
+        "id": "B08",
+        "name": "investment-investor-report-builder",
+        "path": "skills/asset-management/investment-investor-report-builder",
+        "support_status": "bounded-native",
+        "implementation_scope": "Source-supported institutional investor capital/performance report draft; no performance certification"
+      },
+      "supporting": [
+        {
+          "id": "K08",
+          "name": "portfolio-performance-measurer",
+          "path": "skills/asset-management/portfolio-performance-measurer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Linked subperiod TWR, explicitly timed Modified Dietz and bounded conventional dated XIRR; no GIPS certification"
+        },
+        {
+          "id": "G02",
+          "name": "investment-disclosure-reviewer",
+          "path": "skills/asset-management/investment-disclosure-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Exact approved source claims/disclosures and matched performance presentation checks; internal draft only, no publication or legal certification"
+        }
+      ],
+      "subject_types": [
+        "fund",
+        "investor",
+        "mandate"
+      ],
+      "overlay_requirements": "Approved sources, performance/capital basis, target audience and disclosure review.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_disclosure_review",
+      "primary": {
+        "id": "G02",
+        "name": "investment-disclosure-reviewer",
+        "path": "skills/asset-management/investment-disclosure-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Exact approved source claims/disclosures and matched performance presentation checks; internal draft only, no publication or legal certification"
+      },
+      "supporting": [
+        {
+          "id": "G01",
+          "name": "investment-regulatory-obligation-reviewer",
+          "path": "skills/asset-management/investment-regulatory-obligation-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination"
+        }
+      ],
+      "subject_types": [
+        "manager",
+        "fund",
+        "product"
+      ],
+      "overlay_requirements": "Exact approved claims, paired gross/net performance and explicit disclosures.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "public_security_committee",
+      "primary": {
+        "id": "R02",
+        "name": "investment-committee-memo-builder",
+        "path": "skills/asset-management/investment-committee-memo-builder",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy private-deal memo plus public-security, manager and allocation modes with sourced scenarios and committee issues",
+        "native_mode": "public-security"
+      },
+      "supporting": [
+        {
+          "id": "C04",
+          "name": "portfolio-construction-analyzer",
+          "path": "skills/asset-management/portfolio-construction-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied long-only security candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+        }
+      ],
+      "subject_types": [
+        "security",
+        "portfolio"
+      ],
+      "overlay_requirements": "Public-security thesis, valuation/scenarios, sizing and committee owner; public-security mode.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "manager_committee",
+      "primary": {
+        "id": "R02",
+        "name": "investment-committee-memo-builder",
+        "path": "skills/asset-management/investment-committee-memo-builder",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy private-deal memo plus public-security, manager and allocation modes with sourced scenarios and committee issues",
+        "native_mode": "manager"
+      },
+      "supporting": [
+        {
+          "id": "R03",
+          "name": "investment-manager-due-diligence-reviewer",
+          "path": "skills/asset-management/investment-manager-due-diligence-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Legacy household contract plus explicit institutional policy/mandate/manager diligence mode; no manager appointment",
+          "native_mode": "institutional"
+        }
+      ],
+      "subject_types": [
+        "manager_candidate",
+        "mandate"
+      ],
+      "overlay_requirements": "Manager evidence, policy comparisons, fee/capacity and committee owner; manager mode.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "allocation_committee",
+      "primary": {
+        "id": "R02",
+        "name": "investment-committee-memo-builder",
+        "path": "skills/asset-management/investment-committee-memo-builder",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy private-deal memo plus public-security, manager and allocation modes with sourced scenarios and committee issues",
+        "native_mode": "allocation"
+      },
+      "supporting": [
+        {
+          "id": "C03",
+          "name": "asset-allocation-planner",
+          "path": "skills/asset-management/asset-allocation-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied long-only asset-class candidate feasibility, covariance/scenario arithmetic and engine-result binding; no optimizer"
+        }
+      ],
+      "subject_types": [
+        "portfolio",
+        "institution",
+        "mandate"
+      ],
+      "overlay_requirements": "Institutional allocation scenarios, risk/liquidity and committee owner; allocation mode.",
+      "out_of_domain": false
+    },
+    {
+      "intent": "investment_operating_model",
+      "primary": {
+        "id": "T05",
+        "name": "investment-operating-model-planner",
+        "path": "skills/asset-management/investment-operating-model-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "AM service accountability, sourced controls, cohort-bound shared operating measures and transition dependencies; no staffing, provider appointment or operating change"
+      },
+      "supporting": [
+        {
+          "id": null,
+          "name": "operations-performance-analyzer",
+          "path": "skills/finance-operations/operations-performance-analyzer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Reconcile a complete work-episode snapshot across an observed UTC window, calculate queue flows, completed-cohort cost and cycle-time measures, SLA illustrations and labor utilization. Use for service operations performance review; no causal improvement claim, legal deadline inference or staffing action."
+        },
+        {
+          "id": "T04",
+          "name": "investment-platform-modernization-planner",
+          "path": "skills/asset-management/investment-platform-modernization-planner",
+          "support_status": "bounded-native",
+          "implementation_scope": "AM platform responsibilities, migration dependencies, exact grain/snapshot reconciliation, parallel-run and recovery/human review gates; no migration or cutover execution"
+        },
+        {
+          "id": "O07",
+          "name": "fund-service-provider-oversight-reviewer",
+          "path": "skills/asset-management/fund-service-provider-oversight-reviewer",
+          "support_status": "bounded-native",
+          "implementation_scope": "Supplied service-provider SLA, issue and assurance review; no control effectiveness certification"
+        }
+      ],
+      "subject_types": [
+        "manager",
+        "platform"
+      ],
+      "overlay_requirements": "Observed service/cohort, retained accountable owner, maker/checker controls and transition evidence; no operating or staffing change",
+      "out_of_domain": false
+    },
+    {
+      "intent": "derivatives_implementation",
+      "primary": {
+        "id": "C10",
+        "name": "portfolio-hedge-reviewer",
+        "path": "skills/asset-management/portfolio-hedge-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy supplied linear hedge estimates; explicit advanced-derivatives full-book/scenario PV and Greeks via versioned supplied engine and independent benchmark; no nonlinear local pricer",
+        "native_extension": "advanced-derivatives"
+      },
+      "supporting": [],
+      "subject_types": [
+        "portfolio",
+        "fund",
+        "strategy"
+      ],
+      "overlay_requirements": "Specialized derivatives methods and approved pricing/risk engines remain Phase 4; no implementation or trading authority",
+      "out_of_domain": false
+    },
+    {
+      "intent": "portfolio_transition",
+      "primary": {
+        "id": "C08",
+        "name": "portfolio-transition-planner",
+        "path": "skills/asset-management/portfolio-transition-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied staged cash-equity/ETF schedules, aggregate participation, deliverable shares, conservative settlement cash and costs; no optimization/execution"
+      },
+      "supporting": [],
+      "subject_types": [
+        "portfolio"
+      ],
+      "overlay_requirements": "Supplied staged cash-equity/ETF schedules, aggregate participation, deliverable shares, conservative settlement cash and costs; no optimization/execution",
+      "out_of_domain": false
+    },
+    {
+      "intent": "securities_financing",
+      "primary": {
+        "id": "K07",
+        "name": "securities-financing-reviewer",
+        "path": "skills/asset-management/securities-financing-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied lending/repo haircut versus initial-margin basis, collateral inventory, constant-basis accrual, recall and funding checks; no booking or pricing engine"
+      },
+      "supporting": [],
+      "subject_types": [
+        "portfolio"
+      ],
+      "overlay_requirements": "Supplied lending/repo haircut versus initial-margin basis, collateral inventory, constant-basis accrual, recall and funding checks; no booking or pricing engine",
+      "out_of_domain": false
+    },
+    {
+      "intent": "private_fund_financing",
+      "primary": {
+        "id": "S06",
+        "name": "private-fund-financing-reviewer",
+        "path": "skills/asset-management/private-fund-financing-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Subscription/NAV facility credit bases, exact covenants and declared simple accrual; no facility execution or legal covenant opinion"
+      },
+      "supporting": [],
+      "subject_types": [
+        "fund"
+      ],
+      "overlay_requirements": "Subscription/NAV facility credit bases, exact covenants and declared simple accrual; no facility execution or legal covenant opinion",
+      "out_of_domain": false
+    },
+    {
+      "intent": "private_fund_restructuring",
+      "primary": {
+        "id": "S08",
+        "name": "private-fund-restructuring-reviewer",
+        "path": "skills/asset-management/private-fund-restructuring-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "LP-led secondary proceeds and GP-led continuation election/expense reconciliation; supplied conflicts, valuation and consent evidence; no transaction approval"
+      },
+      "supporting": [],
+      "subject_types": [
+        "fund"
+      ],
+      "overlay_requirements": "LP-led secondary proceeds and GP-led continuation election/expense reconciliation; supplied conflicts, valuation and consent evidence; no transaction approval",
+      "out_of_domain": false
+    },
+    {
+      "intent": "tokenized_fund_operations",
+      "primary": {
+        "id": "S09",
+        "name": "tokenized-fund-operations-reviewer",
+        "path": "skills/asset-management/tokenized-fund-operations-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Distinct legal register, token native units, wallet/custody and omnibus reconciliation, supplied finality/transfer restrictions; no token transfer or legal-register certification"
+      },
+      "supporting": [],
+      "subject_types": [
+        "fund"
+      ],
+      "overlay_requirements": "Distinct legal register, token native units, wallet/custody and omnibus reconciliation, supplied finality/transfer restrictions; no token transfer or legal-register certification",
+      "out_of_domain": false
+    },
+    {
+      "intent": "sustainability_mandate",
+      "primary": {
+        "id": "G05",
+        "name": "sustainability-mandate-reviewer",
+        "path": "skills/asset-management/sustainability-mandate-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Supplied long-only weighted sustainability metrics, denominator/coverage/vintage/estimate and exclusion controls; no ESG rating or legal compliance certification"
+      },
+      "supporting": [],
+      "subject_types": [
+        "mandate"
+      ],
+      "overlay_requirements": "Supplied long-only weighted sustainability metrics, denominator/coverage/vintage/estimate and exclusion controls; no ESG rating or legal compliance certification",
+      "out_of_domain": false
+    },
+    {
+      "intent": "specialist_attribution",
+      "primary": {
+        "id": "K09",
+        "name": "portfolio-performance-attributor",
+        "path": "skills/asset-management/portfolio-performance-attributor",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy single-period Brinson; explicit multiplicative currency, parallel duration/convexity, supplied factor and chronological linking methods, retained residuals and engine-result challenge",
+        "native_extension": "specialist-attribution"
+      },
+      "supporting": [],
+      "subject_types": [
+        "portfolio"
+      ],
+      "overlay_requirements": "Legacy single-period Brinson; explicit multiplicative currency, parallel duration/convexity, supplied factor and chronological linking methods, retained residuals and engine-result challenge",
+      "out_of_domain": false
+    },
+    {
+      "intent": "walk_forward_research",
+      "primary": {
+        "id": "R04",
+        "name": "systematic-investment-research-reviewer",
+        "path": "skills/asset-management/systematic-investment-research-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy supplied experiment review; explicit walk-forward label/feature chronology, embargo, historical universe and cost-path controls; no backtest or significance engine",
+        "native_extension": "walk-forward"
+      },
+      "supporting": [],
+      "subject_types": [
+        "strategy"
+      ],
+      "overlay_requirements": "Legacy supplied experiment review; explicit walk-forward label/feature chronology, embargo, historical universe and cost-path controls; no backtest or significance engine",
+      "out_of_domain": false
+    },
+    {
+      "intent": "specialized_etf_basket",
+      "primary": {
+        "id": "S02",
+        "name": "etf-operations-reviewer",
+        "path": "skills/asset-management/etf-operations-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy basket arithmetic; explicit multicurrency clean/accrued bond values, one-to-one custom substitutions and source-bound derivative engine result challenge; no basket publication/settlement",
+        "native_extension": "specialized-basket"
+      },
+      "supporting": [],
+      "subject_types": [
+        "fund"
+      ],
+      "overlay_requirements": "Legacy basket arithmetic; explicit multicurrency clean/accrued bond values, one-to-one custom substitutions and source-bound derivative engine result challenge; no basket publication/settlement",
+      "out_of_domain": false
+    },
+    {
+      "intent": "institutional_liability_real_assets",
+      "primary": {
+        "id": "S07",
+        "name": "institutional-investment-solutions-planner",
+        "path": "skills/asset-management/institutional-investment-solutions-planner",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy supplied institutional candidate comparison; explicit dated liability cashflow and discount-factor scenarios with real-asset commitments and liquidity controls; no actuarial certification",
+        "native_extension": "liability-real-assets"
+      },
+      "supporting": [],
+      "subject_types": [
+        "institution"
+      ],
+      "overlay_requirements": "Legacy supplied institutional candidate comparison; explicit dated liability cashflow and discount-factor scenarios with real-asset commitments and liquidity controls; no actuarial certification",
+      "out_of_domain": false
+    },
+    {
+      "intent": "jurisdiction_profile_comparison",
+      "primary": {
+        "id": "G01",
+        "name": "investment-regulatory-obligation-reviewer",
+        "path": "skills/asset-management/investment-regulatory-obligation-reviewer",
+        "support_status": "bounded-native",
+        "implementation_scope": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination",
+        "native_extension": "jurisdiction-profile-comparison"
+      },
+      "supporting": [],
+      "subject_types": [
+        "manager"
+      ],
+      "overlay_requirements": "Legacy supplied obligation mapping; explicit entity/activity/product/investor/territory jurisdiction profiles and primary-source bindings; no legal applicability determination",
+      "out_of_domain": false
+    }
+  ]
+}

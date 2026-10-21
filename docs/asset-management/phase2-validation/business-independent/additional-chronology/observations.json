@@ -1,0 +1,104 @@
+[
+  {
+    "case": "economics",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "skills/asset-management/asset-manager-economics-analyzer/scripts/calculate_or_transform.py",
+      "docs/asset-management/phase2-validation/business-independent/additional-chronology/economics-input.json"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "observed": {
+      "closing_aum": "315000000.000000",
+      "annualized_revenue": "1050000.000000",
+      "annualized_profit": "390000.000000"
+    },
+    "expectation": "Completed actual event or performance period after knowledge cutoff must not be treated as known completed observation. Source claims remain synthetic, not forecasts."
+  },
+  {
+    "case": "service",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "skills/asset-management/investment-client-service-preparer/scripts/calculate_or_transform.py",
+      "docs/asset-management/phase2-validation/business-independent/additional-chronology/service-input.json"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "observed": [
+      {
+        "id": "MONTHLY",
+        "owner": "Client service",
+        "next_due": "2026-10-20",
+        "overdue": false,
+        "evidence": {
+          "source_ref": "forward-source-3",
+          "claim_id": "claim-3",
+          "version": "independent-synthetic-v1",
+          "as_of": "2026-09-15",
+          "known_at": "2026-09-15",
+          "source_truth": "unverified"
+        }
+      }
+    ],
+    "expectation": "Completed actual event or performance period after knowledge cutoff must not be treated as known completed observation. Source claims remain synthetic, not forecasts."
+  },
+  {
+    "case": "investor-report",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "skills/asset-management/investment-investor-report-builder/scripts/calculate_or_transform.py",
+      "docs/asset-management/phase2-validation/business-independent/additional-chronology/investor-report-input.json"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "observed": {
+      "fund_net_return": "0.040000",
+      "benchmark_return": "0.030000",
+      "arithmetic_excess": "0.010000",
+      "relative_return": "0.009709",
+      "benchmark_id": "TOTAL-RETURN-INDEX",
+      "benchmark_basis": "total-return",
+      "method": "supplied-time-weighted-return",
+      "evidence": {
+        "source_ref": "forward-source-1",
+        "claim_id": "claim-1",
+        "version": "independent-synthetic-v1",
+        "as_of": "2026-09-15",
+        "known_at": "2026-09-15",
+        "source_truth": "unverified"
+      },
+      "fund_gross_return": "0.050000"
+    },
+    "expectation": "Completed actual event or performance period after knowledge cutoff must not be treated as known completed observation. Source claims remain synthetic, not forecasts."
+  },
+  {
+    "case": "institutional-dd",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "skills/asset-management/investment-manager-due-diligence-reviewer/scripts/calculate_or_transform.py",
+      "docs/asset-management/phase2-validation/business-independent/additional-chronology/institutional-dd-input.json"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "observed": {
+      "manager_return": "0.070000",
+      "benchmark_return": "0.060000",
+      "arithmetic_excess": "0.010000",
+      "benchmark_id": "MANAGER-INDEX",
+      "period_end": "2026-09-20",
+      "evidence": {
+        "source_ref": "forward-source-9",
+        "claim_id": "claim-9",
+        "version": "independent-synthetic-v1",
+        "as_of": "2026-09-15",
+        "known_at": "2026-09-15",
+        "source_truth": "unverified"
+      }
+    },
+    "expectation": "Completed actual event or performance period after knowledge cutoff must not be treated as known completed observation. Source claims remain synthetic, not forecasts."
+  }
+]

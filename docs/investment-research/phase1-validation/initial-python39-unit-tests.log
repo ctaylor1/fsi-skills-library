@@ -1,0 +1,65 @@
+..........................................................................F................................................................................................................................................................EE...................................................................................................................................E..........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+======================================================================
+ERROR: test_credit_exact_horizon_excludes_past_and_beyond_boundary (test_asset_management_research_phase1.ResearchPhase1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 153, in test_credit_exact_horizon_excludes_past_and_beyond_boundary
+    m=self.compute(n,d)['metrics'];self.assertEqual(30,m['near_term_maturities']);self.assertEqual(900,m['past_due_maturities'][0]['amount'])
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 45, in compute
+    return getattr(load(name, 'calculate_or_transform.py'), PACKAGES[name][0])(self.request(name) if doc is None else doc)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py", line 377, in assemble
+    _validated_input(doc)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py", line 373, in _validated_input
+    if errors: raise ValueError("; ".join(errors))
+ValueError: invalid native input: maturity.instrument_id must be a non-empty string
+
+======================================================================
+ERROR: test_credit_prior_financial_source_is_covered (test_asset_management_research_phase1.ResearchPhase1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 161, in test_credit_prior_financial_source_is_covered
+    out=self.compute(n,d);self.assertTrue(any(a['source_id']=='UNKNOWN' and not a['source_reference_resolved'] for a in out['assertions']))
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 45, in compute
+    return getattr(load(name, 'calculate_or_transform.py'), PACKAGES[name][0])(self.request(name) if doc is None else doc)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py", line 377, in assemble
+    _validated_input(doc)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py", line 373, in _validated_input
+    if errors: raise ValueError("; ".join(errors))
+ValueError: invalid native input: unknown source_id UNKNOWN
+
+======================================================================
+ERROR: test_operations_measurements_map_into_paired_automation (test_insurance_phase4.Phase4Integration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_insurance_phase4.py", line 101, in test_operations_measurements_map_into_paired_automation
+    for case,measured in zip(target['data']['cases'],source['results']['completed_episodes'],strict=True):
+TypeError: zip() takes no keyword arguments
+
+======================================================================
+FAIL: test_exposure_complete_country_and_exempt_assets (test_asset_management_investment_phase1.InvestmentPhase1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_investment_phase1.py", line 114, in test_exposure_complete_country_and_exempt_assets
+    self.assertEqual(100, sum(b["pct"] for b in out["exposures"]["country"]))
+AssertionError: 100 != 99.99999999999999
+
+======================================================================
+FAIL: test_all_21_packages_work_in_standalone_copies (test_insurance_phase3.Phase3Integration) (name='insurance-experience-study-builder')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_insurance_phase3.py", line 80, in test_all_21_packages_work_in_standalone_copies
+    output = self.calculate(name, self.fixture(name), target)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_insurance_phase3.py", line 41, in calculate
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/var/folders/dg/4dnc0v5d0vg_v97qdpt22y500000gn/T/insurance-p3-standalone-eorrscot/insurance-experience-study-builder/scripts/calculate_or_transform.py", line 3, in <module>
+    from domain import evaluate, validate
+  File "/private/var/folders/dg/4dnc0v5d0vg_v97qdpt22y500000gn/T/insurance-p3-standalone-eorrscot/insurance-experience-study-builder/scripts/domain.py", line 4, in <module>
+    from itertools import pairwise
+ImportError: cannot import name 'pairwise' from 'itertools' (unknown location)
+
+
+----------------------------------------------------------------------
+Ran 972 tests in 139.967s
+
+FAILED (failures=2, errors=3)

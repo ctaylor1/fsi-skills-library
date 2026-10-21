@@ -1,0 +1,57 @@
+from pathlib import Path
+import hashlib,json,subprocess,ast
+P=Path('/private/tmp/ir-reconciliation-forward-independent')
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def load(p):return json.loads(p.read_text())
+def dump(p,v):p.write_text(json.dumps(v,indent=2)+'\n')
+m=load(P/'snapshot_manifest.json');records=load(P/'execution_records.json');design=load(P/'case_design.json');case_map={x['case_id']:x for x in records};e=load(P/'independent_expectations.json');a=load(P/'assertion_results.json')
+for skill,meta in m['packages'].items():meta['package_tree_digest']=hashlib.sha256(json.dumps(meta['files'],sort_keys=True,separators=(',',':')).encode()).hexdigest()
+dump(P/'package_tree_digests.json',{skill:meta['package_tree_digest'] for skill,meta in m['packages'].items()})
+lines=['# Independent synthetic credit review and draft','',
+'**Bounded outcome:** PASS for the two fresh supplied-evidence baselines, 18 independently designed adverse or boundary intake cases, and four output-reconstruction mutations. This is synthetic internal research, with no source authentication or professional acceptance.','',
+'## Draft for analyst review','',
+'As of 2026-10-20, using a knowledge cutoff of 22:00 UTC, Orion Industrial Holdings has reported nine-month EBITDA of USD 84 million and carrying gross debt of USD 438 million. The supplied complete debt inventory identifies one USD note with contractual principal of USD 450 million and a source-bound carrying-value bridge of −12 million. The bridge reconciles exactly to carrying debt; principal has not been substituted for accounting debt.','',
+'Reported gross leverage is 5.2143x, net leverage is 4.7619x and interest coverage is 7.00x. The supplied adjustment ledger selects both distinct components of restructuring event R (+7 and +5 million) once and the separate signed event B (−4 million), giving a net +8 million adjustment and EBITDA of 92 million. On that adjusted denominator, gross leverage is 4.7609x, net leverage is 4.3478x and interest coverage is 7.6667x. This adjustment remains an analyst supplied-evidence treatment whose economic justification and recurrence require review. Operating cash flow less capex is 42 million, and FFO/debt is 9.5890%.','',
+'On reported comparable nine-month periods, net leverage increased from 3.7000x to 4.7619x (+1.0619x) and interest coverage declined from 10.00x to 7.00x (−3.00x). Both exceed the supplied 0.25x change thresholds. Gross leverage increased from 4.20x to 5.2143x (+1.0143x); the native alert configuration specifically emits net leverage, interest coverage and spread alerts. The EBITDA-minus-mandatory-capex over interest proxy fell from 8.50x to 5.4167x. It is not DSCR or covenant compliance.','',
+'Supplied cash plus committed facilities over known near-term maturities declined from 0.8750x to 0.7556x, using inventories explicitly supplied as complete. The current numerator is 68 million versus 90 million of known maturities. That comparison does not establish funding access, full liquidity sufficiency or a maturity-by-maturity funding plan.','',
+'The identified note’s supplied OAS increased from 125.25 bps at 2026-10-19 18:00 UTC to 167.75 bps at 2026-10-20 19:00 UTC, a 42.50 bps widening above the supplied 40 bps threshold. Current age at cutoff is three hours, inside the eight-hour desk policy. Distinct quote source versions were known at 18:30 UTC on October 19 and 19:30 UTC on October 20. The supplied filing mapping covers the same USD note and issuing entity from 2019-01-01 through 2030-12-31, covering both quote instants. The selected quote evidence and exact mapping are retained in the output.','',
+'The supported draft therefore records deterioration in reported leverage, interest coverage, the fixed-charge proxy, the supplied liquidity proxy and OAS. It assigns no rating, changes no thesis, recommends no position, and grants no publication, credit-approval, trade or system-of-record authority. No covenant headroom, recovery value or legal-priority conclusion is established.','',
+'## Independent execution and evidence review','',
+'- Inputs were freshly authored from the supplied raw facts; the raw facts and independent rational calculations were saved before native execution. Fixture input envelopes were used solely to learn field structure. No expected-output or golden answer was interpreted.','- Native packages were copied and hash-frozen only after the parent confirmed the published contracts were ready. The packages are issuer-credit-researcher 0.2.0 and issuer-credit-surveillance-reviewer 0.4.0; their common output method_version remains the analytical-contract version 2.0.0.','- Each public input validator and compute command ran against the frozen package. Every computable output was checked by the public output validator with a separately retained, byte-identical detached original. Detached originals were set read-only.','- Twenty intake runs comprise two baselines plus 18 adverse or boundary cases. Eighteen computations returned JSON and all 18 reconstructed. Duplicate native adjustment ID and a timezone-naive quote were controlled input/compute rejections. No source or package runtime was imported into the independent expectation calculations.','- The initial independent audit harness assumed errors were written to stdout. Surveillance writes its compute error to stderr; the harness was corrected to inspect both streams. The native rejection was already controlled. This harness correction changed no native package or case.','- All 138 independent arithmetic/control/hash assertions passed. Four altered outputs failed public reconstruction: a changed leverage ratio, dropped reconciliation event, extra approval field and changed selected quote source version.','',
+'## Case outcomes','',
+'| Case | Adverse or boundary change | Actual outcome |','|---|---|---|']
+for d in design:
+ r=case_map[d['case_id']]
+ if r['compute_exit']:
+  outcome='Controlled input/compute rejection; no analytical JSON'
+ else:
+  out=load(P/'cases'/d['case_id']/'output.json');res=out['results']
+  if d['case_id'].startswith('I'):
+   rec=res['evidence_reconciliation'];outcome='Partial; '+('adjusted EBITDA and ratios withheld; reported metrics retained' if rec['ebitda_adjustments']['status']=='unavailable' else 'debt-dependent ratios withheld; EBITDA/interest/FCF retained')
+  elif d['case_id']=='S01':outcome='Complete for supplied scope; +42.5 bps retained at exactly 8 hours'
+  elif d['case_id']=='S08':outcome='Partial; entire result/lineage/citation/source projection suppressed'
+  else:outcome='Partial; spread/evidence context/alert withheld; financial metrics retained'
+ lines.append('| '+d['case_id']+' | '+d['change']+' | '+outcome+' |')
+lines += ['',
+'## Semantic limits and review gates','',
+'The retained source blocks are synthetic supplied evidence authored for this test. Quote ledgers, source registers, event keys, debt inclusion and inventory-completeness declarations are assertions whose internal consistency was exercised; the software did not open or authenticate a filing, check a licensed market feed, establish rights, or inspect the truth of the source text. A copied or fabricated assertion can remain internally consistent if a caller also fabricates the source register and canonical identities. Event alias detection only works on the supplied stable economic key and target issuer; it does not discover undeclared real-world aliases.','',
+'The input envelope and raw source blocks were manually reconciled for the material financial amounts, signed event components, identified principal/bridge, source versions and known times, quote instants and values, and mapping period. That supplies a synthetic transcription review, not real source-content authentication. The two native drafts were executed independently; no governed inter-skill adapter or automatic handoff was claimed.','',
+'Completeness remains supplied-scope completeness. Corporate EBITDA formulas do not establish sector-wide suitability, rating methodology, a complete capital structure, legal enforceability, covenant interpretation, refinancing access, a credit decision or professional/institutional acceptance. All outputs retain supplied-not-authenticated, source_truth=unverified, professional_acceptance=not-established, authority_granted=false and action_taken=false.','',
+'These purposive cases are bounded engineering evidence, not a statistical evaluation or practitioner-acceptance study. No failure was observed within this suite; untested combinations remain open. Responsible analyst and institutional reviewers remain responsible for source authentication and entitlements, economic event identity, adjustment rationale, accounting perimeter/carrying-value bridge, credit-document interpretation and professional acceptance.','',
+'## Artifact and package binding','',
+'- Raw facts: `raw_facts.json`; independent source blocks: `raw_source_blocks.json`; pre-execution expectations: `independent_expectations.json`; pre-execution case plan: `case_design.json`.','- Per-case input, read-only detached original, output, raw compute stream and command transcripts: `cases/<case-id>/`.','- Package snapshot and full-file hashes: `snapshot/`, `snapshot_manifest.json`, `package_tree_digests.json`.','- Execution summary: `execution_records.json`; independent assertions: `assertion_results.json`; reconstruction probes and transcripts: `mutations/`.','- Readback and whole-experiment file hashes: `readback_verification.json`, `artifact_index.json`.','',
+'| Package | Version | Frozen package tree digest |','|---|---|---|']
+for skill,item in m['packages'].items():lines.append('| '+skill+' | '+item['package_version']+' | `'+item['package_tree_digest']+'` |')
+lines += ['','Live repository package contents matched these frozen packages after all execution. All experiment writes stayed under `/private/tmp/ir-reconciliation-forward-independent`. No repository file, external API, web source or external message was changed or used.','']
+(P/'INDEPENDENT_CREDIT_REVIEW.md').write_text('\n'.join(lines))
+# Read saved files back; hash every experiment artifact except self-referential indices.
+files={str(f.relative_to(P)):sha(f) for f in P.rglob('*') if f.is_file() and f.name not in ('artifact_index.json','readback_verification.json')}
+dump(P/'artifact_index.json',{'files':files,'file_count':len(files)})
+jsons=[p for p in P.rglob('*.json') if 'snapshot' not in p.parts]
+for p in jsons:load(p)
+for p in [P/'prepare_design.py',P/'run_independent.py',P/'review_results.py',P/'write_review.py']:ast.parse(p.read_text())
+index=load(P/'artifact_index.json');verified=all(sha(P/name)==digest for name,digest in index['files'].items());assert verified
+report=(P/'INDEPENDENT_CREDIT_REVIEW.md').read_text();assert '42.50 bps' in report and '138' in report and len(design)==18
+readback={'artifact_hash_readback_passed':verified,'indexed_file_count':len(files),'json_documents_reopened':len(jsons),'independent_checks_passed':a['passed'],'independent_checks_failed':a['failed'],'report_sha256':sha(P/'INDEPENDENT_CREDIT_REVIEW.md'),'artifact_index_sha256':sha(P/'artifact_index.json'),'snapshot_manifest_sha256':sha(P/'snapshot_manifest.json'),'live_source_packages_equal_frozen':a['package_source_preserved'],'experiment_writes_only_under':str(P)}
+dump(P/'readback_verification.json',readback)
+print(json.dumps(readback,indent=2))

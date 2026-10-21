@@ -1,42 +1,13 @@
-# Source Map — conflicts-of-interest-reviewer
+# Evidence sources and limits
 
-## Source hierarchy (highest first)
+Matter/as-of/config version, subject, cited conflict items, magnitude/MNPI facts, disclosures, scoped controls, approval claims and institution policy configuration. `aggregation_complete` is a supplied evidence assertion. Numeric fields are finite and nonnegative.
 
-| Rank | Source (MCP integration) | Used for | Access |
-| ---- | ------------------------ | -------- | ------ |
-| 1 | **Case management** — the disclosure of record | What was disclosed, to whom, when; recorded controls and approvals | Read-only |
-| 2 | **Regulatory corpus / conflicts policy + code of ethics** (versioned) | Required disclosures, controls, and approvals per conflict type; de-minimis and materiality thresholds | Read-only |
-| 3 | **KYC/AML + entity resolution** | Resolve subject, counterparties, beneficial owners, related parties | Read-only |
-| 4 | **Sanctions / PEP + adverse-media reference** | Enrich counterparty risk context (not adjudication) | Read-only |
-| 5 | **Records archive** | Prior disclosures, prior reviews, register history | Read-only |
-| 6 | Conflicts-policy **config** (versioned) | Thresholds + per-type requirement sets | Read-only |
+1. Establish entity, business activity, jurisdiction, assessment date, authority type and source version before professional interpretation.
+2. Use primary regulatory text and current official status for legal assertions; distinguish binding law/rules, guidance, proposed changes and institution policy.
+3. Institution registries, policy documents and case records supply facts and internal rules. Preserve source locator, relevant text/section, date, version and reviewer context; a reference string alone proves none of these facts.
+4. Missing, stale or conflicting evidence remains unresolved. Never fabricate source excerpts, review decisions, calendar sessions, approvals or jurisdictional applicability.
+5. Human reviewers independently inspect underlying sources. The shared native integrity helper binds **all supplied input** and reconstructs output; it does not authenticate that input or its claims.
 
-Never substitute a subject's assertion for the disclosure record. If the disclosure record and
-an email/CRM note conflict, cite both and flag for the adjudicator; do not resolve silently.
+Read-only connectors may provide approved evidence in a deployment, but none is bundled or assumed available. These scripts operate offline. Native outputs carry source truth as unverified and never embed the complete original input. A separately produced narrative or external handoff requires its own substantive/audience review.
 
-## Citation format
-
-`{system}:{ref}@{date}` — e.g. `coi:matter=COI-2026-0148;item=I-2@2026-07-15`. Every fired
-finding cites the specific disclosure/control/approval rows and the config version behind the
-required-control check.
-
-## Freshness / effective dates
-
-- The policy config (thresholds, per-type requirements) is a **versioned contract**; the
-  output records the `config_version` used so a review is reproducible.
-- Disclosures older than `disclosure_staleness_days` (default 365) are treated as **stale** and
-  count as an open gap until refreshed.
-- Record the `as_of` date; residual risk and gaps are evaluated as of that date.
-
-## Least-privilege operations (deployment)
-
-- `cases.get(matter_id)` → the disclosure record, recorded controls, approvals (masked PII).
-- `policy.requirements('conflicts', version)` → per-type disclosure/control/approval sets.
-- `entity.resolve(subject|counterparty)` → normalized identities, related-party links.
-- `refdata.risk(counterparty)` → sanctions/PEP/adverse-media flags (context only).
-- `config.get('conflicts', version)` → thresholds + requirement sets.
-
-All read-only, deterministic, with a durable `review_id`, below the fixed timeout; page long
-matter histories as resumable stages. This skill performs **no writes** and stages nothing for
-execution — the adjudication, waiver, closure, and any filing are separate, human-authorized
-operations owned by the case-management and approval-broker services.
+Default control checklists are illustrative triage prompts, not jurisdiction-specific law or a verified institution approval matrix. No approvals are authenticated, no mitigation effectiveness assessed, and no matter is cleared, waived, closed, filed or entered into a register.

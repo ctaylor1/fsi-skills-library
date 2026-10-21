@@ -1,5 +1,13 @@
 # Changelog — customer-risk-rating-reviewer
 
+## [0.1.1] — 2026-09-21
+
+Phase 1 repairs the bounded supplied-evidence implementation. Explicit applicable policy profiles replace silent approved defaults; unknown evidence remains unknown. Native output requires detached original-input reconstruction, rejects unvalidated additions and states source truth as unverified.
+
+This is arithmetic reproduction and evidence challenge, not methodology validation, independent factor classification, legal prohibition determination, override authorization or customer lifecycle orchestration. All factor definitions and institutional policy applicability are supplied assertions.
+
+Domain rules, fixtures, handoffs and input/output contracts now match the implementation. Added 24 adversarial regression cases covering policy provenance, source binding and domain failure modes. Source pointers and synthetic fixtures are not independent verification or production acceptance. Human domain/control-owner review and any live integration remain pending. Earlier 0.1.0 claims below are historical and superseded where inconsistent with this entry and current rules.
+
 ## [0.1.0] — 2026-07-17
 Initial authoring in the FSI Skills Library (baseline status: `new`).
 

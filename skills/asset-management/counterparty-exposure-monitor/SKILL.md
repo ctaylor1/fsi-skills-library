@@ -24,14 +24,14 @@ metadata:
   aws-fsi-delivery-wave: "Wave 2 - analytical production"
   aws-fsi-action-mode: "Scheduled read-only; alert only"
   aws-fsi-scheduled-agent: "read-only-monitoring"
-  aws-fsi-baseline-status: "new"
+  aws-fsi-baseline-status: "existing-updated"
   aws-fsi-human-approval: "external-delivery"
   aws-fsi-data-classification: "Highly Confidential (MNPI / client-confidential)"
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Asset Management investment & product"
   aws-fsi-primary-user: "Counterparty risk / treasury / operations"
-  aws-fsi-version: "0.1.0"
-  aws-fsi-recertification-date: "2027-07-17"
+  aws-fsi-version: "0.2.0"
+  aws-fsi-recertification-date: "2027-09-20"
 ---
 
 # Counterparty Exposure Monitor
@@ -60,8 +60,8 @@ stay human.**
 - The user wants a **binding counterparty, credit, or trading decision** → out of scope;
   route to the reviewer and the firm's credit committee.
 - Interactive **exposure composition / driver** analysis → `portfolio-exposure-analyzer`.
-- **Funding / liquidity stress** scenario analysis → `liquidity-stress-analyzer`.
-- **Mandate / IPS guideline** limits (not counterparty credit) → `mandate-compliance-monitor`.
+- **Funding / liquidity stress** scenario analysis → `fund-liquidity-assessor`.
+- **Mandate / IPS guideline** limits (not counterparty credit) → `investment-mandate-reviewer`.
 - Firm-wide market-risk (VaR/greeks) or cross-risk concentration limits →
   `market-risk-limit-monitor` / `concentration-risk-monitor` (Risk Management).
 
@@ -160,3 +160,13 @@ and any external-delivery approval. Never exfiltrate exposure or counterparty da
   rating is not-evaluable for the floor, not an automatic pass.
 - **Thresholds are config**: limits, floors, and widening bands come from the versioned
   register, never tuned to a counterparty at run time.
+
+## Phase 1 executable boundary
+
+Read [the bounded offline contract](references/phase1-contract.md) before running the scripts or relying on a handoff. It states required input evidence, unavailable cases and source-bound validation. Enterprise connectors and review queues described above are deployment interfaces, not implemented integrations.
+
+## Phase 1 support boundary
+
+Supplied exposure/collateral/PFE aggregation; no legal netting or PFE engine
+
+This package performs only its documented local supplied-input operations. Live source access, authenticated permissions, production engines and professional acceptance are separate deployment requirements. Generated resources are pinned in `references/package-manifest.json`; maintain the canonical shared source. Legacy identifiers resolve through the repository migration registry.

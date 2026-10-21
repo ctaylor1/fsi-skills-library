@@ -23,6 +23,7 @@ stderr. Exit 0 if the draft assembles with no blocking flag, 1 otherwise.
 from __future__ import annotations
 import json, sys
 from pathlib import Path
+from native_integrity import attach_source, canonical_hash
 
 # Canonical template sections (must match assets/output-template.md and validate_output.py).
 REQUIRED_SECTIONS = [
@@ -59,7 +60,8 @@ def _assert(claim, source_id, idx):
         "source_id": source_id,
         "source_type": stype,
         "source_ref": (s or {}).get("ref"),
-        "supported": supported,
+        "source_reference_resolved": supported,
+        "verification_status": "unverified-source-assertion",
         "approved_ok": approved_ok,
     }
 
@@ -85,7 +87,7 @@ def _tie_outs(model):
     outs_ev = entry.get("ev")
     add("entry_multiple", entry.get("entry_multiple"),
         (outs_ev / mv) if (mv not in (None, 0) and outs_ev is not None) else None)
-    add("equity_check", entry.get("equity_check"),
+    add("equity_value_proxy", entry.get("equity_value_proxy"),
         (outs_ev - entry.get("net_debt")) if (outs_ev is not None and entry.get("net_debt") is not None) else None)
     ebitda = lev.get("ebitda")
     add("leverage_x", lev.get("leverage_x"),
@@ -160,8 +162,8 @@ def _sections(doc, sizing_chk):
                                  [t.get("source_id") for t in thesis]),
         "transaction_structure": sec(
             f"EV {entry.get('ev')} at {entry.get('entry_multiple')}x {entry.get('metric')} "
-            f"({entry.get('metric_value')}). Net debt {entry.get('net_debt')}; equity check "
-            f"{entry.get('equity_check')}. Total debt {lev.get('total_debt')} = {lev.get('leverage_x')}x EBITDA.",
+            f"({entry.get('metric_value')}). Net debt {entry.get('net_debt')}; equity value proxy (EV less net debt; not sponsor funding) "
+            f"{entry.get('equity_value_proxy')}. Total debt {lev.get('total_debt')} = {lev.get('leverage_x')}x EBITDA.",
             [model.get("source_id")]),
         "valuation": sec(
             f"{val.get('method')}: entry {val.get('entry_multiple')}x vs. peer range "
@@ -187,14 +189,14 @@ def _sections(doc, sizing_chk):
     }
 
 
-def assemble(doc: dict) -> dict:
+def _native_assemble(doc: dict) -> dict:
     idx = _src_index(doc)
     model = doc.get("model") or {}
     sizing = doc.get("sizing") or {}
     val = doc.get("valuation") or {}
 
     # Traceability: one assertion per material claim.
-    assertions = []
+    assertions = [_assert("supplied transaction model", model.get("source_id"), idx)]
     for t in doc.get("thesis_points") or []:
         assertions.append(_assert(t.get("claim"), t.get("source_id"), idx))
     for r in doc.get("risks") or []:
@@ -213,7 +215,7 @@ def assemble(doc: dict) -> dict:
 
     flags = []
     for a in assertions:
-        if not a["supported"]:
+        if not a["source_reference_resolved"]:
             flags.append({"code": "unsupported-claim", "severity": "block",
                           "detail": f"claim {a['claim']!r} cites unknown source {a['source_id']!r}"})
         elif not a["approved_ok"]:
@@ -223,12 +225,14 @@ def assemble(doc: dict) -> dict:
         if not o["ok"]:
             flags.append({"code": "tie-out-break", "severity": "block",
                           "detail": f"{o['metric']} stated {o['memo_value']} != recomputed {o['recomputed']}"})
+    if not all(scen[k] for k in ("has_base", "has_upside", "has_downside")):
+        flags.append({"code": "missing-scenario", "severity": "block", "detail": "base, upside and downside scenarios are all required"})
     if not scen["has_downside"]:
         flags.append({"code": "missing-downside", "severity": "block", "detail": "no downside scenario supplied"})
-    if scen["moic_ordered"] is False or scen["irr_ordered"] is False:
+    if scen["moic_ordered"] is not True or scen["irr_ordered"] is not True:
         flags.append({"code": "scenario-ordering", "severity": "block",
                       "detail": "scenarios not ordered downside <= base <= upside"})
-    if scen["base_ties_model"] is False:
+    if scen["base_ties_model"] is not True:
         flags.append({"code": "base-scenario-mismatch", "severity": "block",
                       "detail": "base scenario does not tie to model returns"})
     if size["position_ties"] is False:
@@ -238,7 +242,7 @@ def assemble(doc: dict) -> dict:
         flags.append({"code": "single-name-breach", "severity": "block",
                       "detail": f"position {size['computed_position_pct']}% exceeds single-name limit {size['single_name_limit_pct']}%"})
     if size["within_sector"] is False:
-        flags.append({"code": "sector-limit-breach", "severity": "warn",
+        flags.append({"code": "sector-limit-breach", "severity": "warn" if sizing.get("sector_limit_type") == "discretionary" else "block",
                       "detail": f"sector exposure post-deal {size['sector_post_pct']}% exceeds limit {size['sector_limit_pct']}% - disclose to committee"})
     if val.get("entry_multiple") is not None and val.get("peer_range_high") is not None \
             and val.get("entry_multiple") > val.get("peer_range_high"):
@@ -275,10 +279,22 @@ def main(argv):
         doc = json.loads(sys.stdin.read())
     memo = assemble(doc)
     print(json.dumps(memo, indent=2))
-    n = len(memo["unresolved"])
+    n = len(memo["unresolved"]) if "unresolved" in memo else 0
     print(f"assembly self-check: {n} error(s)", file=sys.stderr)
     return 1 if n else 0
 
+
+
+
+def assemble(doc: dict) -> dict:
+    # Reject non-JSON and non-finite input before any calculations.
+    canonical_hash(doc)
+    if doc.get('mode') is not None and not isinstance(doc.get('mode'),str): raise ValueError('mode must be text')
+    if doc.get('mode') in {'allocation', 'public-security', 'manager'}:
+        from phase2_domain import compute
+        return compute(doc)
+    if doc.get('mode') not in {None, 'private-deal'}: raise ValueError('unsupported workflow mode')
+    return attach_source(_native_assemble(doc), doc)
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

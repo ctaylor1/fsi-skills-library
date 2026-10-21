@@ -4,6 +4,16 @@ This skill produces a cited **communications-review pack** (`review_id`) with fi
 recommended disposition, then stops. It does not approve, file, close the review, or
 investigate to disposition. Registered-principal adjudication is mandatory.
 
+## Promotion ownership
+
+`financial-promotion-reviewer` owns external cross-sector financial-promotion
+assessment. This Capital Markets package supplies a broker-dealer supervision and
+records screen only when that institutional/jurisdiction profile is applicable.
+Authors in Wealth, Asset Management, Investment Banking, Banking and Insurance
+route external promotions to that primary owner and add this specialist if needed.
+Keep each native schema, evidence version and professional conclusion separate;
+no implicit common handoff or regulatory approval is established by this link.
+
 ## Downstream (route the human/reviewer to)
 
 | Downstream skill | When | Handoff artifact |
@@ -16,9 +26,9 @@ investigate to disposition. Registered-principal adjudication is mandatory.
 
 ## Upstream (may call this skill)
 
-Skills that draft or assemble communications route their draft here for a compliance review
+Skills that draft or assemble communications route external promotion drafts to `financial-promotion-reviewer`, composing this specialist for broker-dealer supervision review
 **before** external delivery or principal approval — for example `advisor-follow-up-assistant`
-(client communications and disclosures), `fund-commentary-drafter` (fund commentary), and
+(client communications and disclosures), `investment-commentary-builder` (fund commentary), and
 `investment-banking-pitch-builder` (pitch material). A scheduled monitor is **not** used here
 (this skill is interactive, `aws-fsi-scheduled-agent: no`).
 

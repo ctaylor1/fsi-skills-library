@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "request_id": "treasury-early-deficit",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank",
+  "requested_action": "analyze",
+  "sources": [
+    {
+      "source_id": "synthetic-ledger",
+      "reference": "Independent fictional treasurer statement, 18 September 2026",
+      "as_of": "2026-09-18"
+    }
+  ],
+  "upstream_issues": [],
+  "data": {
+    "window_start": "2026-09-18T08:00:00-04:00",
+    "window_end": "2026-09-18T12:00:00-04:00",
+    "history_complete": true,
+    "accounts": [
+      {
+        "account_id": "master-A",
+        "entity_id": "Bank-A",
+        "currency": "USD",
+        "rail_profile_id": "US-FEDNOW",
+        "funding_model": "master-account",
+        "snapshot_at": "2026-09-18T08:00:00-04:00",
+        "balance": "1000",
+        "held": "100",
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "event_id": "customer-1",
+        "economic_id": "customer-1-economic",
+        "account_id": "master-A",
+        "entity_id": "Bank-A",
+        "currency": "USD",
+        "kind": "outflow",
+        "certainty": "firm",
+        "due_at": "2026-09-18T09:00:00-04:00",
+        "amount": "900",
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      },
+      {
+        "event_id": "customer-2",
+        "economic_id": "customer-2-economic",
+        "account_id": "master-A",
+        "entity_id": "Bank-A",
+        "currency": "USD",
+        "kind": "settlement-obligation",
+        "certainty": "firm",
+        "due_at": "2026-09-18T09:30:00-04:00",
+        "amount": "200",
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      },
+      {
+        "event_id": "funding-1",
+        "economic_id": "funding-1-economic",
+        "account_id": "master-A",
+        "entity_id": "Bank-A",
+        "currency": "USD",
+        "kind": "inflow",
+        "certainty": "firm",
+        "due_at": "2026-09-18T10:00:00-04:00",
+        "amount": "300",
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      },
+      {
+        "event_id": "optimistic-receipt",
+        "economic_id": "optimistic-receipt-economic",
+        "account_id": "master-A",
+        "entity_id": "Bank-A",
+        "currency": "USD",
+        "kind": "inflow",
+        "certainty": "forecast",
+        "due_at": "2026-09-18T09:15:00-04:00",
+        "amount": "500",
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      }
+    ],
+    "reservations": [
+      {
+        "reservation_id": "hold-1",
+        "account_id": "master-A",
+        "event_id": "customer-1",
+        "currency": "USD",
+        "amount": "300",
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      }
+    ],
+    "funding_windows": [
+      {
+        "window_id": "access-A",
+        "account_id": "master-A",
+        "opens_at": "2026-09-18T08:00:00-04:00",
+        "closes_at": "2026-09-18T12:00:00-04:00",
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      }
+    ],
+    "stress_scenarios": [
+      {
+        "scenario_id": "lost-funding",
+        "rationale": "Contracted incoming funding fails",
+        "remove_inflow_ids": [
+          "funding-1"
+        ],
+        "outflow_multiplier_bps": 10000,
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      },
+      {
+        "scenario_id": "volume-spike",
+        "rationale": "Outgoing obligations rise by 25 percent",
+        "remove_inflow_ids": [],
+        "outflow_multiplier_bps": 12500,
+        "source_ids": [
+          "synthetic-ledger"
+        ]
+      }
+    ]
+  }
+}

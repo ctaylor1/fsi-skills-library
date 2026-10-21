@@ -1,0 +1,592 @@
+{
+  "package": "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/research-quality-reviewer",
+  "code_hashes": {
+    "CHANGELOG.md": "b40f22e618dc6b2bcc44982a347cb92de0890ac40b3d25a284345ce7842705f6",
+    "SKILL.md": "1c6ce6eb8e702e5953af8d88caa3ee3ce883938d40fcfdb5896283baecbbe5cc",
+    "evals/evals.json": "0d87f51b3298ce602eb5a6a5001640c7000d6dbce9dfdfbbe7b6c75fc889a521",
+    "evals/files/bad-input.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "evals/files/input.json": "b1c0f8755ebbe4e034656f5929e3f78df1d33ddc606c83bda5fa8e605f771686",
+    "evals/files/tampered.json": "77be09d551641bf214c326c76faef23376ef7d99712cb152f6a350e24174f49b",
+    "evals/files/valid.json": "c3ec115c90685565107e943d0baf57b9ed1ebf5b4f581a665ce6f53cb379a1c0",
+    "references/controls.md": "e799da49ec20c9e8d0aa7fda1924d4871409a39ca4a325040ae000806779b9e3",
+    "references/domain-rules.md": "4d2d3ab037a88975c90f12ab449a473170daf10f474289526c88811a527ef816",
+    "references/evidence-standard.md": "c94c9228fd7b24069ff5194897488e0000fb5d848b5c1a29c496bfd631427139",
+    "references/handoffs.md": "d8a12d242d10d74cd5d0bb7055c9abaec1a608b5522eb3e33da786fcd63ca84a",
+    "references/package-manifest.json": "35f33064d01659754854381fdee33f30e4fd0765305dc4d0317b33842467ec49",
+    "references/schema.md": "2a4aba6522e8f315489b641a220434e5d782cb7ed904af6cda12f498bf120db1",
+    "references/source-map.md": "bf890da1f7015db900edaeb99f98d760d1c8d3862191049d35bc784013f3291a",
+    "scripts/analysis_contract.py": "624a393578dfd551da0f38a5e01757058a9e9227cdef273ed7d1d31bb5ac3b6a",
+    "scripts/calculate_or_transform.py": "d1e4dc0fb77d70158262274ad6f89d3520fa873421b7e91bf8e6dd1ca6f82d7b",
+    "scripts/domain.py": "dfdcda67bce7557493b3f2ad41b3c15c5b6c2827e52e1259a075251d445abac7",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/research_runtime.py": "6392c44e4ee188c0e99a9ac631ef2a19c26b7be63dd6b6087fc47127ead5ec22",
+    "scripts/validate_input.py": "77ef36b0b2d107d6619531249a8ac130a798d896f9b5ea702dc42bed18516154",
+    "scripts/validate_output.py": "edbf237361a4ef8f02885ab008ea40f4d2a1b50ea1fcd15378a0f6f970c5c882"
+  },
+  "results": [
+    {
+      "case": "base",
+      "exit_code": 0,
+      "input_hash": "100b0bfd7d19e48fc3d803d3d5242fb7d523d068e995a2aab699b313cbc759f9",
+      "output_hash": "e8206d296540161b4c2f5e11dab70181e116a9cc408127137f78d371fb32c728",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "review-required",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": 160.0,
+          "reported_value": 160,
+          "residual": 0.0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": 112,
+          "reported_value": 112,
+          "residual": 0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        }
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "wrong-closing",
+      "exit_code": 0,
+      "input_hash": "53b018087eab9a020c4489fc1247f1baf84c6e9a543c6afe89e77829127657ff",
+      "output_hash": "cc63bc20df5e69973fd7dd4366e74e65690f41c3476c7f7d7e2c5f643d483b66",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "blocked",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": 160.0,
+          "reported_value": 160,
+          "residual": 0.0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": 112,
+          "reported_value": 113,
+          "residual": 1,
+          "within_tolerance": false,
+          "unavailable_reason": null
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        },
+        {
+          "finding_id": "qa-2",
+          "severity": "critical",
+          "check": "arithmetic",
+          "subject_id": "closing-bridge",
+          "message": "Reported arithmetic differs from independent recomputation beyond supplied tolerance.",
+          "adjudication_status": "open"
+        }
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "missing-risk",
+      "exit_code": 0,
+      "input_hash": "a89a173331b30409c61cb33d6dfa2a079f1dfe809d4f9204c1dd8b1fefbde0c0",
+      "output_hash": "1e0f3f3d99ff9fb8175e14e0950d94ba91c389bc28871f79e26ae4936a00c8c9",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "blocked",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": 160.0,
+          "reported_value": 160,
+          "residual": 0.0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": 112,
+          "reported_value": 112,
+          "residual": 0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "critical",
+          "check": "risks",
+          "subject_id": "funding-risk",
+          "message": "Requested risks coverage is missing or has no supporting claims.",
+          "adjudication_status": "open"
+        },
+        {
+          "finding_id": "qa-2",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        }
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "unavailable-cash",
+      "exit_code": 0,
+      "input_hash": "6b65c773dba26250543fb4e1da50d7a69d552821fbd8a506499ba95ed918359b",
+      "output_hash": "26dd8d6c6b50d095fa5fb6005a76cce7b4a60c6a1f6c09355bdbe3c7f3102250",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "blocked",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": 160.0,
+          "reported_value": 160,
+          "residual": 0.0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": null,
+          "reported_value": 112,
+          "residual": null,
+          "within_tolerance": false,
+          "unavailable_reason": "Missing numeric input; no zero substitution is permitted."
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        },
+        {
+          "finding_id": "qa-2",
+          "severity": "critical",
+          "check": "arithmetic",
+          "subject_id": "closing-bridge",
+          "message": "Missing numeric input; no zero substitution is permitted.",
+          "adjudication_status": "open"
+        }
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "mismatched-units",
+      "exit_code": 0,
+      "input_hash": "f4e8f380aa4437024b30f1150f050f1a03e275c1e1ecef3ef7ba242a14b26761",
+      "output_hash": "77bfa5045bc181bbdf755276b948f01c3b39316a3d3e9d9e8e930764a930c9ef",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "blocked",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": null,
+          "reported_value": 160,
+          "residual": null,
+          "within_tolerance": false,
+          "unavailable_reason": "Operand currency, units, period or accounting basis differ."
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": 112,
+          "reported_value": 112,
+          "residual": 0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        },
+        {
+          "finding_id": "qa-2",
+          "severity": "critical",
+          "check": "arithmetic",
+          "subject_id": "before-payments",
+          "message": "Operand currency, units, period or accounting basis differ.",
+          "adjudication_status": "open"
+        },
+        {
+          "finding_id": "qa-3",
+          "severity": "high",
+          "check": "comparability",
+          "subject_id": "cash-context",
+          "message": "Supplied numeric bases differ; no normalization is assumed.",
+          "adjudication_status": "open"
+        }
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "future-fact",
+      "exit_code": 0,
+      "input_hash": "fec779cef4be6e5956079159128fe8e52e8868bdba107f50b5e6a4c90b1a38b9",
+      "output_hash": "f996488eec7eb0ad50a9ead815f5e04ede534bca8be29bf73ac491e25748913e",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "blocked",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": 160.0,
+          "reported_value": 160,
+          "residual": 0.0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": null,
+          "reported_value": 112,
+          "residual": null,
+          "within_tolerance": false,
+          "unavailable_reason": "Reported result basis differs from additive operands."
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "critical",
+          "check": "claim_evidence",
+          "subject_id": "closing",
+          "message": "Future economic period labeled as fact; classify the supplied forecast explicitly.",
+          "adjudication_status": "open"
+        },
+        {
+          "finding_id": "qa-2",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        },
+        {
+          "finding_id": "qa-3",
+          "severity": "critical",
+          "check": "arithmetic",
+          "subject_id": "closing-bridge",
+          "message": "Reported result basis differs from additive operands.",
+          "adjudication_status": "open"
+        },
+        {
+          "finding_id": "qa-4",
+          "severity": "high",
+          "check": "comparability",
+          "subject_id": "cash-context",
+          "message": "Supplied numeric bases differ; no normalization is assumed.",
+          "adjudication_status": "open"
+        }
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "missing-forecast-assumptions",
+      "exit_code": 1,
+      "input_hash": "fcc736858be441b05993cb40304e90e52b13ddd69ebc1f51f91e59ade22fc127",
+      "output_hash": "fea308163d4f2f3044e1448187b8a3974a5859c83dbe9cbb6f0c9df798c23383",
+      "error": "ERROR: forecast assumptions must not be empty\n"
+    },
+    {
+      "case": "future-source",
+      "exit_code": 0,
+      "input_hash": "e659188355e13cfc22edfdd69a39a5882615f7909c9fc6c985940bd197674a12",
+      "output_hash": "d0408c33921c93c425a5fd54ba574beeff6eda0df613a9e871e9a52c090e5ed8",
+      "status": "partial",
+      "result_withheld": true,
+      "readiness": null,
+      "arithmetic_results": null,
+      "findings": null,
+      "output_validation_exit": 0
+    },
+    {
+      "case": "unresolved-contradiction",
+      "exit_code": 0,
+      "input_hash": "5ab859fa686954b5e3adfaed15f3570f55d502b60c3b1d2be1c8a2598a91df9e",
+      "output_hash": "02848017b854acee36086c28627dc791a40aedf752250a29d7c6dcbe0a3f6e90",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "blocked",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": 160.0,
+          "reported_value": 160,
+          "residual": 0.0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": 112,
+          "reported_value": 112,
+          "residual": 0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        },
+        {
+          "finding_id": "qa-2",
+          "severity": "high",
+          "check": "contradictions",
+          "subject_id": "cash-dispute",
+          "message": "Contradictory claims remain unresolved for this review; supplied resolution requires separate adjudication.",
+          "adjudication_status": "supplied-resolution-pending"
+        }
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "invented-pass",
+      "exit_code": 1,
+      "input_hash": "3025bdc78dc77addc93c18b23407a2354b9d0e16ac15f93f4a520623b527e895",
+      "output_hash": "4432c1b7ceb99aefafb8e1e38e912b1c13f0f5768cf3d8cdbe7b2dd36eca0872",
+      "error": "ERROR: packet contains unsupported fields\n"
+    },
+    {
+      "case": "claim-unbacked",
+      "exit_code": 0,
+      "input_hash": "6e3f7f1f4e0e7e5ffd4d7a279213797d284c59be9d335f88b695437e540d8882",
+      "output_hash": "127243721157900f118c9e021a4ac35768a40d714dd2a60b1e042ee22959c2dd",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "blocked",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": 160.0,
+          "reported_value": 160,
+          "residual": 0.0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": 112,
+          "reported_value": 112,
+          "residual": 0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "high",
+          "check": "claim_evidence",
+          "subject_id": "opening",
+          "message": "Claim has no supplied evidence references.",
+          "adjudication_status": "open"
+        },
+        {
+          "finding_id": "qa-2",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        }
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "incomplete-inventory",
+      "exit_code": 0,
+      "input_hash": "f704f1a57850165162007f3644eb0fb5d964c52408448eec61cd763f9c4422b5",
+      "output_hash": "9cc910d9c60b16d65866f394fc6d891e735a453b63953a62a84d09c5aaec77a8",
+      "status": "partial",
+      "result_withheld": false,
+      "readiness": "blocked",
+      "arithmetic_results": [
+        {
+          "check_id": "before-payments",
+          "operation": "sum",
+          "operand_claim_ids": [
+            "opening",
+            "inflow"
+          ],
+          "reported_claim_id": "pre-outflow",
+          "recomputed_value": 160.0,
+          "reported_value": 160,
+          "residual": 0.0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        },
+        {
+          "check_id": "closing-bridge",
+          "operation": "difference",
+          "operand_claim_ids": [
+            "pre-outflow",
+            "outflow"
+          ],
+          "reported_claim_id": "closing",
+          "recomputed_value": 112,
+          "reported_value": 112,
+          "residual": 0,
+          "within_tolerance": true,
+          "unavailable_reason": null
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "qa-1",
+          "severity": "critical",
+          "check": "scope",
+          "subject_id": "inventory",
+          "message": "Supplied packet inventory is explicitly incomplete.",
+          "adjudication_status": "open"
+        },
+        {
+          "finding_id": "qa-2",
+          "severity": "review",
+          "check": "claim_evidence",
+          "subject_id": "judgment",
+          "message": "Judgment rationale and textual evidence entailment require human assessment.",
+          "adjudication_status": "human-assessment-required"
+        }
+      ],
+      "output_validation_exit": 0
+    }
+  ]
+}

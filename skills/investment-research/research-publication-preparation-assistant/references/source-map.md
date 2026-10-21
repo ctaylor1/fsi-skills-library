@@ -1,0 +1,9 @@
+# Source and access contract
+
+The native implementation accepts supplied JSON under [schema](schema.md). It does not retrieve filings, parse PDFs/OCR, query consensus or pricing services, authenticate a provider, or bind the illustrative MCP services from older design notes. No specific provider or subscription is required for supplied-input mode. Real source adapters need institution-owned source IDs, retrieval/knowledge timestamps, evidence retention, use rights, identity/basis mapping and error behavior.
+
+Use issuer filings and executed/controlling documents where relevant, supplied eligible market/estimate snapshots for their specified instrument and vintage, and reported rating-agency opinions for their identified object. Preserve source type, financial/economic date separately from knowledge time, currency, units, accounting/method basis and coverage limits. A reference, caller approval flag or canonical hash does not authenticate facts or establish entitlements.
+
+Never treat unknown rights or applicability as eligibility. Do not convert an unrated note into a rated note to satisfy a scale check. Configuration tokens do not prove disclosures are in the actual note. Restricted-list checking is ticker-specific, not a complete issuer/instrument/cross-entity control. Any jurisdiction/profile conflict requires the institution’s compliance/legal owner; no universal US or cross-border legal default is installed. Published, approved or distributed states are outside this output contract.
+
+Unavailable source, rights, policy or specialist method: keep the supported inventory/factual observations, label missing coverage and withhold dependent conclusions. Do not substitute fixtures, invent references, silently use a current snapshot as a historical vintage, or claim an adjacent reviewer proves its source engine exists.

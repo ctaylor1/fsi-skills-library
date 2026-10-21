@@ -1,0 +1,951 @@
+{
+  "contract_version": "compliance-foundation/2.0",
+  "skill": "financial-crime-case-investigator",
+  "method": "case-flow-evidence/1.0",
+  "request_id": "FWD-MULE",
+  "object_id": "SYN-CASE-911",
+  "object_type": "financial_crime_case",
+  "as_of": "2026-10-03",
+  "knowledge_cutoff": "2026-10-03",
+  "context": {
+    "institution_id": "SYN-RIVERGATE-BANK",
+    "legal_entity_id": "SYN-BANK-NA",
+    "capacity": "institutional-compliance-review",
+    "represented_party": "institution",
+    "object_id": "SYN-CASE-911",
+    "object_type": "financial_crime_case",
+    "jurisdiction": "US",
+    "line_of_business": "commercial-banking",
+    "purpose": "case_investigation"
+  },
+  "role": "decision_support",
+  "classification": "customer_pii",
+  "audience": "internal_review",
+  "status": "draft-for-human-review",
+  "results": {
+    "scope": {
+      "start": "2026-09-01",
+      "end": "2026-09-30",
+      "currencies": [
+        "USD",
+        "EUR"
+      ]
+    },
+    "entities": [
+      {
+        "scope_ref": "SYN-MARA",
+        "entity_id": "SYN-MARA",
+        "identity": "Mara Reed",
+        "evidence_status": "supplied-unverified"
+      }
+    ],
+    "accounts": [
+      {
+        "scope_ref": "SYN-A1",
+        "account_id": "SYN-A1",
+        "entity_id": "SYN-MARA",
+        "identity": "Multicurrency current account SYN-A1",
+        "evidence_status": "supplied-unverified"
+      },
+      {
+        "scope_ref": "SYN-A2",
+        "account_id": "SYN-A2",
+        "entity_id": "SYN-MARA",
+        "identity": "Multicurrency current account SYN-A2",
+        "evidence_status": "supplied-unverified"
+      }
+    ],
+    "flow_links": [
+      {
+        "transaction_id": "T1",
+        "from": "PAYOR-1",
+        "to": "SYN-A1",
+        "currency": "USD",
+        "amount": "4200.10",
+        "date": "2026-09-02",
+        "source_refs": [
+          "transaction-ledger"
+        ]
+      },
+      {
+        "transaction_id": "T2",
+        "from": "PAYOR-2",
+        "to": "SYN-A1",
+        "currency": "USD",
+        "amount": "1800.20",
+        "date": "2026-09-03",
+        "source_refs": [
+          "transaction-ledger"
+        ]
+      },
+      {
+        "transaction_id": "T3",
+        "from": "SYN-A1",
+        "to": "SYN-A2",
+        "currency": "USD",
+        "amount": "3500.00",
+        "date": "2026-09-04",
+        "source_refs": [
+          "transaction-ledger"
+        ]
+      },
+      {
+        "transaction_id": "T4",
+        "from": "SYN-A2",
+        "to": "EQUIPMENT-SUPPLIER",
+        "currency": "USD",
+        "amount": "2800.05",
+        "date": "2026-09-05",
+        "source_refs": [
+          "transaction-ledger"
+        ]
+      },
+      {
+        "transaction_id": "T5",
+        "from": "SYN-A1",
+        "to": "DEPOSIT-PAYOR",
+        "currency": "USD",
+        "amount": "900.00",
+        "date": "2026-09-08",
+        "source_refs": [
+          "transaction-ledger"
+        ]
+      },
+      {
+        "transaction_id": "T6",
+        "from": "PAYOR-3",
+        "to": "SYN-A1",
+        "currency": "EUR",
+        "amount": "2100.15",
+        "date": "2026-09-10",
+        "source_refs": [
+          "transaction-ledger"
+        ]
+      },
+      {
+        "transaction_id": "T7",
+        "from": "SYN-A1",
+        "to": "SYN-A2",
+        "currency": "EUR",
+        "amount": "1000.10",
+        "date": "2026-09-11",
+        "source_refs": [
+          "transaction-ledger"
+        ]
+      },
+      {
+        "transaction_id": "T8",
+        "from": "SYN-A2",
+        "to": "EU-SUPPLIER",
+        "currency": "EUR",
+        "amount": "1900.05",
+        "date": "2026-09-12",
+        "source_refs": [
+          "transaction-ledger"
+        ]
+      }
+    ],
+    "currency_totals": {
+      "USD": {
+        "external_inflow": "6000.30",
+        "external_outflow": "3700.05",
+        "internal_transfer": "3500.00",
+        "unique_turnover": "13200.35",
+        "unquantified_transactions": []
+      },
+      "EUR": {
+        "external_inflow": "2100.15",
+        "external_outflow": "1900.05",
+        "internal_transfer": "1000.10",
+        "unique_turnover": "5000.30",
+        "unquantified_transactions": []
+      }
+    },
+    "proceeds_amount": null,
+    "proceeds_status": "unknown-no-tracing-or-illicit-origin-method",
+    "chronology": [
+      {
+        "date": "2026-09-03",
+        "event": "Second third-party receipt credited"
+      }
+    ],
+    "hypotheses": [
+      {
+        "hypothesis_id": "mule",
+        "proposition": "Rapid unrelated receipts and payouts may indicate pass-through mule activity",
+        "proposition_status": "analyst-hypothesis",
+        "support": [
+          "Multiple unrelated third-party receipts are followed by supplier payouts within days"
+        ],
+        "counterevidence": [
+          "Group equipment-purchase invoice and reimbursement schedule identify several payors",
+          "The 900 USD outflow is a documented return of refundable deposit"
+        ],
+        "conclusion": "human-assessment-required"
+      },
+      {
+        "hypothesis_id": "innocent",
+        "proposition": "Customer may be organizing a legitimate shared equipment purchase",
+        "proposition_status": "analyst-hypothesis",
+        "support": [
+          "Invoices identify equipment and a reimbursement schedule"
+        ],
+        "counterevidence": [
+          "Independent payor and supplier confirmation is not supplied"
+        ],
+        "conclusion": "human-assessment-required"
+      }
+    ],
+    "investigative_plan": [
+      {
+        "step_id": "confirm-docs",
+        "question": "Can independently supplied invoices and payor identities explain the exact receipts and payouts?",
+        "hypothesis_ids": [
+          "mule",
+          "innocent"
+        ],
+        "execution": "not_performed"
+      }
+    ],
+    "narrative_propositions": [
+      "No FX method or illicit-origin tracing evidence was supplied"
+    ],
+    "disposition": "human-owned",
+    "reportability": "human-owned"
+  },
+  "unresolved_issues": [],
+  "claim_bindings": [
+    {
+      "native_input_pointer": "/data/entities/0/id_evidence",
+      "source_refs": [
+        "customer-file"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-1"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/entities/0/identity",
+      "source_refs": [
+        "customer-file"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-2"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/0/id_evidence",
+      "source_refs": [
+        "account-register"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-3"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/0/entity_evidence",
+      "source_refs": [
+        "account-register"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-4"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/0/identity",
+      "source_refs": [
+        "account-register"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-5"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/1/id_evidence",
+      "source_refs": [
+        "account-register"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-6"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/1/entity_evidence",
+      "source_refs": [
+        "account-register"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-7"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/accounts/1/identity",
+      "source_refs": [
+        "account-register"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-8"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/id_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-9"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-10"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/currency_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-11"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/from_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-12"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/to_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-13"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/0/amount",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-14"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/id_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-15"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-16"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/currency_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-17"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/from_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-18"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/to_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-19"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/1/amount",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-20"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/id_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-21"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-22"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/currency_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-23"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/from_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-24"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/to_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-25"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/2/amount",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-26"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/3/id_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-27"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/3/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-28"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/3/currency_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-29"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/3/from_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-30"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/3/to_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-31"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/3/amount",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-32"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/4/id_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-33"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/4/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-34"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/4/currency_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-35"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/4/from_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-36"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/4/to_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-37"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/4/amount",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-38"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/5/id_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-39"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/5/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-40"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/5/currency_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-41"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/5/from_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-42"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/5/to_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-43"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/5/amount",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-44"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/6/id_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-45"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/6/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-46"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/6/currency_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-47"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/6/from_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-48"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/6/to_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-49"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/6/amount",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-50"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/7/id_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-51"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/7/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-52"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/7/currency_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-53"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/7/from_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-54"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/7/to_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-55"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/transactions/7/amount",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-56"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/support/0",
+      "source_refs": [
+        "referral"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-57"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/counterevidence/0",
+      "source_refs": [
+        "customer-explanation"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-58"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/0/counterevidence/1",
+      "source_refs": [
+        "deposit-record"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-59"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/1/support/0",
+      "source_refs": [
+        "customer-explanation"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-60"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/hypotheses/1/counterevidence/0",
+      "source_refs": [
+        "investigator-workpaper"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-61"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/date_evidence",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-62"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/chronology/0/event",
+      "source_refs": [
+        "transaction-ledger"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-63"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    },
+    {
+      "native_input_pointer": "/data/narrative_propositions/0",
+      "source_refs": [
+        "investigator-workpaper"
+      ],
+      "fact_ids": [
+        "FWD-MULE-fact-64"
+      ],
+      "consistency": "exact-supplied-fact",
+      "issues": []
+    }
+  ],
+  "limitations": [
+    "Distinct case investigation; not scenario replay. Turnover counts each supplied unique transaction once; internal transfers are not fresh proceeds. No FX conversion, tracing attribution, guilt or reportability conclusion.",
+    "Supplied source/fact/profile and reviewer identities are not authenticated.",
+    "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+    "Professional applicability, acceptance and operational authority remain human-owned."
+  ],
+  "source_refs": [
+    "customer-file",
+    "account-register",
+    "transaction-ledger",
+    "referral",
+    "customer-explanation",
+    "deposit-record",
+    "investigator-workpaper"
+  ],
+  "source_assurance": "supplied-unverified",
+  "handoffs": [
+    "suspicious-activity-report-drafter",
+    "sanctions-exposure-reviewer",
+    "enhanced-due-diligence-assessor"
+  ],
+  "draft": true,
+  "human_review_required": true,
+  "action_taken": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "f851927561302ed0b6f835601c8d8d652005e17b57bca6d162d59d3b99567335",
+  "source_truth": "unverified"
+}

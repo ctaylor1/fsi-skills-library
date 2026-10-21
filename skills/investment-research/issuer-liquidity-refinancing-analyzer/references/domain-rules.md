@@ -1,0 +1,5 @@
+# Method and limitations
+
+Start with unrestricted cash; exclude restricted cash. On each supplied date add signed operating flow, subtract mandatory capex, interest and scheduled principal. Add eligible committed, supplied-condition-satisfied capacity only once at its availability date; assumed refinancing enters only the assumption/stress scenarios. Stress multiplies negative operating flow and haircuts facilities/refinancing. Maximum gap is the largest deficit to minimum cash, including the opening balance. Facilities are shown as fully drawn potential resources and incremental modeled draw repayment follows an explicit supplied repayment_date; unknown repayment terms exclude capacity. Facility interest and fees must be included explicitly in cash_flows and are not inferred. All flows net within a date; intraday ordering is unsupported. Incomplete maturity/cash data precludes a sufficiency conclusion.
+
+Software checks establish finite arithmetic and exact reconstruction only. Domain, legal and institutional acceptance remain not established.

@@ -1,0 +1,144 @@
+{
+  "case_id": "CH-DATA-SOURCE-AUDITED",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "Owen Diaz",
+    "represented_party": "Cedar Harbor Mutual (fictional)",
+    "object_id": "FNOL-SANDBOX",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "commercial-property"
+  },
+  "sources": [
+    {
+      "source_ref": "REV-4",
+      "version": "4",
+      "as_of": "2026-09-19",
+      "locator": "raw-sources.json#review_register"
+    },
+    {
+      "source_ref": "DICT-2",
+      "version": "2",
+      "as_of": "2026-09-18",
+      "locator": "raw-sources.json#data_dictionary"
+    }
+  ],
+  "unresolved_issues": [
+    "Raw DICT-2 states intended purpose but does not explicitly affirm purpose review or sample inventory completeness."
+  ],
+  "data": {
+    "profile": {
+      "profile_id": "CH-design-review",
+      "version": "4",
+      "reviewed_by": "Owen Diaz",
+      "source_refs": [
+        "REV-4"
+      ],
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "commercial-property"
+      ],
+      "effective_from": "2026-09-01",
+      "effective_to": "2026-09-30",
+      "method": "insurance-temporal-data-contract-v1"
+    },
+    "valid_on": "2026-07-01",
+    "known_on": "2026-06-10",
+    "sample_inventory_complete": null,
+    "purpose": "Reproduce draft claim-policy context at loss date and knowledge cutoff",
+    "owner": "Owen Diaz",
+    "grain": "one assertion per exact namespaced entity, field, valid interval and recording date",
+    "retention_rule": "Synthetic acceptance artifacts retained through owner review; production retention undecided",
+    "entities": [
+      {
+        "entity_id": "policy:CH-20",
+        "entity_type": "policy",
+        "identity_namespace": "PolicySandbox",
+        "source_key": "CH-20",
+        "source_refs": [
+          "DICT-2"
+        ]
+      },
+      {
+        "entity_id": "claim:CL-9",
+        "entity_type": "claim",
+        "identity_namespace": "ClaimsSandbox",
+        "source_key": "CL-9",
+        "source_refs": [
+          "DICT-2"
+        ]
+      }
+    ],
+    "fields": [
+      {
+        "field_id": "policy.form_code",
+        "entity_type": "policy",
+        "definition": "Exact form edition code issued on this policy; not coverage interpretation",
+        "unit": "form code",
+        "source_system": "PolicySandbox",
+        "source_field": "PolicySandbox.form_edition",
+        "transformation": "identity string, preserve edition suffix",
+        "owner": "Owen Diaz",
+        "classification": "synthetic",
+        "access_rule": "named data and claims sandbox reviewers only",
+        "quality_rule": "nonblank exact edition code",
+        "version": "2",
+        "purpose_reviewed": null,
+        "required": true,
+        "source_refs": [
+          "DICT-2"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "relation_id": "CLAIM-POLICY",
+        "from_type": "claim",
+        "to_type": "policy",
+        "definition": "Each claim references exactly one supplied policy; many claims may reference the same policy",
+        "cardinality": "many-to-one",
+        "source_refs": [
+          "DICT-2"
+        ]
+      }
+    ],
+    "links": [
+      {
+        "link_id": "CL9-CH20",
+        "relation_id": "CLAIM-POLICY",
+        "left_entity_id": "claim:CL-9",
+        "right_entity_id": "policy:CH-20",
+        "source_refs": [
+          "DICT-2"
+        ]
+      }
+    ],
+    "records": [
+      {
+        "record_id": "A1",
+        "entity_id": "policy:CH-20",
+        "field_id": "policy.form_code",
+        "valid_from": "2026-01-01",
+        "valid_to": "2026-06-01",
+        "recorded_on": "2026-01-02",
+        "value": "CP-2025",
+        "source_refs": [
+          "DICT-2"
+        ]
+      },
+      {
+        "record_id": "A2",
+        "entity_id": "policy:CH-20",
+        "field_id": "policy.form_code",
+        "valid_from": "2026-06-01",
+        "valid_to": null,
+        "recorded_on": "2026-06-03",
+        "value": "CP-2026",
+        "source_refs": [
+          "DICT-2"
+        ]
+      }
+    ]
+  }
+}

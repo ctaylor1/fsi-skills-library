@@ -1,0 +1,1086 @@
+{
+  "schema_version": "wealth-p0-v1",
+  "skill": "wealth-lending-liquidity-reviewer",
+  "request_id": "REQ-HH-JADE-LIQUIDITY-2026-09-17",
+  "household_id": "HH-JADE",
+  "as_of": "2026-09-17",
+  "engagement": {
+    "capacity": "advisory",
+    "jurisdiction": "US",
+    "source_ids": [
+      "K5",
+      "K6"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "K5",
+      "reference": "HH-JADE funding request and cash resources, advisor Uma, September 17, 2026; current through September 30",
+      "owner": "Uma",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-09-30"
+    },
+    {
+      "source_id": "K6",
+      "reference": "Loan term sheets and scenario policy, lending liaison Wren, quoted September 17, 2026; valid through September 30",
+      "owner": "Wren",
+      "as_of": "2026-09-17",
+      "valid_until": "2026-09-30"
+    }
+  ],
+  "input_hash": "0f1ffe1e55e58169b6845c993e0dcf9f8fb3da8058f919792ded7193e5b5f4ff",
+  "artifact_id": "wealth-lending-liquidity-reviewer-0f1ffe1e55e58169b684",
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "upstream-unresolved",
+      "message": "No current source authenticates a loan approval or permits drawing.",
+      "path": "upstream_issues[0]",
+      "upstream_artifact_id": "source-packet",
+      "upstream_code": "NO_AUTHENTICATED_LOAN_APPROVAL_OR_DRAW_PERMISSION",
+      "source_ids": [
+        "K6"
+      ]
+    },
+    {
+      "code": "late-funding",
+      "message": "Liquidation proceeds arrive after the need date",
+      "path": "LIQ-HH-JADE-ILLUSTRATION"
+    },
+    {
+      "code": "late-funding",
+      "message": "Planned loan funding follows the need date",
+      "path": "S-J"
+    },
+    {
+      "code": "borrowing-capacity-gap",
+      "message": "Modeled debt exceeds supplied limit/collateral capacity; no funding or cure instruction is implied",
+      "path": "S-J/STRESS-K"
+    }
+  ],
+  "result": {
+    "input_snapshot": {
+      "schema_version": "wealth-p0-v1",
+      "request_id": "REQ-HH-JADE-LIQUIDITY-2026-09-17",
+      "household_id": "HH-JADE",
+      "as_of": "2026-09-17",
+      "engagement": {
+        "capacity": "advisory",
+        "jurisdiction": "US",
+        "source_ids": [
+          "K5",
+          "K6"
+        ]
+      },
+      "sources": [
+        {
+          "source_id": "K5",
+          "reference": "HH-JADE funding request and cash resources, advisor Uma, September 17, 2026; current through September 30",
+          "owner": "Uma",
+          "as_of": "2026-09-17",
+          "valid_until": "2026-09-30"
+        },
+        {
+          "source_id": "K6",
+          "reference": "Loan term sheets and scenario policy, lending liaison Wren, quoted September 17, 2026; valid through September 30",
+          "owner": "Wren",
+          "as_of": "2026-09-17",
+          "valid_until": "2026-09-30"
+        }
+      ],
+      "policy": {
+        "version": "LL-K v1",
+        "owner": "Wren",
+        "capacity": "advisory",
+        "jurisdiction": "US",
+        "effective_date": "2026-09-17",
+        "valid_until": "2026-09-30",
+        "max_quote_age_days": 5,
+        "max_valuation_age_days": 5,
+        "source_ids": [
+          "K6"
+        ]
+      },
+      "upstream_issues": [
+        {
+          "artifact_id": "source-packet",
+          "code": "NO_AUTHENTICATED_LOAN_APPROVAL_OR_DRAW_PERMISSION",
+          "message": "No current source authenticates a loan approval or permits drawing.",
+          "status": "unresolved",
+          "source_ids": [
+            "K6"
+          ]
+        }
+      ],
+      "currency": "USD",
+      "horizon_months": 12,
+      "funding_need": {
+        "amount": 30000,
+        "needed_by": "2026-09-25",
+        "purpose": "Home-repair payment; not a securities purchase.",
+        "purpose_category": "other",
+        "source_ids": [
+          "K5"
+        ]
+      },
+      "liquid_resources": {
+        "available_cash": 20000,
+        "protected_reserve": 10000,
+        "source_ids": [
+          "K5"
+        ]
+      },
+      "debt_budget": {
+        "monthly_available": 1000,
+        "basis": "before-modeled-facility-service",
+        "source_ids": [
+          "K5"
+        ]
+      },
+      "liquidation_options": [
+        {
+          "option_id": "LIQ-HH-JADE-ILLUSTRATION",
+          "description": "Externally supplied liquidation illustration; no realized sale.",
+          "gross_proceeds": 32000,
+          "fees": 200,
+          "tax_reserve": 1500,
+          "available_date": "2026-09-26",
+          "source_ids": [
+            "K5"
+          ]
+        }
+      ],
+      "loan_options": [
+        {
+          "loan_id": "U-J",
+          "lender_reference": "U-J",
+          "description": "Unsecured term facility illustration.",
+          "type": "unsecured",
+          "draw_amount": 30000,
+          "existing_balance": 0,
+          "credit_limit": 30000,
+          "upfront_fee": 300,
+          "monthly_fee": 0,
+          "annual_rate_pct": 0,
+          "rate_type": "fixed",
+          "rate_floor_pct": null,
+          "rate_cap_pct": null,
+          "repayment": "amortizing",
+          "term_months": 30,
+          "quote_date": "2026-09-17",
+          "quote_valid_until": "2026-09-30",
+          "funding_date": "2026-09-24",
+          "use_review": "recorded-permitted",
+          "on_demand": false,
+          "collateral_test": "none",
+          "maturity_funding": null,
+          "collateral": [],
+          "source_ids": [
+            "K6"
+          ]
+        },
+        {
+          "loan_id": "S-J",
+          "lender_reference": "S-J",
+          "description": "Non-purpose securities-backed line of credit illustration.",
+          "type": "securities-backed",
+          "draw_amount": 30000,
+          "existing_balance": 10000,
+          "credit_limit": 60000,
+          "upfront_fee": 0,
+          "monthly_fee": 10,
+          "annual_rate_pct": 6,
+          "rate_type": "floating",
+          "rate_floor_pct": 2,
+          "rate_cap_pct": 12,
+          "repayment": "interest-only",
+          "term_months": 24,
+          "quote_date": "2026-09-17",
+          "quote_valid_until": "2026-09-30",
+          "funding_date": "2026-09-28",
+          "use_review": "recorded-permitted",
+          "on_demand": true,
+          "collateral_test": "ongoing-maintenance",
+          "maturity_funding": 0,
+          "collateral": [
+            {
+              "asset_id": "SEC-J",
+              "market_value": 100000,
+              "value_reserved_elsewhere": 20000,
+              "advance_rate": 0.6,
+              "eligible": true,
+              "valuation_date": "2026-09-17",
+              "source_ids": [
+                "K6"
+              ]
+            }
+          ],
+          "source_ids": [
+            "K6"
+          ]
+        }
+      ],
+      "scenarios": [
+        {
+          "scenario_id": "STRESS-K",
+          "description": "Supplied stress: +300 bps rate, -25% collateral price, -10 percentage points advance rate.",
+          "rate_shock_bps": 300,
+          "collateral_price_change_pct": -25,
+          "advance_rate_reduction_pp": 10,
+          "source_ids": [
+            "K6"
+          ]
+        }
+      ]
+    },
+    "policy": {
+      "version": "LL-K v1",
+      "owner": "Wren",
+      "capacity": "advisory",
+      "jurisdiction": "US",
+      "effective_date": "2026-09-17",
+      "valid_until": "2026-09-30",
+      "max_quote_age_days": 5,
+      "max_valuation_age_days": 5,
+      "source_ids": [
+        "K6"
+      ]
+    },
+    "upstream_issues": [
+      {
+        "artifact_id": "source-packet",
+        "code": "NO_AUTHENTICATED_LOAN_APPROVAL_OR_DRAW_PERMISSION",
+        "message": "No current source authenticates a loan approval or permits drawing.",
+        "status": "unresolved",
+        "source_ids": [
+          "K6"
+        ]
+      }
+    ],
+    "scope": "Supplied evidence only; human review required; no approval or execution.",
+    "handoff_context": {
+      "household_id": "HH-JADE",
+      "request_id": "REQ-HH-JADE-LIQUIDITY-2026-09-17",
+      "as_of": "2026-09-17",
+      "engagement": {
+        "capacity": "advisory",
+        "jurisdiction": "US",
+        "source_ids": [
+          "K5",
+          "K6"
+        ]
+      },
+      "sources": [
+        {
+          "source_id": "K5",
+          "reference": "HH-JADE funding request and cash resources, advisor Uma, September 17, 2026; current through September 30",
+          "owner": "Uma",
+          "as_of": "2026-09-17",
+          "valid_until": "2026-09-30"
+        },
+        {
+          "source_id": "K6",
+          "reference": "Loan term sheets and scenario policy, lending liaison Wren, quoted September 17, 2026; valid through September 30",
+          "owner": "Wren",
+          "as_of": "2026-09-17",
+          "valid_until": "2026-09-30"
+        }
+      ],
+      "upstream_issues": [
+        {
+          "artifact_id": "source-packet",
+          "code": "NO_AUTHENTICATED_LOAN_APPROVAL_OR_DRAW_PERMISSION",
+          "message": "No current source authenticates a loan approval or permits drawing.",
+          "status": "unresolved",
+          "source_ids": [
+            "K6"
+          ]
+        }
+      ]
+    },
+    "currency": "USD",
+    "funding_need": {
+      "amount": 30000,
+      "needed_by": "2026-09-25",
+      "purpose": "Home-repair payment; not a securities purchase.",
+      "purpose_category": "other",
+      "source_ids": [
+        "K5"
+      ]
+    },
+    "liquidity_alternatives": [
+      {
+        "option_id": "cash",
+        "kind": "cash",
+        "net_proceeds": "10000.00",
+        "funding_gap": "20000.00",
+        "source_ids": [
+          "K5"
+        ],
+        "opportunity_cost": "not-estimated"
+      },
+      {
+        "option_id": "LIQ-HH-JADE-ILLUSTRATION",
+        "kind": "liquidation",
+        "supplied_analysis": {
+          "option_id": "LIQ-HH-JADE-ILLUSTRATION",
+          "description": "Externally supplied liquidation illustration; no realized sale.",
+          "gross_proceeds": 32000,
+          "fees": 200,
+          "tax_reserve": 1500,
+          "available_date": "2026-09-26",
+          "source_ids": [
+            "K5"
+          ]
+        },
+        "net_proceeds": "30300.00",
+        "funding_gap": "0.00",
+        "tax_treatment": "supplied-reserve-only; no tax determination"
+      }
+    ],
+    "loan_alternatives": [
+      {
+        "loan_id": "U-J",
+        "terms": {
+          "loan_id": "U-J",
+          "lender_reference": "U-J",
+          "description": "Unsecured term facility illustration.",
+          "type": "unsecured",
+          "draw_amount": 30000,
+          "existing_balance": 0,
+          "credit_limit": 30000,
+          "upfront_fee": 300,
+          "monthly_fee": 0,
+          "annual_rate_pct": 0,
+          "rate_type": "fixed",
+          "rate_floor_pct": null,
+          "rate_cap_pct": null,
+          "repayment": "amortizing",
+          "term_months": 30,
+          "quote_date": "2026-09-17",
+          "quote_valid_until": "2026-09-30",
+          "funding_date": "2026-09-24",
+          "use_review": "recorded-permitted",
+          "on_demand": false,
+          "collateral_test": "none",
+          "maturity_funding": null,
+          "collateral": [],
+          "source_ids": [
+            "K6"
+          ]
+        },
+        "new_net_proceeds": "29700.00",
+        "funding_gap": "300.00",
+        "opening_total_principal": "30000.00",
+        "scenarios": [
+          {
+            "scenario": {
+              "scenario_id": "base",
+              "description": "Quoted rate and supplied collateral; no stress",
+              "rate_shock_bps": 0,
+              "collateral_price_change_pct": 0,
+              "advance_rate_reduction_pp": 0
+            },
+            "annual_rate_pct": "0",
+            "borrowing_base": null,
+            "effective_capacity": "30000.00",
+            "debt_over_capacity": "0.00",
+            "maintenance_paydown_illustration": null,
+            "loan_projection": {
+              "months": [
+                {
+                  "month": 1,
+                  "opening_principal": "30000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "29000.00"
+                },
+                {
+                  "month": 2,
+                  "opening_principal": "29000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "28000.00"
+                },
+                {
+                  "month": 3,
+                  "opening_principal": "28000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "27000.00"
+                },
+                {
+                  "month": 4,
+                  "opening_principal": "27000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "26000.00"
+                },
+                {
+                  "month": 5,
+                  "opening_principal": "26000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "25000.00"
+                },
+                {
+                  "month": 6,
+                  "opening_principal": "25000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "24000.00"
+                },
+                {
+                  "month": 7,
+                  "opening_principal": "24000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "23000.00"
+                },
+                {
+                  "month": 8,
+                  "opening_principal": "23000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "22000.00"
+                },
+                {
+                  "month": 9,
+                  "opening_principal": "22000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "21000.00"
+                },
+                {
+                  "month": 10,
+                  "opening_principal": "21000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "20000.00"
+                },
+                {
+                  "month": 11,
+                  "opening_principal": "20000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "19000.00"
+                },
+                {
+                  "month": 12,
+                  "opening_principal": "19000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "18000.00"
+                }
+              ],
+              "ending_principal": "18000.00",
+              "total_interest": "0.00",
+              "total_fees": "0.00",
+              "principal_repaid": "12000.00",
+              "maximum_budgeted_service": "1000.00",
+              "balloon_within_horizon": "0.00",
+              "horizon_financing_cost": "300.00",
+              "monthly_budget_shortfall": "0.00",
+              "maturity_funding_gap": null
+            }
+          },
+          {
+            "scenario": {
+              "scenario_id": "STRESS-K",
+              "description": "Supplied stress: +300 bps rate, -25% collateral price, -10 percentage points advance rate.",
+              "rate_shock_bps": 300,
+              "collateral_price_change_pct": -25,
+              "advance_rate_reduction_pp": 10,
+              "source_ids": [
+                "K6"
+              ]
+            },
+            "annual_rate_pct": "0",
+            "borrowing_base": null,
+            "effective_capacity": "30000.00",
+            "debt_over_capacity": "0.00",
+            "maintenance_paydown_illustration": null,
+            "loan_projection": {
+              "months": [
+                {
+                  "month": 1,
+                  "opening_principal": "30000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "29000.00"
+                },
+                {
+                  "month": 2,
+                  "opening_principal": "29000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "28000.00"
+                },
+                {
+                  "month": 3,
+                  "opening_principal": "28000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "27000.00"
+                },
+                {
+                  "month": 4,
+                  "opening_principal": "27000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "26000.00"
+                },
+                {
+                  "month": 5,
+                  "opening_principal": "26000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "25000.00"
+                },
+                {
+                  "month": 6,
+                  "opening_principal": "25000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "24000.00"
+                },
+                {
+                  "month": 7,
+                  "opening_principal": "24000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "23000.00"
+                },
+                {
+                  "month": 8,
+                  "opening_principal": "23000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "22000.00"
+                },
+                {
+                  "month": 9,
+                  "opening_principal": "22000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "21000.00"
+                },
+                {
+                  "month": 10,
+                  "opening_principal": "21000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "20000.00"
+                },
+                {
+                  "month": 11,
+                  "opening_principal": "20000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "19000.00"
+                },
+                {
+                  "month": 12,
+                  "opening_principal": "19000.00",
+                  "interest": "0.00",
+                  "scheduled_principal": "1000.00",
+                  "balloon_principal": "0.00",
+                  "fee": "0.00",
+                  "budgeted_service": "1000.00",
+                  "total_payment": "1000.00",
+                  "ending_principal": "18000.00"
+                }
+              ],
+              "ending_principal": "18000.00",
+              "total_interest": "0.00",
+              "total_fees": "0.00",
+              "principal_repaid": "12000.00",
+              "maximum_budgeted_service": "1000.00",
+              "balloon_within_horizon": "0.00",
+              "horizon_financing_cost": "300.00",
+              "monthly_budget_shortfall": "0.00",
+              "maturity_funding_gap": null
+            }
+          }
+        ],
+        "risk_notes": [],
+        "apr": "not-calculated; compare lender disclosures separately"
+      },
+      {
+        "loan_id": "S-J",
+        "terms": {
+          "loan_id": "S-J",
+          "lender_reference": "S-J",
+          "description": "Non-purpose securities-backed line of credit illustration.",
+          "type": "securities-backed",
+          "draw_amount": 30000,
+          "existing_balance": 10000,
+          "credit_limit": 60000,
+          "upfront_fee": 0,
+          "monthly_fee": 10,
+          "annual_rate_pct": 6,
+          "rate_type": "floating",
+          "rate_floor_pct": 2,
+          "rate_cap_pct": 12,
+          "repayment": "interest-only",
+          "term_months": 24,
+          "quote_date": "2026-09-17",
+          "quote_valid_until": "2026-09-30",
+          "funding_date": "2026-09-28",
+          "use_review": "recorded-permitted",
+          "on_demand": true,
+          "collateral_test": "ongoing-maintenance",
+          "maturity_funding": 0,
+          "collateral": [
+            {
+              "asset_id": "SEC-J",
+              "market_value": 100000,
+              "value_reserved_elsewhere": 20000,
+              "advance_rate": 0.6,
+              "eligible": true,
+              "valuation_date": "2026-09-17",
+              "source_ids": [
+                "K6"
+              ]
+            }
+          ],
+          "source_ids": [
+            "K6"
+          ]
+        },
+        "new_net_proceeds": "30000.00",
+        "funding_gap": "0.00",
+        "opening_total_principal": "40000.00",
+        "scenarios": [
+          {
+            "scenario": {
+              "scenario_id": "base",
+              "description": "Quoted rate and supplied collateral; no stress",
+              "rate_shock_bps": 0,
+              "collateral_price_change_pct": 0,
+              "advance_rate_reduction_pp": 0
+            },
+            "annual_rate_pct": "6",
+            "borrowing_base": "48000.00",
+            "effective_capacity": "48000.00",
+            "debt_over_capacity": "0.00",
+            "maintenance_paydown_illustration": "0.00",
+            "loan_projection": {
+              "months": [
+                {
+                  "month": 1,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 2,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 3,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 4,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 5,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 6,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 7,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 8,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 9,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 10,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 11,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 12,
+                  "opening_principal": "40000.00",
+                  "interest": "200.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "210.00",
+                  "total_payment": "210.00",
+                  "ending_principal": "40000.00"
+                }
+              ],
+              "ending_principal": "40000.00",
+              "total_interest": "2400.00",
+              "total_fees": "120.00",
+              "principal_repaid": "0.00",
+              "maximum_budgeted_service": "210.00",
+              "balloon_within_horizon": "0.00",
+              "horizon_financing_cost": "2520.00",
+              "monthly_budget_shortfall": "0.00",
+              "maturity_funding_gap": "0.00"
+            }
+          },
+          {
+            "scenario": {
+              "scenario_id": "STRESS-K",
+              "description": "Supplied stress: +300 bps rate, -25% collateral price, -10 percentage points advance rate.",
+              "rate_shock_bps": 300,
+              "collateral_price_change_pct": -25,
+              "advance_rate_reduction_pp": 10,
+              "source_ids": [
+                "K6"
+              ]
+            },
+            "annual_rate_pct": "9",
+            "borrowing_base": "30000.00",
+            "effective_capacity": "30000.00",
+            "debt_over_capacity": "10000.00",
+            "maintenance_paydown_illustration": "10000.00",
+            "loan_projection": {
+              "months": [
+                {
+                  "month": 1,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 2,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 3,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 4,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 5,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 6,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 7,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 8,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 9,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 10,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 11,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                },
+                {
+                  "month": 12,
+                  "opening_principal": "40000.00",
+                  "interest": "300.00",
+                  "scheduled_principal": "0.00",
+                  "balloon_principal": "0.00",
+                  "fee": "10.00",
+                  "budgeted_service": "310.00",
+                  "total_payment": "310.00",
+                  "ending_principal": "40000.00"
+                }
+              ],
+              "ending_principal": "40000.00",
+              "total_interest": "3600.00",
+              "total_fees": "120.00",
+              "principal_repaid": "0.00",
+              "maximum_budgeted_service": "310.00",
+              "balloon_within_horizon": "0.00",
+              "horizon_financing_cost": "3720.00",
+              "monthly_budget_shortfall": "0.00",
+              "maturity_funding_gap": "0.00"
+            }
+          }
+        ],
+        "risk_notes": [
+          "The lender may demand repayment independently of these scenarios."
+        ],
+        "apr": "not-calculated; compare lender disclosures separately"
+      }
+    ],
+    "selected_option": null,
+    "method": "Standalone alternatives; monthly nominal-rate scenario on total facility principal; no probability or ranking.",
+    "limitations": [
+      "Alternative cash, liquidation and loan amounts are not additive. No allocation or borrowing recommendation.",
+      "Collateral stress is an instantaneous illustration, not a forecast, authenticated lender limit or actual maintenance call.",
+      "No interest deductibility, legal eligibility, lender underwriting, APR certification, application or disbursement."
+    ]
+  },
+  "human_review_required": true,
+  "action_taken": false,
+  "delivery_status": "not-delivered"
+}

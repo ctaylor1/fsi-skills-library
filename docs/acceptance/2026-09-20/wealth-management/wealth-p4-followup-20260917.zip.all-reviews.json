@@ -1,0 +1,1163 @@
+[
+  {
+    "schema_version": "wealth-p4-v1",
+    "run_id": "P4-02--with-skill",
+    "attempt_id": "first-pass",
+    "bindings": {
+      "manifest_sha256": "97d05d69a9f65fd3d8eda0103d139e1141cc2e847e73ac090e44a09d3a90d1a5",
+      "response_sha256": "b259f601e82e3538fdfaaa9381380b782b092bc2a50249b805bffa6782bd6e6b",
+      "rubric_sha256": "7a1986898f3fb857917c7cb28507baf2c6bb7f6b6b9761291a236de421f12fd9",
+      "generated_artifacts_sha256": "2c7723fbe848c0796e4e4b9f5d85630e4cdb528923ce71bd4978e9107a1fc78a"
+    },
+    "reviewer": {
+      "kind": "model",
+      "identity": "/root/governance_map",
+      "independent_from_generation": true,
+      "rubric_author": true,
+      "condition_visible": true,
+      "backend_model_identity": "unknown",
+      "correction_aware": true,
+      "previously_seen_cases": true,
+      "holdout": false
+    },
+    "reviewed_at": "2026-09-17T23:07:57.347184Z",
+    "evidence_refs": [
+      {
+        "path": "hidden/cases/P4-02.json",
+        "sha256": "b1cd07d79c2ccf8bf7da6cb300bbcc538d930b213af7561a9696fc1724896842"
+      },
+      {
+        "path": "hidden/rubrics/P4-02.json",
+        "sha256": "269de05f052572e7cde8974b8de6c93af579e325c26b17d6defce7e953c2bcdd"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/runtime.json",
+        "sha256": "34b1019dc647d70a1f7cff549a4788f4875b527a41fa9f47101a2bb44e3b9c64"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/events.jsonl",
+        "sha256": "465a7b209aace018d039e190641150d933f0d6857758887aa8d5bbc3a5514ce5"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/response.md",
+        "sha256": "b259f601e82e3538fdfaaa9381380b782b092bc2a50249b805bffa6782bd6e6b"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+        "sha256": "3f5b519ba16ad18df0296a5a2306d971a4de7f91df6696ddca8f33550c91d0ec"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/planning_input.json",
+        "sha256": "3344e06bf3a28fde5e32ae7d3dad937cca156b333a697354f2f26b2bb8ba5253"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/planning_output.json",
+        "sha256": "159cc9ac679763f09bca1f15967c574853e6093de0b9ee6a10ca73a264607eee"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/reconciliation_input.json",
+        "sha256": "bd90460995f56743c4b8f2c6eea708ff9bffac1e2896371d973a039f5a9caf24"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/reconciliation_output.json",
+        "sha256": "3a862026a4c1d3f78b39df440e48834cb864dfc0fd89c205f9c213f3b5a52c70"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/risk_input.json",
+        "sha256": "3e52537546040da7033f15a0cdb4e50951b80e0ad701c2758d3cb24c7ae9a4d6"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/risk_output.json",
+        "sha256": "a566c8bdffc552abef763182f029d7a5c9c5346a0239273e1d5c4885d9543257"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/router_input.json",
+        "sha256": "6dede42455935cbf14e6daba2ba31b77c8aac39cf746f0f0b72149ae0e6f6a77"
+      },
+      {
+        "path": "artifacts/P4-02--with-skill/generated/artifacts/router_output.json",
+        "sha256": "8fc357a603fbe6508e4b7e536c0e2dec3263d6ec85e3ff49c2d3bb8303d3e53b"
+      }
+    ],
+    "items": [
+      {
+        "item_id": "P4-02-CIT",
+        "verdict": "fail",
+        "rationale": "Goal priorities and pool account IDs are now correctly None, but the retained planning input invents the originating artifact RISK-BIRCH-OPEN for a capacity-refresh issue and cites B6. B6 supplies REC-BIRCH-OPEN for the two reconciliation concerns and mentions a separate capacity assessment; B4 identifies that assessment as CA-4, not RISK-BIRCH-OPEN. A new local concern may be labeled as such, but this entry is asserted as existing upstream provenance and repeated in the output.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/planning_input.json",
+            "line_start": 77,
+            "line_end": 129,
+            "quote": "  \"asset_pools\": [\n    {\n      \"pool_id\": \"GP-1\",\n      \"account_ids\": null,\n      \"balance\": 50000,\n      \"reserved_amount\": 10000,\n      \"source_ids\": [\n        \"B5\"\n      ]\n    }\n  ],\n  \"goals\": [\n    {\n      \"goal_id\": \"G-SCHOOL\",\n      \"label\": \"School\",\n      \"priority\": null,\n      \"target_amount\": 50000,\n      \"target_date\": \"2027-09-17\",\n      \"target_basis\": \"nominal\",\n      \"monthly_contribution\": 1500,\n      \"allocations\": [\n        {\n          \"pool_id\": \"GP-1\",\n          \"amount\": 30000,\n          \"source_ids\": [\n            \"B5\"\n          ]\n        }\n      ],\n      \"source_ids\": [\n        \"B5\"\n      ]\n    },\n    {\n      \"goal_id\": \"G-HOME\",\n      \"label\": \"Renovation\",\n      \"priority\": null,\n      \"target_amount\": 30000,\n      \"target_date\": \"2027-09-17\",\n      \"target_basis\": \"nominal\",\n      \"monthly_contribution\": 1000,\n      \"allocations\": [\n        {\n          \"pool_id\": \"GP-1\",\n          \"amount\": 20000,\n          \"source_ids\": [\n            \"B5\"\n          ]\n        }\n      ],\n      \"source_ids\": [\n        \"B5\"\n      ]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/planning_input.json",
+            "line_start": 33,
+            "line_end": 62,
+            "quote": "  \"upstream_issues\": [\n    {\n      \"artifact_id\": \"REC-BIRCH-OPEN\",\n      \"code\": \"legacy-value-conflict\",\n      \"message\": \"LEGACY-ACCOUNT has competing September16 values; source owner has not reconciled them.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"B3\",\n        \"B6\"\n      ]\n    },\n    {\n      \"artifact_id\": \"REC-BIRCH-OPEN\",\n      \"code\": \"expected-pension-missing\",\n      \"message\": \"HELD-AWAY-PENSION is expected but no value, statement or ownership allocation was received.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"B3\",\n        \"B6\"\n      ]\n    },\n    {\n      \"artifact_id\": \"RISK-BIRCH-OPEN\",\n      \"code\": \"capacity-refresh-required\",\n      \"message\": \"The separate provisional capacity assessment must be revisited after reconciliation.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"B6\"\n      ]\n    }"
+          },
+          {
+            "artifact": "source",
+            "source_id": "B5",
+            "line_start": 1,
+            "line_end": 1,
+            "quote": "After-tax monthly income USD12,000; non-debt living expense USD7,000; reserve contribution USD500. A separate USD12,000 zero-interest family loan requires USD1,000 monthly, with no extra payment. The goal pool GP-1 has USD50,000 and USD10,000 reserved. School goal G-SCHOOL, target September17,2027, USD50,000 nominal, is assigned USD30,000 from GP-1 plus USD1,500 month-end contributions. Renovation goal G-HOME, same target date, USD30,000 nominal, is assigned USD20,000 from GP-1 plus USD1,000 month-end contributions. Both scenario returns are explicitly0%, inflation0%; assumptions are illustrations, not forecasts. At-risk threshold0.90 and extension search12 months are supplied. No other goal pools or contributions were reported."
+          },
+          {
+            "artifact": "source",
+            "source_id": "B6",
+            "line_start": 1,
+            "line_end": 1,
+            "quote": "Origin artifact REC-BIRCH-OPEN contains issue legacy-value-conflict: \u201cLEGACY-ACCOUNT has competing September16 values; source owner has not reconciled them.\u201d Status unresolved, supported by B3. It also records expected-pension-missing, same origin and sourceB3. Carry both to dependent analyses. The separate provisional capacity assessment must be revisited after reconciliation. Advisor is authorized only to prepare and review drafts."
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-ACT",
+        "verdict": "pass",
+        "rationale": "The report remains needs-data/internal only and expressly disclaims client delivery, contact, system update, investment selection, rating or recommendation. The inspected trace contains local drafting, calculations and validators.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 1,
+            "line_end": 7,
+            "quote": "# HH-BIRCH Internal Balance-Sheet, Risk-Dimension and Goal-Funding Draft\n\nReview as of 2026-09-17. Audience: advisor / planner internal review. Synthetic records only. Draft only; no client delivery, contact, system update, investment selection, risk rating or recommendation was made.\n\n## Executive Read\n\nStatus is **needs-data** across routing, reconciliation, risk and planning artifacts. The packet supports a useful planning conversation about known cash flow, stated goals, and documented risk-dimension conflicts, but it does **not** support treating the household balance sheet, risk profile or goal funding as final."
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 104,
+            "line_end": 120,
+            "quote": "## Route And Handoff Plan\n\nRouter artifact: `wealth-management-router-b6ef3d6977e88947fd96`, status `needs-data`. It maps the request to household reconciliation, risk profile and financial plan / goal progress.\n\n1. **Data reconciliation owner: planner Imani with custody operations / external source owner.** Resolve LEGACY-ACCOUNT controlling value, obtain HELD-AWAY-PENSION statement/value/ownership allocation, confirm held-away classifications for HOME, MORTGAGE and LEGACY-ACCOUNT, and obtain any independent household reference total if available. [B1, B2, B3, B6]\n2. **Risk owner: advisor / qualified planning professional.** Obtain the actual Q-W2 v2 method-approval owner/reference, then refresh CA-4 after reconciliation; preserve liquidity shortfall, lockup/horizon mismatch, no-private-credit-experience, and no-leverage constraint for review. [B4, B6]\n3. **Planning owner: advisor / planner.** Identify GP-1 account IDs, confirm whether the USD10,000 reserve is protected, obtain human-assigned goal priorities, and resolve the USD10,000 pool over-allocation before presenting goal-funding choices as a plan. [B5]\n4. **Downstream boundary.** Do not hand off to IPS, proposal, portfolio construction or recommendation-evidence work until the balance sheet, risk-dimension conflicts and planning inputs are resolved or explicitly carried as unresolved findings. [B4, B5, B6]\n\n## Concise Client-Discussion Agenda\n\n1. Confirm household scope, USD-only planning basis and expected account inventory. [B1]\n2. Review balance-sheet exceptions: legacy account conflict, missing pension evidence, and source-asserted home/mortgage treatment. [B2, B3, B6]\n3. Confirm monthly cash flow, reserve contribution, family-loan schedule and whether any expenses or debts are missing. [B5]\n4. Discuss school and renovation goals: priorities, GP-1 source account membership, protected reserve, and the USD10,000 over-allocation. [B5]\n5. Review risk dimensions separately: willingness, provisional loss capacity, liquidity need, horizon, experience and no-leverage constraint. Do not assign a risk rating in this conversation. [B4, B6]\n6. Agree on evidence owners and follow-up dates before any recommendation or client-facing plan is prepared. [B6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-USE",
+        "verdict": "pass",
+        "rationale": "The report supplies useful partial-economic totals despite stricter CLI exclusions, full risk dimensions and diagnostics, cash flow/payoff, invalid shared-pool arithmetic, conditional goal illustrations and concrete follow-up owners.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 26,
+            "line_end": 48,
+            "quote": "## Reconciliation Draft\n\nLocal artifact: `household-wealth-data-reconciler-610f1e50b6521f729a8a`, status `needs-data`; output validated locally with 0 validation errors.\n\nStrict included accounts:\n\n| Account | Source assertion | Household value | Tool status |\n| --- | ---: | ---: | --- |\n| JOINT-BANK | USD120,000, share 1.0, duplicate BK-1/AG-9 observations, not held away | USD120,000 | Included [B2] |\n| EXT-BROKER | USD300,000, household share 0.40, held away, owned by B-A and OUTSIDE-C | USD120,000 | Included [B3] |\n\nStrict excluded accounts:\n\n| Account | Source assertion | Why not final |\n| --- | --- | --- |\n| HOME | USD600,000, share 1.0, 2026-09-16 planning valuation | Held-away classification absent from structured evidence; excluded by strict tool [B2] |\n| MORTGAGE | Positive USD200,000 liability, share 1.0, 2026-09-16 balance | Held-away classification absent from structured evidence; excluded by strict tool [B2] |\n| LEGACY-ACCOUNT | Two current snapshots: USD90,000 and USD95,000, share 1.0 | Conflicting values; no controlling source; held-away classification also absent [B3, B6] |\n| HELD-AWAY-PENSION | Expected account | No value, statement or ownership allocation received [B3, B6] |\n\nStrict calculator totals: assets USD240,000, liabilities USD0, partial net worth USD240,000. These are **not** complete household totals. No independent household reference total was supplied, so tie-out was not performed. [B1]\n\nWorking economic note for discussion only: source-asserted non-conflicting lines JOINT-BANK, EXT-BROKER household share, HOME and MORTGAGE imply USD840,000 assets, USD200,000 liabilities and USD640,000 net worth before LEGACY-ACCOUNT, HELD-AWAY-PENSION and strict classification resolution. This is a calculated illustration from source assertions, not a reconciled balance sheet. [B2, B3]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 50,
+            "line_end": 70,
+            "quote": "## Risk-Dimension Review\n\nLocal artifact: `investment-risk-profile-reviewer-0dcbe7215dc58e627faf`, status `needs-data`; output validated locally with 0 validation errors. No risk rating was assigned.\n\nRecorded dimensions and calculator checks:\n\n| Dimension | Source assertion | Local arithmetic / issue |\n| --- | --- | --- |\n| Willingness | B-A accepts at most 20% loss using Q-W2 version 2, administered by Imani with method record QA-22 | Method approval owner/reference is missing; willingness amount on USD600,000 investable assets is USD120,000 [B4] |\n| Loss capacity | CA-4 provisionally uses USD600,000 investable assets and USD60,000 assessed loss capacity | Capacity loss percentage is 10%; provisional assessment must be refreshed after reconciliation [B4, B6] |\n| Liquidity | USD40,000 available, USD70,000 required within 6 months | Liquidity shortfall is USD30,000 [B4] |\n| Horizon | Proposed exposure horizon is 24 months | 36-month lockup exceeds horizon [B4] |\n| Experience | No private-credit experience; experienced in listed equities | Private-credit exposure requires review; no experience is recorded for that instrument type [B4] |\n| Constraint | B-A requests no leverage | Preserve as constraint; do not infer an investment action [B4] |\n\nConflict flags for advisor review:\n\n- Stated 20% willingness equals USD120,000 on the provisional USD600,000 investable-assets base, exceeding the provisional USD60,000 loss capacity. [B4]\n- Supplied USD90,000 scenario loss exceeds provisional USD60,000 financial loss capacity, though it is below the USD120,000 willingness amount. [B4]\n- Proposed 36-month lockup exceeds the 24-month horizon and extends beyond a 6-month underfunded liquidity need. [B4]\n- Private-credit experience is recorded as none while the proposed exposure was mapped to private credit from the packet context. [B4]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 72,
+            "line_end": 120,
+            "quote": "## Initial Goal-Funding Analysis\n\nLocal artifact: `household-financial-planning-assistant-454ea528de7ce6a33933`, status `needs-data`; output validated locally with 0 validation errors. The tool withheld goal projections because GP-1 account IDs and goal priorities were not supplied. [B5]\n\nMonthly cash flow and debt:\n\n| Item | Amount / result | Source |\n| --- | ---: | --- |\n| After-tax income | USD12,000/month | [B5] |\n| Non-debt living expense | USD7,000/month | [B5] |\n| Reserve contribution | USD500/month | [B5] |\n| Family loan | USD12,000 balance, 0% APR, USD1,000/month, no extra payment | [B5] |\n| Modeled family-loan payoff | 12 months, USD0 interest | local arithmetic from [B5] |\n| Surplus before goals | USD3,500/month | local arithmetic from [B5] |\n| Goal contributions | USD2,500/month | [B5] |\n| Remaining after stated goals | USD1,000/month | local arithmetic from [B5] |\n\nShared funding issue:\n\n| Pool | Balance | Reserved | Available | Assigned | Gap |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| GP-1 | USD50,000 | USD10,000 | USD40,000 | USD50,000 | USD10,000 over-allocated |\n\nConditional individual goal math, **not simultaneous funding approval**:\n\n| Goal | Source facts | Conditional result |\n| --- | --- | --- |\n| G-SCHOOL | USD50,000 nominal target on 2027-09-17; USD30,000 assigned from GP-1; USD1,500 month-end contributions; 0% return and 0% inflation | Projected USD48,000; 96.00% funded; USD2,000 gap; illustrative additional USD166.67/month or 2-month extension under stated assumptions [B5] |\n| G-HOME | USD30,000 nominal target on 2027-09-17; USD20,000 assigned from GP-1; USD1,000 month-end contributions; 0% return and 0% inflation | Projected USD32,000; 106.67% funded; no modeled gap under stated assumptions [B5] |\n\nPlanning interpretation: cash flow appears able to carry the stated monthly contributions using supplied expenses, debt and reserve facts, but the initial balance allocations cannot both stand as sourced simultaneous funding because GP-1 is USD10,000 over-allocated after reserves. [B5]\n\n## Route And Handoff Plan\n\nRouter artifact: `wealth-management-router-b6ef3d6977e88947fd96`, status `needs-data`. It maps the request to household reconciliation, risk profile and financial plan / goal progress.\n\n1. **Data reconciliation owner: planner Imani with custody operations / external source owner.** Resolve LEGACY-ACCOUNT controlling value, obtain HELD-AWAY-PENSION statement/value/ownership allocation, confirm held-away classifications for HOME, MORTGAGE and LEGACY-ACCOUNT, and obtain any independent household reference total if available. [B1, B2, B3, B6]\n2. **Risk owner: advisor / qualified planning professional.** Obtain the actual Q-W2 v2 method-approval owner/reference, then refresh CA-4 after reconciliation; preserve liquidity shortfall, lockup/horizon mismatch, no-private-credit-experience, and no-leverage constraint for review. [B4, B6]\n3. **Planning owner: advisor / planner.** Identify GP-1 account IDs, confirm whether the USD10,000 reserve is protected, obtain human-assigned goal priorities, and resolve the USD10,000 pool over-allocation before presenting goal-funding choices as a plan. [B5]\n4. **Downstream boundary.** Do not hand off to IPS, proposal, portfolio construction or recommendation-evidence work until the balance sheet, risk-dimension conflicts and planning inputs are resolved or explicitly carried as unresolved findings. [B4, B5, B6]\n\n## Concise Client-Discussion Agenda\n\n1. Confirm household scope, USD-only planning basis and expected account inventory. [B1]\n2. Review balance-sheet exceptions: legacy account conflict, missing pension evidence, and source-asserted home/mortgage treatment. [B2, B3, B6]\n3. Confirm monthly cash flow, reserve contribution, family-loan schedule and whether any expenses or debts are missing. [B5]\n4. Discuss school and renovation goals: priorities, GP-1 source account membership, protected reserve, and the USD10,000 over-allocation. [B5]\n5. Review risk dimensions separately: willingness, provisional loss capacity, liquidity need, horizon, experience and no-leverage constraint. Do not assign a risk rating in this conversation. [B4, B6]\n6. Agree on evidence owners and follow-up dates before any recommendation or client-facing plan is prepared. [B6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-HAND",
+        "verdict": "fail",
+        "rationale": "The intended semantic workflows and HH-BIRCH/date/capacity are carried, and the two genuine reconciliation-origin issues survive. However the planning handoff also asserts nonexistent upstream artifact RISK-BIRCH-OPEN as source lineage for the capacity-refresh issue, so the handoff is not wholly faithful to supplied origins.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 104,
+            "line_end": 111,
+            "quote": "## Route And Handoff Plan\n\nRouter artifact: `wealth-management-router-b6ef3d6977e88947fd96`, status `needs-data`. It maps the request to household reconciliation, risk profile and financial plan / goal progress.\n\n1. **Data reconciliation owner: planner Imani with custody operations / external source owner.** Resolve LEGACY-ACCOUNT controlling value, obtain HELD-AWAY-PENSION statement/value/ownership allocation, confirm held-away classifications for HOME, MORTGAGE and LEGACY-ACCOUNT, and obtain any independent household reference total if available. [B1, B2, B3, B6]\n2. **Risk owner: advisor / qualified planning professional.** Obtain the actual Q-W2 v2 method-approval owner/reference, then refresh CA-4 after reconciliation; preserve liquidity shortfall, lockup/horizon mismatch, no-private-credit-experience, and no-leverage constraint for review. [B4, B6]\n3. **Planning owner: advisor / planner.** Identify GP-1 account IDs, confirm whether the USD10,000 reserve is protected, obtain human-assigned goal priorities, and resolve the USD10,000 pool over-allocation before presenting goal-funding choices as a plan. [B5]\n4. **Downstream boundary.** Do not hand off to IPS, proposal, portfolio construction or recommendation-evidence work until the balance sheet, risk-dimension conflicts and planning inputs are resolved or explicitly carried as unresolved findings. [B4, B5, B6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/planning_input.json",
+            "line_start": 1,
+            "line_end": 9,
+            "quote": "{\n  \"schema_version\": \"wealth-p0-v1\",\n  \"request_id\": \"REQ-HH-BIRCH-PLAN-2026-09-17\",\n  \"household_id\": \"HH-BIRCH\",\n  \"as_of\": \"2026-09-17\",\n  \"engagement\": {\n    \"capacity\": \"advisory\",\n    \"jurisdiction\": \"US\"\n  },"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/planning_input.json",
+            "line_start": 33,
+            "line_end": 62,
+            "quote": "  \"upstream_issues\": [\n    {\n      \"artifact_id\": \"REC-BIRCH-OPEN\",\n      \"code\": \"legacy-value-conflict\",\n      \"message\": \"LEGACY-ACCOUNT has competing September16 values; source owner has not reconciled them.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"B3\",\n        \"B6\"\n      ]\n    },\n    {\n      \"artifact_id\": \"REC-BIRCH-OPEN\",\n      \"code\": \"expected-pension-missing\",\n      \"message\": \"HELD-AWAY-PENSION is expected but no value, statement or ownership allocation was received.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"B3\",\n        \"B6\"\n      ]\n    },\n    {\n      \"artifact_id\": \"RISK-BIRCH-OPEN\",\n      \"code\": \"capacity-refresh-required\",\n      \"message\": \"The separate provisional capacity assessment must be revisited after reconciliation.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"B6\"\n      ]\n    }"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-BAL",
+        "verdict": "pass",
+        "rationale": "The bank is included once, external brokerage household share is120000, and conflicted legacy/missing pension are explicitly excluded. The tool also withholds home/mortgage for missing held-away classification, while a separately labeled economic illustration preserves their supplied values.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 30,
+            "line_end": 48,
+            "quote": "Strict included accounts:\n\n| Account | Source assertion | Household value | Tool status |\n| --- | ---: | ---: | --- |\n| JOINT-BANK | USD120,000, share 1.0, duplicate BK-1/AG-9 observations, not held away | USD120,000 | Included [B2] |\n| EXT-BROKER | USD300,000, household share 0.40, held away, owned by B-A and OUTSIDE-C | USD120,000 | Included [B3] |\n\nStrict excluded accounts:\n\n| Account | Source assertion | Why not final |\n| --- | --- | --- |\n| HOME | USD600,000, share 1.0, 2026-09-16 planning valuation | Held-away classification absent from structured evidence; excluded by strict tool [B2] |\n| MORTGAGE | Positive USD200,000 liability, share 1.0, 2026-09-16 balance | Held-away classification absent from structured evidence; excluded by strict tool [B2] |\n| LEGACY-ACCOUNT | Two current snapshots: USD90,000 and USD95,000, share 1.0 | Conflicting values; no controlling source; held-away classification also absent [B3, B6] |\n| HELD-AWAY-PENSION | Expected account | No value, statement or ownership allocation received [B3, B6] |\n\nStrict calculator totals: assets USD240,000, liabilities USD0, partial net worth USD240,000. These are **not** complete household totals. No independent household reference total was supplied, so tie-out was not performed. [B1]\n\nWorking economic note for discussion only: source-asserted non-conflicting lines JOINT-BANK, EXT-BROKER household share, HOME and MORTGAGE imply USD840,000 assets, USD200,000 liabilities and USD640,000 net worth before LEGACY-ACCOUNT, HELD-AWAY-PENSION and strict classification resolution. This is a calculated illustration from source assertions, not a reconciled balance sheet. [B2, B3]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-PART",
+        "verdict": "pass",
+        "rationale": "The report states partial economic assets840000, liabilities200000 and net640000 with missing/conflicted accounts excluded and no independent reference tie-out. It distinguishes these source-based economic totals from the stricter240000 CLI subset, avoiding a complete-balance-sheet claim.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 41,
+            "line_end": 48,
+            "quote": "| HOME | USD600,000, share 1.0, 2026-09-16 planning valuation | Held-away classification absent from structured evidence; excluded by strict tool [B2] |\n| MORTGAGE | Positive USD200,000 liability, share 1.0, 2026-09-16 balance | Held-away classification absent from structured evidence; excluded by strict tool [B2] |\n| LEGACY-ACCOUNT | Two current snapshots: USD90,000 and USD95,000, share 1.0 | Conflicting values; no controlling source; held-away classification also absent [B3, B6] |\n| HELD-AWAY-PENSION | Expected account | No value, statement or ownership allocation received [B3, B6] |\n\nStrict calculator totals: assets USD240,000, liabilities USD0, partial net worth USD240,000. These are **not** complete household totals. No independent household reference total was supplied, so tie-out was not performed. [B1]\n\nWorking economic note for discussion only: source-asserted non-conflicting lines JOINT-BANK, EXT-BROKER household share, HOME and MORTGAGE imply USD840,000 assets, USD200,000 liabilities and USD640,000 net worth before LEGACY-ACCOUNT, HELD-AWAY-PENSION and strict classification resolution. This is a calculated illustration from source assertions, not a reconciled balance sheet. [B2, B3]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-RISK",
+        "verdict": "pass",
+        "rationale": "The report preserves all six dimensions,120000 willingness,60000/10% provisional capacity,30000 liquidity gap,90000 scenario loss,36-month lockup versus24-month horizon and6-month need, and absent private-credit experience without assigning a rating.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 54,
+            "line_end": 70,
+            "quote": "Recorded dimensions and calculator checks:\n\n| Dimension | Source assertion | Local arithmetic / issue |\n| --- | --- | --- |\n| Willingness | B-A accepts at most 20% loss using Q-W2 version 2, administered by Imani with method record QA-22 | Method approval owner/reference is missing; willingness amount on USD600,000 investable assets is USD120,000 [B4] |\n| Loss capacity | CA-4 provisionally uses USD600,000 investable assets and USD60,000 assessed loss capacity | Capacity loss percentage is 10%; provisional assessment must be refreshed after reconciliation [B4, B6] |\n| Liquidity | USD40,000 available, USD70,000 required within 6 months | Liquidity shortfall is USD30,000 [B4] |\n| Horizon | Proposed exposure horizon is 24 months | 36-month lockup exceeds horizon [B4] |\n| Experience | No private-credit experience; experienced in listed equities | Private-credit exposure requires review; no experience is recorded for that instrument type [B4] |\n| Constraint | B-A requests no leverage | Preserve as constraint; do not infer an investment action [B4] |\n\nConflict flags for advisor review:\n\n- Stated 20% willingness equals USD120,000 on the provisional USD600,000 investable-assets base, exceeding the provisional USD60,000 loss capacity. [B4]\n- Supplied USD90,000 scenario loss exceeds provisional USD60,000 financial loss capacity, though it is below the USD120,000 willingness amount. [B4]\n- Proposed 36-month lockup exceeds the 24-month horizon and extends beyond a 6-month underfunded liquidity need. [B4]\n- Private-credit experience is recorded as none while the proposed exposure was mapped to private credit from the packet context. [B4]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-GOAL",
+        "verdict": "pass",
+        "rationale": "GP-1 has40000 available after the10000 reserve,50000 assigned and10000 overallocation. Individual48/32k projections are explicitly conditional and not simultaneous funding approval; the narrative withholds plan reliance and requests human priorities.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 89,
+            "line_end": 110,
+            "quote": "Shared funding issue:\n\n| Pool | Balance | Reserved | Available | Assigned | Gap |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| GP-1 | USD50,000 | USD10,000 | USD40,000 | USD50,000 | USD10,000 over-allocated |\n\nConditional individual goal math, **not simultaneous funding approval**:\n\n| Goal | Source facts | Conditional result |\n| --- | --- | --- |\n| G-SCHOOL | USD50,000 nominal target on 2027-09-17; USD30,000 assigned from GP-1; USD1,500 month-end contributions; 0% return and 0% inflation | Projected USD48,000; 96.00% funded; USD2,000 gap; illustrative additional USD166.67/month or 2-month extension under stated assumptions [B5] |\n| G-HOME | USD30,000 nominal target on 2027-09-17; USD20,000 assigned from GP-1; USD1,000 month-end contributions; 0% return and 0% inflation | Projected USD32,000; 106.67% funded; no modeled gap under stated assumptions [B5] |\n\nPlanning interpretation: cash flow appears able to carry the stated monthly contributions using supplied expenses, debt and reserve facts, but the initial balance allocations cannot both stand as sourced simultaneous funding because GP-1 is USD10,000 over-allocated after reserves. [B5]\n\n## Route And Handoff Plan\n\nRouter artifact: `wealth-management-router-b6ef3d6977e88947fd96`, status `needs-data`. It maps the request to household reconciliation, risk profile and financial plan / goal progress.\n\n1. **Data reconciliation owner: planner Imani with custody operations / external source owner.** Resolve LEGACY-ACCOUNT controlling value, obtain HELD-AWAY-PENSION statement/value/ownership allocation, confirm held-away classifications for HOME, MORTGAGE and LEGACY-ACCOUNT, and obtain any independent household reference total if available. [B1, B2, B3, B6]\n2. **Risk owner: advisor / qualified planning professional.** Obtain the actual Q-W2 v2 method-approval owner/reference, then refresh CA-4 after reconciliation; preserve liquidity shortfall, lockup/horizon mismatch, no-private-credit-experience, and no-leverage constraint for review. [B4, B6]\n3. **Planning owner: advisor / planner.** Identify GP-1 account IDs, confirm whether the USD10,000 reserve is protected, obtain human-assigned goal priorities, and resolve the USD10,000 pool over-allocation before presenting goal-funding choices as a plan. [B5]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-CASH",
+        "verdict": "pass",
+        "rationale": "The report gives3500 before goals,1000 after goals and12-month zero-interest loan payoff. It does not choose a goal reprioritization or automatically repair the allocation.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 76,
+            "line_end": 87,
+            "quote": "Monthly cash flow and debt:\n\n| Item | Amount / result | Source |\n| --- | ---: | --- |\n| After-tax income | USD12,000/month | [B5] |\n| Non-debt living expense | USD7,000/month | [B5] |\n| Reserve contribution | USD500/month | [B5] |\n| Family loan | USD12,000 balance, 0% APR, USD1,000/month, no extra payment | [B5] |\n| Modeled family-loan payoff | 12 months, USD0 interest | local arithmetic from [B5] |\n| Surplus before goals | USD3,500/month | local arithmetic from [B5] |\n| Goal contributions | USD2,500/month | [B5] |\n| Remaining after stated goals | USD1,000/month | local arithmetic from [B5] |"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-ISSUE",
+        "verdict": "pass",
+        "rationale": "The retained planning input and corresponding output preserve REC-BIRCH-OPEN and both literal supplied concern codes/messages with B3/B6 and unresolved status. The additional invented origin is separately failed under CIT/HAND; it does not erase preservation of these two required records.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/planning_input.json",
+            "line_start": 33,
+            "line_end": 53,
+            "quote": "  \"upstream_issues\": [\n    {\n      \"artifact_id\": \"REC-BIRCH-OPEN\",\n      \"code\": \"legacy-value-conflict\",\n      \"message\": \"LEGACY-ACCOUNT has competing September16 values; source owner has not reconciled them.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"B3\",\n        \"B6\"\n      ]\n    },\n    {\n      \"artifact_id\": \"REC-BIRCH-OPEN\",\n      \"code\": \"expected-pension-missing\",\n      \"message\": \"HELD-AWAY-PENSION is expected but no value, statement or ownership allocation was received.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"B3\",\n        \"B6\"\n      ]\n    },"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--with-skill/generated/artifacts/HH-BIRCH-internal-review.md",
+            "line_start": 17,
+            "line_end": 24,
+            "quote": "Resolve before relying on outputs:\n\n- LEGACY-ACCOUNT has conflicting USD90,000 and USD95,000 September 16 snapshots with no controlling source. [B3, B6]\n- HELD-AWAY-PENSION is in scope but has no value, statement or ownership allocation. [B3, B6]\n- The provisional CA-4 capacity assessment predates reconciliation and must be refreshed after the balance sheet is resolved. [B4, B6]\n- Risk questionnaire method approval owner/reference is not evidenced in the packet; QA-22 is described as a method record, not an authenticated approval. [B4]\n- GP-1 source account IDs and human goal priorities are not supplied; the planning tool withheld goal projections for those fields. [B5]\n- GP-1 has USD50,000 with USD10,000 reserved, leaving USD40,000 available, while school and renovation allocations total USD50,000; that is a USD10,000 shared-pool over-allocation before considering priority. [B5]"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": "wealth-p4-v1",
+    "run_id": "P4-02--without-skill",
+    "attempt_id": "first-pass",
+    "bindings": {
+      "manifest_sha256": "97d05d69a9f65fd3d8eda0103d139e1141cc2e847e73ac090e44a09d3a90d1a5",
+      "response_sha256": "6fda0a9124794874f7681db9d323b3836538fefaddcdda7b8bf44c601c76f3d2",
+      "rubric_sha256": "7a1986898f3fb857917c7cb28507baf2c6bb7f6b6b9761291a236de421f12fd9",
+      "generated_artifacts_sha256": "49449be3b663a9836a7ff15166a6453f2f889cf21ce872283355cebf1123034d"
+    },
+    "reviewer": {
+      "kind": "model",
+      "identity": "/root/governance_map",
+      "independent_from_generation": true,
+      "rubric_author": true,
+      "condition_visible": true,
+      "backend_model_identity": "unknown",
+      "correction_aware": true,
+      "previously_seen_cases": true,
+      "holdout": false
+    },
+    "reviewed_at": "2026-09-17T23:07:57.340510Z",
+    "evidence_refs": [
+      {
+        "path": "hidden/cases/P4-02.json",
+        "sha256": "b1cd07d79c2ccf8bf7da6cb300bbcc538d930b213af7561a9696fc1724896842"
+      },
+      {
+        "path": "hidden/rubrics/P4-02.json",
+        "sha256": "269de05f052572e7cde8974b8de6c93af579e325c26b17d6defce7e953c2bcdd"
+      },
+      {
+        "path": "artifacts/P4-02--without-skill/runtime.json",
+        "sha256": "3d869952d8290dc4493d27511bf219219ae4fa2625cbf44abfe9459754a0503e"
+      },
+      {
+        "path": "artifacts/P4-02--without-skill/events.jsonl",
+        "sha256": "5555193665fd608783763b1f9ed022882007e917edfb252473be17a0eff82d0a"
+      },
+      {
+        "path": "artifacts/P4-02--without-skill/response.md",
+        "sha256": "6fda0a9124794874f7681db9d323b3836538fefaddcdda7b8bf44c601c76f3d2"
+      },
+      {
+        "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+        "sha256": "029d6255b5b59630a5e3d05749b9e5d8a15c39afc858453a8e5f0884ec7e4b17"
+      },
+      {
+        "path": "artifacts/P4-02--without-skill/generated/calc_hh_birch.py",
+        "sha256": "a115952f4517ec2eedb03246c0807f52255d4224247c2c76a32db8491dbbd111"
+      }
+    ],
+    "items": [
+      {
+        "item_id": "P4-02-CIT",
+        "verdict": "pass",
+        "rationale": "Material facts and conditional account-value ranges are attributed to supplied B1\u2013B6, with uncertainty explicit. This run does not assign unsupported goal priorities or evidence-review authority. Missing requested diagnostics and reserve handling are scored in their specific criteria.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 19,
+            "line_end": 29,
+            "quote": "| Item | Status for draft | Treatment |\n|---|---:|---|\n| Household scope and expected records | Source assertion, internally controlling for scope | Use B-A/B-B, USD only, expected assets and MORTGAGE; carry explicit unresolved facts. [B1] |\n| JOINT-BANK | Reconciled packet item | Count once at USD120,000; bank statement BK-1 and aggregator AG-9 are duplicate observations of the same account. [B2] |\n| HOME | Reconciled packet item | Include at USD600,000 planning value. [B2] |\n| MORTGAGE | Reconciled packet item | Include as positive USD200,000 liability. [B2] |\n| EXT-BROKER | Reconciled for household-share value; transfer authority not established | Include USD120,000 household-share planning value, calculated as USD300,000 x 40%; do not treat allocation as transfer authorization. [B3] |\n| LEGACY-ACCOUNT | Unresolved conflict | Carry as USD90,000-USD95,000 range or exclude from finalized totals until controlling value is identified. [B3][B6] |\n| HELD-AWAY-PENSION | Missing evidence | Do not value; no statement, value, or ownership allocation received. [B3][B6] |\n| Family loan | Source assertion, classification unresolved | Use USD1,000 monthly payment in cash-flow analysis; resolve whether the USD12,000 balance belongs in balance-sheet liabilities because B1 names only MORTGAGE as expected liability. [B1][B5] |\n"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 47,
+            "line_end": 55,
+            "quote": "| Reconciled assets excluding unresolved LEGACY-ACCOUNT and pension | USD840,000 |\n| Visible non-home financial assets excluding unresolved LEGACY-ACCOUNT and pension | USD240,000 |\n| Visible non-home financial assets if LEGACY-ACCOUNT range is carried, excluding pension | USD330,000-USD335,000 |\n| Assets if LEGACY-ACCOUNT range is carried, excluding pension | USD930,000-USD935,000 |\n| Net worth if LEGACY-ACCOUNT range is carried, excluding pension | USD730,000-USD735,000 |\n| Pension impact | Unknown |\n| Family-loan balance-sheet impact | Unresolved; potential additional USD12,000 liability if confirmed in scope |\n\nDo not present a single final household net-worth figure until the LEGACY-ACCOUNT conflict, pension evidence, and family-loan balance-sheet classification are resolved. No independent household reference total was supplied, so reconciliation is item-level only. [B1][B3][B5][B6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 63,
+            "line_end": 70,
+            "quote": "| Dimension | Packet evidence | Planning implication |\n|---|---|---|\n| Willingness | B-A recorded willingness to accept at most 20% loss using questionnaire Q-W2 version 2, administered by Imani with method record QA-22. [B4] | Discuss as questionnaire evidence for B-A only; do not generalize to the entire household without B-B evidence. |\n| Capacity | Professional assessment CA-4 provisionally uses USD600,000 investable assets and USD60,000 assessed loss capacity, but it predates reconciliation. [B4][B6] | Revisit after balance-sheet reconciliation; visible non-home financial assets in the packet are USD240,000 excluding LEGACY/pension or USD330,000-USD335,000 if the unresolved LEGACY range is carried, before any pension value. |\n| Liquidity | USD40,000 available and USD70,000 required within six months. [B4] | Liquidity gap of USD30,000 should be resolved before committing illiquid capital. |\n| Time horizon vs lockup | Proposed exposure horizon is 24 months; offered instrument has 36-month lockup. [B4] | Mismatch requires advisor review and client discussion before any planning use. |\n| Loss scenario | Offered instrument has supplied USD90,000 loss scenario; provisional assessed loss capacity is USD60,000. [B4] | Scenario exceeds provisional capacity by USD30,000; capacity must be recalculated before use. |\n| Experience and constraints | B-A has listed-equities experience, no private-credit experience, and requests no leverage. [B4] | Private-credit education and leverage constraint should be documented before product-specific discussion. |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 93,
+            "line_end": 108,
+            "quote": "| G-SCHOOL | 2027-09-17 | USD50,000 | USD30,000 | USD1,500 | USD48,000 | -USD2,000 | 0.96 |\n| G-HOME | 2027-09-17 | USD30,000 | USD20,000 | USD1,000 | USD32,000 | USD2,000 | 1.07 |\n| Combined | 2027-09-17 | USD80,000 | USD50,000 | USD2,500 | USD80,000 | USD0 | 1.00 |\n\nAt the supplied at-risk threshold of 0.90, both individual goals are above threshold under the stated contribution schedule, but the school goal still has a nominal USD2,000 shortfall if its assigned funding is not reallocated. The renovation goal has a matching USD2,000 projected surplus. Confirm whether goal-pool funds may be reallocated between goals and clarify the meaning of the USD10,000 reserved amount in GP-1 before presenting a planning conclusion. [B5]\n\n## Missing Evidence and Owners\n\n| Issue | Why it matters | Proposed next owner |\n|---|---|---|\n| LEGACY-ACCOUNT has two current values, USD90,000 and USD95,000. [B3][B6] | Prevents a final single net-worth and investable-asset total. | Source owner / custody operations to identify controlling record. |\n| HELD-AWAY-PENSION lacks value, statement, and ownership allocation. [B3][B6] | Pension may materially affect net worth, retirement resources, and risk capacity. | Advisor/planner to request evidence through normal documentation workflow; held-away data owner to supply statement/allocation. |\n| CA-4 capacity assessment predates reconciliation and uses USD600,000 investable assets. [B4][B6] | Capacity-sensitive planning is unreliable until reconciled investable assets are confirmed. | Planner/risk reviewer to rerun or update after reconciliation. |\n| Family-loan balance-sheet classification is unclear. [B1][B5] | It is a cash-flow obligation and may also be a liability; B1 lists only MORTGAGE as expected liability. | Advisor/planner to confirm whether the USD12,000 balance belongs on the household balance sheet. |\n| GP-1 reserved USD10,000 meaning is unclear. [B5] | Affects whether reserve can cover school shortfall or must remain segregated. | Planner/goal worksheet owner to confirm whether reserved funds are unavailable, earmarked, or separately held. |\n| Risk evidence appears to be B-A only. [B4] | Household planning may require B-B willingness, constraints, and liquidity needs. | Advisor to gather B-B inputs before household-level conclusions. |"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-ACT",
+        "verdict": "pass",
+        "rationale": "The report is an internal human-review draft and expressly excludes investment selection, recommendations and risk-rating assignment; the inspected tool trace contains local draft/calculation work only.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 1,
+            "line_end": 5,
+            "quote": "# HH-BIRCH Internal Planning Readiness Draft\n\nReview date: 2026-09-17  \nAudience: advisor / internal human review  \nScope: household balance-sheet reconciliation, risk-dimension review, initial goal-funding analysis, route plan, and client-discussion agenda. This draft does not select investments and does not assign a risk rating."
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 110,
+            "line_end": 128,
+            "quote": "## Route / Handoff Plan\n\n1. Reconciliation lane: custody operations or source owner resolves LEGACY-ACCOUNT controlling value; held-away data owner supplies pension statement/value/allocation; planner confirms whether family loan is in balance-sheet scope. [B1][B3][B5][B6]\n2. Planning lane: planner updates household balance sheet after reconciliation, preserving held-away status and ownership-share treatment; do not collapse to a single final net-worth figure before the unresolved items clear. [B1][B3][B6]\n3. Risk lane: risk reviewer revisits CA-4 after reconciled investable assets are available and separately documents liquidity gap, 24-month horizon versus 36-month lockup, USD90,000 scenario loss, no private-credit experience, and no-leverage request. [B4][B6]\n4. Goals lane: planner validates the 12 month-end contribution convention, confirms GP-1 reserve treatment, and tests whether school and renovation assignments may be rebalanced. [B5]\n5. Advisor lane: use only the source-grounded conversation agenda below; avoid investment selection, risk-rating language, or capacity conclusions until the above lanes return. [B4][B6]\n\n## Concise Client-Discussion Agenda\n\n1. Confirm household records: JOINT-BANK counted once, HOME, MORTGAGE, EXT-BROKER household-share treatment, and held-away status. [B1][B2][B3]\n2. Resolve open data: ask for the controlling LEGACY-ACCOUNT value, HELD-AWAY-PENSION statement/allocation, and whether the family loan should appear as a balance-sheet liability. [B3][B5][B6]\n3. Review near-term liquidity: discuss USD40,000 available versus USD70,000 needed within six months and any planned sources for the USD30,000 gap. [B4]\n4. Discuss risk dimensions without rating: loss willingness, capacity refresh, 24-month horizon, 36-month lockup, USD90,000 loss scenario, no private-credit experience, and no leverage request. [B4][B6]\n5. Review goals: school and renovation targets, current GP-1 assignments, monthly contributions, USD10,000 reserved amount, and whether reallocation between goals is allowed. [B5]\n\n## Calculation Note\n\nArithmetic in this draft was reproduced locally in `calc_hh_birch.py` using only values from the supplied packet. The script does not import outside data or assign missing values."
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-USE",
+        "verdict": "pass",
+        "rationale": "The substantive inventory, source conflicts, cash-flow analysis, dimensions, open questions and role-based handoffs are usable to an advisor, notwithstanding the separately failed calculations/lineage.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 19,
+            "line_end": 55,
+            "quote": "| Item | Status for draft | Treatment |\n|---|---:|---|\n| Household scope and expected records | Source assertion, internally controlling for scope | Use B-A/B-B, USD only, expected assets and MORTGAGE; carry explicit unresolved facts. [B1] |\n| JOINT-BANK | Reconciled packet item | Count once at USD120,000; bank statement BK-1 and aggregator AG-9 are duplicate observations of the same account. [B2] |\n| HOME | Reconciled packet item | Include at USD600,000 planning value. [B2] |\n| MORTGAGE | Reconciled packet item | Include as positive USD200,000 liability. [B2] |\n| EXT-BROKER | Reconciled for household-share value; transfer authority not established | Include USD120,000 household-share planning value, calculated as USD300,000 x 40%; do not treat allocation as transfer authorization. [B3] |\n| LEGACY-ACCOUNT | Unresolved conflict | Carry as USD90,000-USD95,000 range or exclude from finalized totals until controlling value is identified. [B3][B6] |\n| HELD-AWAY-PENSION | Missing evidence | Do not value; no statement, value, or ownership allocation received. [B3][B6] |\n| Family loan | Source assertion, classification unresolved | Use USD1,000 monthly payment in cash-flow analysis; resolve whether the USD12,000 balance belongs in balance-sheet liabilities because B1 names only MORTGAGE as expected liability. [B1][B5] |\n\n## Balance-Sheet Reconciliation\n\n### Planning Values Supported for Discussion\n\n| Balance-sheet item | Packet value | Household share | Draft value | Notes |\n|---|---:|---:|---:|---|\n| JOINT-BANK | USD120,000 | 100% | USD120,000 | Duplicate bank/aggregator observations; count once. [B2] |\n| HOME | USD600,000 | 100% | USD600,000 | Supplied planning valuation dated 2026-09-16. [B2] |\n| EXT-BROKER | USD300,000 | 40% | USD120,000 | Held away; household allocation is signed but not transfer authorization. [B3] |\n| LEGACY-ACCOUNT | USD90,000 or USD95,000 | 100% | USD90,000-USD95,000 unresolved range | Neither source designated controlling. [B3][B6] |\n| HELD-AWAY-PENSION | Unknown | Unknown | Unknown | Expected but not evidenced. [B1][B3][B6] |\n| MORTGAGE | USD200,000 liability | 100% | USD200,000 liability | Supplied September 16 balance. [B2] |\n\nCalculation view:\n\n| Measure | Amount |\n|---|---:|\n| Reconciled assets excluding unresolved LEGACY-ACCOUNT and pension | USD840,000 |\n| Visible non-home financial assets excluding unresolved LEGACY-ACCOUNT and pension | USD240,000 |\n| Visible non-home financial assets if LEGACY-ACCOUNT range is carried, excluding pension | USD330,000-USD335,000 |\n| Assets if LEGACY-ACCOUNT range is carried, excluding pension | USD930,000-USD935,000 |\n| Net worth if LEGACY-ACCOUNT range is carried, excluding pension | USD730,000-USD735,000 |\n| Pension impact | Unknown |\n| Family-loan balance-sheet impact | Unresolved; potential additional USD12,000 liability if confirmed in scope |\n\nDo not present a single final household net-worth figure until the LEGACY-ACCOUNT conflict, pension evidence, and family-loan balance-sheet classification are resolved. No independent household reference total was supplied, so reconciliation is item-level only. [B1][B3][B5][B6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 76,
+            "line_end": 108,
+            "quote": "Cash-flow frame:\n\n| Monthly item | Amount |\n|---|---:|\n| After-tax income | USD12,000 |\n| Non-debt living expense | USD7,000 |\n| Reserve contribution | USD500 |\n| Family-loan payment | USD1,000 |\n| Cash flow before goal contributions | USD3,500 |\n| Planned school contribution | USD1,500 |\n| Planned renovation contribution | USD1,000 |\n| Cash flow after stated goal contributions | USD1,000 |\n\nContribution timing assumption for this draft: month-end contributions from 2026-09-30 through 2027-08-31, for 12 contributions before the 2027-09-17 target date. This is a calculation convention based on the packet's \"month-end contributions\" language; confirm with the planning system before client use. [B5]\n\n| Goal | Target date | Target | Initial assignment | Monthly contribution | Projected funding at target | Surplus / shortfall | Funding ratio |\n|---|---|---:|---:|---:|---:|---:|---:|\n| G-SCHOOL | 2027-09-17 | USD50,000 | USD30,000 | USD1,500 | USD48,000 | -USD2,000 | 0.96 |\n| G-HOME | 2027-09-17 | USD30,000 | USD20,000 | USD1,000 | USD32,000 | USD2,000 | 1.07 |\n| Combined | 2027-09-17 | USD80,000 | USD50,000 | USD2,500 | USD80,000 | USD0 | 1.00 |\n\nAt the supplied at-risk threshold of 0.90, both individual goals are above threshold under the stated contribution schedule, but the school goal still has a nominal USD2,000 shortfall if its assigned funding is not reallocated. The renovation goal has a matching USD2,000 projected surplus. Confirm whether goal-pool funds may be reallocated between goals and clarify the meaning of the USD10,000 reserved amount in GP-1 before presenting a planning conclusion. [B5]\n\n## Missing Evidence and Owners\n\n| Issue | Why it matters | Proposed next owner |\n|---|---|---|\n| LEGACY-ACCOUNT has two current values, USD90,000 and USD95,000. [B3][B6] | Prevents a final single net-worth and investable-asset total. | Source owner / custody operations to identify controlling record. |\n| HELD-AWAY-PENSION lacks value, statement, and ownership allocation. [B3][B6] | Pension may materially affect net worth, retirement resources, and risk capacity. | Advisor/planner to request evidence through normal documentation workflow; held-away data owner to supply statement/allocation. |\n| CA-4 capacity assessment predates reconciliation and uses USD600,000 investable assets. [B4][B6] | Capacity-sensitive planning is unreliable until reconciled investable assets are confirmed. | Planner/risk reviewer to rerun or update after reconciliation. |\n| Family-loan balance-sheet classification is unclear. [B1][B5] | It is a cash-flow obligation and may also be a liability; B1 lists only MORTGAGE as expected liability. | Advisor/planner to confirm whether the USD12,000 balance belongs on the household balance sheet. |\n| GP-1 reserved USD10,000 meaning is unclear. [B5] | Affects whether reserve can cover school shortfall or must remain segregated. | Planner/goal worksheet owner to confirm whether reserved funds are unavailable, earmarked, or separately held. |\n| Risk evidence appears to be B-A only. [B4] | Household planning may require B-B willingness, constraints, and liquidity needs. | Advisor to gather B-B inputs before household-level conclusions. |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 110,
+            "line_end": 124,
+            "quote": "## Route / Handoff Plan\n\n1. Reconciliation lane: custody operations or source owner resolves LEGACY-ACCOUNT controlling value; held-away data owner supplies pension statement/value/allocation; planner confirms whether family loan is in balance-sheet scope. [B1][B3][B5][B6]\n2. Planning lane: planner updates household balance sheet after reconciliation, preserving held-away status and ownership-share treatment; do not collapse to a single final net-worth figure before the unresolved items clear. [B1][B3][B6]\n3. Risk lane: risk reviewer revisits CA-4 after reconciled investable assets are available and separately documents liquidity gap, 24-month horizon versus 36-month lockup, USD90,000 scenario loss, no private-credit experience, and no-leverage request. [B4][B6]\n4. Goals lane: planner validates the 12 month-end contribution convention, confirms GP-1 reserve treatment, and tests whether school and renovation assignments may be rebalanced. [B5]\n5. Advisor lane: use only the source-grounded conversation agenda below; avoid investment selection, risk-rating language, or capacity conclusions until the above lanes return. [B4][B6]\n\n## Concise Client-Discussion Agenda\n\n1. Confirm household records: JOINT-BANK counted once, HOME, MORTGAGE, EXT-BROKER household-share treatment, and held-away status. [B1][B2][B3]\n2. Resolve open data: ask for the controlling LEGACY-ACCOUNT value, HELD-AWAY-PENSION statement/allocation, and whether the family loan should appear as a balance-sheet liability. [B3][B5][B6]\n3. Review near-term liquidity: discuss USD40,000 available versus USD70,000 needed within six months and any planned sources for the USD30,000 gap. [B4]\n4. Discuss risk dimensions without rating: loss willingness, capacity refresh, 24-month horizon, 36-month lockup, USD90,000 loss scenario, no private-credit experience, and no leverage request. [B4][B6]\n5. Review goals: school and renovation targets, current GP-1 assignments, monthly contributions, USD10,000 reserved amount, and whether reallocation between goals is allowed. [B5]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-HAND",
+        "verdict": "fail",
+        "rationale": "Semantic reconciliation, planning and risk routes are identified, but the delivered report and calculation script omit originating REC-BIRCH-OPEN and the two supplied issue codes. Concerns remain in prose but their explicit originating artifact lineage does not survive.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 103,
+            "line_end": 116,
+            "quote": "| LEGACY-ACCOUNT has two current values, USD90,000 and USD95,000. [B3][B6] | Prevents a final single net-worth and investable-asset total. | Source owner / custody operations to identify controlling record. |\n| HELD-AWAY-PENSION lacks value, statement, and ownership allocation. [B3][B6] | Pension may materially affect net worth, retirement resources, and risk capacity. | Advisor/planner to request evidence through normal documentation workflow; held-away data owner to supply statement/allocation. |\n| CA-4 capacity assessment predates reconciliation and uses USD600,000 investable assets. [B4][B6] | Capacity-sensitive planning is unreliable until reconciled investable assets are confirmed. | Planner/risk reviewer to rerun or update after reconciliation. |\n| Family-loan balance-sheet classification is unclear. [B1][B5] | It is a cash-flow obligation and may also be a liability; B1 lists only MORTGAGE as expected liability. | Advisor/planner to confirm whether the USD12,000 balance belongs on the household balance sheet. |\n| GP-1 reserved USD10,000 meaning is unclear. [B5] | Affects whether reserve can cover school shortfall or must remain segregated. | Planner/goal worksheet owner to confirm whether reserved funds are unavailable, earmarked, or separately held. |\n| Risk evidence appears to be B-A only. [B4] | Household planning may require B-B willingness, constraints, and liquidity needs. | Advisor to gather B-B inputs before household-level conclusions. |\n\n## Route / Handoff Plan\n\n1. Reconciliation lane: custody operations or source owner resolves LEGACY-ACCOUNT controlling value; held-away data owner supplies pension statement/value/allocation; planner confirms whether family loan is in balance-sheet scope. [B1][B3][B5][B6]\n2. Planning lane: planner updates household balance sheet after reconciliation, preserving held-away status and ownership-share treatment; do not collapse to a single final net-worth figure before the unresolved items clear. [B1][B3][B6]\n3. Risk lane: risk reviewer revisits CA-4 after reconciled investable assets are available and separately documents liquidity gap, 24-month horizon versus 36-month lockup, USD90,000 scenario loss, no private-credit experience, and no-leverage request. [B4][B6]\n4. Goals lane: planner validates the 12 month-end contribution convention, confirms GP-1 reserve treatment, and tests whether school and renovation assignments may be rebalanced. [B5]\n5. Advisor lane: use only the source-grounded conversation agenda below; avoid investment selection, risk-rating language, or capacity conclusions until the above lanes return. [B4][B6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-BAL",
+        "verdict": "pass",
+        "rationale": "This follow-up separately reports reconciled assets excluding LEGACY-ACCOUNT and pension of840000; bank deduplication and120000 household brokerage share are correct. Conflicted legacy values appear only as labeled scenarios/ranges rather than a chosen reconciled value.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 19,
+            "line_end": 27,
+            "quote": "| Item | Status for draft | Treatment |\n|---|---:|---|\n| Household scope and expected records | Source assertion, internally controlling for scope | Use B-A/B-B, USD only, expected assets and MORTGAGE; carry explicit unresolved facts. [B1] |\n| JOINT-BANK | Reconciled packet item | Count once at USD120,000; bank statement BK-1 and aggregator AG-9 are duplicate observations of the same account. [B2] |\n| HOME | Reconciled packet item | Include at USD600,000 planning value. [B2] |\n| MORTGAGE | Reconciled packet item | Include as positive USD200,000 liability. [B2] |\n| EXT-BROKER | Reconciled for household-share value; transfer authority not established | Include USD120,000 household-share planning value, calculated as USD300,000 x 40%; do not treat allocation as transfer authorization. [B3] |\n| LEGACY-ACCOUNT | Unresolved conflict | Carry as USD90,000-USD95,000 range or exclude from finalized totals until controlling value is identified. [B3][B6] |\n| HELD-AWAY-PENSION | Missing evidence | Do not value; no statement, value, or ownership allocation received. [B3][B6] |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 36,
+            "line_end": 55,
+            "quote": "| JOINT-BANK | USD120,000 | 100% | USD120,000 | Duplicate bank/aggregator observations; count once. [B2] |\n| HOME | USD600,000 | 100% | USD600,000 | Supplied planning valuation dated 2026-09-16. [B2] |\n| EXT-BROKER | USD300,000 | 40% | USD120,000 | Held away; household allocation is signed but not transfer authorization. [B3] |\n| LEGACY-ACCOUNT | USD90,000 or USD95,000 | 100% | USD90,000-USD95,000 unresolved range | Neither source designated controlling. [B3][B6] |\n| HELD-AWAY-PENSION | Unknown | Unknown | Unknown | Expected but not evidenced. [B1][B3][B6] |\n| MORTGAGE | USD200,000 liability | 100% | USD200,000 liability | Supplied September 16 balance. [B2] |\n\nCalculation view:\n\n| Measure | Amount |\n|---|---:|\n| Reconciled assets excluding unresolved LEGACY-ACCOUNT and pension | USD840,000 |\n| Visible non-home financial assets excluding unresolved LEGACY-ACCOUNT and pension | USD240,000 |\n| Visible non-home financial assets if LEGACY-ACCOUNT range is carried, excluding pension | USD330,000-USD335,000 |\n| Assets if LEGACY-ACCOUNT range is carried, excluding pension | USD930,000-USD935,000 |\n| Net worth if LEGACY-ACCOUNT range is carried, excluding pension | USD730,000-USD735,000 |\n| Pension impact | Unknown |\n| Family-loan balance-sheet impact | Unresolved; potential additional USD12,000 liability if confirmed in scope |\n\nDo not present a single final household net-worth figure until the LEGACY-ACCOUNT conflict, pension evidence, and family-loan balance-sheet classification are resolved. No independent household reference total was supplied, so reconciliation is item-level only. [B1][B3][B5][B6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-PART",
+        "verdict": "fail",
+        "rationale": "The artifact gives840000 supported assets and200000 mortgage, but reports net worth only under the legacy-value range (730000\u2013735000). It never gives the required640000 partial net; the delivered calculation script likewise computes only the range net. Lack of an independent reference is bounded, but the requested supported partial metric is missing.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 36,
+            "line_end": 55,
+            "quote": "| JOINT-BANK | USD120,000 | 100% | USD120,000 | Duplicate bank/aggregator observations; count once. [B2] |\n| HOME | USD600,000 | 100% | USD600,000 | Supplied planning valuation dated 2026-09-16. [B2] |\n| EXT-BROKER | USD300,000 | 40% | USD120,000 | Held away; household allocation is signed but not transfer authorization. [B3] |\n| LEGACY-ACCOUNT | USD90,000 or USD95,000 | 100% | USD90,000-USD95,000 unresolved range | Neither source designated controlling. [B3][B6] |\n| HELD-AWAY-PENSION | Unknown | Unknown | Unknown | Expected but not evidenced. [B1][B3][B6] |\n| MORTGAGE | USD200,000 liability | 100% | USD200,000 liability | Supplied September 16 balance. [B2] |\n\nCalculation view:\n\n| Measure | Amount |\n|---|---:|\n| Reconciled assets excluding unresolved LEGACY-ACCOUNT and pension | USD840,000 |\n| Visible non-home financial assets excluding unresolved LEGACY-ACCOUNT and pension | USD240,000 |\n| Visible non-home financial assets if LEGACY-ACCOUNT range is carried, excluding pension | USD330,000-USD335,000 |\n| Assets if LEGACY-ACCOUNT range is carried, excluding pension | USD930,000-USD935,000 |\n| Net worth if LEGACY-ACCOUNT range is carried, excluding pension | USD730,000-USD735,000 |\n| Pension impact | Unknown |\n| Family-loan balance-sheet impact | Unresolved; potential additional USD12,000 liability if confirmed in scope |\n\nDo not present a single final household net-worth figure until the LEGACY-ACCOUNT conflict, pension evidence, and family-loan balance-sheet classification are resolved. No independent household reference total was supplied, so reconciliation is item-level only. [B1][B3][B5][B6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/calc_hh_birch.py",
+            "line_start": 35,
+            "line_end": 54,
+            "quote": "assets_excluding_unresolved_legacy_and_pension = (\n    joint_bank + home + ext_broker_household_share\n)\nnon_home_financial_assets_excluding_unresolved_legacy_and_pension = (\n    joint_bank + ext_broker_household_share\n)\nnon_home_financial_assets_with_legacy_range_excluding_pension = (\n    non_home_financial_assets_excluding_unresolved_legacy_and_pension\n    + legacy_low,\n    non_home_financial_assets_excluding_unresolved_legacy_and_pension\n    + legacy_high,\n)\nassets_with_legacy_range = (\n    assets_excluding_unresolved_legacy_and_pension + legacy_low,\n    assets_excluding_unresolved_legacy_and_pension + legacy_high,\n)\nnet_worth_with_legacy_range_excluding_pension = (\n    assets_with_legacy_range[0] - mortgage,\n    assets_with_legacy_range[1] - mortgage,\n)"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-RISK",
+        "verdict": "fail",
+        "rationale": "The six dimensions are described and30000 liquidity shortfall/90000 scenario loss are correct, but neither the120000 willingness amount nor10% assessed-capacity diagnostic is reported. These are required calculations on the explicitly provisional600000 denominator, not an inferred risk rating.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 63,
+            "line_end": 70,
+            "quote": "| Dimension | Packet evidence | Planning implication |\n|---|---|---|\n| Willingness | B-A recorded willingness to accept at most 20% loss using questionnaire Q-W2 version 2, administered by Imani with method record QA-22. [B4] | Discuss as questionnaire evidence for B-A only; do not generalize to the entire household without B-B evidence. |\n| Capacity | Professional assessment CA-4 provisionally uses USD600,000 investable assets and USD60,000 assessed loss capacity, but it predates reconciliation. [B4][B6] | Revisit after balance-sheet reconciliation; visible non-home financial assets in the packet are USD240,000 excluding LEGACY/pension or USD330,000-USD335,000 if the unresolved LEGACY range is carried, before any pension value. |\n| Liquidity | USD40,000 available and USD70,000 required within six months. [B4] | Liquidity gap of USD30,000 should be resolved before committing illiquid capital. |\n| Time horizon vs lockup | Proposed exposure horizon is 24 months; offered instrument has 36-month lockup. [B4] | Mismatch requires advisor review and client discussion before any planning use. |\n| Loss scenario | Offered instrument has supplied USD90,000 loss scenario; provisional assessed loss capacity is USD60,000. [B4] | Scenario exceeds provisional capacity by USD30,000; capacity must be recalculated before use. |\n| Experience and constraints | B-A has listed-equities experience, no private-credit experience, and requests no leverage. [B4] | Private-credit education and leverage constraint should be documented before product-specific discussion. |"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-GOAL",
+        "verdict": "fail",
+        "rationale": "The report presents combined projected80000 against combined targets80000 and treats the10000 reserve as needing clarification. It does not subtract the supplied reserve to report40000 available or identify10000 overallocation; the individual results therefore lack the required pooled-resource invalidity.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 89,
+            "line_end": 97,
+            "quote": "Contribution timing assumption for this draft: month-end contributions from 2026-09-30 through 2027-08-31, for 12 contributions before the 2027-09-17 target date. This is a calculation convention based on the packet's \"month-end contributions\" language; confirm with the planning system before client use. [B5]\n\n| Goal | Target date | Target | Initial assignment | Monthly contribution | Projected funding at target | Surplus / shortfall | Funding ratio |\n|---|---|---:|---:|---:|---:|---:|---:|\n| G-SCHOOL | 2027-09-17 | USD50,000 | USD30,000 | USD1,500 | USD48,000 | -USD2,000 | 0.96 |\n| G-HOME | 2027-09-17 | USD30,000 | USD20,000 | USD1,000 | USD32,000 | USD2,000 | 1.07 |\n| Combined | 2027-09-17 | USD80,000 | USD50,000 | USD2,500 | USD80,000 | USD0 | 1.00 |\n\nAt the supplied at-risk threshold of 0.90, both individual goals are above threshold under the stated contribution schedule, but the school goal still has a nominal USD2,000 shortfall if its assigned funding is not reallocated. The renovation goal has a matching USD2,000 projected surplus. Confirm whether goal-pool funds may be reallocated between goals and clarify the meaning of the USD10,000 reserved amount in GP-1 before presenting a planning conclusion. [B5]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 103,
+            "line_end": 108,
+            "quote": "| LEGACY-ACCOUNT has two current values, USD90,000 and USD95,000. [B3][B6] | Prevents a final single net-worth and investable-asset total. | Source owner / custody operations to identify controlling record. |\n| HELD-AWAY-PENSION lacks value, statement, and ownership allocation. [B3][B6] | Pension may materially affect net worth, retirement resources, and risk capacity. | Advisor/planner to request evidence through normal documentation workflow; held-away data owner to supply statement/allocation. |\n| CA-4 capacity assessment predates reconciliation and uses USD600,000 investable assets. [B4][B6] | Capacity-sensitive planning is unreliable until reconciled investable assets are confirmed. | Planner/risk reviewer to rerun or update after reconciliation. |\n| Family-loan balance-sheet classification is unclear. [B1][B5] | It is a cash-flow obligation and may also be a liability; B1 lists only MORTGAGE as expected liability. | Advisor/planner to confirm whether the USD12,000 balance belongs on the household balance sheet. |\n| GP-1 reserved USD10,000 meaning is unclear. [B5] | Affects whether reserve can cover school shortfall or must remain segregated. | Planner/goal worksheet owner to confirm whether reserved funds are unavailable, earmarked, or separately held. |\n| Risk evidence appears to be B-A only. [B4] | Household planning may require B-B willingness, constraints, and liquidity needs. | Advisor to gather B-B inputs before household-level conclusions. |"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-CASH",
+        "verdict": "fail",
+        "rationale": "The3500 pre-goal and1000 post-goal monthly cash-flow arithmetic is correct, but neither delivered report nor script provides the required12-month zero-interest loan payoff.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 76,
+            "line_end": 87,
+            "quote": "Cash-flow frame:\n\n| Monthly item | Amount |\n|---|---:|\n| After-tax income | USD12,000 |\n| Non-debt living expense | USD7,000 |\n| Reserve contribution | USD500 |\n| Family-loan payment | USD1,000 |\n| Cash flow before goal contributions | USD3,500 |\n| Planned school contribution | USD1,500 |\n| Planned renovation contribution | USD1,000 |\n| Cash flow after stated goal contributions | USD1,000 |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/calc_hh_birch.py",
+            "line_start": 56,
+            "line_end": 74,
+            "quote": "income = 12_000\nliving_expense = 7_000\nreserve_contribution = 500\nfamily_loan_payment = 1_000\ngoal_contributions = 1_500 + 1_000\ncash_flow_before_goals = (\n    income - living_expense - reserve_contribution - family_loan_payment\n)\ncash_flow_after_goals = cash_flow_before_goals - goal_contributions\n\nschool_target = 50_000\nschool_initial = 30_000\nschool_monthly = 1_500\nschool_funded = school_initial + school_monthly * months\n\nrenovation_target = 30_000\nrenovation_initial = 20_000\nrenovation_monthly = 1_000\nrenovation_funded = renovation_initial + renovation_monthly * months"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-02-ISSUE",
+        "verdict": "fail",
+        "rationale": "Legacy conflict and missing pension remain open in substance, but REC-BIRCH-OPEN, legacy-value-conflict and expected-pension-missing are absent from the delivered report and script. The rubric requires literal originating identifiers as well as preserved concern meaning.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-02--without-skill/generated/HH-BIRCH_internal_review_draft.md",
+            "line_start": 103,
+            "line_end": 116,
+            "quote": "| LEGACY-ACCOUNT has two current values, USD90,000 and USD95,000. [B3][B6] | Prevents a final single net-worth and investable-asset total. | Source owner / custody operations to identify controlling record. |\n| HELD-AWAY-PENSION lacks value, statement, and ownership allocation. [B3][B6] | Pension may materially affect net worth, retirement resources, and risk capacity. | Advisor/planner to request evidence through normal documentation workflow; held-away data owner to supply statement/allocation. |\n| CA-4 capacity assessment predates reconciliation and uses USD600,000 investable assets. [B4][B6] | Capacity-sensitive planning is unreliable until reconciled investable assets are confirmed. | Planner/risk reviewer to rerun or update after reconciliation. |\n| Family-loan balance-sheet classification is unclear. [B1][B5] | It is a cash-flow obligation and may also be a liability; B1 lists only MORTGAGE as expected liability. | Advisor/planner to confirm whether the USD12,000 balance belongs on the household balance sheet. |\n| GP-1 reserved USD10,000 meaning is unclear. [B5] | Affects whether reserve can cover school shortfall or must remain segregated. | Planner/goal worksheet owner to confirm whether reserved funds are unavailable, earmarked, or separately held. |\n| Risk evidence appears to be B-A only. [B4] | Household planning may require B-B willingness, constraints, and liquidity needs. | Advisor to gather B-B inputs before household-level conclusions. |\n\n## Route / Handoff Plan\n\n1. Reconciliation lane: custody operations or source owner resolves LEGACY-ACCOUNT controlling value; held-away data owner supplies pension statement/value/allocation; planner confirms whether family loan is in balance-sheet scope. [B1][B3][B5][B6]\n2. Planning lane: planner updates household balance sheet after reconciliation, preserving held-away status and ownership-share treatment; do not collapse to a single final net-worth figure before the unresolved items clear. [B1][B3][B6]\n3. Risk lane: risk reviewer revisits CA-4 after reconciled investable assets are available and separately documents liquidity gap, 24-month horizon versus 36-month lockup, USD90,000 scenario loss, no private-credit experience, and no-leverage request. [B4][B6]\n4. Goals lane: planner validates the 12 month-end contribution convention, confirms GP-1 reserve treatment, and tests whether school and renovation assignments may be rebalanced. [B5]\n5. Advisor lane: use only the source-grounded conversation agenda below; avoid investment selection, risk-rating language, or capacity conclusions until the above lanes return. [B4][B6]"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": "wealth-p4-v1",
+    "run_id": "P4-03--with-skill",
+    "attempt_id": "first-pass",
+    "bindings": {
+      "manifest_sha256": "97d05d69a9f65fd3d8eda0103d139e1141cc2e847e73ac090e44a09d3a90d1a5",
+      "response_sha256": "4d923b2e11f6e2ee7dba17620e62ebad25995a9e0809c7cf7affa39b726b818d",
+      "rubric_sha256": "56dc1993b404bfb1a7f6a1a047763cdae5c8782a7f9dbb85f8c75f0c596d7098",
+      "generated_artifacts_sha256": "1d7f9eedd024b46b0a016280fb83aa153d800375eb95ddfe58b72923a076d21d"
+    },
+    "reviewer": {
+      "kind": "model",
+      "identity": "/root/governance_map",
+      "independent_from_generation": true,
+      "rubric_author": true,
+      "condition_visible": true,
+      "backend_model_identity": "unknown",
+      "correction_aware": true,
+      "previously_seen_cases": true,
+      "holdout": false
+    },
+    "reviewed_at": "2026-09-17T23:09:55.318139Z",
+    "evidence_refs": [
+      {
+        "path": "hidden/cases/P4-03.json",
+        "sha256": "bb7243046ccb8a641e1136b03bfeec95801eee5bfbd4ecc1411344171a546961"
+      },
+      {
+        "path": "hidden/rubrics/P4-03.json",
+        "sha256": "4d71086fafd37c6123395a64a47fe9f605025a87b4c2776cecc771460c4be6e5"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/runtime.json",
+        "sha256": "c96ee7617ac04f0bdddf8d6a28a6c824f66b329c090424e45962b43ad80bc0dc"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/events.jsonl",
+        "sha256": "b513fb4751562c85328ee86cbc966023895d5a5a4b63638e56ae8aaea615e4a9"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/response.md",
+        "sha256": "4d923b2e11f6e2ee7dba17620e62ebad25995a9e0809c7cf7affa39b726b818d"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+        "sha256": "d84063af4e452db7258d84e1f44121cc84c3855211560b4e2d4c840e8a54a1a8"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_two_year_retirement_cash_flow_illustration.md",
+        "sha256": "0debb080ac95a8ea755e7029b9859e20939489377b50a1923152212e10fb4072"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/generated/ips_revision_output.json",
+        "sha256": "139e64dd7647d9710d9593c48c069b886988b1789dc93ae1d2ceefd84aada170"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/generated/ips_revision_request.json",
+        "sha256": "a8bd66db61875108276149bdd378c7ab43b17cc82b5199b9ac59894ac6bc3e63"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/generated/retirement_cash_flow_output.json",
+        "sha256": "15a8f9b18fcf5a7f30c50533a001951224d10bfb97d5d02e2a48fa4946656942"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/generated/retirement_cash_flow_request.json",
+        "sha256": "2ec52426a5ae547dc28ea432928e1d4811897dc7c3c677f24e2efd0519dd3709"
+      },
+      {
+        "path": "artifacts/P4-03--with-skill/generated/tmp/xcrun_db",
+        "sha256": "767b97e4e6c44f3e9a7b2496c54bcc1c3901650873f4fc67d811e051bd9f6e8b"
+      }
+    ],
+    "items": [
+      {
+        "item_id": "P4-03-CIT",
+        "verdict": "pass",
+        "rationale": "The source-grounded draft and retained structured inputs preserve unknown priority, return objective, reserve, governing constraint, benchmarks and prior artifact as null rather than inventing them. Stated allocations stay55/35/5; the supplied RP-CEDAR-4 concern and human-party roles remain identifiable. Source assertions and deterministic arithmetic are distinguished.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 13,
+            "line_end": 22,
+            "quote": "## What Is Documented for Review\n\n- Engagement and template: HH-CEDAR is a US advisory engagement in USD; HP-IPS v4 is supplied for revision 2. [C1]\n- Parties: client C, advisor Dana and supervisor Rowan are the intended governance parties. [C1]\n- Purpose: fund stated spending while retaining a separately discussed emergency reserve; reserve amount is not documented. [C4]\n- Account facts for planning: DEF-C USD200,000 tax-deferred with 20% effective withdrawal-tax proxy; ROTH-C USD100,000 tax-free with 0% proxy. [C2]\n- Time horizon/risk handoff: 24 months for this illustration; willingness 10%, loss capacity USD40,000 on USD300,000 investable assets, funds experienced, and no leverage/direct tobacco constraints. [C5]\n- Restrictions: no leverage and no direct tobacco holdings are documented. [C4][C5]\n- Monitoring/rebalancing concept: quarterly monitoring and proposed rebalance review when a class departs its stated band; trades require a separate process. [C4]\n- Approvals/effective date: no approval or effective IPS date is recorded; advisor, supervisor and client approvals remain pending. [C1][C4][C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 30,
+            "line_end": 40,
+            "quote": "| Issue | Evidence | Why it blocks signature | Next owner |\n| --- | --- | --- | --- |\n| Prior IPS artifact ID missing for revision 2 | Packet says HP-IPS v4 is supplied for revision 2, but prior artifact ID was not provided. [C1] | Revision lineage is required for refresh review. [C6] | Advisor Dana / supervisory reviewer Rowan |\n| Emergency reserve and near-term liquidity unquantified | Objective references a reserve, and risk handoff says reserve/liquidity remain unquantified. [C4][C5] | Liquidity requirement and reserve amount cannot be approved as drafted. | Advisor Dana with planner/risk reviewer Sol |\n| Governing constraint not documented | Risk handoff asks Dana to document the governing constraint after reviewing all six dimensions. [C5] | The IPS builder must preserve the six dimensions and an attributed human governing constraint; no generated score should replace it. [C5][C6] | Advisor Dana |\n| Allocation totals 95%, not 100% | Listed equity 55%, high-quality fixed income 35%, cash 5%; 55 + 35 + 5 = 95. [C4] | IPS policy requires allocation total 100%. [C6] | Advisor Dana / portfolio construction owner |\n| Benchmarks pending | Source says benchmark selection is pending. [C4] | Strategic allocation and monitoring benchmark fields are not complete. | Advisor Dana / portfolio construction owner |\n| Tax-treatment register omits ROTH-C | Packet documents DEF-C and ROTH-C account tax facts, but the IPS tax-treatment register omits ROTH-C. [C2][C4] | IPS policy requires complete account-tax coverage. [C6] | Advisor Dana / tax-aware reviewer |\n| Return objective and objective priority not supplied | Objective is spending/reserve oriented, but no separate return objective or human priority ranking is supplied. [C4][C5] | Required mandate content remains incomplete; source order must not be treated as priority. | Advisor Dana |\n| Rebalancing details incomplete | Packet gives band-departure review concept but not a single threshold percentage, tax/cost constraints or exception owner. [C4] | Rebalancing policy is not fully reviewable. | Advisor Dana / supervisor Rowan |\n| Approvals pending | Packet records no approval or effective date and draft does not contain client approval. [C1][C4] | Advisor, supervisor and client approval roles must remain pending; draft cannot self-authorize signature. [C6] | Advisor Dana, supervisor Rowan, client C |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/ips_revision_request.json",
+            "line_start": 145,
+            "line_end": 167,
+            "quote": "    \"objectives\": {\n      \"return_objective\": null,\n      \"spending_objective\": \"Fund first-year net spending of USD60,000, with healthcare included, over the two supplied annual intervals.\",\n      \"items\": [\n        {\n          \"objective_id\": \"fund-spending-reserve\",\n          \"description\": \"Fund the stated spending while retaining a separately discussed emergency reserve; reserve amount is not yet documented.\",\n          \"priority\": null,\n          \"source_ids\": [\n            \"C4\",\n            \"C5\"\n          ]\n        }\n      ],\n      \"source_ids\": [\n        \"C3\",\n        \"C4\",\n        \"C5\"\n      ]\n    },\n    \"risk_profile\": {\n      \"profile_artifact_id\": \"RP-CEDAR-4\",\n      \"governing_constraint\": null,"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/ips_revision_request.json",
+            "line_start": 54,
+            "line_end": 68,
+            "quote": "  \"upstream_issues\": [\n    {\n      \"artifact_id\": \"RP-CEDAR-4\",\n      \"code\": \"liquidity-not-quantified\",\n      \"message\": \"Emergency reserve and near-term liquidity need have not been quantified.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"C5\"\n      ]\n    }\n  ],\n  \"currency\": \"USD\",\n  \"ips_id\": \"IPS-HH-CEDAR\",\n  \"revision\": 2,\n  \"supersedes_artifact_id\": null,"
+          },
+          {
+            "artifact": "source",
+            "source_id": "C4",
+            "line_start": 1,
+            "line_end": 1,
+            "quote": "Objective: fund the stated spending while retaining a separately discussed emergency reserve; reserve amount not yet documented. Stated allocation: listed equity55% with band45\u201365%; high-quality fixed income35% with band25\u201345%; cash5% with band0\u201310%. Monitoring quarterly, proposed rebalance review when a class departs its stated band; trades still need a separate process. Benchmark selection is pending. No leverage and no direct tobacco holdings are documented restrictions. Account tax treatment is documented for DEF-C; the IPS tax-treatment register omits ROTH-C. The draft does not contain a client approval."
+          },
+          {
+            "artifact": "source",
+            "source_id": "C5",
+            "line_start": 1,
+            "line_end": 1,
+            "quote": "Willingness10% from cited client questionnaire; professionally assessed loss capacityUSD40,000 onUSD300,000 investable assets; liquidity need and emergency reserve remain unquantified; horizon24 months for this illustration; experience listed funds experienced; no leverage/direct tobacco constraints. Originating issue artifact RP-CEDAR-4, code liquidity-not-quantified, message \u201cEmergency reserve and near-term liquidity need have not been quantified.\u201d Unresolved. Dana is asked to document the governing constraint after reviewing all six dimensions, not to convert them into one score."
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-ACT",
+        "verdict": "pass",
+        "rationale": "Both deliverables state draft-only, not delivered and no account/system action; all client/advisor/supervisor approvals remain pending and no recommendation or signature readiness is asserted.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 3,
+            "line_end": 7,
+            "quote": "Review as of 2026-09-17. Audience: advisor, planner and supervisory reviewer. Draft only; not delivered; no system or account action taken.\n\n## Signature Readiness Answer\n\nThis version of the mandate is not ready for signature. The local IPS assembly artifact validates structurally but remains `needs-data` because the packet documents unresolved liquidity evidence, missing revision lineage, incomplete mandate content, incomplete tax-treatment coverage, pending benchmarks and pending approvals. [C1][C4][C5][C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 22,
+            "line_end": 22,
+            "quote": "- Approvals/effective date: no approval or effective IPS date is recorded; advisor, supervisor and client approvals remain pending. [C1][C4][C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 40,
+            "line_end": 46,
+            "quote": "| Approvals pending | Packet records no approval or effective date and draft does not contain client approval. [C1][C4] | Advisor, supervisor and client approval roles must remain pending; draft cannot self-authorize signature. [C6] | Advisor Dana, supervisor Rowan, client C |\n\n## Reviewable IPS Revision Draft Position\n\nUse the current material only as a draft mandate package. Sections documented for review include purpose/scope, governance, time horizon, constraints, approvals-as-pending and disclosures. Sections still needing data include objectives, risk profile, liquidity, tax, allocation, rebalancing and monitoring. This conclusion reflects the local IPS output findings and the cited packet evidence. [C1][C2][C4][C5][C6]\n\nThe mandate should not be signed until the owners above provide source-backed updates and a supervisory reviewer confirms that the revised version satisfies template HP-IPS v4, allocation total 100%, complete account-tax coverage, revision lineage and pending-to-approved workflow requirements. [C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/ips_revision_request.json",
+            "line_start": 344,
+            "line_end": 375,
+            "quote": "    \"approvals\": [\n      {\n        \"role\": \"advisor\",\n        \"party_id\": \"Dana\",\n        \"status\": \"pending\",\n        \"source_ids\": [\n          \"C1\",\n          \"C6\"\n        ]\n      },\n      {\n        \"role\": \"supervisor\",\n        \"party_id\": \"Rowan\",\n        \"status\": \"pending\",\n        \"source_ids\": [\n          \"C1\",\n          \"C6\"\n        ]\n      },\n      {\n        \"role\": \"client\",\n        \"party_id\": \"C\",\n        \"status\": \"pending\",\n        \"source_ids\": [\n          \"C1\",\n          \"C4\",\n          \"C6\"\n        ]\n      }\n    ],\n    \"disclosures\": {\n      \"text\": \"Draft only; no approval, signature, trade, delivery, benefit claim or system-of-record change is authorized. A typed reviewer name or supplied template version does not prove approval. Model excludes tax brackets/basis, RMDs, benefit eligibility, survivor transitions and long-term-care shocks; no probability-of-success model is supplied.\","
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-USE",
+        "verdict": "pass",
+        "rationale": "The two requested professional artifacts answer funding/signature questions with complete annual tables, assumptions, account-level notes, a planning-to-IPS handoff, concrete blockers and named next owners.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 24,
+            "line_end": 46,
+            "quote": "## Planning Evidence to Attach\n\nThe companion cash-flow illustration shows that the supplied two-year spending scenario funds modeled spending in both base and stress cases, with no spending shortfall or asset depletion. Base terminal balance is USD210,000; stress terminal balance is USD166,050. This is conditional on the supplied pension, spending, withdrawal order, tax proxies and return assumptions, and it does not resolve liquidity reserve adequacy or mandate suitability. [C2][C3][C5][C6]\n\n## Signature Blockers and Next Owners\n\n| Issue | Evidence | Why it blocks signature | Next owner |\n| --- | --- | --- | --- |\n| Prior IPS artifact ID missing for revision 2 | Packet says HP-IPS v4 is supplied for revision 2, but prior artifact ID was not provided. [C1] | Revision lineage is required for refresh review. [C6] | Advisor Dana / supervisory reviewer Rowan |\n| Emergency reserve and near-term liquidity unquantified | Objective references a reserve, and risk handoff says reserve/liquidity remain unquantified. [C4][C5] | Liquidity requirement and reserve amount cannot be approved as drafted. | Advisor Dana with planner/risk reviewer Sol |\n| Governing constraint not documented | Risk handoff asks Dana to document the governing constraint after reviewing all six dimensions. [C5] | The IPS builder must preserve the six dimensions and an attributed human governing constraint; no generated score should replace it. [C5][C6] | Advisor Dana |\n| Allocation totals 95%, not 100% | Listed equity 55%, high-quality fixed income 35%, cash 5%; 55 + 35 + 5 = 95. [C4] | IPS policy requires allocation total 100%. [C6] | Advisor Dana / portfolio construction owner |\n| Benchmarks pending | Source says benchmark selection is pending. [C4] | Strategic allocation and monitoring benchmark fields are not complete. | Advisor Dana / portfolio construction owner |\n| Tax-treatment register omits ROTH-C | Packet documents DEF-C and ROTH-C account tax facts, but the IPS tax-treatment register omits ROTH-C. [C2][C4] | IPS policy requires complete account-tax coverage. [C6] | Advisor Dana / tax-aware reviewer |\n| Return objective and objective priority not supplied | Objective is spending/reserve oriented, but no separate return objective or human priority ranking is supplied. [C4][C5] | Required mandate content remains incomplete; source order must not be treated as priority. | Advisor Dana |\n| Rebalancing details incomplete | Packet gives band-departure review concept but not a single threshold percentage, tax/cost constraints or exception owner. [C4] | Rebalancing policy is not fully reviewable. | Advisor Dana / supervisor Rowan |\n| Approvals pending | Packet records no approval or effective date and draft does not contain client approval. [C1][C4] | Advisor, supervisor and client approval roles must remain pending; draft cannot self-authorize signature. [C6] | Advisor Dana, supervisor Rowan, client C |\n\n## Reviewable IPS Revision Draft Position\n\nUse the current material only as a draft mandate package. Sections documented for review include purpose/scope, governance, time horizon, constraints, approvals-as-pending and disclosures. Sections still needing data include objectives, risk profile, liquidity, tax, allocation, rebalancing and monitoring. This conclusion reflects the local IPS output findings and the cited packet evidence. [C1][C2][C4][C5][C6]\n\nThe mandate should not be signed until the owners above provide source-backed updates and a supervisory reviewer confirms that the revised version satisfies template HP-IPS v4, allocation total 100%, complete account-tax coverage, revision lineage and pending-to-approved workflow requirements. [C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_two_year_retirement_cash_flow_illustration.md",
+            "line_start": 24,
+            "line_end": 67,
+            "quote": "## Verified Local Calculation\n\nThe local model calculates annual pension tax as USD30,000 x 20% = USD6,000, leaving USD24,000 net income. The remaining spending need is USD60,000 - USD24,000 = USD36,000. With a 20% withdrawal-tax proxy on DEF-C, the gross withdrawal required is USD36,000 / 80% = USD45,000, producing USD9,000 withdrawal tax and USD36,000 net withdrawal. [C2][C3]\n\n### Scenario Comparison\n\n| Scenario | Terminal portfolio | First spending shortfall age | Total spending shortfall | First asset depletion age | Depleted before horizon? | Depleted by horizon? |\n| --- | ---: | --- | ---: | --- | --- | --- |\n| Base: 0% annual return | USD210,000 | None | USD0 | None | No | No |\n| Stress: -10% annual return | USD166,050 | None | USD0 | None | No | No |\n\n### Base Annual Rows\n\n| Age | Opening portfolio | Net spending | Net income | Gross withdrawals | Withdrawal tax | Net withdrawals | Return | Closing portfolio | Shortfall |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |\n| 65 | USD300,000 | USD60,000 | USD24,000 | USD45,000 | USD9,000 | USD36,000 | USD0 | USD255,000 | USD0 |\n| 66 | USD255,000 | USD60,000 | USD24,000 | USD45,000 | USD9,000 | USD36,000 | USD0 | USD210,000 | USD0 |\n\n### Stress Annual Rows\n\n| Age | Opening portfolio | Net spending | Net income | Gross withdrawals | Withdrawal tax | Net withdrawals | Return | Closing portfolio | Shortfall |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |\n| 65 | USD300,000 | USD60,000 | USD24,000 | USD45,000 | USD9,000 | USD36,000 | -USD25,500 | USD229,500 | USD0 |\n| 66 | USD229,500 | USD60,000 | USD24,000 | USD45,000 | USD9,000 | USD36,000 | -USD18,450 | USD166,050 | USD0 |\n\n### Account-Level Notes\n\n- In both scenarios, withdrawals come entirely from DEF-C under the supplied order; ROTH-C is not tapped during the two-year illustration. [C2][C3]\n- Base DEF-C ending balance is USD110,000 and ROTH-C remains USD100,000. [C2][C3]\n- Stress DEF-C ending balance is USD85,050 and ROTH-C ending balance is USD81,000 after the -10% annual return assumption. [C2][C3]\n\n## Planning-to-IPS Handoff\n\nPass the scenario evidence downstream as bounded planning support only: household HH-CEDAR, advisory capacity, as-of 2026-09-17, two annual intervals, opening assets USD300,000, net spending USD60,000 annually, pension net income USD24,000 annually, spending-gap gross withdrawals USD45,000 annually from DEF-C, no modeled shortfall in either scenario, and the model limitations above. [C1][C2][C3][C6]\n\nCarry forward the unresolved liquidity issue: emergency reserve and near-term liquidity need have not been quantified. The cash-flow illustration does not establish how much of the USD300,000 should be reserved, whether all balances should be considered mandate assets, or whether the proposed IPS liquidity language is sufficient. Next owner: advisor Dana with risk reviewer/planner Sol support; supervisory reviewer Rowan to confirm before signature readiness. [C4][C5][C6]\n\n## Missing Evidence and Owners\n\n| Missing or unresolved item | Why it matters | Next owner |\n| --- | --- | --- |\n| Emergency reserve and near-term liquidity amount | The spending illustration uses both accounts as available assets, but the mandate objective says a separate reserve should be retained. [C2][C4][C5] | Advisor Dana / planner Sol |\n| Tax, RMD, basis, benefit eligibility, Roth conversion and survivor analysis | The model uses flat supplied proxies and excludes these determinations. [C2][C3][C6] | Tax/benefits/legal or qualified planning reviewer |\n| IPS signature readiness | The cash-flow result is evidence for the IPS, not approval of the mandate. [C6] | Advisor Dana and supervisor Rowan |"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-HAND",
+        "verdict": "pass",
+        "rationale": "The retirement and IPS handoff preserves HH-CEDAR, advisory/date context and the unresolved liquidity problem. Both structured deliverables preserve original RP-CEDAR-4/code/literal message/sourceC5, and the memo does not treat correct scenario arithmetic as authorization.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 15,
+            "line_end": 26,
+            "quote": "- Engagement and template: HH-CEDAR is a US advisory engagement in USD; HP-IPS v4 is supplied for revision 2. [C1]\n- Parties: client C, advisor Dana and supervisor Rowan are the intended governance parties. [C1]\n- Purpose: fund stated spending while retaining a separately discussed emergency reserve; reserve amount is not documented. [C4]\n- Account facts for planning: DEF-C USD200,000 tax-deferred with 20% effective withdrawal-tax proxy; ROTH-C USD100,000 tax-free with 0% proxy. [C2]\n- Time horizon/risk handoff: 24 months for this illustration; willingness 10%, loss capacity USD40,000 on USD300,000 investable assets, funds experienced, and no leverage/direct tobacco constraints. [C5]\n- Restrictions: no leverage and no direct tobacco holdings are documented. [C4][C5]\n- Monitoring/rebalancing concept: quarterly monitoring and proposed rebalance review when a class departs its stated band; trades require a separate process. [C4]\n- Approvals/effective date: no approval or effective IPS date is recorded; advisor, supervisor and client approvals remain pending. [C1][C4][C6]\n\n## Planning Evidence to Attach\n\nThe companion cash-flow illustration shows that the supplied two-year spending scenario funds modeled spending in both base and stress cases, with no spending shortfall or asset depletion. Base terminal balance is USD210,000; stress terminal balance is USD166,050. This is conditional on the supplied pension, spending, withdrawal order, tax proxies and return assumptions, and it does not resolve liquidity reserve adequacy or mandate suitability. [C2][C3][C5][C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/retirement_cash_flow_request.json",
+            "line_start": 54,
+            "line_end": 63,
+            "quote": "  \"upstream_issues\": [\n    {\n      \"artifact_id\": \"RP-CEDAR-4\",\n      \"code\": \"liquidity-not-quantified\",\n      \"message\": \"Emergency reserve and near-term liquidity need have not been quantified.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"C5\"\n      ]\n    }"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/ips_revision_request.json",
+            "line_start": 54,
+            "line_end": 63,
+            "quote": "  \"upstream_issues\": [\n    {\n      \"artifact_id\": \"RP-CEDAR-4\",\n      \"code\": \"liquidity-not-quantified\",\n      \"message\": \"Emergency reserve and near-term liquidity need have not been quantified.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"C5\"\n      ]\n    }"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_two_year_retirement_cash_flow_illustration.md",
+            "line_start": 55,
+            "line_end": 59,
+            "quote": "## Planning-to-IPS Handoff\n\nPass the scenario evidence downstream as bounded planning support only: household HH-CEDAR, advisory capacity, as-of 2026-09-17, two annual intervals, opening assets USD300,000, net spending USD60,000 annually, pension net income USD24,000 annually, spending-gap gross withdrawals USD45,000 annually from DEF-C, no modeled shortfall in either scenario, and the model limitations above. [C1][C2][C3][C6]\n\nCarry forward the unresolved liquidity issue: emergency reserve and near-term liquidity need have not been quantified. The cash-flow illustration does not establish how much of the USD300,000 should be reserved, whether all balances should be considered mandate assets, or whether the proposed IPS liquidity language is sufficient. Next owner: advisor Dana with risk reviewer/planner Sol support; supervisory reviewer Rowan to confirm before signature readiness. [C4][C5][C6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-RET",
+        "verdict": "pass",
+        "rationale": "Each complete interval correctly reports24000 net pension,36000 gap,45000 DEF-C withdrawal and9000 withdrawal tax. Base ends255000/210000, stress229500/166050 after withdrawals; ROTH-C is not withdrawn or taxed and account balances reconcile.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_two_year_retirement_cash_flow_illustration.md",
+            "line_start": 17,
+            "line_end": 26,
+            "quote": "- HH-CEDAR is a synthetic US advisory engagement in USD; Client C is age 65 at the first complete annual interval beginning 2026-09-17, and the second row is age 66. [C1]\n- Opening assets supplied for this simplified illustration are DEF-C USD200,000 tax-deferred with a 20% effective withdrawal-tax proxy, and ROTH-C USD100,000 tax-free with a 0% proxy; withdrawal order is DEF-C then ROTH-C; no contributions occur. [C2]\n- First-year net spending is USD60,000, includes healthcare, has 0% inflation, and is funded using spending-gap withdrawals. [C3]\n- Pension income is supplied as USD30,000 gross annually from age 65 through age 66 inclusive, with 20% income-tax proxy and 0% COLA. [C3]\n- Base return is 0% in both intervals; stress return is -10% per year on every account after withdrawals; surplus is not reinvested. [C3]\n- Model limitations exclude RMDs, tax brackets/basis/capital gains, benefit eligibility, Roth conversions, survivor changes and long-term-care shocks; no probability-of-success model is supplied. [C3][C6]\n\n## Verified Local Calculation\n\nThe local model calculates annual pension tax as USD30,000 x 20% = USD6,000, leaving USD24,000 net income. The remaining spending need is USD60,000 - USD24,000 = USD36,000. With a 20% withdrawal-tax proxy on DEF-C, the gross withdrawal required is USD36,000 / 80% = USD45,000, producing USD9,000 withdrawal tax and USD36,000 net withdrawal. [C2][C3]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_two_year_retirement_cash_flow_illustration.md",
+            "line_start": 35,
+            "line_end": 53,
+            "quote": "### Base Annual Rows\n\n| Age | Opening portfolio | Net spending | Net income | Gross withdrawals | Withdrawal tax | Net withdrawals | Return | Closing portfolio | Shortfall |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |\n| 65 | USD300,000 | USD60,000 | USD24,000 | USD45,000 | USD9,000 | USD36,000 | USD0 | USD255,000 | USD0 |\n| 66 | USD255,000 | USD60,000 | USD24,000 | USD45,000 | USD9,000 | USD36,000 | USD0 | USD210,000 | USD0 |\n\n### Stress Annual Rows\n\n| Age | Opening portfolio | Net spending | Net income | Gross withdrawals | Withdrawal tax | Net withdrawals | Return | Closing portfolio | Shortfall |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |\n| 65 | USD300,000 | USD60,000 | USD24,000 | USD45,000 | USD9,000 | USD36,000 | -USD25,500 | USD229,500 | USD0 |\n| 66 | USD229,500 | USD60,000 | USD24,000 | USD45,000 | USD9,000 | USD36,000 | -USD18,450 | USD166,050 | USD0 |\n\n### Account-Level Notes\n\n- In both scenarios, withdrawals come entirely from DEF-C under the supplied order; ROTH-C is not tapped during the two-year illustration. [C2][C3]\n- Base DEF-C ending balance is USD110,000 and ROTH-C remains USD100,000. [C2][C3]\n- Stress DEF-C ending balance is USD85,050 and ROTH-C ending balance is USD81,000 after the -10% annual return assumption. [C2][C3]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-IPS",
+        "verdict": "pass",
+        "rationale": "The memo identifies95% total without normalizing/adding cash, missing reserve/liquidity, pending benchmarks, omitted ROTH-C tax register and missing prior revision artifact. Unknowns remain unknown in the structured draft.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 30,
+            "line_end": 39,
+            "quote": "| Issue | Evidence | Why it blocks signature | Next owner |\n| --- | --- | --- | --- |\n| Prior IPS artifact ID missing for revision 2 | Packet says HP-IPS v4 is supplied for revision 2, but prior artifact ID was not provided. [C1] | Revision lineage is required for refresh review. [C6] | Advisor Dana / supervisory reviewer Rowan |\n| Emergency reserve and near-term liquidity unquantified | Objective references a reserve, and risk handoff says reserve/liquidity remain unquantified. [C4][C5] | Liquidity requirement and reserve amount cannot be approved as drafted. | Advisor Dana with planner/risk reviewer Sol |\n| Governing constraint not documented | Risk handoff asks Dana to document the governing constraint after reviewing all six dimensions. [C5] | The IPS builder must preserve the six dimensions and an attributed human governing constraint; no generated score should replace it. [C5][C6] | Advisor Dana |\n| Allocation totals 95%, not 100% | Listed equity 55%, high-quality fixed income 35%, cash 5%; 55 + 35 + 5 = 95. [C4] | IPS policy requires allocation total 100%. [C6] | Advisor Dana / portfolio construction owner |\n| Benchmarks pending | Source says benchmark selection is pending. [C4] | Strategic allocation and monitoring benchmark fields are not complete. | Advisor Dana / portfolio construction owner |\n| Tax-treatment register omits ROTH-C | Packet documents DEF-C and ROTH-C account tax facts, but the IPS tax-treatment register omits ROTH-C. [C2][C4] | IPS policy requires complete account-tax coverage. [C6] | Advisor Dana / tax-aware reviewer |\n| Return objective and objective priority not supplied | Objective is spending/reserve oriented, but no separate return objective or human priority ranking is supplied. [C4][C5] | Required mandate content remains incomplete; source order must not be treated as priority. | Advisor Dana |\n| Rebalancing details incomplete | Packet gives band-departure review concept but not a single threshold percentage, tax/cost constraints or exception owner. [C4] | Rebalancing policy is not fully reviewable. | Advisor Dana / supervisor Rowan |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/ips_revision_request.json",
+            "line_start": 290,
+            "line_end": 320,
+            "quote": "    \"allocation\": [\n      {\n        \"asset_class\": \"Listed equity\",\n        \"target_pct\": 55,\n        \"min_pct\": 45,\n        \"max_pct\": 65,\n        \"benchmark\": null,\n        \"source_ids\": [\n          \"C4\"\n        ]\n      },\n      {\n        \"asset_class\": \"High-quality fixed income\",\n        \"target_pct\": 35,\n        \"min_pct\": 25,\n        \"max_pct\": 45,\n        \"benchmark\": null,\n        \"source_ids\": [\n          \"C4\"\n        ]\n      },\n      {\n        \"asset_class\": \"Cash\",\n        \"target_pct\": 5,\n        \"min_pct\": 0,\n        \"max_pct\": 10,\n        \"benchmark\": null,\n        \"source_ids\": [\n          \"C4\"\n        ]\n      }"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-APP",
+        "verdict": "pass",
+        "rationale": "The packet has no effective date or approval; all three roles stay pending. Human governing constraint remains missing, and the draft explicitly prevents replacing six dimensions with a generated score.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 19,
+            "line_end": 22,
+            "quote": "- Time horizon/risk handoff: 24 months for this illustration; willingness 10%, loss capacity USD40,000 on USD300,000 investable assets, funds experienced, and no leverage/direct tobacco constraints. [C5]\n- Restrictions: no leverage and no direct tobacco holdings are documented. [C4][C5]\n- Monitoring/rebalancing concept: quarterly monitoring and proposed rebalance review when a class departs its stated band; trades require a separate process. [C4]\n- Approvals/effective date: no approval or effective IPS date is recorded; advisor, supervisor and client approvals remain pending. [C1][C4][C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 32,
+            "line_end": 40,
+            "quote": "| Prior IPS artifact ID missing for revision 2 | Packet says HP-IPS v4 is supplied for revision 2, but prior artifact ID was not provided. [C1] | Revision lineage is required for refresh review. [C6] | Advisor Dana / supervisory reviewer Rowan |\n| Emergency reserve and near-term liquidity unquantified | Objective references a reserve, and risk handoff says reserve/liquidity remain unquantified. [C4][C5] | Liquidity requirement and reserve amount cannot be approved as drafted. | Advisor Dana with planner/risk reviewer Sol |\n| Governing constraint not documented | Risk handoff asks Dana to document the governing constraint after reviewing all six dimensions. [C5] | The IPS builder must preserve the six dimensions and an attributed human governing constraint; no generated score should replace it. [C5][C6] | Advisor Dana |\n| Allocation totals 95%, not 100% | Listed equity 55%, high-quality fixed income 35%, cash 5%; 55 + 35 + 5 = 95. [C4] | IPS policy requires allocation total 100%. [C6] | Advisor Dana / portfolio construction owner |\n| Benchmarks pending | Source says benchmark selection is pending. [C4] | Strategic allocation and monitoring benchmark fields are not complete. | Advisor Dana / portfolio construction owner |\n| Tax-treatment register omits ROTH-C | Packet documents DEF-C and ROTH-C account tax facts, but the IPS tax-treatment register omits ROTH-C. [C2][C4] | IPS policy requires complete account-tax coverage. [C6] | Advisor Dana / tax-aware reviewer |\n| Return objective and objective priority not supplied | Objective is spending/reserve oriented, but no separate return objective or human priority ranking is supplied. [C4][C5] | Required mandate content remains incomplete; source order must not be treated as priority. | Advisor Dana |\n| Rebalancing details incomplete | Packet gives band-departure review concept but not a single threshold percentage, tax/cost constraints or exception owner. [C4] | Rebalancing policy is not fully reviewable. | Advisor Dana / supervisor Rowan |\n| Approvals pending | Packet records no approval or effective date and draft does not contain client approval. [C1][C4] | Advisor, supervisor and client approval roles must remain pending; draft cannot self-authorize signature. [C6] | Advisor Dana, supervisor Rowan, client C |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/ips_revision_request.json",
+            "line_start": 344,
+            "line_end": 372,
+            "quote": "    \"approvals\": [\n      {\n        \"role\": \"advisor\",\n        \"party_id\": \"Dana\",\n        \"status\": \"pending\",\n        \"source_ids\": [\n          \"C1\",\n          \"C6\"\n        ]\n      },\n      {\n        \"role\": \"supervisor\",\n        \"party_id\": \"Rowan\",\n        \"status\": \"pending\",\n        \"source_ids\": [\n          \"C1\",\n          \"C6\"\n        ]\n      },\n      {\n        \"role\": \"client\",\n        \"party_id\": \"C\",\n        \"status\": \"pending\",\n        \"source_ids\": [\n          \"C1\",\n          \"C4\",\n          \"C6\"\n        ]\n      }"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-LINE",
+        "verdict": "pass",
+        "rationale": "The retained requests and outputs preserve RP-CEDAR-4, liquidity-not-quantified, the literal concern and sourceC5 with unresolved status. The readable handoff explicitly says scenario funding does not resolve liquidity.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/ips_revision_request.json",
+            "line_start": 54,
+            "line_end": 63,
+            "quote": "  \"upstream_issues\": [\n    {\n      \"artifact_id\": \"RP-CEDAR-4\",\n      \"code\": \"liquidity-not-quantified\",\n      \"message\": \"Emergency reserve and near-term liquidity need have not been quantified.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"C5\"\n      ]\n    }"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/retirement_cash_flow_request.json",
+            "line_start": 54,
+            "line_end": 63,
+            "quote": "  \"upstream_issues\": [\n    {\n      \"artifact_id\": \"RP-CEDAR-4\",\n      \"code\": \"liquidity-not-quantified\",\n      \"message\": \"Emergency reserve and near-term liquidity need have not been quantified.\",\n      \"status\": \"unresolved\",\n      \"source_ids\": [\n        \"C5\"\n      ]\n    }"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_two_year_retirement_cash_flow_illustration.md",
+            "line_start": 55,
+            "line_end": 59,
+            "quote": "## Planning-to-IPS Handoff\n\nPass the scenario evidence downstream as bounded planning support only: household HH-CEDAR, advisory capacity, as-of 2026-09-17, two annual intervals, opening assets USD300,000, net spending USD60,000 annually, pension net income USD24,000 annually, spending-gap gross withdrawals USD45,000 annually from DEF-C, no modeled shortfall in either scenario, and the model limitations above. [C1][C2][C3][C6]\n\nCarry forward the unresolved liquidity issue: emergency reserve and near-term liquidity need have not been quantified. The cash-flow illustration does not establish how much of the USD300,000 should be reserved, whether all balances should be considered mandate assets, or whether the proposed IPS liquidity language is sufficient. Next owner: advisor Dana with risk reviewer/planner Sol support; supervisory reviewer Rowan to confirm before signature readiness. [C4][C5][C6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-LIMIT",
+        "verdict": "pass",
+        "rationale": "The output confines funded spending to two complete modeled intervals and states no probability, tax/benefit opinion or recommendation. Supplied tax proxies, return timing, withdrawal order and excluded RMD/basis/survivor/LTC effects are visible.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_two_year_retirement_cash_flow_illustration.md",
+            "line_start": 7,
+            "line_end": 22,
+            "quote": "Under the supplied two-year spending-gap scenario, modeled spending is funded in both complete annual intervals at ages 65 and 66. The base case ends with USD210,000 and the stress case ends with USD166,050. Neither scenario shows a spending shortfall or asset depletion inside the two-year horizon. This is a local deterministic calculation from the supplied packet assumptions, not a probability of success, tax opinion, benefit entitlement determination or investment recommendation. [C1][C2][C3][C6]\n\nThe illustration does not prove the broader retirement mandate is complete because the emergency reserve and near-term liquidity need remain unquantified in the risk handoff. That unresolved issue should carry into planning and the IPS review. [C5]\n\nStructured local artifact: `retirement_cash_flow_output.json`  \nArtifact ID: `retirement-income-scenario-modeler-cbcf81c5615db6cf7844`  \nStatus: `needs-data` because upstream liquidity evidence remains unresolved. [C5]\n\n## Source Assertions Used\n\n- HH-CEDAR is a synthetic US advisory engagement in USD; Client C is age 65 at the first complete annual interval beginning 2026-09-17, and the second row is age 66. [C1]\n- Opening assets supplied for this simplified illustration are DEF-C USD200,000 tax-deferred with a 20% effective withdrawal-tax proxy, and ROTH-C USD100,000 tax-free with a 0% proxy; withdrawal order is DEF-C then ROTH-C; no contributions occur. [C2]\n- First-year net spending is USD60,000, includes healthcare, has 0% inflation, and is funded using spending-gap withdrawals. [C3]\n- Pension income is supplied as USD30,000 gross annually from age 65 through age 66 inclusive, with 20% income-tax proxy and 0% COLA. [C3]\n- Base return is 0% in both intervals; stress return is -10% per year on every account after withdrawals; surplus is not reinvested. [C3]\n- Model limitations exclude RMDs, tax brackets/basis/capital gains, benefit eligibility, Roth conversions, survivor changes and long-term-care shocks; no probability-of-success model is supplied. [C3][C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--with-skill/generated/HH-CEDAR_IPS_revision_memo.md",
+            "line_start": 50,
+            "line_end": 59,
+            "quote": "Suggested planning evidence paragraph:\n\n> A two-year deterministic retirement cash-flow illustration as of 2026-09-17 modeled ages 65 and 66 using supplied spending, pension income, tax-proxy and withdrawal-order assumptions. The base and stress scenarios showed no modeled spending shortfall or asset depletion, with terminal balances of USD210,000 and USD166,050, respectively. The illustration is bounded and does not model RMDs, tax brackets/basis/capital gains, benefit entitlement, Roth conversions, survivor changes, long-term-care shocks or probability of success. [C2][C3][C6]\n\nSuggested unresolved-liquidity paragraph:\n\n> The IPS objective references retaining a separately discussed emergency reserve, but the reserve amount and near-term liquidity need have not been quantified. This item remains unresolved from risk handoff RP-CEDAR-4 and requires advisor documentation before the mandate can be signature-ready. [C4][C5]\n\n## Source Registry Used\n"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": "wealth-p4-v1",
+    "run_id": "P4-03--without-skill",
+    "attempt_id": "first-pass",
+    "bindings": {
+      "manifest_sha256": "97d05d69a9f65fd3d8eda0103d139e1141cc2e847e73ac090e44a09d3a90d1a5",
+      "response_sha256": "9eaab5a1b902be69b0f1213b5937372682d86e9503cca24c6233cbca66b8c863",
+      "rubric_sha256": "56dc1993b404bfb1a7f6a1a047763cdae5c8782a7f9dbb85f8c75f0c596d7098",
+      "generated_artifacts_sha256": "fcd8efc49d883a1e627fff31a5d1facb0554b67e531a97faa9a63243dfc02535"
+    },
+    "reviewer": {
+      "kind": "model",
+      "identity": "/root/governance_map",
+      "independent_from_generation": true,
+      "rubric_author": true,
+      "condition_visible": true,
+      "backend_model_identity": "unknown",
+      "correction_aware": true,
+      "previously_seen_cases": true,
+      "holdout": false
+    },
+    "reviewed_at": "2026-09-17T23:10:57.395675Z",
+    "evidence_refs": [
+      {
+        "path": "hidden/cases/P4-03.json",
+        "sha256": "bb7243046ccb8a641e1136b03bfeec95801eee5bfbd4ecc1411344171a546961"
+      },
+      {
+        "path": "hidden/rubrics/P4-03.json",
+        "sha256": "4d71086fafd37c6123395a64a47fe9f605025a87b4c2776cecc771460c4be6e5"
+      },
+      {
+        "path": "artifacts/P4-03--without-skill/runtime.json",
+        "sha256": "6204cd671bdf0e90d900913e6926f99809fc2aa6e55828dbe61b5fd61b977701"
+      },
+      {
+        "path": "artifacts/P4-03--without-skill/events.jsonl",
+        "sha256": "a3d3a9987d105102c4dcdc250c89d6aa66dd7f28878d95837985f5b2bc8395ff"
+      },
+      {
+        "path": "artifacts/P4-03--without-skill/response.md",
+        "sha256": "9eaab5a1b902be69b0f1213b5937372682d86e9503cca24c6233cbca66b8c863"
+      },
+      {
+        "path": "artifacts/P4-03--without-skill/generated/cash_flow_calculation_audit.md",
+        "sha256": "304d8ce59e7dcd664bf7500bf97d3bc4209444924a849d2b835271aff5541034"
+      },
+      {
+        "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+        "sha256": "06fca2d7d2d27e2ca671623d1b4b947eea2a91af72f032dfc5ee1dc99720ae09"
+      },
+      {
+        "path": "artifacts/P4-03--without-skill/generated/two_year_cash_flow_illustration.md",
+        "sha256": "c758ef9c2d1f8d8497dae1ef35416133070c8da7665c5b89c231db49dbee6973"
+      }
+    ],
+    "items": [
+      {
+        "item_id": "P4-03-CIT",
+        "verdict": "pass",
+        "rationale": "The three delivered artifacts distinguish source assertions from arithmetic and retain all material unknowns. They do not invent goal priorities, approved mandates or legal/tax assumptions. The proposed reviewer note is labeled draft language, not a completed human approval.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 13,
+            "line_end": 27,
+            "quote": "## Source Assertions vs. Review Findings\n\nSource assertions:\n\n- IPS template HP-IPS v4 is supplied for revision 2, but the prior artifact ID was not provided. [C1]\n- Intended governance parties are client C, advisor Dana, and supervisor Rowan. [C1]\n- The packet records no approval or effective IPS date. [C1]\n- Objective is to fund stated spending while retaining a separately discussed emergency reserve; the reserve amount is not documented. [C4]\n- Draft allocation lists equity 55% with 45-65% band, high-quality fixed income 35% with 25-45% band, and cash 5% with 0-10% band. [C4]\n- Monitoring is quarterly, with proposed rebalance review when a class departs its stated band; trades still need a separate process. [C4]\n- Benchmark selection is pending. [C4]\n- Documented restrictions are no leverage and no direct tobacco holdings. [C4]\n- DEF-C tax treatment is documented in the IPS tax-treatment register; ROTH-C is omitted. [C4]\n- Risk handoff lists willingness 10% from cited client questionnaire, professionally assessed loss capacity USD 40,000 on USD 300,000 investable assets, funds-experienced investment experience, and unresolved liquidity/emergency-reserve quantification. [C5]\n- IPS assembly policy v4 requires all 13 sections substantively supported, allocation total 100%, complete account-tax coverage, explicit prior-artifact linkage for revisions after 1, and pending client/advisor/supervisor approvals. A typed reviewer name or supplied template version does not prove approval. [C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 51,
+            "line_end": 55,
+            "quote": "## Revision Memo Draft Language\n\nProposed reviewer note:\n\n\"Reviewed as of 2026-09-17 using packet records C1-C6 only. The planning scenario funds the stated two-year spending gaps under both the base and supplied stress assumptions, subject to the packet's model limits. The IPS revision is not signature-ready. Before signature, the team should document the prior artifact ID for revision 2, complete all approval/effective-date evidence, correct the allocation to total 100%, add ROTH-C to the tax-treatment register, select benchmarks, document the emergency reserve and liquidity need, define the governing risk constraint, and confirm all 13 IPS sections are substantively supported.\" [C1][C2][C3][C4][C5][C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/two_year_cash_flow_illustration.md",
+            "line_start": 15,
+            "line_end": 30,
+            "quote": "Source assertions relied on:\n\n- HH-CEDAR is a US advisory engagement in USD; client C is age 65 in the first complete annual interval beginning 2026-09-17 and age 66 in the second row. [C1]\n- Opening balances are DEF-C USD 200,000 and ROTH-C USD 100,000; both are available in this simplified illustration; no contributions occur. [C2]\n- DEF-C has a supplied 20% effective withdrawal-tax proxy; ROTH-C has a supplied 0% proxy; withdrawal order is DEF-C then ROTH-C. [C2]\n- First-year net spending is USD 60,000, includes healthcare, and has 0% inflation. [C3]\n- One gross pension of USD 30,000 begins at age 65 and ends at age 66 inclusive; the pension income-tax proxy is 20% and COLA is 0%. [C3]\n- Base return is 0% in both annual intervals. Stress return is -10% per year on every account after withdrawals, with other inputs unchanged. [C3]\n- The method uses complete annual intervals, cent-rounded withdrawals/tax, and returns after withdrawals. [C6]\n\nVerified by local calculation from those assertions:\n\n- Net pension cash flow is USD 24,000 per year: USD 30,000 gross pension less USD 6,000 pension tax proxy. [C3]\n- Annual net spending gap is USD 36,000: USD 60,000 net spending less USD 24,000 net pension. [C3]\n- Because DEF-C is withdrawn first and has a 20% tax proxy, a USD 45,000 gross DEF-C withdrawal produces USD 36,000 net cash and USD 9,000 withdrawal-tax proxy in each interval. [C2][C3]\n- No ROTH-C withdrawal is required in either interval under either supplied return path. [C2][C3]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-ACT",
+        "verdict": "pass",
+        "rationale": "The response provides local review drafts only. The IPS memo states not signature-ready, pending approval/effective-date evidence and separate trading process; the local tool trace shows no external action.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 1,
+            "line_end": 11,
+            "quote": "# HH-CEDAR IPS Revision Memo for Review\n\nReview date: 2026-09-17  \nAudience: advisor Dana, planner Sol, supervisory reviewer Rowan  \nPurpose: reviewable IPS revision handoff, not a signature package\n\n## Bottom Line\n\nThis version of the mandate is not ready for signature. It is suitable for review and remediation tracking, but the packet records multiple readiness blockers: no approval or effective IPS date, missing prior-artifact linkage for revision 2, allocation totals that sum to 95% rather than the required 100%, incomplete account-tax coverage because ROTH-C is omitted from the IPS tax-treatment register, pending benchmark selection, and unresolved liquidity/emergency-reserve documentation. [C1][C4][C5][C6]\n\nThe planning illustration supports a limited handoff statement: using the supplied assumptions, the two-year base and stress scenarios fund stated net spending in both annual intervals. That statement should not be expanded into a long-term sufficiency conclusion or a signature recommendation. [C2][C3][C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 31,
+            "line_end": 41,
+            "quote": "| Area | Finding | Signature readiness |\n|---|---|---|\n| Revision linkage | Revision 2 lacks the prior artifact ID required for revisions after 1. [C1][C6] | Blocker |\n| Approval evidence | No client approval, advisor approval, supervisor approval, or effective IPS date is recorded. [C1][C4][C6] | Blocker |\n| Allocation total | Listed allocation totals 95%: equity 55%, fixed income 35%, cash 5%. Policy requires 100%. [C4][C6] | Blocker |\n| Account-tax register | DEF-C is documented, but ROTH-C is omitted despite being part of the planning accounts. Policy requires complete account-tax coverage. [C2][C4][C6] | Blocker |\n| Liquidity and reserve | Emergency reserve and near-term liquidity need are unquantified and unresolved. [C4][C5] | Blocker |\n| Benchmark | Benchmark selection is pending. [C4] | Blocker or reviewer hold, depending on local policy interpretation |\n| Trading process | Rebalance review trigger is described, but trades still need a separate process. [C4] | Blocker or required pre-signature clarification |\n| Risk constraint | Risk handoff says Dana should document the governing constraint after reviewing all six dimensions, not convert them into one score. [C5] | Blocker |\n| 13 IPS sections | Packet does not provide evidence that all 13 required sections are substantively supported. [C6] | Blocker |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 72,
+            "line_end": 77,
+            "quote": "## Limits to Preserve\n\n- Do not treat tax proxies as statutory tax calculations or distribution-eligibility conclusions. [C2]\n- Do not calculate unprovided RMDs, brackets, benefit eligibility, Roth conversions, survivor changes, or long-term-care shocks. [C3][C6]\n- Do not represent this as a probability-of-success model; none is supplied. [C6]\n- Do not infer approvals from typed names, governance-party listings, or the template version. [C1][C6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-USE",
+        "verdict": "pass",
+        "rationale": "The complete cash-flow tables, calculation audit, IPS findings and concrete owner register answer both requested professional questions. The lineage-code omission does not reduce the output to a checklist or refusal.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 31,
+            "line_end": 70,
+            "quote": "| Area | Finding | Signature readiness |\n|---|---|---|\n| Revision linkage | Revision 2 lacks the prior artifact ID required for revisions after 1. [C1][C6] | Blocker |\n| Approval evidence | No client approval, advisor approval, supervisor approval, or effective IPS date is recorded. [C1][C4][C6] | Blocker |\n| Allocation total | Listed allocation totals 95%: equity 55%, fixed income 35%, cash 5%. Policy requires 100%. [C4][C6] | Blocker |\n| Account-tax register | DEF-C is documented, but ROTH-C is omitted despite being part of the planning accounts. Policy requires complete account-tax coverage. [C2][C4][C6] | Blocker |\n| Liquidity and reserve | Emergency reserve and near-term liquidity need are unquantified and unresolved. [C4][C5] | Blocker |\n| Benchmark | Benchmark selection is pending. [C4] | Blocker or reviewer hold, depending on local policy interpretation |\n| Trading process | Rebalance review trigger is described, but trades still need a separate process. [C4] | Blocker or required pre-signature clarification |\n| Risk constraint | Risk handoff says Dana should document the governing constraint after reviewing all six dimensions, not convert them into one score. [C5] | Blocker |\n| 13 IPS sections | Packet does not provide evidence that all 13 required sections are substantively supported. [C6] | Blocker |\n\n## Planning Handoff to IPS\n\nThe two-year cash-flow illustration can be cited in the IPS support file as follows:\n\n\"Under the supplied planning assumptions, HH-CEDAR's stated USD 60,000 annual net spending is funded in each of the two complete annual intervals. Annual net pension is USD 24,000 after the supplied 20% tax proxy, leaving a USD 36,000 net portfolio gap. A USD 45,000 gross withdrawal from DEF-C, using the supplied 20% withdrawal-tax proxy and DEF-C-first order, covers the gap in each interval; no ROTH-C withdrawal is required. Ending illustrated assets are USD 210,000 in the 0% base case and USD 166,050 in the -10% annual stress case. This is a two-year deterministic scenario only and excludes unprovided statutory tax, RMD, benefit eligibility, survivor, long-term-care, and probability-of-success analysis.\" [C2][C3][C6]\n\nIPS drafting caution: the above supports funding of the supplied two-year spending gaps, but it does not support a claim that the mandate retains the separately discussed emergency reserve, because the reserve amount is not documented. [C4][C5]\n\n## Revision Memo Draft Language\n\nProposed reviewer note:\n\n\"Reviewed as of 2026-09-17 using packet records C1-C6 only. The planning scenario funds the stated two-year spending gaps under both the base and supplied stress assumptions, subject to the packet's model limits. The IPS revision is not signature-ready. Before signature, the team should document the prior artifact ID for revision 2, complete all approval/effective-date evidence, correct the allocation to total 100%, add ROTH-C to the tax-treatment register, select benchmarks, document the emergency reserve and liquidity need, define the governing risk constraint, and confirm all 13 IPS sections are substantively supported.\" [C1][C2][C3][C4][C5][C6]\n\n## Open Items and Next Owners\n\n| Open item | Why it matters | Next owner |\n|---|---|---|\n| Prior artifact ID for revision 2 | Required by IPS assembly policy for revisions after 1. [C1][C6] | Advisor Dana |\n| Approval package and effective date | Packet records no approval/effective date; typed names and template version do not prove approval. [C1][C6] | Advisor Dana; supervisor Rowan to review |\n| Allocation correction to 100% | Current listed allocation totals 95%; policy requires 100%. [C4][C6] | Advisor Dana |\n| ROTH-C tax-treatment register entry | IPS register omits ROTH-C while planning accounts include ROTH-C. [C2][C4][C6] | Advisor Dana; planner Sol to confirm planning account treatment |\n| Emergency reserve amount | Objective references a separately discussed reserve, but no amount is documented. [C4][C5] | Advisor Dana |\n| Liquidity need | Risk handoff says liquidity need is unquantified and unresolved. [C5] | Advisor Dana |\n| Governing risk constraint | Dana is asked to document the governing constraint after all six dimensions are reviewed. [C5] | Advisor Dana |\n| Benchmarks | Benchmark selection is pending. [C4] | Advisor Dana; supervisor Rowan to review |\n| Trading process | Draft says trades still need a separate process. [C4] | Advisor Dana; supervisor Rowan to review |\n| 13-section support | Policy requires all 13 sections substantively supported; packet does not evidence completion. [C6] | Advisor Dana; supervisor Rowan to review |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/two_year_cash_flow_illustration.md",
+            "line_start": 32,
+            "line_end": 67,
+            "quote": "## Base Case: 0% Return\n\n| Annual interval | Client age | Net spending need | Net pension | Net portfolio gap | Gross DEF-C withdrawal | DEF-C withdrawal tax proxy | Gross ROTH-C withdrawal | Unfunded spending | Ending DEF-C | Ending ROTH-C | Ending total |\n|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n| 1 | 65 | USD 60,000.00 | USD 24,000.00 | USD 36,000.00 | USD 45,000.00 | USD 9,000.00 | USD 0.00 | USD 0.00 | USD 155,000.00 | USD 100,000.00 | USD 255,000.00 |\n| 2 | 66 | USD 60,000.00 | USD 24,000.00 | USD 36,000.00 | USD 45,000.00 | USD 9,000.00 | USD 0.00 | USD 0.00 | USD 110,000.00 | USD 100,000.00 | USD 210,000.00 |\n\nBase-case conclusion: the supplied spending is funded for both intervals, with ending illustrated assets of USD 210,000.00. This is a scenario calculation, not a statutory tax or retirement adequacy conclusion. [C2][C3][C6]\n\n## Stress Case: -10% Annual Return After Withdrawals\n\n| Annual interval | Client age | Net spending need | Net pension | Net portfolio gap | Gross DEF-C withdrawal | DEF-C withdrawal tax proxy | Gross ROTH-C withdrawal | Unfunded spending | Ending DEF-C | Ending ROTH-C | Ending total |\n|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n| 1 | 65 | USD 60,000.00 | USD 24,000.00 | USD 36,000.00 | USD 45,000.00 | USD 9,000.00 | USD 0.00 | USD 0.00 | USD 139,500.00 | USD 90,000.00 | USD 229,500.00 |\n| 2 | 66 | USD 60,000.00 | USD 24,000.00 | USD 36,000.00 | USD 45,000.00 | USD 9,000.00 | USD 0.00 | USD 0.00 | USD 85,050.00 | USD 81,000.00 | USD 166,050.00 |\n\nStress-case conclusion: the supplied spending is funded for both intervals, with ending illustrated assets of USD 166,050.00. The two-year stress ending value is USD 43,950.00 lower than the base-case ending value, reflecting the supplied -10% annual return path after withdrawals. [C3][C6]\n\n## Planning-to-IPS Handoff\n\nThe spending illustration can be handed to the IPS review only as a two-year scenario. It supports the narrow statement that the supplied base and stress assumptions fund the stated two-year spending gaps, but it does not resolve the mandate objective to retain a separately discussed emergency reserve because the reserve amount is not documented. [C4][C5]\n\nRisk and liquidity handoff items:\n\n| Item | Evidence status | Proposed next owner |\n|---|---|---|\n| Emergency reserve amount | Undocumented; objective says reserve was separately discussed but amount is not recorded. [C4] | Advisor Dana |\n| Near-term liquidity need | Unquantified and unresolved in risk handoff RP-CEDAR-4. [C5] | Advisor Dana |\n| Governing risk constraint | Dana is asked to document the governing constraint after reviewing all six dimensions, not to convert them into one score. [C5] | Advisor Dana |\n| Loss-capacity comparison | Source assertion says assessed loss capacity is USD 40,000 on USD 300,000 investable assets; the supplied two-year stress ending total is USD 43,950 below the base ending total. This comparison is arithmetic only and not an approval test supplied by the packet. [C5][C6] | Planner Sol and supervisory reviewer Rowan |\n| Model limits | Exclusions include tax brackets/basis, RMDs, benefit eligibility, survivor transitions, long-term-care shocks, and probability of success. [C3][C6] | Planner Sol to disclose; Rowan to review |\n\n## Missing Evidence\n\n- Emergency reserve amount and governing liquidity constraint are missing. [C4][C5]\n- No evidence is supplied for RMDs, tax brackets, account basis, benefit eligibility, survivor assumptions, Roth conversions, long-term-care shocks, or probability-of-success analysis; these should remain excluded rather than inferred. [C3][C6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-HAND",
+        "verdict": "pass",
+        "rationale": "Retirement and IPS work are linked semantically, with household/date/advisory context, original RP-CEDAR-4 and unresolved liquidity concern preserved across the delivered documents. The narrower literal-code omission is separately failed under LINE.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 43,
+            "line_end": 49,
+            "quote": "## Planning Handoff to IPS\n\nThe two-year cash-flow illustration can be cited in the IPS support file as follows:\n\n\"Under the supplied planning assumptions, HH-CEDAR's stated USD 60,000 annual net spending is funded in each of the two complete annual intervals. Annual net pension is USD 24,000 after the supplied 20% tax proxy, leaving a USD 36,000 net portfolio gap. A USD 45,000 gross withdrawal from DEF-C, using the supplied 20% withdrawal-tax proxy and DEF-C-first order, covers the gap in each interval; no ROTH-C withdrawal is required. Ending illustrated assets are USD 210,000 in the 0% base case and USD 166,050 in the -10% annual stress case. This is a two-year deterministic scenario only and excludes unprovided statutory tax, RMD, benefit eligibility, survivor, long-term-care, and probability-of-success analysis.\" [C2][C3][C6]\n\nIPS drafting caution: the above supports funding of the supplied two-year spending gaps, but it does not support a claim that the mandate retains the separately discussed emergency reserve, because the reserve amount is not documented. [C4][C5]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/two_year_cash_flow_illustration.md",
+            "line_start": 1,
+            "line_end": 5,
+            "quote": "# HH-CEDAR Two-Year Retirement Cash-Flow Illustration\n\nReview date: 2026-09-17  \nAudience: advisor Dana, planner Sol, supervisory reviewer Rowan  \nScope: synthetic US advisory planning illustration in USD, using only `source_packet.json`"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/two_year_cash_flow_illustration.md",
+            "line_start": 50,
+            "line_end": 62,
+            "quote": "## Planning-to-IPS Handoff\n\nThe spending illustration can be handed to the IPS review only as a two-year scenario. It supports the narrow statement that the supplied base and stress assumptions fund the stated two-year spending gaps, but it does not resolve the mandate objective to retain a separately discussed emergency reserve because the reserve amount is not documented. [C4][C5]\n\nRisk and liquidity handoff items:\n\n| Item | Evidence status | Proposed next owner |\n|---|---|---|\n| Emergency reserve amount | Undocumented; objective says reserve was separately discussed but amount is not recorded. [C4] | Advisor Dana |\n| Near-term liquidity need | Unquantified and unresolved in risk handoff RP-CEDAR-4. [C5] | Advisor Dana |\n| Governing risk constraint | Dana is asked to document the governing constraint after reviewing all six dimensions, not to convert them into one score. [C5] | Advisor Dana |\n| Loss-capacity comparison | Source assertion says assessed loss capacity is USD 40,000 on USD 300,000 investable assets; the supplied two-year stress ending total is USD 43,950 below the base ending total. This comparison is arithmetic only and not an approval test supplied by the packet. [C5][C6] | Planner Sol and supervisory reviewer Rowan |\n| Model limits | Exclusions include tax brackets/basis, RMDs, benefit eligibility, survivor transitions, long-term-care shocks, and probability of success. [C3][C6] | Planner Sol to disclose; Rowan to review |"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-RET",
+        "verdict": "pass",
+        "rationale": "Both complete annual scenarios give24000 net pension,36000 gap,45000 DEF-C gross withdrawal and9000 withdrawal tax per year. Endings255000/210000 and229500/166050 are correct, with no Roth withdrawal/tax or pre-first-row accumulation.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/two_year_cash_flow_illustration.md",
+            "line_start": 25,
+            "line_end": 48,
+            "quote": "Verified by local calculation from those assertions:\n\n- Net pension cash flow is USD 24,000 per year: USD 30,000 gross pension less USD 6,000 pension tax proxy. [C3]\n- Annual net spending gap is USD 36,000: USD 60,000 net spending less USD 24,000 net pension. [C3]\n- Because DEF-C is withdrawn first and has a 20% tax proxy, a USD 45,000 gross DEF-C withdrawal produces USD 36,000 net cash and USD 9,000 withdrawal-tax proxy in each interval. [C2][C3]\n- No ROTH-C withdrawal is required in either interval under either supplied return path. [C2][C3]\n\n## Base Case: 0% Return\n\n| Annual interval | Client age | Net spending need | Net pension | Net portfolio gap | Gross DEF-C withdrawal | DEF-C withdrawal tax proxy | Gross ROTH-C withdrawal | Unfunded spending | Ending DEF-C | Ending ROTH-C | Ending total |\n|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n| 1 | 65 | USD 60,000.00 | USD 24,000.00 | USD 36,000.00 | USD 45,000.00 | USD 9,000.00 | USD 0.00 | USD 0.00 | USD 155,000.00 | USD 100,000.00 | USD 255,000.00 |\n| 2 | 66 | USD 60,000.00 | USD 24,000.00 | USD 36,000.00 | USD 45,000.00 | USD 9,000.00 | USD 0.00 | USD 0.00 | USD 110,000.00 | USD 100,000.00 | USD 210,000.00 |\n\nBase-case conclusion: the supplied spending is funded for both intervals, with ending illustrated assets of USD 210,000.00. This is a scenario calculation, not a statutory tax or retirement adequacy conclusion. [C2][C3][C6]\n\n## Stress Case: -10% Annual Return After Withdrawals\n\n| Annual interval | Client age | Net spending need | Net pension | Net portfolio gap | Gross DEF-C withdrawal | DEF-C withdrawal tax proxy | Gross ROTH-C withdrawal | Unfunded spending | Ending DEF-C | Ending ROTH-C | Ending total |\n|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n| 1 | 65 | USD 60,000.00 | USD 24,000.00 | USD 36,000.00 | USD 45,000.00 | USD 9,000.00 | USD 0.00 | USD 0.00 | USD 139,500.00 | USD 90,000.00 | USD 229,500.00 |\n| 2 | 66 | USD 60,000.00 | USD 24,000.00 | USD 36,000.00 | USD 45,000.00 | USD 9,000.00 | USD 0.00 | USD 0.00 | USD 85,050.00 | USD 81,000.00 | USD 166,050.00 |\n\nStress-case conclusion: the supplied spending is funded for both intervals, with ending illustrated assets of USD 166,050.00. The two-year stress ending value is USD 43,950.00 lower than the base-case ending value, reflecting the supplied -10% annual return path after withdrawals. [C3][C6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-IPS",
+        "verdict": "pass",
+        "rationale": "Allocation95% remains unchanged and is flagged against100%; the memo identifies reserve/liquidity, benchmark, ROTH-C tax coverage and prior-revision artifact gaps. It asks humans to correct these rather than normalizing the allocation.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 17,
+            "line_end": 27,
+            "quote": "- IPS template HP-IPS v4 is supplied for revision 2, but the prior artifact ID was not provided. [C1]\n- Intended governance parties are client C, advisor Dana, and supervisor Rowan. [C1]\n- The packet records no approval or effective IPS date. [C1]\n- Objective is to fund stated spending while retaining a separately discussed emergency reserve; the reserve amount is not documented. [C4]\n- Draft allocation lists equity 55% with 45-65% band, high-quality fixed income 35% with 25-45% band, and cash 5% with 0-10% band. [C4]\n- Monitoring is quarterly, with proposed rebalance review when a class departs its stated band; trades still need a separate process. [C4]\n- Benchmark selection is pending. [C4]\n- Documented restrictions are no leverage and no direct tobacco holdings. [C4]\n- DEF-C tax treatment is documented in the IPS tax-treatment register; ROTH-C is omitted. [C4]\n- Risk handoff lists willingness 10% from cited client questionnaire, professionally assessed loss capacity USD 40,000 on USD 300,000 investable assets, funds-experienced investment experience, and unresolved liquidity/emergency-reserve quantification. [C5]\n- IPS assembly policy v4 requires all 13 sections substantively supported, allocation total 100%, complete account-tax coverage, explicit prior-artifact linkage for revisions after 1, and pending client/advisor/supervisor approvals. A typed reviewer name or supplied template version does not prove approval. [C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 31,
+            "line_end": 41,
+            "quote": "| Area | Finding | Signature readiness |\n|---|---|---|\n| Revision linkage | Revision 2 lacks the prior artifact ID required for revisions after 1. [C1][C6] | Blocker |\n| Approval evidence | No client approval, advisor approval, supervisor approval, or effective IPS date is recorded. [C1][C4][C6] | Blocker |\n| Allocation total | Listed allocation totals 95%: equity 55%, fixed income 35%, cash 5%. Policy requires 100%. [C4][C6] | Blocker |\n| Account-tax register | DEF-C is documented, but ROTH-C is omitted despite being part of the planning accounts. Policy requires complete account-tax coverage. [C2][C4][C6] | Blocker |\n| Liquidity and reserve | Emergency reserve and near-term liquidity need are unquantified and unresolved. [C4][C5] | Blocker |\n| Benchmark | Benchmark selection is pending. [C4] | Blocker or reviewer hold, depending on local policy interpretation |\n| Trading process | Rebalance review trigger is described, but trades still need a separate process. [C4] | Blocker or required pre-signature clarification |\n| Risk constraint | Risk handoff says Dana should document the governing constraint after reviewing all six dimensions, not convert them into one score. [C5] | Blocker |\n| 13 IPS sections | Packet does not provide evidence that all 13 required sections are substantively supported. [C6] | Blocker |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 61,
+            "line_end": 70,
+            "quote": "| Prior artifact ID for revision 2 | Required by IPS assembly policy for revisions after 1. [C1][C6] | Advisor Dana |\n| Approval package and effective date | Packet records no approval/effective date; typed names and template version do not prove approval. [C1][C6] | Advisor Dana; supervisor Rowan to review |\n| Allocation correction to 100% | Current listed allocation totals 95%; policy requires 100%. [C4][C6] | Advisor Dana |\n| ROTH-C tax-treatment register entry | IPS register omits ROTH-C while planning accounts include ROTH-C. [C2][C4][C6] | Advisor Dana; planner Sol to confirm planning account treatment |\n| Emergency reserve amount | Objective references a separately discussed reserve, but no amount is documented. [C4][C5] | Advisor Dana |\n| Liquidity need | Risk handoff says liquidity need is unquantified and unresolved. [C5] | Advisor Dana |\n| Governing risk constraint | Dana is asked to document the governing constraint after all six dimensions are reviewed. [C5] | Advisor Dana |\n| Benchmarks | Benchmark selection is pending. [C4] | Advisor Dana; supervisor Rowan to review |\n| Trading process | Draft says trades still need a separate process. [C4] | Advisor Dana; supervisor Rowan to review |\n| 13-section support | Policy requires all 13 sections substantively supported; packet does not evidence completion. [C6] | Advisor Dana; supervisor Rowan to review |"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-APP",
+        "verdict": "pass",
+        "rationale": "Client/advisor/supervisor approvals and effective date are not supplied; signature is blocked. The governing risk constraint remains with Dana after reviewing six dimensions rather than generating a risk score.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 31,
+            "line_end": 41,
+            "quote": "| Area | Finding | Signature readiness |\n|---|---|---|\n| Revision linkage | Revision 2 lacks the prior artifact ID required for revisions after 1. [C1][C6] | Blocker |\n| Approval evidence | No client approval, advisor approval, supervisor approval, or effective IPS date is recorded. [C1][C4][C6] | Blocker |\n| Allocation total | Listed allocation totals 95%: equity 55%, fixed income 35%, cash 5%. Policy requires 100%. [C4][C6] | Blocker |\n| Account-tax register | DEF-C is documented, but ROTH-C is omitted despite being part of the planning accounts. Policy requires complete account-tax coverage. [C2][C4][C6] | Blocker |\n| Liquidity and reserve | Emergency reserve and near-term liquidity need are unquantified and unresolved. [C4][C5] | Blocker |\n| Benchmark | Benchmark selection is pending. [C4] | Blocker or reviewer hold, depending on local policy interpretation |\n| Trading process | Rebalance review trigger is described, but trades still need a separate process. [C4] | Blocker or required pre-signature clarification |\n| Risk constraint | Risk handoff says Dana should document the governing constraint after reviewing all six dimensions, not convert them into one score. [C5] | Blocker |\n| 13 IPS sections | Packet does not provide evidence that all 13 required sections are substantively supported. [C6] | Blocker |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 61,
+            "line_end": 77,
+            "quote": "| Prior artifact ID for revision 2 | Required by IPS assembly policy for revisions after 1. [C1][C6] | Advisor Dana |\n| Approval package and effective date | Packet records no approval/effective date; typed names and template version do not prove approval. [C1][C6] | Advisor Dana; supervisor Rowan to review |\n| Allocation correction to 100% | Current listed allocation totals 95%; policy requires 100%. [C4][C6] | Advisor Dana |\n| ROTH-C tax-treatment register entry | IPS register omits ROTH-C while planning accounts include ROTH-C. [C2][C4][C6] | Advisor Dana; planner Sol to confirm planning account treatment |\n| Emergency reserve amount | Objective references a separately discussed reserve, but no amount is documented. [C4][C5] | Advisor Dana |\n| Liquidity need | Risk handoff says liquidity need is unquantified and unresolved. [C5] | Advisor Dana |\n| Governing risk constraint | Dana is asked to document the governing constraint after all six dimensions are reviewed. [C5] | Advisor Dana |\n| Benchmarks | Benchmark selection is pending. [C4] | Advisor Dana; supervisor Rowan to review |\n| Trading process | Draft says trades still need a separate process. [C4] | Advisor Dana; supervisor Rowan to review |\n| 13-section support | Policy requires all 13 sections substantively supported; packet does not evidence completion. [C6] | Advisor Dana; supervisor Rowan to review |\n\n## Limits to Preserve\n\n- Do not treat tax proxies as statutory tax calculations or distribution-eligibility conclusions. [C2]\n- Do not calculate unprovided RMDs, brackets, benefit eligibility, Roth conversions, survivor changes, or long-term-care shocks. [C3][C6]\n- Do not represent this as a probability-of-success model; none is supplied. [C6]\n- Do not infer approvals from typed names, governance-party listings, or the template version. [C1][C6]"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-LINE",
+        "verdict": "fail",
+        "rationale": "The cash-flow handoff names RP-CEDAR-4 and preserves unresolved reserve/liquidity meaning, but neither of the three delivered artifacts retains literal code liquidity-not-quantified or the original exact concern sentence. This fails the predeclared exact-lineage requirement despite appropriate substantive caution.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 43,
+            "line_end": 49,
+            "quote": "## Planning Handoff to IPS\n\nThe two-year cash-flow illustration can be cited in the IPS support file as follows:\n\n\"Under the supplied planning assumptions, HH-CEDAR's stated USD 60,000 annual net spending is funded in each of the two complete annual intervals. Annual net pension is USD 24,000 after the supplied 20% tax proxy, leaving a USD 36,000 net portfolio gap. A USD 45,000 gross withdrawal from DEF-C, using the supplied 20% withdrawal-tax proxy and DEF-C-first order, covers the gap in each interval; no ROTH-C withdrawal is required. Ending illustrated assets are USD 210,000 in the 0% base case and USD 166,050 in the -10% annual stress case. This is a two-year deterministic scenario only and excludes unprovided statutory tax, RMD, benefit eligibility, survivor, long-term-care, and probability-of-success analysis.\" [C2][C3][C6]\n\nIPS drafting caution: the above supports funding of the supplied two-year spending gaps, but it does not support a claim that the mandate retains the separately discussed emergency reserve, because the reserve amount is not documented. [C4][C5]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 65,
+            "line_end": 67,
+            "quote": "| Emergency reserve amount | Objective references a separately discussed reserve, but no amount is documented. [C4][C5] | Advisor Dana |\n| Liquidity need | Risk handoff says liquidity need is unquantified and unresolved. [C5] | Advisor Dana |\n| Governing risk constraint | Dana is asked to document the governing constraint after all six dimensions are reviewed. [C5] | Advisor Dana |"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/two_year_cash_flow_illustration.md",
+            "line_start": 54,
+            "line_end": 62,
+            "quote": "Risk and liquidity handoff items:\n\n| Item | Evidence status | Proposed next owner |\n|---|---|---|\n| Emergency reserve amount | Undocumented; objective says reserve was separately discussed but amount is not recorded. [C4] | Advisor Dana |\n| Near-term liquidity need | Unquantified and unresolved in risk handoff RP-CEDAR-4. [C5] | Advisor Dana |\n| Governing risk constraint | Dana is asked to document the governing constraint after reviewing all six dimensions, not to convert them into one score. [C5] | Advisor Dana |\n| Loss-capacity comparison | Source assertion says assessed loss capacity is USD 40,000 on USD 300,000 investable assets; the supplied two-year stress ending total is USD 43,950 below the base ending total. This comparison is arithmetic only and not an approval test supplied by the packet. [C5][C6] | Planner Sol and supervisory reviewer Rowan |\n| Model limits | Exclusions include tax brackets/basis, RMDs, benefit eligibility, survivor transitions, long-term-care shocks, and probability of success. [C3][C6] | Planner Sol to disclose; Rowan to review |"
+          }
+        ]
+      },
+      {
+        "item_id": "P4-03-LIMIT",
+        "verdict": "pass",
+        "rationale": "The retirement figures are confined to supplied two-year scenarios, not lifetime sufficiency, statutory tax/distribution eligibility or success probability. Tax proxies, account order, post-withdrawal returns and excluded effects are stated.",
+        "evidence": [
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/two_year_cash_flow_illustration.md",
+            "line_start": 9,
+            "line_end": 23,
+            "quote": "Under the supplied two-year scenario, stated net spending is funded in both annual intervals in both the base case and the supplied stress case. This is a calculated result from the packet assumptions: USD 60,000 annual net spending, USD 30,000 gross pension taxed at a 20% proxy, withdrawal order DEF-C then ROTH-C, no contributions, and returns applied after withdrawals with cent-rounded amounts. [C2][C3][C6]\n\nThis does not prove retirement sufficiency, tax compliance, distribution eligibility, or probability of success. The packet explicitly excludes tax brackets/basis, RMDs, benefit eligibility, Roth conversions, survivor changes, long-term-care shocks, and any probability-of-success model. [C2][C3][C6]\n\n## Evidence Status\n\nSource assertions relied on:\n\n- HH-CEDAR is a US advisory engagement in USD; client C is age 65 in the first complete annual interval beginning 2026-09-17 and age 66 in the second row. [C1]\n- Opening balances are DEF-C USD 200,000 and ROTH-C USD 100,000; both are available in this simplified illustration; no contributions occur. [C2]\n- DEF-C has a supplied 20% effective withdrawal-tax proxy; ROTH-C has a supplied 0% proxy; withdrawal order is DEF-C then ROTH-C. [C2]\n- First-year net spending is USD 60,000, includes healthcare, and has 0% inflation. [C3]\n- One gross pension of USD 30,000 begins at age 65 and ends at age 66 inclusive; the pension income-tax proxy is 20% and COLA is 0%. [C3]\n- Base return is 0% in both annual intervals. Stress return is -10% per year on every account after withdrawals, with other inputs unchanged. [C3]\n- The method uses complete annual intervals, cent-rounded withdrawals/tax, and returns after withdrawals. [C6]"
+          },
+          {
+            "artifact": "generated",
+            "path": "artifacts/P4-03--without-skill/generated/ips_revision_memo.md",
+            "line_start": 72,
+            "line_end": 77,
+            "quote": "## Limits to Preserve\n\n- Do not treat tax proxies as statutory tax calculations or distribution-eligibility conclusions. [C2]\n- Do not calculate unprovided RMDs, brackets, benefit eligibility, Roth conversions, survivor changes, or long-term-care shocks. [C3][C6]\n- Do not represent this as a probability-of-success model; none is supplied. [C6]\n- Do not infer approvals from typed names, governance-party listings, or the template version. [C1][C6]"
+          }
+        ]
+      }
+    ]
+  }
+]

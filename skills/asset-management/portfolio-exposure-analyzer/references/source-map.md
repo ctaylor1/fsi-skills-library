@@ -44,3 +44,7 @@ finding cites the specific contributing rows.
 All read-only, deterministic, durable `exposure_id`, below the fixed timeout; page large
 portfolios and look-through trees as resumable stages. No write, order, or execution
 operations are bound by this skill.
+
+## Executable input additions
+
+Use [phase1-contract.md](phase1-contract.md) for the current required fields, scope and detached-original validation. The service calls above are integration contracts; the bundled scripts do not implement those connectors. Source binding proves reproducibility against supplied records, not their authenticity.

@@ -1,0 +1,514 @@
+{
+  "schema_version": "1.0",
+  "skill": "payment-liquidity-and-funding-analyzer",
+  "request_id": "treasury-early-deficit",
+  "as_of": "2026-09-18",
+  "jurisdiction": "US",
+  "participant": "bank",
+  "status": "needs-evidence",
+  "action_mode": "draft-only",
+  "authority_granted": false,
+  "action_taken": false,
+  "source_snapshot": {
+    "schema_version": "1.0",
+    "request_id": "treasury-early-deficit",
+    "as_of": "2026-09-18",
+    "jurisdiction": "US",
+    "participant": "bank",
+    "requested_action": "analyze",
+    "sources": [
+      {
+        "source_id": "synthetic-ledger",
+        "reference": "Independent fictional treasurer statement, 18 September 2026",
+        "as_of": "2026-09-18"
+      }
+    ],
+    "upstream_issues": [],
+    "data": {
+      "window_start": "2026-09-18T08:00:00-04:00",
+      "window_end": "2026-09-18T12:00:00-04:00",
+      "history_complete": true,
+      "accounts": [
+        {
+          "account_id": "master-A",
+          "entity_id": "Bank-A",
+          "currency": "USD",
+          "rail_profile_id": "US-FEDNOW",
+          "funding_model": "master-account",
+          "snapshot_at": "2026-09-18T08:00:00-04:00",
+          "balance": "1000",
+          "held": "100",
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "event_id": "customer-1",
+          "economic_id": "customer-1-economic",
+          "account_id": "master-A",
+          "entity_id": "Bank-A",
+          "currency": "USD",
+          "kind": "outflow",
+          "certainty": "firm",
+          "due_at": "2026-09-18T09:00:00-04:00",
+          "amount": "900",
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        },
+        {
+          "event_id": "customer-2",
+          "economic_id": "customer-2-economic",
+          "account_id": "master-A",
+          "entity_id": "Bank-A",
+          "currency": "USD",
+          "kind": "settlement-obligation",
+          "certainty": "firm",
+          "due_at": "2026-09-18T09:30:00-04:00",
+          "amount": "200",
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        },
+        {
+          "event_id": "funding-1",
+          "economic_id": "funding-1-economic",
+          "account_id": "master-A",
+          "entity_id": "Bank-A",
+          "currency": "USD",
+          "kind": "inflow",
+          "certainty": "firm",
+          "due_at": "2026-09-18T10:00:00-04:00",
+          "amount": "300",
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        },
+        {
+          "event_id": "optimistic-receipt",
+          "economic_id": "optimistic-receipt-economic",
+          "account_id": "master-A",
+          "entity_id": "Bank-A",
+          "currency": "USD",
+          "kind": "inflow",
+          "certainty": "forecast",
+          "due_at": "2026-09-18T09:15:00-04:00",
+          "amount": "500",
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        }
+      ],
+      "reservations": [
+        {
+          "reservation_id": "hold-1",
+          "account_id": "master-A",
+          "event_id": "customer-1",
+          "currency": "USD",
+          "amount": "300",
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        }
+      ],
+      "funding_windows": [
+        {
+          "window_id": "access-A",
+          "account_id": "master-A",
+          "opens_at": "2026-09-18T08:00:00-04:00",
+          "closes_at": "2026-09-18T12:00:00-04:00",
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        }
+      ],
+      "stress_scenarios": [
+        {
+          "scenario_id": "lost-funding",
+          "rationale": "Contracted incoming funding fails",
+          "remove_inflow_ids": [
+            "funding-1"
+          ],
+          "outflow_multiplier_bps": 10000,
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        },
+        {
+          "scenario_id": "volume-spike",
+          "rationale": "Outgoing obligations rise by 25 percent",
+          "remove_inflow_ids": [],
+          "outflow_multiplier_bps": 12500,
+          "source_ids": [
+            "synthetic-ledger"
+          ]
+        }
+      ]
+    }
+  },
+  "input_hash": "897b7aef898ca598ea89f34783e7f0a1042b97b6bff2b980d00820e575d5dad6",
+  "findings": [
+    {
+      "code": "forecast-not-firm",
+      "message": "optimistic-receipt: excluded from conservative available funding.",
+      "source_ids": [
+        "synthetic-ledger"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "funding-shortfall",
+      "message": "master-A/base peak deficit 200 USD; later receipts cannot cure earlier missed obligations.",
+      "source_ids": [
+        "synthetic-ledger"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "funding-shortfall",
+      "message": "master-A/lost-funding peak deficit 200 USD; later receipts cannot cure earlier missed obligations.",
+      "source_ids": [
+        "synthetic-ledger"
+      ],
+      "severity": "gap"
+    },
+    {
+      "code": "funding-shortfall",
+      "message": "master-A/volume-spike peak deficit 475 USD; later receipts cannot cure earlier missed obligations.",
+      "source_ids": [
+        "synthetic-ledger"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "result": {
+    "window_start": "2026-09-18T08:00:00-04:00",
+    "window_end": "2026-09-18T12:00:00-04:00",
+    "account_positions": [
+      {
+        "account_id": "master-A",
+        "entity_id": "Bank-A",
+        "currency": "USD",
+        "funding_model": "master-account",
+        "excluded_inflows": [
+          {
+            "event_id": "optimistic-receipt",
+            "reason": "forecast-not-firm"
+          }
+        ],
+        "scenario_paths": [
+          {
+            "scenario_id": "base",
+            "timeline": [
+              {
+                "at": "2026-09-18T08:00:00-04:00",
+                "event_ids": [],
+                "available": "600"
+              },
+              {
+                "at": "2026-09-18T09:00:00-04:00",
+                "event_ids": [
+                  "customer-1"
+                ],
+                "available": "0"
+              },
+              {
+                "at": "2026-09-18T09:15:00-04:00",
+                "event_ids": [
+                  "optimistic-receipt"
+                ],
+                "available": "0"
+              },
+              {
+                "at": "2026-09-18T09:30:00-04:00",
+                "event_ids": [
+                  "customer-2"
+                ],
+                "available": "-200"
+              },
+              {
+                "at": "2026-09-18T10:00:00-04:00",
+                "event_ids": [
+                  "funding-1"
+                ],
+                "available": "100"
+              }
+            ],
+            "minimum_available": "-200",
+            "peak_shortfall": "200",
+            "ending_available": "100"
+          },
+          {
+            "scenario_id": "lost-funding",
+            "timeline": [
+              {
+                "at": "2026-09-18T08:00:00-04:00",
+                "event_ids": [],
+                "available": "600"
+              },
+              {
+                "at": "2026-09-18T09:00:00-04:00",
+                "event_ids": [
+                  "customer-1"
+                ],
+                "available": "0"
+              },
+              {
+                "at": "2026-09-18T09:15:00-04:00",
+                "event_ids": [
+                  "optimistic-receipt"
+                ],
+                "available": "0"
+              },
+              {
+                "at": "2026-09-18T09:30:00-04:00",
+                "event_ids": [
+                  "customer-2"
+                ],
+                "available": "-200"
+              },
+              {
+                "at": "2026-09-18T10:00:00-04:00",
+                "event_ids": [
+                  "funding-1"
+                ],
+                "available": "-200"
+              }
+            ],
+            "minimum_available": "-200",
+            "peak_shortfall": "200",
+            "ending_available": "-200"
+          },
+          {
+            "scenario_id": "volume-spike",
+            "timeline": [
+              {
+                "at": "2026-09-18T08:00:00-04:00",
+                "event_ids": [],
+                "available": "600"
+              },
+              {
+                "at": "2026-09-18T09:00:00-04:00",
+                "event_ids": [
+                  "customer-1"
+                ],
+                "available": "-225"
+              },
+              {
+                "at": "2026-09-18T09:15:00-04:00",
+                "event_ids": [
+                  "optimistic-receipt"
+                ],
+                "available": "-225"
+              },
+              {
+                "at": "2026-09-18T09:30:00-04:00",
+                "event_ids": [
+                  "customer-2"
+                ],
+                "available": "-475"
+              },
+              {
+                "at": "2026-09-18T10:00:00-04:00",
+                "event_ids": [
+                  "funding-1"
+                ],
+                "available": "-175"
+              }
+            ],
+            "minimum_available": "-475",
+            "peak_shortfall": "475",
+            "ending_available": "-175"
+          }
+        ]
+      }
+    ],
+    "aggregation": "No cross-account, legal-entity or currency netting",
+    "funding_options_for_owner_review": [
+      "Confirm actual usable balance and disjoint holds/reservations",
+      "Verify funding access and windows for the required settlement arrangement",
+      "Stage evidenced resources before earliest obligation",
+      "Review liquidity buffer and service limits under outage stress"
+    ],
+    "transfers_created": false
+  },
+  "handoffs": [
+    {
+      "target_skill": "settlement-reconciliation-matcher",
+      "reason": "Reconcile source balances and settlement obligations before funding decisions.",
+      "required_inputs": [
+        "account statements",
+        "settlement ledgers",
+        "reservation identifiers"
+      ],
+      "handoff_id": "ff0bc73024a30e55dd2dc023d9149c71dc4f99f75bcf409cdaf138fa53e1827e",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "treasury-early-deficit",
+      "lead_owner": "bank",
+      "requested_output": "Reconcile source balances and settlement obligations before funding decisions.",
+      "source_refs": [
+        "Independent fictional treasurer statement, 18 September 2026"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "forecast-not-firm",
+          "message": "optimistic-receipt: excluded from conservative available funding.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/base peak deficit 200 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/lost-funding peak deficit 200 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/volume-spike peak deficit 475 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-initiation-control-reviewer",
+      "reason": "Any funding movement requires a separately authorized exact instruction.",
+      "required_inputs": [
+        "source and destination accounts",
+        "amount and currency",
+        "funding window",
+        "approval and mandate"
+      ],
+      "handoff_id": "4f7ad7da26ed3bbd869a958ba9fbfbd336a74c1ec230295c0dc2fb12e60421d1",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "treasury-early-deficit",
+      "lead_owner": "bank",
+      "requested_output": "Any funding movement requires a separately authorized exact instruction.",
+      "source_refs": [
+        "Independent fictional treasurer statement, 18 September 2026"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "forecast-not-firm",
+          "message": "optimistic-receipt: excluded from conservative available funding.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/base peak deficit 200 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/lost-funding peak deficit 200 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/volume-spike peak deficit 475 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    },
+    {
+      "target_skill": "payment-platform-architecture-reviewer",
+      "reason": "Review continuous funding monitoring, uncertain outcomes and recovery dependencies.",
+      "required_inputs": [
+        "timed shortfalls",
+        "failure assumptions",
+        "system and operational dependencies"
+      ],
+      "handoff_id": "deb24a70b6a8dc4b909d7aa82b1e33eeedf8b2c1d82e0f69d564e6f87b68e490",
+      "contract_version": "1.0.0",
+      "source_skill": "payment-liquidity-and-funding-analyzer",
+      "case_id": "treasury-early-deficit",
+      "lead_owner": "bank",
+      "requested_output": "Review continuous funding monitoring, uncertain outcomes and recovery dependencies.",
+      "source_refs": [
+        "Independent fictional treasurer statement, 18 September 2026"
+      ],
+      "unresolved_issues": [
+        {
+          "code": "forecast-not-firm",
+          "message": "optimistic-receipt: excluded from conservative available funding.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/base peak deficit 200 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/lost-funding peak deficit 200 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        },
+        {
+          "code": "funding-shortfall",
+          "message": "master-A/volume-spike peak deficit 475 USD; later receipts cannot cure earlier missed obligations.",
+          "source_ids": [
+            "synthetic-ledger"
+          ],
+          "severity": "gap"
+        }
+      ],
+      "action_mode": "draft-only",
+      "authority_granted": false,
+      "target_validation": "required",
+      "target_input": {}
+    }
+  ],
+  "unresolved_issues": [],
+  "limitations": [
+    "Offline analysis of supplied evidence; source identity and truth are not authenticated.",
+    "Draft decision support only; no approval, execution, filing, posting or binding customer commitment.",
+    "Regional profiles are bounded source summaries; institution and national applicability require specialist review."
+  ]
+}

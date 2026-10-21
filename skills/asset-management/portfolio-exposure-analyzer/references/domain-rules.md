@@ -47,7 +47,7 @@ issuer — state this limitation in the output.
 
 A finding is a **factual statement** that an exposure exceeds a *documented limit*. It is
 **not** a mandate-compliance determination — that adjudication belongs to
-`mandate-compliance-monitor` and a human. Comparisons are strict `>` (an exposure exactly at
+`investment-mandate-reviewer` and a human. Comparisons are strict `>` (an exposure exactly at
 the limit is at-limit, not over).
 
 ## Priority mapping (deterministic, documented)
@@ -67,7 +67,7 @@ finding. The same mapping is enforced in `scripts/validate_output.py`.
 - Never state or imply the portfolio **is in breach of**, **violates**, or is
   **non-compliant** with a mandate, guideline, or limit — describe the exposure factually
   ("exposure X% exceeds the documented limit of Y%") and attribute adjudication to the human
-  and `mandate-compliance-monitor`.
+  and `investment-mandate-reviewer`.
 - Never recommend, stage, or execute a **trade, rebalance, hedge, or divestment** to cure an
   exposure.
 - Never give **personalized investment, tax, or legal advice** ("you should buy/sell/trim").

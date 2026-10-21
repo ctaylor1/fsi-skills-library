@@ -1,0 +1,283 @@
+{
+  "schema_version": "workflow-review-1.0",
+  "producer": "solution-architecture-planner",
+  "case_id": "SYN-P4-01",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "design-review",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "FNOL-MODERNIZATION",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "method",
+      "message": "An explicitly reviewed supported method profile is required",
+      "source_refs": [],
+      "severity": "gap"
+    }
+  ],
+  "results": {
+    "components": [
+      {
+        "component_id": "A",
+        "responsibility": "intake API",
+        "owner": "platform owner",
+        "technology_choice": "supplied service candidate",
+        "alternative": "retain current process",
+        "tradeoff": "evaluate measured fit",
+        "failure_domain": "zone1",
+        "data_classification": "confidential",
+        "retention_rule": "reviewed synthetic retention",
+        "recovery_runbook": "manual queue recovery",
+        "currency": "USD",
+        "cost_period": "month",
+        "cost": 100,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "component_id": "B",
+        "responsibility": "review queue",
+        "owner": "platform owner",
+        "technology_choice": "supplied service candidate",
+        "alternative": "retain current process",
+        "tradeoff": "evaluate measured fit",
+        "failure_domain": "zone2",
+        "data_classification": "confidential",
+        "retention_rule": "reviewed synthetic retention",
+        "recovery_runbook": "manual queue recovery",
+        "currency": "USD",
+        "cost_period": "month",
+        "cost": 200,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "interfaces": [
+      {
+        "interface_id": "I1",
+        "from_component": "A",
+        "to_component": "B",
+        "contract_version": "v1",
+        "payload_schema": "notice-v1",
+        "purpose": "review notice",
+        "authentication": "workload identity",
+        "authorization_scope": "enqueue approved draft",
+        "encryption": "reviewed transport",
+        "timeout": "10 seconds",
+        "failure_route": "human intake",
+        "trace_id": "notice request ID",
+        "delivery": "at-least-once",
+        "operation": "proposed-write",
+        "purpose_reviewed": true,
+        "max_attempts": 2,
+        "idempotency_key": "notice ID and version",
+        "approval_owner": "human reviewer",
+        "receipt_check": "durable queue receipt",
+        "recovery_plan": "dedupe then reconcile missing receipt",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "requirement_fit": [
+      {
+        "requirement_id": "CAP",
+        "observed": null,
+        "threshold": "100",
+        "unit": "notices/hour",
+        "meets": null
+      }
+    ],
+    "supplied_period_cost": null,
+    "currency": "USD",
+    "cost_period": "month",
+    "deployment_authorized": false,
+    "provider_conformance": "not_assessed"
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "An explicitly reviewed supported method profile is required"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "SYN-P4-01",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "design-review",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "FNOL-MODERNIZATION",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-record",
+        "version": "1",
+        "as_of": "2026-09-20",
+        "locator": "Synthetic local exercise; no live records"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "SYN-PROFILE",
+        "version": "1",
+        "reviewed_by": "Synthetic design owner",
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "pc"
+        ],
+        "effective_from": "2026-01-01",
+        "effective_to": "2026-12-31",
+        "method": "unsupported-method",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      "business_outcome": "Draft read-side intake architecture",
+      "owner": "architect",
+      "currency": "USD",
+      "cost_period": "month",
+      "scope": "same synthetic FNOL workload",
+      "inventory_complete": true,
+      "components": [
+        {
+          "component_id": "A",
+          "responsibility": "intake API",
+          "owner": "platform owner",
+          "technology_choice": "supplied service candidate",
+          "alternative": "retain current process",
+          "tradeoff": "evaluate measured fit",
+          "failure_domain": "zone1",
+          "data_classification": "confidential",
+          "retention_rule": "reviewed synthetic retention",
+          "recovery_runbook": "manual queue recovery",
+          "currency": "USD",
+          "cost_period": "month",
+          "cost": 100,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        },
+        {
+          "component_id": "B",
+          "responsibility": "review queue",
+          "owner": "platform owner",
+          "technology_choice": "supplied service candidate",
+          "alternative": "retain current process",
+          "tradeoff": "evaluate measured fit",
+          "failure_domain": "zone2",
+          "data_classification": "confidential",
+          "retention_rule": "reviewed synthetic retention",
+          "recovery_runbook": "manual queue recovery",
+          "currency": "USD",
+          "cost_period": "month",
+          "cost": 200,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "interfaces": [
+        {
+          "interface_id": "I1",
+          "from_component": "A",
+          "to_component": "B",
+          "contract_version": "v1",
+          "payload_schema": "notice-v1",
+          "purpose": "review notice",
+          "authentication": "workload identity",
+          "authorization_scope": "enqueue approved draft",
+          "encryption": "reviewed transport",
+          "timeout": "10 seconds",
+          "failure_route": "human intake",
+          "trace_id": "notice request ID",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 2,
+          "idempotency_key": "notice ID and version",
+          "approval_owner": "human reviewer",
+          "receipt_check": "durable queue receipt",
+          "recovery_plan": "dedupe then reconcile missing receipt",
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "requirements": [
+        {
+          "requirement_id": "CAP",
+          "component_id": "B",
+          "metric": "observed_capacity",
+          "unit": "notices/hour",
+          "owner": "platform owner",
+          "workload_profile": "notice-v1 at approved payload size",
+          "operator": ">=",
+          "threshold": 100,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ],
+      "measurements": [
+        {
+          "requirement_id": "CAP",
+          "component_id": "B",
+          "metric": "observed_capacity",
+          "unit": "notices/hour",
+          "workload_profile": "notice-v1 at approved payload size",
+          "observed_on": "2026-09-19",
+          "value": 120,
+          "source_refs": [
+            "synthetic-record"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "workflow-evidence/1.0",
+    "producer": "solution-architecture-planner",
+    "artifact_type": "workflow-review",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "design-review",
+      "represented_party": "SYNTHETIC-INSURER",
+      "object_id": "FNOL-MODERNIZATION",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "pc"
+    },
+    "sources": [
+      {
+        "source_ref": "synthetic-record",
+        "version": "1",
+        "as_of": "2026-09-20",
+        "locator": "Synthetic local exercise; no live records"
+      }
+    ],
+    "input_hash": "0c4fa94b262c85fc92ec850d3cdaca1a9bffce4d9aea7a293ee4855d7870abe4",
+    "output_hash": "1e99eb61c52a3086c5038c19215e734a947029ca38e5bfbfe7b479805683593c",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "An explicitly reviewed supported method profile is required"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "2676c3d706513a64254f0e2c9b266811eced527b7d3cdb3bb0d0f8f8960ed832"
+  }
+}

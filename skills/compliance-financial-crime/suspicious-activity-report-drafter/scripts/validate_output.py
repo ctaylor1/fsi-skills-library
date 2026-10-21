@@ -18,12 +18,18 @@ drafts and recommends, it never decides, files, or sends. Checks:
   8. Hard-boundary consistency: a hard boundary must yield packaging_status=blocked.
   9. The standing note is present.
 
+Native output must match exact reconstruction from the separately retained, validated input.
+Additional narrative or fields require a separate reviewed artifact.
+
 Usage: python validate_output.py package.json | --selftest
 Exit 0 if no errors, 1 otherwise.
 """
 from __future__ import annotations
 import json, re, sys
 from pathlib import Path
+from native_integrity import validate_reconstruction
+from validate_input import validate as validate_source
+from calculate_or_transform import package
 
 ALLOWED_STATUS = {"ready-for-quality-review", "needs-evidence", "blocked"}
 REVIEW_PATHS = {"quality-review-and-compliance-approval", "return-for-evidence",
@@ -79,7 +85,7 @@ def _scan(text: str, patterns, label, errors):
             errors.append(f"{label}: {m.group(0)!r}")
 
 
-def validate(doc: dict) -> list[str]:
+def _validate_structure(doc: dict) -> list[str]:
     errors: list[str] = []
     sections = doc.get("sections") or {}
 
@@ -96,14 +102,14 @@ def validate(doc: dict) -> list[str]:
     # No unsupported claims — chronology events must be cited.
     chron = sections.get("chronology") or {}
     for e in chron.get("events") or []:
-        if not e.get("citation"):
+        if not e.get("citation") and status == "ready-for-quality-review":
             errors.append(f"unsupported claim: chronology event {e.get('txn_id')!r} has no citation")
-    if chron.get("uncited_events"):
+    if chron.get("uncited_events") and status == "ready-for-quality-review":
         errors.append(f"unsupported claim: uncited chronology events {chron.get('uncited_events')}")
 
     # Narrative: 5W+H must be complete and cited.
     narr = sections.get("narrative") or {}
-    if "narrative" in sections:
+    if "narrative" in sections and status == "ready-for-quality-review":
         missing = [w for w in WHO_WHAT if not str(narr.get(w) or "").strip()]
         if missing:
             errors.append(f"narrative incomplete: missing {missing} (5W+H must all be present)")
@@ -112,14 +118,14 @@ def validate(doc: dict) -> list[str]:
 
     # Evidence index and rationale must be cited.
     ei = sections.get("evidence_index") or {}
-    if "evidence_index" in sections:
+    if "evidence_index" in sections and status == "ready-for-quality-review":
         if not ei.get("entries"):
             errors.append("evidence_index is empty (narrative facts must be indexed to sources)")
         for en in ei.get("entries") or []:
             if not en.get("citation"):
                 errors.append(f"unsupported claim: evidence_index fact {en.get('fact')!r} has no citation")
     rat = sections.get("investigation_rationale") or {}
-    if "investigation_rationale" in sections and not rat.get("citations"):
+    if "investigation_rationale" in sections and not rat.get("citations") and status == "ready-for-quality-review":
         errors.append("unsupported claim: investigation_rationale has no citations")
 
     # Typology support.
@@ -165,7 +171,7 @@ def validate(doc: dict) -> list[str]:
     appr = sections.get("approvals") or {}
     required = appr.get("required") or []
     ledger = appr.get("ledger") or []
-    if "approvals" in sections and not required:
+    if "approvals" in sections and not required and status == "ready-for-quality-review":
         errors.append("approvals.required is empty (required approvals must be recorded)")
     ledger_roles = {e.get("role") for e in ledger if isinstance(e, dict)}
     for role in required:
@@ -181,10 +187,12 @@ def validate(doc: dict) -> list[str]:
     # Hard-boundary consistency.
     if doc.get("hard_boundary") and status != "blocked":
         errors.append(f"hard boundary present but packaging_status={status!r} (must be 'blocked' and routed to the investigator)")
+    if status == "blocked" and any(narr.get(w) for w in WHO_WHAT):
+        errors.append("blocked package must withhold narrative")
 
     # Sources aggregate present.
     src = sections.get("sources_citations") or {}
-    if "sources_citations" in sections and not src.get("citations"):
+    if "sources_citations" in sections and not src.get("citations") and status == "ready-for-quality-review":
         errors.append("sources_citations: aggregate citation list is empty")
 
     # Language screens over the whole package.
@@ -202,17 +210,39 @@ def validate(doc: dict) -> list[str]:
     return errors
 
 
+
+def validate(doc, original_input=None):
+    try:
+        errors = _validate_structure(doc)
+    except (TypeError, ValueError, KeyError, AttributeError, IndexError) as exc:
+        errors = [f"malformed native output: {exc}"]
+    if isinstance(original_input, dict):
+        try:
+            input_errors, _ = validate_source(original_input)
+            errors.extend("original input: " + error for error in input_errors)
+        except (TypeError, ValueError, KeyError, AttributeError, IndexError) as exc:
+            errors.append(f"malformed original input: {exc}")
+    validate_reconstruction(doc, package, errors, original_input=original_input)
+    return errors
+
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "sar_package_example.json"
-        doc = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        doc = json.loads(sys.stdin.read())
-    errors = validate(doc)
-    for e in errors:
-        print("ERROR", e)
+    import argparse
+    parser = argparse.ArgumentParser(description="Validate against separately retained original input; no source authentication is claimed.")
+    parser.add_argument("output", nargs="?")
+    parser.add_argument("--input", dest="original")
+    parser.add_argument("--selftest", action="store_true")
+    args = parser.parse_args(argv)
+    folder = Path(__file__).resolve().parents[1] / "evals" / "files"
+    path = folder / "sar_package_example.json" if args.selftest else args.output
+    source = folder / "sar_case_example.json" if args.selftest else args.original
+    try:
+        doc = json.loads(Path(path).read_text()) if path else json.loads(sys.stdin.read())
+        original = json.loads(Path(source).read_text()) if source else None
+        errors = validate(doc, original)
+    except (OSError, ValueError, TypeError) as exc:
+        errors = [str(exc)]
+    for error in errors:
+        print("ERROR", error)
     print(f"output validation: {len(errors)} error(s)")
     return 1 if errors else 0
 

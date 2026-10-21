@@ -63,9 +63,9 @@ def _cite(node):
     return (node.get("citation", "") if isinstance(node, dict) else "")
 
 
-def compute(doc: dict) -> dict:
+def _compute(doc: dict) -> dict:
     base_value = float(doc["portfolio_base_value"])
-    tol = _num(doc.get("reconciliation_tolerance"), 0.01) or 0.01
+    tol = _num(doc.get("reconciliation_tolerance"), 0.01)
     factors = doc.get("risk_factors") or {}
     positions = doc["positions"]
     aet = doc.get("approved_engine_totals") or {}
@@ -195,6 +195,7 @@ def compute(doc: dict) -> dict:
         } for s in doc["scenarios"]],
         "approved_engine_totals": {k: float(v) for k, v in aet.items()},
         "model_version": doc.get("model_version"),
+        "method_scope": "supplied factor sensitivities with optional diagonal convexity; no full repricing",
         "config_version": doc.get("config_version"),
     }, sort_keys=True)
     inputs_hash = hashlib.sha256(hash_src.encode("utf-8")).hexdigest()[:16]
@@ -217,6 +218,7 @@ def compute(doc: dict) -> dict:
         "scenario_set_provenance": scen_provenance,
         "scenarios": scenarios,
         "assumptions_register": register,
+        "reconciliation_tolerance": tol,
         "run_checks": {
             "all_tieouts_ok": all_tieouts_ok,
             "all_scenarios_approved": all_approved,
@@ -243,6 +245,28 @@ def _selftest_errors(pack: dict) -> list[str]:
         if not all(s["tieouts"].values()):
             errs.append(f"scenario {sid}: a tie-out flag is false {s['tieouts']}")
     return errs
+
+
+def compute(doc: dict) -> dict:
+    """Fail on invalid inputs; bind the complete supplied evidence and configuration."""
+    import runpy
+    validator = runpy.run_path(str(Path(__file__).with_name("validate_input.py")))
+    errors, warnings = validator["validate"](doc)
+    if errors: raise ValueError("; ".join(errors))
+    result = _compute(doc)
+    integrity = runpy.run_path(str(Path(__file__).with_name("native_integrity.py")))
+    digest = integrity["canonical_hash"](doc)
+    result["inputs_hash"] = digest
+    result["calculation_version"] = "phase1-1"
+    result["analysis_status"] = "draft"
+    result["professional_approval"] = "not_established_by_script"
+    result["input_warnings"] = warnings
+    for key in ("packet_id", "analysis_id", "forecast_id", "exposure_id", "run_id", "attribution_id"):
+        if key in result:
+            result["source_" + key] = result[key]
+            result[key] = str(result[key]) + "-" + digest[:16]
+            break
+    return integrity["attach_source"](result, doc)
 
 
 def main(argv):

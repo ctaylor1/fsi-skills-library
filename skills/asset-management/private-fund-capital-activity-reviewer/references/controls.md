@@ -1,0 +1,9 @@
+# Control boundary
+
+R3 draft support. Triage completeness and point-in-time eligibility before interpreting a financial finding; route unavailable data to its owner and substantive questions to the accountable professional. Keep unresolved issues open. Never approve, book, invest, trade, call capital, distribute cash, certify a return or grant authority.
+
+Native results are internal-review only. Do not propagate raw source documents, embedded inputs or unreviewed narrative. Minimum authorized evidence and recipient context must be checked before any downstream delivery; supplied audience/approval labels are not authenticated entitlements. Human sign-off, legal applicability, institution thresholds, model risk and external delivery are separate deployment gates. Test results are developmental evidence, not release acceptance.
+
+Referenced evidence explicitly excluding internal-review rejects the entire request with a generic audience-restriction error before domain identifiers, units, events or findings are emitted. This applies to nested prior/threshold/contract references as well as primary rows. Expired or unregistered evidence remains a review gap with dependent calculations withheld.
+
+Actual dated observations admitted to a calculation or chronology must be no later than review as_of, knowledge_cutoff, and that observation source's known_at. The bound applies to experiment/split and feature dates, dated monitoring current/prior/liquidity observations and included events, and booked capital activity. Existing excluded or unsupported evidence stays withheld. Source-date declarations are checked; historical truth is not authenticated. Future scenario periods, liability/availability schedules and contractual maturity dates are assumptions or obligations, not completed events, and remain allowed.

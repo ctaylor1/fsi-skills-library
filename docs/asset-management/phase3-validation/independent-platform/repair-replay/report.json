@@ -1,0 +1,128 @@
+{
+  "reviewer": "independent AM data adapter agent",
+  "source": "Fresh synthetic two-lot ABOR migration; no package goldens used as expected results.",
+  "checks": 14,
+  "passed": 14,
+  "results": [
+    {
+      "case": "balanced",
+      "expectation": "Two exact lot comparisons, shared cost1050, observed capacity met, human-review only.",
+      "passed": true,
+      "exit": 0,
+      "readiness": "evidence-ready-for-human-review",
+      "issues": [],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "offsetting-breaks",
+      "expectation": "Opposite 2e-8 breaks each exceed 1e-8 tolerance even though net is zero.",
+      "passed": true,
+      "exit": 0,
+      "readiness": "blocked",
+      "issues": [
+        "financial grain reconciliation break: recon-1",
+        "financial grain reconciliation break: recon-2"
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "exact-tolerance",
+      "expectation": "Difference exactly1e-8 meets inclusive1e-8 policy.",
+      "passed": true,
+      "exit": 0,
+      "readiness": "evidence-ready-for-human-review",
+      "issues": [],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "missing-lot",
+      "expectation": "Deleting one expected comparison must block despite supplied passed gates.",
+      "passed": true,
+      "exit": 0,
+      "readiness": "blocked",
+      "issues": [
+        "reconciliation evidence missing for expected financial grains: WAVE-ONE"
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "wrong-lot",
+      "expectation": "Different target lot cannot match by security/account only.",
+      "passed": true,
+      "exit": 1,
+      "stderr": "reconciliation financial grain is mismatched, unexpected or duplicated"
+    },
+    {
+      "case": "recovery-breach",
+      "expectation": "Observed RTO above60 blocks without rounding down.",
+      "passed": true,
+      "exit": 0,
+      "readiness": "blocked",
+      "issues": [
+        "recovery or rollback requirement not met: recovery-02"
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "early-recovery",
+      "expectation": "Recovery before rehearsal completion cannot prove this rehearsal recovery.",
+      "passed": true,
+      "exit": 1,
+      "stderr": "recovery observation predates its rehearsal completion"
+    },
+    {
+      "case": "early-native-gate",
+      "expectation": "Rollback signoff before its recovery observation must fail.",
+      "passed": true,
+      "exit": 1,
+      "stderr": "human gate predates the evidence it claims to review"
+    },
+    {
+      "case": "accepted-exception",
+      "expectation": "Accepted exception remains blocked; acceptance is not resolution.",
+      "passed": true,
+      "exit": 0,
+      "readiness": "blocked",
+      "issues": [
+        "migration exception remains unresolved: exception-1"
+      ],
+      "output_validation_exit": 0
+    },
+    {
+      "case": "cyclic-wave",
+      "expectation": "Self-dependency must fail rather than choosing an order.",
+      "passed": true,
+      "exit": 1,
+      "stderr": "dependency must identify a strictly earlier migration wave"
+    },
+    {
+      "case": "future-source",
+      "expectation": "Source known beyond cutoff cannot enter rehearsal evidence.",
+      "passed": true,
+      "exit": 1,
+      "stderr": "source known after knowledge cutoff: migration-evidence"
+    },
+    {
+      "case": "shared-cost-tamper",
+      "expectation": "Fabricated generic architecture result fails detached reconstruction.",
+      "passed": true,
+      "exit": 1,
+      "stderr": "shared output differs from detached native reconstruction: output content hash mismatch; output differs from native recomputation of retained evidence"
+    },
+    {
+      "case": "delta-before-rehearsal",
+      "expectation": "A delta replay before the entire Oct rehearsal cannot establish rollback coverage for its new writes; block or reject.",
+      "passed": true,
+      "exit": 1,
+      "stderr": "required nonempty fields: delta_replay_evidence, delta_replay_source_ref, delta_replay_status, delta_replay_observed_on, delta_replay_run_id"
+    },
+    {
+      "case": "closure-after-gates",
+      "expectation": "Signoffs on Oct3 cannot include closure first observed Oct4; block or require fresh evidence review.",
+      "passed": true,
+      "exit": 1,
+      "stderr": "human gate predates the evidence it claims to review"
+    }
+  ],
+  "limitations": "Offline supplied-evidence methods only; no production access, real source truth, professional acceptance or model behavior test."
+}

@@ -1,0 +1,45 @@
+{
+  "scope": "Independent forward test from documented native schemas with new synthetic producer originals and receiver templates; no golden expectations used",
+  "root_edits_during_review": false,
+  "positive_cases": [
+    {
+      "adapter": "forecast-to-dcf",
+      "compute_exit": 0,
+      "saved_handoff_validation_exit": 0,
+      "independent_math": "First EBIT32,NOPAT24,capex21,change NWC5.821917 => UFCF7.178083. Producer and receiver issues retained; annual indexed timing retained; both authority fields false."
+    },
+    {
+      "adapter": "capital-structure-to-liquidity",
+      "compute_exit": 0,
+      "saved_handoff_validation_exit": 0,
+      "independent_math": "Selected USD100 maturity inside horizon; EUR and USD150 beyond horizon not mapped; cash60-burn25-principal100=-65 => gap75 to minimum10."
+    },
+    {
+      "adapter": "dcf-to-reconciliation",
+      "replay_compute_exit": 0,
+      "replay_saved_validation_exit": 0,
+      "finding": "Fixed hardcoded share_basis lost explicit producer share-count basis; exact repro now comparable and saved output validates."
+    }
+  ],
+  "constrained_cases": [
+    "receiver entitlement denied: rejects without mapped payload",
+    "receiver cutoff differs: context mismatch rejects",
+    "receiver issuer differs: subject mismatch rejects",
+    "saved authority tamper: reconstruction rejects"
+  ],
+  "pending_findings": [
+    {
+      "id": "FWD-ADAPTER-02",
+      "description": "Nonempty conflicting receiver maturity schedule silently overwritten without issue; producer and receiver both assert completeness. Additional principal80 disappears from projected method and gap remains75 instead of155 if both supplied obligations apply.",
+      "request": "capital-conflicting-receiver-maturity-request.json",
+      "output": "capital-conflicting-receiver-maturity-handoff.json"
+    }
+  ],
+  "source_hashes": {
+    "shared/investment-research/reviewed_handoffs.py": "f516c7340d9b2cebf791ba17500e4842edaae89bb1db9806fa528777010b5609",
+    "tools/review_ir_handoff.py": "3d28eef53fc24eac87322ee99eb32b6b1e57a479e48daa09568dd70234490140",
+    "catalog/investment-research-adapters.json": "1c65663cbd60d1f02bcb06a45a44d099fe4feb6f792b245513496f69219f587d"
+  },
+  "source_truth": "synthetic-supplied-not-authenticated",
+  "professional_acceptance": "not-established"
+}

@@ -53,7 +53,7 @@ recommendation or judgment about what to do next.
 - The user asks whether the portfolio is suitable, well-diversified, or risky in a
   personalized sense → route to `portfolio-risk-diversification-check` (educational,
   non-advice) and, for suitability, to `investment-recommendation-evidence-reviewer`.
-- The user wants performance/attribution over time → `performance-attribution-builder`.
+- The user wants performance/attribution over time → `portfolio-performance-attributor`.
 - The user wants to place or stage trades → not supported here (see `portfolio-rebalancing-assistant`, R4).
 
 ## Adjacent-skill handoffs

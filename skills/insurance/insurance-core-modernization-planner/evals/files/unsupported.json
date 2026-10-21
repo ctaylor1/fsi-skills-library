@@ -1,0 +1,204 @@
+{
+  "case_id": "SYN-P4-01",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "design-review",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "FNOL-MODERNIZATION",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "sources": [
+    {
+      "source_ref": "synthetic-record",
+      "version": "1",
+      "as_of": "2026-09-20",
+      "locator": "Synthetic local exercise; no live records"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "profile": {
+      "profile_id": "SYN-PROFILE",
+      "version": "1",
+      "reviewed_by": "Synthetic design owner",
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "pc"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "method": "unsupported-method",
+      "source_refs": [
+        "synthetic-record"
+      ]
+    },
+    "currency": "USD",
+    "scope": "Synthetic property book",
+    "owner": "modernization sponsor",
+    "inventory_version": "v1",
+    "inventory_complete": true,
+    "requirements": [
+      {
+        "requirement_id": "HISTORY",
+        "description": "Preserve operative forms and claim/billing links",
+        "owner": "policy owner",
+        "mandatory": true,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "option_id": "O1",
+        "strategy": "refactor",
+        "rationale": "Test phased seam before option selection",
+        "history_preservation": "immutable history retained",
+        "form_version_mapping": "operative edition ID retained",
+        "policy_identity_mapping": "reviewed exact IDs",
+        "billing_claims_coexistence": "one source-of-record owner at each wave",
+        "cost_inventory_complete": true,
+        "cost_horizon": "one-year implementation and coexistence",
+        "fits": [
+          {
+            "requirement_id": "HISTORY",
+            "disposition": "met",
+            "rationale": "supplied rehearsal retained snapshots",
+            "source_refs": [
+              "synthetic-record"
+            ]
+          }
+        ],
+        "costs": [
+          {
+            "cost_id": "BUILD",
+            "amount": 100000,
+            "currency": "USD",
+            "period": "2026",
+            "basis": "implementation",
+            "source_refs": [
+              "synthetic-record"
+            ]
+          },
+          {
+            "cost_id": "RUN",
+            "amount": 20000,
+            "currency": "USD",
+            "period": "2026",
+            "basis": "coexistence",
+            "source_refs": [
+              "synthetic-record"
+            ]
+          }
+        ],
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "batches": [
+      {
+        "batch_id": "B1",
+        "owner": "migration owner",
+        "scope": "one test policy",
+        "mapping_version": "v1",
+        "source_snapshot": "s1",
+        "target_snapshot": "t1",
+        "rollback_trigger": "any control difference > supplied tolerance",
+        "rollback_owner": "release owner",
+        "rollback_data_plan": "restore checkpoint and replay reviewed delta",
+        "rehearsal_evidence_reviewed": true,
+        "wave": 1,
+        "depends_on": [],
+        "new_writes_after_cutover": true,
+        "delta_recovery_evidence": "test delta replay record",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "reconciliations": [
+      {
+        "control_id": "PREM",
+        "batch_id": "B1",
+        "source_snapshot": "s1",
+        "target_snapshot": "t1",
+        "mapping_version": "v1",
+        "measure": "premium control",
+        "unit": "USD",
+        "scope": "one test policy",
+        "source_value": 100,
+        "target_value": 100,
+        "tolerance": ".01",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "gates": [
+      {
+        "gate_id": "reconciliation",
+        "owner": "named reviewer",
+        "test": "reconciliation rehearsal",
+        "expected": "no unresolved test break",
+        "actual": "supplied test record passed",
+        "observed_on": "2026-09-19",
+        "status": "passed",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "gate_id": "rollback",
+        "owner": "named reviewer",
+        "test": "rollback rehearsal",
+        "expected": "no unresolved test break",
+        "actual": "supplied test record passed",
+        "observed_on": "2026-09-19",
+        "status": "passed",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "gate_id": "parallel-run",
+        "owner": "named reviewer",
+        "test": "parallel-run rehearsal",
+        "expected": "no unresolved test break",
+        "actual": "supplied test record passed",
+        "observed_on": "2026-09-19",
+        "status": "passed",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "gate_id": "security",
+        "owner": "named reviewer",
+        "test": "security rehearsal",
+        "expected": "no unresolved test break",
+        "actual": "supplied test record passed",
+        "observed_on": "2026-09-19",
+        "status": "passed",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "gate_id": "business-acceptance",
+        "owner": "named reviewer",
+        "test": "business-acceptance rehearsal",
+        "expected": "no unresolved test break",
+        "actual": "supplied test record passed",
+        "observed_on": "2026-09-19",
+        "status": "passed",
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ]
+  }
+}

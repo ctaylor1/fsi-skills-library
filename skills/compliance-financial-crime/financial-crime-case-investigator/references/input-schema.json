@@ -1,0 +1,457 @@
+{
+  "type": "object",
+  "required": [
+    "request_id",
+    "object_id",
+    "object_type",
+    "as_of",
+    "knowledge_cutoff",
+    "workflow",
+    "sources",
+    "data"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string"
+    },
+    "object_id": {
+      "type": "string"
+    },
+    "object_type": {
+      "type": "string",
+      "const": "financial_crime_case"
+    },
+    "as_of": {
+      "type": "string"
+    },
+    "knowledge_cutoff": {
+      "type": "string"
+    },
+    "execution_context": {
+      "type": "string",
+      "description": "Optional execution context; when supplied it must retain the documented string type. Native case investigation does not assume an acceptance status from this field."
+    },
+    "workflow": {
+      "type": "object",
+      "required": [
+        "context",
+        "as_of",
+        "role",
+        "classification",
+        "audience",
+        "allowed_audiences",
+        "sources",
+        "unresolved_issues"
+      ],
+      "properties": {
+        "context": {
+          "type": "object",
+          "required": [
+            "institution_id",
+            "legal_entity_id",
+            "capacity",
+            "represented_party",
+            "object_id",
+            "object_type",
+            "jurisdiction",
+            "line_of_business",
+            "purpose"
+          ],
+          "properties": {
+            "institution_id": {
+              "type": "string"
+            },
+            "legal_entity_id": {
+              "type": "string"
+            },
+            "capacity": {
+              "type": "string"
+            },
+            "represented_party": {
+              "type": "string"
+            },
+            "object_id": {
+              "type": "string"
+            },
+            "object_type": {
+              "type": "string"
+            },
+            "jurisdiction": {
+              "type": "string"
+            },
+            "line_of_business": {
+              "type": "string"
+            },
+            "purpose": {
+              "type": "string"
+            }
+          }
+        },
+        "as_of": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "classification": {
+          "type": "string"
+        },
+        "audience": {
+          "type": "string"
+        },
+        "allowed_audiences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "source_ref",
+              "version"
+            ],
+            "properties": {
+              "source_ref": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "unresolved_issues": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_ref",
+          "version",
+          "received_at",
+          "publication_date",
+          "classification",
+          "permitted_audiences",
+          "facts"
+        ],
+        "properties": {
+          "source_ref": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "received_at": {
+            "type": "string"
+          },
+          "publication_date": {
+            "type": "string"
+          },
+          "classification": {
+            "type": "string"
+          },
+          "permitted_audiences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "fact_id",
+                "value",
+                "excerpt"
+              ],
+              "properties": {
+                "fact_id": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": [
+                    "null",
+                    "boolean",
+                    "object",
+                    "array",
+                    "number",
+                    "string"
+                  ],
+                  "description": "Actual finite JSON fact value, preserving its source type; native common validation rejects nonfinite numbers."
+                },
+                "excerpt": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "scope",
+        "entities",
+        "accounts",
+        "transactions",
+        "hypotheses",
+        "investigative_plan",
+        "chronology",
+        "narrative_propositions"
+      ],
+      "properties": {
+        "scope": {
+          "type": "object",
+          "required": [
+            "start",
+            "end",
+            "currencies"
+          ],
+          "properties": {
+            "start": {
+              "type": "string"
+            },
+            "end": {
+              "type": "string"
+            },
+            "currencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "entity_id",
+              "identity",
+              "id_evidence"
+            ],
+            "properties": {
+              "entity_id": {
+                "type": "string"
+              },
+              "identity": {
+                "$ref": "#/$defs/claim"
+              },
+              "id_evidence": {
+                "$ref": "#/$defs/claim"
+              }
+            }
+          }
+        },
+        "accounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "account_id",
+              "entity_id",
+              "identity",
+              "id_evidence",
+              "entity_evidence"
+            ],
+            "properties": {
+              "account_id": {
+                "type": "string"
+              },
+              "entity_id": {
+                "type": "string"
+              },
+              "identity": {
+                "$ref": "#/$defs/claim"
+              },
+              "id_evidence": {
+                "$ref": "#/$defs/claim"
+              },
+              "entity_evidence": {
+                "$ref": "#/$defs/claim"
+              }
+            }
+          }
+        },
+        "transactions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "transaction_id",
+              "date",
+              "from_account",
+              "to_account",
+              "currency",
+              "amount",
+              "date_evidence",
+              "from_evidence",
+              "to_evidence",
+              "currency_evidence",
+              "id_evidence"
+            ],
+            "properties": {
+              "transaction_id": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "from_account": {
+                "type": "string"
+              },
+              "to_account": {
+                "type": "string"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "amount": {
+                "$ref": "#/$defs/claim"
+              },
+              "date_evidence": {
+                "$ref": "#/$defs/claim"
+              },
+              "from_evidence": {
+                "$ref": "#/$defs/claim"
+              },
+              "to_evidence": {
+                "$ref": "#/$defs/claim"
+              },
+              "currency_evidence": {
+                "$ref": "#/$defs/claim"
+              },
+              "id_evidence": {
+                "$ref": "#/$defs/claim"
+              }
+            }
+          }
+        },
+        "hypotheses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "hypothesis_id",
+              "proposition",
+              "support",
+              "counterevidence"
+            ],
+            "properties": {
+              "hypothesis_id": {
+                "type": "string"
+              },
+              "proposition": {
+                "type": "string"
+              },
+              "support": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/claim"
+                }
+              },
+              "counterevidence": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/claim"
+                }
+              }
+            }
+          }
+        },
+        "investigative_plan": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "step_id",
+              "question",
+              "hypothesis_ids"
+            ],
+            "properties": {
+              "step_id": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "hypothesis_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "chronology": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "date",
+              "date_evidence",
+              "event"
+            ],
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "date_evidence": {
+                "$ref": "#/$defs/claim"
+              },
+              "event": {
+                "$ref": "#/$defs/claim"
+              }
+            }
+          }
+        },
+        "narrative_propositions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claim"
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "financial-crime-case-investigator Phase2 input",
+  "description": "Structural companion; native domain validator adds exact values, enums, methods, date/context/authority/access checks. Legacy CDD/EDD schema remains separate.",
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "required": [
+        "value",
+        "source_refs",
+        "fact_ids"
+      ],
+      "properties": {
+        "value": {},
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

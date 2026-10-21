@@ -67,8 +67,8 @@ class Phase3Integration(unittest.TestCase):
             self.assertEqual(result['lead_skill'], 'claimant-dispute-packager')
         self.assertEqual(routing.route({'intent': 'claim-appeal', 'participant': 'member', 'line_of_business': 'health'})['lead_skill'], 'health-benefit-appeal-packager')
         self.assertEqual(routing.route({'intent': 'disability-care-benefit', 'participant': 'claimant', 'line_of_business': 'disability'})['status'], 'needs-clarification')
-        for intent in ('core-modernization', 'workflow-design', 'health-plan-pricing', 'parametric-trigger'):
-            self.assertEqual(routing.route({'intent': intent})['status'], 'capability-gap')
+        for line in ('health', 'annuity', 'disability', 'long-term-care'):
+            self.assertEqual(routing.route({'intent': 'underwriting-risk', 'participant': 'carrier', 'line_of_business': line})['status'], 'capability-gap')
 
     def test_all_21_packages_work_in_standalone_copies(self):
         names = json.loads((ROOT / 'catalog/insurance-phase3-capabilities.json').read_text())['packages']

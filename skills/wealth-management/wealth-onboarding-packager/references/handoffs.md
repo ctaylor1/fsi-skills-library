@@ -3,10 +3,10 @@
 | Adjacent skill / human | Trigger | Handoff artifact |
 | --- | --- | --- |
 | `customer-onboarding-document-checker` | Bank-product document completeness work | Product scope and policy-required document evidence |
-| `kyc-customer-due-diligence-screener` | Applicable KYC/CDD evidence review is needed | Engagement/capacity, identity evidence and policy requirement |
-| `sanctions-match-adjudicator` | Screening outcome is missing, pending or escalated | Attributed screening reference; specialist and human decide |
-| `beneficial-ownership-verifier` | Entity ownership/authority evidence requires specialist analysis | Entity registration, ownership records and source IDs |
-| `enhanced-due-diligence-packager` | Authorized specialist requests enhanced evidence | Scope, owner request and existing cited records |
+| `customer-due-diligence-reviewer` | Applicable KYC/CDD evidence review is needed | Engagement/capacity, identity evidence and policy requirement |
+| `sanctions-match-investigator` | Screening outcome is missing, pending or escalated | Attributed screening reference; specialist and human decide |
+| `beneficial-ownership-analyzer` | Entity ownership/authority evidence requires specialist analysis | Entity registration, ownership records and source IDs |
+| `enhanced-due-diligence-assessor` | Authorized specialist requests enhanced evidence | Scope, owner request and existing cited records |
 | `investment-recommendation-evidence-reviewer` | An investment recommendation needs separate evidence review | Client profile and actual recommendation, outside onboarding acceptance |
 | `senior-investor-protection-screener` | Safeguarding concerns arise | Minimized context and structured human observations |
 | Authorized onboarding/custodian operator | Human decides acceptance/opening | artifact_id, full input hash, applicability, sources and unresolved gaps |

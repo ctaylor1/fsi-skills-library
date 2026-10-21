@@ -27,13 +27,15 @@ def beneficiary_errors(value, path, errors, nullable=False):
 
 
 def validate(doc):
-    errors = base_errors(doc)
+    errors = base_errors(doc, allow_unknown_policy_owner=True)
     if errors:
         return errors
     p = doc["policy"]
     for key, allowed in (("required_document_kinds", KINDS), ("required_beneficiary_tiers", TIERS)):
+        if key in p and p[key] is None:
+            continue
         if not texts(p.get(key), True) or any(x not in allowed for x in p[key]):
-            errors.append(f"policy.{key} must explicitly list supported unique values")
+            errors.append(f"policy.{key} must explicitly list supported unique values or null for unknown requirements")
     for row in rows(doc, "parties", errors, "party_id"):
         if not nonempty(row.get("display_name")) or not nonempty(row.get("role")):
             errors.append("parties require masked display_name and role")
@@ -47,8 +49,9 @@ def validate(doc):
     for row in rows(doc, "assets", errors, "asset_id"):
         if not nonempty(row.get("description")) or not enum(row.get("registration"), {"individual", "joint", "trust", "retirement", "insurance", "other"}):
             errors.append("assets require description and supported registration")
-        if not texts(row.get("owner_party_ids"), True) or not texts(row.get("document_ids"), True):
-            errors.append("asset owner_party_ids and document_ids must be explicit unique lists")
+        for key in ("owner_party_ids", "document_ids"):
+            if key not in row or (row[key] is not None and not texts(row[key], True)):
+                errors.append(f"asset {key} must be an explicit unique list or null for uncollected evidence")
         if not enum(row.get("designation_status"), {"documented", "none-recorded", "unknown"}):
             errors.append("asset designation_status must be documented, none-recorded or unknown")
     for row in rows(doc, "intentions", errors, "intention_id"):
@@ -59,8 +62,8 @@ def validate(doc):
                 errors.append(f"intention {key} must be a unique list or null")
         beneficiary_errors(row.get("beneficiaries"), "intention beneficiaries", errors, True)
     for row in rows(doc, "designations", errors, "designation_id"):
-        if not nonempty(row.get("asset_id")) or not enum(row.get("status"), {"current", "superseded", "unknown"}) or not texts(row.get("document_ids"), True):
-            errors.append("designations require asset_id, explicit status and document_ids list")
+        if not nonempty(row.get("asset_id")) or not enum(row.get("status"), {"current", "superseded", "unknown"}) or "document_ids" not in row or (row["document_ids"] is not None and not texts(row["document_ids"], True)):
+            errors.append("designations require asset_id, explicit status and document_ids list or null")
         beneficiary_errors(row.get("beneficiaries"), "designation beneficiaries", errors)
     return errors
 
@@ -70,6 +73,11 @@ def build(doc):
     if errors:
         raise ValueError("; ".join(errors))
     findings = base_findings(doc)
+    if doc["policy"]["owner"] is None:
+        add(findings, "policy-owner-unknown", "Accountable policy owner is not supplied; obtain separate policy confirmation", "policy.owner")
+    for key in ("required_document_kinds", "required_beneficiary_tiers"):
+        if doc["policy"][key] is None:
+            add(findings, "policy-requirements-unknown", "Required review inventory is not supplied; no completeness assertion or default requirements", "policy." + key)
     parties = {r["party_id"] for r in doc["parties"]}
     documents = {r["document_id"]: r for r in doc["documents"]}
     assets = {r["asset_id"]: r for r in doc["assets"]}
@@ -79,6 +87,8 @@ def build(doc):
         for i, row in enumerate(doc[group]):
             path = f"{group}[{i}]"
             cited(row, doc, findings, path)
+            if group == "designations" and row["document_ids"] is None:
+                add(findings, "recorded-document-links-unknown", "Designation document links were not collected", path + ".document_ids")
             if group in {"intentions", "designations"} and row["asset_id"] not in assets:
                 add(findings, "unknown-asset", "Asset reference does not resolve", path)
             owner_ids = row.get("owner_party_ids", row.get("target_owner_party_ids"))
@@ -103,9 +113,9 @@ def build(doc):
                     if selected and all(b.get("share") is not None for b in selected):
                         if sum(dec(b["share"]) for b in selected) != 1:
                             add(findings, "allocation-total", f"{tier} beneficiary shares do not total 100 percent", path)
-                    if group == "designations" and row["status"] == "current" and tier in doc["policy"]["required_beneficiary_tiers"] and not selected:
+                    if group == "designations" and row["status"] == "current" and tier in (doc["policy"]["required_beneficiary_tiers"] or []) and not selected:
                         add(findings, "missing-beneficiary-tier", f"Policy requires review of absent {tier} designation", path)
-    for kind in doc["policy"]["required_document_kinds"]:
+    for kind in doc["policy"]["required_document_kinds"] or []:
         matches = [d for d in doc["documents"] if d["kind"] == kind and d["status"] == "current"]
         if not matches:
             add(findings, "missing-document-kind", f"No current {kind} record supplied under review policy", "documents")
@@ -119,6 +129,8 @@ def build(doc):
         start = len(findings)
         if not asset["owner_party_ids"]:
             add(findings, "ownership-gap", "Recorded owners are unknown", aid)
+        if asset["document_ids"] is None:
+            add(findings, "recorded-document-links-unknown", "Recorded asset document links were not collected; no link mismatch can be established", aid)
         if len(intents) != 1:
             add(findings, "intention-gap", "Exactly one consolidated intention per asset is required; conflicting versions remain unresolved", aid)
         if asset["designation_status"] == "unknown" or (asset["designation_status"] == "documented" and not records):
@@ -133,17 +145,17 @@ def build(doc):
             wanted = intent.get("target_owner_party_ids")
             if wanted is None:
                 add(findings, "owner-intention-unknown", "Intended titling not collected", aid)
-            if wanted is not None and set(wanted) != set(asset["owner_party_ids"]):
+            if wanted is not None and asset["owner_party_ids"] is not None and set(wanted) != set(asset["owner_party_ids"]):
                 differences.append("intended owners differ from recorded owners")
             target_docs = intent.get("governing_document_ids")
             if target_docs is None:
                 add(findings, "document-intention-unknown", "Intended governing-document links not collected", aid)
-            if target_docs is not None and set(target_docs) != set(asset["document_ids"]):
+            if target_docs is not None and asset["document_ids"] is not None and set(target_docs) != set(asset["document_ids"]):
                 differences.append("intended document links differ from recorded asset document links")
             wanted_b = intent.get("beneficiaries")
             if wanted_b is None:
                 add(findings, "beneficiary-intention-unknown", "Beneficiary intention not collected; no inference from current records", aid)
-            elif len(records) <= 1 and all(r["status"] == "current" for r in records):
+            elif (asset["designation_status"] == "documented" and len(records) == 1 and records[0]["status"] == "current") or (asset["designation_status"] == "none-recorded" and not records):
                 actual = records[0]["beneficiaries"] if records else []
                 signature = lambda bs: sorted((b["tier"], b["party_id"], str(dec(b["share"]).normalize()) if b.get("share") is not None else "unknown") for b in bs)
                 if signature(wanted_b) != signature(actual):

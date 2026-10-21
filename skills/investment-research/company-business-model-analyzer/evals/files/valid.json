@@ -1,0 +1,127 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "company-business-model-analyzer",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-phase2",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "basis": {
+      "currency": "USD",
+      "unit": "millions",
+      "accounting_basis": "US-GAAP",
+      "consolidation_scope": "consolidated",
+      "period_id": "FY2025"
+    },
+    "segments": [
+      {
+        "segment_id": "software",
+        "driver": "paid seats \u00d7 price",
+        "revenue": 120,
+        "share_of_consolidated_revenue": 0.6,
+        "contribution_profit": 90,
+        "contribution_margin": 0.75,
+        "revenue_per_unit": 2.0,
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ]
+      },
+      {
+        "segment_id": "services",
+        "driver": "hours \u00d7 rate",
+        "revenue": 80,
+        "share_of_consolidated_revenue": 0.4,
+        "contribution_profit": 20,
+        "contribution_margin": 0.25,
+        "revenue_per_unit": 2.0,
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ]
+      }
+    ],
+    "segment_reconciliation": {
+      "supplied_segment_revenue": 200,
+      "consolidated_revenue": 200,
+      "residual": 0,
+      "status": "reconciled-for-supplied-scope"
+    },
+    "named_customer_exposures": [
+      {
+        "customer_id": "C1",
+        "revenue": 30,
+        "share_of_consolidated_revenue": 0.15,
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ]
+      }
+    ],
+    "business_claims": [
+      {
+        "kind": "management_assertion",
+        "text": "Management describes contracts as recurring.",
+        "evidence_refs": [
+          {
+            "source_id": "S1",
+            "locator": "synthetic-table-1"
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "Contribution profit excludes unprovided fixed costs, taxes, capital costs and allocation effects",
+      "Named exposures are not a complete customer concentration measure; no moat or pricing-power conclusion is inferred"
+    ]
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "formula": "contribution_profit = revenue - variable_cost; share = segment_revenue / consolidated_revenue; revenue_per_unit = revenue / units",
+      "segment_id": "software"
+    },
+    {
+      "formula": "contribution_profit = revenue - variable_cost; share = segment_revenue / consolidated_revenue; revenue_per_unit = revenue / units",
+      "segment_id": "services"
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "S1",
+      "locator": "synthetic-table-1"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "S1",
+      "version": "v1",
+      "known_at": "2026-10-19",
+      "locator": "synthetic-document",
+      "kind": "filing"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "0bb17d8f709045495aba765f364d878b5103bb1abda66edecfdfb68911375df0",
+  "source_truth": "unverified"
+}

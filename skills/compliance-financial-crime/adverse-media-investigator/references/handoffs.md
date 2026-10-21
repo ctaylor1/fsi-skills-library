@@ -1,40 +1,14 @@
-# Adjacent-Skill Handoffs — adverse-media-investigator
+# Handoffs
 
-Adverse-media investigation (this skill) builds the **evidence bundle and a disposition
-recommendation**. It is a separate control activity from the decisions it feeds: sanctions
-adjudication, EDD sign-off, risk-rating change, and SAR filing all belong to other skills or
-to a human owner. This skill emits a durable `case_id` and hands off; it never performs the
-downstream regulated decision.
+Upstream: the authorized case owner supplies scoped original records, the applicable policy profile, owner/audience/classification, assessment date and identified evidence gaps. No connector integration is bundled.
 
-## Downstream (this skill recommends / routes to)
+| Receiver | Trigger and boundary |
+|---|---|
+| `sanctions-match-investigator` | Potential sanctions proximity, with unresolved identity explicitly preserved. |
+| `customer-due-diligence-reviewer` | PEP identity/risk assessment by the CDD/EDD analyst. |
+| `enhanced-due-diligence-assessor` | Supported media indicator and unresolved evidence for EDD review; never investment-banking VDR packaging. |
+| `customer-risk-rating-reviewer` | Supply scoped media evidence for an applicable customer-risk methodology; no rating update is performed here. |
 
-| Downstream skill | When | Handoff artifact |
-| ---------------- | ---- | ---------------- |
-| `enhanced-due-diligence-packager` | `recommend-escalate-edd` — material adverse media resolved to the subject | `case_id` + evidence bundle + materiality band |
-| `sanctions-match-adjudicator` | `recommend-route-sanctions-pep` — sanctions/PEP list proximity on a name-matched hit | `case_id` + list-hit evidence (identity **not** adjudicated here) |
-| `customer-risk-rating-reviewer` | Adverse media may change the customer's risk rating | `case_id` + matched-hit summary |
-| `due-diligence-packager` | Onboarding/periodic DD needs the adverse-media section | `case_id` + evidence bundle |
-| `suspicious-activity-report-drafter` | **Only** if a downstream investigation later concludes a SAR may be warranted — never directly from this skill | the investigator's approved case |
+Pass the native result, the separately retained original input reference and a separate evidence/workflow envelope. The receiver must validate producer output against that original and validate its own native input. Carry unresolved issues, source status and applicability limits unchanged; a successful producer check does not satisfy receiver preconditions or authorize a customer decision.
 
-## Upstream (feeds this skill)
-
-| Upstream skill | Provides |
-| -------------- | -------- |
-| `kyc-customer-due-diligence-screener` | Onboarding/periodic screening surfaces name / adverse-media hits to investigate |
-| `beneficial-ownership-verifier` | Resolved beneficial owners / UBOs to screen for adverse media |
-| `aml-alert-triager` / `transaction-monitoring-alert-investigator` | An AML case needing adverse-media context on the entity |
-| `merchant-onboarding-risk-reviewer` / `customer-onboarding-document-checker` | Onboarding risk review requesting an adverse-media assessment |
-
-If no catalog skill fits a particular next step (for example, final EDD sign-off, a
-regulated determination, or a filing decision), the handoff is to a **human owner** — the
-financial-crime investigator, MLRO/BSA officer, or licensed specialist — not to an automated
-skill.
-
-## Duplicate-execution prevention
-
-- This skill **does not** adjudicate sanctions/PEP, recompute risk ratings, sign off EDD, or
-  draft/file SARs — those belong downstream.
-- The downstream owner consumes this skill's `case_id` and evidence bundle rather than
-  re-investigating from raw hits.
-- A discarded namesake is recorded with its disambiguator so a reviewer does not re-open it,
-  and an unresolved subject stays `needs-data` until a human supplies identifiers.
+Use [evidence contract](evidence-contract.md) and [source governance](source-governance.md). The agent recommends these routes; it does not automatically send, submit, update or execute them. A human determines legal or policy decisions and any subsequent authorized action.

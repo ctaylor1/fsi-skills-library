@@ -1,220 +1,80 @@
 #!/usr/bin/env python3
-"""Deterministic regulatory-change impact analysis for regulatory-change-impact-analyzer.
-
-Reads a regulatory-change assessment file (see validate_input.py), extracts the obligations,
-tests each obligation's applicability to the firm, maps applicable obligations to the
-policy / control / system / data / training / owner inventory, checks effective-date
-integrity and lead time, flags authority conflicts, and maps the raised findings to a
-recommended DISPOSITION band. Emits a machine-readable core the SKILL wraps in a
-plain-language impact assessment.
-
-IMPORTANT: This produces explainable *findings, cited evidence, and a triage
-recommendation* only. It never makes a compliance determination, decides applicability,
-closes a change item, files with a regulator, or attests. The disposition mapping is
-deterministic and documented in references/domain-rules.md; every disposition requires
-mandatory human adjudication (R3).
-
-Usage:
-  python calculate_or_transform.py change.json | --selftest
-Prints the impact-assessment JSON to stdout.
-"""
+"""Assess a supplied change snapshot; no legal determination or operational action."""
 from __future__ import annotations
-import json, sys
-from datetime import datetime
+import json, sys, importlib.util
+from datetime import date
 from pathlib import Path
+from native_integrity import attach_source, canonical_hash
 
-DEFAULT_CONFIG = {
-    "near_term_days": 30,      # lead time strictly below this raises short_lead_time
-    "require_policy": True,    # applicable obligation must map to >=1 policy
-    "require_control": True,   # applicable obligation must map to >=1 control
-    "require_owner": True,     # applicable obligation must have a named owner
-}
-DISCLAIMER = ("Impact assessment and evidence only; not a compliance determination. "
-              "Applicability, disposition, and closure require human adjudication. No "
-              "regulatory decision, filing, or system-of-record change has been made.")
-ESCALATORS = {"overdue_or_retroactive", "authority_conflict"}
+_spec = importlib.util.spec_from_file_location(__name__ + "_input", Path(__file__).with_name("validate_input.py"))
+_vi = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_vi)
+DISCLAIMER = "Impact assessment and evidence only; not a compliance determination. Applicability, disposition, and closure require human adjudication. No regulatory decision, filing, or system-of-record change has been made."
 
-
-def _parse_date(s):
-    return datetime.strptime(str(s)[:10], "%Y-%m-%d")
-
-
-def _cite(instrument, ref=None):
-    r = ref or instrument.get("source_ref", "?")
-    return f"reg:{r}@{instrument.get('effective_date', '?')}"
-
-
-def _applies(obl, instrument, firm):
-    """An obligation applies when the instrument jurisdiction is one the firm operates in
-    AND the obligation's business-line scope overlaps the firm (or is firm-wide)."""
-    firm_juris = {str(j).upper() for j in firm.get("jurisdictions", [])}
-    inst_juris = str(instrument.get("jurisdiction", "")).upper()
-    juris_ok = inst_juris in firm_juris if firm_juris else False
-    lines = [str(x).lower() for x in (obl.get("applies_to_lines") or [])]
-    firm_lines = {str(x).lower() for x in firm.get("business_lines", [])}
-    firm_wide = (not lines) or ("all" in lines)
-    line_ok = firm_wide or bool(set(lines) & firm_lines)
-    return juris_ok and line_ok, {"instrument_jurisdiction": inst_juris,
-                                  "firm_jurisdictions": sorted(firm_juris),
-                                  "obligation_lines": lines, "firm_wide": firm_wide}
-
-
-def compute(doc: dict) -> dict:
-    cfg = {**DEFAULT_CONFIG, **(doc.get("config") or {})}
-    instrument = doc["instrument"]
-    obligations = doc["obligations"]
-    firm = doc.get("firm_profile") or {}
-    mappings = {m["obligation_id"]: m for m in (doc.get("inventory") or {}).get("mappings", [])}
-    as_of = _parse_date(doc["as_of"])
-    eff = _parse_date(instrument["effective_date"])
-    pub = _parse_date(instrument["publication_date"]) if instrument.get("publication_date") else None
-    lead_days = (eff - as_of).days
-
-    findings, not_evaluable = [], []
-
-    def add(name, raised, reason, evidence, basis, count):
-        findings.append({"finding": name, "raised": raised, "reason": reason,
-                         "evidence": evidence, "basis": basis, "count": count})
-
-    # applicability of each obligation
-    applicable, applicability_rows = [], []
-    for o in obligations:
-        ok, basis = _applies(o, instrument, firm)
-        applicability_rows.append({"obligation_id": o["obligation_id"], "applicable": ok, "basis": basis})
-        if ok:
-            applicable.append(o)
-
-    # applicable_in_scope
-    add("applicable_in_scope", bool(applicable),
-        f"{len(applicable)} of {len(obligations)} obligation(s) apply to the firm (jurisdiction + business-line scope)"
-        if applicable else "no obligation applies to the firm on jurisdiction/business-line scope (confirm rationale with a human)",
-        [{"obligation_id": o["obligation_id"], "obligation_type": o.get("obligation_type"),
-          "citation": _cite(instrument, o.get("source_ref"))} for o in applicable],
-        {"applicable": len(applicable), "total": len(obligations)}, len(applicable))
-
-    # mapping_gap (policy/control coverage) over applicable obligations only
-    gap_rows = []
-    for o in applicable:
-        m = mappings.get(o["obligation_id"], {})
-        missing = []
-        if cfg["require_policy"] and not (m.get("policies") or []):
-            missing.append("policy")
-        if cfg["require_control"] and not (m.get("controls") or []):
-            missing.append("control")
-        if missing:
-            gap_rows.append({"obligation_id": o["obligation_id"], "missing": missing,
-                             "citation": _cite(instrument, o.get("source_ref"))})
-    add("mapping_gap", bool(gap_rows),
-        f"{len(gap_rows)} applicable obligation(s) lack policy/control coverage in the inventory"
-        if gap_rows else "all applicable obligations map to at least one policy and control",
-        gap_rows, {"checked": len(applicable)}, len(gap_rows))
-
-    # owner_gap (traceability) over applicable obligations
-    owner_rows = []
-    if cfg["require_owner"]:
-        for o in applicable:
-            m = mappings.get(o["obligation_id"], {})
-            owner = (m.get("owner") or {}).get("role")
-            if not owner:
-                owner_rows.append({"obligation_id": o["obligation_id"],
-                                   "citation": _cite(instrument, o.get("source_ref"))})
-    add("owner_gap", bool(owner_rows),
-        f"{len(owner_rows)} applicable obligation(s) have no named owner in the inventory"
-        if owner_rows else "all applicable obligations have a named owner",
-        owner_rows, {"checked": len(applicable)}, len(owner_rows))
-
-    # effective-date integrity / overdue-or-retroactive
-    retroactive = bool(pub and eff < pub)
-    overdue = eff <= as_of
-    od_reason = []
-    if overdue:
-        od_reason.append(f"effective_date {instrument['effective_date']} is on/before as_of {doc['as_of']} (already effective/overdue)")
-    if retroactive:
-        od_reason.append(f"effective_date {instrument['effective_date']} precedes publication_date {instrument.get('publication_date')} (retroactive)")
-    add("overdue_or_retroactive", overdue or retroactive,
-        "; ".join(od_reason) if (overdue or retroactive) else f"effective_date is future ({lead_days}d lead) and not retroactive",
-        [{"effective_date": instrument["effective_date"], "publication_date": instrument.get("publication_date"),
-          "as_of": doc["as_of"], "citation": _cite(instrument)}] if (overdue or retroactive) else [],
-        {"lead_days": lead_days, "overdue": overdue, "retroactive": retroactive},
-        1 if (overdue or retroactive) else 0)
-
-    # short_lead_time (only when a future effective date)
-    short = (not overdue) and lead_days < cfg["near_term_days"]
-    add("short_lead_time", short,
-        f"{lead_days}d until effective (below near-term window {cfg['near_term_days']}d)"
-        if short else f"lead time {lead_days}d",
-        [{"effective_date": instrument["effective_date"], "as_of": doc["as_of"],
-          "lead_days": lead_days, "citation": _cite(instrument)}] if short else [],
-        {"lead_days": lead_days, "near_term_days": cfg["near_term_days"]}, 1 if short else 0)
-
-    # authority_conflict over applicable obligations that declare conflicts_with
-    conflict_rows = []
-    for o in applicable:
-        cw = o.get("conflicts_with") or []
-        if cw:
-            conflict_rows.append({"obligation_id": o["obligation_id"], "conflicts_with": cw,
-                                  "citation": _cite(instrument, o.get("source_ref"))})
-    add("authority_conflict", bool(conflict_rows),
-        f"{len(conflict_rows)} applicable obligation(s) declare a conflict with another instrument/jurisdiction (cite both; do not resolve silently)"
-        if conflict_rows else "no declared authority conflict on applicable obligations",
-        conflict_rows, {"count": len(conflict_rows)}, len(conflict_rows))
-
+def compute(doc):
+    errors, warnings = _vi.validate(doc)
+    if errors: raise ValueError("; ".join(errors))
+    inst, firm = doc["instrument"], doc["firm_profile"]
+    as_of = date.fromisoformat(doc["as_of"])
+    state = inst["lifecycle_state"]
+    mappings = {m["obligation_id"]: m for m in doc.get("inventory", {}).get("mappings", [])}
+    applicability, not_evaluable, findings = [], [], []
+    selected = []
+    for o in doc["obligations"]:
+        assessment = o.get("applicability_assessment", {})
+        status = assessment.get("status", "unknown")
+        applies = {"applicable": True, "not_applicable": False}.get(status)
+        candidate = inst["jurisdiction"] in firm.get("jurisdictions", []) and bool(set(o.get("applies_to_lines", [])) & (set(firm.get("business_lines", [])) | {"all"}))
+        applicability.append({"obligation_id": o["obligation_id"], "applicable": applies, "status": status,
+            "screening_candidate": candidate, "basis": assessment,
+            "basis_limit": "Supplied review metadata is not authenticated; jurisdiction/line screening alone cannot decide legal applicability."})
+        if applies is not False: selected.append(o)
+        if applies is None: not_evaluable.append({"obligation_id": o["obligation_id"], "why": "entity/activity/nexus/exemptions applicability unresolved"})
+    def add(name, rows, reason):
+        findings.append({"finding": name, "raised": bool(rows), "count": len(rows), "reason": reason, "evidence": rows})
+    gap_rows, owner_rows, deadline_rows, short_rows, conflicts = [], [], [], [], []
+    deadline = date.fromisoformat(inst["compliance_date"]) if inst.get("compliance_date") else None
+    effective = date.fromisoformat(inst["effective_date"]) if inst.get("effective_date") else None
+    binding_active = inst["authority_level"] in ("law", "regulation", "rule") and state in ("effective", "adopted") and effective is not None and effective <= as_of
+    mapping_rows = []
+    for o in selected:
+        oid = o["obligation_id"]
+        m = mappings.get(oid, {})
+        citation = o["source_ref"]
+        missing = [key for key in ("policies", "controls", "systems", "data_elements", "training") if not m.get(key) and not m.get("mapping_exceptions", {}).get(key)]
+        mapping_rows.append({"obligation_id": oid, "mapping": m, "missing": missing,
+            "assessment_kind": "readiness/design review; not a compliance breach determination"})
+        if missing: gap_rows.append({"obligation_id": oid, "missing": missing, "citation": citation})
+        if not (m.get("owner") or {}).get("role"): owner_rows.append({"obligation_id": oid, "citation": citation})
+        reviewed_applicable = o.get("applicability_assessment", {}).get("status") == "applicable"
+        implementation = m.get("implementation", {}).get("status", "unknown")
+        if deadline and binding_active and reviewed_applicable and deadline < as_of:
+            if implementation == "incomplete": deadline_rows.append({"obligation_id": oid, "compliance_date": deadline.isoformat(), "citation": citation, "implementation_source": m["implementation"]["source_ref"]})
+            elif implementation == "unknown": not_evaluable.append({"obligation_id": oid, "why": "elapsed deadline; implementation status unknown, cannot infer a breach"})
+        if deadline and state in ("adopted", "effective") and 0 <= (deadline-as_of).days < doc.get("config", {}).get("near_term_days", 30) and implementation != "complete":
+            short_rows.append({"obligation_id": oid, "days": (deadline-as_of).days, "citation": citation})
+        if o.get("conflicts_with"): conflicts.append({"obligation_id": oid, "declared_conflicts": o["conflicts_with"], "citation": citation})
+    add("mapping_gap", gap_rows, "Supplied inventory gaps for applicable or unresolved obligations; prospective readiness, not an adjudicated violation.")
+    add("owner_gap", owner_rows, "Ownership missing from supplied mappings.")
+    add("elapsed_compliance_deadline", deadline_rows, "Supplied applicable, active binding requirement has an elapsed compliance deadline and evidenced incomplete implementation; human review required.")
+    add("short_lead_time", short_rows, "Implementation readiness review approaching a supplied compliance deadline.")
+    add("authority_conflict", conflicts, "Declared source conflicts require legal review; conflicts are not independently discovered by this calculation.")
+    if state == "unknown": not_evaluable.append({"why": "instrument lifecycle unresolved"})
+    if not deadline: not_evaluable.append({"why": "compliance deadline unavailable; effective date is not substituted"})
     raised = [f["finding"] for f in findings if f["raised"]]
-
-    # deterministic disposition mapping (see references/domain-rules.md)
-    if not applicable:
-        disposition = "Informational"  # out of scope on the data; human confirms scoping rationale
-    elif (ESCALATORS & set(raised)) or len(raised) >= 3:
-        disposition = "Priority"
-    else:
-        disposition = "Assess"
-
-    open_questions = []
-    if applicable:
-        open_questions = [
-            "Confirm the authoritative text and effective date against the primary source before acting.",
-            "Confirm business-line applicability and any exemptions with the accountable owner.",
-            "For each mapping gap, decide whether a new/updated policy or control is required (route to gap analysis).",
-            "For any authority conflict, obtain a legal/compliance reading on which requirement governs.",
-            "Record the implementation decision, owner, and target date; a human adjudicates disposition and closure.",
-        ]
-
-    return {
-        "assessment_id": f"rcia-{str(doc['change_id']).replace('/', '-')}-{doc['as_of']}-0001",
-        "change_id": doc["change_id"],
-        "as_of": doc["as_of"],
-        "config_version": doc.get("config_version"),
-        "instrument": {
-            "authority": instrument.get("authority"),
-            "citation": instrument.get("citation"),
-            "authority_level": instrument.get("authority_level"),
-            "jurisdiction": instrument.get("jurisdiction"),
-            "publication_date": instrument.get("publication_date"),
-            "effective_date": instrument.get("effective_date"),
-            "lead_days": lead_days,
-        },
-        "applicability": applicability_rows,
-        "findings": findings,
-        "raised_findings": raised,
-        "not_evaluable": not_evaluable,
-        "recommended_disposition": disposition,
-        "mandatory_adjudication": True,
-        "open_questions": open_questions,
-        "disclaimer": DISCLAIMER,
-    }
-
+    disposition = "Priority" if deadline_rows or conflicts else "Assess" if selected or not_evaluable else "Informational"
+    result = {"assessment_id": "rcia-" + canonical_hash(doc)[:16], "change_id": doc["change_id"], "as_of": doc["as_of"],
+        "config_version": doc["config_version"], "instrument": inst, "applicability": applicability,
+        "implementation_mapping": mapping_rows, "findings": findings, "raised_findings": raised,
+        "not_evaluable": not_evaluable, "warnings": warnings, "recommended_disposition": disposition,
+        "mandatory_adjudication": True, "open_questions": ["Confirm primary source, lifecycle, dates and legal nexus with accountable legal/compliance owners.", "Review supplied evidence and implementation readiness; no closure decision is produced."],
+        "disclaimer": DISCLAIMER}
+    return attach_source(result, doc)
 
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "change_example.json"
-        doc = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        doc = json.loads(sys.stdin.read())
-    print(json.dumps(compute(doc), indent=2))
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1:]))
+    path = Path(__file__).resolve().parents[1]/"evals/files/change_example.json" if "--selftest" in argv else Path(argv[0]) if argv else None
+    try: result = compute(json.loads(path.read_text() if path else sys.stdin.read()))
+    except (ValueError, TypeError, KeyError, OSError) as exc:
+        print("ERROR", exc, file=sys.stderr); return 1
+    print(json.dumps(result, indent=2, allow_nan=False)); return 0
+if __name__ == "__main__": raise SystemExit(main(sys.argv[1:]))

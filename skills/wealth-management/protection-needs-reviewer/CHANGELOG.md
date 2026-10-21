@@ -1,5 +1,10 @@
 # Changelog — protection-needs-reviewer
 
+## 0.2.0 — 2026-10-04
+
+- Add portable source-field review and exact-recipient draft gates for P5.
+- Preserve existing calculation modes; distinguish native validation from separately reviewed source fidelity and audience scope.
+
 ## [0.1.0] — 2026-09-16
 - Added the scoped wealth P1 practitioner workflow, substantive source-linked domain results and explicit missingness.
 - Added versioned policy applicability, canonical wealth evidence envelope, upstream issue propagation and full snapshot/hash reconstruction.

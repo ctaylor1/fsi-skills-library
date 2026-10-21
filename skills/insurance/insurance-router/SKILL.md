@@ -1,6 +1,6 @@
 ---
 name: insurance-router
-description: "Route insurance requests by participant, line, purpose and installed capability across operating foundations and specialist analytics. Use to select native workflows and preserve source, role and authority boundaries; expose remaining architecture, automation and specialist-profile gaps without substituting unrelated methods."
+description: "Route insurance work by participant, line and recurring job to installed operating, specialist, parametric, health-payer and shared architecture workflows. Preserve native input, source, identity and authority boundaries; expose unsupported profiles without substituting unrelated methods."
 license: MIT
 compatibility: Python 3.10+; offline explicit-intent routing.
 metadata:
@@ -9,7 +9,7 @@ metadata:
   aws-fsi-risk-tier: "R2"
   aws-fsi-archetype: "Orchestrate & resolve"
   aws-fsi-agent-pattern: "Interactive workflow copilot"
-  aws-fsi-delivery-wave: "Insurance Phase 3"
+  aws-fsi-delivery-wave: "Insurance Phase 5"
   aws-fsi-action-mode: "Read-only analysis"
   aws-fsi-scheduled-agent: "no"
   aws-fsi-baseline-status: "new"
@@ -18,8 +18,8 @@ metadata:
   aws-fsi-jurisdictions: "Reviewed target-specific jurisdiction/product profiles required; fixture coverage is not global applicability"
   aws-fsi-owner: "Insurance architecture and workflow governance"
   aws-fsi-primary-user: "Insurance practitioners, operations, product, risk and technology teams"
-  aws-fsi-version: "0.4.0"
-  aws-fsi-recertification-date: "2027-09-18"
+  aws-fsi-version: "0.6.0"
+  aws-fsi-recertification-date: "2027-10-04"
 ---
 
 # Insurance workflow routing
@@ -75,6 +75,13 @@ and [references/controls.md](references/controls.md) for source/access boundarie
 - Consumer, insurer, producer, claimant and SIU roles are not interchangeable
   access profiles. Routing never grants authority to share their source records.
 
+- Workflow/data/core design and shared architecture, automation economics, data value
+  and queue performance are draft review capabilities. Supply measured evidence and
+  explicit failure paths; designs and positive projections do not activate workflows.
+
+- Parametric trigger scenarios require final contract-designated index evidence; CAT alerts alone do not supply it.
+- Health payer pricing, utilization evidence, coded-claim payment review and network access review have separate owners. Member appeals remain member-owned. These supplied-rule workflows do not supply individual health underwriting, clinical decisions or adopted regional rules.
+
 ## Route outcomes and handoffs
 
 `routed` selects an existing catalog capability; `needs-clarification` identifies
@@ -87,7 +94,7 @@ Follow [references/handoffs.md](references/handoffs.md) and
 [references/insurance-contract.md](references/insurance-contract.md). A route is
 not target input. Native target validation, identity/access review and unresolved
 finding retention remain required. The optional `scripts/validate_handoff.py`
-checks a handoff against an explicitly supplied installed package root; it executes
+dispatches legacy insurance and portable workflow evidence contracts and checks a handoff against an explicitly supplied installed package root; it executes
 only that trusted package's local input validator, never a business action.
 
 Use [references/migrations.json](references/migrations.json) for old skill names.

@@ -1,0 +1,154 @@
+{
+  "profile-practical": {
+    "input_exit": 0,
+    "input_validation": "input validation: 0 error(s), 0 warning(s)\n",
+    "compute_exit": 0,
+    "output_exit": 0,
+    "output_validation": "output validation: 0 error(s)\n",
+    "coverage": "partial",
+    "counts": {
+      "included": 2,
+      "stale": 1,
+      "unresolved": 1,
+      "excluded_mnpi": 1,
+      "unsupported": 0,
+      "section_incomplete": 0,
+      "open_items_total": 4,
+      "approvals_recorded": 0,
+      "approvals_outstanding": 0
+    },
+    "financials": [
+      {
+        "section": "key_financials",
+        "fact_id": "revenue",
+        "label": "FY2025 revenue (USD)",
+        "value": 42000000,
+        "effective_date": "2026-03-01",
+        "expires": null,
+        "mnpi": false,
+        "status": "included",
+        "citation": "synthetic:2025-annual-report:p70"
+      }
+    ],
+    "restricted_value_leaked": false
+  },
+  "profile-boolean-financial": {
+    "input_exit": 0,
+    "input_validation": "input validation: 0 error(s), 0 warning(s)\n",
+    "compute_exit": 0,
+    "output_exit": 0,
+    "output_validation": "output validation: 0 error(s)\n",
+    "coverage": "complete-for-supplied-scope",
+    "counts": {
+      "included": 2,
+      "stale": 0,
+      "unresolved": 0,
+      "excluded_mnpi": 0,
+      "unsupported": 0,
+      "section_incomplete": 0,
+      "open_items_total": 0,
+      "approvals_recorded": 0,
+      "approvals_outstanding": 0
+    },
+    "financials": [
+      {
+        "section": "key_financials",
+        "fact_id": "revenue",
+        "label": "FY2025 revenue (USD)",
+        "value": true,
+        "effective_date": "2026-03-01",
+        "expires": null,
+        "mnpi": false,
+        "status": "included",
+        "citation": "synthetic:2025-annual-report:p70"
+      }
+    ],
+    "restricted_value_leaked": false
+  },
+  "credit-practical": {
+    "input_exit": 0,
+    "input_validation": "input validation: 0 error(s), 0 warning(s)\n",
+    "compute_exit": 0,
+    "output_exit": 0,
+    "output_validation": "output validation: 0 error(s)\n",
+    "fields": [
+      {
+        "field": "maturity",
+        "status": "extracted",
+        "value": {
+          "maturity_date": "2031-04-15"
+        },
+        "reason": "date normalized to ISO-8601"
+      },
+      {
+        "field": "coupon",
+        "status": "extracted",
+        "value": {
+          "type": "fixed",
+          "frequency": "quarterly",
+          "rate_pct": 6.25
+        },
+        "reason": "coupon parsed to rate/type/frequency"
+      },
+      {
+        "field": "seniority",
+        "status": "extracted",
+        "value": {
+          "seniority": "senior_unsecured",
+          "rank": 2
+        },
+        "reason": "seniority mapped to canonical rank"
+      },
+      {
+        "field": "collateral",
+        "status": "needs_review",
+        "value": null,
+        "reason": "negative, qualified or release collateral language requires document review"
+      },
+      {
+        "field": "basket",
+        "status": "needs_review",
+        "value": null,
+        "reason": "formula or grower basket requires linked definitions and human normalization"
+      }
+    ]
+  },
+  "credit-negated-seniority": {
+    "input_exit": 0,
+    "input_validation": "WARN maturity has no candidate: not_found, not absence\nWARN coupon has no candidate: not_found, not absence\nWARN basket has no candidate: not_found, not absence\nWARN collateral has no candidate: not_found, not absence\ninput validation: 0 error(s), 4 warning(s)\n",
+    "compute_exit": 0,
+    "output_exit": 0,
+    "output_validation": "output validation: 0 error(s)\n",
+    "fields": [
+      {
+        "field": "seniority",
+        "status": "extracted",
+        "value": {
+          "seniority": "subordinated",
+          "rank": 4
+        },
+        "reason": "seniority mapped to canonical rank"
+      }
+    ]
+  },
+  "credit-floating-percent": {
+    "input_exit": 0,
+    "input_validation": "WARN basket has no candidate: not_found, not absence\nWARN collateral has no candidate: not_found, not absence\nWARN seniority has no candidate: not_found, not absence\nWARN maturity has no candidate: not_found, not absence\ninput validation: 0 error(s), 4 warning(s)\n",
+    "compute_exit": 0,
+    "output_exit": 0,
+    "output_validation": "output validation: 0 error(s)\n",
+    "fields": [
+      {
+        "field": "coupon",
+        "status": "extracted",
+        "value": {
+          "type": "floating",
+          "frequency": "quarterly",
+          "index": "SOFR",
+          "spread_bps": null
+        },
+        "reason": "coupon parsed to rate/type/frequency"
+      }
+    ]
+  }
+}

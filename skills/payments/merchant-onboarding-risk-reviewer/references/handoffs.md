@@ -9,11 +9,11 @@ and the specialist skills' responsibilities.
 
 | Skill | When | Handoff artifact |
 | ----- | ---- | ---------------- |
-| `sanctions-match-adjudicator` | Sanctions status is `hit`/`pending`; a potential match must be adjudicated (never cleared here) | entity/owner + screening `source_ref` |
+| `sanctions-match-investigator` | Sanctions status is `hit`/`pending`; a potential match must be adjudicated (never cleared here) | entity/owner + screening `source_ref` |
 | `adverse-media-investigator` | Unresolved adverse media must be investigated and dispositioned | `review_id` + adverse-media `source_ref` |
-| `beneficial-ownership-verifier` | Ownership coverage below requirement or a material owner unverified | ownership tree + gap list |
-| `kyc-customer-due-diligence-screener` | CDD elements incomplete for the entity/owners | `case_id` + evidence gaps |
-| `enhanced-due-diligence-packager` | High-risk geography / PEP / outsized activity requires an EDD package | `review_id` + fired findings |
+| `beneficial-ownership-analyzer` | Ownership coverage below requirement or a material owner unverified | ownership tree + gap list |
+| `customer-due-diligence-reviewer` | CDD elements incomplete for the entity/owners | `case_id` + evidence gaps |
+| `enhanced-due-diligence-assessor` | High-risk geography / PEP / outsized activity requires an EDD package | `review_id` + fired findings |
 | `credit-memo-drafter` | Requested processing limit drives material credit exposure needing a credit write-up | merchant + requested limit |
 
 ## Downstream (route the human/reviewer to)

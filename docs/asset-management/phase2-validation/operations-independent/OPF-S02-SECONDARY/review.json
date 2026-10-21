@@ -1,0 +1,130 @@
+{
+  "id": "OPF-S02-SECONDARY",
+  "package": "etf-operations-reviewer",
+  "input": {
+    "request_id": "OPF-S02-SECONDARY",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "secondary_market",
+    "nav_per_share": "5",
+    "market_price": "5.1",
+    "bid": "5.09",
+    "ask": "5.11",
+    "nav_source_ref": "ind-source",
+    "quote_source_ref": "ind-source",
+    "nav_date": "2026-09-18",
+    "quote_date": "2026-09-18"
+  },
+  "expected": {
+    "premium_fraction": "0.02",
+    "quoted_spread_fraction": "0.003921568627"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "7f704500c9b1a59ba24ccb706ccca8121924b2c28db9d0ef58d40a3d474e7bbd",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"etf-operations-reviewer\",\n  \"request_id\": \"OPF-S02-SECONDARY\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"draft\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-etf-control-secondary_market-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"premium_discount\": \"0.020000000000\",\n    \"quoted_spread_to_midpoint\": \"0.003921568627\",\n    \"ratio_unit\": \"decimal\",\n    \"execution_performed\": false\n  },\n  \"unresolved_issues\": [],\n  \"limitations\": [\n    \"Same-currency supplied cash/securities and NAV only; no FX, derivative valuation, authorized-participant authentication or settlement engine.\",\n    \"Basket/timing/custom-review assertions do not determine Rule6c-11 or UCITS applicability or grant acceptance/execution.\",\n    \"Secondary-market ratios rounded to12 places; no historical premium/disclosure or trading-cost certification.\"\n  ],\n  \"handoffs\": [\n    \"index-portfolio-reviewer\",\n    \"fund-accounting-preparer\",\n    \"fund-investor-operations-reviewer\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"df6280212b0fbd2948b85042a1a4587cc8549b368693180ba0248a9d2e2c9e6d\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "etf-operations-reviewer",
+    "request_id": "OPF-S02-SECONDARY",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "draft",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "supplied-etf-control-secondary_market-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "premium_discount": "0.020000000000",
+      "quoted_spread_to_midpoint": "0.003921568627",
+      "ratio_unit": "decimal",
+      "execution_performed": false
+    },
+    "unresolved_issues": [],
+    "limitations": [
+      "Same-currency supplied cash/securities and NAV only; no FX, derivative valuation, authorized-participant authentication or settlement engine.",
+      "Basket/timing/custom-review assertions do not determine Rule6c-11 or UCITS applicability or grant acceptance/execution.",
+      "Secondary-market ratios rounded to12 places; no historical premium/disclosure or trading-cost certification."
+    ],
+    "handoffs": [
+      "index-portfolio-reviewer",
+      "fund-accounting-preparer",
+      "fund-investor-operations-reviewer"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "df6280212b0fbd2948b85042a1a4587cc8549b368693180ba0248a9d2e2c9e6d",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-S02-SECONDARY",
+      "check": "premium.1/5",
+      "passed": true
+    },
+    {
+      "case": "OPF-S02-SECONDARY",
+      "check": "quoted spread.02/5.10",
+      "passed": true
+    },
+    {
+      "case": "OPF-S02-SECONDARY",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-S02-SECONDARY",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-S02-SECONDARY",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    }
+  ]
+}

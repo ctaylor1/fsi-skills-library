@@ -1,0 +1,70 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "investment-asset-servicing-reviewer",
+  "request_id": "SYNTHETIC-PHASE2-01",
+  "object_id": "SYNTHETIC-FUND-01",
+  "as_of": "2026-09-20",
+  "knowledge_cutoff": "2026-09-20",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "needs-review",
+  "draft": true,
+  "action_taken": true,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "supplied-record-date-entitlements-v1",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "events": [
+      {
+        "event_id": "DIV1",
+        "type": "cash_dividend",
+        "record_date": "2026-09-15",
+        "payable_date": "2026-09-18",
+        "gross_cash": "50.0",
+        "supplied_rate_withholding": "5.00",
+        "expected_net_cash": "45.00",
+        "measurement_unit": "USD",
+        "received": "44",
+        "difference": "-1.00",
+        "reconciliation_status": "exception"
+      },
+      {
+        "event_id": "SPLIT1",
+        "type": "stock_split",
+        "record_date": "2026-09-15",
+        "payable_date": "2026-09-18",
+        "post_split_total_units": "150.000000000000000000000000",
+        "expected_additional_units": "50.000000000000000000000000",
+        "measurement_unit": "security-units",
+        "fractional_entitlement": "0E-24",
+        "received": "50",
+        "difference": "0E-24",
+        "reconciliation_status": "within-tolerance"
+      }
+    ]
+  },
+  "unresolved_issues": [
+    "DIV1: receipt differs from entitlement beyond supplied tolerance"
+  ],
+  "limitations": [
+    "Eligible quantities and event terms are supplied; trade/ex-date, market-claim and beneficial-owner entitlement are not inferred.",
+    "Withholding rate is supplied arithmetic, not a tax/legal determination. No elections, custody instructions or payment execution.",
+    "Split ratios rounded to24 decimal places; fractional cash-in-lieu and mandatory/voluntary reorganizations require specialist workflow."
+  ],
+  "handoffs": [
+    "investment-book-reconciler",
+    "fund-accounting-preparer"
+  ],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "records",
+    "policy",
+    "benchmark"
+  ],
+  "input_hash": "835bb2cf520cbc95fda50d4cfa097c68437523d6fe5f87184cbab71e47fabc50",
+  "source_truth": "unverified"
+}

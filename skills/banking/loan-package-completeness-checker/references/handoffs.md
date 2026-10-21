@@ -17,8 +17,8 @@ the package.
 | Downstream skill | When | Handoff artifact |
 | ---------------- | ---- | ---------------- |
 | `fee-and-charge-reviewer` | The closing disclosure needs fee / APR / tolerance review | `assessment_id` + closing_disclosure doc |
-| `kyc-customer-due-diligence-screener` | Identity / CDD documents need verification, not just presence | loan_id + identity docs |
-| `beneficial-ownership-verifier` | Entity borrower beneficial-ownership confirmation is required | loan_id + entity docs |
+| `customer-due-diligence-reviewer` | Identity / CDD documents need verification, not just presence | loan_id + identity docs |
+| `beneficial-ownership-analyzer` | Entity borrower beneficial-ownership confirmation is required | loan_id + entity docs |
 | `covenant-compliance-monitor` | Post-closing covenant tracking once the loan is booked | loan_id + executed agreement |
 | `loan-servicing-exception-resolver` | Post-booking servicing exceptions surface later | loan_id |
 

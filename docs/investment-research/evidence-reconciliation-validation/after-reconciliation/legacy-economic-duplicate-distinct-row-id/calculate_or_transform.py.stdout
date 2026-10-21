@@ -1,0 +1,223 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "issuer-credit-researcher",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-credit-phase2",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "financial_context": {
+      "currency": "USD",
+      "unit": "USD_m",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-09-30",
+        "fiscal_calendar_id": "ACME-calendar"
+      },
+      "accounting_basis": "US-GAAP-supplied",
+      "consolidation_scope": "consolidated"
+    },
+    "credit_metrics": {
+      "reported_ebitda": {
+        "ebitda": 100,
+        "gross_leverage_x": null,
+        "net_leverage_x": null,
+        "interest_coverage_x": 5.0
+      },
+      "analyst_adjusted_ebitda": {
+        "ebitda": null,
+        "gross_leverage_x": null,
+        "net_leverage_x": null,
+        "interest_coverage_x": null
+      }
+    },
+    "cash_flow": {
+      "free_cash_flow": 50,
+      "ffo_to_debt": null
+    },
+    "structural_risks": [],
+    "risk_observations": [
+      {
+        "risk_id": "CUSTOMER-1",
+        "category": "concentration",
+        "observation": "Supplied top-customer concentration is 30%; sustainability needs review",
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ]
+      }
+    ],
+    "ebitda_adjustments": [
+      {
+        "adjustment_id": "RESTRUCTURE-1",
+        "amount": 10,
+        "rationale": "Supplied analyst adjustment; recurrence needs review",
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ]
+      },
+      {
+        "adjustment_id": "SECOND-DOCUMENT-SAME-ECONOMIC-COST",
+        "amount": 10,
+        "rationale": "Supplied analyst adjustment; recurrence needs review",
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ]
+      }
+    ],
+    "evidence_reconciliation": {
+      "ebitda_adjustments": {
+        "status": "unavailable",
+        "reasons": [
+          "adjustment RESTRUCTURE-1: missing economic_event_id",
+          "adjustment SECOND-DOCUMENT-SAME-ECONOMIC-COST: missing economic_event_id",
+          "adjustments lack a source-bound economic event ledger"
+        ],
+        "signed_adjustment_total": null,
+        "events": [],
+        "selected_adjustments": [
+          {
+            "adjustment_id": "RESTRUCTURE-1",
+            "amount": 10,
+            "rationale": "Supplied analyst adjustment; recurrence needs review",
+            "evidence_refs": [
+              {
+                "source_id": "synthetic-financials",
+                "locator": "fixture:table-1;reviewed-inputs"
+              }
+            ]
+          },
+          {
+            "adjustment_id": "SECOND-DOCUMENT-SAME-ECONOMIC-COST",
+            "amount": 10,
+            "rationale": "Supplied analyst adjustment; recurrence needs review",
+            "evidence_refs": [
+              {
+                "source_id": "synthetic-financials",
+                "locator": "fixture:table-1;reviewed-inputs"
+              }
+            ]
+          }
+        ]
+      },
+      "debt_inventory": {
+        "status": "unavailable",
+        "reasons": [
+          "debt inventory coverage is missing or incomplete",
+          "debt inventory lacks a coverage description",
+          "debt inventory lacks source-bound coverage and principal-to-carrying-value reconciliation",
+          "debt inventory requires an explicit cited principal-to-carrying-value bridge, including a zero bridge when equal",
+          "debt inventory: missing accounting_basis",
+          "debt inventory: missing consolidation_scope",
+          "debt inventory: missing currency",
+          "debt inventory: missing period",
+          "debt inventory: missing source_binding",
+          "debt inventory: missing unit",
+          "included principal plus carrying-value bridge does not equal reported gross debt",
+          "instrument TERM-1: explicit debt inclusion/exclusion is missing"
+        ],
+        "included_instrument_ids": [],
+        "excluded_instrument_ids": [],
+        "included_principal_total": 0.0,
+        "carrying_value_bridge_total": 0.0,
+        "reconstructed_gross_debt": 0.0,
+        "reported_gross_debt": 400,
+        "inventory_evidence": {},
+        "instrument_evidence": [
+          {
+            "instrument_id": "TERM-1",
+            "issuer_id": "ACME-ISSUER",
+            "estate_id": "ACME-ESTATE",
+            "seniority": "senior-secured",
+            "currency": "USD",
+            "principal": 400,
+            "guarantor_ids": [],
+            "evidence_refs": [
+              {
+                "source_id": "synthetic-financials",
+                "locator": "fixture:table-1;reviewed-inputs"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "rating_assigned": false,
+    "credit_decision": "not-made",
+    "legal_priority": "supplied-assertions-only"
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "metric": "credit_metrics",
+      "formula": "source-bound additive event reconciliation; exact included principal plus carrying-value bridge equals reported gross debt; reconciled debt / positive EBITDA",
+      "adjustment_event_ids": [],
+      "included_instrument_ids": [],
+      "bridge_ids": [],
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "unresolved_issues": [
+    "adjustment RESTRUCTURE-1: missing economic_event_id",
+    "adjustment SECOND-DOCUMENT-SAME-ECONOMIC-COST: missing economic_event_id",
+    "adjustments lack a source-bound economic event ledger",
+    "analyst_adjusted_ebitda: missing, incomparable or nonpositive evidence; dependent ratios withheld",
+    "debt inventory coverage is missing or incomplete",
+    "debt inventory lacks a coverage description",
+    "debt inventory lacks source-bound coverage and principal-to-carrying-value reconciliation",
+    "debt inventory requires an explicit cited principal-to-carrying-value bridge, including a zero bridge when equal",
+    "debt inventory: missing accounting_basis",
+    "debt inventory: missing consolidation_scope",
+    "debt inventory: missing currency",
+    "debt inventory: missing period",
+    "debt inventory: missing source_binding",
+    "debt inventory: missing unit",
+    "included principal plus carrying-value bridge does not equal reported gross debt",
+    "instrument TERM-1: explicit debt inclusion/exclusion is missing",
+    "reported_ebitda: missing, incomparable or nonpositive evidence; dependent ratios withheld"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1",
+      "kind": "financial_statement"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "211f0d8730bea02db68d37daaaced7fdf0063ef4498d22887d705e523d54d212",
+  "source_truth": "unverified"
+}

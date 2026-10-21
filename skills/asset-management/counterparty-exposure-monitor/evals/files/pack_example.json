@@ -1,6 +1,7 @@
 {
-  "run_id": "cem-run-2026-07-17-0700",
+  "run_id": "cem-run-2026-07-17-0700-6a63d5ec4b3768be",
   "as_of": "2026-07-17T07:00:00",
+  "exposure_measure": "nonnegative current exposure net of supplied collateral plus supplied PFE; not legal-netting-set exposure",
   "config_version": "cpty-cfg-2026.07",
   "book_total_net_exposure": 116000000.0,
   "counterparties_evaluated": 4,
@@ -54,7 +55,7 @@
         "limit": 40000000.0,
         "utilization_pct": 110.0
       },
-      "reason": "net current exposure 44000000 is 110.0% of limit 40000000",
+      "reason": "collateral-adjusted exposure plus supplied PFE 44000000 is 110.0% of limit 40000000",
       "evidence": [
         {
           "exposure_type": "derivative_mtm",
@@ -145,7 +146,7 @@
         "limit": 60000000.0,
         "utilization_pct": 85.0
       },
-      "reason": "net current exposure 51000000 is 85.0% of limit 60000000",
+      "reason": "collateral-adjusted exposure plus supplied PFE 51000000 is 85.0% of limit 60000000",
       "evidence": [
         {
           "exposure_type": "derivative_mtm",
@@ -175,7 +176,7 @@
       "alert_type": "concentration",
       "dimension": "single_name_concentration_pct",
       "severity": "Breach",
-      "freshness": "current",
+      "freshness": "stale",
       "status": "new",
       "measure": {
         "share_pct": 44.0,
@@ -313,5 +314,14 @@
   "run_severity": "Critical",
   "not_evaluable": [],
   "disclaimer": "Monitoring alert only; no limit, trade, collateral, or counterparty action has been taken. Human review is required before any action.",
-  "narrative": "Scheduled counterparty-exposure monitoring run cem-run-2026-07-17-0700 (as of 2026-07-17T07:00:00, config cpty-cfg-2026.07) raised 8 alerts for human review across a 116,000,000 net-exposure book. CP-ACME net current exposure of 44,000,000 is 110.0% of its 40,000,000 limit (Critical, recurring) and is flagged stale because the financing feed is 51h old; CP-CIRRUS single-name concentration of 44.0% breaches the 40.0% limit; CP-BOLT rating BB is below its BBB- floor (recurring). Lower-severity watch items (CP-ACME concentration, negative watch, CDS widening; CP-CIRRUS utilization) and a data-freshness alert for the financing feed are queued for the watch tier. All items are triage signals for the counterparty-risk queue. Monitoring alert only; no limit, trade, collateral, or counterparty action has been taken. Human review is required before any action."
+  "inputs_hash": "6a63d5ec4b3768be3fdc1165f615638689cdcdfef34e86a1684c5c586356979f",
+  "calculation_version": "phase1-1",
+  "analysis_status": "draft",
+  "professional_approval": "not_established_by_script",
+  "input_warnings": [
+    "feed 'financing' is stale (51.0h > 24h) — dependent alerts will be flagged stale, not suppressed"
+  ],
+  "source_run_id": "cem-run-2026-07-17-0700",
+  "input_hash": "6a63d5ec4b3768be3fdc1165f615638689cdcdfef34e86a1684c5c586356979f",
+  "source_truth": "unverified"
 }

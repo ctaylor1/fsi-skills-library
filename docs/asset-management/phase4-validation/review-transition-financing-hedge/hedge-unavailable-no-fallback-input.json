@@ -1,0 +1,316 @@
+{
+  "request_id": "REVIEW-NONLINEAR-RESULT",
+  "object_id": "SYN-PORTFOLIO",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "sources": [
+    {
+      "source_ref": "policy",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic policy"
+    },
+    {
+      "source_ref": "holdings",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic holdings"
+    },
+    {
+      "source_ref": "market",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic market"
+    },
+    {
+      "source_ref": "schedule",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic schedule"
+    },
+    {
+      "source_ref": "cash",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic cash"
+    },
+    {
+      "source_ref": "agreement",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic agreement"
+    },
+    {
+      "source_ref": "collateral",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic collateral"
+    },
+    {
+      "source_ref": "recall",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic recall"
+    },
+    {
+      "source_ref": "engine-input",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic engine-input"
+    },
+    {
+      "source_ref": "engine-acceptance",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic engine-acceptance"
+    },
+    {
+      "source_ref": "engine-result",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic engine-result"
+    },
+    {
+      "source_ref": "independent-benchmark",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic independent-benchmark"
+    }
+  ],
+  "unresolved_issues": [],
+  "extension": "advanced-derivatives",
+  "engine_request": {
+    "object_id": "SYN-PORTFOLIO",
+    "as_of": "2026-10-04",
+    "knowledge_cutoff": "2026-10-04",
+    "currency": "USD",
+    "engine_id": "SYN-PRICER",
+    "engine_version": "4",
+    "method_id": "nonlinear-full-book-reprice",
+    "method_version": "2",
+    "model_version": "synthetic-calibration-3",
+    "purpose": "human-defined hedge comparison",
+    "source_ref": "engine-input",
+    "acceptance_ref": "engine-acceptance",
+    "input": {
+      "portfolio_id": "SYN-PORTFOLIO",
+      "valuation_method": "full-repricing",
+      "cost_basis": "excludes-transaction-cost",
+      "market_data_snapshot": "SYN-MARKET-1",
+      "curve_snapshot": "SYN-CURVE-1",
+      "volatility_snapshot": "SYN-VOL-1",
+      "calendar_version": "SYN-CALENDAR-1",
+      "valuation_adjustments": "Supplied clean PV; XVA, funding and collateral effects excluded",
+      "model_limitations": [
+        "Synthetic supplied option book: no calibration or real engine acceptance established."
+      ],
+      "instruments": [
+        {
+          "instrument_id": "OPTION",
+          "product_type": "barrier-option",
+          "terms": {
+            "contract_version": "SYN-TERMS-1",
+            "expiry": "2027-01-01",
+            "barrier": "80",
+            "strike": "100",
+            "underlying": "SYN-EQUITY"
+          },
+          "source_ref": "holdings"
+        },
+        {
+          "instrument_id": "HEDGE",
+          "product_type": "vanilla-put",
+          "terms": {
+            "contract_version": "SYN-HEDGE-1",
+            "expiry": "2027-01-01",
+            "strike": "95",
+            "underlying": "SYN-EQUITY"
+          },
+          "source_ref": "holdings"
+        }
+      ],
+      "books": [
+        {
+          "book_id": "P",
+          "role": "baseline",
+          "positions": [
+            {
+              "instrument_id": "OPTION",
+              "quantity": "10",
+              "quantity_unit": "contracts"
+            }
+          ],
+          "source_ref": "holdings"
+        },
+        {
+          "book_id": "H1",
+          "role": "hedged",
+          "positions": [
+            {
+              "instrument_id": "OPTION",
+              "quantity": "10",
+              "quantity_unit": "contracts"
+            },
+            {
+              "instrument_id": "HEDGE",
+              "quantity": "2",
+              "quantity_unit": "contracts"
+            }
+          ],
+          "source_ref": "holdings"
+        }
+      ],
+      "scenarios": [
+        {
+          "scenario_id": "base",
+          "version": "1",
+          "shocks": {},
+          "source_ref": "policy"
+        },
+        {
+          "scenario_id": "equity-down",
+          "version": "1",
+          "shocks": {
+            "equity": {
+              "unit": "fraction",
+              "value": "-.2"
+            }
+          },
+          "source_ref": "policy"
+        }
+      ],
+      "measures": [
+        {
+          "measure_id": "pv",
+          "unit": "USD",
+          "definition": "Full book present value",
+          "source_ref": "policy"
+        },
+        {
+          "measure_id": "vega",
+          "unit": "USD-per-vol-point",
+          "definition": "Supplied full-book sensitivity per volatility point",
+          "source_ref": "policy"
+        }
+      ],
+      "candidate_costs": [
+        {
+          "book_id": "H1",
+          "currency": "USD",
+          "horizon": "one-time transition",
+          "basis": "one-time-cash-cost",
+          "amount": "2",
+          "source_ref": "schedule"
+        }
+      ]
+    },
+    "expected_metrics": [
+      {
+        "id": "P|base|pv",
+        "unit": "USD"
+      },
+      {
+        "id": "P|base|vega",
+        "unit": "USD-per-vol-point"
+      },
+      {
+        "id": "P|equity-down|pv",
+        "unit": "USD"
+      },
+      {
+        "id": "P|equity-down|vega",
+        "unit": "USD-per-vol-point"
+      },
+      {
+        "id": "H1|base|pv",
+        "unit": "USD"
+      },
+      {
+        "id": "H1|base|vega",
+        "unit": "USD-per-vol-point"
+      },
+      {
+        "id": "H1|equity-down|pv",
+        "unit": "USD"
+      },
+      {
+        "id": "H1|equity-down|vega",
+        "unit": "USD-per-vol-point"
+      }
+    ]
+  },
+  "engine_result": null,
+  "independent_benchmark": {
+    "request_hash": "1de7db1a3561b059d3bbd8c09adfa1af49095f2eb8e196e7c648e472fdff552e",
+    "benchmark_id": "SYN-INDEPENDENT-REPRICE",
+    "version": "1",
+    "method": "separate analytic test values",
+    "independent_from_engine": true,
+    "source_ref": "independent-benchmark",
+    "observed_on": "2026-10-04",
+    "values": [
+      {
+        "id": "P|base|pv",
+        "unit": "USD",
+        "value": "700",
+        "tolerance": ".01"
+      },
+      {
+        "id": "P|base|vega",
+        "unit": "USD-per-vol-point",
+        "value": "12",
+        "tolerance": ".01"
+      },
+      {
+        "id": "P|equity-down|pv",
+        "unit": "USD",
+        "value": "570",
+        "tolerance": ".01"
+      },
+      {
+        "id": "P|equity-down|vega",
+        "unit": "USD-per-vol-point",
+        "value": "8",
+        "tolerance": ".01"
+      },
+      {
+        "id": "H1|base|pv",
+        "unit": "USD",
+        "value": "711",
+        "tolerance": ".01"
+      },
+      {
+        "id": "H1|base|vega",
+        "unit": "USD-per-vol-point",
+        "value": "15",
+        "tolerance": ".01"
+      },
+      {
+        "id": "H1|equity-down|pv",
+        "unit": "USD",
+        "value": "663",
+        "tolerance": ".01"
+      },
+      {
+        "id": "H1|equity-down|vega",
+        "unit": "USD-per-vol-point",
+        "value": "16",
+        "tolerance": ".01"
+      }
+    ]
+  }
+}

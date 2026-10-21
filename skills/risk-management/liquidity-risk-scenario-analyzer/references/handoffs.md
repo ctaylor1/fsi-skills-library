@@ -23,7 +23,7 @@ governance.
 
 ## Boundary with the fund-liquidity skill
 
-`liquidity-stress-analyzer` (asset management) covers **fund / portfolio** redemption-and-asset
+`fund-liquidity-assessor` (asset management) covers **fund / portfolio** redemption-and-asset
 liquidity (redemption gates, swing pricing, asset saleability). This skill covers **institution /
 balance-sheet ALM** liquidity (deposit runoff, funding rollover, counterbalancing capacity,
 survival horizon). Route buy-side fund questions there; do not analyze them here.

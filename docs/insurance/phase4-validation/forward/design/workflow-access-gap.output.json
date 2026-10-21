@@ -1,0 +1,528 @@
+{
+  "schema_version": "workflow-review-1.0",
+  "producer": "insurance-workflow-designer",
+  "case_id": "CH-WORKFLOW-ACCESS-GAP",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "Mina Chen",
+    "represented_party": "Cedar Harbor Mutual (fictional)",
+    "object_id": "FNOL-SANDBOX",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "commercial-property"
+  },
+  "status": "needs-data",
+  "findings": [
+    {
+      "code": "access_reviewed",
+      "message": "access_reviewed lacks affirmative supplied evidence",
+      "source_refs": [
+        "API-4"
+      ],
+      "severity": "gap"
+    }
+  ],
+  "results": {
+    "paths": [
+      {
+        "path_id": "C-N",
+        "design": "current",
+        "kind": "normal",
+        "outcome": "Human reviewed draft FNOL",
+        "step_ids": [
+          "intake"
+        ],
+        "share": "0.80",
+        "human_minutes": null,
+        "elapsed_minutes": null,
+        "source_refs": [
+          "OPS-7"
+        ]
+      },
+      {
+        "path_id": "C-E",
+        "design": "current",
+        "kind": "exception",
+        "outcome": "Human reviewed draft FNOL",
+        "step_ids": [
+          "intake",
+          "manual-exception"
+        ],
+        "share": "0.20",
+        "human_minutes": null,
+        "elapsed_minutes": null,
+        "source_refs": [
+          "OPS-7"
+        ]
+      },
+      {
+        "path_id": "T-N",
+        "design": "target",
+        "kind": "normal",
+        "outcome": "Human reviewed draft FNOL",
+        "step_ids": [
+          "extract",
+          "review"
+        ],
+        "share": "0.90",
+        "human_minutes": null,
+        "elapsed_minutes": null,
+        "source_refs": [
+          "OPS-7"
+        ]
+      },
+      {
+        "path_id": "T-E",
+        "design": "target",
+        "kind": "exception",
+        "outcome": "Human reviewed draft FNOL",
+        "step_ids": [
+          "extract",
+          "recovery"
+        ],
+        "share": "0.10",
+        "human_minutes": null,
+        "elapsed_minutes": null,
+        "source_refs": [
+          "OPS-7"
+        ]
+      }
+    ],
+    "weighted_minutes": {
+      "current": {
+        "human_minutes": null,
+        "elapsed_minutes": null
+      },
+      "target": {
+        "human_minutes": null,
+        "elapsed_minutes": null
+      }
+    },
+    "source_contracts": [
+      {
+        "contract_id": "DOC",
+        "system": "Synthetic document sandbox",
+        "version": "4",
+        "owner": "Elena Park",
+        "access_scope": "Read deidentified document snapshots only",
+        "purpose": "Draft FNOL extraction for operator review",
+        "schema_version": "fnol-doc-v3",
+        "freshness_rule": "Use same dated snapshot for both attempts",
+        "access_reviewed": false,
+        "purpose_reviewed": true,
+        "source_refs": [
+          "API-4"
+        ]
+      }
+    ],
+    "step_design": [
+      {
+        "step_id": "intake",
+        "mode": "human",
+        "owner": "Mina Chen",
+        "input_contract": "DOC source snapshot",
+        "output_contract": "Human checked draft FNOL",
+        "completion_evidence": "Reviewed draft or reconciled exception receipt",
+        "contract_ids": [
+          "DOC"
+        ],
+        "human_minutes": 14,
+        "elapsed_minutes": 25,
+        "source_refs": [
+          "OPS-7"
+        ],
+        "failure_step": null,
+        "timeout_rule": null,
+        "audit_record": null,
+        "max_attempts": null
+      },
+      {
+        "step_id": "manual-exception",
+        "mode": "human",
+        "owner": "Mina Chen",
+        "input_contract": "DOC source snapshot",
+        "output_contract": "Human checked draft FNOL",
+        "completion_evidence": "Reviewed draft or reconciled exception receipt",
+        "contract_ids": [
+          "DOC"
+        ],
+        "human_minutes": 18,
+        "elapsed_minutes": 120,
+        "source_refs": [
+          "OPS-7"
+        ],
+        "failure_step": null,
+        "timeout_rule": null,
+        "audit_record": null,
+        "max_attempts": null
+      },
+      {
+        "step_id": "extract",
+        "mode": "draft",
+        "owner": "Mina Chen",
+        "input_contract": "DOC source snapshot",
+        "output_contract": "Human checked draft FNOL",
+        "completion_evidence": "Reviewed draft or reconciled exception receipt",
+        "contract_ids": [
+          "DOC"
+        ],
+        "human_minutes": 0,
+        "elapsed_minutes": 3,
+        "source_refs": [
+          "OPS-7"
+        ],
+        "failure_step": "recovery",
+        "timeout_rule": "1 minute per attempt",
+        "audit_record": "Document hash, attempt count, timeout and operator receipt",
+        "max_attempts": 2
+      },
+      {
+        "step_id": "review",
+        "mode": "human",
+        "owner": "Mina Chen",
+        "input_contract": "DOC source snapshot",
+        "output_contract": "Human checked draft FNOL",
+        "completion_evidence": "Reviewed draft or reconciled exception receipt",
+        "contract_ids": [
+          "DOC"
+        ],
+        "human_minutes": 7,
+        "elapsed_minutes": 12,
+        "source_refs": [
+          "OPS-7"
+        ],
+        "failure_step": null,
+        "timeout_rule": null,
+        "audit_record": null,
+        "max_attempts": null
+      },
+      {
+        "step_id": "recovery",
+        "mode": "human",
+        "owner": "Mina Chen",
+        "input_contract": "DOC source snapshot",
+        "output_contract": "Human checked draft FNOL",
+        "completion_evidence": "Reviewed draft or reconciled exception receipt",
+        "contract_ids": [
+          "DOC"
+        ],
+        "human_minutes": 20,
+        "elapsed_minutes": 90,
+        "source_refs": [
+          "OPS-7"
+        ],
+        "failure_step": null,
+        "timeout_rule": null,
+        "audit_record": null,
+        "max_attempts": null
+      }
+    ],
+    "business_outcome": "Reduce draft FNOL operator handling while preserving manual recovery",
+    "runtime_installed": false,
+    "workflow_approved": false
+  },
+  "completeness": "partial",
+  "evaluability": "partial",
+  "unresolved_issues": [
+    "access_reviewed lacks affirmative supplied evidence"
+  ],
+  "action_taken": false,
+  "human_review_required": true,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "source_document": {
+    "case_id": "CH-WORKFLOW-ACCESS-GAP",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "Mina Chen",
+      "represented_party": "Cedar Harbor Mutual (fictional)",
+      "object_id": "FNOL-SANDBOX",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source_ref": "REV-4",
+        "version": "4",
+        "as_of": "2026-09-19",
+        "locator": "raw-sources.json#review_register"
+      },
+      {
+        "source_ref": "OPS-7",
+        "version": "7",
+        "as_of": "2026-09-18",
+        "locator": "raw-sources.json#process_workshop"
+      },
+      {
+        "source_ref": "API-3",
+        "version": "3",
+        "as_of": "2026-09-17",
+        "locator": "raw-sources.json#source_contract"
+      },
+      {
+        "source_ref": "API-4",
+        "version": "4",
+        "as_of": "2026-09-19",
+        "locator": "raw-sources.json#source_contract/amendment"
+      }
+    ],
+    "unresolved_issues": [],
+    "data": {
+      "profile": {
+        "profile_id": "CH-design-review",
+        "version": "4",
+        "reviewed_by": "Mina Chen",
+        "source_refs": [
+          "REV-4"
+        ],
+        "jurisdictions": [
+          "US-TEST"
+        ],
+        "lines_of_business": [
+          "commercial-property"
+        ],
+        "effective_from": "2026-09-01",
+        "effective_to": "2026-09-30",
+        "method": "reviewed-insurance-paths-v1"
+      },
+      "business_outcome": "Reduce draft FNOL operator handling while preserving manual recovery",
+      "population_basis": "All synthetic single-location property FNOL submissions, normal and exception mutually exclusive",
+      "path_inventory_complete": true,
+      "source_contracts": [
+        {
+          "contract_id": "DOC",
+          "system": "Synthetic document sandbox",
+          "version": "4",
+          "owner": "Elena Park",
+          "access_scope": "Read deidentified document snapshots only",
+          "purpose": "Draft FNOL extraction for operator review",
+          "schema_version": "fnol-doc-v3",
+          "freshness_rule": "Use same dated snapshot for both attempts",
+          "access_reviewed": false,
+          "purpose_reviewed": true,
+          "source_refs": [
+            "API-4"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "intake",
+          "mode": "human",
+          "owner": "Mina Chen",
+          "input_contract": "DOC source snapshot",
+          "output_contract": "Human checked draft FNOL",
+          "completion_evidence": "Reviewed draft or reconciled exception receipt",
+          "contract_ids": [
+            "DOC"
+          ],
+          "human_minutes": 14,
+          "elapsed_minutes": 25,
+          "source_refs": [
+            "OPS-7"
+          ],
+          "failure_step": null,
+          "timeout_rule": null,
+          "audit_record": null,
+          "max_attempts": null
+        },
+        {
+          "step_id": "manual-exception",
+          "mode": "human",
+          "owner": "Mina Chen",
+          "input_contract": "DOC source snapshot",
+          "output_contract": "Human checked draft FNOL",
+          "completion_evidence": "Reviewed draft or reconciled exception receipt",
+          "contract_ids": [
+            "DOC"
+          ],
+          "human_minutes": 18,
+          "elapsed_minutes": 120,
+          "source_refs": [
+            "OPS-7"
+          ],
+          "failure_step": null,
+          "timeout_rule": null,
+          "audit_record": null,
+          "max_attempts": null
+        },
+        {
+          "step_id": "extract",
+          "mode": "draft",
+          "owner": "Mina Chen",
+          "input_contract": "DOC source snapshot",
+          "output_contract": "Human checked draft FNOL",
+          "completion_evidence": "Reviewed draft or reconciled exception receipt",
+          "contract_ids": [
+            "DOC"
+          ],
+          "human_minutes": 0,
+          "elapsed_minutes": 3,
+          "source_refs": [
+            "OPS-7"
+          ],
+          "failure_step": "recovery",
+          "timeout_rule": "1 minute per attempt",
+          "audit_record": "Document hash, attempt count, timeout and operator receipt",
+          "max_attempts": 2
+        },
+        {
+          "step_id": "review",
+          "mode": "human",
+          "owner": "Mina Chen",
+          "input_contract": "DOC source snapshot",
+          "output_contract": "Human checked draft FNOL",
+          "completion_evidence": "Reviewed draft or reconciled exception receipt",
+          "contract_ids": [
+            "DOC"
+          ],
+          "human_minutes": 7,
+          "elapsed_minutes": 12,
+          "source_refs": [
+            "OPS-7"
+          ],
+          "failure_step": null,
+          "timeout_rule": null,
+          "audit_record": null,
+          "max_attempts": null
+        },
+        {
+          "step_id": "recovery",
+          "mode": "human",
+          "owner": "Mina Chen",
+          "input_contract": "DOC source snapshot",
+          "output_contract": "Human checked draft FNOL",
+          "completion_evidence": "Reviewed draft or reconciled exception receipt",
+          "contract_ids": [
+            "DOC"
+          ],
+          "human_minutes": 20,
+          "elapsed_minutes": 90,
+          "source_refs": [
+            "OPS-7"
+          ],
+          "failure_step": null,
+          "timeout_rule": null,
+          "audit_record": null,
+          "max_attempts": null
+        }
+      ],
+      "paths": [
+        {
+          "path_id": "C-N",
+          "design": "current",
+          "kind": "normal",
+          "outcome": "Human reviewed draft FNOL",
+          "population_basis": "All synthetic single-location property FNOL submissions, normal and exception mutually exclusive",
+          "step_ids": [
+            "intake"
+          ],
+          "share": "0.80",
+          "failure_of": [],
+          "source_refs": [
+            "OPS-7"
+          ]
+        },
+        {
+          "path_id": "C-E",
+          "design": "current",
+          "kind": "exception",
+          "outcome": "Human reviewed draft FNOL",
+          "population_basis": "All synthetic single-location property FNOL submissions, normal and exception mutually exclusive",
+          "step_ids": [
+            "intake",
+            "manual-exception"
+          ],
+          "share": "0.20",
+          "failure_of": [],
+          "source_refs": [
+            "OPS-7"
+          ]
+        },
+        {
+          "path_id": "T-N",
+          "design": "target",
+          "kind": "normal",
+          "outcome": "Human reviewed draft FNOL",
+          "population_basis": "All synthetic single-location property FNOL submissions, normal and exception mutually exclusive",
+          "step_ids": [
+            "extract",
+            "review"
+          ],
+          "share": "0.90",
+          "failure_of": [],
+          "source_refs": [
+            "OPS-7"
+          ]
+        },
+        {
+          "path_id": "T-E",
+          "design": "target",
+          "kind": "exception",
+          "outcome": "Human reviewed draft FNOL",
+          "population_basis": "All synthetic single-location property FNOL submissions, normal and exception mutually exclusive",
+          "step_ids": [
+            "extract",
+            "recovery"
+          ],
+          "share": "0.10",
+          "failure_of": [
+            "extract"
+          ],
+          "source_refs": [
+            "OPS-7"
+          ]
+        }
+      ]
+    }
+  },
+  "artifact": {
+    "contract_version": "workflow-evidence/1.0",
+    "producer": "insurance-workflow-designer",
+    "artifact_type": "workflow-review",
+    "as_of": "2026-09-20",
+    "context": {
+      "capacity": "Mina Chen",
+      "represented_party": "Cedar Harbor Mutual (fictional)",
+      "object_id": "FNOL-SANDBOX",
+      "jurisdiction": "US-TEST",
+      "line_of_business": "commercial-property"
+    },
+    "sources": [
+      {
+        "source_ref": "REV-4",
+        "version": "4",
+        "as_of": "2026-09-19",
+        "locator": "raw-sources.json#review_register"
+      },
+      {
+        "source_ref": "OPS-7",
+        "version": "7",
+        "as_of": "2026-09-18",
+        "locator": "raw-sources.json#process_workshop"
+      },
+      {
+        "source_ref": "API-3",
+        "version": "3",
+        "as_of": "2026-09-17",
+        "locator": "raw-sources.json#source_contract"
+      },
+      {
+        "source_ref": "API-4",
+        "version": "4",
+        "as_of": "2026-09-19",
+        "locator": "raw-sources.json#source_contract/amendment"
+      }
+    ],
+    "input_hash": "968bdf3a5d2acbbdc82b8d1a66202c7a3a60979011d2aeb330518364e5953d5f",
+    "output_hash": "acd248e891257f66a99f4a9dd20b5636512f70eaf56333a2eeef4369ff77aa69",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "access_reviewed lacks affirmative supplied evidence"
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "4b2d6a07d7f454fbcdbd90b10a0e532a9597edcf09c5fc11a575b004619cc973"
+  }
+}

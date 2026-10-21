@@ -1,0 +1,335 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "investment-platform-modernization-planner",
+  "request_id": "INDEPENDENT-PLATFORM-01",
+  "object_id": "FUND-ALPHA-ABOR",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "draft",
+  "draft": true,
+  "action_taken": false,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "am-platform-migration-evidence-adapter",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "shared_architecture": {
+      "status": "ready-for-review",
+      "requirement_fit": [
+        {
+          "requirement_id": "CAPACITY",
+          "observed": "125",
+          "threshold": "100",
+          "unit": "records/hour",
+          "meets": true
+        }
+      ],
+      "supplied_period_cost": "1050"
+    },
+    "platforms": [
+      {
+        "id": "old-book",
+        "component_id": "old",
+        "role": "ABOR",
+        "owner": "fund-controller",
+        "provider": "synthetic ledger provider",
+        "provider_contract_version": "c3",
+        "provider_contract_source_ref": "migration-evidence",
+        "licensed_purpose": "FUND-ALPHA accounting rehearsal",
+        "record_identity": "fund/book/account/security/lot/date",
+        "history_retention": "retain all supplied close revisions",
+        "failure_owner": "accounting-platform-owner",
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "new-book",
+        "component_id": "new",
+        "role": "ABOR",
+        "owner": "fund-controller",
+        "provider": "synthetic ledger provider",
+        "provider_contract_version": "c3",
+        "provider_contract_source_ref": "migration-evidence",
+        "licensed_purpose": "FUND-ALPHA accounting rehearsal",
+        "record_identity": "fund/book/account/security/lot/date",
+        "history_retention": "retain all supplied close revisions",
+        "failure_owner": "accounting-platform-owner",
+        "source_ref": "migration-evidence"
+      }
+    ],
+    "excluded_roles": [
+      {
+        "id": "excluded-PMS",
+        "role": "PMS",
+        "rationale": "Unchanged system; no migration in this bounded ABOR rehearsal",
+        "reviewed_by": "migration-owner",
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "excluded-OMS",
+        "role": "OMS",
+        "rationale": "Unchanged system; no migration in this bounded ABOR rehearsal",
+        "reviewed_by": "migration-owner",
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "excluded-EMS",
+        "role": "EMS",
+        "rationale": "Unchanged system; no migration in this bounded ABOR rehearsal",
+        "reviewed_by": "migration-owner",
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "excluded-IBOR",
+        "role": "IBOR",
+        "rationale": "Unchanged system; no migration in this bounded ABOR rehearsal",
+        "reviewed_by": "migration-owner",
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "excluded-custodian",
+        "role": "custodian",
+        "rationale": "Unchanged system; no migration in this bounded ABOR rehearsal",
+        "reviewed_by": "migration-owner",
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "excluded-market-data",
+        "role": "market-data",
+        "rationale": "Unchanged system; no migration in this bounded ABOR rehearsal",
+        "reviewed_by": "migration-owner",
+        "source_ref": "migration-evidence"
+      }
+    ],
+    "system_of_record_responsibilities": [
+      {
+        "id": "authority-current",
+        "platform_id": "old-book",
+        "domain": "general-ledger",
+        "book_scope": "FUND-ALPHA-ABOR",
+        "authoritative_state": "current",
+        "version": "1",
+        "reconciliation_owner": "fund-controller",
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "authority-proposed",
+        "platform_id": "new-book",
+        "domain": "general-ledger",
+        "book_scope": "FUND-ALPHA-ABOR",
+        "authoritative_state": "proposed",
+        "version": "1",
+        "reconciliation_owner": "fund-controller",
+        "source_ref": "migration-evidence"
+      }
+    ],
+    "requirements": [
+      {
+        "id": "accounting-batch-throughput",
+        "architecture_requirement_id": "CAPACITY",
+        "description": "Process bounded rehearsal inventory within operator window",
+        "owner": "fund-controller",
+        "mandatory": true,
+        "disposition": "met",
+        "source_ref": "migration-evidence"
+      }
+    ],
+    "dependency_order": [
+      "WAVE-ONE"
+    ],
+    "migration_batches": [
+      {
+        "id": "WAVE-ONE",
+        "owner": "migration-owner",
+        "wave": 1,
+        "depends_on": [],
+        "mapping_version": "map-v3",
+        "source_snapshot": "snapshot-old",
+        "target_snapshot": "snapshot-new",
+        "rollback_owner": "fund-controller",
+        "rollback_trigger": "any unreconciled lot or failed recovery objective",
+        "rollback_runbook": "retain old authority; restore and reconcile target snapshot",
+        "expected_grains": [
+          {
+            "fund_id": "FUND-ALPHA",
+            "book_id": "ABOR",
+            "account_id": "ACCOUNT-USD",
+            "instrument_id": "SEC-1",
+            "lot_id": "LOT-1",
+            "valuation_date": "2026-10-01",
+            "measure": "market-value",
+            "unit": "currency",
+            "currency": "USD"
+          },
+          {
+            "fund_id": "FUND-ALPHA",
+            "book_id": "ABOR",
+            "account_id": "ACCOUNT-USD",
+            "instrument_id": "SEC-2",
+            "lot_id": "LOT-2",
+            "valuation_date": "2026-10-01",
+            "measure": "market-value",
+            "unit": "currency",
+            "currency": "USD"
+          }
+        ],
+        "grain_inventory_reviewed": true,
+        "new_writes_after_cutover": false,
+        "source_ref": "migration-evidence"
+      }
+    ],
+    "reconciliation": [
+      {
+        "id": "recon-1",
+        "batch_id": "WAVE-ONE",
+        "grain": {
+          "fund_id": "FUND-ALPHA",
+          "book_id": "ABOR",
+          "account_id": "ACCOUNT-USD",
+          "instrument_id": "SEC-1",
+          "lot_id": "LOT-1",
+          "valuation_date": "2026-10-01",
+          "measure": "market-value",
+          "unit": "currency",
+          "currency": "USD"
+        },
+        "difference": "0.00000001",
+        "within_tolerance": true
+      },
+      {
+        "id": "recon-2",
+        "batch_id": "WAVE-ONE",
+        "grain": {
+          "fund_id": "FUND-ALPHA",
+          "book_id": "ABOR",
+          "account_id": "ACCOUNT-USD",
+          "instrument_id": "SEC-2",
+          "lot_id": "LOT-2",
+          "valuation_date": "2026-10-01",
+          "measure": "market-value",
+          "unit": "currency",
+          "currency": "USD"
+        },
+        "difference": "0.000",
+        "within_tolerance": true
+      }
+    ],
+    "parallel_runs": [
+      {
+        "id": "rehearsal-02",
+        "batch_id": "WAVE-ONE",
+        "mapping_version": "map-v3",
+        "source_snapshot": "snapshot-old",
+        "target_snapshot": "snapshot-new",
+        "window_start": "2026-10-01",
+        "window_end": "2026-10-02",
+        "owner": "fund-controller",
+        "exception_ids": [],
+        "source_ref": "migration-evidence"
+      }
+    ],
+    "exceptions": [],
+    "recovery": [
+      {
+        "id": "recovery-02",
+        "run_id": "rehearsal-02",
+        "rto_met": true,
+        "rpo_met": true,
+        "rollback_status": "passed"
+      }
+    ],
+    "human_gates": [
+      {
+        "id": "gate-reconciliation",
+        "batch_id": "WAVE-ONE",
+        "kind": "reconciliation",
+        "owner": "migration-owner",
+        "status": "passed",
+        "reviewed_by": "fund-controller",
+        "observed_on": "2026-10-03",
+        "evidence_ids": [
+          "recon-1",
+          "recon-2"
+        ],
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "gate-parallel-run",
+        "batch_id": "WAVE-ONE",
+        "kind": "parallel-run",
+        "owner": "migration-owner",
+        "status": "passed",
+        "reviewed_by": "fund-controller",
+        "observed_on": "2026-10-03",
+        "evidence_ids": [
+          "rehearsal-02"
+        ],
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "gate-rollback",
+        "batch_id": "WAVE-ONE",
+        "kind": "rollback",
+        "owner": "migration-owner",
+        "status": "passed",
+        "reviewed_by": "fund-controller",
+        "observed_on": "2026-10-03",
+        "evidence_ids": [
+          "recovery-02"
+        ],
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "gate-security",
+        "batch_id": "WAVE-ONE",
+        "kind": "security",
+        "owner": "migration-owner",
+        "status": "passed",
+        "reviewed_by": "fund-controller",
+        "observed_on": "2026-10-03",
+        "evidence_ids": [
+          "external-security-review-v3"
+        ],
+        "source_ref": "migration-evidence"
+      },
+      {
+        "id": "gate-business-acceptance",
+        "batch_id": "WAVE-ONE",
+        "kind": "business-acceptance",
+        "owner": "migration-owner",
+        "status": "passed",
+        "reviewed_by": "fund-controller",
+        "observed_on": "2026-10-03",
+        "evidence_ids": [
+          "controller-review-v2"
+        ],
+        "source_ref": "migration-evidence"
+      }
+    ],
+    "readiness": "evidence-ready-for-human-review",
+    "cutover_authorized": false,
+    "migration_executed": false,
+    "production_access_verified": false
+  },
+  "unresolved_issues": [],
+  "limitations": [
+    "Source snapshots, permissions, licensing, test results and review identities are supplied declarations, not authenticated facts.",
+    "Each declared financial grain is reconciled independently; no cross-currency conversion, lot matching, netting or accounting adjudication.",
+    "No production access, cutover, rollback, order routing, accounting posting or vendor selection is performed."
+  ],
+  "handoffs": [
+    "solution-architecture-planner",
+    "investment-data-architecture-planner",
+    "investment-operating-model-planner"
+  ],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "migration-evidence"
+  ],
+  "input_hash": "5a486f219ad465e4f4a4cdc505a6a01e14fe21ec78abbcc0cb42909ff9c23755",
+  "source_truth": "unverified"
+}

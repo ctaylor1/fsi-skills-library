@@ -1,0 +1,9 @@
+# Implemented method and limits
+
+The native method assembles a versioned preview template and performs descriptive consensus-versus-guidance midpoint arithmetic and fiscal QoQ/YoY KPI deltas. It accepts supplied research components; it does not retrieve sources, originate house forecasts, scenarios, ratings, targets or trade views, or publish/distribute. The supported native review profile uses explicit supervisory-analyst, research-compliance and legal-disclaimer role assertions. Other institutional profiles require separate reviewed configuration; buy-side applicability is not inferred.
+
+Consensus versus prior guidance compares supplied same-period labeled metrics with midpoint = (low + high)/2 and gap = consensus − midpoint. Inverted ranges fail. KPI series require explicit fiscal_year and fiscal_quarter, unique periods, finite values, unit, source and eligible source vintage. The latest fiscal period is selected by key; QoQ uses the exact previous fiscal quarter, including year rollover; YoY uses the same fiscal quarter in the prior year. Missing comparator periods yield null deltas and gaps, regardless of array order or count.
+
+Date-only cutoffs or naive timestamps fail. Preparer labels may not equal an asserted independent approval label; duplicate roles fail. Required roles are fixed to the explicitly supplied sell-side profile, not silently reduced to a sole preparer. Source `approved` flags express eligibility assertions only. Forward-looking facts require third-party attribution; prohibited originated-view kinds fail. Missing evidence remains a held partial instead of an invented figure or source.
+
+Economic dates/forecast periods do not establish when information was known. Where this native contract uses an intraday cutoff, source knowledge timestamps require timezones. A source reference and a reproducible hash do not prove content authenticity or licensed use.

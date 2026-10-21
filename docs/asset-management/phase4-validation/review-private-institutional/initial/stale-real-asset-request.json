@@ -1,0 +1,193 @@
+{
+  "request_id": "INDEPENDENT-PHASE4",
+  "object_id": "SYNTHETIC-ALPHA",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "sources": [
+    {
+      "source_ref": "independent-synthetic-record",
+      "version": "1",
+      "as_of": "2026-10-04",
+      "known_at": "2026-10-04",
+      "locator": "Synthetic fresh reviewer-created source records; no institution or legal authority"
+    }
+  ],
+  "unresolved_issues": [],
+  "extension": "liability-real-assets",
+  "opening_cash": "50",
+  "inventory_complete": true,
+  "inventory_source_ref": "independent-synthetic-record",
+  "policy": {
+    "version": "P1",
+    "reviewed_by": "synthetic-ALM-owner",
+    "objective": "test supplied dated payments against portfolio and real-asset cash assumptions",
+    "currency": "USD",
+    "effective_from": "2026-01-01",
+    "expires": "2027-12-31",
+    "discount_basis": "supplied-factors-by-dated-liability",
+    "maximum_illiquid_fraction": "0.4",
+    "maximum_valuation_age_days": 30,
+    "parallel_shift_bps": "100",
+    "source_ref": "independent-synthetic-record"
+  },
+  "liability_cashflows": [
+    {
+      "id": "L1",
+      "due_date": "2026-10-31",
+      "amount": "100",
+      "liability_basis": "provided institution projection, not actuarially calculated",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    },
+    {
+      "id": "L2",
+      "due_date": "2026-11-30",
+      "amount": "100",
+      "liability_basis": "provided institution projection, not actuarially calculated",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    }
+  ],
+  "discount_factors": [
+    {
+      "id": "FACTOR-L1",
+      "liability_id": "L1",
+      "due_date": "2026-10-31",
+      "policy_version": "P1",
+      "base_factor": "0.98",
+      "down_factor": "0.99",
+      "up_factor": "0.97",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    },
+    {
+      "id": "FACTOR-L2",
+      "liability_id": "L2",
+      "due_date": "2026-11-30",
+      "policy_version": "P1",
+      "base_factor": "0.96",
+      "down_factor": "0.98",
+      "up_factor": "0.94",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    }
+  ],
+  "assets": [
+    {
+      "id": "BOND",
+      "market_value": "150",
+      "asset_class": "fixed-income",
+      "illiquid": false,
+      "real_asset": false,
+      "valuation_date": "2026-10-04",
+      "valuation_basis": "supplied current independent valuation",
+      "earliest_liquidation_date": "2026-10-31",
+      "liquidation_fraction": "1",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    },
+    {
+      "id": "INFRA",
+      "market_value": "100",
+      "asset_class": "infrastructure",
+      "illiquid": true,
+      "real_asset": true,
+      "valuation_date": "2026-09-01",
+      "valuation_basis": "supplied current independent valuation",
+      "earliest_liquidation_date": "2027-12-31",
+      "liquidation_fraction": "1",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    }
+  ],
+  "asset_cashflows": [
+    {
+      "id": "BOND1",
+      "asset_id": "BOND",
+      "date": "2026-10-31",
+      "kind": "principal",
+      "amount": "50",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    },
+    {
+      "id": "BOND2",
+      "asset_id": "BOND",
+      "date": "2026-11-30",
+      "kind": "principal",
+      "amount": "100",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    },
+    {
+      "id": "INFRA1",
+      "asset_id": "INFRA",
+      "date": "2026-10-31",
+      "kind": "distribution",
+      "amount": "10",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    },
+    {
+      "id": "INFRA2",
+      "asset_id": "INFRA",
+      "date": "2026-11-30",
+      "kind": "distribution",
+      "amount": "10",
+      "currency": "USD",
+      "source_ref": "independent-synthetic-record"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "BASE",
+      "policy_version": "P1",
+      "discount_case": "base",
+      "liability_multiplier": "1",
+      "currency": "USD",
+      "asset_shocks": [
+        {
+          "asset_id": "BOND",
+          "price_return": "0",
+          "cashflow_multiplier": "1",
+          "delay_days": 0,
+          "source_ref": "independent-synthetic-record"
+        },
+        {
+          "asset_id": "INFRA",
+          "price_return": "0",
+          "cashflow_multiplier": "1",
+          "delay_days": 0,
+          "source_ref": "independent-synthetic-record"
+        }
+      ],
+      "source_ref": "independent-synthetic-record"
+    },
+    {
+      "id": "INFRA-DOWNSIDE",
+      "policy_version": "P1",
+      "discount_case": "down",
+      "liability_multiplier": "1",
+      "currency": "USD",
+      "asset_shocks": [
+        {
+          "asset_id": "BOND",
+          "price_return": "0",
+          "cashflow_multiplier": "1",
+          "delay_days": 0,
+          "source_ref": "independent-synthetic-record"
+        },
+        {
+          "asset_id": "INFRA",
+          "price_return": "-0.5",
+          "cashflow_multiplier": "0.5",
+          "delay_days": 30,
+          "source_ref": "independent-synthetic-record"
+        }
+      ],
+      "source_ref": "independent-synthetic-record"
+    }
+  ]
+}

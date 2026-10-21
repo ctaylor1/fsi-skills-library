@@ -1,0 +1,669 @@
+{
+  "record": "AM Phase2 unrelated compliance-check diagnosis",
+  "created_utc": "2026-09-21T13:19:55.754178+00:00",
+  "scope": "Read-only diagnosis; no compliance package files changed or restored. Evidence artifact is the only persistent write by this diagnostic.",
+  "classification": "Original failures arise from concurrent calculator changes outside AM Phase2 while then-unchanged fixtures lacked newly required evidence. Exact saved-baseline calculator/fixture replays pass original expected strings. Further concurrent fixture repairs changed the newest result to AML passing and sanctions missing conflict-guard only; this is not an unchanged baseline or wall-clock failure.",
+  "baseline_manifest": {
+    "path": "/tmp/fsi-am-phase2-baseline.json",
+    "sha256": "198c0c569deb0f6cd0f1ee95eded1f88521d49deb094102b48bbd6a5c0801c6c"
+  },
+  "concurrency_caveat": "Files continued changing during diagnosis: later snapshots gained native_integrity imports and validator changes. Results are bound to the recorded snapshot hashes, not a claim about another active task final state. Attribution/authorization of those edits was not investigated.",
+  "packages": [
+    {
+      "package": "skills/compliance-financial-crime/aml-alert-triager",
+      "original_failed_eval": "det-triage",
+      "fixture": {
+        "path": "skills/compliance-financial-crime/aml-alert-triager/evals/files/alerts_example.json",
+        "sha256": "98d9819af570329f08b3f478cb6fa662e1c773cee1cf784477bcb1982fc6a319",
+        "matches_baseline": false
+      },
+      "manifest_matches_baseline": true,
+      "changed_files": [
+        {
+          "path": "skills/compliance-financial-crime/aml-alert-triager/evals/files/alerts_example.json",
+          "baseline_sha256": "4ffd16208eeb9fcab3a1bcf131c4d26dd0f03029674ab3289dba0e7713e38155",
+          "snapshot_sha256": "98d9819af570329f08b3f478cb6fa662e1c773cee1cf784477bcb1982fc6a319",
+          "status": "modified"
+        },
+        {
+          "path": "skills/compliance-financial-crime/aml-alert-triager/evals/files/triage_example.json",
+          "baseline_sha256": "f34fde60f50890644dd692a83f045ed2f5f1d95da8d2a093800f280dd9be1f97",
+          "snapshot_sha256": "46a0beaf06ff36a9c4f29b76776b6334ddbde59992fc65b16289f3b6cc2755bd",
+          "status": "modified"
+        },
+        {
+          "path": "skills/compliance-financial-crime/aml-alert-triager/scripts/calculate_or_transform.py",
+          "baseline_sha256": "2a675b4bfddbc5707e8c6f8af49fffc0e15beee35c8740d20e5b230de5f8e127",
+          "snapshot_sha256": "99f4f100b3c1b47b991fdb10b155144fa94ee5cf7a5993806be8afaff6c97f22",
+          "status": "modified"
+        },
+        {
+          "path": "skills/compliance-financial-crime/aml-alert-triager/scripts/native_integrity.py",
+          "baseline_sha256": null,
+          "snapshot_sha256": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+          "status": "added"
+        },
+        {
+          "path": "skills/compliance-financial-crime/aml-alert-triager/scripts/validate_output.py",
+          "baseline_sha256": "b97ddd1dd2fb11480ffaaa0ea950fc918ec4b2aaf7e6eecda805c43c6672101e",
+          "snapshot_sha256": "8a039e51036dea2ca9212312df29a71fbe881d0069f62e9fc445a36d7b66670e",
+          "status": "modified"
+        }
+      ],
+      "current_snapshot_replay": {
+        "stdout_sha256": "46a0beaf06ff36a9c4f29b76776b6334ddbde59992fc65b16289f3b6cc2755bd",
+        "summary": {
+          "total": 7,
+          "escalated": 2,
+          "approved_suppressed": 3,
+          "needs_data": 1,
+          "possible_duplicate": 1
+        },
+        "missing_expected_strings": [],
+        "findings": [
+          {
+            "alert_id": "AL-2001",
+            "disposition": "escalate-to-investigation",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2002",
+            "disposition": "escalate-to-investigation",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2003",
+            "disposition": "approved-suppressed",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2004",
+            "disposition": "approved-suppressed",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2005",
+            "disposition": "approved-suppressed",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2006",
+            "disposition": "needs-data",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": [
+              "customer risk rating"
+            ]
+          },
+          {
+            "alert_id": "AL-2007",
+            "disposition": "possible-duplicate",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          }
+        ]
+      },
+      "live_cli_replay": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "skills/compliance-financial-crime/aml-alert-triager/scripts/calculate_or_transform.py",
+          "--selftest"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout_sha256": "46a0beaf06ff36a9c4f29b76776b6334ddbde59992fc65b16289f3b6cc2755bd",
+        "missing_expected_strings": [],
+        "snapshot_output_identical": true
+      },
+      "baseline_replay": {
+        "stdout_sha256": "f34fde60f50890644dd692a83f045ed2f5f1d95da8d2a093800f280dd9be1f97",
+        "summary": {
+          "total": 7,
+          "escalated": 2,
+          "approved_suppressed": 3,
+          "needs_data": 1,
+          "possible_duplicate": 1
+        },
+        "missing_expected_strings": [],
+        "findings": [
+          {
+            "alert_id": "AL-2001",
+            "disposition": "escalate-to-investigation",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2002",
+            "disposition": "escalate-to-investigation",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2003",
+            "disposition": "approved-suppressed",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2004",
+            "disposition": "approved-suppressed",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2005",
+            "disposition": "approved-suppressed",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          },
+          {
+            "alert_id": "AL-2006",
+            "disposition": "needs-data",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": [
+              "customer risk rating"
+            ]
+          },
+          {
+            "alert_id": "AL-2007",
+            "disposition": "possible-duplicate",
+            "disposition_recommendation": null,
+            "disposition_basis": null,
+            "needs": []
+          }
+        ],
+        "git_ref": "HEAD",
+        "calculator_sha256": "2a675b4bfddbc5707e8c6f8af49fffc0e15beee35c8740d20e5b230de5f8e127",
+        "matches_saved_baseline": true,
+        "method": "Exact HEAD calculator and input fixture bytes independently verified against saved baseline SHA256; compiled/executed native function in memory; JSON serialization matches CLI. No package writes or restores.",
+        "fixture_sha256": "4ffd16208eeb9fcab3a1bcf131c4d26dd0f03029674ab3289dba0e7713e38155",
+        "fixture_matches_saved_baseline": true
+      },
+      "wall_clock_diagnosis": {
+        "result": "not wall-clock dependent",
+        "today_disabled_output_identical": true,
+        "date_calls": [
+          "date.fromisoformat(auth['effective_from'])",
+          "date.fromisoformat(doc['as_of'])",
+          "date.fromisoformat(auth['effective_to'])"
+        ]
+      },
+      "relevant_source_functions": [
+        "_authorization",
+        "_dup_parent",
+        "triage_alert"
+      ],
+      "original_failure_causes": [
+        "All seven original fixture alerts lack currency. The newly added USD/currency guard sends all six non-sanctions alerts to needs-data before suppression. The sanctioned alert still escalates.",
+        "The unchanged fixture also lacks as_of and suppression_authorizations. New _authorization checks scoped approval evidence, version, alert/entity/period/transactions and effectivity; no authorization exists.",
+        "AL-2003 transactions T1/T2 are only a subset of the open case T1/T2/T3. New equality-only duplicate logic treats this as partial even if other missing fields are supplied. Golden expectation still demands SUP-DUP-01 suppression."
+      ],
+      "original_fixture_replay_against_latest_calculator": {
+        "input_path": "skills/compliance-financial-crime/aml-alert-triager/evals/files/alerts_example.json",
+        "input_loaded_from": "git HEAD exact saved-baseline hash",
+        "input_sha256": "4ffd16208eeb9fcab3a1bcf131c4d26dd0f03029674ab3289dba0e7713e38155",
+        "calculator_sha256_before": "99f4f100b3c1b47b991fdb10b155144fa94ee5cf7a5993806be8afaff6c97f22",
+        "calculator_sha256_after": "99f4f100b3c1b47b991fdb10b155144fa94ee5cf7a5993806be8afaff6c97f22",
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "skills/compliance-financial-crime/aml-alert-triager/scripts/calculate_or_transform.py"
+        ],
+        "stdin": "unchanged original baseline fixture",
+        "exit_code": 0,
+        "stderr": "",
+        "stdout_sha256": "ab2aa9ab466cbd93028466b1be70da8cdb3fc1a715dd14d5f1f65ea09156361d",
+        "missing_original_expected_strings": [
+          "SUP-DUP-01",
+          "SUP-WL-INTERNAL",
+          "SUP-SEASONAL-01"
+        ],
+        "summary": {
+          "total": 7,
+          "escalated": 1,
+          "approved_suppressed": 0,
+          "needs_data": 6,
+          "possible_duplicate": 0
+        },
+        "findings": [
+          {
+            "alert_id": "AL-2001",
+            "disposition": "escalate-to-investigation",
+            "disposition_recommendation": null,
+            "needs": [
+              "USD amount with currency (FX conversion is not implemented)"
+            ]
+          },
+          {
+            "alert_id": "AL-2002",
+            "disposition": "needs-data",
+            "disposition_recommendation": null,
+            "needs": [
+              "USD amount with currency (FX conversion is not implemented)"
+            ]
+          },
+          {
+            "alert_id": "AL-2003",
+            "disposition": "needs-data",
+            "disposition_recommendation": null,
+            "needs": [
+              "USD amount with currency (FX conversion is not implemented)"
+            ]
+          },
+          {
+            "alert_id": "AL-2004",
+            "disposition": "needs-data",
+            "disposition_recommendation": null,
+            "needs": [
+              "USD amount with currency (FX conversion is not implemented)"
+            ]
+          },
+          {
+            "alert_id": "AL-2005",
+            "disposition": "needs-data",
+            "disposition_recommendation": null,
+            "needs": [
+              "USD amount with currency (FX conversion is not implemented)"
+            ]
+          },
+          {
+            "alert_id": "AL-2006",
+            "disposition": "needs-data",
+            "disposition_recommendation": null,
+            "needs": [
+              "USD amount with currency (FX conversion is not implemented)",
+              "customer risk rating"
+            ]
+          },
+          {
+            "alert_id": "AL-2007",
+            "disposition": "needs-data",
+            "disposition_recommendation": null,
+            "needs": [
+              "USD amount with currency (FX conversion is not implemented)"
+            ]
+          }
+        ]
+      },
+      "current_observation": "Latest current fixtures/calculator snapshot replay is separate from original failed fixture reproduction; see hashes and missing-string arrays."
+    },
+    {
+      "package": "skills/compliance-financial-crime/sanctions-match-adjudicator",
+      "original_failed_eval": "det-build-evidence",
+      "fixture": {
+        "path": "skills/compliance-financial-crime/sanctions-match-adjudicator/evals/files/case_example.json",
+        "sha256": "e9c766f6e3c4b5a3d95ed57fb5eb8a34db9c1021051580b774f63d41cf9177cf",
+        "matches_baseline": false
+      },
+      "manifest_matches_baseline": true,
+      "changed_files": [
+        {
+          "path": "skills/compliance-financial-crime/sanctions-match-adjudicator/evals/files/adjudication_example.json",
+          "baseline_sha256": "ceb9f18e5f25da09ba35282f49c9e0ef6b6484f3730a2b16034829bffbdaf9ee",
+          "snapshot_sha256": "f85f6bb6c3803417919eacf5d3357ebd4c65b96b50317b800172ba1d5f9b797c",
+          "status": "modified"
+        },
+        {
+          "path": "skills/compliance-financial-crime/sanctions-match-adjudicator/evals/files/case_example.json",
+          "baseline_sha256": "5bb1ec840b1ccb4a69c3c5d2c22ad9f0c4dea15cfdced1f006eb6378cb149083",
+          "snapshot_sha256": "e9c766f6e3c4b5a3d95ed57fb5eb8a34db9c1021051580b774f63d41cf9177cf",
+          "status": "modified"
+        },
+        {
+          "path": "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/calculate_or_transform.py",
+          "baseline_sha256": "5f9694c9bf76075ad131e41d47f44c7b4acdf715d22418ccf2dea4eb3604d6ee",
+          "snapshot_sha256": "13656e0a9212a4e904026e50d63730c5b3d7e25edcfb2586a0306e74506305c3",
+          "status": "modified"
+        },
+        {
+          "path": "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/native_integrity.py",
+          "baseline_sha256": null,
+          "snapshot_sha256": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+          "status": "added"
+        },
+        {
+          "path": "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/validate_output.py",
+          "baseline_sha256": "d1d55c2de1405276d43c591ce1072f3f1304182f8ca96310b90058cb6c51fdc9",
+          "snapshot_sha256": "af4f9641c6d3c3573b0b0cea48f67e8fd33892b21af2c46b27966b82496eb1cf",
+          "status": "modified"
+        }
+      ],
+      "current_snapshot_replay": {
+        "stdout_sha256": "f85f6bb6c3803417919eacf5d3357ebd4c65b96b50317b800172ba1d5f9b797c",
+        "summary": {
+          "total": 7,
+          "recommend_true_match_escalate": 2,
+          "recommend_potential_match_l2_review": 2,
+          "recommend_false_positive_discount": 1,
+          "needs_data": 1,
+          "possible_duplicate": 1
+        },
+        "missing_expected_strings": [
+          "conflict-guard"
+        ],
+        "findings": [
+          {
+            "alert_id": "SCR-3001",
+            "disposition": null,
+            "disposition_recommendation": "recommend-true-match-escalate",
+            "disposition_basis": "strong-id-override",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3002",
+            "disposition": null,
+            "disposition_recommendation": "recommend-true-match-escalate",
+            "disposition_basis": "ownership-override",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3003",
+            "disposition": null,
+            "disposition_recommendation": "recommend-false-positive-discount",
+            "disposition_basis": "score-band",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3004",
+            "disposition": null,
+            "disposition_recommendation": "recommend-potential-match-l2-review",
+            "disposition_basis": "score-band",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3005",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "disposition_basis": "needs-data",
+            "needs": [
+              "a secondary identifier, DOB, nationality, place of birth, address, ownership, or transaction context to discriminate identity"
+            ]
+          },
+          {
+            "alert_id": "SCR-3006",
+            "disposition": null,
+            "disposition_recommendation": "possible-duplicate",
+            "disposition_basis": "possible-duplicate",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3007",
+            "disposition": null,
+            "disposition_recommendation": "recommend-potential-match-l2-review",
+            "disposition_basis": "score-band",
+            "needs": []
+          }
+        ]
+      },
+      "live_cli_replay": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/calculate_or_transform.py",
+          "--selftest"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout_sha256": "f85f6bb6c3803417919eacf5d3357ebd4c65b96b50317b800172ba1d5f9b797c",
+        "missing_expected_strings": [
+          "conflict-guard"
+        ],
+        "snapshot_output_identical": true
+      },
+      "baseline_replay": {
+        "stdout_sha256": "ceb9f18e5f25da09ba35282f49c9e0ef6b6484f3730a2b16034829bffbdaf9ee",
+        "summary": {
+          "total": 7,
+          "recommend_true_match_escalate": 2,
+          "recommend_potential_match_l2_review": 2,
+          "recommend_false_positive_discount": 1,
+          "needs_data": 1,
+          "possible_duplicate": 1
+        },
+        "missing_expected_strings": [],
+        "findings": [
+          {
+            "alert_id": "SCR-3001",
+            "disposition": null,
+            "disposition_recommendation": "recommend-true-match-escalate",
+            "disposition_basis": "strong-id-override",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3002",
+            "disposition": null,
+            "disposition_recommendation": "recommend-true-match-escalate",
+            "disposition_basis": "ownership-override",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3003",
+            "disposition": null,
+            "disposition_recommendation": "recommend-false-positive-discount",
+            "disposition_basis": "score-band",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3004",
+            "disposition": null,
+            "disposition_recommendation": "recommend-potential-match-l2-review",
+            "disposition_basis": "score-band",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3005",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "disposition_basis": "needs-data",
+            "needs": [
+              "a secondary identifier, DOB, nationality, place of birth, address, ownership, or transaction context to discriminate identity"
+            ]
+          },
+          {
+            "alert_id": "SCR-3006",
+            "disposition": null,
+            "disposition_recommendation": "possible-duplicate",
+            "disposition_basis": "possible-duplicate",
+            "needs": []
+          },
+          {
+            "alert_id": "SCR-3007",
+            "disposition": null,
+            "disposition_recommendation": "recommend-potential-match-l2-review",
+            "disposition_basis": "conflict-guard",
+            "needs": []
+          }
+        ],
+        "git_ref": "HEAD",
+        "calculator_sha256": "5f9694c9bf76075ad131e41d47f44c7b4acdf715d22418ccf2dea4eb3604d6ee",
+        "matches_saved_baseline": true,
+        "method": "Exact HEAD calculator and input fixture bytes independently verified against saved baseline SHA256; compiled/executed native function in memory; JSON serialization matches CLI. No package writes or restores.",
+        "fixture_sha256": "5bb1ec840b1ccb4a69c3c5d2c22ad9f0c4dea15cfdced1f006eb6378cb149083",
+        "fixture_matches_saved_baseline": true
+      },
+      "wall_clock_diagnosis": {
+        "result": "not wall-clock dependent",
+        "today_disabled_output_identical": true,
+        "date_calls": [
+          "date.fromisoformat(case['as_of'])",
+          "date.fromisoformat(me['retrieved_at'][:10])"
+        ]
+      },
+      "relevant_source_functions": [
+        "_strong_ids",
+        "_ownership",
+        "_data_gaps",
+        "_duplicate",
+        "adjudicate_case"
+      ],
+      "original_failure_causes": [
+        "All seven cases lack case.as_of, matched_entity.retrieved_at, matched_entity.source_ref and subject.source_ref. New _data_gaps therefore returns dated-snapshot and source-reference gaps; the new early return yields needs-data before recommendation branches.",
+        "SCR-3002 ownership has owner_listed but lacks owner_id, direct, owner_blocked and source_ref required by the new ownership evidence method.",
+        "SCR-3006 and its prior case lack evidence_snapshot_ref equality required by new duplicate logic.",
+        "Identifier comparison now keys by issuing country. SCR-3007 EG/SY passports no longer form a same-country strong-ID mismatch; its old conflict-guard expectation needs separate review after missing-evidence gates are addressed."
+      ],
+      "original_fixture_replay_against_latest_calculator": {
+        "input_path": "skills/compliance-financial-crime/sanctions-match-adjudicator/evals/files/case_example.json",
+        "input_loaded_from": "git HEAD exact saved-baseline hash",
+        "input_sha256": "5bb1ec840b1ccb4a69c3c5d2c22ad9f0c4dea15cfdced1f006eb6378cb149083",
+        "calculator_sha256_before": "13656e0a9212a4e904026e50d63730c5b3d7e25edcfb2586a0306e74506305c3",
+        "calculator_sha256_after": "13656e0a9212a4e904026e50d63730c5b3d7e25edcfb2586a0306e74506305c3",
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/calculate_or_transform.py"
+        ],
+        "stdin": "unchanged original baseline fixture",
+        "exit_code": 0,
+        "stderr": "",
+        "stdout_sha256": "12008c73da0c5e4baaa6ab4f57d6d958dcfa62eb41a5d7bc8a0dea906becb82c",
+        "missing_original_expected_strings": [
+          "recommend-true-match-escalate",
+          "recommend-potential-match-l2-review",
+          "recommend-false-positive-discount",
+          "possible-duplicate",
+          "ownership-override",
+          "strong-id-override",
+          "conflict-guard"
+        ],
+        "summary": {
+          "total": 7,
+          "recommend_true_match_escalate": 0,
+          "recommend_potential_match_l2_review": 0,
+          "recommend_false_positive_discount": 0,
+          "needs_data": 7,
+          "possible_duplicate": 0
+        },
+        "findings": [
+          {
+            "alert_id": "SCR-3001",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "needs": [
+              "dated list snapshot and assessment date",
+              "subject and list source references"
+            ]
+          },
+          {
+            "alert_id": "SCR-3002",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "needs": [
+              "dated list snapshot and assessment date",
+              "subject and list source references",
+              "supported direct ownership evidence or specialist regime review"
+            ]
+          },
+          {
+            "alert_id": "SCR-3003",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "needs": [
+              "dated list snapshot and assessment date",
+              "subject and list source references"
+            ]
+          },
+          {
+            "alert_id": "SCR-3004",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "needs": [
+              "dated list snapshot and assessment date",
+              "subject and list source references"
+            ]
+          },
+          {
+            "alert_id": "SCR-3005",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "needs": [
+              "dated list snapshot and assessment date",
+              "subject and list source references"
+            ]
+          },
+          {
+            "alert_id": "SCR-3006",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "needs": [
+              "dated list snapshot and assessment date",
+              "subject and list source references"
+            ]
+          },
+          {
+            "alert_id": "SCR-3007",
+            "disposition": null,
+            "disposition_recommendation": "needs-data",
+            "needs": [
+              "dated list snapshot and assessment date",
+              "subject and list source references"
+            ]
+          }
+        ]
+      },
+      "current_observation": "Latest current fixtures/calculator snapshot replay is separate from original failed fixture reproduction; see hashes and missing-string arrays."
+    }
+  ],
+  "snapshot_package_hashes": {
+    "skills/compliance-financial-crime/aml-alert-triager/CHANGELOG.md": "3ea20f3b4c861622d281f918526ff8975dbe65dc6f875c07b83f0e108864ecee",
+    "skills/compliance-financial-crime/aml-alert-triager/SKILL.md": "69542d4623ff25aa1bc5bdfef4dda4336cef33edb2de2fc4e27fe0f35030d0f6",
+    "skills/compliance-financial-crime/aml-alert-triager/evals/evals.json": "a6f44d18639a50d7016a0eb6be07156515a855bfcfb559ad7c5f3dc1fbc970df",
+    "skills/compliance-financial-crime/aml-alert-triager/evals/files/alerts_example.json": "98d9819af570329f08b3f478cb6fa662e1c773cee1cf784477bcb1982fc6a319",
+    "skills/compliance-financial-crime/aml-alert-triager/evals/files/triage_bad.json": "09be1d4f0fc6513dea93c8e86ceaeb762c8df2258f1cddc258ce392249f25d8c",
+    "skills/compliance-financial-crime/aml-alert-triager/evals/files/triage_example.json": "46a0beaf06ff36a9c4f29b76776b6334ddbde59992fc65b16289f3b6cc2755bd",
+    "skills/compliance-financial-crime/aml-alert-triager/references/controls.md": "7e58f6089c8a80a8b3819ac0115daa578f8a00f6744babc2668a86b76e26fcf5",
+    "skills/compliance-financial-crime/aml-alert-triager/references/domain-rules.md": "a547b9cb68ce1e9b9cf2c845fab4791f805b06acda7c1d52e0a6fefb218f4b39",
+    "skills/compliance-financial-crime/aml-alert-triager/references/handoffs.md": "807da9c30f424f08d5440f11bd2251d079541ee55cda0263bc26952e36a30018",
+    "skills/compliance-financial-crime/aml-alert-triager/references/source-map.md": "2e180b0ceb0caf3cd364b88a78f0904131a5a21d43c98de3c683e85fd7f413fe",
+    "skills/compliance-financial-crime/aml-alert-triager/scripts/calculate_or_transform.py": "99f4f100b3c1b47b991fdb10b155144fa94ee5cf7a5993806be8afaff6c97f22",
+    "skills/compliance-financial-crime/aml-alert-triager/scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "skills/compliance-financial-crime/aml-alert-triager/scripts/validate_input.py": "fba7124f6bb2a7a231095e733d2e900f6dace317c8a85681d72b3221e35b5923",
+    "skills/compliance-financial-crime/aml-alert-triager/scripts/validate_output.py": "8a039e51036dea2ca9212312df29a71fbe881d0069f62e9fc445a36d7b66670e",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/CHANGELOG.md": "827c93ab3325458c1e73919bf61eb8032f4c061773443450a39cd7f6a57078a5",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/SKILL.md": "5e10db81454a3333de8e754aff59d800c20df172cc235dc27c715bad8aefa6d4",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/evals/evals.json": "1c4f74b897caa02b7b3a06f0d968dc8fa52d1a23c04575a9f7cb7cf29b500f6b",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/evals/files/adjudication_bad.json": "07a86bd7de5b3a4d65bbe90703298c67e56e28fa311eb9a9fde4d5d60f3e814c",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/evals/files/adjudication_example.json": "f85f6bb6c3803417919eacf5d3357ebd4c65b96b50317b800172ba1d5f9b797c",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/evals/files/case_example.json": "e9c766f6e3c4b5a3d95ed57fb5eb8a34db9c1021051580b774f63d41cf9177cf",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/references/controls.md": "af9d21106d86ac55833f1e7d8d003a4f291df2d9e5a51021511f7522dde37839",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/references/domain-rules.md": "55eb918c14a5a067230fdcaf9aa72df778e324f2e32baebfdf2d248ce981c842",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/references/handoffs.md": "4feaef813b9e31bda7f55414d52ec07f15f1a3b42b69ee429362778701851c6e",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/references/source-map.md": "d2b42e734af8b087e3b132a49acafb7cfb7c91bd9151b929c5b21f67900c20d3",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/calculate_or_transform.py": "13656e0a9212a4e904026e50d63730c5b3d7e25edcfb2586a0306e74506305c3",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/validate_input.py": "949893695a007c27102f4f3315244c8641bac75dd0eb54c54e4cc0912d93b740",
+    "skills/compliance-financial-crime/sanctions-match-adjudicator/scripts/validate_output.py": "af4f9641c6d3c3573b0b0cea48f67e8fd33892b21af2c46b27966b82496eb1cf"
+  },
+  "files_changed_during_final_snapshot_replay": [],
+  "initial_observation": {
+    "aml_calculator_sha256": "79e50db783967ca20a5fe38526c46de2a6ca0c2aa3c81a24cab882ce0546dcb1",
+    "sanctions_calculator_sha256": "0b22ec08a4d69c63b8bf3e6304ee3aaaba20e2f3e7f54fb7a5216a6f2ec400d6",
+    "unchanged_files_per_package": 12,
+    "changed_per_package": [
+      "scripts/calculate_or_transform.py",
+      "scripts/native_integrity.py (new)"
+    ],
+    "note": "At first inspection both output validators were unchanged and their passing selftests read static golden output fixtures, not freshly computed outputs. Later concurrent validator edits are recorded in final snapshot."
+  },
+  "runner_matches_baseline": true,
+  "recommendation": "Preserve unrelated edits and report the time-bound outside-Phase2 failures with hashes. A separate owner is actively reconciling calculator/validator/fixture contracts; do not treat snapshot checks as that work completion or restore code to make AM validation green.",
+  "professional_acceptance": "not assessed"
+}

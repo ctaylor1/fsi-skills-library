@@ -14,7 +14,7 @@ description: >-
   produces borrower credit spreading into bank templates; those are human/authorized-system
   actions or separate workflows.
 license: MIT
-compatibility: Amazon Quick Desktop; requires document-intelligence (statement/schedule extraction), entity-resolution, controlled chart-of-accounts/mapping library, normalization-policy library, and versioned-config MCP integrations (all read-only).
+compatibility: Portable local Python 3 stdlib; authorized supplied JSON works offline. Optional connected data and workbook tools require deployment-specific access and permitted use; none are bundled.
 metadata:
   aws-fsi-category: "Finance & Operations"
   aws-fsi-skill-type: "Utility skills"
@@ -30,11 +30,20 @@ metadata:
   aws-fsi-jurisdictions: "US (default); configure additional jurisdiction packs per deployment"
   aws-fsi-owner: "Finance & Controllership"
   aws-fsi-primary-user: "Finance / banking / research analyst"
-  aws-fsi-version: "0.1.0"
+  aws-fsi-version: "0.2.0"
   aws-fsi-recertification-date: "2027-07-17"
 ---
 
 # Financials Normalizer
+
+## Phase 1 method and validation boundary
+
+Each adjustment requires an explicit statement, known period and mapped reported account; an absent starting value cannot default to zero. Preserve its rationale, source and supplied approver in the adjustment ledger. Check reported balance-sheet anchors separately for each period. Reconstructed normalized identities require complete, disjoint mapped component coverage; raw anchor agreement cannot prove adjusted statements balance. Incomplete reconstruction prevents Model-ready. This maps extracts only; it does not convert accounting frameworks or provide an accounting opinion.
+
+The native result is a closed calculation record. Retain the original input separately and validate with `python3 scripts/validate_output.py RESULT.json --input ORIGINAL.json`; `--selftest` loads both bundled examples. Computation validates input first. Finite JSON numbers, valid dates, supported domains and unique identifiers are enforced; duplicate JSON keys are rejected. Output validation reconstructs from the original and rejects omitted, altered or extra results, including flags/counts/statuses. Keep author narrative and workflow envelopes outside the native result. Source binding establishes deterministic fidelity to supplied inputs, not source authenticity, data rights, economic validity, institutional acceptance or independent assurance.
+
+See [controls](references/controls.md) and [input schema](scripts/validate_input.py) before using the numerical helpers.
+
 
 ## Purpose and outcome
 Given a source financial-statement extract for an entity, issuer, or deal, run a **multi-step
@@ -174,3 +183,9 @@ approval. Never exfiltrate issuer/deal data.
   source is a finding, not a silent correction; a material one needs an approver.
 - **Do not tune thresholds to an extract**: tolerances come from the approved, versioned
   config, not from what would make this statement tie.
+
+## Shared Phase 1 evidence standard
+
+Read [the evidence and control standard](references/evidence-standard.md) for identity,
+knowledge timing, permission use, detached source binding and professional acceptance
+boundaries. The package retains its native schema; no universal adapter is implied.

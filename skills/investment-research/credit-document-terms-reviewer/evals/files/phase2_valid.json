@@ -1,0 +1,199 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "credit-document-terms-reviewer",
+  "method_version": "2.0.0",
+  "request_id": "synthetic-credit-phase2",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "document_inventory_complete": true,
+    "instrument_id": "TERM-1",
+    "governing_version": "v2",
+    "applied_version_chain": [
+      {
+        "document_id": "CREDIT-AGREEMENT",
+        "version": "v2",
+        "effective_date": "2026-01-01",
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ]
+      }
+    ],
+    "effective_terms": [
+      {
+        "term": {
+          "term_id": "NET-LEV-v2",
+          "field": "reviewed-covenant-test-definition",
+          "raw_text": "Synthetic reviewed maximum net leverage test definition; no clause interpretation performed.",
+          "value": {
+            "test_id": "LEV-1",
+            "instrument_id": "TERM-1",
+            "document_id": "CREDIT-AGREEMENT",
+            "document_version": "v2",
+            "definition_id": "NET-LEV-v2",
+            "accounting_basis": "reviewed-contract-definition",
+            "currency": "USD",
+            "unit": "USD_m",
+            "test_date": "2026-09-30",
+            "effective_from": "2026-01-01",
+            "effective_to": "2026-12-31",
+            "application_status": "applicable-supplied",
+            "definition_reviewed": true,
+            "operator": "maximum",
+            "threshold": 4.5,
+            "period": {
+              "start": "2026-01-01",
+              "end": "2026-09-30",
+              "fiscal_calendar_id": "ACME-calendar"
+            },
+            "numerator": {
+              "definition": "Supplied total debt less unrestricted cash",
+              "period": {
+                "start": "2026-01-01",
+                "end": "2026-09-30",
+                "fiscal_calendar_id": "ACME-calendar"
+              },
+              "components": [
+                {
+                  "component_id": "DEBT",
+                  "amount": 400,
+                  "sign": 1,
+                  "evidence_refs": [
+                    {
+                      "source_id": "synthetic-financials",
+                      "locator": "fixture:table-1;reviewed-inputs"
+                    }
+                  ]
+                },
+                {
+                  "component_id": "CASH",
+                  "amount": 50,
+                  "sign": -1,
+                  "evidence_refs": [
+                    {
+                      "source_id": "synthetic-financials",
+                      "locator": "fixture:table-1;reviewed-inputs"
+                    }
+                  ]
+                }
+              ]
+            },
+            "denominator": {
+              "definition": "Supplied contract EBITDA including reviewed adjustment",
+              "period": {
+                "start": "2026-01-01",
+                "end": "2026-09-30",
+                "fiscal_calendar_id": "ACME-calendar"
+              },
+              "components": [
+                {
+                  "component_id": "EBITDA",
+                  "amount": 100,
+                  "sign": 1,
+                  "evidence_refs": [
+                    {
+                      "source_id": "synthetic-financials",
+                      "locator": "fixture:table-1;reviewed-inputs"
+                    }
+                  ]
+                }
+              ]
+            },
+            "evidence_refs": [
+              {
+                "source_id": "synthetic-financials",
+                "locator": "fixture:table-1;reviewed-inputs"
+              }
+            ]
+          },
+          "interpretation_status": "reviewed-explicit",
+          "evidence_refs": [
+            {
+              "source_id": "synthetic-financials",
+              "locator": "fixture:table-1;reviewed-inputs"
+            }
+          ]
+        },
+        "document_id": "CREDIT-AGREEMENT",
+        "document_version": "v2",
+        "status": "reviewed-explicit"
+      }
+    ],
+    "consolidation_method": "supplied reviewed explicit changes with prior-value hashes",
+    "legal_effect_established": false,
+    "covenant_compliance": "not-tested"
+  },
+  "status": "complete-for-supplied-scope",
+  "calculation_lineage": [
+    {
+      "operation": "Effective executed predecessor chain; reviewed add/replace/delete with original value hash matching",
+      "input_binding": "complete-original-input-hash",
+      "input_fields": [
+        "as_of",
+        "audience",
+        "document_inventory_complete",
+        "documents",
+        "information_barrier",
+        "instrument_id",
+        "knowledge_cutoff",
+        "purpose",
+        "request_id",
+        "schema_version",
+        "subject",
+        "unresolved_issues",
+        "use_on"
+      ],
+      "output_fields": [
+        "applied_version_chain",
+        "consolidation_method",
+        "covenant_compliance",
+        "document_inventory_complete",
+        "effective_terms",
+        "governing_version",
+        "instrument_id",
+        "legal_effect_established"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "unresolved_issues": [],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1",
+      "kind": "financial_statement"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "6406c323477b8e791fae83851030cd6756e64d87e45fc8b15093e5cc5e8ba659",
+  "source_truth": "unverified"
+}

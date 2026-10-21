@@ -1,0 +1,372 @@
+[
+  {
+    "skill": "research-coverage-planner",
+    "case": "dependency-contradiction",
+    "exits": [
+      0,
+      0,
+      0
+    ],
+    "results": {
+      "execution_order": [
+        "Q1",
+        "Q2"
+      ],
+      "question_plan": [
+        {
+          "question_id": "Q1",
+          "question": "Is recurring demand established?",
+          "answer": null,
+          "priority": "critical",
+          "decision": "initiate",
+          "state": "contradicted",
+          "dependency_blockers": [],
+          "required_evidence": [
+            "Customer cohort data"
+          ],
+          "evidence_refs": [
+            {
+              "source_id": "FRESH-SUPPLIED",
+              "locator": "forward:raw-tables;rows-1-4"
+            }
+          ]
+        },
+        {
+          "question_id": "Q2",
+          "question": "Is durable growth supported?",
+          "answer": "Management supplied a growth view",
+          "priority": "critical",
+          "decision": "initiate",
+          "state": "dependency-blocked",
+          "dependency_blockers": [
+            "Q1"
+          ],
+          "required_evidence": [
+            "Revenue bridge"
+          ],
+          "evidence_refs": [
+            {
+              "source_id": "FRESH-SUPPLIED",
+              "locator": "forward:raw-tables;rows-1-4"
+            }
+          ]
+        }
+      ],
+      "critical_gaps": [
+        "Q1",
+        "Q2"
+      ],
+      "supplied_answer_coverage": 0.5,
+      "decision_readiness": "defer-for-evidence",
+      "scope": "Supplied mandate and dependency graph; evidence truth and complete coverage are not established"
+    }
+  },
+  {
+    "skill": "research-universe-screener",
+    "case": "fresh-and-missing-universe",
+    "exits": [
+      0,
+      0,
+      0
+    ],
+    "results": {
+      "screen_logic": "all supplied filters must pass; missing is not zero",
+      "results": [
+        {
+          "security_id": "FRESH-EQUITY",
+          "issuer_id": "FRESH-ISSUER",
+          "status": "included",
+          "checks": [
+            {
+              "filter_id": "GROWTH",
+              "passed": true,
+              "reason": "passes"
+            }
+          ]
+        },
+        {
+          "security_id": "MISSING-EQUITY",
+          "issuer_id": "MISSING-ISSUER",
+          "status": "not-evaluable",
+          "checks": [
+            {
+              "filter_id": "GROWTH",
+              "passed": null,
+              "reason": "missing-value"
+            }
+          ]
+        }
+      ],
+      "included_security_ids": [
+        "FRESH-EQUITY"
+      ],
+      "excluded_security_ids": [],
+      "not_evaluable_security_ids": [
+        "MISSING-EQUITY"
+      ],
+      "counts": {
+        "included": 1,
+        "excluded": 0,
+        "not-evaluable": 1
+      },
+      "scope": "Supplied universe only; no survivor-bias, delisting or population-completeness assurance"
+    }
+  },
+  {
+    "skill": "financial-statement-analyzer",
+    "case": "profitable-growth-negative-earnings",
+    "exits": [
+      0,
+      0,
+      0
+    ],
+    "results": {
+      "issuer_profile": "nonfinancial-corporate",
+      "basis": {
+        "currency": "USD",
+        "unit": "USD_m",
+        "accounting_basis": "supplied-GAAP",
+        "consolidation_scope": "consolidated"
+      },
+      "period_analysis": [
+        {
+          "period_id": "FY2024",
+          "period": {
+            "start": "2024-01-01",
+            "end": "2024-12-31",
+            "kind": "annual"
+          },
+          "metrics": {
+            "revenue": 100,
+            "gross_profit": 30,
+            "ebit": 15,
+            "net_income": 10,
+            "operating_cash_flow": 18,
+            "capex": 6,
+            "assets": 100,
+            "liabilities": 60,
+            "equity": 40,
+            "cash": 15,
+            "debt": 40,
+            "current_assets": 30,
+            "current_liabilities": 20,
+            "interest_expense": 3
+          },
+          "ratios": {
+            "gross_margin": 0.3,
+            "ebit_margin": 0.15,
+            "net_margin": 0.1,
+            "cash_conversion": 1.8,
+            "current_ratio": 1.5,
+            "debt_to_equity": 1.0,
+            "interest_coverage": 5.0
+          },
+          "free_cash_flow": 12,
+          "balance_residual": 0,
+          "prior_period_comparable": false,
+          "trends": {},
+          "evidence_refs": [
+            {
+              "source_id": "FRESH-SUPPLIED",
+              "locator": "forward:raw-tables;rows-1-4"
+            }
+          ]
+        },
+        {
+          "period_id": "FY2025",
+          "period": {
+            "start": "2025-01-01",
+            "end": "2025-12-31",
+            "kind": "annual"
+          },
+          "metrics": {
+            "revenue": 120,
+            "gross_profit": 36,
+            "ebit": 18,
+            "net_income": -2,
+            "operating_cash_flow": 26,
+            "capex": 9,
+            "assets": 120,
+            "liabilities": 70,
+            "equity": 50,
+            "cash": 15,
+            "debt": 40,
+            "current_assets": 30,
+            "current_liabilities": 20,
+            "interest_expense": 3
+          },
+          "ratios": {
+            "gross_margin": 0.3,
+            "ebit_margin": 0.15,
+            "net_margin": -0.016666666666666666,
+            "cash_conversion": null,
+            "current_ratio": 1.5,
+            "debt_to_equity": 0.8,
+            "interest_coverage": 6.0
+          },
+          "free_cash_flow": 17,
+          "balance_residual": 0,
+          "prior_period_comparable": true,
+          "trends": {
+            "revenue": {
+              "change": 20,
+              "growth": 0.19999999999999996
+            },
+            "gross_profit": {
+              "change": 6,
+              "growth": 0.19999999999999996
+            },
+            "ebit": {
+              "change": 3,
+              "growth": 0.19999999999999996
+            },
+            "net_income": {
+              "change": -12,
+              "growth": -1.2
+            },
+            "operating_cash_flow": {
+              "change": 8,
+              "growth": 0.4444444444444444
+            }
+          },
+          "evidence_refs": [
+            {
+              "source_id": "FRESH-SUPPLIED",
+              "locator": "forward:raw-tables;rows-1-4"
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "No normalization, restatement retrieval, bank or insurer ratios, accounting opinion, or automatic forecasts",
+        "Quarter comparisons are sequential supplied periods and are not labeled year-over-year"
+      ]
+    }
+  },
+  {
+    "skill": "earnings-quality-analyzer",
+    "case": "mixed-recurrence-adjustments",
+    "exits": [
+      0,
+      0,
+      0
+    ],
+    "results": {
+      "period_id": "FY2025",
+      "basis": {
+        "currency": "USD",
+        "unit": "USD_m",
+        "accounting_basis": "supplied-GAAP",
+        "consolidation_scope": "consolidated"
+      },
+      "net_income": 20,
+      "operating_cash_flow": 8,
+      "average_assets": 110.0,
+      "total_accruals": 12,
+      "accrual_ratio": 0.10909090909090909,
+      "cash_conversion": 0.4,
+      "supplied_adjustment_total": 14,
+      "supplied_adjusted_income": 34,
+      "evidence_supported_nonrecurring_adjustments": [
+        "A1"
+      ],
+      "provisional_normalized_income": 24,
+      "adjustment_review": [
+        {
+          "adjustment_id": "A2",
+          "reasons": [
+            "recurrence-recurring"
+          ]
+        },
+        {
+          "adjustment_id": "A3",
+          "reasons": [
+            "recurrence-unknown",
+            "unknown-cash-effect"
+          ]
+        }
+      ],
+      "limitations": [
+        "Nonrecurrence and cash classifications are supplied claims, not authenticated accounting conclusions",
+        "Cash conversion and accruals are diagnostic indicators; no fraud conclusion, quality rating or non-GAAP compliance clearance"
+      ]
+    }
+  },
+  {
+    "skill": "investment-thesis-developer",
+    "case": "triggered-falsifier-and-overdue-catalyst",
+    "exits": [
+      0,
+      0,
+      0
+    ],
+    "results": {
+      "supplied_thesis": "Supplied expectation that losses narrow on sustained renewals; the retention threshold must remain intact.",
+      "variant_expectations": [
+        {
+          "metric": "EPS",
+          "unit": "USD_per_share",
+          "currency": "USD",
+          "accounting_basis": "supplied-adjusted",
+          "consolidation_scope": "consolidated",
+          "period_id": "FY2027",
+          "variant_id": "V1",
+          "consensus": -1,
+          "analyst": -0.5,
+          "mechanism": "Supplied improving renewals assumption",
+          "evidence_refs": [
+            {
+              "source_id": "FRESH-SUPPLIED",
+              "locator": "forward:raw-tables;rows-1-4"
+            }
+          ],
+          "analyst_minus_consensus": 0.5,
+          "relative_gap": 0.5
+        }
+      ],
+      "catalysts": [
+        {
+          "catalyst_id": "C1",
+          "expected_on": "2026-10-01",
+          "status": "pending",
+          "mechanism": "Expected renewal disclosure remains unavailable",
+          "evidence_refs": [
+            {
+              "source_id": "FRESH-SUPPLIED",
+              "locator": "forward:raw-tables;rows-1-4"
+            }
+          ],
+          "review_state": "overdue-unresolved"
+        }
+      ],
+      "falsifiers": [
+        {
+          "metric": "EPS",
+          "unit": "USD_per_share",
+          "currency": "USD",
+          "accounting_basis": "supplied-adjusted",
+          "consolidation_scope": "consolidated",
+          "period_id": "FY2027",
+          "falsifier_id": "F1",
+          "operator": "lte",
+          "threshold": 25,
+          "observed": 24,
+          "observed_on": "2026-10-19",
+          "evidence_refs": [
+            {
+              "source_id": "FRESH-SUPPLIED",
+              "locator": "forward:raw-tables;rows-1-4"
+            }
+          ],
+          "triggered": true
+        }
+      ],
+      "counter_evidence": [],
+      "review_state": "revisit-thesis",
+      "limitations": [
+        "Consensus differences do not establish what is priced into a security",
+        "Thesis, mechanisms and invalidation thresholds are supplied analyst judgments; no rating, position sizing, suitability or trade instruction is issued"
+      ]
+    }
+  }
+]

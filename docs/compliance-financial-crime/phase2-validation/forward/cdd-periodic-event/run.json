@@ -1,0 +1,61 @@
+{
+  "case": "cdd-periodic-event",
+  "skill": "customer-due-diligence-reviewer",
+  "input_sha256": "def871cfaec8ab1e518a980eed527ff219ef5f66c8bac617997645adf1f4c496",
+  "expected_intake_rejection": false,
+  "commands": [
+    {
+      "stage": "validate_input",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/validate_input.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/cdd-periodic-event/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "calculate",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/calculate_or_transform.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/cdd-periodic-event/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "validate_output",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/validate_output.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/cdd-periodic-event/output.initial.json",
+        "--input",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/cdd-periodic-event/input.initial.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "stage": "reject_tampered_output",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/validate_output.py",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/cdd-periodic-event/output.tampered.json",
+        "--input",
+        "/Users/taylor/DevRepo/Skills/fsi-skills-library/docs/compliance-financial-crime/phase2-validation/forward/cdd-periodic-event/input.initial.json"
+      ],
+      "exit_code": 1
+    }
+  ],
+  "implementation": {
+    "skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/calculate_or_transform.py": "9f2244643481ea88f9bc571947628172d3460cb4f0d36d16549f8634f4caf119",
+    "skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/validate_output.py": "febe1d0e19a718f30bc1242743aa7623f0bfbdca4ee0a0dcb143e974bc3f0932",
+    "skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/domain.py": "6be3e9c5f8a4a23f27ebbe662269031fae4da9285567b3d9ab2a2a1af5d4dda7",
+    "skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/foundation_contract.py": "4979b076d53f95c4758169576b235bf22abb6b37b893d012a955554bb28e765c",
+    "skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "skills/compliance-financial-crime/customer-due-diligence-reviewer/scripts/validate_input.py": "1782467f9bf19249714f988e55e62873d978ba3d318100ce6b6f4e9dd5e4fe81"
+  },
+  "output_sha256": "fbfdb838f82fc14076cb27ebbdc21dce2f48c99c32a74dc290bb1bf2c723d6f8"
+}

@@ -1,3 +1,16 @@
+## Independent forward-test regressions — 2026-09-21
+
+Activity windows and listed transaction dates must be real, ordered and on/before as_of; future activity produces a chronology break and cannot be ready. Investigation rationale requires evidence_ids resolving to cited evidence facts, exact summary matching, and citations consistent with those facts. Unsupported rationale text is withheld; a nonempty invented citation is insufficient.
+
+Preserved the original failing evidence externally; added package-local regression copies and independently expected positive/negative cases.
+
+# Phase 1 correctness update — 2026-09-21 (0.1.1)
+
+- Added detached original-input reconstruction; native source truth remains unverified.
+- Corrected the bounded logic, explicit unknown states, supplied approval evidence and scope documented in SKILL.md.
+- Added executable adversarial regressions and corrected synthetic evidence claims.
+- Production integrations, issuer authentication and professional/legal acceptance remain pending.
+
 # Changelog — suspicious-activity-report-drafter
 
 ## [0.1.0] — 2026-07-17

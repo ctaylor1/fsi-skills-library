@@ -1,0 +1,9 @@
+# Source and access contract
+
+The native implementation accepts supplied JSON under [schema](schema.md). It does not retrieve filings, parse PDFs/OCR, query consensus or pricing services, authenticate a provider, or bind the illustrative MCP services from older design notes. No specific provider or subscription is required for supplied-input mode. Real source adapters need institution-owned source IDs, retrieval/knowledge timestamps, evidence retention, use rights, identity/basis mapping and error behavior.
+
+Use issuer filings and executed/controlling documents where relevant, supplied eligible market/estimate snapshots for their specified instrument and vintage, and reported rating-agency opinions for their identified object. Preserve source type, financial/economic date separately from knowledge time, currency, units, accounting/method basis and coverage limits. A reference, caller approval flag or canonical hash does not authenticate facts or establish entitlements.
+
+Maturities require instrument ID, legal issuer ID, matching currency, amount, source and exact-date/year consistency. Repeated instrument rows require consolidation in a reviewed adapter. Spreads must reference a market source and identified instrument/issuer, spread type and currency. Agency opinions must reference a rating-agency source and identify issuer vs instrument object; the packet assigns no rating. Covenant flags require instrument/document/version. Source-type mismatches fail before computation. Approval person/role strings are assertions; distinct preparer/reviewer labels do not authenticate people.
+
+Unavailable source, rights, policy or specialist method: keep the supported inventory/factual observations, label missing coverage and withhold dependent conclusions. Do not substitute fixtures, invent references, silently use a current snapshot as a historical vintage, or claim an adjacent reviewer proves its source engine exists.

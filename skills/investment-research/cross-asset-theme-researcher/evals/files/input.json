@@ -1,0 +1,160 @@
+{
+  "request_id": "theme-example",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "economy",
+    "id": "SYNTH-ECONOMY"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "economic-v1",
+      "version": "1",
+      "locator": "synthetic:release",
+      "kind": "economic_release",
+      "known_at": "2026-07-30",
+      "subject_ids": [
+        "SYNTH-ECONOMY"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "economic-v1",
+      "locator": "synthetic:release#table1"
+    }
+  ],
+  "unresolved_issues": [],
+  "theme_id": "policy-tightening",
+  "hypothesis": {
+    "statement": "A supplied tightening shock may pressure rate-sensitive assets.",
+    "driver": "policy-rate change",
+    "transmission": "Higher discount rates and funding costs may affect prices; demand and currency channels can offset the sign.",
+    "horizon_date": "2027-03-31"
+  },
+  "driver_observations": [],
+  "evidence": [
+    {
+      "evidence_id": "support",
+      "role": "support",
+      "statement": "Supplied rate sensitivity supports a conditional valuation channel.",
+      "known_at": "2026-10-20",
+      "evidence_refs": [
+        {
+          "source_id": "economic-v1",
+          "locator": "synthetic:release#table1"
+        }
+      ]
+    },
+    {
+      "evidence_id": "counter",
+      "role": "counter",
+      "statement": "Growth and cash-flow changes could offset discount-rate effects.",
+      "known_at": "2026-10-20",
+      "evidence_refs": [
+        {
+          "source_id": "economic-v1",
+          "locator": "synthetic:release#table1"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "required_asset_classes": [
+      "rates",
+      "equity"
+    ],
+    "inventory_complete": true
+  },
+  "falsifiers": [
+    {
+      "test_id": "earnings-offset",
+      "description": "Earnings gains offset discount-rate pressure.",
+      "monitor": "Supplied quarterly earnings revision series",
+      "due_on": "2027-03-31",
+      "status": "not-tested",
+      "known_at": null,
+      "evidence_refs": []
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "tightening",
+      "label": "Hypothetical 100 bp tightening",
+      "horizon_date": "2027-03-31",
+      "known_at": "2026-10-20",
+      "assumptions": [
+        "Parallel yield shift and unchanged credit spread; local linear approximation."
+      ],
+      "shocks": [
+        {
+          "driver_id": "policy-rate",
+          "value": 100,
+          "unit": "basis-point"
+        }
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "economic-v1",
+          "locator": "synthetic:release#table1"
+        }
+      ]
+    }
+  ],
+  "exposures": [
+    {
+      "exposure_id": "bond",
+      "asset_class": "rates",
+      "instrument_id": "SYNTH-BOND",
+      "method": "modified-duration",
+      "driver_id": "policy-rate",
+      "sensitivity": 5,
+      "shock_unit": "basis-point",
+      "response_unit": "percent-price-change",
+      "known_at": "2026-10-20",
+      "evidence_refs": [
+        {
+          "source_id": "economic-v1",
+          "locator": "synthetic:release#table1"
+        }
+      ],
+      "mechanism": "Conditional discount-rate channel with all other supplied drivers unchanged.",
+      "limitations": [
+        "Supplied local sensitivity; no estimated causal coefficient or convexity."
+      ]
+    },
+    {
+      "exposure_id": "equity",
+      "asset_class": "equity",
+      "instrument_id": "SYNTH-EQUITY-INDEX",
+      "method": "linear",
+      "driver_id": "policy-rate",
+      "sensitivity": -0.02,
+      "shock_unit": "basis-point",
+      "response_unit": "percent-price-change",
+      "known_at": "2026-10-20",
+      "evidence_refs": [
+        {
+          "source_id": "economic-v1",
+          "locator": "synthetic:release#table1"
+        }
+      ],
+      "mechanism": "Conditional discount-rate channel with all other supplied drivers unchanged.",
+      "limitations": [
+        "Supplied local sensitivity; no estimated causal coefficient or convexity."
+      ]
+    }
+  ]
+}

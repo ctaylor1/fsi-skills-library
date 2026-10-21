@@ -1,0 +1,7 @@
+# Source map and native contract
+
+Supply screening provenance, subject and list source references, assessment `as_of`, and list `retrieved_at` within one calendar day (a conservative local freshness setting, not a universal legal requirement). Non-Latin characters are preserved by Unicode normalization; transliteration and fuzzy matching are not implemented. National identifiers require issuer country; LEIs are global. A payment object does not substitute for identity evidence.
+
+Direct ownership rows require unique `owner_id`, numeric percentage, `direct=true`, explicit `owner_blocked`, owner list reference when blocked, and source reference. OFAC-SDN direct percentages are aggregated, including multiple blocked owners. Indirect chains, invalid/duplicate rows and unverified blocking status require evidence or specialist review; below-threshold direct ownership does not establish clearance. UK/EU/UN/SSI inputs produce needs-data for an unimplemented regime. PEP routes to customer-risk/CDD and never becomes a sanctions finding.
+
+The synthetic intake example is `../evals/files/case_example.json`. It is not a real customer, approval or regulatory event. Native results carry a hash of every supplied input field and source_truth=unverified. Retain original input outside the output; validate with --input. Authenticated source retrieval, entitlements and producer identity must be supplied by deployment systems.

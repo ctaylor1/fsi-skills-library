@@ -1,0 +1,580 @@
+{
+  "contract_version": "compliance-evidence/1.0",
+  "producer": "financial-crime-case-investigator",
+  "native_output": {
+    "contract_version": "compliance-foundation/2.0",
+    "skill": "financial-crime-case-investigator",
+    "method": "case-flow-evidence/1.0",
+    "request_id": "TEST-REQUEST",
+    "object_id": "TEST-SUBJECT",
+    "object_type": "financial_crime_case",
+    "as_of": "2026-10-04",
+    "knowledge_cutoff": "2026-10-04",
+    "context": {
+      "institution_id": "TEST-INSTITUTION",
+      "legal_entity_id": "TEST-ENTITY",
+      "capacity": "second_line",
+      "represented_party": "institution",
+      "object_id": "TEST-SUBJECT",
+      "object_type": "financial_crime_case",
+      "jurisdiction": "US",
+      "line_of_business": "banking",
+      "purpose": "scoped-professional-review"
+    },
+    "role": "decision_support",
+    "classification": "customer_pii",
+    "audience": "authorized_analyst",
+    "status": "draft-for-human-review",
+    "results": {
+      "scope": {
+        "start": "2026-10-01",
+        "end": "2026-10-03",
+        "currencies": [
+          "USD"
+        ]
+      },
+      "entities": [
+        {
+          "scope_ref": "E1",
+          "entity_id": "E1",
+          "identity": "Synthetic business E1",
+          "evidence_status": "supplied-unverified"
+        }
+      ],
+      "accounts": [
+        {
+          "scope_ref": "A1",
+          "account_id": "A1",
+          "entity_id": "E1",
+          "identity": "Account A1",
+          "evidence_status": "supplied-unverified"
+        },
+        {
+          "scope_ref": "A2",
+          "account_id": "A2",
+          "entity_id": "E1",
+          "identity": "Account A2",
+          "evidence_status": "supplied-unverified"
+        }
+      ],
+      "flow_links": [
+        {
+          "transaction_id": "T1",
+          "from": "external-A",
+          "to": "A1",
+          "currency": "USD",
+          "amount": "100.10",
+          "date": "2026-10-01",
+          "source_refs": [
+            "fixture-source"
+          ]
+        },
+        {
+          "transaction_id": "T2",
+          "from": "A1",
+          "to": "A2",
+          "currency": "USD",
+          "amount": "70.05",
+          "date": "2026-10-02",
+          "source_refs": [
+            "fixture-source"
+          ]
+        },
+        {
+          "transaction_id": "T3",
+          "from": "A2",
+          "to": "external-B",
+          "currency": "USD",
+          "amount": "50.00",
+          "date": "2026-10-03",
+          "source_refs": [
+            "fixture-source"
+          ]
+        }
+      ],
+      "currency_totals": {
+        "USD": {
+          "external_inflow": "100.10",
+          "external_outflow": "50.00",
+          "internal_transfer": "70.05",
+          "unique_turnover": "220.15",
+          "unquantified_transactions": []
+        }
+      },
+      "proceeds_amount": null,
+      "proceeds_status": "unknown-no-tracing-or-illicit-origin-method",
+      "chronology": [
+        {
+          "date": "2026-10-01",
+          "event": "Sale agreement received"
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesis_id": "H1",
+          "proposition": "Activity may be explained by trading proceeds; consider counterevidence.",
+          "proposition_status": "analyst-hypothesis",
+          "support": [
+            "Sale agreement supplied"
+          ],
+          "counterevidence": [
+            "Transfer beneficiary differs from sale party"
+          ],
+          "conclusion": "human-assessment-required"
+        }
+      ],
+      "investigative_plan": [
+        {
+          "step_id": "P1",
+          "question": "Resolve beneficiary discrepancy",
+          "hypothesis_ids": [
+            "H1"
+          ],
+          "execution": "not_performed"
+        }
+      ],
+      "narrative_propositions": [
+        "Sale agreement received"
+      ],
+      "disposition": "human-owned",
+      "reportability": "human-owned"
+    },
+    "unresolved_issues": [],
+    "claim_bindings": [
+      {
+        "native_input_pointer": "/data/entities/0/identity",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f16"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/entities/0/id_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "scope-f27"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/accounts/0/identity",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f17"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/accounts/0/id_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "scope-f28"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/accounts/0/entity_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "scope-f29"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/accounts/1/identity",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f18"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/accounts/1/id_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "scope-f30"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/accounts/1/entity_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "scope-f31"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/0/amount",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f1"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/0/date_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f2"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/0/from_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f3"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/0/to_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f4"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/0/currency_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f5"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/0/id_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "transaction-id-0"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/1/amount",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f6"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/1/date_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f7"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/1/from_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f8"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/1/to_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f9"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/1/currency_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f10"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/1/id_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "transaction-id-1"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/2/amount",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f11"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/2/date_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f12"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/2/from_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f13"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/2/to_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f14"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/2/currency_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f15"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/transactions/2/id_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "transaction-id-2"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/hypotheses/0/support/0",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f19"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/hypotheses/0/counterevidence/0",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f20"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/chronology/0/date_evidence",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f21"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/chronology/0/event",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f22"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      },
+      {
+        "native_input_pointer": "/data/narrative_propositions/0",
+        "source_refs": [
+          "fixture-source"
+        ],
+        "fact_ids": [
+          "f23"
+        ],
+        "consistency": "exact-supplied-fact",
+        "issues": []
+      }
+    ],
+    "limitations": [
+      "Distinct case investigation; not scenario replay. Turnover counts each supplied unique transaction once; internal transfers are not fresh proceeds. No FX conversion, tracing attribution, guilt or reportability conclusion.",
+      "Supplied source/fact/profile and reviewer identities are not authenticated.",
+      "Exact value mappings establish consistency, not truth or substantive legal sufficiency.",
+      "Professional applicability, acceptance and operational authority remain human-owned."
+    ],
+    "source_refs": [
+      "fixture-source"
+    ],
+    "source_assurance": "supplied-unverified",
+    "handoffs": [
+      "suspicious-activity-report-drafter",
+      "sanctions-exposure-reviewer",
+      "enhanced-due-diligence-assessor"
+    ],
+    "draft": true,
+    "human_review_required": true,
+    "action_taken": false,
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "input_hash": "cb2f1dfc8a9a1d7869130bad17b8b1ac7827d1548bb522f4f744d7cef053a718",
+    "source_truth": "unverified"
+  },
+  "native_input_hash": "cb2f1dfc8a9a1d7869130bad17b8b1ac7827d1548bb522f4f744d7cef053a718",
+  "workflow": {
+    "context": {
+      "institution_id": "TEST-INSTITUTION",
+      "legal_entity_id": "TEST-ENTITY",
+      "capacity": "second_line",
+      "represented_party": "institution",
+      "object_id": "TEST-SUBJECT",
+      "object_type": "financial_crime_case",
+      "jurisdiction": "US",
+      "line_of_business": "banking",
+      "purpose": "scoped-professional-review"
+    },
+    "as_of": "2026-10-04",
+    "role": "decision_support",
+    "classification": "customer_pii",
+    "audience": "authorized_analyst",
+    "allowed_audiences": [
+      "authorized_analyst"
+    ],
+    "sources": [
+      {
+        "source_ref": "fixture-source",
+        "version": "test1"
+      }
+    ],
+    "unresolved_issues": []
+  },
+  "unresolved_issues": [
+    "Native evidence limitation at /limitations; see retained producer result.",
+    "Supplied evidence is not authenticated; professional review remains required."
+  ],
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "human_review_required": true,
+  "artifact": {
+    "contract_version": "workflow-evidence/1.0",
+    "producer": "financial-crime-case-investigator",
+    "artifact_type": "compliance-review",
+    "as_of": "2026-10-04",
+    "context": {
+      "institution_id": "TEST-INSTITUTION",
+      "legal_entity_id": "TEST-ENTITY",
+      "capacity": "second_line",
+      "represented_party": "institution",
+      "object_id": "TEST-SUBJECT",
+      "object_type": "financial_crime_case",
+      "jurisdiction": "US",
+      "line_of_business": "banking",
+      "purpose": "scoped-professional-review"
+    },
+    "sources": [
+      {
+        "source_ref": "fixture-source",
+        "version": "test1"
+      }
+    ],
+    "input_hash": "92288cac9604d83805420d7837e790da1daae8faec59598cdc48281acb6473fb",
+    "output_hash": "9bc0ec335be2df0998538752a1b2f8ffb607685bf9cd6c4ad524d3cf43c37ec6",
+    "completeness": "partial",
+    "evaluability": "partial",
+    "unresolved_issues": [
+      "Native evidence limitation at /limitations; see retained producer result.",
+      "Supplied evidence is not authenticated; professional review remains required."
+    ],
+    "approval": "not_requested",
+    "execution": "not_performed",
+    "evidence_assurance": "supplied_not_authenticated",
+    "artifact_hash": "c52169443b0cb5c4e0beba7fd4d749aa465928afeef7e04e6cf1e22229dc5831"
+  }
+}

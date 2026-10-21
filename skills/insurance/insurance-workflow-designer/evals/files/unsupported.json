@@ -1,0 +1,176 @@
+{
+  "case_id": "SYN-P4-01",
+  "as_of": "2026-09-20",
+  "context": {
+    "capacity": "design-review",
+    "represented_party": "SYNTHETIC-INSURER",
+    "object_id": "FNOL-MODERNIZATION",
+    "jurisdiction": "US-TEST",
+    "line_of_business": "pc"
+  },
+  "sources": [
+    {
+      "source_ref": "synthetic-record",
+      "version": "1",
+      "as_of": "2026-09-20",
+      "locator": "Synthetic local exercise; no live records"
+    }
+  ],
+  "unresolved_issues": [],
+  "data": {
+    "profile": {
+      "profile_id": "SYN-PROFILE",
+      "version": "1",
+      "reviewed_by": "Synthetic design owner",
+      "jurisdictions": [
+        "US-TEST"
+      ],
+      "lines_of_business": [
+        "pc"
+      ],
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "method": "unsupported-method",
+      "source_refs": [
+        "synthetic-record"
+      ]
+    },
+    "business_outcome": "Reduce FNOL preparation work with human triage retained",
+    "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+    "path_inventory_complete": true,
+    "source_contracts": [
+      {
+        "contract_id": "C1",
+        "system": "synthetic intake archive",
+        "version": "v1",
+        "owner": "data owner",
+        "access_scope": "read selected deidentified notices",
+        "purpose": "offline FNOL design",
+        "schema_version": "notice-v1",
+        "freshness_rule": "same snapshot",
+        "access_reviewed": true,
+        "purpose_reviewed": true,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "steps": [
+      {
+        "step_id": "H",
+        "mode": "human",
+        "owner": "claims intake",
+        "input_contract": "raw notice",
+        "output_contract": "reviewed notice",
+        "completion_evidence": "review event",
+        "contract_ids": [],
+        "human_minutes": 10,
+        "elapsed_minutes": 20,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "step_id": "R",
+        "mode": "draft",
+        "owner": "intake platform",
+        "input_contract": "notice-v1",
+        "output_contract": "proposed classification",
+        "completion_evidence": "draft artifact",
+        "contract_ids": [
+          "C1"
+        ],
+        "human_minutes": 2,
+        "elapsed_minutes": 3,
+        "failure_step": "F",
+        "timeout_rule": "10 seconds then refer",
+        "audit_record": "case trace",
+        "max_attempts": 1,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "step_id": "F",
+        "mode": "human",
+        "owner": "exception team",
+        "input_contract": "failed preparation",
+        "output_contract": "reviewed intake",
+        "completion_evidence": "exception resolution event",
+        "contract_ids": [],
+        "human_minutes": 20,
+        "elapsed_minutes": 60,
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ],
+    "paths": [
+      {
+        "path_id": "C-normal",
+        "design": "current",
+        "kind": "normal",
+        "outcome": "prepared",
+        "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+        "step_ids": [
+          "H"
+        ],
+        "share": ".8",
+        "failure_of": [],
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "path_id": "C-exception",
+        "design": "current",
+        "kind": "exception",
+        "outcome": "human prepared",
+        "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+        "step_ids": [
+          "H",
+          "F"
+        ],
+        "share": ".2",
+        "failure_of": [],
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "path_id": "T-normal",
+        "design": "target",
+        "kind": "normal",
+        "outcome": "human reviewed draft",
+        "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+        "step_ids": [
+          "R",
+          "H"
+        ],
+        "share": ".9",
+        "failure_of": [],
+        "source_refs": [
+          "synthetic-record"
+        ]
+      },
+      {
+        "path_id": "T-exception",
+        "design": "target",
+        "kind": "exception",
+        "outcome": "human prepared after failure",
+        "population_basis": "Same eligible FNOL notices; illustrative path proportions",
+        "step_ids": [
+          "R",
+          "F"
+        ],
+        "share": ".1",
+        "failure_of": [
+          "R"
+        ],
+        "source_refs": [
+          "synthetic-record"
+        ]
+      }
+    ]
+  }
+}

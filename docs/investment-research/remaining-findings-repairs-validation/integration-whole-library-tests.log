@@ -1,0 +1,66 @@
+.....................................................................................................................................................................................................................................E.....EFE...............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+======================================================================
+ERROR: test_all_packages_require_original_input_and_reject_tampering (test_asset_management_research_phase1.ResearchPhase1.test_all_packages_require_original_input_and_reject_tampering) (package='credit-surveillance-packet')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 53, in test_all_packages_require_original_input_and_reject_tampering
+    d = self.request(n); out = self.compute(n, d)
+                               ^^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 45, in compute
+    return getattr(load(name, 'calculate_or_transform.py'), PACKAGES[name][0])(self.request(name) if doc is None else doc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py", line 11, in assemble
+    require_live_contract(doc)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/surveillance_contract.py", line 15, in require_live_contract
+    raise ValueError(MIGRATION_REQUIRED)
+ValueError: legacy surveillance migration required: supply explicit schema_version ir-phase2/1.0 with reported financial periods, source-bound quote observations, dated security/issuer mapping and an explicit current-age policy for spread comparisons; legacy packets cannot be calculated or revalidated by the live package
+
+======================================================================
+ERROR: test_credit_exact_horizon_excludes_past_and_beyond_boundary (test_asset_management_research_phase1.ResearchPhase1.test_credit_exact_horizon_excludes_past_and_beyond_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 154, in test_credit_exact_horizon_excludes_past_and_beyond_boundary
+    m=self.compute(n,d)['metrics'];self.assertEqual(30,m['near_term_maturities']);self.assertEqual(900,m['past_due_maturities'][0]['amount'])
+      ^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 45, in compute
+    return getattr(load(name, 'calculate_or_transform.py'), PACKAGES[name][0])(self.request(name) if doc is None else doc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py", line 11, in assemble
+    require_live_contract(doc)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/surveillance_contract.py", line 15, in require_live_contract
+    raise ValueError(MIGRATION_REQUIRED)
+ValueError: legacy surveillance migration required: supply explicit schema_version ir-phase2/1.0 with reported financial periods, source-bound quote observations, dated security/issuer mapping and an explicit current-age policy for spread comparisons; legacy packets cannot be calculated or revalidated by the live package
+
+======================================================================
+ERROR: test_credit_year_only_not_a_precise_date (test_asset_management_research_phase1.ResearchPhase1.test_credit_year_only_not_a_precise_date)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 158, in test_credit_year_only_not_a_precise_date
+    out=self.compute(n,d);self.assertIsNone(out['metrics']['near_term_maturities']);self.assertIsNone(out['metrics']['liquidity_covers_near_term'])
+        ^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 45, in compute
+    return getattr(load(name, 'calculate_or_transform.py'), PACKAGES[name][0])(self.request(name) if doc is None else doc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/calculate_or_transform.py", line 11, in assemble
+    require_live_contract(doc)
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/skills/investment-research/issuer-credit-surveillance-reviewer/scripts/surveillance_contract.py", line 15, in require_live_contract
+    raise ValueError(MIGRATION_REQUIRED)
+ValueError: legacy surveillance migration required: supply explicit schema_version ir-phase2/1.0 with reported financial periods, source-bound quote observations, dated security/issuer mapping and an explicit current-age policy for spread comparisons; legacy packets cannot be calculated or revalidated by the live package
+
+======================================================================
+FAIL: test_credit_prior_financial_source_is_covered (test_asset_management_research_phase1.ResearchPhase1.test_credit_prior_financial_source_is_covered)
+----------------------------------------------------------------------
+ValueError: legacy surveillance migration required: supply explicit schema_version ir-phase2/1.0 with reported financial periods, source-bound quote observations, dated security/issuer mapping and an explicit current-age policy for spread comparisons; legacy packets cannot be calculated or revalidated by the live package
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/taylor/DevRepo/Skills/fsi-skills-library/tools/test_asset_management_research_phase1.py", line 164, in test_credit_prior_financial_source_is_covered
+    with self.assertRaisesRegex(ValueError,'unknown source_id UNKNOWN'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unknown source_id UNKNOWN" does not match "legacy surveillance migration required: supply explicit schema_version ir-phase2/1.0 with reported financial periods, source-bound quote observations, dated security/issuer mapping and an explicit current-age policy for spread comparisons; legacy packets cannot be calculated or revalidated by the live package"
+
+----------------------------------------------------------------------
+Ran 1437 tests in 215.718s
+
+FAILED (failures=1, errors=3)

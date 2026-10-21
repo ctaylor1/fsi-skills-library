@@ -51,7 +51,7 @@ re-derives this mapping and fails closed on any mismatch.
 - Never state or imply that the merchant **has been** approved, declined, boarded, onboarded,
   or rejected — describe risk factually and attribute the decision to the human adjudicator.
 - Never **adjudicate** a sanctions or adverse-media hit — consume the screening status and
-  route open items to `sanctions-match-adjudicator` / `adverse-media-investigator`.
+  route open items to `sanctions-match-investigator` / `adverse-media-investigator`.
 - Never **close** the case or **file/submit** anything (SAR, network submission, boarding
   write).
 - Never tune thresholds/lists to the individual applicant; use only the versioned config.

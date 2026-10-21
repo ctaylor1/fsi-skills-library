@@ -19,7 +19,7 @@ relative to the AWS baseline; authored fresh here).
 - **Evaluations:** trigger/routing, golden normal + multi-account edge, deterministic
   script checks, no-advice safety, prompt-injection, external-delivery authorization.
 - **Handoffs:** downstream to `portfolio-risk-diversification-check`,
-  `suitability-reg-bi-reviewer`, `performance-attribution-builder`, `client-review-preparer`,
+  `suitability-reg-bi-reviewer`, `portfolio-performance-attributor`, `client-review-preparer`,
   `portfolio-proposal-comparator`.
 
 ### Pending before release

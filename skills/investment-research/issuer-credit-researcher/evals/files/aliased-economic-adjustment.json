@@ -1,0 +1,252 @@
+{
+  "schema_version": "ir-phase2/1.0",
+  "request_id": "synthetic-credit-phase2",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "ACME-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T22:00:00Z",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "kind": "financial_statement",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1;reviewed-inputs",
+      "subject_ids": [
+        "ACME-ISSUER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "valid_from": "2026-01-01",
+      "valid_to": "2026-12-31"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "synthetic-financials",
+      "locator": "fixture:table-1;reviewed-inputs"
+    }
+  ],
+  "unresolved_issues": [],
+  "issuer_profile": "nonfinancial-corporate",
+  "financials": {
+    "currency": "USD",
+    "unit": "USD_m",
+    "accounting_basis": "US-GAAP-supplied",
+    "consolidation_scope": "consolidated",
+    "period": {
+      "start": "2026-01-01",
+      "end": "2026-09-30",
+      "fiscal_calendar_id": "ACME-calendar"
+    },
+    "ebitda": 100,
+    "gross_debt": 400,
+    "unrestricted_cash": 50,
+    "interest_expense": 20,
+    "operating_cash_flow": 80,
+    "capex": 30,
+    "funds_from_operations": 70,
+    "evidence_refs": [
+      {
+        "source_id": "synthetic-financials",
+        "locator": "fixture:table-1;reviewed-inputs"
+      }
+    ]
+  },
+  "instruments": [
+    {
+      "instrument_id": "TERM-1",
+      "issuer_id": "ACME-ISSUER",
+      "estate_id": "ACME-ESTATE",
+      "seniority": "senior-secured",
+      "currency": "USD",
+      "principal": 400,
+      "guarantor_ids": [],
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ],
+      "unit": "USD_m",
+      "accounting_basis": "US-GAAP-supplied",
+      "consolidation_scope": "consolidated",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-09-30",
+        "fiscal_calendar_id": "ACME-calendar"
+      },
+      "principal_basis": "contractual-principal",
+      "debt_inclusion": {
+        "currency": "USD",
+        "unit": "USD_m",
+        "accounting_basis": "US-GAAP-supplied",
+        "consolidation_scope": "consolidated",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "ACME-calendar"
+        },
+        "treatment": "included",
+        "reason": "Supplied consolidated term-debt inventory at the reported period end.",
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ],
+        "subject_issuer_id": "ACME-ISSUER"
+      }
+    }
+  ],
+  "ebitda_adjustments": [
+    {
+      "adjustment_id": "RESTRUCTURE-1",
+      "amount": 10,
+      "rationale": "Supplied analyst adjustment; recurrence needs review",
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ],
+      "economic_event_id": "RESTRUCTURING-EVENT-2026",
+      "event_version": "fixture-v1",
+      "aggregation_role": "event-total"
+    },
+    {
+      "adjustment_id": "SAME-EVENT-NEW-ROW-ID",
+      "amount": 10,
+      "rationale": "Supplied analyst adjustment; recurrence needs review",
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ],
+      "economic_event_id": "RESTRUCTURING-EVENT-2026",
+      "event_version": "fixture-v1",
+      "aggregation_role": "event-total"
+    }
+  ],
+  "risk_observations": [
+    {
+      "risk_id": "CUSTOMER-1",
+      "category": "concentration",
+      "observation": "Supplied top-customer concentration is 30%; sustainability needs review",
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "ebitda_adjustment_events": [
+    {
+      "currency": "USD",
+      "unit": "USD_m",
+      "accounting_basis": "US-GAAP-supplied",
+      "consolidation_scope": "consolidated",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-09-30",
+        "fiscal_calendar_id": "ACME-calendar"
+      },
+      "ledger_id": "RESTRUCTURING-LEDGER-1",
+      "economic_event_id": "RESTRUCTURING-EVENT-2026",
+      "event_version": "fixture-v1",
+      "aggregation": "event-total-only",
+      "amount": 10,
+      "components": [],
+      "source_binding": {
+        "source_id": "synthetic-financials",
+        "version": "fixture-v1",
+        "known_at": "2026-10-19T14:00:00Z",
+        "locator": "fixture:table-1;reviewed-inputs",
+        "economic_event_key": "restructuring-charge-2026",
+        "subject_issuer_id": "ACME-ISSUER"
+      },
+      "evidence_refs": [
+        {
+          "source_id": "synthetic-financials",
+          "locator": "fixture:table-1;reviewed-inputs"
+        }
+      ]
+    }
+  ],
+  "debt_reconciliation": {
+    "currency": "USD",
+    "unit": "USD_m",
+    "accounting_basis": "US-GAAP-supplied",
+    "consolidation_scope": "consolidated",
+    "period": {
+      "start": "2026-01-01",
+      "end": "2026-09-30",
+      "fiscal_calendar_id": "ACME-calendar"
+    },
+    "inventory_coverage": "complete-for-supplied-scope",
+    "coverage_description": "Supplied consolidated gross-debt inventory comprises TERM-1 at 2026-09-30; other structural obligations require an explicit inclusion or exclusion.",
+    "source_binding": {
+      "source_id": "synthetic-financials",
+      "version": "fixture-v1",
+      "known_at": "2026-10-19T14:00:00Z",
+      "locator": "fixture:table-1;reviewed-inputs",
+      "economic_event_key": "consolidated-debt-inventory-2026-09-30",
+      "subject_issuer_id": "ACME-ISSUER"
+    },
+    "evidence_refs": [
+      {
+        "source_id": "synthetic-financials",
+        "locator": "fixture:table-1;reviewed-inputs"
+      }
+    ],
+    "bridge": [
+      {
+        "currency": "USD",
+        "unit": "USD_m",
+        "accounting_basis": "US-GAAP-supplied",
+        "consolidation_scope": "consolidated",
+        "period": {
+          "start": "2026-01-01",
+          "end": "2026-09-30",
+          "fiscal_calendar_id": "ACME-calendar"
+        },
+        "bridge_id": "PRINCIPAL-TO-CARRYING-1",
+        "economic_event_id": "TERM-1-CARRYING-RECONCILIATION",
+        "amount": 0,
+        "bridge_type": "principal-to-carrying-value",
+        "instrument_ids": [
+          "TERM-1"
+        ],
+        "rationale": "Supplied carrying value equals contractual principal for this synthetic instrument; zero adjustment is explicit evidence, not an inferred identity.",
+        "source_binding": {
+          "source_id": "synthetic-financials",
+          "version": "fixture-v1",
+          "known_at": "2026-10-19T14:00:00Z",
+          "locator": "fixture:table-1;reviewed-inputs",
+          "economic_event_key": "term-1-principal-to-carrying-2026-09-30",
+          "subject_issuer_id": "ACME-ISSUER"
+        },
+        "evidence_refs": [
+          {
+            "source_id": "synthetic-financials",
+            "locator": "fixture:table-1;reviewed-inputs"
+          }
+        ]
+      }
+    ]
+  }
+}

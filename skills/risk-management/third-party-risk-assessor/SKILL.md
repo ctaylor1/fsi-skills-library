@@ -57,7 +57,7 @@ use — the decision, sign-off, and any action remain human.
   and route to the human committee / authorized system.
 - **Deep cyber/security control testing** of the vendor → `third-party-cyber-risk-reviewer`.
 - **Enhanced due diligence** on ownership / financial-crime / sanctions exposure →
-  `enhanced-due-diligence-packager` (and human specialists; this skill never adjudicates
+  `enhanced-due-diligence-assessor` (and human specialists; this skill never adjudicates
   sanctions or misconduct).
 - **Resilience/exit scenario testing** for a critical vendor →
   `operational-resilience-scenario-tester`.

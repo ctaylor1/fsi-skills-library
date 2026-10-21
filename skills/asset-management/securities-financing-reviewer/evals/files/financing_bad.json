@@ -1,0 +1,112 @@
+{
+  "contract_version": "investment-foundation/1.0",
+  "skill": "securities-financing-reviewer",
+  "request_id": "SYN-P4-FINANCING",
+  "object_id": "SYN-PORTFOLIO",
+  "as_of": "2026-10-04",
+  "knowledge_cutoff": "2026-10-04",
+  "currency": "USD",
+  "audience": "internal-review",
+  "status": "draft",
+  "draft": true,
+  "action_taken": true,
+  "human_review_required": true,
+  "delivery_status": "not-delivered",
+  "method": {
+    "id": "agreement-bound-financing-review-v1",
+    "version": "1.0",
+    "origin": "local-analysis"
+  },
+  "results": {
+    "trades": [
+      {
+        "trade_id": "REPO-T1",
+        "agreement_id": "REPO",
+        "transaction_type": "repo-cash-borrower",
+        "day_count": "ACT/360",
+        "accrual_days": 3,
+        "rate_basis": "980",
+        "annual_rate": "0.036",
+        "accrued_amount": "0.294000000000",
+        "accrual_direction": "payable-by-cash-borrower",
+        "projected_full_term_accrual": "0.980000000000",
+        "projected_repo_repayment": "980.980000000000",
+        "eligible_collateral_market_value": "1000",
+        "required_collateral_market_value": "1000.000000000000",
+        "haircut_adjusted_credit": "980.00",
+        "coverage_sufficient": true,
+        "source_ref": "holdings"
+      },
+      {
+        "trade_id": "LOAN-T1",
+        "agreement_id": "LOAN",
+        "transaction_type": "securities-lender-noncash",
+        "day_count": "ACT/360",
+        "accrual_days": 3,
+        "rate_basis": "1000",
+        "annual_rate": "0.036",
+        "accrued_amount": "0.300000000000",
+        "accrual_direction": "receivable-by-securities-lender",
+        "projected_full_term_accrual": "1.000000000000",
+        "projected_repo_repayment": null,
+        "eligible_collateral_market_value": "1020",
+        "required_collateral_market_value": "1020.00",
+        "haircut_adjusted_credit": null,
+        "coverage_sufficient": true,
+        "source_ref": "holdings"
+      }
+    ],
+    "recalls": [
+      {
+        "recall_id": "R1",
+        "trade_id": "LOAN-T1",
+        "unreturned_quantity": "50",
+        "overdue": false,
+        "due_date": "2026-10-05"
+      }
+    ],
+    "funding_path": [
+      {
+        "date": "2026-10-11",
+        "opening_cash": "1100",
+        "repo_repayment": "980.980000000000",
+        "committed_receipts": "0",
+        "cash_before_receipts": "119.020000000000",
+        "closing_cash": "119.020000000000"
+      }
+    ],
+    "collateral_overallocated": false,
+    "legal_netting_recognized": false,
+    "execution_authorized": false
+  },
+  "unresolved_issues": [],
+  "limitations": [
+    "Repo cash-borrower and noncash-collateral securities-lender perspectives only; no cash-collateral reinvestment, short borrow, collateral trading or repo execution.",
+    "Supplied constant-rate simple ACT/360 or ACT/365F accrual only; rates are annual fractions. Valuation basis remains supplied, not a pricing engine.",
+    "Haircut discounts collateral market value; initial margin multiplies the principal or loaned-market-value requirement. The conventions are not interchangeable.",
+    "Accruals and divided collateral requirements round explicitly to 12 places; exact unrounded products determine collateral sufficiency.",
+    "Collateral eligibility, enforceability, agreement acceptance, recall dates and funding commitments are supplied declarations. No legal netting, close-out entitlement, margin call or settlement instruction is inferred.",
+    "Daily funding outflows precede same-day receipts conservatively. Fees, rebates, manufactured dividends, corporate actions and changing rates require separate methods."
+  ],
+  "handoffs": [
+    "counterparty-exposure-monitor",
+    "portfolio-cashflow-forecaster"
+  ],
+  "source_assurance": "supplied-unverified",
+  "source_refs": [
+    "policy",
+    "holdings",
+    "market",
+    "schedule",
+    "cash",
+    "agreement",
+    "collateral",
+    "recall",
+    "engine-input",
+    "engine-acceptance",
+    "engine-result",
+    "independent-benchmark"
+  ],
+  "input_hash": "089eacee337aee22f2858abd1d6a53a51b68fc9356515261319181e6bcdefa5b",
+  "source_truth": "unverified"
+}

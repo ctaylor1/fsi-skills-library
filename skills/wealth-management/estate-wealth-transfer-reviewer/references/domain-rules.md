@@ -7,7 +7,8 @@ The top-level `schema_version` is `wealth-p0-v1`; supply `request_id`, `househol
 `{source_id, reference, owner, as_of, valid_until}`. Every registry source must satisfy
 `source.as_of <= request.as_of <= source.valid_until`; stale/future evidence rejects input.
 
-`policy` requires nonempty `version`, `owner`, matching `capacity`/`jurisdiction`, current
+`policy` requires nonempty `version`, explicit `owner` (nonempty name or null when
+uncollected), matching `capacity`/`jurisdiction`, current
 `effective_date`/`valid_until`, `source_ids`, and the domain configuration below. Policy
 version/owner/date fields describe supplied records; they do not authenticate institutional approval.
 `upstream_issues` is an explicit array (empty is permitted) of
@@ -30,26 +31,37 @@ still be false: compare it with approved source systems during human review.
 
 `policy.required_document_kinds` is an explicit unique list from `will`, `trust`,
 `power-of-attorney`, `healthcare-directive`, `other`. `required_beneficiary_tiers` explicitly
-lists `primary` and/or `contingent`. Empty lists mean no requirement in this supplied scope,
-not a legal conclusion that a document or tier is unnecessary.
+lists `primary` and/or `contingent`. Each requirements field also accepts explicit
+null when the list is uncollected; this produces a needs-data finding and withholds
+dependent completeness assertions. Empty lists mean a supplied explicit no-requirement
+inventory in this scope, not an unknown or a legal conclusion. Never populate these
+fields from conventional practice or from the package template. A null policy owner
+also remains a finding; source custody is not policy ownership.
 
 - `parties[]`: unique `party_id`, masked `display_name`, `role`, `source_ids`.
 - `documents[]`: unique `document_id`, `kind` above, nonempty `version` and factual `summary`,
   `status` current/superseded/unknown, historical `executed_date` or null, `source_ids`.
 - `assets[]`: unique `asset_id`, `description`, `registration` individual/joint/trust/retirement/
-  insurance/other, explicit `owner_party_ids[]`, explicit `document_ids[]`,
+  insurance/other, explicit `owner_party_ids` and `document_ids` (unique lists or null
+  for uncollected evidence),
   `designation_status` documented/none-recorded/unknown, `source_ids`.
 - `intentions[]`: unique `intention_id`, `asset_id`, `description`,
   `target_owner_party_ids` (unique list or null), `governing_document_ids` (unique list or null),
   `beneficiaries` (list below or null), `source_ids`. Exactly one consolidated intention per asset
   is needed for comparison. Null means not collected; an empty list is an explicit intended none.
 - `designations[]`: unique `designation_id`, `asset_id`, status current/superseded/unknown,
-  `document_ids[]`, `beneficiaries[]`, `source_ids`.
+  `document_ids` (unique list or null), `beneficiaries[]`, `source_ids`.
 - Beneficiary objects: `party_id`, `tier` primary/contingent, numeric `share` fraction 0–1 or
   null, `source_ids`. No duplicate party within a tier. Each nonempty tier must total exactly
   one. No normalization, per-stirpes interpretation or legal eligibility inference occurs.
 
 ## Comparison and output
+
+Unknown recorded owners or document links cannot establish a mismatch with intended
+records. Null is preserved in the output snapshot with a specific evidence gap;
+an explicit empty list can still support a literal comparison. A document title,
+unsigned draft or client discussion does not establish an intended governing-document
+association; that association requires its own source evidence.
 
 Validate cross-references and required current document kinds. A record of current status is
 not proof of execution or validity. Compare intended owner-ID sets with supplied recorded owners;

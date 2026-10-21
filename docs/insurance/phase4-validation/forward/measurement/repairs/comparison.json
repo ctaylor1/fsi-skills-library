@@ -1,0 +1,1350 @@
+[
+  {
+    "case": "architecture-complete",
+    "input_unchanged": true,
+    "before_status": "ready-for-review",
+    "after_status": "ready-for-review",
+    "before_results": {
+      "components": [
+        {
+          "component_id": "portal",
+          "responsibility": "Capture deidentified intake",
+          "owner": "Mira Chen",
+          "technology_choice": "Web form",
+          "alternative": "Examiner keyed form",
+          "tradeoff": "Faster capture; browser availability dependency",
+          "failure_domain": "edge",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "280",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        },
+        {
+          "component_id": "draft-service",
+          "responsibility": "Validate and prepare intake draft",
+          "owner": "Noah Vale",
+          "technology_choice": "Stateless rules service",
+          "alternative": "Manual checklist",
+          "tradeoff": "Consistent validation; rules maintenance required",
+          "failure_domain": "service",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "420",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        },
+        {
+          "component_id": "review-queue",
+          "responsibility": "Hold drafts for examiner acceptance",
+          "owner": "Elena Moss",
+          "technology_choice": "Durable queue",
+          "alternative": "Shared task list",
+          "tradeoff": "Replayable draft intake; queue administration required",
+          "failure_domain": "queue",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "160",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        }
+      ],
+      "interfaces": [
+        {
+          "interface_id": "I1",
+          "from_component": "portal",
+          "to_component": "draft-service",
+          "contract_version": "1",
+          "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+          "purpose": "Prepare examiner-reviewed draft intake",
+          "authentication": "Mutual service identity",
+          "authorization_scope": "Sandbox draft-create only",
+          "encryption": "TLS in transit and managed encryption at rest",
+          "timeout": "5 seconds",
+          "failure_route": "Manual examiner intake queue with visible failure reason",
+          "trace_id": "intake-token",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 3,
+          "idempotency_key": "intake-token",
+          "approval_owner": "Elena Moss",
+          "receipt_check": "Read back one draft ID and matching token",
+          "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+          "source_refs": [
+            "SUP-1"
+          ]
+        },
+        {
+          "interface_id": "I2",
+          "from_component": "draft-service",
+          "to_component": "review-queue",
+          "contract_version": "1",
+          "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+          "purpose": "Prepare examiner-reviewed draft intake",
+          "authentication": "Mutual service identity",
+          "authorization_scope": "Sandbox draft-create only",
+          "encryption": "TLS in transit and managed encryption at rest",
+          "timeout": "5 seconds",
+          "failure_route": "Manual examiner intake queue with visible failure reason",
+          "trace_id": "intake-token",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 3,
+          "idempotency_key": "intake-token",
+          "approval_owner": "Elena Moss",
+          "receipt_check": "Read back one draft ID and matching token",
+          "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+          "source_refs": [
+            "SUP-1"
+          ]
+        }
+      ],
+      "requirement_fit": [
+        {
+          "requirement_id": "R1",
+          "observed": "640",
+          "threshold": "700",
+          "unit": "ms",
+          "meets": true
+        }
+      ],
+      "supplied_period_cost": "860",
+      "currency": "USD",
+      "cost_period": "month; 2026-09 budget at stated sandbox load",
+      "deployment_authorized": false,
+      "provider_conformance": "not_assessed"
+    },
+    "after_results": {
+      "components": [
+        {
+          "component_id": "portal",
+          "responsibility": "Capture deidentified intake",
+          "owner": "Mira Chen",
+          "technology_choice": "Web form",
+          "alternative": "Examiner keyed form",
+          "tradeoff": "Faster capture; browser availability dependency",
+          "failure_domain": "edge",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "280",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        },
+        {
+          "component_id": "draft-service",
+          "responsibility": "Validate and prepare intake draft",
+          "owner": "Noah Vale",
+          "technology_choice": "Stateless rules service",
+          "alternative": "Manual checklist",
+          "tradeoff": "Consistent validation; rules maintenance required",
+          "failure_domain": "service",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "420",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        },
+        {
+          "component_id": "review-queue",
+          "responsibility": "Hold drafts for examiner acceptance",
+          "owner": "Elena Moss",
+          "technology_choice": "Durable queue",
+          "alternative": "Shared task list",
+          "tradeoff": "Replayable draft intake; queue administration required",
+          "failure_domain": "queue",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "160",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        }
+      ],
+      "interfaces": [
+        {
+          "interface_id": "I1",
+          "from_component": "portal",
+          "to_component": "draft-service",
+          "contract_version": "1",
+          "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+          "purpose": "Prepare examiner-reviewed draft intake",
+          "authentication": "Mutual service identity",
+          "authorization_scope": "Sandbox draft-create only",
+          "encryption": "TLS in transit and managed encryption at rest",
+          "timeout": "5 seconds",
+          "failure_route": "Manual examiner intake queue with visible failure reason",
+          "trace_id": "intake-token",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 3,
+          "idempotency_key": "intake-token",
+          "approval_owner": "Elena Moss",
+          "receipt_check": "Read back one draft ID and matching token",
+          "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+          "source_refs": [
+            "SUP-1"
+          ]
+        },
+        {
+          "interface_id": "I2",
+          "from_component": "draft-service",
+          "to_component": "review-queue",
+          "contract_version": "1",
+          "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+          "purpose": "Prepare examiner-reviewed draft intake",
+          "authentication": "Mutual service identity",
+          "authorization_scope": "Sandbox draft-create only",
+          "encryption": "TLS in transit and managed encryption at rest",
+          "timeout": "5 seconds",
+          "failure_route": "Manual examiner intake queue with visible failure reason",
+          "trace_id": "intake-token",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 3,
+          "idempotency_key": "intake-token",
+          "approval_owner": "Elena Moss",
+          "receipt_check": "Read back one draft ID and matching token",
+          "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+          "source_refs": [
+            "SUP-1"
+          ]
+        }
+      ],
+      "requirement_fit": [
+        {
+          "requirement_id": "R1",
+          "observed": "640",
+          "threshold": "700",
+          "unit": "ms",
+          "meets": true
+        }
+      ],
+      "supplied_period_cost": "860",
+      "currency": "USD",
+      "cost_period": "month; 2026-09 budget at stated sandbox load",
+      "deployment_authorized": false,
+      "provider_conformance": "not_assessed"
+    },
+    "before_findings": [],
+    "after_findings": []
+  },
+  {
+    "case": "architecture-imperfect",
+    "input_unchanged": true,
+    "before_status": "needs-data",
+    "after_status": "needs-data",
+    "before_results": {
+      "components": [
+        {
+          "component_id": "portal",
+          "responsibility": "Capture deidentified intake",
+          "owner": "Mira Chen",
+          "technology_choice": "Web form",
+          "alternative": "Examiner keyed form",
+          "tradeoff": "Faster capture; browser availability dependency",
+          "failure_domain": "edge",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "280",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        },
+        {
+          "component_id": "draft-service",
+          "responsibility": "Validate and prepare intake draft",
+          "owner": "Noah Vale",
+          "technology_choice": "Stateless rules service",
+          "alternative": "Manual checklist",
+          "tradeoff": "Consistent validation; rules maintenance required",
+          "failure_domain": "service",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "420",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        },
+        {
+          "component_id": "review-queue",
+          "responsibility": "Hold drafts for examiner acceptance",
+          "owner": "Elena Moss",
+          "technology_choice": "Durable queue",
+          "alternative": "Shared task list",
+          "tradeoff": "Replayable draft intake; queue administration required",
+          "failure_domain": "queue",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": null,
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        }
+      ],
+      "interfaces": [
+        {
+          "interface_id": "I1",
+          "from_component": "portal",
+          "to_component": "draft-service",
+          "contract_version": "1",
+          "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+          "purpose": "Prepare examiner-reviewed draft intake",
+          "authentication": "Mutual service identity",
+          "authorization_scope": "Sandbox draft-create only",
+          "encryption": "TLS in transit and managed encryption at rest",
+          "timeout": "5 seconds",
+          "failure_route": "Manual examiner intake queue with visible failure reason",
+          "trace_id": "intake-token",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 3,
+          "idempotency_key": "intake-token",
+          "approval_owner": "Elena Moss",
+          "receipt_check": "Read back one draft ID and matching token",
+          "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+          "source_refs": [
+            "SUP-1"
+          ]
+        },
+        {
+          "interface_id": "I2",
+          "from_component": "draft-service",
+          "to_component": "review-queue",
+          "contract_version": "1",
+          "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+          "purpose": "Prepare examiner-reviewed draft intake",
+          "authentication": "Mutual service identity",
+          "authorization_scope": "Sandbox draft-create only",
+          "encryption": "TLS in transit and managed encryption at rest",
+          "timeout": "5 seconds",
+          "failure_route": "Manual examiner intake queue with visible failure reason",
+          "trace_id": "intake-token",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 3,
+          "idempotency_key": "intake-token",
+          "approval_owner": "Elena Moss",
+          "receipt_check": "Read back one draft ID and matching token",
+          "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+          "source_refs": [
+            "SUP-1"
+          ]
+        }
+      ],
+      "requirement_fit": [
+        {
+          "requirement_id": "R1",
+          "observed": null,
+          "threshold": "700",
+          "unit": "ms",
+          "meets": null
+        }
+      ],
+      "supplied_period_cost": null,
+      "currency": "USD",
+      "cost_period": "month; 2026-09 budget at stated sandbox load",
+      "deployment_authorized": false,
+      "provider_conformance": "not_assessed"
+    },
+    "after_results": {
+      "components": [
+        {
+          "component_id": "portal",
+          "responsibility": "Capture deidentified intake",
+          "owner": "Mira Chen",
+          "technology_choice": "Web form",
+          "alternative": "Examiner keyed form",
+          "tradeoff": "Faster capture; browser availability dependency",
+          "failure_domain": "edge",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "280",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        },
+        {
+          "component_id": "draft-service",
+          "responsibility": "Validate and prepare intake draft",
+          "owner": "Noah Vale",
+          "technology_choice": "Stateless rules service",
+          "alternative": "Manual checklist",
+          "tradeoff": "Consistent validation; rules maintenance required",
+          "failure_domain": "service",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": "420",
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        },
+        {
+          "component_id": "review-queue",
+          "responsibility": "Hold drafts for examiner acceptance",
+          "owner": "Elena Moss",
+          "technology_choice": "Durable queue",
+          "alternative": "Shared task list",
+          "tradeoff": "Replayable draft intake; queue administration required",
+          "failure_domain": "queue",
+          "data_classification": "deidentified synthetic",
+          "retention_rule": "Delete sandbox records after 30 days under fictional policy RET-3",
+          "recovery_runbook": "Pause affected component; route draft to manual examiner queue; reconcile retained receipt before replay",
+          "currency": "USD",
+          "cost_period": "month; 2026-09 budget at stated sandbox load",
+          "cost": null,
+          "source_refs": [
+            "ARC-17",
+            "SUP-1"
+          ]
+        }
+      ],
+      "interfaces": [
+        {
+          "interface_id": "I1",
+          "from_component": "portal",
+          "to_component": "draft-service",
+          "contract_version": "1",
+          "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+          "purpose": "Prepare examiner-reviewed draft intake",
+          "authentication": "Mutual service identity",
+          "authorization_scope": "Sandbox draft-create only",
+          "encryption": "TLS in transit and managed encryption at rest",
+          "timeout": "5 seconds",
+          "failure_route": "Manual examiner intake queue with visible failure reason",
+          "trace_id": "intake-token",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 3,
+          "idempotency_key": "intake-token",
+          "approval_owner": "Elena Moss",
+          "receipt_check": "Read back one draft ID and matching token",
+          "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+          "source_refs": [
+            "SUP-1"
+          ]
+        },
+        {
+          "interface_id": "I2",
+          "from_component": "draft-service",
+          "to_component": "review-queue",
+          "contract_version": "1",
+          "payload_schema": "intake-draft-v1: token, captured_at, supplied_fields, missing_fields; deidentified only",
+          "purpose": "Prepare examiner-reviewed draft intake",
+          "authentication": "Mutual service identity",
+          "authorization_scope": "Sandbox draft-create only",
+          "encryption": "TLS in transit and managed encryption at rest",
+          "timeout": "5 seconds",
+          "failure_route": "Manual examiner intake queue with visible failure reason",
+          "trace_id": "intake-token",
+          "delivery": "at-least-once",
+          "operation": "proposed-write",
+          "purpose_reviewed": true,
+          "max_attempts": 3,
+          "idempotency_key": "intake-token",
+          "approval_owner": "Elena Moss",
+          "receipt_check": "Read back one draft ID and matching token",
+          "recovery_plan": "Stop producer on unknown receipt; reconcile token before retry; retain failed draft for examiner",
+          "source_refs": [
+            "SUP-1"
+          ]
+        }
+      ],
+      "requirement_fit": [
+        {
+          "requirement_id": "R1",
+          "observed": null,
+          "threshold": "700",
+          "unit": "ms",
+          "meets": null
+        }
+      ],
+      "supplied_period_cost": null,
+      "currency": "USD",
+      "cost_period": "month; 2026-09 budget at stated sandbox load",
+      "deployment_authorized": false,
+      "provider_conformance": "not_assessed"
+    },
+    "before_findings": [
+      {
+        "code": "unknown-number",
+        "message": "cost is unknown",
+        "source_refs": [
+          "ARC-17",
+          "SUP-1"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "measurement-scope",
+        "message": "Measurement workload, unit, metric or component differs",
+        "source_refs": [
+          "ARC-17"
+        ],
+        "severity": "gap"
+      }
+    ],
+    "after_findings": [
+      {
+        "code": "unknown-number",
+        "message": "cost is unknown",
+        "source_refs": [
+          "ARC-17",
+          "SUP-1"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "measurement-scope",
+        "message": "Measurement workload, unit, metric or component differs",
+        "source_refs": [
+          "ARC-17"
+        ],
+        "severity": "gap"
+      }
+    ]
+  },
+  {
+    "case": "automation-complete",
+    "input_unchanged": true,
+    "before_status": "ready-for-review",
+    "after_status": "ready-for-review",
+    "before_results": {
+      "paired_case_count": 4,
+      "observed_means": {
+        "baseline_human_minutes": "20",
+        "candidate_human_minutes": "14",
+        "baseline_nonlabor_cost": "1",
+        "candidate_nonlabor_cost": "3",
+        "baseline_elapsed_seconds": "1200",
+        "candidate_elapsed_seconds": "885"
+      },
+      "human_minutes_saved_per_case": "6",
+      "observed_error_rates": {
+        "baseline": "0.25",
+        "candidate": "0.25"
+      },
+      "scenarios": [
+        {
+          "scenario_id": "capacity-only",
+          "eligible_annual_volume": "6000.0",
+          "capacity_hours": "600.0",
+          "capacity_value": "28800.0",
+          "nonlabor_saving": "-12000.0",
+          "annual_cash_net": "-18000.0",
+          "simple_payback_months": null,
+          "projection_not_observed": true
+        },
+        {
+          "scenario_id": "cash-50-percent",
+          "eligible_annual_volume": "6000.0",
+          "capacity_hours": "600.0",
+          "capacity_value": "28800.0",
+          "nonlabor_saving": "-12000.0",
+          "annual_cash_net": "-3600.00",
+          "simple_payback_months": null,
+          "projection_not_observed": true
+        }
+      ],
+      "pilot_candidate": false,
+      "causal_effect_established": false,
+      "automation_authorized": false
+    },
+    "after_results": {
+      "paired_case_count": 4,
+      "observed_means": {
+        "baseline_human_minutes": "20",
+        "candidate_human_minutes": "14",
+        "baseline_nonlabor_cost": "1",
+        "candidate_nonlabor_cost": "3",
+        "baseline_elapsed_seconds": "1200",
+        "candidate_elapsed_seconds": "885"
+      },
+      "human_minutes_saved_per_case": "6",
+      "observed_error_rates": {
+        "baseline": "0.25",
+        "candidate": "0.25"
+      },
+      "scenarios": [
+        {
+          "scenario_id": "capacity-only",
+          "eligible_annual_volume": "6000.0",
+          "capacity_hours": "600.0",
+          "capacity_value": "28800.0",
+          "nonlabor_saving": "-12000.0",
+          "annual_cash_net": "-18000.0",
+          "simple_payback_months": null,
+          "projection_not_observed": true
+        },
+        {
+          "scenario_id": "cash-50-percent",
+          "eligible_annual_volume": "6000.0",
+          "capacity_hours": "600.0",
+          "capacity_value": "28800.0",
+          "nonlabor_saving": "-12000.0",
+          "annual_cash_net": "-3600.00",
+          "simple_payback_months": null,
+          "projection_not_observed": true
+        }
+      ],
+      "pilot_candidate": false,
+      "causal_effect_established": false,
+      "automation_authorized": false
+    },
+    "before_findings": [],
+    "after_findings": []
+  },
+  {
+    "case": "automation-imperfect",
+    "input_unchanged": true,
+    "before_status": "needs-data",
+    "after_status": "needs-data",
+    "before_results": {
+      "paired_case_count": 4,
+      "observed_means": {
+        "baseline_human_minutes": null,
+        "candidate_human_minutes": null,
+        "baseline_nonlabor_cost": null,
+        "candidate_nonlabor_cost": null,
+        "baseline_elapsed_seconds": null,
+        "candidate_elapsed_seconds": null
+      },
+      "human_minutes_saved_per_case": null,
+      "observed_error_rates": {
+        "baseline": null,
+        "candidate": null
+      },
+      "scenarios": [
+        {
+          "scenario_id": "capacity-only",
+          "eligible_annual_volume": null,
+          "capacity_hours": null,
+          "capacity_value": null,
+          "nonlabor_saving": null,
+          "annual_cash_net": null,
+          "simple_payback_months": null,
+          "projection_not_observed": true
+        },
+        {
+          "scenario_id": "cash-50-percent",
+          "eligible_annual_volume": null,
+          "capacity_hours": null,
+          "capacity_value": null,
+          "nonlabor_saving": null,
+          "annual_cash_net": null,
+          "simple_payback_months": null,
+          "projection_not_observed": true
+        }
+      ],
+      "pilot_candidate": false,
+      "causal_effect_established": false,
+      "automation_authorized": false
+    },
+    "after_results": {
+      "paired_case_count": 4,
+      "observed_means": {
+        "baseline_human_minutes": null,
+        "candidate_human_minutes": null,
+        "baseline_nonlabor_cost": null,
+        "candidate_nonlabor_cost": null,
+        "baseline_elapsed_seconds": null,
+        "candidate_elapsed_seconds": null
+      },
+      "human_minutes_saved_per_case": null,
+      "observed_error_rates": {
+        "baseline": null,
+        "candidate": null
+      },
+      "scenarios": [
+        {
+          "scenario_id": "capacity-only",
+          "eligible_annual_volume": null,
+          "capacity_hours": null,
+          "capacity_value": null,
+          "nonlabor_saving": null,
+          "annual_cash_net": null,
+          "simple_payback_months": null,
+          "projection_not_observed": true
+        },
+        {
+          "scenario_id": "cash-50-percent",
+          "eligible_annual_volume": null,
+          "capacity_hours": null,
+          "capacity_value": null,
+          "nonlabor_saving": null,
+          "annual_cash_net": null,
+          "simple_payback_months": null,
+          "projection_not_observed": true
+        }
+      ],
+      "pilot_candidate": false,
+      "causal_effect_established": false,
+      "automation_authorized": false
+    },
+    "before_findings": [
+      {
+        "code": "unknown-number",
+        "message": "candidate_human_minutes is unknown",
+        "source_refs": [
+          "PAIR-11"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "control-open",
+        "message": "Control is not passed: duplicate-replay",
+        "source_refs": [
+          "PAIR-11"
+        ],
+        "severity": "review"
+      }
+    ],
+    "after_findings": [
+      {
+        "code": "unknown-number",
+        "message": "candidate_human_minutes is unknown",
+        "source_refs": [
+          "PAIR-11"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "control-open",
+        "message": "Control is not passed: duplicate-replay",
+        "source_refs": [
+          "PAIR-11"
+        ],
+        "severity": "review"
+      }
+    ]
+  },
+  {
+    "case": "data-complete",
+    "input_unchanged": true,
+    "before_status": "ready-for-review",
+    "after_status": "ready-for-review",
+    "before_results": {
+      "sample_size": 6,
+      "provider_matched_cases": 4,
+      "provider_coverage": "0.6666666666666666666666666667",
+      "confusion_matrices": {
+        "baseline": {
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 2,
+          "precision": "0.5",
+          "recall": "0.3333333333333333333333333333"
+        },
+        "augmented": {
+          "tp": 2,
+          "tn": 2,
+          "fp": 1,
+          "fn": 1,
+          "precision": "0.6666666666666666666666666667",
+          "recall": "0.6666666666666666666666666667"
+        }
+      },
+      "observed_outcome_cost_reduction": "60",
+      "projected_annual_net": null,
+      "license_usable_for_stated_purpose": true,
+      "causal_uplift_established": false,
+      "provider_selected": false
+    },
+    "after_results": {
+      "sample_size": 6,
+      "provider_matched_cases": 4,
+      "provider_coverage": "0.6666666666666666666666666667",
+      "confusion_matrices": {
+        "baseline": {
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 2,
+          "precision": "0.5",
+          "recall": "0.3333333333333333333333333333"
+        },
+        "augmented": {
+          "tp": 2,
+          "tn": 2,
+          "fp": 1,
+          "fn": 1,
+          "precision": "0.6666666666666666666666666667",
+          "recall": "0.6666666666666666666666666667"
+        }
+      },
+      "observed_outcome_cost_reduction": "60",
+      "projected_annual_net": null,
+      "license_usable_for_stated_purpose": true,
+      "causal_uplift_established": false,
+      "provider_selected": false
+    },
+    "before_findings": [],
+    "after_findings": []
+  },
+  {
+    "case": "data-imperfect",
+    "input_unchanged": true,
+    "before_status": "needs-data",
+    "after_status": "needs-data",
+    "before_results": {
+      "sample_size": 6,
+      "provider_matched_cases": null,
+      "provider_coverage": null,
+      "confusion_matrices": null,
+      "observed_outcome_cost_reduction": null,
+      "projected_annual_net": null,
+      "license_usable_for_stated_purpose": false,
+      "causal_uplift_established": false,
+      "provider_selected": false
+    },
+    "after_results": {
+      "sample_size": 6,
+      "provider_matched_cases": null,
+      "provider_coverage": null,
+      "confusion_matrices": null,
+      "observed_outcome_cost_reduction": null,
+      "projected_annual_net": null,
+      "license_usable_for_stated_purpose": true,
+      "causal_uplift_established": false,
+      "provider_selected": false
+    },
+    "before_findings": [
+      {
+        "code": "temporal-leakage",
+        "message": "Matched provider evidence was not available at decision time",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      }
+    ],
+    "after_findings": [
+      {
+        "code": "temporal-leakage",
+        "message": "Matched provider evidence was not available at decision time",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      }
+    ]
+  },
+  {
+    "case": "data-unknown-projection",
+    "input_unchanged": true,
+    "before_status": "needs-data",
+    "after_status": "needs-data",
+    "before_results": {
+      "sample_size": 6,
+      "provider_matched_cases": 4,
+      "provider_coverage": "0.6666666666666666666666666667",
+      "confusion_matrices": {
+        "baseline": {
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 2,
+          "precision": "0.5",
+          "recall": "0.3333333333333333333333333333"
+        },
+        "augmented": {
+          "tp": 2,
+          "tn": 2,
+          "fp": 1,
+          "fn": 1,
+          "precision": "0.6666666666666666666666666667",
+          "recall": "0.6666666666666666666666666667"
+        }
+      },
+      "observed_outcome_cost_reduction": "60",
+      "projected_annual_net": null,
+      "license_usable_for_stated_purpose": false,
+      "causal_uplift_established": false,
+      "provider_selected": false
+    },
+    "after_results": {
+      "sample_size": 6,
+      "provider_matched_cases": 4,
+      "provider_coverage": "0.6666666666666666666666666667",
+      "confusion_matrices": {
+        "baseline": {
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 2,
+          "precision": "0.5",
+          "recall": "0.3333333333333333333333333333"
+        },
+        "augmented": {
+          "tp": 2,
+          "tn": 2,
+          "fp": 1,
+          "fn": 1,
+          "precision": "0.6666666666666666666666666667",
+          "recall": "0.6666666666666666666666666667"
+        }
+      },
+      "observed_outcome_cost_reduction": "60",
+      "projected_annual_net": null,
+      "license_usable_for_stated_purpose": true,
+      "causal_uplift_established": false,
+      "provider_selected": false
+    },
+    "before_findings": [
+      {
+        "code": "representativeness_reviewed",
+        "message": "representativeness_reviewed lacks affirmative supplied evidence",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "field",
+        "message": "reviewed_by is unresolved",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "annual_volume is unknown",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "annual_license_cost is unknown",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "incremental_cost_per_case is unknown",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "annual_operating_cost is unknown",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      }
+    ],
+    "after_findings": [
+      {
+        "code": "representativeness_reviewed",
+        "message": "representativeness_reviewed lacks affirmative supplied evidence",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "field",
+        "message": "reviewed_by is unresolved",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "annual_volume is unknown",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "annual_license_cost is unknown",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "incremental_cost_per_case is unknown",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "annual_operating_cost is unknown",
+        "source_refs": [
+          "BENCH-9"
+        ],
+        "severity": "gap"
+      }
+    ]
+  },
+  {
+    "case": "operations-complete",
+    "input_unchanged": true,
+    "before_status": "ready-for-review",
+    "after_status": "ready-for-review",
+    "before_results": {
+      "queue_counts": {
+        "opening": 2,
+        "arrivals": 3,
+        "completed": 2,
+        "cancelled": 1,
+        "closing": 2
+      },
+      "queue_conservation_difference": 0,
+      "opening_control_difference": "0",
+      "closing_control_difference": "0",
+      "completed_episodes": [
+        {
+          "episode_id": "E1",
+          "elapsed_hours": "24.0",
+          "within_sla": true
+        },
+        {
+          "episode_id": "E3",
+          "elapsed_hours": "6.0",
+          "within_sla": true
+        }
+      ],
+      "backlog_ages": [
+        {
+          "episode_id": "E2",
+          "age_hours": "30.0"
+        },
+        {
+          "episode_id": "E5",
+          "age_hours": "8.0"
+        }
+      ],
+      "mean_elapsed_hours": "15.0",
+      "p95_elapsed_hours_nearest_rank": "24.0",
+      "sla_fraction": "1",
+      "cost_per_completed": "24",
+      "human_minutes_per_completed": "30",
+      "labor_utilization": "0.75",
+      "causal_improvement_established": false,
+      "staffing_change_authorized": false
+    },
+    "after_results": {
+      "queue_counts": {
+        "opening": 2,
+        "arrivals": 3,
+        "completed": 2,
+        "cancelled": 1,
+        "closing": 2
+      },
+      "queue_conservation_difference": 0,
+      "snapshot_reconciled": true,
+      "opening_control_difference": "0",
+      "closing_control_difference": "0",
+      "completed_episodes": [
+        {
+          "episode_id": "E1",
+          "elapsed_hours": "24.0",
+          "within_sla": true
+        },
+        {
+          "episode_id": "E3",
+          "elapsed_hours": "6.0",
+          "within_sla": true
+        }
+      ],
+      "backlog_ages": [
+        {
+          "episode_id": "E2",
+          "age_hours": "30.0"
+        },
+        {
+          "episode_id": "E5",
+          "age_hours": "8.0"
+        }
+      ],
+      "mean_elapsed_hours": "15.0",
+      "p95_elapsed_hours_nearest_rank": "24.0",
+      "sla_fraction": "1",
+      "cost_per_completed": "24",
+      "human_minutes_per_completed": "30",
+      "labor_utilization": "0.75",
+      "causal_improvement_established": false,
+      "staffing_change_authorized": false
+    },
+    "before_findings": [],
+    "after_findings": []
+  },
+  {
+    "case": "operations-imperfect",
+    "input_unchanged": true,
+    "before_status": "needs-review",
+    "after_status": "needs-review",
+    "before_results": {
+      "queue_counts": {
+        "opening": 2,
+        "arrivals": 3,
+        "completed": 2,
+        "cancelled": 1,
+        "closing": 2
+      },
+      "queue_conservation_difference": 0,
+      "opening_control_difference": "0",
+      "closing_control_difference": "-1",
+      "completed_episodes": [
+        {
+          "episode_id": "E1",
+          "elapsed_hours": "24.0",
+          "within_sla": true
+        },
+        {
+          "episode_id": "E3",
+          "elapsed_hours": "6.0",
+          "within_sla": true
+        }
+      ],
+      "backlog_ages": [
+        {
+          "episode_id": "E2",
+          "age_hours": "30.0"
+        },
+        {
+          "episode_id": "E5",
+          "age_hours": "8.0"
+        }
+      ],
+      "mean_elapsed_hours": "15.0",
+      "p95_elapsed_hours_nearest_rank": "24.0",
+      "sla_fraction": "1",
+      "cost_per_completed": "24",
+      "human_minutes_per_completed": "30",
+      "labor_utilization": "0.75",
+      "causal_improvement_established": false,
+      "staffing_change_authorized": false
+    },
+    "after_results": {
+      "queue_counts": {
+        "opening": 2,
+        "arrivals": 3,
+        "completed": 2,
+        "cancelled": 1,
+        "closing": 2
+      },
+      "queue_conservation_difference": 0,
+      "snapshot_reconciled": false,
+      "opening_control_difference": "0",
+      "closing_control_difference": "-1",
+      "completed_episodes": [
+        {
+          "episode_id": "E1",
+          "elapsed_hours": "24.0",
+          "within_sla": true
+        },
+        {
+          "episode_id": "E3",
+          "elapsed_hours": "6.0",
+          "within_sla": true
+        }
+      ],
+      "backlog_ages": [
+        {
+          "episode_id": "E2",
+          "age_hours": "30.0"
+        },
+        {
+          "episode_id": "E5",
+          "age_hours": "8.0"
+        }
+      ],
+      "mean_elapsed_hours": "15.0",
+      "p95_elapsed_hours_nearest_rank": "24.0",
+      "sla_fraction": "1",
+      "cost_per_completed": "24",
+      "human_minutes_per_completed": "30",
+      "labor_utilization": "0.75",
+      "causal_improvement_established": false,
+      "staffing_change_authorized": false
+    },
+    "before_findings": [
+      {
+        "code": "inventory-break",
+        "message": "closing control differs from episode snapshot",
+        "source_refs": [],
+        "severity": "review"
+      }
+    ],
+    "after_findings": [
+      {
+        "code": "inventory-break",
+        "message": "closing control differs from episode snapshot",
+        "source_refs": [],
+        "severity": "review"
+      }
+    ]
+  },
+  {
+    "case": "operations-unknown-open-cost",
+    "input_unchanged": true,
+    "before_status": "needs-data",
+    "after_status": "ready-for-review",
+    "before_results": {
+      "queue_counts": null,
+      "queue_conservation_difference": null,
+      "opening_control_difference": null,
+      "closing_control_difference": null,
+      "completed_episodes": [],
+      "backlog_ages": [],
+      "mean_elapsed_hours": null,
+      "p95_elapsed_hours_nearest_rank": null,
+      "sla_fraction": null,
+      "cost_per_completed": null,
+      "human_minutes_per_completed": null,
+      "labor_utilization": null,
+      "causal_improvement_established": false,
+      "staffing_change_authorized": false
+    },
+    "after_results": {
+      "queue_counts": {
+        "opening": 2,
+        "arrivals": 3,
+        "completed": 2,
+        "cancelled": 1,
+        "closing": 2
+      },
+      "queue_conservation_difference": 0,
+      "snapshot_reconciled": true,
+      "opening_control_difference": "0",
+      "closing_control_difference": "0",
+      "completed_episodes": [
+        {
+          "episode_id": "E1",
+          "elapsed_hours": "24.0",
+          "within_sla": true
+        },
+        {
+          "episode_id": "E3",
+          "elapsed_hours": "6.0",
+          "within_sla": true
+        }
+      ],
+      "backlog_ages": [
+        {
+          "episode_id": "E2",
+          "age_hours": "30.0"
+        },
+        {
+          "episode_id": "E5",
+          "age_hours": "8.0"
+        }
+      ],
+      "mean_elapsed_hours": "15.0",
+      "p95_elapsed_hours_nearest_rank": "24.0",
+      "sla_fraction": "1",
+      "cost_per_completed": "24",
+      "human_minutes_per_completed": "30",
+      "labor_utilization": "0.75",
+      "causal_improvement_established": false,
+      "staffing_change_authorized": false
+    },
+    "before_findings": [
+      {
+        "code": "unknown-number",
+        "message": "cost is unknown",
+        "source_refs": [
+          "QUEUE-22"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "human_minutes is unknown",
+        "source_refs": [
+          "QUEUE-22"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "cost is unknown",
+        "source_refs": [
+          "QUEUE-22"
+        ],
+        "severity": "gap"
+      },
+      {
+        "code": "unknown-number",
+        "message": "human_minutes is unknown",
+        "source_refs": [
+          "QUEUE-22"
+        ],
+        "severity": "gap"
+      }
+    ],
+    "after_findings": []
+  }
+]

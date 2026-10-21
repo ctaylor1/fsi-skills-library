@@ -9,7 +9,7 @@ advise, or act. Downstream skills consume the snapshot via its durable `snapshot
 | ---------------- | ------------- | ---------------- |
 | `portfolio-risk-diversification-check` | User asks whether/how the portfolio is concentrated, diversified, or exposed (educational, non-advice) | `snapshot_id` + normalized holdings table |
 | `investment-recommendation-evidence-reviewer` | Any suitability / Reg BI question about a recommendation | `snapshot_id` + account context |
-| `performance-attribution-builder` | User asks about return/attribution over time | `snapshot_id` + period |
+| `portfolio-performance-attributor` | User asks about return/attribution over time | `snapshot_id` + period |
 | `client-review-preparer` | Associate assembling a client-review packet | `snapshot_id` |
 | `portfolio-proposal-comparator` | Comparing this portfolio to a proposed one | `snapshot_id` |
 

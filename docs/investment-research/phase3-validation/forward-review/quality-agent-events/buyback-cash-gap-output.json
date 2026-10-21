@@ -1,0 +1,127 @@
+{
+  "schema_version": "ir-analysis/2.0",
+  "method_id": "corporate-event-impact-reviewer",
+  "method_version": "2.0.0",
+  "request_id": "forward-buyback",
+  "subject": {
+    "type": "security",
+    "id": "FORWARD-SYNTH-CO-A",
+    "issuer_id": "FORWARD-SYNTH-CO"
+  },
+  "as_of": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "use_on": "2026-10-20",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "results": {
+    "event_summary": {
+      "event_id": "buyback",
+      "type": "share-repurchase",
+      "status": "announced",
+      "announcement_date": "2026-10-18",
+      "effective_date": "2026-11-15",
+      "known_at": "2026-10-18",
+      "scenario_label": "conditional announced repurchase"
+    },
+    "effect_basis": "conditional-on-supplied-terms",
+    "financial_bridge": {
+      "currency": "USD",
+      "units": "millions",
+      "share_units": "millions",
+      "accounting_basis": "US-GAAP",
+      "consolidation_scope": "consolidated",
+      "valuation_subject": {
+        "security_id": "FORWARD-SYNTH-CO-A",
+        "share_class": "common-A",
+        "share_count_basis": "point-in-time-common-A"
+      },
+      "balance_date": "2026-09-30",
+      "before": {
+        "cash": 40,
+        "debt": 120,
+        "shares": 30,
+        "net_debt": 80
+      },
+      "change": {
+        "cash": -49,
+        "debt": 0,
+        "shares": -4.0,
+        "net_debt": 49
+      },
+      "after": {
+        "cash": -9,
+        "debt": 120,
+        "shares": 26.0,
+        "net_debt": 129
+      }
+    },
+    "event_metrics": {
+      "shares_reduced": 4.0,
+      "fraction_of_opening_shares_reduced": 0.13333333333333333,
+      "new_shares_fraction_of_post_event_shares": 0.0,
+      "share_count_change_fraction": -0.13333333333333333
+    },
+    "funding_reconciliation": {
+      "sources": 49,
+      "uses": 49,
+      "difference": 0,
+      "cash_feasible_for_supplied_bridge": false,
+      "additional_cash_required": 9,
+      "funding_availability": "not-independently-established"
+    },
+    "review_limitations": [
+      "Single supplied event and unchanged financial scope; no interaction or intervening cash-flow model.",
+      "Share-count arithmetic preserves supplied class and basis; economic ownership, voting control and weighted-average EPS require separate review.",
+      "No purchase accounting, tax opinion, synergy forecast, market reaction, legal completion or execution determination."
+    ],
+    "legal_completion_verified": false,
+    "market_reaction_predicted": false
+  },
+  "status": "partial",
+  "calculation_lineage": [
+    {
+      "formula": "shares reduced = cash_spend / repurchase_price; cash_spend excludes fees; fees are part of funding uses"
+    },
+    {
+      "formula": "after = baseline + change; net debt = debt - cash; no intervening operating cash flows or unmodeled transactions assumed"
+    }
+  ],
+  "unresolved_issues": [
+    "Supplied event funding exceeds available baseline cash by 9; additional financing or intervening cash flows are unestablished"
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "quarter-3",
+      "locator": "raw-source.json#buyback_release/baseline"
+    },
+    {
+      "source_id": "buyback",
+      "locator": "raw-source.json#buyback_release/terms"
+    }
+  ],
+  "source_register": [
+    {
+      "source_id": "quarter-3",
+      "version": "synthetic-v1",
+      "known_at": "2026-10-15",
+      "locator": "raw-source.json#quarter-3",
+      "kind": "financial_statement"
+    },
+    {
+      "source_id": "buyback",
+      "version": "synthetic-v1",
+      "known_at": "2026-10-18",
+      "locator": "raw-source.json#buyback",
+      "kind": "issuer_release"
+    }
+  ],
+  "source_assurance": "supplied-not-authenticated",
+  "coverage_assurance": "supplied-inventory-only",
+  "professional_acceptance": "not-established",
+  "authority_granted": false,
+  "action_taken": false,
+  "approval": "not_requested",
+  "execution": "not_performed",
+  "input_hash": "301e0f0303cadcfc9a80f01c85a342ea98397e89f3790689756e58d954cd1a60",
+  "source_truth": "unverified"
+}

@@ -1,0 +1,146 @@
+{
+  "request_id": "EVIDENCE-FORWARD",
+  "purpose": "equity-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "LEI-ASTER"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "filing",
+      "version": "v1",
+      "locator": "synthetic:filing:p70",
+      "kind": "filing",
+      "known_at": "2026-10-19",
+      "subject_ids": [
+        "LEI-ASTER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "equity-research"
+      ]
+    },
+    {
+      "source_id": "restatement",
+      "version": "v1",
+      "locator": "synthetic:restatement:p70",
+      "kind": "filing",
+      "known_at": "2026-10-19",
+      "subject_ids": [
+        "LEI-ASTER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "equity-research"
+      ]
+    },
+    {
+      "source_id": "resolution",
+      "version": "v1",
+      "locator": "synthetic:resolution:p70",
+      "kind": "filing",
+      "known_at": "2026-10-19",
+      "subject_ids": [
+        "LEI-ASTER"
+      ],
+      "permission_status": "supplied-allowed",
+      "classification": "public",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "equity-research"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "rev",
+      "kind": "reported_fact",
+      "subject_id": "LEI-ASTER",
+      "text": "FY2025 reported revenue is 42 USD million.",
+      "citations": [
+        {
+          "source_id": "filing",
+          "locator": "p70:Revenue"
+        }
+      ],
+      "observation": {
+        "metric": "revenue",
+        "value": "42",
+        "unit": "million",
+        "currency": "USD",
+        "accounting_basis": "US-GAAP",
+        "consolidation_scope": "consolidated",
+        "period": {
+          "kind": "duration",
+          "start": "2025-01-01",
+          "end": "2025-12-31"
+        }
+      }
+    },
+    {
+      "claim_id": "restated-rev",
+      "kind": "reported_fact",
+      "subject_id": "LEI-ASTER",
+      "text": "FY2025 reported revenue is 40 USD million.",
+      "citations": [
+        {
+          "source_id": "restatement",
+          "locator": "p70:Revenue"
+        }
+      ],
+      "observation": {
+        "metric": "revenue",
+        "value": "40",
+        "unit": "million",
+        "currency": "USD",
+        "accounting_basis": "US-GAAP",
+        "consolidation_scope": "consolidated",
+        "period": {
+          "kind": "duration",
+          "start": "2025-01-01",
+          "end": "2025-12-31"
+        }
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "requirement_id": "revenue",
+      "required": true,
+      "claim_ids": [
+        "rev",
+        "restated-rev"
+      ]
+    }
+  ],
+  "contradictions": [
+    {
+      "contradiction_id": "revenue-restatement",
+      "claim_ids": [
+        "rev",
+        "restated-rev"
+      ],
+      "description": "The restatement replaces42 with40; inspect resolution evidence.",
+      "status": "resolved-supplied",
+      "resolution_source_ids": [
+        "resolution"
+      ],
+      "resolution_locator": "synthetic:resolution:p2:revenue-restated"
+    }
+  ]
+}

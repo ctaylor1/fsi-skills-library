@@ -61,7 +61,7 @@ determination, launch approval, attestation, or program action.
 - Never state or imply **approval, compliance, or attestation** — describe the control state
   factually and attribute the decision to the human adjudicator.
 - Never assert a **sanctions violation or hit disposition**; report the screening control
-  state and route matches to `sanctions-match-adjudicator`.
+  state and route matches to `sanctions-match-investigator`.
 - Never **close, waive, file, or write a system of record**.
 - Never tune thresholds to the program; use only the versioned config.
 

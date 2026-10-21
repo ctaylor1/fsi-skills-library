@@ -12,12 +12,18 @@ review and submission:
   7. No submission/closure/regulated-decision language anywhere in the items.
   8. The standing note is present.
 
+Native output must match exact reconstruction from the separately retained, validated input.
+Additional narrative or fields require a separate reviewed artifact.
+
 Usage: python validate_output.py response_package.json | --selftest
 Exit 0 if no errors, 1 otherwise.
 """
 from __future__ import annotations
 import json, re, sys
 from pathlib import Path
+from native_integrity import validate_reconstruction
+from validate_input import validate as validate_source
+from calculate_or_transform import package
 
 REQUIRED_SECTIONS = [
     "Examination Identification", "Scope and Period", "Request-Response Index",
@@ -51,7 +57,7 @@ DECISION_PATTERNS = [
 ]
 
 
-def validate(doc: dict) -> list[str]:
+def _validate_structure(doc: dict) -> list[str]:
     errors: list[str] = []
 
     sections = doc.get("template_sections") or []
@@ -82,8 +88,12 @@ def validate(doc: dict) -> list[str]:
                           f"{unsupported} (no unsupported claim may be presented as ready)")
 
         if status == "draft-ready-for-review":
+            if not required_roles:
+                errors.append(f"{rid}: ready status requires a nonempty approval policy")
             approved = {a.get("role") for a in (it.get("approvals_recorded") or [])
-                        if a.get("status") == "approved"}
+                        if a.get("status") == "approved" and a.get("scope_check") == "pass"}
+            if it.get("approval_review_issues"):
+                errors.append(f"{rid}: ready status has unresolved approval records")
             missing = [r for r in required_roles if r not in approved]
             if missing:
                 errors.append(f"{rid}: marked ready but missing required approval(s) {missing}")
@@ -108,17 +118,39 @@ def validate(doc: dict) -> list[str]:
     return errors
 
 
+
+def validate(doc, original_input=None):
+    try:
+        errors = _validate_structure(doc)
+    except (TypeError, ValueError, KeyError, AttributeError, IndexError) as exc:
+        errors = [f"malformed native output: {exc}"]
+    if isinstance(original_input, dict):
+        try:
+            input_errors, _ = validate_source(original_input)
+            errors.extend("original input: " + error for error in input_errors)
+        except (TypeError, ValueError, KeyError, AttributeError, IndexError) as exc:
+            errors.append(f"malformed original input: {exc}")
+    validate_reconstruction(doc, package, errors, original_input=original_input)
+    return errors
+
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "response_package_example.json"
-        doc = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        doc = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
-    else:
-        doc = json.loads(sys.stdin.read())
-    errors = validate(doc)
-    for e in errors:
-        print("ERROR", e)
+    import argparse
+    parser = argparse.ArgumentParser(description="Validate against separately retained original input; no source authentication is claimed.")
+    parser.add_argument("output", nargs="?")
+    parser.add_argument("--input", dest="original")
+    parser.add_argument("--selftest", action="store_true")
+    args = parser.parse_args(argv)
+    folder = Path(__file__).resolve().parents[1] / "evals" / "files"
+    path = folder / "response_package_example.json" if args.selftest else args.output
+    source = folder / "exam_requests_example.json" if args.selftest else args.original
+    try:
+        doc = json.loads(Path(path).read_text()) if path else json.loads(sys.stdin.read())
+        original = json.loads(Path(source).read_text()) if source else None
+        errors = validate(doc, original)
+    except (OSError, ValueError, TypeError) as exc:
+        errors = [str(exc)]
+    for error in errors:
+        print("ERROR", error)
     print(f"output validation: {len(errors)} error(s)")
     return 1 if errors else 0
 

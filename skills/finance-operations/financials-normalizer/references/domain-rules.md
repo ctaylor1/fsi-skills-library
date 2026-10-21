@@ -1,5 +1,10 @@
 # Domain Rules — financials-normalizer
 
+## Version 0.2.0 contract
+
+Each adjustment requires an explicit statement, known period and mapped reported account; an absent starting value cannot default to zero. Preserve its rationale, source and supplied approver in the adjustment ledger. Check reported balance-sheet anchors separately for each period. Reconstructed normalized identities require complete, disjoint mapped component coverage; raw anchor agreement cannot prove adjusted statements balance. Incomplete reconstruction prevents Model-ready. This maps extracts only; it does not convert accounting frameworks or provide an accounting opinion.
+
+
 How source financial statements are mapped to a **standard chart-of-accounts taxonomy**,
 which normalization **checks** fire, and how the fired set maps to a **readiness band**.
 Thresholds are configuration (versioned, owned by the Finance & Controllership / model-data
@@ -47,8 +52,8 @@ under `not_evaluable`, never silently passed. There is no opaque composite "qual
 
 | Suggested band | Rule |
 | -------------- | ---- |
-| **Model-ready** | 0 findings fired |
-| **Needs mapping review** | ≥ 1 finding fired, all medium severity, and fewer than `escalate_finding_count` (default 4) |
+| **Model-ready** | 0 findings fired and no required checks not evaluable |
+| **Needs mapping review** | Required reconstruction not evaluable, or ≥ 1 finding fired, all medium severity, and fewer than `escalate_finding_count` (default 4) |
 | **Hold - tie-out break** | Any **high**-severity finding fired (a tie-out or identity break), OR ≥ `escalate_finding_count` findings fired |
 
 The readiness band is a **triage suggestion for a human reviewer**. It is not an accounting

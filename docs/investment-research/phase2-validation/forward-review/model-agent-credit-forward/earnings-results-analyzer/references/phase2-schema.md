@@ -1,0 +1,7 @@
+# Native schema
+
+All Phase 2 inputs carry schema_version=ir-phase2/1.0, request_id,purpose=internal-research,audience=internal-review,subject{type,id,issuer_id for security},as_of,use_on,aware knowledge_cutoff,information_barrier,sources[],top-level evidence_refs[],unresolved_issues[]. Every row citation must be nonempty, registered and also declared at top level for source permission/time gating. Supplied future or ineligible evidence withholds the result projection. The example is synthetic; no entitlement or authenticity is asserted.
+
+`release_at` is an aware timestamp no later than cutoff. `classification_tolerance` is a fraction [0,1]. `metrics[]` carries metric_id,direction,reported observation and baselines[] as in preview. Reported carries nullable value,currency,unit,accounting_basis,consolidation_scope,period{start,end,fiscal_calendar_id},known_at no later than cutoff,evidence_refs. Every baseline known_at must precede release. Fiscal/basis/currency/unit/scope mismatches withhold only that comparison; unavailable baselines remain gaps.
+
+See the paired JSON fixtures under evals/files; the separately retained original is mandatory for output reconstruction.

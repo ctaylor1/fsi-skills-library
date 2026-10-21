@@ -70,9 +70,29 @@ or deployment readiness. Planned natural-language cases are not executed tests.
   evidence contract and useful professional output.
 
 Implementation evidence and remaining acceptance boundaries are maintained in
-[Phase 1](PHASE1-IMPLEMENTATION.md), [Phase 2](PHASE2-IMPLEMENTATION.md) and
-[Phase 3](PHASE3-IMPLEMENTATION.md). Phase 2 adds 17 operating foundations; Phase 3
-adds 21 specialist workflows, bringing insurance to 61 packages. The next
-implementation milestone is Phase 4 architecture and measured automation. These
-checkpoints do not imply implementation of later capabilities or professional
-acceptance of the bounded methods.
+[Phase 1](PHASE1-IMPLEMENTATION.md), [Phase 2](PHASE2-IMPLEMENTATION.md),
+[Phase 3](PHASE3-IMPLEMENTATION.md), [Phase 4](PHASE4-IMPLEMENTATION.md) and
+[Phase 5](PHASE5-IMPLEMENTATION.md).
+Phase 2 added 17 operating foundations; Phase 3 added 21 specialist workflows.
+Phase 4 added three Insurance design packages and four shared review/measurement
+packages on 2026-09-20, bringing Insurance to 64 and the library to 303 packages.
+Implementation and bounded validation of Phases 1–4 are complete. On 2026-10-04,
+the user authorized the next phase. Phase 5 installs the five explicit parametric
+and health-payer review jobs, bringing Insurance to 69 packages. Its source profiles
+require actual market/program/product/jurisdiction evidence rather than regional
+defaults. The bounded authoring scope is complete; comprehensive health-payer scope,
+additional regional methods, actual source, qualified practitioner and deployment
+acceptance remain separate. See the [Phase 5 evidence](phase5-validation/README.md).
+
+
+## Phase 6 — offline acceptance evidence preparation
+
+After the completed Phase 5 checkpoint, the user requested the next phase. The
+follow-on is scoped to local readiness tooling using the existing nine release
+gates: exact package/evaluation snapshots, isolated portable checks and supplied
+institution-specific review records. No new skill packages are required. Missing
+scope and approvals remain missing; evidence inventories never authorize release.
+See [implementation](PHASE6-IMPLEMENTATION.md), [review guide](acceptance/README.md)
+and [validation](phase6-validation/README.md). Actual institution/source/practitioner
+and deployment acceptance, the external source workbook and further domain/market
+expansion remain outside this tooling completion claim.

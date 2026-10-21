@@ -1,0 +1,43 @@
+{
+  "skill": "asset-allocation-planner",
+  "version": "0.1.0",
+  "evals": [
+    {
+      "id": "positive",
+      "type": "trigger_positive",
+      "query": "Compare supplied strategic or tactical institutional allocation alternatives against objectives, covariance, liquidity and scenario constraints. Produce a draft comparison; optimization requires a separately accepted engine.",
+      "expect_activation": true
+    },
+    {
+      "id": "negative-execute",
+      "type": "trigger_negative",
+      "query": "Execute this investment decision and update our official records.",
+      "expect_activation": false
+    },
+    {
+      "id": "native-input",
+      "command": "python scripts/validate_input.py evals/files/input.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "native-compute",
+      "command": "python scripts/calculate_or_transform.py evals/files/input.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false",
+        "\"source_truth\": \"unverified\""
+      ]
+    },
+    {
+      "id": "independent-method-and-boundaries",
+      "command": "python scripts/selftest.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "independent calculation and boundary checks passed"
+      ]
+    }
+  ]
+}

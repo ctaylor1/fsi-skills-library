@@ -1,0 +1,142 @@
+{
+  "request_id": "NOVA-forward-20261020",
+  "purpose": "internal-research",
+  "audience": "internal-review",
+  "subject": {
+    "type": "issuer",
+    "id": "NOVA-ISSUER"
+  },
+  "as_of": "2026-10-20",
+  "use_on": "2026-10-20",
+  "knowledge_cutoff": "2026-10-20T20:00:00Z",
+  "information_barrier": "public-side",
+  "sources": [
+    {
+      "source_id": "NOVA-R1",
+      "version": "analyst-v3",
+      "locator": "NOVA supplied model",
+      "kind": "model",
+      "known_at": "2026-10-19T20:00:00Z",
+      "subject_ids": [
+        "NOVA-ISSUER"
+      ],
+      "permission_status": "supplied-allowed",
+      "permitted_audiences": [
+        "internal-review"
+      ],
+      "permitted_purposes": [
+        "internal-research"
+      ],
+      "classification": "public"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_id": "NOVA-R1",
+      "locator": "NOVA research assumptions A1:D20"
+    }
+  ],
+  "unresolved_issues": [],
+  "currency": "EUR",
+  "units": "millions",
+  "accounting_basis": "IFRS",
+  "consolidation_scope": "consolidated",
+  "diluted_shares": 2,
+  "valuation_subject": {
+    "security_id": "NOVA-A",
+    "share_class": "A",
+    "share_count_basis": "diluted-A"
+  },
+  "valuation_timing": "annual-period-index",
+  "mode": "independent-review",
+  "model_id": "NOVA-grid",
+  "cells": [
+    {
+      "cell_id": "sales",
+      "kind": "input",
+      "value": 150,
+      "tolerance": 0,
+      "evidence_refs": [
+        {
+          "source_id": "NOVA-R1",
+          "locator": "NOVA research assumptions A1:D20"
+        }
+      ]
+    },
+    {
+      "cell_id": "opex",
+      "kind": "input",
+      "value": 90,
+      "tolerance": 0,
+      "evidence_refs": [
+        {
+          "source_id": "NOVA-R1",
+          "locator": "NOVA research assumptions A1:D20"
+        }
+      ]
+    },
+    {
+      "cell_id": "ebit",
+      "kind": "formula",
+      "value": 55,
+      "formula": "sales-opex",
+      "tolerance": 0.001
+    },
+    {
+      "cell_id": "margin",
+      "kind": "formula",
+      "value": 0.4,
+      "formula": "ebit/sales",
+      "tolerance": 0.001
+    },
+    {
+      "cell_id": "cash",
+      "kind": "input",
+      "value": -7,
+      "tolerance": 0,
+      "evidence_refs": [
+        {
+          "source_id": "NOVA-R1",
+          "locator": "NOVA research assumptions A1:D20"
+        }
+      ]
+    }
+  ],
+  "reconciliations": [
+    {
+      "check_id": "sum",
+      "left": "sales",
+      "right": "ebit+opex",
+      "tolerance": 0.001
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption_id": "growth",
+      "value": 0.07,
+      "lower": 0,
+      "upper": 0.1,
+      "evidence_refs": [
+        {
+          "source_id": "NOVA-R1",
+          "locator": "NOVA research assumptions A1:D20"
+        }
+      ]
+    }
+  ],
+  "economic_checks": [
+    {
+      "check_id": "cash-floor",
+      "cell_id": "cash",
+      "meaning": "cash-funding",
+      "lower": 0,
+      "upper": 200,
+      "evidence_refs": [
+        {
+          "source_id": "NOVA-R1",
+          "locator": "NOVA research assumptions A1:D20"
+        }
+      ]
+    }
+  ]
+}

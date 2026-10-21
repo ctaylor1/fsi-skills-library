@@ -1,0 +1,110 @@
+{
+  "skill": "compliance-control-testing-assistant",
+  "version": "0.1.0",
+  "source_truth": "synthetic-unverified",
+  "acceptance": "bounded software only; no professional certification",
+  "scenario_expectations": [
+    {
+      "id": "normal-native-method",
+      "fixture": "files/input_complete.json",
+      "expected": "files/output_golden.json",
+      "assertion": "exact native reconstruction and declared domain result"
+    },
+    {
+      "id": "material-professional-gap",
+      "fixture": "files/input_professional_gap.json",
+      "assertion": "needs-evidence with dependent favorable conclusion withheld"
+    },
+    {
+      "id": "invalid-intake",
+      "fixture": "files/input_bad.json",
+      "assertion": "compute stops without a native result"
+    },
+    {
+      "id": "native-tamper",
+      "fixture": "files/output_bad.json",
+      "input": "files/input_complete.json",
+      "assertion": "detached output validation rejects action/tamper"
+    },
+    {
+      "id": "scope-routing",
+      "command": "python3 -B scripts/test_phase2.py",
+      "assertion": "native object type, evidence purpose, context and professional owner boundaries remain explicit"
+    },
+    {
+      "id": "domain-regressions",
+      "command": "python3 -B scripts/test_phase2.py",
+      "assertion": "substantive source/authority/unknown/chronology regressions pass"
+    }
+  ],
+  "harness_note": "Executable commands use the repository evals contract; supplied synthetic data, detached originals and no actions. Declarative scenario expectations are not counted as executed activation tests.",
+  "evals": [
+    {
+      "id": "valid-intake",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_input.py evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "native-method",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"action_taken\": false",
+        "\"source_truth\": \"unverified\""
+      ]
+    },
+    {
+      "id": "detached-golden",
+      "type": "deterministic",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_golden.json --input evals/files/input_complete.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"errors\": []"
+      ]
+    },
+    {
+      "id": "professional-gap",
+      "type": "deterministic",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_professional_gap.json",
+      "expect_exit": 0,
+      "expect_contains": [
+        "\"status\": \"needs-evidence\""
+      ]
+    },
+    {
+      "id": "invalid-intake-stops",
+      "type": "safety",
+      "command": "python3 -B scripts/calculate_or_transform.py evals/files/input_bad.json",
+      "expect_exit": 1,
+      "expect_contains": []
+    },
+    {
+      "id": "native-tamper-rejected",
+      "type": "safety",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_bad.json --input evals/files/input_complete.json",
+      "expect_exit": 1,
+      "expect_contains": []
+    },
+    {
+      "id": "detached-original-required",
+      "type": "safety",
+      "command": "python3 -B scripts/validate_output.py evals/files/output_golden.json",
+      "expect_exit": 2,
+      "expect_contains": []
+    },
+    {
+      "id": "domain-regressions",
+      "type": "deterministic",
+      "command": "python3 -B scripts/test_phase2.py",
+      "expect_exit": 0,
+      "expect_contains": [
+        "OK"
+      ]
+    }
+  ]
+}

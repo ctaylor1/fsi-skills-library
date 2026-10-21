@@ -45,7 +45,7 @@ def check():
     if len(accounted) != 24:
         errors.append('migration must account for all 24 original insurance packages')
     expected = {v['target'] for v in migrations['aliases'].values()} | set(migrations['retained_with_revisions']) | {'insurance-router'}
-    for phase in (2, 3):
+    for phase in (2, 3, 4, 5):
         manifest = ROOT / f'catalog/insurance-phase{phase}-capabilities.json'
         if manifest.exists():
             expected |= set(json.loads(manifest.read_text())['packages'])

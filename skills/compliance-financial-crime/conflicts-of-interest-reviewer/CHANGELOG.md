@@ -1,3 +1,10 @@
+# Phase 1 correctness update — 2026-09-21 (v0.1.1)
+
+- Reconciled the advertised capability to the bounded offline method and professional ownership.
+- Corrected missing-evidence states and added detached-original reconstruction using the shared native integrity helper.
+- Updated synthetic fixtures and adversarial tests; software results do not establish source truth or professional acceptance.
+- No live actions, package rename/move or new Phase 2 workflow. Existing history below records earlier design claims, not current implementation.
+
 # Changelog — conflicts-of-interest-reviewer
 
 ## [0.1.0] — 2026-07-17

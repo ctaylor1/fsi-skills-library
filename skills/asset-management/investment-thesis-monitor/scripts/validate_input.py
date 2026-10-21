@@ -24,6 +24,9 @@ Exit 0 if no errors (warnings allowed), 1 otherwise.
 from __future__ import annotations
 import json, re, sys
 from pathlib import Path
+import math
+from datetime import date
+from native_integrity import canonical_hash
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 REQUIRED_TOP = ("as_of", "config_version", "theses")
@@ -38,7 +41,7 @@ def _num(v):
         return None
 
 
-def validate(doc: dict) -> tuple[list[str], list[str]]:
+def _validate_native(doc: dict) -> tuple[list[str], list[str]]:
     errors, warnings = [], []
     for k in REQUIRED_TOP:
         if k not in doc:
@@ -122,6 +125,22 @@ def main(argv):
     print(f"input validation: {len(errors)} error(s), {len(warnings)} warning(s)")
     return 1 if errors else 0
 
+
+
+
+def validate(doc):
+    try:
+        canonical_hash(doc)
+        errors, warnings = _validate_native(doc)
+        date.fromisoformat(str(doc["as_of"])[:10])
+        for thesis in doc.get("theses", []):
+            for group in ("market", "estimates", "targets"):
+                for key, value in (thesis.get(group) or {}).items():
+                    if key in {"price", "prior_consensus_eps", "current_consensus_eps", "price_target", "stop_price"} and isinstance(value, bool):
+                        errors.append("boolean is not a financial number")
+        return errors, warnings
+    except (KeyError, TypeError, ValueError, ArithmeticError) as exc:
+        return ["invalid input: " + str(exc)], []
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

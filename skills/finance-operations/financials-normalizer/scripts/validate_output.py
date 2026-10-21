@@ -1,23 +1,9 @@
 #!/usr/bin/env python3
-"""Deterministic output validation for financials-normalizer.
+"""Source-bound output validation for financials-normalizer.
 
-Validates the final normalization pack (the calculate_or_transform core + a narrative) before
-it is presented or delivered. Checks:
-  1. Every fired finding has >= 1 cited evidence row.
-  2. suggested_readiness equals the deterministic mapping from the fired findings.
-  3. No prohibited accounting/audit/investment decision or advice, and no restatement /
-     posting-to-system-of-record language (narrative + finding reasons + notes).
-  4. The standing disclaimer is present.
-  5. review_considerations are included when any finding fired.
-
-This enforces the R2 hard boundary: the skill maps, adjusts-with-rationale, and tie-out-checks
-only. It never opines on GAAP/IFRS compliance or material correctness, issues an
-accounting/audit/investment judgment or recommendation, or restates/posts figures to a system
-of record. A bad fixture that contains such language must fail closed here.
-
-Usage:
-  python validate_output.py pack.json | --selftest
-Exit 0 if no errors, 1 otherwise.
+Requires separately retained original input (--input ORIGINAL). Reconstructs all fields
+and retains bounded domain checks. Fidelity does not establish source truth, economic
+validity, institutional approval or independent assurance.
 """
 from __future__ import annotations
 import json, re, sys
@@ -53,14 +39,14 @@ PROHIBITED_PATTERNS = [
 ]
 
 
-def _expected_readiness(findings: list[dict]) -> str:
+def _expected_readiness(findings: list[dict], threshold=4, incomplete=False) -> str:
     fired = [f for f in findings if f.get("fired")]
-    if any((f.get("severity") == "high") for f in fired) or len(fired) >= ESCALATE_FINDING_COUNT:
+    if any((f.get("severity") == "high") for f in fired) or len(fired) >= threshold:
         return HOLD
-    return NEEDS if fired else READY
+    return NEEDS if fired or incomplete else READY
 
 
-def validate(pack: dict) -> list[str]:
+def _validate_rules(pack: dict) -> list[str]:
     errors: list[str] = []
     findings = pack.get("findings") or []
 
@@ -73,7 +59,7 @@ def validate(pack: dict) -> list[str]:
                 if not (row.get("citation") or "").strip():
                     errors.append(f"fired finding {f.get('check')} evidence row missing citation")
 
-    exp = _expected_readiness(findings)
+    exp = _expected_readiness(findings, pack["readiness_config"]["escalate_finding_count"], bool(pack.get("not_evaluable")))
     if pack.get("suggested_readiness") != exp:
         errors.append(f"suggested_readiness {pack.get('suggested_readiness')!r} != deterministic {exp!r}")
 
@@ -95,20 +81,68 @@ def validate(pack: dict) -> list[str]:
     return errors
 
 
+def _strict_json(text):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise ValueError("duplicate JSON object key: " + key)
+            result[key] = value
+        return result
+    def constant(value):
+        raise ValueError("non-finite JSON constant: " + value)
+    return json.loads(text, object_pairs_hook=pairs, parse_constant=constant)
+
+def _local_module(filename):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("_local_" + filename.replace(".", "_"), Path(__file__).with_name(filename))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def validate(output, original_input=None):
+    errors = []
+    integrity = _local_module("native_integrity.py")
+    calculator = _local_module("calculate_or_transform.py")
+    integrity.validate_reconstruction(output, calculator.compute, errors, original_input)
+    # Existing domain checks operate only on a complete, source-bound reconstruction.
+    if not errors:
+        try:
+            errors.extend(_validate_rules(output))
+        except (ValueError, TypeError, KeyError, IndexError, AttributeError, ArithmeticError) as exc:
+            errors.append("invalid output: " + str(exc))
+    return errors
+
 def main(argv):
-    if "--selftest" in argv:
-        p = Path(__file__).resolve().parents[1] / "evals" / "files" / "normalized_example.json"
-        pack = json.loads(p.read_text(encoding="utf-8"))
-    elif argv:
-        pack = json.loads(Path(argv[0]).read_text(encoding="utf-8"))
+    import argparse
+    parser = argparse.ArgumentParser(description="Validate against separately retained original input; source truth remains unverified.")
+    parser.add_argument("output", nargs="?")
+    parser.add_argument("--input", dest="original")
+    parser.add_argument("--selftest", action="store_true")
+    args = parser.parse_args(argv)
+    fixtures = Path(__file__).resolve().parents[1] / "evals" / "files"
+    if args.selftest:
+        output_path, input_path = fixtures / 'normalized_example.json', fixtures / 'financials_example.json'
+    elif args.output and args.original:
+        output_path, input_path = Path(args.output), Path(args.original)
     else:
-        pack = json.loads(sys.stdin.read())
-    errors = validate(pack)
-    for e in errors:
-        print("ERROR", e)
+        parser.error("output and --input ORIGINAL are required (or --selftest)")
+    output = _strict_json(output_path.read_text(encoding="utf-8"))
+    original = _strict_json(input_path.read_text(encoding="utf-8"))
+    errors = validate(output, original)
+    for error in errors:
+        print("ERROR", error)
     print(f"output validation: {len(errors)} error(s)")
     return 1 if errors else 0
 
+_main_checked = main
+
+def main(argv):
+    try:
+        return _main_checked(argv)
+    except (ValueError, TypeError, KeyError, IndexError, AttributeError, ArithmeticError, OSError) as exc:
+        print("ERROR", str(exc), file=sys.stderr)
+        return 1
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

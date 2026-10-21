@@ -1,0 +1,155 @@
+{
+  "id": "OPF-K08-MULTIROOT",
+  "package": "portfolio-performance-measurer",
+  "input": {
+    "request_id": "OPF-K08-MULTIROOT",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "sources": [
+      {
+        "source_ref": "ind-source",
+        "version": "ind-v1",
+        "as_of": "2026-09-18",
+        "known_at": "2026-09-18"
+      }
+    ],
+    "mode": "money_weighted",
+    "return_basis": "net-of-management-fees",
+    "period_start": "2024-01-02",
+    "period_end": "2026-01-01",
+    "cashflow_perspective": "investor",
+    "terminal_value_included": true,
+    "cash_flows": [
+      {
+        "flow_id": "F1",
+        "date": "2024-01-02",
+        "amount": "-100",
+        "source_ref": "ind-source"
+      },
+      {
+        "flow_id": "F2",
+        "date": "2025-01-01",
+        "amount": "230",
+        "source_ref": "ind-source"
+      },
+      {
+        "flow_id": "F3",
+        "date": "2026-01-01",
+        "amount": "-132",
+        "source_ref": "ind-source"
+      }
+    ]
+  },
+  "expected": {
+    "annual_xirr": null,
+    "reason": "nonconventional sign structure must be unavailable; do not pick one of10/20 percent roots"
+  },
+  "code_hashes": {
+    "scripts/calculate_or_transform.py": "50eb338db44aa51502b8f27d05dd4655d7aba7f8662dc6e0513e124c1b053abb",
+    "scripts/validate_output.py": "b77be4e92a5510d8058bdaad5046440eec684792d8b82dde3450364519ec3d80",
+    "scripts/performance_math.py": "1c1e15bb99298df9e430976f622de3fd77120de29e00916bf55f9d93ea0bbab1",
+    "scripts/foundation_contract.py": "9995d4cbf27ecf0329dd34967a719a484a54ad70403cbbeaff623ffeae776775",
+    "scripts/native_integrity.py": "12718fd8c7546d198e5e35a7c17fbf9c53d83c65f27a907f2eeebccd552650c6",
+    "scripts/validate_input.py": "e2957a3c810e8b94a9c70f2d5fe05dde57a59d6a3f58d79e7a1dd34300357113"
+  },
+  "input_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "compute": {
+    "exit_code": 0,
+    "stdout": "{\n  \"contract_version\": \"investment-foundation/1.0\",\n  \"skill\": \"portfolio-performance-measurer\",\n  \"request_id\": \"OPF-K08-MULTIROOT\",\n  \"object_id\": \"INDEPENDENT-FUND-Z\",\n  \"as_of\": \"2026-09-18\",\n  \"knowledge_cutoff\": \"2026-09-18\",\n  \"currency\": \"USD\",\n  \"audience\": \"internal-review\",\n  \"status\": \"needs-review\",\n  \"draft\": true,\n  \"action_taken\": false,\n  \"human_review_required\": true,\n  \"delivery_status\": \"not-delivered\",\n  \"method\": {\n    \"id\": \"supplied-values-money_weighted-v1\",\n    \"version\": \"1.0\",\n    \"origin\": \"local-analysis\"\n  },\n  \"results\": {\n    \"return_basis\": \"net-of-management-fees\",\n    \"period_start\": \"2024-01-02\",\n    \"period_end\": \"2026-01-01\",\n    \"return_unit\": \"decimal\",\n    \"irr\": {\n      \"day_count\": \"ACT/365\",\n      \"rate_unit\": \"annual_decimal\",\n      \"same_day_flows\": \"netted\",\n      \"root_domain\": \"[-0.999999, 1000000]\",\n      \"method\": \"conventional-sign-change bisection; numerical approximation\",\n      \"status\": \"unavailable\",\n      \"annual_xirr\": null,\n      \"reason\": \"requires negative investment followed by positive realization on a later date\"\n    }\n  },\n  \"unresolved_issues\": [\n    \"requires negative investment followed by positive realization on a later date\"\n  ],\n  \"limitations\": [\n    \"Single supplied currency and declared fee basis; no FX, valuation or fee engine.\",\n    \"Analytical ratios and linked factors rounded to24 decimal places; cash sums use exact Decimal arithmetic.\",\n    \"Modified Dietz is a money-weighted period estimate, not exact TWR; annual XIRR supports conventional signs only.\",\n    \"No GIPS compliance, benchmark suitability or source authentication established.\"\n  ],\n  \"handoffs\": [\n    \"portfolio-performance-attributor\",\n    \"performance-composite-reviewer\"\n  ],\n  \"source_assurance\": \"supplied-unverified\",\n  \"source_refs\": [\n    \"ind-source\"\n  ],\n  \"input_hash\": \"73d29e2bee4cef88e26cc3ad290e1e4f268899af6fe973ab6fef9ce9d531856c\",\n  \"source_truth\": \"unverified\"\n}\n",
+    "stderr": ""
+  },
+  "output": {
+    "contract_version": "investment-foundation/1.0",
+    "skill": "portfolio-performance-measurer",
+    "request_id": "OPF-K08-MULTIROOT",
+    "object_id": "INDEPENDENT-FUND-Z",
+    "as_of": "2026-09-18",
+    "knowledge_cutoff": "2026-09-18",
+    "currency": "USD",
+    "audience": "internal-review",
+    "status": "needs-review",
+    "draft": true,
+    "action_taken": false,
+    "human_review_required": true,
+    "delivery_status": "not-delivered",
+    "method": {
+      "id": "supplied-values-money_weighted-v1",
+      "version": "1.0",
+      "origin": "local-analysis"
+    },
+    "results": {
+      "return_basis": "net-of-management-fees",
+      "period_start": "2024-01-02",
+      "period_end": "2026-01-01",
+      "return_unit": "decimal",
+      "irr": {
+        "day_count": "ACT/365",
+        "rate_unit": "annual_decimal",
+        "same_day_flows": "netted",
+        "root_domain": "[-0.999999, 1000000]",
+        "method": "conventional-sign-change bisection; numerical approximation",
+        "status": "unavailable",
+        "annual_xirr": null,
+        "reason": "requires negative investment followed by positive realization on a later date"
+      }
+    },
+    "unresolved_issues": [
+      "requires negative investment followed by positive realization on a later date"
+    ],
+    "limitations": [
+      "Single supplied currency and declared fee basis; no FX, valuation or fee engine.",
+      "Analytical ratios and linked factors rounded to24 decimal places; cash sums use exact Decimal arithmetic.",
+      "Modified Dietz is a money-weighted period estimate, not exact TWR; annual XIRR supports conventional signs only.",
+      "No GIPS compliance, benchmark suitability or source authentication established."
+    ],
+    "handoffs": [
+      "portfolio-performance-attributor",
+      "performance-composite-reviewer"
+    ],
+    "source_assurance": "supplied-unverified",
+    "source_refs": [
+      "ind-source"
+    ],
+    "input_hash": "73d29e2bee4cef88e26cc3ad290e1e4f268899af6fe973ab6fef9ce9d531856c",
+    "source_truth": "unverified"
+  },
+  "output_validation": {
+    "exit_code": 0,
+    "stdout": "{\"errors\": []}\n",
+    "stderr": ""
+  },
+  "tamper_validation": {
+    "exit_code": 1,
+    "stdout": "{\"errors\": [\"output differs from original-input reconstruction: action_taken\"]}\n",
+    "stderr": ""
+  },
+  "independent_checks": [
+    {
+      "case": "OPF-K08-MULTIROOT",
+      "check": "two-sign-change cash flows unavailable",
+      "passed": true
+    },
+    {
+      "case": "OPF-K08-MULTIROOT",
+      "check": "native output/source validation passes",
+      "passed": true
+    },
+    {
+      "case": "OPF-K08-MULTIROOT",
+      "check": "authority tamper rejected",
+      "passed": true
+    },
+    {
+      "case": "OPF-K08-MULTIROOT",
+      "check": "draft/no execution/no embedded originals",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,3624 @@
+{
+  "evidence_version": "1.0",
+  "recorded_at_utc": "2026-09-20T23:10:32.768875+00:00",
+  "evaluation_status": "all_recorded_assertions_passed",
+  "scope": "Bounded offline synthetic forward evaluation of two native packages; no professional or deployment acceptance.",
+  "source_truth": "unverified",
+  "professional_acceptance": "not_established",
+  "execution_authority": "none",
+  "methodology": {
+    "provenance": "Fresh synthetic inputs constructed independently of package eval fixtures. This evidence is a durable re-execution of the immediately preceding in-memory forward cases, with actual native results and observed rejection messages captured.",
+    "independent_oracle": "Mandate $100m denominator: Alpha12m and buy3m imply12% and15%; cash10m and sell2m imply10% and8%. Exposure $20m fund with60% Alpha and20% Beta leaves$4m unknown; adding$15m direct Alpha gives27%; US35m government+10m cash+15m equity+20m corporate totals80%.",
+    "case_date": "2026-09-20 is the synthetic economic evaluation date, not evidence of a live market snapshot.",
+    "source_references": "All PMS/admin/mandate/order references and identities in these cases are synthetic labels. No real custodian, administrator, signed legal document or client source was authenticated.",
+    "negative_controls": "Mutated outputs validated against detached original inputs; future holdings/prices and unsupported short tested as rejected inputs; missing classification and liquidity/duration coverage remain unavailable.",
+    "limitations": [
+      "Two native workflows only; not a complete institutional portfolio/risk engine acceptance.",
+      "Mandate pre-trade projection uses supplied market-value deltas at unchanged NAV; no inferred funding, cash legs, FX, derivatives or order sequencing.",
+      "Exposure accepts supplied positive NAV and long holdings with bounded one-level look-through; no external source truth or enterprise reconciliation is established.",
+      "Output reconstruction shares the native calculator; independent arithmetic and behavior expectations supplement it but do not constitute independent professional certification.",
+      "No human professional approval, legal determination, trading, posting, delivery or source authentication occurred."
+    ]
+  },
+  "implementation_sha256": {
+    "skills/asset-management/investment-mandate-reviewer/scripts/calculate_or_transform.py": "4d3c95f2c40d7ca710e6ce024e922f70fb8b2a38fe8d46e2ca6a3d21b9428a4f",
+    "skills/asset-management/investment-mandate-reviewer/scripts/validate_input.py": "f4de42e5dcfd6f766197d70551d9ff7af3534416809505f95dfc8835edb9c011",
+    "skills/asset-management/investment-mandate-reviewer/scripts/validate_output.py": "88fa1073b50d0790fb8b0d6675a1261e3492bf20679e53672c8c0a10e7ad6599",
+    "skills/asset-management/investment-mandate-reviewer/scripts/native_integrity.py": "f3c83062a83d46255b0235a9b92bf5d726ce4addc6b295fb15bcb3dc67f1f350",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/calculate_or_transform.py": "9aa44c3e4d6daca6bb43c868011fb92302ab001ce320a736d8b8dac249f472cb",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/validate_input.py": "3cccafa20143ceb133f5530ce572ed9fb7da53aca65a84087f32e269a88b6379",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/validate_output.py": "5f38088ff53f3774de12b3db2ef3f69cec1afb11385c2ac8a95d75a9818b2b4f",
+    "skills/asset-management/portfolio-exposure-analyzer/scripts/native_integrity.py": "f3c83062a83d46255b0235a9b92bf5d726ce4addc6b295fb15bcb3dc67f1f350"
+  },
+  "cases": [
+    {
+      "case_id": "mandate-base",
+      "operation": "compute-and-validate",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_input": {
+        "run_id": "INDEPENDENT-MANDATE-FORWARD",
+        "as_of": "2026-09-20",
+        "config_version": "signed-rules-v7",
+        "max_staleness_days": 2,
+        "open_alerts": [],
+        "portfolios": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "mandate_id": "US-CORE-01",
+            "nav": 100000000,
+            "holdings_as_of": "2026-09-18",
+            "prices_as_of": "2026-09-20",
+            "holdings_source_ref": "pms:forward-book:version7",
+            "holdings": [
+              {
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "market_value": 12000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "B",
+                "issuer": "Beta",
+                "sector": "Health",
+                "asset_class": "equity",
+                "market_value": 18000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "UST",
+                "issuer": "US Treasury",
+                "sector": "Sovereign",
+                "asset_class": "govt_bond",
+                "market_value": 60000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "market_value": 10000000,
+                "esg_score": 70
+              }
+            ],
+            "proposed_trades": [
+              {
+                "trade_id": "BUY-A",
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "side": "buy",
+                "market_value": 3000000,
+                "source_ref": "orders:BUY-A:v1",
+                "as_of": "2026-09-20"
+              },
+              {
+                "trade_id": "SELL-CASH",
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "side": "sell",
+                "market_value": 2000000,
+                "source_ref": "orders:SELL-CASH:v1",
+                "as_of": "2026-09-20"
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "rule_id": "ALPHA-MAX",
+            "source_ref": "mandate:signed:2026-01:clause-ALPHA-MAX",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "target_bucket": "Alpha",
+            "max_pct": 10
+          },
+          {
+            "rule_id": "CASH-MIN",
+            "source_ref": "mandate:signed:2026-01:clause-CASH-MIN",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "guideline",
+            "scope": "asset_class",
+            "target_bucket": "cash",
+            "min_pct": 12
+          },
+          {
+            "rule_id": "BETA-MAX",
+            "source_ref": "mandate:signed:2026-01:clause-BETA-MAX",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "target_bucket": "Beta",
+            "max_pct": 25
+          },
+          {
+            "rule_id": "REG-METHOD",
+            "source_ref": "mandate:signed:2026-01:clause-REG-METHOD",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "regulatory",
+            "scope": "issuer",
+            "method": "complex_aggregation",
+            "max_pct": 10
+          },
+          {
+            "rule_id": "FUTURE",
+            "source_ref": "mandate:signed:2026-01:clause-FUTURE",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "guideline",
+            "scope": "asset_class",
+            "target_bucket": "equity",
+            "max_pct": 5,
+            "effective_from": "2027-01-01"
+          },
+          {
+            "rule_id": "OTHER-MANDATE",
+            "source_ref": "mandate:signed:2026-01:clause-OTHER-MANDATE",
+            "applies_to": {
+              "mandate_ids": [
+                "OTHER-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "max_pct": 1
+          }
+        ]
+      },
+      "native_output": {
+        "run_id": "INDEPENDENT-MANDATE-FORWARD-7ffdae7d38b05663",
+        "as_of": "2026-09-20",
+        "config_version": "signed-rules-v7",
+        "projection_scope": "supplied trade market-value deltas at unchanged NAV; cash legs, FX, derivatives and order sequencing are not inferred",
+        "data_freshness": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "prices_as_of": "2026-09-20",
+            "price_staleness_days": 0,
+            "holdings_as_of": "2026-09-18",
+            "staleness_days": 2,
+            "stale": false
+          }
+        ],
+        "rule_results": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "ALPHA-MAX",
+            "status": "exception",
+            "stale_input": false
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "CASH-MIN",
+            "status": "exception",
+            "stale_input": false
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "BETA-MAX",
+            "status": "pass",
+            "stale_input": false
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "REG-METHOD",
+            "status": "not_evaluable",
+            "reason": "unsupported regulatory method"
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "FUTURE",
+            "status": "not_applicable",
+            "reason": "outside rule effective dates"
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "OTHER-MANDATE",
+            "status": "not_applicable"
+          }
+        ],
+        "alerts": [
+          {
+            "fingerprint": "MANDATE-FWD-ALPHA|ALPHA-MAX|Alpha|position",
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "ALPHA-MAX",
+            "rule_type": "concentration",
+            "scope": "issuer",
+            "bucket": "Alpha",
+            "status": "BREACH",
+            "breach_type": "position",
+            "severity": "Medium",
+            "queue": "compliance-review-queue",
+            "is_duplicate": false,
+            "stale_input": false,
+            "evidence": [
+              {
+                "scope_value": "Alpha",
+                "measured_pct": 12.0,
+                "current_pct": 12.0,
+                "source_as_of": "2026-09-18",
+                "citation": "pms:forward-book:version7"
+              },
+              {
+                "rule": "ALPHA-MAX",
+                "citation": "mandate:signed:2026-01:clause-ALPHA-MAX"
+              }
+            ],
+            "measured_pct": 12.0,
+            "limit": 10.0,
+            "warn_buffer": 0.0
+          },
+          {
+            "fingerprint": "MANDATE-FWD-ALPHA|ALPHA-MAX|Alpha|pre_trade",
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "ALPHA-MAX",
+            "rule_type": "concentration",
+            "scope": "issuer",
+            "bucket": "Alpha",
+            "status": "BREACH",
+            "breach_type": "pre_trade",
+            "severity": "High",
+            "queue": "compliance-escalation",
+            "is_duplicate": false,
+            "stale_input": false,
+            "evidence": [
+              {
+                "scope_value": "Alpha",
+                "measured_pct": 15.0,
+                "current_pct": 12.0,
+                "source_as_of": "2026-09-18",
+                "citation": "pms:forward-book:version7"
+              },
+              {
+                "rule": "ALPHA-MAX",
+                "citation": "mandate:signed:2026-01:clause-ALPHA-MAX"
+              },
+              {
+                "trade_id": "BUY-A",
+                "citation": "orders:BUY-A:v1",
+                "source_as_of": "2026-09-20"
+              }
+            ],
+            "measured_pct": 15.0,
+            "limit": 10.0,
+            "warn_buffer": 0.0
+          },
+          {
+            "fingerprint": "MANDATE-FWD-ALPHA|CASH-MIN|cash|position",
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "CASH-MIN",
+            "rule_type": "guideline",
+            "scope": "asset_class",
+            "bucket": "cash",
+            "status": "BREACH",
+            "breach_type": "position",
+            "severity": "Medium",
+            "queue": "compliance-review-queue",
+            "is_duplicate": false,
+            "stale_input": false,
+            "evidence": [
+              {
+                "scope_value": "cash",
+                "measured_pct": 10.0,
+                "current_pct": 10.0,
+                "source_as_of": "2026-09-18",
+                "citation": "pms:forward-book:version7"
+              },
+              {
+                "rule": "CASH-MIN",
+                "citation": "mandate:signed:2026-01:clause-CASH-MIN"
+              }
+            ],
+            "measured_pct": 10.0,
+            "limit": 12.0,
+            "warn_buffer": 0.0
+          },
+          {
+            "fingerprint": "MANDATE-FWD-ALPHA|CASH-MIN|cash|pre_trade",
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "CASH-MIN",
+            "rule_type": "guideline",
+            "scope": "asset_class",
+            "bucket": "cash",
+            "status": "BREACH",
+            "breach_type": "pre_trade",
+            "severity": "High",
+            "queue": "compliance-escalation",
+            "is_duplicate": false,
+            "stale_input": false,
+            "evidence": [
+              {
+                "scope_value": "cash",
+                "measured_pct": 8.0,
+                "current_pct": 10.0,
+                "source_as_of": "2026-09-18",
+                "citation": "pms:forward-book:version7"
+              },
+              {
+                "rule": "CASH-MIN",
+                "citation": "mandate:signed:2026-01:clause-CASH-MIN"
+              },
+              {
+                "trade_id": "SELL-CASH",
+                "citation": "orders:SELL-CASH:v1",
+                "source_as_of": "2026-09-20"
+              }
+            ],
+            "measured_pct": 8.0,
+            "limit": 12.0,
+            "warn_buffer": 0.0
+          }
+        ],
+        "new_alerts": [
+          "MANDATE-FWD-ALPHA|ALPHA-MAX|Alpha|position",
+          "MANDATE-FWD-ALPHA|ALPHA-MAX|Alpha|pre_trade",
+          "MANDATE-FWD-ALPHA|CASH-MIN|cash|position",
+          "MANDATE-FWD-ALPHA|CASH-MIN|cash|pre_trade"
+        ],
+        "still_open": [],
+        "summary": {
+          "portfolios": 1,
+          "rules_evaluated": 6,
+          "alerts_total": 4,
+          "new": 4,
+          "deduplicated": 0,
+          "warn": 0,
+          "breach": 4,
+          "stale_portfolios": []
+        },
+        "escalations": [
+          {
+            "severity": "High",
+            "queue": "compliance-escalation",
+            "count": 2
+          },
+          {
+            "severity": "Medium",
+            "queue": "compliance-review-queue",
+            "count": 2
+          }
+        ],
+        "disclaimer": "Monitoring alert only; no trade, block, waiver, cure, or system-of-record change has been made. Mandate exceptions require human compliance review and disposition.",
+        "inputs_hash": "7ffdae7d38b05663bf9d92b95e7e4ca93ccb3bb792281969da73e127016dafa8",
+        "calculation_version": "phase1-1",
+        "analysis_status": "draft",
+        "professional_approval": "not_established_by_script",
+        "input_warnings": [],
+        "source_run_id": "INDEPENDENT-MANDATE-FORWARD",
+        "input_hash": "7ffdae7d38b05663bf9d92b95e7e4ca93ccb3bb792281969da73e127016dafa8",
+        "source_truth": "unverified"
+      },
+      "output_validation_errors": []
+    },
+    {
+      "case_id": "mandate-altered-output",
+      "operation": "validate-mutated-output",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_input": {
+        "run_id": "INDEPENDENT-MANDATE-FORWARD",
+        "as_of": "2026-09-20",
+        "config_version": "signed-rules-v7",
+        "max_staleness_days": 2,
+        "open_alerts": [],
+        "portfolios": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "mandate_id": "US-CORE-01",
+            "nav": 100000000,
+            "holdings_as_of": "2026-09-18",
+            "prices_as_of": "2026-09-20",
+            "holdings_source_ref": "pms:forward-book:version7",
+            "holdings": [
+              {
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "market_value": 12000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "B",
+                "issuer": "Beta",
+                "sector": "Health",
+                "asset_class": "equity",
+                "market_value": 18000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "UST",
+                "issuer": "US Treasury",
+                "sector": "Sovereign",
+                "asset_class": "govt_bond",
+                "market_value": 60000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "market_value": 10000000,
+                "esg_score": 70
+              }
+            ],
+            "proposed_trades": [
+              {
+                "trade_id": "BUY-A",
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "side": "buy",
+                "market_value": 3000000,
+                "source_ref": "orders:BUY-A:v1",
+                "as_of": "2026-09-20"
+              },
+              {
+                "trade_id": "SELL-CASH",
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "side": "sell",
+                "market_value": 2000000,
+                "source_ref": "orders:SELL-CASH:v1",
+                "as_of": "2026-09-20"
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "rule_id": "ALPHA-MAX",
+            "source_ref": "mandate:signed:2026-01:clause-ALPHA-MAX",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "target_bucket": "Alpha",
+            "max_pct": 10
+          },
+          {
+            "rule_id": "CASH-MIN",
+            "source_ref": "mandate:signed:2026-01:clause-CASH-MIN",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "guideline",
+            "scope": "asset_class",
+            "target_bucket": "cash",
+            "min_pct": 12
+          },
+          {
+            "rule_id": "BETA-MAX",
+            "source_ref": "mandate:signed:2026-01:clause-BETA-MAX",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "target_bucket": "Beta",
+            "max_pct": 25
+          },
+          {
+            "rule_id": "REG-METHOD",
+            "source_ref": "mandate:signed:2026-01:clause-REG-METHOD",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "regulatory",
+            "scope": "issuer",
+            "method": "complex_aggregation",
+            "max_pct": 10
+          },
+          {
+            "rule_id": "FUTURE",
+            "source_ref": "mandate:signed:2026-01:clause-FUTURE",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "guideline",
+            "scope": "asset_class",
+            "target_bucket": "equity",
+            "max_pct": 5,
+            "effective_from": "2027-01-01"
+          },
+          {
+            "rule_id": "OTHER-MANDATE",
+            "source_ref": "mandate:signed:2026-01:clause-OTHER-MANDATE",
+            "applies_to": {
+              "mandate_ids": [
+                "OTHER-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "max_pct": 1
+          }
+        ]
+      },
+      "native_output": {
+        "run_id": "INDEPENDENT-MANDATE-FORWARD-7ffdae7d38b05663",
+        "as_of": "2026-09-20",
+        "config_version": "signed-rules-v7",
+        "projection_scope": "supplied trade market-value deltas at unchanged NAV; cash legs, FX, derivatives and order sequencing are not inferred",
+        "data_freshness": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "prices_as_of": "2026-09-20",
+            "price_staleness_days": 0,
+            "holdings_as_of": "2026-09-18",
+            "staleness_days": 2,
+            "stale": false
+          }
+        ],
+        "rule_results": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "ALPHA-MAX",
+            "status": "exception",
+            "stale_input": false
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "CASH-MIN",
+            "status": "exception",
+            "stale_input": false
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "BETA-MAX",
+            "status": "pass",
+            "stale_input": false
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "REG-METHOD",
+            "status": "not_evaluable",
+            "reason": "unsupported regulatory method"
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "FUTURE",
+            "status": "not_applicable",
+            "reason": "outside rule effective dates"
+          },
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "OTHER-MANDATE",
+            "status": "not_applicable"
+          }
+        ],
+        "alerts": [
+          {
+            "fingerprint": "MANDATE-FWD-ALPHA|ALPHA-MAX|Alpha|position",
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "ALPHA-MAX",
+            "rule_type": "concentration",
+            "scope": "issuer",
+            "bucket": "Alpha",
+            "status": "BREACH",
+            "breach_type": "position",
+            "severity": "Medium",
+            "queue": "compliance-review-queue",
+            "is_duplicate": false,
+            "stale_input": false,
+            "evidence": [
+              {
+                "scope_value": "Alpha",
+                "measured_pct": 12.0,
+                "current_pct": 12.0,
+                "source_as_of": "2026-09-18",
+                "citation": "pms:forward-book:version7"
+              },
+              {
+                "rule": "ALPHA-MAX",
+                "citation": "mandate:signed:2026-01:clause-ALPHA-MAX"
+              }
+            ],
+            "measured_pct": 0,
+            "limit": 10.0,
+            "warn_buffer": 0.0
+          },
+          {
+            "fingerprint": "MANDATE-FWD-ALPHA|ALPHA-MAX|Alpha|pre_trade",
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "ALPHA-MAX",
+            "rule_type": "concentration",
+            "scope": "issuer",
+            "bucket": "Alpha",
+            "status": "BREACH",
+            "breach_type": "pre_trade",
+            "severity": "High",
+            "queue": "compliance-escalation",
+            "is_duplicate": false,
+            "stale_input": false,
+            "evidence": [
+              {
+                "scope_value": "Alpha",
+                "measured_pct": 15.0,
+                "current_pct": 12.0,
+                "source_as_of": "2026-09-18",
+                "citation": "pms:forward-book:version7"
+              },
+              {
+                "rule": "ALPHA-MAX",
+                "citation": "mandate:signed:2026-01:clause-ALPHA-MAX"
+              },
+              {
+                "trade_id": "BUY-A",
+                "citation": "orders:BUY-A:v1",
+                "source_as_of": "2026-09-20"
+              }
+            ],
+            "measured_pct": 15.0,
+            "limit": 10.0,
+            "warn_buffer": 0.0
+          },
+          {
+            "fingerprint": "MANDATE-FWD-ALPHA|CASH-MIN|cash|position",
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "CASH-MIN",
+            "rule_type": "guideline",
+            "scope": "asset_class",
+            "bucket": "cash",
+            "status": "BREACH",
+            "breach_type": "position",
+            "severity": "Medium",
+            "queue": "compliance-review-queue",
+            "is_duplicate": false,
+            "stale_input": false,
+            "evidence": [
+              {
+                "scope_value": "cash",
+                "measured_pct": 10.0,
+                "current_pct": 10.0,
+                "source_as_of": "2026-09-18",
+                "citation": "pms:forward-book:version7"
+              },
+              {
+                "rule": "CASH-MIN",
+                "citation": "mandate:signed:2026-01:clause-CASH-MIN"
+              }
+            ],
+            "measured_pct": 10.0,
+            "limit": 12.0,
+            "warn_buffer": 0.0
+          },
+          {
+            "fingerprint": "MANDATE-FWD-ALPHA|CASH-MIN|cash|pre_trade",
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "CASH-MIN",
+            "rule_type": "guideline",
+            "scope": "asset_class",
+            "bucket": "cash",
+            "status": "BREACH",
+            "breach_type": "pre_trade",
+            "severity": "High",
+            "queue": "compliance-escalation",
+            "is_duplicate": false,
+            "stale_input": false,
+            "evidence": [
+              {
+                "scope_value": "cash",
+                "measured_pct": 8.0,
+                "current_pct": 10.0,
+                "source_as_of": "2026-09-18",
+                "citation": "pms:forward-book:version7"
+              },
+              {
+                "rule": "CASH-MIN",
+                "citation": "mandate:signed:2026-01:clause-CASH-MIN"
+              },
+              {
+                "trade_id": "SELL-CASH",
+                "citation": "orders:SELL-CASH:v1",
+                "source_as_of": "2026-09-20"
+              }
+            ],
+            "measured_pct": 8.0,
+            "limit": 12.0,
+            "warn_buffer": 0.0
+          }
+        ],
+        "new_alerts": [
+          "MANDATE-FWD-ALPHA|ALPHA-MAX|Alpha|position",
+          "MANDATE-FWD-ALPHA|ALPHA-MAX|Alpha|pre_trade",
+          "MANDATE-FWD-ALPHA|CASH-MIN|cash|position",
+          "MANDATE-FWD-ALPHA|CASH-MIN|cash|pre_trade"
+        ],
+        "still_open": [],
+        "summary": {
+          "portfolios": 1,
+          "rules_evaluated": 6,
+          "alerts_total": 4,
+          "new": 4,
+          "deduplicated": 0,
+          "warn": 0,
+          "breach": 4,
+          "stale_portfolios": []
+        },
+        "escalations": [
+          {
+            "severity": "High",
+            "queue": "compliance-escalation",
+            "count": 2
+          },
+          {
+            "severity": "Medium",
+            "queue": "compliance-review-queue",
+            "count": 2
+          }
+        ],
+        "disclaimer": "Monitoring alert only; no trade, block, waiver, cure, or system-of-record change has been made. Mandate exceptions require human compliance review and disposition.",
+        "inputs_hash": "7ffdae7d38b05663bf9d92b95e7e4ca93ccb3bb792281969da73e127016dafa8",
+        "calculation_version": "phase1-1",
+        "analysis_status": "draft",
+        "professional_approval": "not_established_by_script",
+        "input_warnings": [],
+        "source_run_id": "INDEPENDENT-MANDATE-FORWARD",
+        "input_hash": "7ffdae7d38b05663bf9d92b95e7e4ca93ccb3bb792281969da73e127016dafa8",
+        "source_truth": "unverified"
+      },
+      "output_validation_errors": [
+        "output differs from original-input reconstruction: alerts"
+      ],
+      "mutation": "Set alerts[0].measured_pct to 0 while retaining detached original input."
+    },
+    {
+      "case_id": "mandate-future-holdings_as_of",
+      "operation": "reject-input",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_input": {
+        "run_id": "INDEPENDENT-MANDATE-FORWARD",
+        "as_of": "2026-09-20",
+        "config_version": "signed-rules-v7",
+        "max_staleness_days": 2,
+        "open_alerts": [],
+        "portfolios": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "mandate_id": "US-CORE-01",
+            "nav": 100000000,
+            "holdings_as_of": "2026-09-21",
+            "prices_as_of": "2026-09-20",
+            "holdings_source_ref": "pms:forward-book:version7",
+            "holdings": [
+              {
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "market_value": 12000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "B",
+                "issuer": "Beta",
+                "sector": "Health",
+                "asset_class": "equity",
+                "market_value": 18000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "UST",
+                "issuer": "US Treasury",
+                "sector": "Sovereign",
+                "asset_class": "govt_bond",
+                "market_value": 60000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "market_value": 10000000,
+                "esg_score": 70
+              }
+            ],
+            "proposed_trades": [
+              {
+                "trade_id": "BUY-A",
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "side": "buy",
+                "market_value": 3000000,
+                "source_ref": "orders:BUY-A:v1",
+                "as_of": "2026-09-20"
+              },
+              {
+                "trade_id": "SELL-CASH",
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "side": "sell",
+                "market_value": 2000000,
+                "source_ref": "orders:SELL-CASH:v1",
+                "as_of": "2026-09-20"
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "rule_id": "ALPHA-MAX",
+            "source_ref": "mandate:signed:2026-01:clause-ALPHA-MAX",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "target_bucket": "Alpha",
+            "max_pct": 10
+          },
+          {
+            "rule_id": "CASH-MIN",
+            "source_ref": "mandate:signed:2026-01:clause-CASH-MIN",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "guideline",
+            "scope": "asset_class",
+            "target_bucket": "cash",
+            "min_pct": 12
+          },
+          {
+            "rule_id": "BETA-MAX",
+            "source_ref": "mandate:signed:2026-01:clause-BETA-MAX",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "target_bucket": "Beta",
+            "max_pct": 25
+          },
+          {
+            "rule_id": "REG-METHOD",
+            "source_ref": "mandate:signed:2026-01:clause-REG-METHOD",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "regulatory",
+            "scope": "issuer",
+            "method": "complex_aggregation",
+            "max_pct": 10
+          },
+          {
+            "rule_id": "FUTURE",
+            "source_ref": "mandate:signed:2026-01:clause-FUTURE",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "guideline",
+            "scope": "asset_class",
+            "target_bucket": "equity",
+            "max_pct": 5,
+            "effective_from": "2027-01-01"
+          },
+          {
+            "rule_id": "OTHER-MANDATE",
+            "source_ref": "mandate:signed:2026-01:clause-OTHER-MANDATE",
+            "applies_to": {
+              "mandate_ids": [
+                "OTHER-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "max_pct": 1
+          }
+        ]
+      },
+      "exception_type": "ValueError",
+      "observed_error": "portfolios[0] (MANDATE-FWD-ALPHA): future holdings_as_of"
+    },
+    {
+      "case_id": "mandate-future-prices_as_of",
+      "operation": "reject-input",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_input": {
+        "run_id": "INDEPENDENT-MANDATE-FORWARD",
+        "as_of": "2026-09-20",
+        "config_version": "signed-rules-v7",
+        "max_staleness_days": 2,
+        "open_alerts": [],
+        "portfolios": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "mandate_id": "US-CORE-01",
+            "nav": 100000000,
+            "holdings_as_of": "2026-09-18",
+            "prices_as_of": "2026-09-21",
+            "holdings_source_ref": "pms:forward-book:version7",
+            "holdings": [
+              {
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "market_value": 12000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "B",
+                "issuer": "Beta",
+                "sector": "Health",
+                "asset_class": "equity",
+                "market_value": 18000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "UST",
+                "issuer": "US Treasury",
+                "sector": "Sovereign",
+                "asset_class": "govt_bond",
+                "market_value": 60000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "market_value": 10000000,
+                "esg_score": 70
+              }
+            ],
+            "proposed_trades": [
+              {
+                "trade_id": "BUY-A",
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "side": "buy",
+                "market_value": 3000000,
+                "source_ref": "orders:BUY-A:v1",
+                "as_of": "2026-09-20"
+              },
+              {
+                "trade_id": "SELL-CASH",
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "side": "sell",
+                "market_value": 2000000,
+                "source_ref": "orders:SELL-CASH:v1",
+                "as_of": "2026-09-20"
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "rule_id": "ALPHA-MAX",
+            "source_ref": "mandate:signed:2026-01:clause-ALPHA-MAX",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "target_bucket": "Alpha",
+            "max_pct": 10
+          },
+          {
+            "rule_id": "CASH-MIN",
+            "source_ref": "mandate:signed:2026-01:clause-CASH-MIN",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "guideline",
+            "scope": "asset_class",
+            "target_bucket": "cash",
+            "min_pct": 12
+          },
+          {
+            "rule_id": "BETA-MAX",
+            "source_ref": "mandate:signed:2026-01:clause-BETA-MAX",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "target_bucket": "Beta",
+            "max_pct": 25
+          },
+          {
+            "rule_id": "REG-METHOD",
+            "source_ref": "mandate:signed:2026-01:clause-REG-METHOD",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "regulatory",
+            "scope": "issuer",
+            "method": "complex_aggregation",
+            "max_pct": 10
+          },
+          {
+            "rule_id": "FUTURE",
+            "source_ref": "mandate:signed:2026-01:clause-FUTURE",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "guideline",
+            "scope": "asset_class",
+            "target_bucket": "equity",
+            "max_pct": 5,
+            "effective_from": "2027-01-01"
+          },
+          {
+            "rule_id": "OTHER-MANDATE",
+            "source_ref": "mandate:signed:2026-01:clause-OTHER-MANDATE",
+            "applies_to": {
+              "mandate_ids": [
+                "OTHER-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "issuer",
+            "max_pct": 1
+          }
+        ]
+      },
+      "exception_type": "ValueError",
+      "observed_error": "portfolios[0] (MANDATE-FWD-ALPHA): future prices_as_of"
+    },
+    {
+      "case_id": "mandate-missing-classification",
+      "operation": "compute-and-validate",
+      "package": "skills/asset-management/investment-mandate-reviewer",
+      "original_input": {
+        "run_id": "INDEPENDENT-MANDATE-FORWARD",
+        "as_of": "2026-09-20",
+        "config_version": "signed-rules-v7",
+        "max_staleness_days": 2,
+        "open_alerts": [],
+        "portfolios": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "mandate_id": "US-CORE-01",
+            "nav": 100000000,
+            "holdings_as_of": "2026-09-18",
+            "prices_as_of": "2026-09-20",
+            "holdings_source_ref": "pms:forward-book:version7",
+            "holdings": [
+              {
+                "security_id": "A",
+                "issuer": "Alpha",
+                "asset_class": "equity",
+                "market_value": 12000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "B",
+                "issuer": "Beta",
+                "sector": "Health",
+                "asset_class": "equity",
+                "market_value": 18000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "UST",
+                "issuer": "US Treasury",
+                "sector": "Sovereign",
+                "asset_class": "govt_bond",
+                "market_value": 60000000,
+                "esg_score": 70
+              },
+              {
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "market_value": 10000000,
+                "esg_score": 70
+              }
+            ],
+            "proposed_trades": [
+              {
+                "trade_id": "BUY-A",
+                "security_id": "A",
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "asset_class": "equity",
+                "side": "buy",
+                "market_value": 3000000,
+                "source_ref": "orders:BUY-A:v1",
+                "as_of": "2026-09-20"
+              },
+              {
+                "trade_id": "SELL-CASH",
+                "security_id": "CASH",
+                "issuer": "Custodian",
+                "sector": "Cash",
+                "asset_class": "cash",
+                "side": "sell",
+                "market_value": 2000000,
+                "source_ref": "orders:SELL-CASH:v1",
+                "as_of": "2026-09-20"
+              }
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "rule_id": "SECTOR",
+            "source_ref": "mandate:signed:2026-01:clause-SECTOR",
+            "applies_to": {
+              "mandate_ids": [
+                "US-CORE-01"
+              ]
+            },
+            "type": "concentration",
+            "scope": "sector",
+            "max_pct": 20
+          }
+        ]
+      },
+      "native_output": {
+        "run_id": "INDEPENDENT-MANDATE-FORWARD-aa374f7c9170074c",
+        "as_of": "2026-09-20",
+        "config_version": "signed-rules-v7",
+        "projection_scope": "supplied trade market-value deltas at unchanged NAV; cash legs, FX, derivatives and order sequencing are not inferred",
+        "data_freshness": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "prices_as_of": "2026-09-20",
+            "price_staleness_days": 0,
+            "holdings_as_of": "2026-09-18",
+            "staleness_days": 2,
+            "stale": false
+          }
+        ],
+        "rule_results": [
+          {
+            "portfolio_id": "MANDATE-FWD-ALPHA",
+            "rule_id": "SECTOR",
+            "status": "not_evaluable",
+            "reason": "missing classification"
+          }
+        ],
+        "alerts": [],
+        "new_alerts": [],
+        "still_open": [],
+        "summary": {
+          "portfolios": 1,
+          "rules_evaluated": 1,
+          "alerts_total": 0,
+          "new": 0,
+          "deduplicated": 0,
+          "warn": 0,
+          "breach": 0,
+          "stale_portfolios": []
+        },
+        "escalations": [],
+        "disclaimer": "Monitoring alert only; no trade, block, waiver, cure, or system-of-record change has been made. Mandate exceptions require human compliance review and disposition.",
+        "inputs_hash": "aa374f7c9170074c9fc3154d1aceb087c7070365a85141e135bd71bc9b78ac29",
+        "calculation_version": "phase1-1",
+        "analysis_status": "draft",
+        "professional_approval": "not_established_by_script",
+        "input_warnings": [
+          "portfolios[0] (MANDATE-FWD-ALPHA).holdings[0] (A): no sector \u2014 sector concentration / ESG-exclusion not evaluable for this row"
+        ],
+        "source_run_id": "INDEPENDENT-MANDATE-FORWARD",
+        "input_hash": "aa374f7c9170074c9fc3154d1aceb087c7070365a85141e135bd71bc9b78ac29",
+        "source_truth": "unverified"
+      },
+      "output_validation_errors": []
+    },
+    {
+      "case_id": "exposure-base",
+      "operation": "compute-and-validate",
+      "package": "skills/asset-management/portfolio-exposure-analyzer",
+      "original_input": {
+        "portfolio_id": "EXPOSURE-FWD-100M",
+        "as_of": "2026-09-20",
+        "base_currency": "USD",
+        "config_version": "exposure-policy-v2",
+        "nav": 100000000,
+        "nav_source_ref": "fund-admin:official-nav:2026-09-20",
+        "positions": [
+          {
+            "position_id": "UST",
+            "instrument_id": "UST",
+            "asset_class": "govt_bond",
+            "market_value": 35000000,
+            "issuer": "US Treasury",
+            "sector": "Sovereign",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:UST",
+            "liquidity_days": 1,
+            "modified_duration": 6
+          },
+          {
+            "position_id": "CASH",
+            "instrument_id": "CASH",
+            "asset_class": "cash",
+            "market_value": 10000000,
+            "issuer": "Custodian",
+            "sector": "Cash",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:CASH",
+            "liquidity_days": 0
+          },
+          {
+            "position_id": "FUND",
+            "instrument_id": "FUND",
+            "asset_class": "fund",
+            "market_value": 20000000,
+            "issuer": "Wrapper",
+            "sector": "Mixed",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:FUND",
+            "liquidity_days": 12,
+            "look_through": [
+              {
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "country": "GB",
+                "currency": "GBP",
+                "weight": 0.6
+              },
+              {
+                "issuer": "Beta",
+                "sector": "Health",
+                "country": "CH",
+                "currency": "CHF",
+                "weight": 0.2
+              }
+            ]
+          },
+          {
+            "position_id": "ALPHA",
+            "instrument_id": "ALPHA",
+            "asset_class": "equity",
+            "market_value": 15000000,
+            "issuer": "Alpha",
+            "sector": "Technology",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:ALPHA",
+            "liquidity_days": 2
+          },
+          {
+            "position_id": "CORP",
+            "instrument_id": "CORP",
+            "asset_class": "corp_bond",
+            "market_value": 20000000,
+            "issuer": "Corp",
+            "sector": "Industrial",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:CORP"
+          }
+        ],
+        "limits": {
+          "illiquid_horizon_days": 10
+        }
+      },
+      "native_output": {
+        "exposure_id": "pea-EXPOSURE-FWD-100M-2026-09-20-0001-169f8b7bfb13f42a",
+        "portfolio_id": "EXPOSURE-FWD-100M",
+        "as_of": "2026-09-20",
+        "base_currency": "USD",
+        "config_version": "exposure-policy-v2",
+        "benchmark_id": null,
+        "nav": 100000000.0,
+        "nav_source_ref": "fund-admin:official-nav:2026-09-20",
+        "nav_reconciliation": {
+          "holdings_value": 100000000.0,
+          "difference": 0.0,
+          "reconciled": true
+        },
+        "dimension_coverage": {
+          "issuer": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "sector": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "country": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "currency": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          }
+        },
+        "limits": {
+          "single_issuer_max_pct": 5.0,
+          "single_issuer_hard_pct": 10.0,
+          "sector_max_pct": 25.0,
+          "country_max_pct": 40.0,
+          "non_base_currency_max_pct": 30.0,
+          "illiquid_max_pct": 20.0,
+          "illiquid_horizon_days": 10,
+          "duration_target": 6.5,
+          "duration_tolerance": 1.5,
+          "home_country": "US",
+          "issuer_sector_exempt_asset_classes": [
+            "govt_bond",
+            "cash"
+          ]
+        },
+        "exposures": {
+          "issuer": [
+            {
+              "bucket": "US Treasury",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 35.0
+            },
+            {
+              "bucket": "Alpha",
+              "market_value": 27000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 27.0
+            },
+            {
+              "bucket": "Corp",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 20.0
+            },
+            {
+              "bucket": "Custodian",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 10.0
+            },
+            {
+              "bucket": "Beta",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            }
+          ],
+          "sector": [
+            {
+              "bucket": "Sovereign",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 35.0
+            },
+            {
+              "bucket": "Technology",
+              "market_value": 27000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 27.0
+            },
+            {
+              "bucket": "Industrial",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 20.0
+            },
+            {
+              "bucket": "Cash",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 10.0
+            },
+            {
+              "bucket": "Health",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            }
+          ],
+          "country": [
+            {
+              "bucket": "US",
+              "market_value": 80000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                },
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                },
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 80.0
+            },
+            {
+              "bucket": "GB",
+              "market_value": 12000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                }
+              ],
+              "pct": 12.0
+            },
+            {
+              "bucket": "CH",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            }
+          ],
+          "currency": [
+            {
+              "bucket": "USD",
+              "market_value": 80000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                },
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                },
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 80.0
+            },
+            {
+              "bucket": "GBP",
+              "market_value": 12000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                }
+              ],
+              "pct": 12.0
+            },
+            {
+              "bucket": "CHF",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            }
+          ],
+          "asset_class": [
+            {
+              "bucket": "govt_bond",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 35.0
+            },
+            {
+              "bucket": "fund",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 20.0
+            },
+            {
+              "bucket": "corp_bond",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 20.0
+            },
+            {
+              "bucket": "equity",
+              "market_value": 15000000.0,
+              "evidence": [
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 15.0
+            },
+            {
+              "bucket": "cash",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 10.0
+            }
+          ],
+          "non_base_currency_pct": 16.0,
+          "liquidity": {
+            "horizon_days": 10,
+            "buckets": {
+              "<=1d": 45000000.0,
+              "<=7d": 15000000.0,
+              "<=30d": 20000000.0,
+              ">30d": 0.0
+            },
+            "illiquid_pct": null,
+            "known_illiquid_pct": 20.0
+          },
+          "duration": {
+            "fi_sleeve_market_value": 35000000.0,
+            "coverage_basis": "only supplied durations for corp_bond/govt_bond positions",
+            "missing_duration_position_ids": [
+              "CORP"
+            ],
+            "fi_sleeve_modified_duration": 6.0,
+            "portfolio_duration_contribution": 2.1,
+            "target": 6.5,
+            "tolerance": 1.5,
+            "evidence": [
+              {
+                "position_id": "UST",
+                "modified_duration": 6,
+                "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+              }
+            ]
+          },
+          "factor": null
+        },
+        "findings": [
+          {
+            "dimension": "issuer",
+            "bucket": "Alpha",
+            "pct": 27.0,
+            "limit_pct": 10.0,
+            "band": "over_hard",
+            "excess_pct": 17.0,
+            "reason": "issuer exposure 27.0% exceeds the documented limit of 10.0% (look-through applied)",
+            "evidence": [
+              {
+                "position_id": "FUND",
+                "market_value": 12000000.0,
+                "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+              },
+              {
+                "position_id": "ALPHA",
+                "market_value": 15000000.0,
+                "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+              }
+            ]
+          },
+          {
+            "dimension": "issuer",
+            "bucket": "Corp",
+            "pct": 20.0,
+            "limit_pct": 10.0,
+            "band": "over_hard",
+            "excess_pct": 10.0,
+            "reason": "issuer exposure 20.0% exceeds the documented limit of 10.0% (look-through applied)",
+            "evidence": [
+              {
+                "position_id": "CORP",
+                "market_value": 20000000.0,
+                "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+              }
+            ]
+          },
+          {
+            "dimension": "sector",
+            "bucket": "Technology",
+            "pct": 27.0,
+            "limit_pct": 25.0,
+            "band": "over_soft",
+            "excess_pct": 2.0,
+            "reason": "sector exposure 27.0% exceeds the documented limit of 25.0%",
+            "evidence": [
+              {
+                "position_id": "FUND",
+                "market_value": 12000000.0,
+                "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+              },
+              {
+                "position_id": "ALPHA",
+                "market_value": 15000000.0,
+                "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+              }
+            ]
+          }
+        ],
+        "fired_findings": [
+          "issuer:Alpha",
+          "issuer:Corp",
+          "sector:Technology"
+        ],
+        "not_evaluable": [
+          {
+            "dimension": "factor",
+            "why": "no factor loadings on any position (requires factor-model service)"
+          },
+          {
+            "dimension": "liquidity",
+            "why": "one or more positions missing liquidity_days"
+          },
+          {
+            "dimension": "issuer",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "sector",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "country",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "currency",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "duration",
+            "why": "incomplete fixed-income sleeve",
+            "positions": [
+              "CORP"
+            ]
+          }
+        ],
+        "suggested_priority": "Elevated",
+        "considerations": [
+          "Concentration may reflect the benchmark's own weights (active vs absolute exposure differ).",
+          "An intended, mandate-permitted tilt or thematic sleeve.",
+          "Look-through of a pooled vehicle can shift issuer/sector attribution \u2014 verify the constituent data date.",
+          "FX or duration exposure may be offset by overlays not present in the holdings file.",
+          "An illiquid sleeve may sit within a documented private-assets bucket allowance.",
+          "Sovereign and cash positions are exempt from issuer/sector limits by config."
+        ],
+        "disclaimer": "Exposure analysis and evidence only; not a mandate-compliance determination or investment advice. No trade or portfolio action has been taken or recommended.",
+        "inputs_hash": "169f8b7bfb13f42a9da7681854a1d1c48cf96873d41534d1e2e70741e947e2ee",
+        "calculation_version": "phase1-1",
+        "analysis_status": "draft",
+        "professional_approval": "not_established_by_script",
+        "input_warnings": [
+          "positions[2] (FUND): look_through weights sum to 0.800 (expected ~1.0)",
+          "positions[4] (CORP): no liquidity_days \u2014 liquidity horizon not evaluable for this row",
+          "positions[4] (CORP): fixed-income row missing modified_duration \u2014 duration not evaluable for this row",
+          "no position carries factor loadings \u2014 factor exposure not evaluable (requires factor-model service)"
+        ],
+        "source_exposure_id": "pea-EXPOSURE-FWD-100M-2026-09-20-0001",
+        "input_hash": "169f8b7bfb13f42a9da7681854a1d1c48cf96873d41534d1e2e70741e947e2ee",
+        "source_truth": "unverified"
+      },
+      "output_validation_errors": []
+    },
+    {
+      "case_id": "exposure-altered-output",
+      "operation": "validate-mutated-output",
+      "package": "skills/asset-management/portfolio-exposure-analyzer",
+      "original_input": {
+        "portfolio_id": "EXPOSURE-FWD-100M",
+        "as_of": "2026-09-20",
+        "base_currency": "USD",
+        "config_version": "exposure-policy-v2",
+        "nav": 100000000,
+        "nav_source_ref": "fund-admin:official-nav:2026-09-20",
+        "positions": [
+          {
+            "position_id": "UST",
+            "instrument_id": "UST",
+            "asset_class": "govt_bond",
+            "market_value": 35000000,
+            "issuer": "US Treasury",
+            "sector": "Sovereign",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:UST",
+            "liquidity_days": 1,
+            "modified_duration": 6
+          },
+          {
+            "position_id": "CASH",
+            "instrument_id": "CASH",
+            "asset_class": "cash",
+            "market_value": 10000000,
+            "issuer": "Custodian",
+            "sector": "Cash",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:CASH",
+            "liquidity_days": 0
+          },
+          {
+            "position_id": "FUND",
+            "instrument_id": "FUND",
+            "asset_class": "fund",
+            "market_value": 20000000,
+            "issuer": "Wrapper",
+            "sector": "Mixed",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:FUND",
+            "liquidity_days": 12,
+            "look_through": [
+              {
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "country": "GB",
+                "currency": "GBP",
+                "weight": 0.6
+              },
+              {
+                "issuer": "Beta",
+                "sector": "Health",
+                "country": "CH",
+                "currency": "CHF",
+                "weight": 0.2
+              }
+            ]
+          },
+          {
+            "position_id": "ALPHA",
+            "instrument_id": "ALPHA",
+            "asset_class": "equity",
+            "market_value": 15000000,
+            "issuer": "Alpha",
+            "sector": "Technology",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:ALPHA",
+            "liquidity_days": 2
+          },
+          {
+            "position_id": "CORP",
+            "instrument_id": "CORP",
+            "asset_class": "corp_bond",
+            "market_value": 20000000,
+            "issuer": "Corp",
+            "sector": "Industrial",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:CORP"
+          }
+        ],
+        "limits": {
+          "illiquid_horizon_days": 10
+        }
+      },
+      "native_output": {
+        "exposure_id": "pea-EXPOSURE-FWD-100M-2026-09-20-0001-169f8b7bfb13f42a",
+        "portfolio_id": "EXPOSURE-FWD-100M",
+        "as_of": "2026-09-20",
+        "base_currency": "USD",
+        "config_version": "exposure-policy-v2",
+        "benchmark_id": null,
+        "nav": 100000000.0,
+        "nav_source_ref": "fund-admin:official-nav:2026-09-20",
+        "nav_reconciliation": {
+          "holdings_value": 100000000.0,
+          "difference": 0.0,
+          "reconciled": true
+        },
+        "dimension_coverage": {
+          "issuer": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "sector": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "country": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "currency": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          }
+        },
+        "limits": {
+          "single_issuer_max_pct": 5.0,
+          "single_issuer_hard_pct": 10.0,
+          "sector_max_pct": 25.0,
+          "country_max_pct": 40.0,
+          "non_base_currency_max_pct": 30.0,
+          "illiquid_max_pct": 20.0,
+          "illiquid_horizon_days": 10,
+          "duration_target": 6.5,
+          "duration_tolerance": 1.5,
+          "home_country": "US",
+          "issuer_sector_exempt_asset_classes": [
+            "govt_bond",
+            "cash"
+          ]
+        },
+        "exposures": {
+          "issuer": [
+            {
+              "bucket": "US Treasury",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 0
+            },
+            {
+              "bucket": "Alpha",
+              "market_value": 27000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 27.0
+            },
+            {
+              "bucket": "Corp",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 20.0
+            },
+            {
+              "bucket": "Custodian",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 10.0
+            },
+            {
+              "bucket": "Beta",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            }
+          ],
+          "sector": [
+            {
+              "bucket": "Sovereign",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 35.0
+            },
+            {
+              "bucket": "Technology",
+              "market_value": 27000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 27.0
+            },
+            {
+              "bucket": "Industrial",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 20.0
+            },
+            {
+              "bucket": "Cash",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 10.0
+            },
+            {
+              "bucket": "Health",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            }
+          ],
+          "country": [
+            {
+              "bucket": "US",
+              "market_value": 80000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                },
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                },
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 80.0
+            },
+            {
+              "bucket": "GB",
+              "market_value": 12000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                }
+              ],
+              "pct": 12.0
+            },
+            {
+              "bucket": "CH",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            }
+          ],
+          "currency": [
+            {
+              "bucket": "USD",
+              "market_value": 80000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                },
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                },
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 80.0
+            },
+            {
+              "bucket": "GBP",
+              "market_value": 12000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                }
+              ],
+              "pct": 12.0
+            },
+            {
+              "bucket": "CHF",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 4.0
+            }
+          ],
+          "asset_class": [
+            {
+              "bucket": "govt_bond",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 35.0
+            },
+            {
+              "bucket": "fund",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 20.0
+            },
+            {
+              "bucket": "corp_bond",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 20.0
+            },
+            {
+              "bucket": "equity",
+              "market_value": 15000000.0,
+              "evidence": [
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 15.0
+            },
+            {
+              "bucket": "cash",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 10.0
+            }
+          ],
+          "non_base_currency_pct": 16.0,
+          "liquidity": {
+            "horizon_days": 10,
+            "buckets": {
+              "<=1d": 45000000.0,
+              "<=7d": 15000000.0,
+              "<=30d": 20000000.0,
+              ">30d": 0.0
+            },
+            "illiquid_pct": null,
+            "known_illiquid_pct": 20.0
+          },
+          "duration": {
+            "fi_sleeve_market_value": 35000000.0,
+            "coverage_basis": "only supplied durations for corp_bond/govt_bond positions",
+            "missing_duration_position_ids": [
+              "CORP"
+            ],
+            "fi_sleeve_modified_duration": 6.0,
+            "portfolio_duration_contribution": 2.1,
+            "target": 6.5,
+            "tolerance": 1.5,
+            "evidence": [
+              {
+                "position_id": "UST",
+                "modified_duration": 6,
+                "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+              }
+            ]
+          },
+          "factor": null
+        },
+        "findings": [
+          {
+            "dimension": "issuer",
+            "bucket": "Alpha",
+            "pct": 27.0,
+            "limit_pct": 10.0,
+            "band": "over_hard",
+            "excess_pct": 17.0,
+            "reason": "issuer exposure 27.0% exceeds the documented limit of 10.0% (look-through applied)",
+            "evidence": [
+              {
+                "position_id": "FUND",
+                "market_value": 12000000.0,
+                "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+              },
+              {
+                "position_id": "ALPHA",
+                "market_value": 15000000.0,
+                "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+              }
+            ]
+          },
+          {
+            "dimension": "issuer",
+            "bucket": "Corp",
+            "pct": 20.0,
+            "limit_pct": 10.0,
+            "band": "over_hard",
+            "excess_pct": 10.0,
+            "reason": "issuer exposure 20.0% exceeds the documented limit of 10.0% (look-through applied)",
+            "evidence": [
+              {
+                "position_id": "CORP",
+                "market_value": 20000000.0,
+                "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+              }
+            ]
+          },
+          {
+            "dimension": "sector",
+            "bucket": "Technology",
+            "pct": 27.0,
+            "limit_pct": 25.0,
+            "band": "over_soft",
+            "excess_pct": 2.0,
+            "reason": "sector exposure 27.0% exceeds the documented limit of 25.0%",
+            "evidence": [
+              {
+                "position_id": "FUND",
+                "market_value": 12000000.0,
+                "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+              },
+              {
+                "position_id": "ALPHA",
+                "market_value": 15000000.0,
+                "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+              }
+            ]
+          }
+        ],
+        "fired_findings": [
+          "issuer:Alpha",
+          "issuer:Corp",
+          "sector:Technology"
+        ],
+        "not_evaluable": [
+          {
+            "dimension": "factor",
+            "why": "no factor loadings on any position (requires factor-model service)"
+          },
+          {
+            "dimension": "liquidity",
+            "why": "one or more positions missing liquidity_days"
+          },
+          {
+            "dimension": "issuer",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "sector",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "country",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "currency",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "duration",
+            "why": "incomplete fixed-income sleeve",
+            "positions": [
+              "CORP"
+            ]
+          }
+        ],
+        "suggested_priority": "Elevated",
+        "considerations": [
+          "Concentration may reflect the benchmark's own weights (active vs absolute exposure differ).",
+          "An intended, mandate-permitted tilt or thematic sleeve.",
+          "Look-through of a pooled vehicle can shift issuer/sector attribution \u2014 verify the constituent data date.",
+          "FX or duration exposure may be offset by overlays not present in the holdings file.",
+          "An illiquid sleeve may sit within a documented private-assets bucket allowance.",
+          "Sovereign and cash positions are exempt from issuer/sector limits by config."
+        ],
+        "disclaimer": "Exposure analysis and evidence only; not a mandate-compliance determination or investment advice. No trade or portfolio action has been taken or recommended.",
+        "inputs_hash": "169f8b7bfb13f42a9da7681854a1d1c48cf96873d41534d1e2e70741e947e2ee",
+        "calculation_version": "phase1-1",
+        "analysis_status": "draft",
+        "professional_approval": "not_established_by_script",
+        "input_warnings": [
+          "positions[2] (FUND): look_through weights sum to 0.800 (expected ~1.0)",
+          "positions[4] (CORP): no liquidity_days \u2014 liquidity horizon not evaluable for this row",
+          "positions[4] (CORP): fixed-income row missing modified_duration \u2014 duration not evaluable for this row",
+          "no position carries factor loadings \u2014 factor exposure not evaluable (requires factor-model service)"
+        ],
+        "source_exposure_id": "pea-EXPOSURE-FWD-100M-2026-09-20-0001",
+        "input_hash": "169f8b7bfb13f42a9da7681854a1d1c48cf96873d41534d1e2e70741e947e2ee",
+        "source_truth": "unverified"
+      },
+      "output_validation_errors": [
+        "output differs from original-input reconstruction: exposures"
+      ],
+      "mutation": "Set exposures.issuer[0].pct to 0 while retaining detached original input."
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "operation": "compute-and-validate",
+      "package": "skills/asset-management/portfolio-exposure-analyzer",
+      "original_input": {
+        "portfolio_id": "EXPOSURE-FWD-100M",
+        "as_of": "2026-09-20",
+        "base_currency": "USD",
+        "config_version": "exposure-policy-v2",
+        "nav": 105000000,
+        "nav_source_ref": "fund-admin:official-nav:2026-09-20",
+        "positions": [
+          {
+            "position_id": "UST",
+            "instrument_id": "UST",
+            "asset_class": "govt_bond",
+            "market_value": 35000000,
+            "issuer": "US Treasury",
+            "sector": "Sovereign",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:UST",
+            "liquidity_days": 1,
+            "modified_duration": 6
+          },
+          {
+            "position_id": "CASH",
+            "instrument_id": "CASH",
+            "asset_class": "cash",
+            "market_value": 10000000,
+            "issuer": "Custodian",
+            "sector": "Cash",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:CASH",
+            "liquidity_days": 0
+          },
+          {
+            "position_id": "FUND",
+            "instrument_id": "FUND",
+            "asset_class": "fund",
+            "market_value": 20000000,
+            "issuer": "Wrapper",
+            "sector": "Mixed",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:FUND",
+            "liquidity_days": 12,
+            "look_through": [
+              {
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "country": "GB",
+                "currency": "GBP",
+                "weight": 0.6
+              },
+              {
+                "issuer": "Beta",
+                "sector": "Health",
+                "country": "CH",
+                "currency": "CHF",
+                "weight": 0.2
+              }
+            ]
+          },
+          {
+            "position_id": "ALPHA",
+            "instrument_id": "ALPHA",
+            "asset_class": "equity",
+            "market_value": 15000000,
+            "issuer": "Alpha",
+            "sector": "Technology",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:ALPHA",
+            "liquidity_days": 2
+          },
+          {
+            "position_id": "CORP",
+            "instrument_id": "CORP",
+            "asset_class": "corp_bond",
+            "market_value": 20000000,
+            "issuer": "Corp",
+            "sector": "Industrial",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:CORP"
+          }
+        ],
+        "limits": {
+          "illiquid_horizon_days": 10
+        }
+      },
+      "native_output": {
+        "exposure_id": "pea-EXPOSURE-FWD-100M-2026-09-20-0001-145906a48b9dc211",
+        "portfolio_id": "EXPOSURE-FWD-100M",
+        "as_of": "2026-09-20",
+        "base_currency": "USD",
+        "config_version": "exposure-policy-v2",
+        "benchmark_id": null,
+        "nav": 105000000.0,
+        "nav_source_ref": "fund-admin:official-nav:2026-09-20",
+        "nav_reconciliation": {
+          "holdings_value": 100000000.0,
+          "difference": -5000000.0,
+          "reconciled": false
+        },
+        "dimension_coverage": {
+          "issuer": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "sector": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "country": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          },
+          "currency": {
+            "known_market_value": 96000000.0,
+            "unknown_market_value": 3999999.999999999
+          }
+        },
+        "limits": {
+          "single_issuer_max_pct": 5.0,
+          "single_issuer_hard_pct": 10.0,
+          "sector_max_pct": 25.0,
+          "country_max_pct": 40.0,
+          "non_base_currency_max_pct": 30.0,
+          "illiquid_max_pct": 20.0,
+          "illiquid_horizon_days": 10,
+          "duration_target": 6.5,
+          "duration_tolerance": 1.5,
+          "home_country": "US",
+          "issuer_sector_exempt_asset_classes": [
+            "govt_bond",
+            "cash"
+          ]
+        },
+        "exposures": {
+          "issuer": [
+            {
+              "bucket": "US Treasury",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 33.33
+            },
+            {
+              "bucket": "Alpha",
+              "market_value": 27000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 25.71
+            },
+            {
+              "bucket": "Corp",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 19.05
+            },
+            {
+              "bucket": "Custodian",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 9.52
+            },
+            {
+              "bucket": "Beta",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 3.81
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 3.81
+            }
+          ],
+          "sector": [
+            {
+              "bucket": "Sovereign",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 33.33
+            },
+            {
+              "bucket": "Technology",
+              "market_value": 27000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 25.71
+            },
+            {
+              "bucket": "Industrial",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 19.05
+            },
+            {
+              "bucket": "Cash",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 9.52
+            },
+            {
+              "bucket": "Health",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 3.81
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 3.81
+            }
+          ],
+          "country": [
+            {
+              "bucket": "US",
+              "market_value": 80000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                },
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                },
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 76.19
+            },
+            {
+              "bucket": "GB",
+              "market_value": 12000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                }
+              ],
+              "pct": 11.43
+            },
+            {
+              "bucket": "CH",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 3.81
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 3.81
+            }
+          ],
+          "currency": [
+            {
+              "bucket": "USD",
+              "market_value": 80000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                },
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                },
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                },
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 76.19
+            },
+            {
+              "bucket": "GBP",
+              "market_value": 12000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 12000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+                }
+              ],
+              "pct": 11.43
+            },
+            {
+              "bucket": "CHF",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND#lt=Beta@2026-09-20"
+                }
+              ],
+              "pct": 3.81
+            },
+            {
+              "bucket": "UNKNOWN",
+              "market_value": 4000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 4000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 3.81
+            }
+          ],
+          "asset_class": [
+            {
+              "bucket": "govt_bond",
+              "market_value": 35000000.0,
+              "evidence": [
+                {
+                  "position_id": "UST",
+                  "market_value": 35000000.0,
+                  "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+                }
+              ],
+              "pct": 33.33
+            },
+            {
+              "bucket": "fund",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "FUND",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:FUND@2026-09-20"
+                }
+              ],
+              "pct": 19.05
+            },
+            {
+              "bucket": "corp_bond",
+              "market_value": 20000000.0,
+              "evidence": [
+                {
+                  "position_id": "CORP",
+                  "market_value": 20000000.0,
+                  "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+                }
+              ],
+              "pct": 19.05
+            },
+            {
+              "bucket": "equity",
+              "market_value": 15000000.0,
+              "evidence": [
+                {
+                  "position_id": "ALPHA",
+                  "market_value": 15000000.0,
+                  "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+                }
+              ],
+              "pct": 14.29
+            },
+            {
+              "bucket": "cash",
+              "market_value": 10000000.0,
+              "evidence": [
+                {
+                  "position_id": "CASH",
+                  "market_value": 10000000.0,
+                  "citation": "pms:pms:forward-exposure:CASH@2026-09-20"
+                }
+              ],
+              "pct": 9.52
+            }
+          ],
+          "non_base_currency_pct": 15.24,
+          "liquidity": {
+            "horizon_days": 10,
+            "buckets": {
+              "<=1d": 45000000.0,
+              "<=7d": 15000000.0,
+              "<=30d": 20000000.0,
+              ">30d": 0.0
+            },
+            "illiquid_pct": null,
+            "known_illiquid_pct": 19.05
+          },
+          "duration": {
+            "fi_sleeve_market_value": 35000000.0,
+            "coverage_basis": "only supplied durations for corp_bond/govt_bond positions",
+            "missing_duration_position_ids": [
+              "CORP"
+            ],
+            "fi_sleeve_modified_duration": 6.0,
+            "portfolio_duration_contribution": 2.0,
+            "target": 6.5,
+            "tolerance": 1.5,
+            "evidence": [
+              {
+                "position_id": "UST",
+                "modified_duration": 6,
+                "citation": "pms:pms:forward-exposure:UST@2026-09-20"
+              }
+            ]
+          },
+          "factor": null
+        },
+        "findings": [
+          {
+            "dimension": "issuer",
+            "bucket": "Alpha",
+            "pct": 25.71,
+            "limit_pct": 10.0,
+            "band": "over_hard",
+            "excess_pct": 15.71,
+            "reason": "issuer exposure 25.71% exceeds the documented limit of 10.0% (look-through applied)",
+            "evidence": [
+              {
+                "position_id": "FUND",
+                "market_value": 12000000.0,
+                "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+              },
+              {
+                "position_id": "ALPHA",
+                "market_value": 15000000.0,
+                "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+              }
+            ]
+          },
+          {
+            "dimension": "issuer",
+            "bucket": "Corp",
+            "pct": 19.05,
+            "limit_pct": 10.0,
+            "band": "over_hard",
+            "excess_pct": 9.05,
+            "reason": "issuer exposure 19.05% exceeds the documented limit of 10.0% (look-through applied)",
+            "evidence": [
+              {
+                "position_id": "CORP",
+                "market_value": 20000000.0,
+                "citation": "pms:pms:forward-exposure:CORP@2026-09-20"
+              }
+            ]
+          },
+          {
+            "dimension": "sector",
+            "bucket": "Technology",
+            "pct": 25.71,
+            "limit_pct": 25.0,
+            "band": "over_soft",
+            "excess_pct": 0.71,
+            "reason": "sector exposure 25.71% exceeds the documented limit of 25.0%",
+            "evidence": [
+              {
+                "position_id": "FUND",
+                "market_value": 12000000.0,
+                "citation": "pms:pms:forward-exposure:FUND#lt=Alpha@2026-09-20"
+              },
+              {
+                "position_id": "ALPHA",
+                "market_value": 15000000.0,
+                "citation": "pms:pms:forward-exposure:ALPHA@2026-09-20"
+              }
+            ]
+          }
+        ],
+        "fired_findings": [
+          "issuer:Alpha",
+          "issuer:Corp",
+          "sector:Technology"
+        ],
+        "not_evaluable": [
+          {
+            "dimension": "factor",
+            "why": "no factor loadings on any position (requires factor-model service)"
+          },
+          {
+            "dimension": "liquidity",
+            "why": "one or more positions missing liquidity_days"
+          },
+          {
+            "dimension": "issuer",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "sector",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "country",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "currency",
+            "why": "incomplete classification; UNKNOWN bucket retained"
+          },
+          {
+            "dimension": "duration",
+            "why": "incomplete fixed-income sleeve",
+            "positions": [
+              "CORP"
+            ]
+          },
+          {
+            "dimension": "nav_reconciliation",
+            "why": "holdings value differs from authoritative NAV; residual is not inferred as cash"
+          }
+        ],
+        "suggested_priority": "Elevated",
+        "considerations": [
+          "Concentration may reflect the benchmark's own weights (active vs absolute exposure differ).",
+          "An intended, mandate-permitted tilt or thematic sleeve.",
+          "Look-through of a pooled vehicle can shift issuer/sector attribution \u2014 verify the constituent data date.",
+          "FX or duration exposure may be offset by overlays not present in the holdings file.",
+          "An illiquid sleeve may sit within a documented private-assets bucket allowance.",
+          "Sovereign and cash positions are exempt from issuer/sector limits by config."
+        ],
+        "disclaimer": "Exposure analysis and evidence only; not a mandate-compliance determination or investment advice. No trade or portfolio action has been taken or recommended.",
+        "inputs_hash": "145906a48b9dc211e5e9f705f4ffb75b74ed0b76154a560e1db2c575621139f4",
+        "calculation_version": "phase1-1",
+        "analysis_status": "draft",
+        "professional_approval": "not_established_by_script",
+        "input_warnings": [
+          "positions[2] (FUND): look_through weights sum to 0.800 (expected ~1.0)",
+          "positions[4] (CORP): no liquidity_days \u2014 liquidity horizon not evaluable for this row",
+          "positions[4] (CORP): fixed-income row missing modified_duration \u2014 duration not evaluable for this row",
+          "no position carries factor loadings \u2014 factor exposure not evaluable (requires factor-model service)"
+        ],
+        "source_exposure_id": "pea-EXPOSURE-FWD-100M-2026-09-20-0001",
+        "input_hash": "145906a48b9dc211e5e9f705f4ffb75b74ed0b76154a560e1db2c575621139f4",
+        "source_truth": "unverified"
+      },
+      "output_validation_errors": []
+    },
+    {
+      "case_id": "exposure-short-unsupported",
+      "operation": "reject-input",
+      "package": "skills/asset-management/portfolio-exposure-analyzer",
+      "original_input": {
+        "portfolio_id": "EXPOSURE-FWD-100M",
+        "as_of": "2026-09-20",
+        "base_currency": "USD",
+        "config_version": "exposure-policy-v2",
+        "nav": 100000000,
+        "nav_source_ref": "fund-admin:official-nav:2026-09-20",
+        "positions": [
+          {
+            "position_id": "UST",
+            "instrument_id": "UST",
+            "asset_class": "govt_bond",
+            "market_value": -1,
+            "issuer": "US Treasury",
+            "sector": "Sovereign",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:UST",
+            "liquidity_days": 1,
+            "modified_duration": 6
+          },
+          {
+            "position_id": "CASH",
+            "instrument_id": "CASH",
+            "asset_class": "cash",
+            "market_value": 10000000,
+            "issuer": "Custodian",
+            "sector": "Cash",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:CASH",
+            "liquidity_days": 0
+          },
+          {
+            "position_id": "FUND",
+            "instrument_id": "FUND",
+            "asset_class": "fund",
+            "market_value": 20000000,
+            "issuer": "Wrapper",
+            "sector": "Mixed",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:FUND",
+            "liquidity_days": 12,
+            "look_through": [
+              {
+                "issuer": "Alpha",
+                "sector": "Technology",
+                "country": "GB",
+                "currency": "GBP",
+                "weight": 0.6
+              },
+              {
+                "issuer": "Beta",
+                "sector": "Health",
+                "country": "CH",
+                "currency": "CHF",
+                "weight": 0.2
+              }
+            ]
+          },
+          {
+            "position_id": "ALPHA",
+            "instrument_id": "ALPHA",
+            "asset_class": "equity",
+            "market_value": 15000000,
+            "issuer": "Alpha",
+            "sector": "Technology",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:ALPHA",
+            "liquidity_days": 2
+          },
+          {
+            "position_id": "CORP",
+            "instrument_id": "CORP",
+            "asset_class": "corp_bond",
+            "market_value": 20000000,
+            "issuer": "Corp",
+            "sector": "Industrial",
+            "country": "US",
+            "currency": "USD",
+            "source_ref": "pms:forward-exposure:CORP"
+          }
+        ],
+        "limits": {
+          "illiquid_horizon_days": 10
+        }
+      },
+      "exception_type": "ValueError",
+      "observed_error": "positions[0] (UST): short/signed holdings unsupported by this bounded exposure method"
+    }
+  ],
+  "assertions": [
+    {
+      "case_id": "mandate-base",
+      "assertion": "current/proposed threshold breaches at unchanged supplied NAV",
+      "actual": {
+        "ALPHA-MAX|position": 12.0,
+        "ALPHA-MAX|pre_trade": 15.0,
+        "CASH-MIN|position": 10.0,
+        "CASH-MIN|pre_trade": 8.0
+      },
+      "expected": {
+        "ALPHA-MAX|position": 12.0,
+        "ALPHA-MAX|pre_trade": 15.0,
+        "CASH-MIN|position": 10.0,
+        "CASH-MIN|pre_trade": 8.0
+      },
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-base",
+      "assertion": "exact breach count",
+      "actual": 4,
+      "expected": 4,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-base",
+      "assertion": "no stale portfolios at two-day inclusive threshold",
+      "actual": [],
+      "expected": [],
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-base",
+      "assertion": "rule applicability and method support",
+      "actual": {
+        "ALPHA-MAX": "exception",
+        "CASH-MIN": "exception",
+        "BETA-MAX": "pass",
+        "REG-METHOD": "not_evaluable",
+        "FUTURE": "not_applicable",
+        "OTHER-MANDATE": "not_applicable"
+      },
+      "expected": {
+        "ALPHA-MAX": "exception",
+        "CASH-MIN": "exception",
+        "BETA-MAX": "pass",
+        "REG-METHOD": "not_evaluable",
+        "FUTURE": "not_applicable",
+        "OTHER-MANDATE": "not_applicable"
+      },
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-base",
+      "assertion": "original-input output validation",
+      "actual": [],
+      "expected": [],
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-altered-output",
+      "assertion": "altered result rejected",
+      "actual": true,
+      "expected": true,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-future-holdings_as_of",
+      "assertion": "future source date rejected",
+      "actual": true,
+      "expected": true,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-future-prices_as_of",
+      "assertion": "future source date rejected",
+      "actual": true,
+      "expected": true,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "mandate-missing-classification",
+      "assertion": "missing required rule dimension unavailable",
+      "actual": "not_evaluable",
+      "expected": "not_evaluable",
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "issuer complete exposure percentages",
+      "actual": {
+        "US Treasury": 35.0,
+        "Alpha": 27.0,
+        "Corp": 20.0,
+        "Custodian": 10.0,
+        "Beta": 4.0,
+        "UNKNOWN": 4.0
+      },
+      "expected": {
+        "US Treasury": 35.0,
+        "Custodian": 10.0,
+        "Alpha": 27.0,
+        "Beta": 4.0,
+        "Corp": 20.0,
+        "UNKNOWN": 4.0
+      },
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "issuer preserved total market value",
+      "actual": 100000000.0,
+      "expected": 100000000,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "issuer residual unknown market value",
+      "actual": 3999999.999999999,
+      "expected": 4000000,
+      "comparison": "math.isclose default tolerance",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "country complete exposure percentages",
+      "actual": {
+        "US": 80.0,
+        "GB": 12.0,
+        "CH": 4.0,
+        "UNKNOWN": 4.0
+      },
+      "expected": {
+        "US": 80.0,
+        "GB": 12.0,
+        "CH": 4.0,
+        "UNKNOWN": 4.0
+      },
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "country preserved total market value",
+      "actual": 100000000.0,
+      "expected": 100000000,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "country residual unknown market value",
+      "actual": 3999999.999999999,
+      "expected": 4000000,
+      "comparison": "math.isclose default tolerance",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "authoritative NAV reconciliation",
+      "actual": true,
+      "expected": true,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "wrapper asset class retained",
+      "actual": {
+        "govt_bond": 35.0,
+        "fund": 20.0,
+        "corp_bond": 20.0,
+        "equity": 15.0,
+        "cash": 10.0
+      },
+      "expected": {
+        "govt_bond": 35.0,
+        "cash": 10.0,
+        "fund": 20.0,
+        "equity": 15.0,
+        "corp_bond": 20.0
+      },
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "incomplete liquidity is unavailable",
+      "actual": null,
+      "expected": null,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "known illiquid percentage retained",
+      "actual": 20.0,
+      "expected": 20.0,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "missing bond duration retained",
+      "actual": [
+        "CORP"
+      ],
+      "expected": [
+        "CORP"
+      ],
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "supplied-only duration contribution",
+      "actual": 2.1,
+      "expected": 2.1,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "no incomplete liquidity/duration or exempt issuer findings",
+      "actual": [],
+      "expected": [],
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-base",
+      "assertion": "original-input output validation",
+      "actual": [],
+      "expected": [],
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-altered-output",
+      "assertion": "altered result rejected",
+      "actual": true,
+      "expected": true,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "assertion": "signed holdings minus authoritative NAV gap",
+      "actual": -5000000.0,
+      "expected": -5000000,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "assertion": "unreconciled NAV flagged",
+      "actual": false,
+      "expected": false,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "assertion": "no inferred cash residual",
+      "actual": 100000000.0,
+      "expected": 100000000,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-nav-residual",
+      "assertion": "NAV gap unavailable dimension",
+      "actual": true,
+      "expected": true,
+      "comparison": "exact equality",
+      "passed": true
+    },
+    {
+      "case_id": "exposure-short-unsupported",
+      "assertion": "bounded method rejects unsupported short",
+      "actual": true,
+      "expected": true,
+      "comparison": "exact equality",
+      "passed": true
+    }
+  ],
+  "summary": {
+    "cases": 9,
+    "assertions": 29,
+    "failed_assertions": 0
+  },
+  "verification_command": "python3 -B - <<'PY'\nimport json, pathlib, runpy, hashlib, math\nroot=pathlib.Path.cwd()\nevidence=json.loads((root/'docs/asset-management/phase1-validation/investment-forward-review.json').read_text())\nfor path,digest in evidence['implementation_sha256'].items():\n    assert hashlib.sha256((root/path).read_bytes()).hexdigest()==digest, 'implementation changed: '+path\noutputs={}\nfor case in evidence['cases']:\n    scripts=root/case['package']/'scripts'\n    compute=runpy.run_path(str(scripts/'calculate_or_transform.py'))['compute']\n    validate=runpy.run_path(str(scripts/'validate_output.py'))['validate']\n    if case['operation']=='reject-input':\n        try: compute(case['original_input'])\n        except ValueError as exc: assert str(exc)==case['observed_error']\n        else: raise AssertionError('invalid input accepted: '+case['case_id'])\n    elif case['operation']=='validate-mutated-output':\n        errors=validate(case['native_output'],case['original_input'])\n        assert errors and errors==case['output_validation_errors']\n    else:\n        actual=compute(case['original_input'])\n        assert actual==case['native_output'],case['case_id']\n        assert validate(actual,case['original_input'])==case['output_validation_errors']==[]\n        outputs[case['case_id']]=actual\nm=outputs['mandate-base']\nassert {(a['rule_id'],a['breach_type']):a['measured_pct'] for a in m['alerts']}=={('ALPHA-MAX','position'):12.,('ALPHA-MAX','pre_trade'):15.,('CASH-MIN','position'):10.,('CASH-MIN','pre_trade'):8.}\nassert m['summary']['breach']==4 and m['summary']['stale_portfolios']==[]\nassert {r['rule_id']:r['status'] for r in m['rule_results']}=={'ALPHA-MAX':'exception','CASH-MIN':'exception','BETA-MAX':'pass','REG-METHOD':'not_evaluable','FUTURE':'not_applicable','OTHER-MANDATE':'not_applicable'}\nassert outputs['mandate-missing-classification']['rule_results'][0]['status']=='not_evaluable'\nx=outputs['exposure-base']\nfor dim,expected in [('issuer',{'US Treasury':35.,'Custodian':10.,'Alpha':27.,'Beta':4.,'Corp':20.,'UNKNOWN':4.}),('country',{'US':80.,'GB':12.,'CH':4.,'UNKNOWN':4.})]:\n    assert {r['bucket']:r['pct'] for r in x['exposures'][dim]}==expected\n    assert sum(r['market_value'] for r in x['exposures'][dim])==100_000_000\n    assert math.isclose(x['dimension_coverage'][dim]['unknown_market_value'],4_000_000)\nassert x['nav_reconciliation']['reconciled']\nassert {r['bucket']:r['pct'] for r in x['exposures']['asset_class']}=={'govt_bond':35.,'cash':10.,'fund':20.,'equity':15.,'corp_bond':20.}\nassert x['exposures']['liquidity']['illiquid_pct'] is None\nassert x['exposures']['liquidity']['known_illiquid_pct']==20.\nassert x['exposures']['duration']['missing_duration_position_ids']==['CORP']\nassert x['exposures']['duration']['portfolio_duration_contribution']==2.1\nassert not any(f['dimension'] in ('liquidity','duration') or (f['dimension']=='issuer' and f['bucket'] in ('US Treasury','Custodian')) for f in x['findings'])\nr=outputs['exposure-nav-residual']\nassert r['nav_reconciliation']['difference']==-5_000_000 and not r['nav_reconciliation']['reconciled']\nassert sum(v['market_value'] for v in r['exposures']['issuer'])==100_000_000\nassert any(v['dimension']=='nav_reconciliation' for v in r['not_evaluable'])\nassert all(check['passed'] for check in evidence['assertions'])\nprint('PASS: replayed 9 complete forward cases and 29 independently expected assertions; no files written')\nPY"
+}

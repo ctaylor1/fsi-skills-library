@@ -1,0 +1,44 @@
+{
+  "review_scope": "Independent forward execution from SKILL and native schema with newly authored synthetic raw inputs; no intended answers or golden fixtures supplied",
+  "packages": {
+    "issuer-liquidity-refinancing-analyzer": {
+      "helper_sha256": "90736cff25da0383ec8145188d6bd9468249078958f8940a5c4627fa8afec782",
+      "forward_run": "/private/tmp/ir-phase2-models-forward-credit-20261020/issuer-liquidity-refinancing-analyzer/forward-run.json",
+      "fresh_input": "/private/tmp/ir-phase2-models-forward-credit-20261020/issuer-liquidity-refinancing-analyzer/forward-input.json",
+      "output": "/private/tmp/ir-phase2-models-forward-credit-20261020/issuer-liquidity-refinancing-analyzer/forward-output.json"
+    },
+    "credit-recovery-scenario-analyzer": {
+      "helper_sha256": "f084542fcaad751da2c83776abbda5c8cbcbfb3e674ac4d3e7a0b354510d3343",
+      "forward_run": "/private/tmp/ir-phase2-models-forward-credit-20261020/credit-recovery-scenario-analyzer/forward-run.json",
+      "fresh_input": "/private/tmp/ir-phase2-models-forward-credit-20261020/credit-recovery-scenario-analyzer/forward-input.json",
+      "output": "/private/tmp/ir-phase2-models-forward-credit-20261020/credit-recovery-scenario-analyzer/forward-output.json"
+    },
+    "earnings-results-analyzer": {
+      "helper_sha256": "791964b1b70247a088bae4a147e9122e436267a7822b98b99e0bf508b3cb94af",
+      "forward_run": "/private/tmp/ir-phase2-models-forward-credit-20261020/earnings-results-analyzer/forward-run.json",
+      "fresh_input": "/private/tmp/ir-phase2-models-forward-credit-20261020/earnings-results-analyzer/forward-input.json",
+      "output": "/private/tmp/ir-phase2-models-forward-credit-20261020/earnings-results-analyzer/forward-output.json"
+    }
+  },
+  "findings": [
+    {
+      "id": "FWD-MODELS-01",
+      "package": "earnings-results-analyzer",
+      "severity": "correctness",
+      "finding": "Frozen baseline source metadata can postdate baseline known_at and release, yet produce classified comparison",
+      "input": "earnings-results-analyzer/baseline-cites-postrelease-source-input.json",
+      "output": "earnings-results-analyzer/baseline-cites-postrelease-source-output.json"
+    },
+    {
+      "id": "FWD-MODELS-02",
+      "package": "earnings-results-analyzer",
+      "severity": "correctness",
+      "finding": "Reported known_at can precede release_at; source chronology also need not precede observation known_at",
+      "input": "earnings-results-analyzer/reported-before-release-input.json",
+      "output": "earnings-results-analyzer/reported-before-release-output.json"
+    }
+  ],
+  "source_truth": "synthetic-supplied-not-authenticated",
+  "professional_acceptance": "not-established",
+  "repo_edits_during_review": false
+}
