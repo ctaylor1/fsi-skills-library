@@ -1,0 +1,25 @@
+name: Contributor policy
+
+on:
+  push:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  contributor-policy:
+    name: Contributor policy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Check files and complete history
+        run: python3 tools/check_contributor_policy.py --tree --history HEAD --event "$GITHUB_EVENT_PATH"
+      - name: Verify policy enforcement
+        run: python3 -m unittest discover -s tools -p test_contributor_policy.py

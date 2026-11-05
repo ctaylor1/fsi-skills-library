@@ -1,5 +1,9 @@
 # FSI Skills Library
 
+Contributors and coding assistants must follow the [repository instructions](AGENTS.md),
+including the prohibition on AI/tool contributor credits. Enable the commit and
+push checks in every clone with `git config --local core.hooksPath .githooks`.
+
 Agent Skills for the Financial Services Industry, built for general-purpose AI agent platforms/agentic AI assistant applications, such as Amazon Quick Desktop, Claude Desktop, ChatGPT Desktop, Microsoft Copilot, Google Gemini, Perplexity, and Amazon Kiro.
 It is conformant with the [Agent Skills specification](https://agentskills.io/specification).
 
